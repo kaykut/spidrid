@@ -1,0 +1,346 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "createdAt": "2026-01-07",
+    "lastUpdated": "2026-01-07",
+    "totalArticles": 195,
+    "targetArticlesPerTopic": 13
+  },
+  "summary": {
+    "notStarted": 195,
+    "generating": 0,
+    "generated": 0,
+    "reviewing": 0,
+    "approved": 0,
+    "published": 0
+  },
+  "topics": {
+    "science-discovery": {
+      "topicName": "Science & Discovery",
+      "practiceArticles": [
+        { "id": "science-discovery-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "science-discovery-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "science-discovery-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "science-discovery-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "science-discovery-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "science-discovery-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "science-discovery-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "science-discovery-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "science-discovery-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "science-discovery-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "science-discovery-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "science-discovery-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "science-discovery-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "health-medicine": {
+      "topicName": "Health & Medicine",
+      "practiceArticles": [
+        { "id": "health-medicine-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "health-medicine-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "health-medicine-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "health-medicine-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "health-medicine-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "health-medicine-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "health-medicine-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "health-medicine-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "health-medicine-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "health-medicine-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "health-medicine-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "health-medicine-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "health-medicine-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "history-civilization": {
+      "topicName": "History & Civilization",
+      "practiceArticles": [
+        { "id": "history-civilization-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "history-civilization-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "history-civilization-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "history-civilization-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "history-civilization-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "history-civilization-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "history-civilization-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "history-civilization-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "history-civilization-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "history-civilization-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "history-civilization-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "history-civilization-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "history-civilization-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "technology-internet": {
+      "topicName": "Technology & Internet",
+      "practiceArticles": [
+        { "id": "technology-internet-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "technology-internet-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "technology-internet-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "technology-internet-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "technology-internet-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "technology-internet-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "technology-internet-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "technology-internet-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "technology-internet-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "technology-internet-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "technology-internet-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "technology-internet-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "technology-internet-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "nature-wildlife": {
+      "topicName": "Nature & Wildlife",
+      "practiceArticles": [
+        { "id": "nature-wildlife-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "nature-wildlife-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "nature-wildlife-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "nature-wildlife-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "nature-wildlife-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "nature-wildlife-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "nature-wildlife-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "nature-wildlife-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "nature-wildlife-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "nature-wildlife-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "nature-wildlife-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "nature-wildlife-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "nature-wildlife-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "climate-environment": {
+      "topicName": "Climate & Environment",
+      "practiceArticles": [
+        { "id": "climate-environment-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "climate-environment-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "climate-environment-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "climate-environment-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "climate-environment-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "climate-environment-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "climate-environment-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "climate-environment-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "climate-environment-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "climate-environment-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "climate-environment-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "climate-environment-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "climate-environment-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "space-cosmos": {
+      "topicName": "Space & Cosmos",
+      "practiceArticles": [
+        { "id": "space-cosmos-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "space-cosmos-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "space-cosmos-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "space-cosmos-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "space-cosmos-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "space-cosmos-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "space-cosmos-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "space-cosmos-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "space-cosmos-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "space-cosmos-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "space-cosmos-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "space-cosmos-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "space-cosmos-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "psychology-mind": {
+      "topicName": "Psychology & Mind",
+      "practiceArticles": [
+        { "id": "psychology-mind-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "psychology-mind-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "psychology-mind-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "psychology-mind-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "psychology-mind-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "psychology-mind-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "psychology-mind-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "psychology-mind-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "psychology-mind-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "psychology-mind-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "psychology-mind-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "psychology-mind-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "psychology-mind-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "self-improvement": {
+      "topicName": "Self-Improvement",
+      "practiceArticles": [
+        { "id": "self-improvement-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "self-improvement-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "self-improvement-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "self-improvement-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "self-improvement-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "self-improvement-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "self-improvement-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "self-improvement-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "self-improvement-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "self-improvement-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "self-improvement-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "self-improvement-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "self-improvement-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "business-careers": {
+      "topicName": "Business & Careers",
+      "practiceArticles": [
+        { "id": "business-careers-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "business-careers-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "business-careers-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "business-careers-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "business-careers-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "business-careers-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "business-careers-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "business-careers-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "business-careers-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "business-careers-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "business-careers-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "business-careers-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "business-careers-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "finance-investing": {
+      "topicName": "Finance & Investing",
+      "practiceArticles": [
+        { "id": "finance-investing-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "finance-investing-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "finance-investing-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "finance-investing-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "finance-investing-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "finance-investing-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "finance-investing-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "finance-investing-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "finance-investing-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "finance-investing-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "finance-investing-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "finance-investing-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "finance-investing-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "trivia-facts": {
+      "topicName": "Trivia & Fun Facts",
+      "practiceArticles": [
+        { "id": "trivia-facts-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "trivia-facts-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "trivia-facts-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "trivia-facts-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "trivia-facts-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "trivia-facts-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "trivia-facts-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "trivia-facts-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "trivia-facts-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "trivia-facts-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "trivia-facts-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "trivia-facts-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "trivia-facts-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "world-travel": {
+      "topicName": "World & Travel",
+      "practiceArticles": [
+        { "id": "world-travel-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "world-travel-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "world-travel-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "world-travel-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "world-travel-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "world-travel-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "world-travel-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "world-travel-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "world-travel-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "world-travel-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "world-travel-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "world-travel-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "world-travel-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "arts-culture": {
+      "topicName": "Arts & Culture",
+      "practiceArticles": [
+        { "id": "arts-culture-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "arts-culture-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "arts-culture-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "arts-culture-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "arts-culture-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "arts-culture-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "arts-culture-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "arts-culture-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "arts-culture-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "arts-culture-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "arts-culture-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "arts-culture-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "arts-culture-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    },
+    "lifestyle-wellness": {
+      "topicName": "Lifestyle & Wellness",
+      "practiceArticles": [
+        { "id": "lifestyle-wellness-p01", "orderIndex": 1, "targetWords": 500, "status": "not_started" },
+        { "id": "lifestyle-wellness-p02", "orderIndex": 2, "targetWords": 750, "status": "not_started" },
+        { "id": "lifestyle-wellness-p03", "orderIndex": 3, "targetWords": 1000, "status": "not_started" },
+        { "id": "lifestyle-wellness-p04", "orderIndex": 4, "targetWords": 1300, "status": "not_started" },
+        { "id": "lifestyle-wellness-p05", "orderIndex": 5, "targetWords": 1700, "status": "not_started" },
+        { "id": "lifestyle-wellness-p06", "orderIndex": 6, "targetWords": 2100, "status": "not_started" },
+        { "id": "lifestyle-wellness-p07", "orderIndex": 7, "targetWords": 2500, "status": "not_started" },
+        { "id": "lifestyle-wellness-p08", "orderIndex": 8, "targetWords": 2800, "status": "not_started" },
+        { "id": "lifestyle-wellness-p09", "orderIndex": 9, "targetWords": 3000, "status": "not_started" },
+        { "id": "lifestyle-wellness-p10", "orderIndex": 10, "targetWords": 3000, "status": "not_started" }
+      ],
+      "certificationArticles": [
+        { "id": "lifestyle-wellness-c1", "orderIndex": 1, "targetWords": 1000, "length": "short", "status": "not_started" },
+        { "id": "lifestyle-wellness-c2", "orderIndex": 2, "targetWords": 2000, "length": "medium", "status": "not_started" },
+        { "id": "lifestyle-wellness-c3", "orderIndex": 3, "targetWords": 3000, "length": "long", "status": "not_started" }
+      ]
+    }
+  },
+  "batches": {
+    "batch1": {
+      "description": "All P01 (500w) and C1 (1000w) - 30 articles",
+      "status": "not_started",
+      "articles": []
+    },
+    "batch2": {
+      "description": "All P02 (750w) and P03 (1000w) - 30 articles",
+      "status": "not_started",
+      "articles": []
+    },
+    "batch3": {
+      "description": "All P04 (1300w), P05 (1700w), and C2 (2000w) - 45 articles",
+      "status": "not_started",
+      "articles": []
+    },
+    "batch4": {
+      "description": "All P06 (2100w) and P07 (2500w) - 30 articles",
+      "status": "not_started",
+      "articles": []
+    },
+    "batch5": {
+      "description": "All P08 (2800w), P09 (3000w), P10 (3000w), and C3 (3000w) - 60 articles",
+      "status": "not_started",
+      "articles": []
+    }
+  }
+}

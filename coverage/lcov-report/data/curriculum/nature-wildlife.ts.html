@@ -1,0 +1,2560 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/nature-wildlife.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> nature-wildlife.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const NATURE_WILDLIFE_ARTICLES: Article[] = [
+  {
+    id: 'nature-wildlife-p01',
+    topicId: 'nature-wildlife',
+    title: 'Coral Reefs: Cities Under the Sea',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `Coral reefs are underwater ecosystems built by tiny animals called coral polyps. These remarkable structures support about 25 percent of all marine species despite covering less than one percent of the ocean floor. Scientists often call them the rainforests of the sea.
+&nbsp;
+Coral polyps are related to jellyfish and anemones. Each polyp secretes a hard calcium carbonate skeleton that forms the reef's structure. Colonies of millions of polyps gradually build massive reef formations over thousands of years.
+&nbsp;
+Most reef-building corals have a symbiotic relationship with microscopic algae called zooxanthellae that live within their tissues. The algae photosynthesize, producing sugars that provide most of the coral's nutrition. In return, the coral provides shelter and access to sunlight.
+&nbsp;
+Coral reefs support incredibly diverse communities of organisms. Fish, sea turtles, sharks, rays, octopuses, and countless invertebrates depend on reefs for food, shelter, and breeding grounds. A single reef can contain thousands of different species.
+&nbsp;
+The three main types of coral reefs are fringing reefs, barrier reefs, and atolls. Fringing reefs grow directly from the shore. Barrier reefs are separated from the coast by a lagoon. Atolls are ring-shaped reefs that form around submerged volcanic islands.
+&nbsp;
+The Great Barrier Reef off Australia's northeast coast is the world's largest coral reef system. Stretching over 2,300 kilometers, it contains nearly 3,000 individual reef systems and hundreds of islands. Astronauts can see it from space.
+&nbsp;
+Rising ocean temperatures pose the greatest threat to coral reefs worldwide. When water becomes too warm, corals expel their symbiotic algae, causing coral bleaching. Without the algae, corals turn white and can die if conditions don't improve quickly.
+&nbsp;
+Ocean acidification adds another challenge. As oceans absorb carbon dioxide from the atmosphere, seawater becomes more acidic. This makes it harder for corals to build their calcium carbonate skeletons, slowing reef growth and weakening existing structures.
+&nbsp;
+Conservation efforts worldwide aim to protect remaining reefs and restore damaged areas. Marine protected areas restrict harmful activities. Coral nurseries grow young corals for transplanting. Scientists research heat-resistant coral varieties that might survive warming oceans.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p01-q1',
+        type: 'single_choice',
+        question: 'What percentage of marine species do coral reefs support?',
+        options: ['10%', '25%', '50%', '75%'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p01-q2',
+        type: 'single_choice',
+        question: 'What causes coral bleaching?',
+        options: ['Pollution', 'Rising water temperatures', 'Overfishing', 'Strong storms'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p01-q3',
+        type: 'true_false',
+        question: 'The Great Barrier Reef is visible from space.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p02',
+    topicId: 'nature-wildlife',
+    title: 'The Intelligence of Elephants',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `Elephants possess some of the most remarkable minds in the animal kingdom. These gentle giants demonstrate complex emotions, problem-solving abilities, and social bonds that rival those of great apes and dolphins. Scientists studying elephant cognition have discovered capabilities that challenge our understanding of animal intelligence.
+&nbsp;
+The elephant brain weighs approximately 5 kilograms, making it the largest of any land animal. More impressive than size is the brain's structure, which contains as many neurons as a human brain in regions associated with memory and emotion. The hippocampus, responsible for memory formation, is particularly well-developed in elephants.
+&nbsp;
+Elephants recognize themselves in mirrors, a test of self-awareness that only a handful of species pass. Researcher Diana Reiss and psychologist Joshua Plotnik published groundbreaking research in 2006 proving this ability. An elephant named Happy at the Bronx Zoo in New York repeatedly touched a mark painted on her head that she could only see in the mirror. This behavior indicates a level of self-awareness previously confirmed only in humans, great apes, and dolphins.
+&nbsp;
+These remarkable animals demonstrate genuine empathy toward other elephants and sometimes other species. When a family member dies, elephants gather around the body, touch it gently with their trunks, and remain nearby for extended periods. Dr. Cynthia Moss observed elephants in Kenya returning to the bones of deceased relatives years after their deaths, carefully examining and caressing the remains.
+&nbsp;
+Elephant communication involves sophisticated vocalizations that humans cannot fully hear. They produce infrasound at frequencies below 20 hertz, which can travel up to 10 kilometers across the savanna. These low-frequency rumbles allow separated family groups to coordinate movements and warn each other of dangers. Researchers using specialized equipment have documented over 70 distinct calls with specific meanings.
+&nbsp;
+Tool use demonstrates the practical intelligence of elephants in their daily lives. Wild elephants in Asia have been observed modifying branches to swat flies or scratch hard-to-reach places. Some individuals drop large rocks onto electric fences to break the wires. In captivity, elephants have figured out how to turn on water faucets and unlatch gates with impressive dexterity.
+&nbsp;
+Matriarchs lead elephant families with wisdom accumulated over decades. The oldest female remembers water sources from droughts that occurred fifty years earlier. She knows which routes avoid dangerous predators and which neighbors are friendly or hostile. Research from Amboseli National Park in Kenya by Dr. Karen McComb showed that groups with older matriarchs have higher survival rates during challenging conditions.
+&nbsp;
+The emotional lives of elephants extend beyond mourning to include apparent joy, anger, and playfulness. Young elephants engage in games remarkably similar to those of human children. They chase each other, splash in water, and wrestle enthusiastically. Adults demonstrate patience and tenderness when caring for calves, with multiple females in a group helping to raise each youngster.
+&nbsp;
+Captive elephants have learned to paint pictures using brushes held in their trunks. While skeptics debate whether this represents true artistic expression, the fine motor control required is extraordinary. Some elephants create recognizable images of flowers and other elephants. The proceeds from selling these paintings support conservation efforts in Thailand and other Asian countries.
+&nbsp;
+Conservation of elephant populations has become increasingly urgent as habitat shrinks and poaching continues. African elephant numbers dropped from several million in the early 1900s to roughly 415,000 today. Asian elephants face even greater pressure, with fewer than 50,000 remaining in fragmented forests. Protecting these intelligent creatures requires international cooperation and local community engagement across their ranges.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p02-q1',
+        type: 'single_choice',
+        question: 'Which elephant first demonstrated mirror self-recognition in research?',
+        options: ['Diana', 'Joshua', 'Happy', 'Cynthia'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p02-q2',
+        type: 'single_choice',
+        question: 'How far can elephant infrasound calls travel?',
+        options: ['Up to 1 kilometer', 'Up to 5 kilometers', 'Up to 10 kilometers', 'Up to 20 kilometers'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p02-q3',
+        type: 'multiple_select',
+        question: 'Which species have passed the mirror self-recognition test? Select all that apply.',
+        options: ['Humans', 'Great apes', 'Dolphins', 'Dogs'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p02-q4',
+        type: 'true_false',
+        question: 'Elephants with older matriarchs have higher survival rates during challenging conditions.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p02-q5',
+        type: 'numeric',
+        question: 'Approximately how many African elephants remain today (in thousands)?',
+        correctValue: 415,
+        tolerance: 50,
+        min: 200,
+        max: 600,
+        step: 5,
+        unit: 'thousand',
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p03',
+    topicId: 'nature-wildlife',
+    title: 'Bees: Nature\'s Master Pollinators',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `Bees play an indispensable role in ecosystems and agriculture that most people dramatically underestimate. These flying insects pollinate approximately 75 percent of the fruits, vegetables, and nuts that humans consume worldwide. Without bees, supermarket shelves would look remarkably bare and global food production would collapse.
+&nbsp;
+The honeybee has fascinated humans for thousands of years, appearing in cave paintings from Spain dating back 8,000 years. Ancient Egyptians kept bees in clay hives along the Nile River by 2400 BCE. The practice of beekeeping, called apiculture, spread throughout the Mediterranean world and eventually across all inhabited continents.
+&nbsp;
+A typical honeybee colony contains between 20,000 and 60,000 individual bees working together in remarkable coordination. The queen bee lays up to 2,000 eggs per day during peak season. Worker bees, all female, perform different jobs as they age, progressing from nursing young larvae to building honeycomb to foraging for nectar and pollen.
+&nbsp;
+Bees communicate through an extraordinary behavior called the waggle dance, discovered by Austrian scientist Karl von Frisch in the 1940s. When a forager finds a good food source, she returns to the hive and performs a figure-eight dance on the honeycomb. The angle of her dance relative to the sun indicates the direction of the flowers. The duration of her waggling conveys the distance. Von Frisch received the Nobel Prize in 1973 for decoding this remarkable language.
+&nbsp;
+The anatomy of bees makes them supremely adapted for pollination. Their fuzzy bodies collect pollen grains as they move between flowers. Specialized hairs on their legs form pollen baskets that can carry substantial loads back to the hive. As bees visit flower after flower, they inadvertently transfer pollen and enable plant reproduction.
+&nbsp;
+Not all bees live in colonies or produce honey. Approximately 20,000 species of bees exist worldwide, and most are solitary. Mason bees nest in small holes in wood or hollow stems. Mining bees dig tunnels underground. Carpenter bees bore into dead wood to create their homes. These solitary species often prove more efficient pollinators than honeybees for certain crops.
+&nbsp;
+Bumblebees buzz pollinate in a way honeybees cannot match. They grip flowers and vibrate their flight muscles at a frequency that shakes loose pollen from the anthers. Tomatoes, peppers, and blueberries require this type of pollination for optimal fruit production. Greenhouse growers often purchase bumblebee colonies specifically to pollinate these crops.
+&nbsp;
+The honey produced by bees represents a remarkable feat of chemistry and cooperation. Worker bees collect nectar from flowers using their long tongues. They store it in a special honey stomach where enzymes begin breaking down the sugars. Back at the hive, they pass the nectar to other workers who further process it. Bees fan the liquid with their wings until the water content drops below 18 percent. Finally, they cap the finished honey with beeswax for storage.
+&nbsp;
+Bee populations have declined alarmingly across North America and Europe since the mid-2000s. Colony collapse disorder caused beekeepers to lose approximately 30 percent of their hives annually during the worst years. Scientists identified multiple contributing factors including pesticides, parasites, diseases, habitat loss, and nutritional stress. The varroa mite, a parasite that feeds on bee larvae, has proven particularly devastating.
+&nbsp;
+Dr. Marla Spivak of the University of Minnesota has led research into breeding disease-resistant bee strains since 1993. Her work identified behavioral traits that help colonies fight varroa mites and other threats. Hygienic bees detect and remove infected larvae before diseases can spread. These genetics have been distributed to beekeepers across the country through university extension programs.
+&nbsp;
+Gardeners and homeowners can help support bee populations through simple actions. Planting native flowers that bloom throughout the growing season provides consistent food sources. Reducing or eliminating pesticide use protects bees visiting gardens. Leaving areas of bare ground and dead plant stems offers nesting sites for solitary species. Even small urban gardens can make meaningful contributions to local bee populations.
+&nbsp;
+The economic value of bee pollination reaches into the billions of dollars annually. California's almond industry alone requires over 2 million honeybee colonies each February. Trucks transport hives across the country for this massive pollination event. Without bees, the 1.6 million acres of almond orchards could not produce their valuable crop. Similar dependencies exist for apples, cherries, cucumbers, and countless other foods.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p03-q1',
+        type: 'single_choice',
+        question: 'What percentage of fruits, vegetables, and nuts are pollinated by bees?',
+        options: ['About 25 percent', 'About 50 percent', 'About 75 percent', 'About 90 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p03-q2',
+        type: 'single_choice',
+        question: 'Who discovered the waggle dance and won a Nobel Prize for it?',
+        options: ['Marla Spivak', 'Karl von Frisch', 'Charles Darwin', 'Jane Goodall'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p03-q3',
+        type: 'multiple_select',
+        question: 'Which factors contribute to bee population decline? Select all that apply.',
+        options: ['Pesticides', 'Varroa mites', 'Habitat loss', 'Climate cooling'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p03-q4',
+        type: 'true_false',
+        question: 'Most of the 20,000 bee species worldwide are solitary rather than colonial.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p03-q5',
+        type: 'numeric',
+        question: 'How many eggs can a queen bee lay per day during peak season?',
+        correctValue: 2000,
+        tolerance: 200,
+        min: 1000,
+        max: 3000,
+        step: 100,
+        unit: 'eggs',
+      },
+      {
+        id: 'nature-wildlife-p03-q6',
+        type: 'single_choice',
+        question: 'Which type of bee can perform buzz pollination?',
+        options: ['Honeybees', 'Bumblebees', 'Mason bees', 'Mining bees'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p04',
+    topicId: 'nature-wildlife',
+    title: 'The Remarkable World of Octopuses',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `Octopuses stand among the most extraordinary creatures inhabiting our planet's oceans, possessing intelligence and abilities that continue to astonish scientists and redefine our understanding of animal cognition. These eight-armed mollusks solve complex puzzles, use tools, and display personalities as distinct as those of dogs or cats. Their alien-like biology and remarkable behaviors make them the closest thing to extraterrestrial life that humans have encountered on Earth.
+&nbsp;
+The octopus brain contains approximately 500 million neurons, comparable to a dog's neural count. However, their nervous system architecture differs radically from any vertebrate. Two-thirds of an octopus's neurons reside in its arms rather than its central brain, meaning each arm can taste, touch, and even make simple decisions independently. When an octopus reaches into a crevice to explore, the arm processes information locally before reporting to the brain. This distributed intelligence creates a fundamentally different form of consciousness.
+&nbsp;
+Dr. Jennifer Mather at the University of Lethbridge in Canada has studied octopus cognition for over 30 years, documenting capabilities that challenge traditional views of invertebrate intelligence. Her research demonstrates that octopuses recognize individual human faces and remember them for months. They show distinct personalities ranging from shy to bold to aggressive. Some individuals enjoy playing with toys, while others ignore them entirely. These observations suggest a rich inner life behind those remarkable eyes.
+&nbsp;
+Octopus camouflage abilities surpass any known technology humans have developed. Specialized cells called chromatophores, iridophores, and leucophores work in concert to produce instant color changes across the entire body. An octopus can match the exact hue and texture of a coral reef, a sandy bottom, or a rocky outcropping within 200 milliseconds. The mimic octopus discovered near Sulawesi, Indonesia, in 1998 takes this further by impersonating at least 15 different species including lionfish, flatfish, and sea snakes.
+&nbsp;
+Tool use among octopuses provided some of the most convincing evidence of their cognitive sophistication. Researchers in Indonesia observed veined octopuses collecting discarded coconut shell halves from the seafloor. These octopuses carried the shells under their bodies while walking on their arm tips, then assembled the shells into protective shelters when threatened. This behavior, documented by Dr. Julian Finn of Museum Victoria in December 2009, demonstrated planning and future-oriented thinking previously attributed only to primates and a few other vertebrates.
+&nbsp;
+The hunting strategies of octopuses reveal calculating minds at work. Giant Pacific octopuses, which can reach 16 feet in arm span and weigh over 100 pounds, plan ambushes with remarkable patience. They memorize the patrol patterns of guards at aquariums and escape from tanks when staff are not watching. Stories abound of octopuses opening jars from inside, sneaking into adjacent tanks to eat fish, and returning to their enclosure before morning. These escapes require problem-solving, memory, and possibly understanding of human routines.
+&nbsp;
+Octopus reproduction involves extraordinary sacrifice, particularly from mothers. After mating, females find a protected den where they lay between 50,000 and 200,000 eggs depending on the species. The mother then spends months guarding and aerating her eggs, never leaving to eat. Her body gradually deteriorates as she devotes all energy to her offspring. When the eggs hatch, she dies within days, having never seen her young swim freely. This ultimate maternal sacrifice ensures the next generation begins life in the safest possible conditions.
+&nbsp;
+The lifespan of most octopuses ranges from just one to five years, a cruel brevity given their remarkable intelligence. Scientists believe this short lifespan prevents cultural transmission of knowledge between generations. Unlike elephants or whales that learn from elders, each octopus must rediscover everything anew. Some researchers speculate that longer-lived octopuses might develop civilization-like societies, though this remains pure speculation.
+&nbsp;
+Octopus blood runs blue due to hemocyanin, a copper-based oxygen carrier that functions more efficiently than hemoglobin in cold, low-oxygen deep-sea environments. They have three hearts, with two dedicated solely to pushing blood through the gills. When an octopus swims using jet propulsion, the main heart stops beating, which is why they prefer crawling despite their swimming ability. Their lack of bones allows them to squeeze through any opening larger than their beak, the only hard part of their body.
+&nbsp;
+Conservation concerns for octopuses focus primarily on commercial fishing and climate change impacts. Demand for octopus as food has increased dramatically, with global catches exceeding 350,000 metric tons annually. Some species face overfishing in traditional fishing grounds like Morocco and Mauritania. Ocean acidification threatens the calcium carbonate structures that shelter many octopus species. Rising temperatures alter the distribution and breeding cycles of populations across oceans.
+&nbsp;
+Research into octopus genetics revealed in 2015 that their DNA contains an unusually large number of transposons, or jumping genes, that may contribute to their complex behaviors. Scientists at the University of Chicago sequenced the California two-spot octopus genome, finding genes associated with nervous system development that appear nowhere else in the animal kingdom. This unique genetic heritage reinforces how different octopuses are from all other intelligent creatures.
+&nbsp;
+The future of octopus research promises further revelations about consciousness, intelligence, and the many forms life can take. As technology improves our ability to study these creatures in their natural habitat, we will undoubtedly discover capabilities we cannot currently imagine. Octopuses remind us that intelligence evolved multiple times on Earth through different pathways, and that the ocean contains minds utterly unlike our own.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p04-q1',
+        type: 'single_choice',
+        question: 'Where do two-thirds of an octopus\'s neurons reside?',
+        options: ['In the central brain', 'In the eyes', 'In the arms', 'In the mantle'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p04-q2',
+        type: 'multiple_select',
+        question: 'Which cells are involved in octopus camouflage? Select all that apply.',
+        options: ['Chromatophores', 'Iridophores', 'Leucophores', 'Melanocytes'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p04-q3',
+        type: 'true_false',
+        question: 'Octopuses have blue blood due to a copper-based oxygen carrier called hemocyanin.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p04-q4',
+        type: 'numeric',
+        question: 'How many neurons does an octopus brain contain (in millions)?',
+        correctValue: 500,
+        tolerance: 50,
+        min: 200,
+        max: 800,
+        step: 10,
+        unit: 'million neurons',
+      },
+      {
+        id: 'nature-wildlife-p04-q5',
+        type: 'single_choice',
+        question: 'How quickly can an octopus change its camouflage?',
+        options: ['Within 5 seconds', 'Within 1 second', 'Within 200 milliseconds', 'Within 50 milliseconds'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p04-q6',
+        type: 'single_choice',
+        question: 'How many species can the mimic octopus impersonate?',
+        options: ['At least 5', 'At least 10', 'At least 15', 'At least 20'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p05',
+    topicId: 'nature-wildlife',
+    title: 'Wolves and the Return to Yellowstone',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `The reintroduction of wolves to Yellowstone National Park stands as one of the most remarkable conservation success stories of the twentieth century, demonstrating how a single species can transform an entire ecosystem. When wolves returned to Yellowstone in 1995 after a 70-year absence, they triggered changes that reshaped rivers, forests, and wildlife populations across nearly 2.2 million acres. This dramatic ecological restoration, called a trophic cascade, revealed the profound importance of apex predators to healthy ecosystems.
+&nbsp;
+Wolves once roamed freely across nearly all of North America, with an estimated population of two million before European colonization. Settlers and ranchers viewed wolves as threats to livestock and competitors for game animals like deer and elk. Government-sponsored extermination programs killed wolves systematically throughout the late 1800s and early 1900s. The last wolf packs in Yellowstone were killed by 1926, leaving the park without its top predator for decades.
+&nbsp;
+The consequences of removing wolves became apparent gradually but dramatically. Elk populations in Yellowstone exploded to over 20,000 animals without predation pressure keeping their numbers in check. These unchecked herds overgrazed vegetation along streams and rivers, eating willow and aspen saplings before they could mature into trees. Without streamside vegetation, riverbanks eroded, water temperatures rose, and fish populations declined. The entire ecosystem had shifted into a degraded state that many assumed was permanent.
+&nbsp;
+Dr. Douglas Smith, the senior wildlife biologist leading wolf restoration at Yellowstone since 1994, orchestrated the careful reintroduction that would change everything. In January 1995, 14 wolves captured in Alberta, Canada, arrived in Yellowstone in special crates. They spent weeks in acclimation pens before their release. The following year brought 17 more wolves from British Columbia. These 31 founders would grow into a population that transformed the park.
+&nbsp;
+The wolves immediately began hunting elk, as expected, but the ripple effects exceeded all predictions. Elk quickly learned to avoid lingering in open valleys where wolves could spot and chase them. They moved more frequently and avoided areas with poor escape routes. This behavior change allowed vegetation to recover in places that had been overgrazed for decades. Willows along streams grew thick and tall again. Aspen groves regenerated for the first time in 70 years.
+&nbsp;
+Beavers returned to Yellowstone in significant numbers as willow thickets provided both food and building materials. By 2019, beaver colonies in the northern range of the park had increased from one to twelve. Beaver dams created ponds that raised water tables, cooled streams, and provided habitat for fish, amphibians, and waterfowl. Songbird populations increased in the renewed riparian zones. The recovery cascaded through interconnected food webs in directions scientists had not anticipated.
+&nbsp;
+The physical geography of Yellowstone changed as rivers responded to restored vegetation. With roots holding soil in place, riverbanks stopped eroding as rapidly. Channels narrowed and deepened. The Lamar River, once wide and braided, began carving a more defined path through its valley. Geologist Dr. Robert Beschta from Oregon State University documented these changes, publishing research in 2005 that connected wolf reintroduction to improved river health.
+&nbsp;
+Wolf pack dynamics and social behavior have fascinated researchers studying the Yellowstone packs. Each pack maintains a territory of 150 to 300 square miles, defended against neighboring groups. Alpha pairs lead packs that typically include offspring from several years. Pack members hunt cooperatively, taking down elk that no individual wolf could kill alone. They communicate through complex vocalizations, body language, and scent marking that scientists are still decoding.
+&nbsp;
+The famous Druid Peak Pack, studied intensively from 1996 until its dissolution in 2010, grew to become the largest documented wolf pack in history. At its peak in 2001, the pack contained 37 members. Researchers watched pack dynamics unfold with all the drama of any human family saga. Power struggles, romances, territorial battles, and unexpected alliances played out across the Lamar Valley. The pack's story captured public imagination and drew wolf watchers from around the world.
+&nbsp;
+Conflict with ranchers outside Yellowstone's boundaries remains the most contentious aspect of wolf recovery. Wolves do not recognize park boundaries and sometimes kill livestock on adjacent ranches. Federal and state agencies compensate ranchers for confirmed kills, but tensions persist. Some ranchers view wolves as an intolerable threat to their livelihoods. Conservation groups work to develop coexistence strategies including guard dogs, range riders, and modified grazing practices.
+&nbsp;
+Wolf populations expanded far beyond Yellowstone after the initial reintroduction. The Greater Yellowstone Ecosystem now supports approximately 500 wolves in roughly 60 packs. Wolves naturally dispersed into Idaho, Montana, and eventually Washington, Oregon, and California. The Northern Rocky Mountain gray wolf was removed from the Endangered Species List in 2011 after recovery goals were met. State management has since allowed regulated hunting in some areas.
+&nbsp;
+Tourism related to wolf watching generates significant economic benefits for communities around Yellowstone. Researchers estimated that wolves bring an additional 35 million dollars annually to the regional economy through wildlife tourism. Wolf watchers rent hotel rooms, eat at restaurants, and hire guides hoping to glimpse these charismatic predators. Dawn and dusk patrols along the Lamar Valley have become pilgrimages for wildlife enthusiasts from every continent.
+&nbsp;
+Scientific understanding of trophic cascades expanded dramatically because of the Yellowstone wolf study. Researchers now recognize similar dynamics in ecosystems worldwide. Sea otters protect kelp forests by controlling sea urchin populations. Sharks influence seagrass beds by affecting sea turtle grazing behavior. Large predators shape ecosystems in ways that reverberate through food webs and even alter physical landscapes.
+&nbsp;
+The wolf reintroduction demonstrates that restoring keystone species can heal damaged ecosystems in surprisingly comprehensive ways. It shows that conservation requires thinking beyond individual species to entire ecological communities. The wolves of Yellowstone teach us that wild places need their predators, and that removing them sets off consequences we may not recognize until it is too late to easily reverse them.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p05-q1',
+        type: 'single_choice',
+        question: 'When were wolves reintroduced to Yellowstone National Park?',
+        options: ['1985', '1990', '1995', '2000'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p05-q2',
+        type: 'multiple_select',
+        question: 'Which effects resulted from the absence of wolves in Yellowstone? Select all that apply.',
+        options: ['Elk population explosion', 'Overgrazing of vegetation', 'River bank erosion', 'Increase in beaver populations'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p05-q3',
+        type: 'true_false',
+        question: 'The Druid Peak Pack grew to 37 members at its peak in 2001, becoming the largest documented wolf pack in history.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p05-q4',
+        type: 'numeric',
+        question: 'How many wolves were originally introduced as founders in 1995 and 1996 combined?',
+        correctValue: 31,
+        tolerance: 2,
+        min: 20,
+        max: 50,
+        step: 1,
+        unit: 'wolves',
+      },
+      {
+        id: 'nature-wildlife-p05-q5',
+        type: 'single_choice',
+        question: 'When were the last wolf packs in Yellowstone killed before reintroduction?',
+        options: ['1906', '1916', '1926', '1936'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p05-q6',
+        type: 'single_choice',
+        question: 'How much does wolf watching contribute annually to the regional economy?',
+        options: ['15 million dollars', '25 million dollars', '35 million dollars', '45 million dollars'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p05-q7',
+        type: 'numeric',
+        question: 'How many beaver colonies were in the northern range by 2019?',
+        correctValue: 12,
+        tolerance: 2,
+        min: 5,
+        max: 25,
+        step: 1,
+        unit: 'colonies',
+      },
+      {
+        id: 'nature-wildlife-p05-q8',
+        type: 'single_choice',
+        question: 'Who has led wolf restoration at Yellowstone since 1994?',
+        options: ['Dr. Robert Beschta', 'Dr. Douglas Smith', 'Dr. Jennifer Mather', 'Dr. Jane Goodall'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p06',
+    topicId: 'nature-wildlife',
+    title: 'The Hidden Kingdom of Fungi',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `Fungi constitute a vast biological kingdom that has shaped life on Earth for over a billion years, yet most people barely recognize their existence beyond the mushrooms that occasionally appear in forests and gardens. These remarkable organisms are neither plant nor animal but occupy their own evolutionary branch that includes an estimated 3.8 million species, of which scientists have formally described only about 150,000. The hidden world of fungi reveals an empire of recyclers, symbionts, and pathogens that profoundly influences every terrestrial ecosystem.
+&nbsp;
+Mushrooms represent merely the reproductive structures of much larger organisms hidden beneath the soil or within decaying matter. The main body of a fungus, called the mycelium, consists of threadlike filaments called hyphae that can extend for kilometers through their substrate. A single individual of the honey fungus species Armillaria ostoyae discovered in Oregon's Malheur National Forest spans approximately 9.6 square kilometers and weighs an estimated 6,000 metric tons. Scientists estimate this organism to be between 2,400 and 8,650 years old, making it potentially the largest and oldest living thing on Earth.
+&nbsp;
+The ecological role of fungi as decomposers makes terrestrial life possible in its current form. Without fungi breaking down dead organic matter, fallen trees and animal remains would accumulate indefinitely, locking nutrients away from living organisms. White-rot fungi produce enzymes capable of degrading lignin, the tough compound that gives wood its strength. These enzymes evolved approximately 300 million years ago during the Carboniferous period, and their appearance may explain why coal deposits from earlier eras are so abundant. Before fungi learned to decompose wood, dead trees accumulated rather than rotting away.
+&nbsp;
+Mycorrhizal partnerships between fungi and plant roots have existed for at least 450 million years, predating the evolution of true roots. Over 90 percent of plant species depend on mycorrhizal fungi to absorb water and nutrients, particularly phosphorus, from the soil. In exchange, plants provide fungi with sugars produced through photosynthesis. This mutualistic relationship enabled plants to colonize land and remains essential to forest health today. Seedlings that cannot establish mycorrhizal connections often fail to survive.
+&nbsp;
+Dr. Merlin Sheldrake, author of the 2020 bestseller Entangled Life, has emerged as a leading voice explaining fungal biology to general audiences. His research at Cambridge University explored how mycorrhizal networks facilitate communication and resource sharing between plants. Sheldrake argues that fungi challenge our fundamental categories of individuality and intelligence. A mycelium can be considered a single organism or a colonial network, depending on your perspective. This ambiguity forces us to question assumptions derived from studying animals.
+&nbsp;
+Lichens demonstrate another form of fungal symbiosis that has colonized some of Earth's harshest environments. These composite organisms combine fungi with algae or cyanobacteria in partnerships so intimate that they were long mistaken for single species. The fungal partner provides structure and protection while the photosynthetic partner produces food. Lichens grow on bare rock, arctic tundra, and desert surfaces where few other organisms survive. They can enter suspended animation during drought and revive when moisture returns. Some lichens in Antarctica are estimated to be 4,500 years old.
+&nbsp;
+Fungal pathogens cause devastating diseases in plants, animals, and humans that shape ecosystems and threaten agriculture. Chestnut blight, caused by the fungus Cryphonectria parasitica accidentally introduced from Asia, killed an estimated 4 billion American chestnut trees in the early twentieth century. These majestic trees once dominated Eastern forests, comprising 25 percent of the canopy, before the blight reduced them to shrubby sprouts. Dutch elm disease similarly devastated urban landscapes across North America and Europe. Modern agriculture faces constant battles against fungal crop diseases including wheat rust, rice blast, and Panama disease in bananas.
+&nbsp;
+Batrachochytrium dendrobatidis, a chytrid fungus discovered in 1998, has driven more than 90 amphibian species to extinction and pushed hundreds more toward that fate. This pathogen attacks the keratin in amphibian skin, disrupting the ionic exchange essential for survival. Frogs and salamanders worldwide have disappeared from streams and forests where they once thrived abundantly. Scientists suspect the international pet trade spread this fungus from its probable origin in Korea. The chytrid crisis represents one of the most devastating disease events ever recorded among wildlife.
+&nbsp;
+Humans have cultivated fungi for food, medicine, and industrial purposes for millennia. Archaeological evidence suggests people in Guatemala were growing mushrooms at least 3,000 years ago. Traditional Chinese medicine has used reishi, cordyceps, and other fungal species for thousands of years. Modern medicine owes its first antibiotic, penicillin, to Alexander Fleming's 1928 discovery that the mold Penicillium notatum killed bacteria. This breakthrough launched the antibiotic era and has saved hundreds of millions of lives. Cyclosporine, derived from a soil fungus, enables organ transplantation by suppressing immune rejection.
+&nbsp;
+Psychedelic mushrooms containing psilocybin have gained scientific attention as potential treatments for depression, anxiety, and addiction. Clinical trials at Johns Hopkins University, Imperial College London, and other institutions have demonstrated remarkable therapeutic effects. A single dose of psilocybin combined with psychotherapy produced lasting improvements in patients with treatment-resistant depression. The FDA granted breakthrough therapy designation to psilocybin for major depression in 2019, accelerating the path toward potential approval. Oregon became the first state to legalize supervised psilocybin therapy in November 2020.
+&nbsp;
+The biotechnology industry increasingly harnesses fungi for sustainable manufacturing and environmental remediation. Mycelium can be grown into packaging materials, building insulation, and even leather alternatives using agricultural waste as feedstock. Companies including Ecovative Design and Bolt Threads produce commercial fungal materials. Mycoremediation uses fungi to clean up pollution, with certain species capable of breaking down petroleum, pesticides, and even plastics. Researchers are exploring whether fungi could help address the global plastic waste crisis.
+&nbsp;
+Truffle hunting demonstrates the economic value that rare fungi can command. The white truffle of Alba, Italy, sells for up to 5,000 dollars per pound during peak season. Trained dogs or pigs locate these underground prizes by their intense aroma. Climate change threatens truffle production as traditional growing regions warm and dry. French black truffle harvests have declined by 90 percent since the early twentieth century. Scientists work to cultivate truffles on planted orchards, but these complex organisms resist domestication.
+&nbsp;
+The vast majority of fungal diversity remains unexplored and uncharacterized. Tropical forests harbor particularly rich fungal communities that scientists have barely sampled. New species are discovered constantly, including many with novel chemical compounds that might yield pharmaceutical breakthroughs. The fungal kingdom represents one of the last great frontiers of biological exploration on Earth. Each species lost before discovery represents knowledge and potential that can never be recovered.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p06-q1',
+        type: 'single_choice',
+        question: 'What is the estimated size of the Armillaria ostoyae fungus in Oregon\'s Malheur National Forest?',
+        options: ['1.2 square kilometers', '5.5 square kilometers', '9.6 square kilometers', '15.3 square kilometers'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p06-q2',
+        type: 'multiple_select',
+        question: 'Which human diseases or conditions are mentioned as potentially treatable with psilocybin? Select all that apply.',
+        options: ['Depression', 'Anxiety', 'Addiction', 'Cancer'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p06-q3',
+        type: 'true_false',
+        question: 'Over 90 percent of plant species depend on mycorrhizal fungi to absorb nutrients from soil.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p06-q4',
+        type: 'numeric',
+        question: 'How many American chestnut trees were killed by chestnut blight (in billions)?',
+        correctValue: 4,
+        tolerance: 0.5,
+        min: 1,
+        max: 10,
+        step: 0.5,
+        unit: 'billion trees',
+      },
+      {
+        id: 'nature-wildlife-p06-q5',
+        type: 'single_choice',
+        question: 'When did Alexander Fleming discover penicillin?',
+        options: ['1918', '1928', '1938', '1948'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p06-q6',
+        type: 'single_choice',
+        question: 'How many amphibian species has the chytrid fungus driven to extinction?',
+        options: ['More than 30', 'More than 60', 'More than 90', 'More than 150'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p06-q7',
+        type: 'numeric',
+        question: 'How many fungal species have scientists formally described (in thousands)?',
+        correctValue: 150,
+        tolerance: 20,
+        min: 50,
+        max: 300,
+        step: 10,
+        unit: 'thousand species',
+      },
+      {
+        id: 'nature-wildlife-p06-q8',
+        type: 'true_false',
+        question: 'Oregon became the first state to legalize supervised psilocybin therapy in November 2020.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p06-q9',
+        type: 'single_choice',
+        question: 'When did Batrachochytrium dendrobatidis, the chytrid fungus affecting amphibians, get discovered?',
+        options: ['1988', '1993', '1998', '2003'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-p07',
+    topicId: 'nature-wildlife',
+    title: 'The Astonishing Intelligence of Crows and Ravens',
+    difficulty: 'intermediate',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `Corvids, the family of birds including crows, ravens, magpies, and jays, display cognitive abilities that rival those of great apes and challenge our understanding of how intelligence evolves. These remarkable birds craft and use tools, plan for the future, recognize individual human faces, and appear to understand the mental states of others. Their brains, though structured differently from mammalian brains, have evolved sophisticated problem-solving capabilities that demand we reconsider what it means to be intelligent.
+&nbsp;
+The New Caledonian crow has emerged as the star of corvid cognition research through its extraordinary tool-making abilities. These birds, native to the South Pacific island of New Caledonia, manufacture hooks from twigs to extract insects from tree bark, a behavior never observed in wild primates outside humans. Dr. Gavin Hunt first documented this toolmaking in 1996, sparking intense scientific interest. Subsequent research revealed that New Caledonian crows select specific plant materials, modify them with multiple steps, and save favorite tools for later use. They even innovate new tool designs, suggesting creative problem-solving rather than mere instinct.
+&nbsp;
+Betty, a captive New Caledonian crow studied at Oxford University, astonished researchers in 2002 by spontaneously bending a straight wire into a hook to retrieve food from a vertical tube. The bird had never encountered this specific problem before and received no training in wire manipulation. Dr. Alex Kacelnik and his team published this observation in the journal Science, demonstrating that corvids could improvise solutions to novel problems. Betty repeated this performance multiple times, eliminating the possibility of accidental success.
+&nbsp;
+Raven intelligence has inspired myths and legends across cultures from Norse mythology to Pacific Northwest indigenous traditions. Scientific confirmation of their capabilities began with ethologist Bernd Heinrich, who documented remarkable problem-solving at his research site in Maine beginning in the 1980s. Heinrich observed ravens pulling up meat suspended on strings by cycling through complex sequences of pulling, stepping, and holding. Wild birds with no prior experience solved this puzzle on their first attempt, suggesting insight rather than trial-and-error learning.
+&nbsp;
+Dr. Thomas Bugnyar at the University of Vienna has extensively studied social cognition in ravens since the early 2000s. His research demonstrates that ravens track the knowledge states of competitors, behaving differently depending on whether another raven has observed them caching food. When being watched by a dominant individual, subordinate ravens will pretend to cache food in one location while secretly storing it elsewhere. This tactical deception implies that ravens understand what others can see and know, a capacity called theory of mind that many researchers previously attributed only to humans and perhaps great apes.
+&nbsp;
+Crows remember individual human faces and hold grudges for years against people who have threatened them. Dr. John Marzluff at the University of Washington conducted elegant experiments beginning in 2006 in which researchers wearing distinctive masks trapped and banded crows on campus. Years later, crows still scolded people wearing those masks while ignoring researchers wearing neutral masks. The birds even taught their offspring to recognize and mob threatening individuals. This social learning spreads antipredator information through populations without each bird needing personal negative experiences.
+&nbsp;
+The crow brain differs fundamentally from mammalian brains yet achieves comparable cognitive outcomes through convergent evolution. Mammals concentrate their highest cognitive functions in the neocortex, a layered structure absent in birds. Corvids instead rely on the pallium, which organized differently but contains similarly dense populations of neurons. A crow brain weighing 15 grams contains about 1.5 billion neurons, approaching the density found in some primate brains. Evolution has apparently discovered multiple architectural solutions to building intelligent minds.
+&nbsp;
+Corvids demonstrate episodic-like memory, recalling specific events from their past including what happened, where, and when. Western scrub jays studied by Dr. Nicola Clayton at Cambridge University remembered which food items they had cached and how long ago. When recovering caches, the jays preferentially retrieved perishable foods before they spoiled and longer-lasting items later. This behavior suggests the birds mentally travel through time, remembering past caching events and anticipating future decay. Such planning abilities were once considered uniquely human.
+&nbsp;
+Social complexity may drive the evolution of intelligence in corvids just as it apparently does in primates. Corvids live in fluid social groups where individuals must track relationships, form alliances, and navigate hierarchies. Young ravens spend years learning social skills before establishing territories, much like apprenticeship periods in human societies. Mated pairs cooperate in raising offspring and defending resources. These demands favor cognitive flexibility and social intelligence that manifest in the laboratory as impressive problem-solving abilities.
+&nbsp;
+Corvids communicate through sophisticated vocal systems that may approach language-like complexity. Crows produce a remarkable variety of calls with apparent meanings, from alarm calls specifying different predator types to contact calls maintaining group cohesion. Ravens produce even more varied vocalizations and can learn to imitate human speech when raised in captivity. Wild ravens in Yellowstone National Park have been observed making sounds that attract wolves to carcasses, potentially demonstrating intentional communication across species boundaries.
+&nbsp;
+The ability of corvids to delay gratification and plan for the future reveals executive function capacities comparable to young children and apes. Ravens will reject an immediate food reward to wait for a preferred item, trading early treats for later gains. In experiments by Mathias Osvath at Lund University published in 2017, ravens selected and saved tools they would need for tasks the following day, even when the tool had no immediate use. This future planning requires mental simulation of anticipated scenarios and impulse control to forgo immediate rewards.
+&nbsp;
+Urban crows have adapted to human environments with remarkable ingenuity. In Japan, crows learned to drop walnuts on pedestrian crossings, waiting for cars to crush the shells and pedestrians to signal safe retrieval. This behavior requires understanding traffic patterns, physics, and timing in ways that suggest flexible intelligence rather than rigid instinct. Urban crow populations continue growing as these adaptable birds exploit novel food sources and nesting sites in human-dominated landscapes.
+&nbsp;
+The ethical implications of corvid intelligence have begun receiving attention from philosophers and policymakers. If crows and ravens possess rich mental lives including memory, planning, and perhaps self-awareness, then their treatment in pest control programs, captivity, and research deserves reconsideration. Some countries have implemented protections for corvids based on evidence of their cognitive capabilities. The boundary between human and animal minds becomes increasingly blurry as research reveals sophisticated cognition in unexpected species.
+&nbsp;
+Conservation concerns affect some corvid species even as others thrive alongside humans. The Hawaiian crow, known as the alala, went extinct in the wild in 2002 and survives only through captive breeding programs that have released birds back into protected forests. Island populations of other corvid species face threats from habitat loss and introduced predators. Meanwhile, continental populations of crows and ravens have generally increased, benefiting from human agriculture and waste. This split between vulnerable island endemics and successful generalists characterizes many bird families.
+&nbsp;
+Future research into corvid cognition promises continued surprises and challenges to our understanding of intelligence and consciousness. Advanced brain imaging techniques may reveal how avian neural architectures process information differently from mammals while achieving similar outcomes. Long-term field studies continue documenting wild behaviors that laboratory experiments can then analyze in detail. Each discovery reminds us that the capacity for complex thought evolved multiple times through different pathways, and that feathered minds deserve the same scientific respect we accord to our closer primate relatives.`,
+    questions: [
+      {
+        id: 'nature-wildlife-p07-q1',
+        type: 'single_choice',
+        question: 'Who first documented tool-making by New Caledonian crows in 1996?',
+        options: ['Bernd Heinrich', 'Gavin Hunt', 'Thomas Bugnyar', 'Alex Kacelnik'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p07-q2',
+        type: 'multiple_select',
+        question: 'Which cognitive abilities are mentioned as demonstrated by corvids? Select all that apply.',
+        options: ['Tool use and manufacture', 'Face recognition', 'Future planning', 'Echolocation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-p07-q3',
+        type: 'true_false',
+        question: 'Betty the crow spontaneously bent a wire into a hook at Oxford University in 2002.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p07-q4',
+        type: 'numeric',
+        question: 'How many neurons does a crow brain contain (in billions)?',
+        correctValue: 1.5,
+        tolerance: 0.3,
+        min: 0.5,
+        max: 3,
+        step: 0.1,
+        unit: 'billion neurons',
+      },
+      {
+        id: 'nature-wildlife-p07-q5',
+        type: 'single_choice',
+        question: 'When did the Hawaiian crow go extinct in the wild?',
+        options: ['1992', '1997', '2002', '2007'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p07-q6',
+        type: 'single_choice',
+        question: 'Which researcher conducted mask experiments showing crows recognize human faces?',
+        options: ['Nicola Clayton', 'John Marzluff', 'Mathias Osvath', 'Thomas Bugnyar'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-p07-q7',
+        type: 'numeric',
+        question: 'What year were Mathias Osvath\'s experiments on raven future planning published?',
+        correctValue: 2017,
+        tolerance: 0,
+        min: 2010,
+        max: 2025,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'nature-wildlife-p07-q8',
+        type: 'true_false',
+        question: 'Ravens will reject an immediate food reward to wait for a preferred item.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-p07-q9',
+        type: 'single_choice',
+        question: 'Which university did Dr. Thomas Bugnyar conduct his research on raven social cognition?',
+        options: ['University of Cambridge', 'University of Washington', 'University of Vienna', 'Lund University'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-p07-q10',
+        type: 'numeric',
+        question: 'How much does a crow brain weigh (in grams)?',
+        correctValue: 15,
+        tolerance: 3,
+        min: 5,
+        max: 30,
+        step: 1,
+        unit: 'grams',
+      },
+      {
+        id: 'nature-wildlife-p07-q11',
+        type: 'single_choice',
+        question: 'Which researcher at Cambridge University studied episodic-like memory in Western scrub jays?',
+        options: ['Gavin Hunt', 'Nicola Clayton', 'Bernd Heinrich', 'Alex Kacelnik'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-c1',
+    topicId: 'nature-wildlife',
+    title: 'The Secret World of Animal Migration',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `Animal migration stands among nature's most spectacular phenomena. Every year, billions of creatures undertake incredible journeys across continents and oceans, navigating with precision that modern technology struggles to match. These epic travels reveal the remarkable adaptations that evolution has crafted over millions of years.
+&nbsp;
+The Arctic tern holds the record for the longest migration of any animal on Earth. This small seabird weighing just 100 grams flies from Arctic breeding grounds to Antarctic waters and back each year. A single tern may travel over 70,000 kilometers annually, experiencing two summers and more daylight than any other creature. Over a lifetime of 30 years, an Arctic tern can fly the equivalent distance of three round trips to the Moon.
+&nbsp;
+Monarch butterflies demonstrate that size does not limit migratory ambition. Each autumn, millions of these orange and black insects leave Canada and the northern United States for forests in central Mexico. They travel up to 4,800 kilometers, guided by an internal compass that uses the sun's position and Earth's magnetic field. No individual monarch completes the round trip. The butterflies that return north the following spring are the great-great-grandchildren of those that departed.
+&nbsp;
+Scientists at the University of Kansas discovered in 2014 that monarchs possess specialized neurons in their antennae that detect magnetic fields. Dr. Steven Reppert led the research team that identified these magnetoreceptors, solving a puzzle that had fascinated biologists for decades. This finding opened new avenues for understanding how various species navigate during migration.
+&nbsp;
+Wildebeest in East Africa perform one of the most visible migrations on the planet. Approximately 1.5 million of these large antelopes circle through the Serengeti ecosystem each year, following seasonal rains and fresh grass. The herds cover about 800 kilometers, crossing crocodile-infested rivers and evading predators throughout their journey. Their movement shapes the entire ecosystem, fertilizing grasslands and providing food for lions, hyenas, and vultures.
+&nbsp;
+Salmon migration involves a transformation that seems almost magical. Pacific salmon hatch in freshwater streams, migrate to the ocean where they spend several years growing, then return to the exact stream where they were born to spawn. They navigate using smell, detecting unique chemical signatures in their home waters. The journey upstream demands incredible effort, as salmon leap up waterfalls and rapids while their bodies deteriorate from the strain.
+&nbsp;
+Research published in the journal Science in 2019 revealed that salmon populations have declined by 90 percent in many Pacific Northwest rivers since the 1800s. Lead author Dr. Peter Westley from the University of Alaska Fairbanks attributed this collapse to dam construction, habitat loss, and changing ocean conditions. Conservation efforts now focus on removing obsolete dams and restoring spawning habitat.
+&nbsp;
+Humpback whales travel between polar feeding grounds and tropical breeding waters each year. These massive mammals can swim over 8,000 kilometers in a single migration, one of the longest journeys of any mammal. They feed intensively in cold, nutrient-rich waters during summer months, building fat reserves to sustain them through winter when they give birth in warm tropical seas.
+&nbsp;
+Birds use multiple navigation strategies during migration. Many species orient using the sun during daylight hours and stars at night. Earth's magnetic field provides another reliable compass that works in any weather. Some birds also remember landmarks and may even detect infrasound from distant mountains or ocean waves. Young birds often learn routes by following experienced adults on their first journey.
+&nbsp;
+Climate change poses new challenges for migratory animals worldwide. Shifting temperatures alter the timing of seasons, creating mismatches between when animals arrive and when food resources peak. Species that cannot adapt their schedules quickly enough may struggle to survive. Birds in Europe now arrive at breeding grounds an average of 8 days earlier than they did in the 1970s.
+&nbsp;
+Conservation of migratory species requires international cooperation. A bird that nests in Canada, winters in South America, and stops at wetlands throughout the United States depends on habitat protection across multiple countries. The Bonn Convention, signed in 1979, created a framework for nations to coordinate conservation efforts for migratory species. Today, over 130 countries participate in this agreement.
+&nbsp;
+Technology has revolutionized how scientists study migration. Miniaturized GPS trackers now weigh less than 5 grams, allowing researchers to follow individual songbirds throughout their journeys. Satellite imagery reveals stopover sites where birds rest and refuel. Citizen science projects like eBird collect millions of observations annually, creating detailed maps of migration patterns across continents.
+&nbsp;
+Understanding migration matters for more than scientific curiosity. Migratory animals provide essential services to ecosystems, from pollinating plants to controlling pest populations. They connect distant habitats, moving nutrients and seeds across landscapes. Protecting these travelers means preserving the health of ecosystems spanning multiple continents.`,
+    questions: [
+      {
+        id: 'nature-wildlife-c1-q1',
+        type: 'numeric',
+        question: 'How many kilometers does an Arctic tern travel annually?',
+        correctValue: 70000,
+        tolerance: 5000,
+        min: 50000,
+        max: 100000,
+        step: 1000,
+        unit: 'kilometers',
+      },
+      {
+        id: 'nature-wildlife-c1-q2',
+        type: 'single_choice',
+        question: 'What do monarch butterflies use to navigate during migration?',
+        options: ['Only landmarks and memory', 'Sun position and magnetic field', 'Ocean currents', 'Temperature gradients'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-c1-q3',
+        type: 'multiple_select',
+        question: 'Which navigation methods do migratory birds use? Select all that apply.',
+        options: ['Sun orientation', 'Star navigation', 'Magnetic field detection', 'Echolocation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-c1-q4',
+        type: 'true_false',
+        question: 'Individual monarch butterflies complete the entire round-trip migration from Canada to Mexico and back.',
+        correctAnswer: false,
+      },
+      {
+        id: 'nature-wildlife-c1-q5',
+        type: 'single_choice',
+        question: 'What international agreement coordinates conservation of migratory species?',
+        options: ['Paris Agreement', 'Kyoto Protocol', 'Bonn Convention', 'Montreal Protocol'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-c1-q6',
+        type: 'numeric',
+        question: 'How many wildebeest participate in the Serengeti migration each year (in millions)?',
+        correctValue: 1.5,
+        tolerance: 0.3,
+        min: 0.5,
+        max: 3,
+        step: 0.1,
+        unit: 'million',
+      },
+      {
+        id: 'nature-wildlife-c1-q7',
+        type: 'single_choice',
+        question: 'How do salmon find their way back to their birth stream?',
+        options: ['Visual memory', 'Following other salmon', 'Detecting chemical signatures by smell', 'Using water temperature'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'nature-wildlife-c2',
+    topicId: 'nature-wildlife',
+    title: 'The Hidden Language of Trees',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `Beneath the forest floor lies a hidden network of communication and cooperation that transforms our understanding of trees from isolated organisms into members of interconnected communities. Through underground fungal networks and chemical signals, trees share resources, warn neighbors of threats, and nurture their offspring in ways that challenge traditional views of plant biology. This remarkable wood wide web reveals forests as social systems where collaboration often matters more than competition.
+&nbsp;
+Dr. Suzanne Simard, a forest ecologist at the University of British Columbia, revolutionized our understanding of forest communication through groundbreaking research beginning in the 1990s. Her doctoral work used radioactive carbon isotopes to trace how trees share nutrients through underground fungal connections. She discovered that large old-growth trees, which she calls Mother Trees, transfer sugars and nutrients to seedlings growing in their shade. This research, published in the journal Nature in 1997, challenged decades of forestry theory that viewed forests primarily as competitive battlegrounds.
+&nbsp;
+Mycorrhizal fungi form the infrastructure of forest communication networks. These microscopic organisms form symbiotic relationships with tree roots, extending threadlike hyphae throughout the soil to connect individual trees. Over 90 percent of land plants partner with mycorrhizal fungi to enhance nutrient uptake. In forests, these fungal networks link trees of different species into communities where resources flow according to need rather than competitive advantage.
+&nbsp;
+A single fungal network can extend across an entire forest, connecting hundreds of trees through billions of microscopic connections. Researchers at the University of Basel in Switzerland mapped networks spanning over 30 meters in European forests. They found that older, larger trees serve as hubs with connections to dozens of smaller trees. When researchers removed these hub trees, network connectivity collapsed and neighboring trees suffered measurably worse health.
+&nbsp;
+Trees use these fungal highways to share resources with struggling neighbors. Dr. Simard's research demonstrated that Douglas fir trees in shade received carbon from paper birch trees growing in sunlight. When seasons changed and paper birch lost their leaves, the flow reversed as Douglas fir returned the favor. This reciprocal exchange suggests cooperation rather than mere resource leakage. Trees appear to invest in neighbors who can return the favor later.
+&nbsp;
+Mother Trees provide crucial support for seedlings of their own species. Isotope tracking revealed that large Douglas firs send more carbon to their genetic offspring than to unrelated seedlings. When Mother Trees are fatally injured, they dramatically increase transfers to their offspring, providing a final gift of resources before death. This preferential treatment of relatives parallels maternal behavior documented in animal species and raises profound questions about plant cognition.
+&nbsp;
+Chemical communication through the air provides another channel for tree interaction. When herbivores attack a tree, it releases volatile organic compounds that neighboring trees detect. Research published in Ecology Letters in 2014 showed that receiver trees ramp up production of defensive chemicals before any insects reach them. Acacia trees in African savannas famously warn each other of giraffe browsing, with downwind trees becoming measurably more toxic within minutes of an attack on upwind neighbors.
+&nbsp;
+Forest scientist Dr. Monica Gagliano at the University of Sydney has documented learning behavior in plants that suggests a form of memory and intelligence. Her experiments showed that Mimosa plants stopped folding their leaves in response to repeated harmless stimuli, retaining this learned behavior for weeks. While controversial, her work opens new questions about what constitutes intelligence and whether the boundaries between plant and animal cognition are less rigid than assumed.
+&nbsp;
+Fungal networks facilitate not only nutrient exchange but also chemical messaging between trees. When insects attack one tree, it sends warning signals through fungal connections that prime neighboring trees' defenses. Research from the University of British Columbia detected defensive enzyme production in trees connected to attacked neighbors but not in isolated controls. This underground telegraph system allows coordinated forest responses to threats.
+&nbsp;
+Logging practices based on competitive forest models may harm forest health by disrupting these cooperative networks. Clear-cutting removes Mother Trees and destroys fungal networks that took decades to develop. Remaining trees lose their support systems and grow more slowly than expected. Dr. Simard advocates for retention of Mother Trees and more selective harvesting that preserves forest connectivity. Some forestry companies in British Columbia now follow protocols she helped develop.
+&nbsp;
+Climate change places unprecedented stress on forest communication networks. Drought weakens mycorrhizal associations as fungi struggle in dry soils. Trees under heat stress require more resources from networks precisely when those networks function least effectively. Research suggests that forests may lose resilience as climate change degrades the infrastructure of cooperation that helps them survive natural disturbances.
+&nbsp;
+Underground networks also transmit pathogens and toxins between trees. Trees sometimes send harmful chemicals through fungal connections to suppress competitors. Allelopathic black walnut trees are famous for poisoning nearby plants through root exudates. This dark side of the wood wide web reminds us that forest relationships include aggression alongside cooperation. Evolution has shaped both strategies as trees compete for light, water, and nutrients.
+&nbsp;
+Japanese forest bathing, known as shinrin-yoku, recognizes the health benefits of immersion in forest environments. Research from Japan's Nippon Medical School found that forest walks lower cortisol levels, blood pressure, and pulse rates compared to urban walks. Trees release phytoncides, antimicrobial compounds that boost human immune function. The therapeutic value of forests may extend beyond psychology to measurable physiological effects mediated by the same chemical signals trees use to communicate.
+&nbsp;
+Ancient trees carry unique ecological value beyond their size and age. They harbor distinct fungal communities developed over centuries. They anchor networks connecting trees across wide areas. They store genetic diversity adapted to local conditions over many generations. The oldest trees provide insurance against future uncertainties by maintaining network infrastructure that younger forests lack. Protecting these elders should be a conservation priority.
+&nbsp;
+Indigenous peoples around the world have long recognized forests as communities rather than collections of individual trees. Traditional ecological knowledge often aligns with recent scientific discoveries about forest cooperation. Reintegrating indigenous perspectives with Western forestry could improve how we manage and protect forests. Several Canadian provinces now require consultation with First Nations on forest management decisions.
+&nbsp;
+The language of trees invites us to reconsider what forests are and how they function. Rather than viewing trees as competing individuals, we might understand them as participants in complex social networks. Forests emerge as superorganisms where individual welfare connects to community health. This perspective suggests radically different approaches to forestry, conservation, and our relationship with the natural world.
+&nbsp;
+The science of forest communication continues advancing rapidly as new technologies enable detection of signals previously invisible to researchers. Mass spectrometry reveals volatile chemicals exchanged between trees. Isotope tracing maps nutrient flows through networks. Genetic analysis identifies individual trees and their fungal partners. Each discovery reveals new layers of complexity in how forests communicate and cooperate.`,
+    questions: [
+      {
+        id: 'nature-wildlife-c2-q1',
+        type: 'single_choice',
+        question: 'Who coined the term "Mother Trees" for large old-growth trees that nurture seedlings?',
+        options: ['Dr. Monica Gagliano', 'Dr. Suzanne Simard', 'Dr. Jane Goodall', 'Dr. Rachel Carson'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-c2-q2',
+        type: 'multiple_select',
+        question: 'What do trees share through mycorrhizal fungal networks? Select all that apply.',
+        options: ['Carbon and sugars', 'Warning signals about attacks', 'Water and nutrients', 'Genetic material'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'nature-wildlife-c2-q3',
+        type: 'true_false',
+        question: 'Over 90 percent of land plants partner with mycorrhizal fungi.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-c2-q4',
+        type: 'numeric',
+        question: 'In what year was Dr. Simard\'s groundbreaking research on tree communication published in Nature?',
+        correctValue: 1997,
+        tolerance: 0,
+        min: 1980,
+        max: 2020,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'nature-wildlife-c2-q5',
+        type: 'single_choice',
+        question: 'What is the Japanese practice of therapeutic forest immersion called?',
+        options: ['Ikebana', 'Shinrin-yoku', 'Bonsai', 'Hanami'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-c2-q6',
+        type: 'single_choice',
+        question: 'What do trees release that boosts human immune function?',
+        options: ['Oxygen', 'Phytoncides', 'Pollen', 'Sap'],
+        correctIndex: 1,
+      },
+      {
+        id: 'nature-wildlife-c2-q7',
+        type: 'true_false',
+        question: 'Douglas fir trees send more carbon to genetically related seedlings than to unrelated seedlings.',
+        correctAnswer: true,
+      },
+      {
+        id: 'nature-wildlife-c2-q8',
+        type: 'numeric',
+        question: 'How many meters can a single fungal network extend according to University of Basel research?',
+        correctValue: 30,
+        tolerance: 5,
+        min: 10,
+        max: 100,
+        step: 5,
+        unit: 'meters',
+      },
+      {
+        id: 'nature-wildlife-c2-q9',
+        type: 'single_choice',
+        question: 'Which university is Dr. Monica Gagliano, who studies plant learning behavior, associated with?',
+        options: ['University of British Columbia', 'University of Basel', 'University of Sydney', 'Nippon Medical School'],
+        correctIndex: 2,
+      },
+      {
+        id: 'nature-wildlife-c2-q10',
+        type: 'multiple_select',
+        question: 'What threatens forest communication networks according to the article? Select all that apply.',
+        options: ['Clear-cutting logging', 'Drought from climate change', 'Removal of Mother Trees', 'Reforestation efforts'],
+        correctIndices: [0, 1, 2],
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

@@ -1,16 +1,16 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
-import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
+import { Paywall } from '../../components/paywall/Paywall';
+import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
 import { useContentStore } from '../../store/contentStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { Paywall } from '../../components/paywall/Paywall';
 
 export default function ContentReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -31,7 +31,7 @@ export default function ContentReaderScreen() {
 
   // Calculate starting position from saved progress
   const startIndex = useMemo(() => {
-    if (!content || content.readProgress >= 1) return 0;
+    if (!content || content.readProgress >= 1) {return 0;}
     return Math.floor(content.readProgress * (words.length - 1));
   }, [content, words.length]);
 
@@ -46,7 +46,7 @@ export default function ContentReaderScreen() {
 
   // Update progress as user reads
   useEffect(() => {
-    if (!content || words.length === 0) return;
+    if (!content || words.length === 0) {return;}
 
     const progress = engine.currentIndex / (words.length - 1);
 

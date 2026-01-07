@@ -1,0 +1,2629 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/technology-internet.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> technology-internet.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a>
+<a name='L827'></a><a href='#L827'>827</a>
+<a name='L828'></a><a href='#L828'>828</a>
+<a name='L829'></a><a href='#L829'>829</a>
+<a name='L830'></a><a href='#L830'>830</a>
+<a name='L831'></a><a href='#L831'>831</a>
+<a name='L832'></a><a href='#L832'>832</a>
+<a name='L833'></a><a href='#L833'>833</a>
+<a name='L834'></a><a href='#L834'>834</a>
+<a name='L835'></a><a href='#L835'>835</a>
+<a name='L836'></a><a href='#L836'>836</a>
+<a name='L837'></a><a href='#L837'>837</a>
+<a name='L838'></a><a href='#L838'>838</a>
+<a name='L839'></a><a href='#L839'>839</a>
+<a name='L840'></a><a href='#L840'>840</a>
+<a name='L841'></a><a href='#L841'>841</a>
+<a name='L842'></a><a href='#L842'>842</a>
+<a name='L843'></a><a href='#L843'>843</a>
+<a name='L844'></a><a href='#L844'>844</a>
+<a name='L845'></a><a href='#L845'>845</a>
+<a name='L846'></a><a href='#L846'>846</a>
+<a name='L847'></a><a href='#L847'>847</a>
+<a name='L848'></a><a href='#L848'>848</a>
+<a name='L849'></a><a href='#L849'>849</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const TECHNOLOGY_INTERNET_ARTICLES: Article[] = [
+  {
+    id: 'technology-internet-p01',
+    topicId: 'technology-internet',
+    title: 'How the Internet Works',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `The internet connects billions of devices worldwide through an intricate network of networks that spans every continent on Earth. Every time you visit a website, send an email, or stream a video, data travels across this vast digital infrastructure in mere milliseconds. Understanding this remarkable system helps us appreciate the technology that has transformed modern communication.
+&nbsp;
+When you type a website address into your browser, a complex process begins instantly. Your computer first contacts a Domain Name System server, which translates the human-readable address into a numerical IP address that computers understand. This works similar to looking up a phone number in a directory, matching names to actual contact information.
+&nbsp;
+Your request then travels through your Internet Service Provider to backbone networks that form the internet's main infrastructure. These high-capacity fiber optic cables span continents and cross oceans at depths exceeding 20,000 feet. They carry enormous amounts of data at nearly the speed of light, handling over 500 trillion bytes of information daily.
+&nbsp;
+Data does not travel as a single unit across the internet. Instead, it breaks into small packets, each containing part of the information plus addressing details. These packets may take different routes to reach their destination, finding paths around congestion or failures. At the destination, they reassemble in the correct order to recreate the original message.
+&nbsp;
+Routers serve as the traffic controllers of the internet, making critical decisions every moment. These specialized devices examine each packet's destination and determine the best path forward. They make these routing decisions billions of times per second, keeping data flowing smoothly across networks owned by thousands of different organizations.
+&nbsp;
+The internet began as ARPANET in 1969, a United States military research project designed to survive communication disruptions during potential attacks. Vint Cerf and Bob Kahn developed the TCP/IP protocols in the 1970s, creating the technical foundation that still underlies the internet today. Their decentralized design ensures no single point of failure can bring down the entire network.
+&nbsp;
+Tim Berners-Lee invented the World Wide Web in 1989 while working at CERN in Switzerland. He created the system of hyperlinks and web browsers that made the internet accessible to everyone. The web became publicly available in August 1991, and within a decade the internet had transformed from a research tool into a global communication platform used by hundreds of millions of people.`,
+    questions: [
+      {
+        id: 'technology-internet-p01-q1',
+        type: 'single_choice',
+        question: 'Who invented the World Wide Web?',
+        options: ['Bill Gates', 'Steve Jobs', 'Tim Berners-Lee', 'Vint Cerf'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p01-q2',
+        type: 'multiple_select',
+        question: 'Who developed the TCP/IP protocols? Select all that apply.',
+        options: ['Tim Berners-Lee', 'Vint Cerf', 'Bob Kahn', 'Steve Jobs'],
+        correctIndices: [1, 2],
+      },
+      {
+        id: 'technology-internet-p01-q3',
+        type: 'true_false',
+        question: 'Data travels across the internet as single complete files rather than being broken into packets.',
+        correctAnswer: false,
+      },
+      {
+        id: 'technology-internet-p01-q4',
+        type: 'numeric',
+        question: 'In what year did ARPANET, the predecessor to the internet, begin?',
+        correctValue: 1969,
+        tolerance: 0,
+        min: 1950,
+        max: 2000,
+        step: 1,
+        unit: 'year',
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p02',
+    topicId: 'technology-internet',
+    title: 'Cybersecurity: Protecting the Digital World',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `Cybersecurity protects computers, networks, and data from digital attacks that threaten billions of people daily. Hackers target everything from personal bank accounts to critical infrastructure like power grids and hospitals. The field has grown from a niche specialty into one of the most important disciplines in modern technology.
+&nbsp;
+The first major computer virus, called Brain, appeared in Pakistan in January 1986. Two brothers named Basit and Amjad Farooq Alvi created it to track illegal copies of their medical software. The virus spread slowly through infected floppy disks, taking months to reach computers worldwide. Today, malware spreads across the internet in seconds, infecting millions of devices before security experts can respond.
+&nbsp;
+Phishing attacks remain the most common method criminals use to steal sensitive information. These deceptive emails pretend to come from trusted sources like banks, employers, or popular websites. They trick recipients into clicking malicious links or entering passwords on fake websites. The FBI reported that phishing attacks caused over 10 billion dollars in losses during 2022 alone.
+&nbsp;
+Ransomware represents one of the most destructive types of modern cyberattacks. This malicious software encrypts a victim's files and demands payment for the decryption key. The WannaCry attack in May 2017 infected more than 200,000 computers across 150 countries in just four days. Hospitals in the United Kingdom had to cancel thousands of medical appointments and divert ambulances to unaffected facilities.
+&nbsp;
+Strong passwords form the foundation of personal cybersecurity. Security experts recommend using at least 12 characters combining uppercase letters, lowercase letters, numbers, and symbols. Each account should have a unique password to prevent a single breach from compromising multiple services. Password managers help users generate and store complex passwords without memorizing them.
+&nbsp;
+Two-factor authentication adds a crucial second layer of security beyond passwords. This system requires something you know, like a password, plus something you have, like a phone that receives verification codes. Even if hackers steal your password, they cannot access your account without the second factor. Google reported that two-factor authentication blocks 99.9 percent of automated attacks on accounts.
+&nbsp;
+Encryption scrambles data into unreadable code that only authorized parties can decrypt. When you see a padlock icon in your browser's address bar, encryption protects your connection to that website. End-to-end encryption in messaging apps ensures that only you and your recipient can read your messages. Even the company providing the service cannot access the encrypted content.
+&nbsp;
+Governments and corporations invest billions in cybersecurity defense. The United States Cybersecurity and Infrastructure Security Agency, known as CISA, protects federal networks and helps private companies defend against attacks. Large technology companies employ thousands of security researchers who hunt for vulnerabilities and develop protective measures.
+&nbsp;
+Ethical hackers play a vital role in improving security by finding weaknesses before criminals do. Companies pay bounties ranging from hundreds to millions of dollars for reports of serious vulnerabilities. Apple launched its bug bounty program in 2016 and now offers up to 2 million dollars for the most critical iPhone security flaws. These programs turn potential attackers into defenders who strengthen digital infrastructure.
+&nbsp;
+The future of cybersecurity faces new challenges from emerging technologies. Quantum computers may eventually break the encryption that currently protects banking, communications, and government secrets. Security researchers are already developing quantum-resistant algorithms to prepare for this threat. Artificial intelligence creates both new attack methods and new defensive capabilities in an ongoing technological arms race.`,
+    questions: [
+      {
+        id: 'technology-internet-p02-q1',
+        type: 'single_choice',
+        question: 'What was the name of the first major computer virus?',
+        options: ['WannaCry', 'Brain', 'Trojan', 'Phishing'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p02-q2',
+        type: 'single_choice',
+        question: 'What percentage of automated attacks does two-factor authentication block according to Google?',
+        options: ['95%', '99%', '99.9%', '100%'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p02-q3',
+        type: 'multiple_select',
+        question: 'Which are recommended practices for strong password security? Select all that apply.',
+        options: ['Using at least 12 characters', 'Using the same password for all accounts', 'Combining uppercase, lowercase, numbers, and symbols', 'Using a password manager'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'technology-internet-p02-q4',
+        type: 'true_false',
+        question: 'The WannaCry ransomware attack infected computers in over 150 countries.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p02-q5',
+        type: 'numeric',
+        question: 'How much money did phishing attacks cause in losses during 2022 (in billions of dollars)?',
+        correctValue: 10,
+        tolerance: 1,
+        min: 5,
+        max: 20,
+        step: 1,
+        unit: 'billion dollars',
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p03',
+    topicId: 'technology-internet',
+    title: 'The Evolution of Social Media',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `Social media has transformed how humans communicate, share information, and build communities in ways that no one predicted when the internet first emerged. Platforms connecting billions of users have reshaped politics, commerce, entertainment, and personal relationships across every continent. The story of social media reveals both remarkable innovation and profound challenges for modern society.
+&nbsp;
+The earliest social networking sites appeared in the late 1990s as the internet became accessible to ordinary people. SixDegrees launched in 1997, allowing users to create profiles and connect with friends. The site attracted roughly 3.5 million members before shutting down in 2001. Friendster followed in 2002, pioneering features that would become standard across the industry. MySpace dominated from 2005 to 2008, becoming the most visited website in the United States and launching the careers of musicians like Arctic Monkeys.
+&nbsp;
+Facebook emerged from a Harvard University dorm room in February 2004. Mark Zuckerberg and his roommates created the site initially for college students only. The platform opened to everyone aged 13 and older in September 2006. By 2012, Facebook reached one billion monthly active users, a milestone no social network had ever achieved. The company now operates as Meta and reports over 3 billion monthly users across its family of apps including Instagram and WhatsApp.
+&nbsp;
+Twitter introduced a new format for social communication when it launched in July 2006. The platform limited posts to 140 characters, later expanded to 280, forcing users to express thoughts concisely. Twitter became essential for breaking news, political discourse, and celebrity engagement. The service played notable roles during the Arab Spring protests in 2011 and has shaped public conversation on countless issues since.
+&nbsp;
+YouTube revolutionized video sharing after three former PayPal employees founded it in February 2005. The first video, titled "Me at the zoo," showed co-founder Jawed Karim at the San Diego Zoo for just 18 seconds. Google purchased YouTube for 1.65 billion dollars in October 2006. Today, users upload over 500 hours of video content every minute, and the platform reaches more 18-to-49-year-olds than all cable TV networks combined.
+&nbsp;
+Instagram brought photo sharing to mobile devices when Kevin Systrom and Mike Krieger launched it in October 2010. The app gained 25,000 users on its first day and reached one million within two months. Facebook acquired Instagram for one billion dollars in April 2012. The platform introduced Stories in 2016 and Reels in 2020, adapting features popularized by competitors like Snapchat and TikTok.
+&nbsp;
+TikTok became the fastest-growing social platform in history after its international launch in 2017. The Chinese company ByteDance created it by merging with Musical.ly, an app popular among American teenagers. TikTok's algorithm recommends videos based on viewing behavior rather than following relationships, creating a different experience than earlier platforms. The app reached one billion monthly users in September 2021, achieving this milestone faster than any predecessor.
+&nbsp;
+Social media has created new economic opportunities worth billions of dollars annually. Influencers earn substantial incomes by partnering with brands and promoting products to their followers. The creator economy employed an estimated 50 million people worldwide by 2022. Small businesses use social platforms to reach customers without expensive traditional advertising. Entire industries have emerged around managing social media presence for organizations and individuals.
+&nbsp;
+Mental health concerns surrounding social media have sparked intense debate among researchers and policymakers. Studies link heavy social media use to increased rates of anxiety, depression, and loneliness, particularly among teenagers. Dr. Jean Twenge of San Diego State University published research in 2017 showing sharp declines in teen mental health coinciding with smartphone adoption. Critics argue that correlation does not prove causation and point to potential benefits of online connection.
+&nbsp;
+Misinformation spreads rapidly through social networks, challenging the information ecosystem. False stories travel faster and reach more people than accurate reports, according to research from MIT published in Science in March 2018. Platforms have implemented fact-checking programs, warning labels, and algorithmic changes to combat misleading content. These efforts produce mixed results and raise questions about censorship and the role of technology companies in determining truth.
+&nbsp;
+Privacy concerns have followed social media from its earliest days. Companies collect vast amounts of personal data to target advertising with remarkable precision. The Cambridge Analytica scandal in 2018 revealed that a political consulting firm had harvested data from 87 million Facebook users without consent. Regulations like the European General Data Protection Regulation attempt to give users more control over their information.
+&nbsp;
+The future of social media continues evolving rapidly as new technologies and changing preferences reshape the landscape. Virtual reality platforms promise more immersive social experiences. Decentralized networks built on blockchain technology aim to give users more control. Young people increasingly prefer private messaging over public posting. Whatever forms it takes, social connection through digital platforms will remain central to human communication for generations to come.`,
+    questions: [
+      {
+        id: 'technology-internet-p03-q1',
+        type: 'single_choice',
+        question: 'Which was the first social networking site mentioned in the article?',
+        options: ['Facebook', 'Friendster', 'SixDegrees', 'MySpace'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p03-q2',
+        type: 'single_choice',
+        question: 'How much did Google pay to acquire YouTube in 2006?',
+        options: ['1 billion dollars', '1.65 billion dollars', '2 billion dollars', '10 billion dollars'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p03-q3',
+        type: 'multiple_select',
+        question: 'Which platforms are part of Meta\'s family of apps? Select all that apply.',
+        options: ['Facebook', 'Instagram', 'WhatsApp', 'TikTok'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-p03-q4',
+        type: 'true_false',
+        question: 'TikTok reached one billion monthly users faster than any social media platform before it.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p03-q5',
+        type: 'numeric',
+        question: 'How many Facebook users had their data harvested in the Cambridge Analytica scandal (in millions)?',
+        correctValue: 87,
+        tolerance: 5,
+        min: 50,
+        max: 150,
+        step: 1,
+        unit: 'million users',
+      },
+      {
+        id: 'technology-internet-p03-q6',
+        type: 'single_choice',
+        question: 'When did Facebook reach one billion monthly active users?',
+        options: ['2008', '2010', '2012', '2014'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p04',
+    topicId: 'technology-internet',
+    title: 'The Revolutionary World of Blockchain Technology',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `Blockchain technology has evolved from an obscure cryptographic concept into a transformative force reshaping industries far beyond its origins in digital currency. This distributed ledger system offers unprecedented transparency, security, and decentralization that challenges traditional approaches to record-keeping and trust. Understanding blockchain reveals why technologists consider it among the most significant innovations since the internet itself.
+&nbsp;
+Satoshi Nakamoto, a pseudonymous individual or group, introduced blockchain to the world through the Bitcoin whitepaper published on October 31, 2008. The timing proved remarkably prescient, arriving just weeks after the collapse of Lehman Brothers triggered the global financial crisis. Nakamoto proposed a peer-to-peer electronic cash system that would eliminate the need for trusted intermediaries like banks. The first Bitcoin block, called the genesis block, was mined on January 3, 2009, embedding a newspaper headline about bank bailouts as a permanent reminder of the technology's motivations.
+&nbsp;
+A blockchain functions as a distributed database shared across a network of computers called nodes. Each block contains a list of transactions, a timestamp, and a cryptographic hash linking it to the previous block. This chain of hashes makes altering historical records practically impossible without controlling a majority of the network. When someone attempts to change an old transaction, the hash changes, breaking the chain and alerting other nodes to the tampering attempt.
+&nbsp;
+Consensus mechanisms ensure that all nodes agree on the contents of the blockchain without requiring a central authority. Bitcoin uses proof of work, where computers compete to solve complex mathematical puzzles. The first to find a solution earns the right to add the next block and receive newly created bitcoins as a reward. This process, called mining, consumed approximately 127 terawatt-hours of electricity in 2023, comparable to the annual energy use of Norway.
+&nbsp;
+Ethereum, launched by programmer Vitalik Buterin in July 2015, expanded blockchain beyond simple transactions to programmable smart contracts. These self-executing agreements automatically enforce their terms when predefined conditions are met. A smart contract for real estate could release payment to a seller and transfer ownership to a buyer simultaneously once both parties fulfill their obligations. No lawyers, escrow agents, or banks need verify the transaction.
+&nbsp;
+Decentralized finance, commonly called DeFi, uses smart contracts to recreate traditional financial services without intermediaries. Lending platforms allow users to borrow cryptocurrency by providing collateral, with interest rates determined by algorithms rather than bankers. Decentralized exchanges enable direct trading between users without a company holding their funds. At its peak in November 2021, DeFi protocols held over 180 billion dollars in assets.
+&nbsp;
+Non-fungible tokens, known as NFTs, apply blockchain to digital ownership and provenance. Each NFT represents a unique asset verified on the blockchain, most commonly digital art or collectibles. Digital artist Beeple sold an NFT artwork at Christie's auction house in March 2021 for 69.3 million dollars, catapulting this technology into mainstream awareness. Critics question whether NFTs hold lasting value, while supporters argue they fundamentally change how creators monetize digital works.
+&nbsp;
+Supply chain management offers compelling practical applications for blockchain technology. Companies can track products from raw materials through manufacturing to retail shelves with immutable records at each step. Walmart partnered with IBM on a blockchain system that traces the origin of food products in seconds rather than the week previously required. This capability proves invaluable during food safety recalls when quickly identifying contaminated batches saves lives.
+&nbsp;
+Governments explore blockchain for identity verification, voting systems, and public records. Estonia, a pioneer in digital governance, uses blockchain to secure health records, business registrations, and court documents for its 1.3 million citizens. The West Virginia secretary of state conducted a blockchain-based voting pilot for military personnel stationed overseas during the 2018 midterm elections. These experiments test whether the technology can enhance rather than threaten democratic institutions.
+&nbsp;
+Environmental concerns surrounding blockchain have prompted significant technological evolution. Ethereum transitioned from energy-intensive proof of work to proof of stake in September 2022, reducing its electricity consumption by an estimated 99.95 percent. Proof of stake selects validators based on the cryptocurrency they pledge as collateral rather than computational power. This shift demonstrates that blockchain can address its environmental footprint while maintaining security.
+&nbsp;
+Scalability challenges limit blockchain adoption for everyday transactions. Bitcoin processes roughly seven transactions per second compared to the Visa network's capacity for 24,000. Layer two solutions build faster payment channels on top of existing blockchains. The Lightning Network enables nearly instant Bitcoin transactions by settling only final balances on the main blockchain. These innovations aim to make blockchain practical for everyday purchases.
+&nbsp;
+The future of blockchain extends into realms its creators never imagined. Decentralized autonomous organizations, or DAOs, use token voting to govern communities and manage treasuries without traditional corporate structures. Digital identity systems could give individuals control over their personal data while proving credentials to employers, landlords, or governments. Whether blockchain fulfills its revolutionary potential or settles into a niche role remains uncertain, but its impact on technology and society has already proven substantial and lasting.`,
+    questions: [
+      {
+        id: 'technology-internet-p04-q1',
+        type: 'single_choice',
+        question: 'When was the Bitcoin whitepaper published?',
+        options: ['January 3, 2009', 'October 31, 2008', 'July 2015', 'September 2022'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p04-q2',
+        type: 'multiple_select',
+        question: 'Which are mentioned as blockchain applications beyond cryptocurrency? Select all that apply.',
+        options: ['Supply chain management', 'Digital identity', 'Voting systems', 'Video streaming'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-p04-q3',
+        type: 'true_false',
+        question: 'Ethereum transitioned to proof of stake in September 2022, reducing electricity consumption by 99.95 percent.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p04-q4',
+        type: 'numeric',
+        question: 'How much did the Beeple NFT artwork sell for at Christie\'s in March 2021 (in millions of dollars)?',
+        correctValue: 69.3,
+        tolerance: 5,
+        min: 40,
+        max: 100,
+        step: 0.1,
+        unit: 'million dollars',
+      },
+      {
+        id: 'technology-internet-p04-q5',
+        type: 'single_choice',
+        question: 'Who launched Ethereum in July 2015?',
+        options: ['Satoshi Nakamoto', 'Vitalik Buterin', 'Tim Berners-Lee', 'Elon Musk'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p04-q6',
+        type: 'single_choice',
+        question: 'How many transactions per second can the Bitcoin network process?',
+        options: ['About 7', 'About 70', 'About 700', 'About 7,000'],
+        correctIndex: 0,
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p05',
+    topicId: 'technology-internet',
+    title: 'The Cloud Computing Revolution',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `Cloud computing has fundamentally transformed how businesses and individuals use technology, shifting software and data storage from local devices to vast networks of remote servers. This architectural revolution enables capabilities that seemed impossible just two decades ago, from streaming entertainment to artificial intelligence services accessible from any device. The cloud has become so integral to modern life that most people use it daily without conscious awareness.
+&nbsp;
+Amazon Web Services launched its first cloud products in March 2006, pioneering the infrastructure-as-a-service model that would reshape the technology industry. The company had built massive computing capacity to handle peak shopping periods like Black Friday and realized it could rent unused capacity to other businesses. Andy Jassy, who led AWS from its founding, built the division into a profit engine generating over 80 billion dollars in annual revenue. This business model proved so successful that competitors rushed to build their own cloud platforms.
+&nbsp;
+Microsoft Azure entered the cloud market in February 2010, leveraging the company's deep relationships with enterprise customers. CEO Satya Nadella, who took leadership in 2014, pivoted Microsoft's strategy around cloud services. Azure grew to become the second-largest cloud provider, powering everything from small business websites to the LinkedIn professional network. Microsoft's cloud transformation revived a company many had dismissed as past its prime.
+&nbsp;
+Google Cloud Platform brings the search giant's expertise in distributed computing and machine learning to enterprise customers. The company that indexes the entire internet and processes billions of search queries daily offers that infrastructure to businesses of all sizes. Google's investments in undersea cables and data centers spanning dozens of countries enable low-latency access from nearly anywhere on Earth. The platform particularly excels at data analytics and artificial intelligence workloads.
+&nbsp;
+Cloud computing offers three primary service models that stack upon each other like layers. Infrastructure as a Service provides virtual machines, storage, and networking that customers configure themselves. Platform as a Service adds operating systems, databases, and development tools. Software as a Service delivers complete applications through web browsers, eliminating installation and maintenance entirely. Most people interact with SaaS products daily through email, document editing, and business applications.
+&nbsp;
+The economics of cloud computing create advantages for organizations of nearly every size. Startups launch without purchasing expensive hardware or hiring specialized staff to maintain data centers. They pay only for resources consumed, scaling up during busy periods and down during slow ones. This flexibility transformed the economics of starting a technology company. A service that might have required millions in infrastructure investment can now launch with minimal capital.
+&nbsp;
+Enterprise organizations increasingly migrate from on-premises data centers to cloud platforms. General Electric consolidated hundreds of data centers into a hybrid cloud architecture starting in 2014. Capital One, one of the largest banks in America, announced in 2020 that it had closed its last data center after migrating entirely to AWS. These transformations take years and billions of dollars but ultimately reduce costs while increasing capabilities.
+&nbsp;
+Security in the cloud differs fundamentally from traditional approaches but often exceeds what organizations achieve independently. Major cloud providers employ thousands of security specialists and invest billions in protective technologies. They hold certifications for handling classified government information and sensitive financial data. Shared responsibility models mean providers secure the infrastructure while customers secure their own applications and data configurations.
+&nbsp;
+Geographic distribution of cloud data centers serves purposes beyond performance optimization. Regulations in many countries require certain data to remain within national borders. Cloud providers build regional data centers to comply with these sovereignty requirements. European customers can ensure their data stays in Frankfurt or Amsterdam. Australian businesses keep information within their country. This distributed architecture also provides disaster recovery capabilities that few organizations could afford independently.
+&nbsp;
+Edge computing extends cloud capabilities closer to where data originates. Rather than sending everything to distant data centers, edge systems process information locally for applications requiring immediate response. Autonomous vehicles cannot wait for data to travel thousands of miles before deciding to brake. Industrial sensors analyzing equipment vibrations need instant anomaly detection. Edge computing brings cloud intelligence to scenarios where milliseconds matter.
+&nbsp;
+Serverless computing represents the newest evolution of cloud architecture. In this model, developers write code without managing any infrastructure at all. Cloud platforms automatically allocate resources when code runs and charge only for actual execution time. A function that runs for 100 milliseconds costs a tiny fraction of a cent. Applications can scale from zero to handling millions of requests without any configuration changes.
+&nbsp;
+The environmental impact of cloud computing generates both concerns and opportunities. Data centers consume approximately 1.5 percent of global electricity and that share continues growing. However, cloud providers operate far more efficiently than typical corporate data centers. Google claims its facilities achieve an average power usage effectiveness of 1.1 compared to the industry average above 1.5. Cloud platforms increasingly power operations with renewable energy, with Microsoft pledging to be carbon negative by 2030.
+&nbsp;
+Artificial intelligence and machine learning have become defining features of cloud platforms. Pre-trained models for image recognition, natural language processing, and speech synthesis are available through simple programming interfaces. Organizations without machine learning expertise can add sophisticated capabilities to their applications. Cloud providers compete aggressively on AI features, each claiming advantages in accuracy, ease of use, and breadth of available models.
+&nbsp;
+Multi-cloud strategies allow organizations to use multiple providers simultaneously, avoiding dependence on any single vendor. Kubernetes, an open-source container orchestration system originally developed by Google, enables workloads to move between clouds. Companies select different providers for different workloads based on cost, performance, or specialized capabilities. This flexibility requires additional complexity but reduces vendor lock-in concerns.
+&nbsp;
+The future of cloud computing points toward even greater integration with daily life and business operations. Quantum computing resources already appear on cloud platforms, though practical applications remain limited. Artificial intelligence will automate more infrastructure management, reducing the expertise required to deploy sophisticated systems. The line between local devices and cloud resources will blur further as connectivity improves and edge computing matures. Whatever specific technologies emerge, the fundamental shift from owned infrastructure to rented services will continue reshaping how humanity computes.`,
+    questions: [
+      {
+        id: 'technology-internet-p05-q1',
+        type: 'single_choice',
+        question: 'When did Amazon Web Services launch its first cloud products?',
+        options: ['March 2006', 'February 2010', 'January 2014', 'November 2015'],
+        correctIndex: 0,
+      },
+      {
+        id: 'technology-internet-p05-q2',
+        type: 'multiple_select',
+        question: 'Which are the three primary cloud service models mentioned? Select all that apply.',
+        options: ['Infrastructure as a Service', 'Platform as a Service', 'Software as a Service', 'Hardware as a Service'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-p05-q3',
+        type: 'true_false',
+        question: 'Capital One announced in 2020 that it had closed its last data center after migrating entirely to AWS.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p05-q4',
+        type: 'numeric',
+        question: 'What percentage of global electricity do data centers consume?',
+        correctValue: 1.5,
+        tolerance: 0.3,
+        min: 0.5,
+        max: 5,
+        step: 0.1,
+        unit: 'percent',
+      },
+      {
+        id: 'technology-internet-p05-q5',
+        type: 'single_choice',
+        question: 'Which CEO pivoted Microsoft\'s strategy around cloud services starting in 2014?',
+        options: ['Bill Gates', 'Steve Ballmer', 'Satya Nadella', 'Andy Jassy'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p05-q6',
+        type: 'single_choice',
+        question: 'What open-source system enables workloads to move between different cloud providers?',
+        options: ['Docker', 'Kubernetes', 'Linux', 'Apache'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p05-q7',
+        type: 'numeric',
+        question: 'How much annual revenue does AWS generate (in billions of dollars)?',
+        correctValue: 80,
+        tolerance: 10,
+        min: 40,
+        max: 150,
+        step: 5,
+        unit: 'billion dollars',
+      },
+      {
+        id: 'technology-internet-p05-q8',
+        type: 'single_choice',
+        question: 'By when has Microsoft pledged to be carbon negative?',
+        options: ['2025', '2030', '2040', '2050'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p06',
+    topicId: 'technology-internet',
+    title: 'The Quantum Computing Revolution',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `Quantum computing represents the most profound transformation in computational power since the invention of the transistor, promising to solve problems that would take classical computers longer than the age of the universe to complete. These machines harness the bizarre properties of quantum mechanics to perform calculations in fundamentally new ways that defy everyday intuition. Understanding this revolutionary technology reveals both its extraordinary potential and the formidable challenges that remain before quantum computers achieve their full promise.
+&nbsp;
+Classical computers encode information as bits that exist as either zero or one at any given moment. Every photograph, document, and video on your devices reduces to long strings of these binary digits manipulated through logical operations. This approach has powered remarkable progress since the 1940s, with processors now containing billions of transistors on chips smaller than a fingernail. Yet certain problems remain stubbornly beyond reach because the number of calculations required grows exponentially with problem size.
+&nbsp;
+Quantum computers use quantum bits, called qubits, that can exist in superposition, representing zero and one simultaneously until measured. This property allows quantum systems to explore many possible solutions at once rather than checking them one by one. When multiple qubits become entangled, measuring one instantly affects the others regardless of physical distance. These quantum phenomena enable algorithms that dramatically outperform classical approaches for specific problem types.
+&nbsp;
+Richard Feynman, the Nobel Prize-winning physicist, proposed the concept of quantum computing during a lecture at the California Institute of Technology in May 1981. He observed that simulating quantum mechanical systems on classical computers required exponentially increasing resources as system size grew. Feynman suggested that only a quantum mechanical computer could efficiently simulate quantum physics. This insight launched a field that would develop slowly for decades before recent breakthroughs accelerated progress.
+&nbsp;
+David Deutsch at Oxford University formalized the theory of quantum computation in 1985, describing how a universal quantum computer could exploit superposition and interference. Peter Shor at Bell Labs made quantum computing famous in 1994 when he developed an algorithm that could factor large numbers exponentially faster than any known classical method. This discovery threatened the RSA encryption that secures internet communications, suddenly making quantum computing a matter of national security.
+&nbsp;
+Building actual quantum computers proved extraordinarily difficult because qubits are fragile and easily disturbed by their environment. Any interaction with the outside world causes decoherence, collapsing superposition and destroying quantum information. Early experiments maintained coherence for only nanoseconds. Researchers developed elaborate isolation techniques including superconducting circuits cooled to temperatures colder than outer space, typically around 15 millikelvin, barely above absolute zero.
+&nbsp;
+IBM placed the first quantum computer accessible via the cloud, called IBM Quantum Experience, online in May 2016, allowing researchers and enthusiasts worldwide to experiment with real quantum hardware. The initial system contained just five qubits, barely enough for simple demonstrations. By 2023, IBM had deployed systems exceeding 1,000 qubits and announced plans for 100,000 qubit systems by 2033. These machines remain far from replacing classical computers but demonstrate steady progress toward practical utility.
+&nbsp;
+Google achieved a milestone called quantum supremacy in October 2019 when its 53-qubit Sycamore processor performed a calculation in 200 seconds that would take the world's fastest supercomputer approximately 10,000 years. Critics disputed the comparison, with IBM arguing their supercomputers could complete the task in days rather than millennia. Nevertheless, the achievement demonstrated that quantum computers could outperform classical systems on at least some tasks.
+&nbsp;
+Error correction represents perhaps the greatest obstacle to useful quantum computing. Physical qubits are too noisy and unreliable for complex calculations. Quantum error correction encodes one logical qubit across many physical qubits to detect and fix errors, but current approaches require thousands of physical qubits per logical qubit. A quantum computer solving practical problems might need millions of physical qubits, far beyond current capabilities.
+&nbsp;
+Different technologies compete to build the best qubits for future quantum computers. Superconducting circuits, used by IBM and Google, leverage established manufacturing techniques from the semiconductor industry. Trapped ions, pursued by IonQ and Honeywell, hold charged atoms in electromagnetic fields with exceptional precision. Photonic systems encode information in particles of light that can travel long distances without decoherence. Topological qubits, still largely theoretical, would store information in patterns resistant to local disturbances.
+&nbsp;
+Quantum chemistry applications may deliver the first practical quantum computing advantages. Simulating molecules to design new drugs, materials, and catalysts requires quantum mechanical calculations that scale exponentially on classical computers. A quantum computer could model chemical reactions at the atomic level, potentially accelerating discovery of medicines, fertilizers, and clean energy technologies. Companies including Roche, Merck, and BASF have launched quantum computing research programs anticipating these capabilities.
+&nbsp;
+Optimization problems spanning logistics, finance, and machine learning represent another promising application area. Finding the best route for delivery trucks, optimal portfolios for investors, or ideal parameters for neural networks involves searching vast solution spaces. Quantum annealing, a specialized form of quantum computing commercialized by D-Wave Systems since 2011, addresses optimization directly. Major corporations including Volkswagen, JPMorgan Chase, and Lockheed Martin have explored quantum optimization for real business challenges.
+&nbsp;
+Cryptography faces both threats and opportunities from quantum computing advancement. Shor's algorithm could break widely used encryption once sufficiently powerful quantum computers exist. The National Institute of Standards and Technology selected new post-quantum cryptographic standards in July 2022 after a six-year competition to identify algorithms resistant to quantum attacks. Meanwhile, quantum key distribution uses the physics of quantum measurement to create theoretically unbreakable encryption for the most sensitive communications.
+&nbsp;
+China has invested heavily in quantum technology, establishing the University of Science and Technology of China as a world leader under physicist Pan Jianwei. In 2017, China launched Micius, a satellite that demonstrated quantum-secured communications between ground stations separated by 1,200 kilometers. Chinese researchers claimed quantum supremacy with a photonic system called Jiuzhang in December 2020. The United States responded with the National Quantum Initiative Act of 2018, allocating 1.2 billion dollars over five years to maintain competitiveness.
+&nbsp;
+The quantum computing industry has attracted enormous investment despite uncertain timelines for practical returns. Venture capital funding for quantum startups exceeded 2.5 billion dollars in 2022. Major technology companies including Microsoft, Amazon, and Alibaba have launched quantum cloud services alongside dedicated hardware companies. Analysts project the quantum computing market will reach 65 billion dollars by 2030, though estimates vary widely given technological uncertainty.
+&nbsp;
+The future of quantum computing depends on sustained progress across multiple fronts simultaneously. Hardware must improve in scale, coherence, and connectivity. Software must develop efficient algorithms and programming tools accessible beyond quantum physics specialists. Applications must demonstrate clear advantages over classical alternatives for real-world problems. The journey from laboratory demonstrations to practical utility may take decades, but the potential rewards justify continued investment and effort.`,
+    questions: [
+      {
+        id: 'technology-internet-p06-q1',
+        type: 'single_choice',
+        question: 'Who proposed the concept of quantum computing in May 1981?',
+        options: ['David Deutsch', 'Peter Shor', 'Richard Feynman', 'Alan Turing'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p06-q2',
+        type: 'multiple_select',
+        question: 'Which technologies are mentioned as approaches to building qubits? Select all that apply.',
+        options: ['Superconducting circuits', 'Trapped ions', 'Photonic systems', 'Graphene transistors'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-p06-q3',
+        type: 'true_false',
+        question: 'IBM placed the first cloud-accessible quantum computer online in May 2016.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p06-q4',
+        type: 'numeric',
+        question: 'How many seconds did Google\'s Sycamore processor take to complete its quantum supremacy calculation?',
+        correctValue: 200,
+        tolerance: 20,
+        min: 100,
+        max: 500,
+        step: 10,
+        unit: 'seconds',
+      },
+      {
+        id: 'technology-internet-p06-q5',
+        type: 'single_choice',
+        question: 'When did Peter Shor develop his famous factoring algorithm?',
+        options: ['1985', '1990', '1994', '2000'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p06-q6',
+        type: 'single_choice',
+        question: 'What temperature are superconducting quantum computers typically cooled to?',
+        options: ['About 100 kelvin', 'About 4 kelvin', 'About 15 millikelvin', 'About 1 kelvin'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p06-q7',
+        type: 'numeric',
+        question: 'How much funding did the National Quantum Initiative Act allocate over five years (in billions of dollars)?',
+        correctValue: 1.2,
+        tolerance: 0.2,
+        min: 0.5,
+        max: 3,
+        step: 0.1,
+        unit: 'billion dollars',
+      },
+      {
+        id: 'technology-internet-p06-q8',
+        type: 'true_false',
+        question: 'China launched a quantum communications satellite named Micius in 2017.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p06-q9',
+        type: 'single_choice',
+        question: 'When did NIST select new post-quantum cryptographic standards?',
+        options: ['July 2020', 'July 2021', 'July 2022', 'July 2023'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-p07',
+    topicId: 'technology-internet',
+    title: 'The Global Semiconductor Industry',
+    difficulty: 'intermediate',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `Semiconductors have become the foundation of modern civilization, powering everything from smartphones and automobiles to medical devices and military systems that nations depend upon for security. These tiny chips containing billions of transistors represent the most complex objects ever manufactured by humanity, produced through processes requiring precision measured in atoms. The global competition to control semiconductor technology has transformed this industry into a flashpoint of geopolitical rivalry with implications for economic prosperity and national security worldwide.
+&nbsp;
+The semiconductor journey began at Bell Labs in New Jersey on December 23, 1947, when physicists John Bardeen, Walter Brattain, and William Shockley demonstrated the first transistor. This device could amplify electrical signals without the heat and fragility of vacuum tubes, earning its inventors the Nobel Prize in Physics in 1956. The transistor's potential for miniaturization would eventually enable the digital revolution that reshaped human society.
+&nbsp;
+Jack Kilby at Texas Instruments and Robert Noyce at Fairchild Semiconductor independently invented the integrated circuit in 1958 and 1959, combining multiple transistors on a single piece of semiconductor material. This breakthrough eliminated the need for hand-wiring individual components and enabled manufacturing at scale. Kilby received the Nobel Prize in Physics in 2000 for this contribution that made modern electronics possible.
+&nbsp;
+Gordon Moore, a co-founder of Intel, observed in 1965 that the number of transistors on integrated circuits doubled approximately every two years while costs remained constant. This observation, known as Moore's Law, has guided the industry for six decades of exponential improvement. Modern processors contain over 100 billion transistors, each measuring just a few nanometers across, roughly the width of 20 silicon atoms.
+&nbsp;
+The semiconductor manufacturing process involves hundreds of steps spanning months of precise operations. Engineers begin with cylinders of ultra-pure silicon grown from molten material at temperatures exceeding 1,400 degrees Celsius. These ingots are sliced into thin wafers and polished to atomic smoothness. Photolithography projects circuit patterns onto wafers using ultraviolet light, with the most advanced machines using extreme ultraviolet wavelengths of just 13.5 nanometers.
+&nbsp;
+Taiwan Semiconductor Manufacturing Company, known as TSMC, has emerged as the world's most critical semiconductor manufacturer. Founded by Morris Chang in 1987, TSMC pioneered the foundry model of manufacturing chips designed by other companies. By 2023, TSMC produced over 90 percent of the world's most advanced chips, including processors for Apple, AMD, and Nvidia. This concentration of capability on an island facing territorial claims from China has become a major geopolitical concern.
+&nbsp;
+The equipment required to manufacture advanced semiconductors represents staggering technological achievement. ASML, a Dutch company, holds a monopoly on extreme ultraviolet lithography machines that cost approximately 200 million dollars each and weigh 180,000 kilograms. These systems use plasma heated to 220,000 degrees Celsius to generate the precise light wavelengths needed. ASML required contributions from optics supplier Zeiss, light source developer Cymer, and numerous other partners to achieve this capability after decades of development.
+&nbsp;
+Samsung Electronics and Intel compete with TSMC for advanced manufacturing leadership, though both have fallen behind in recent years. Samsung operates major fabrication facilities in South Korea and Texas, producing chips for various customers alongside its own products. Intel, historically the technology leader, struggled with manufacturing delays and lost market share before announcing aggressive investment plans under CEO Pat Gelsinger beginning in 2021.
+&nbsp;
+China has made semiconductor independence a national priority, investing over 150 billion dollars through its National Integrated Circuit Industry Investment Fund and other programs. Semiconductor Manufacturing International Corporation represents China's most advanced domestic manufacturer, though it remains several generations behind TSMC. American export controls imposed beginning in October 2022 restrict China's access to advanced manufacturing equipment and chip designs, intensifying pressure on indigenous development.
+&nbsp;
+The automotive industry discovered its dangerous dependence on semiconductors during the global chip shortage that began in 2020. As pandemic lockdowns disrupted supply chains, automakers canceled orders expecting weak demand. When demand recovered faster than anticipated, semiconductor factories had allocated capacity to other customers. General Motors, Ford, and Toyota shut production lines intermittently for over two years while waiting for chips. The shortage cost the automotive industry an estimated 210 billion dollars in lost revenue.
+&nbsp;
+Governments worldwide have launched massive programs to build domestic semiconductor capacity. The United States passed the CHIPS and Science Act in August 2022, allocating 52 billion dollars for semiconductor manufacturing and research. The European Chips Act committed 43 billion euros to similar goals. Japan announced 2 trillion yen in subsidies to attract TSMC, Samsung, and Micron factories. India launched a 10 billion dollar program seeking its first advanced fabrication facility.
+&nbsp;
+Memory chips represent a distinct semiconductor category dominated by different players than logic processors. Samsung, SK Hynix of South Korea, and Micron of the United States control the DRAM market for computer memory. The flash memory industry that stores data in smartphones and solid-state drives involves the same Korean players plus Japanese manufacturer Kioxia. Memory prices fluctuate dramatically with supply and demand cycles, creating boom-and-bust patterns that complicate investment decisions.
+&nbsp;
+The semiconductor design industry has concentrated around a few leading companies commanding enormous resources. Nvidia, founded by Jensen Huang in 1993, transformed from a graphics card company into an artificial intelligence powerhouse with chips powering data centers worldwide. The company's market capitalization exceeded one trillion dollars in June 2023. Qualcomm dominates mobile processors with technology licensed to nearly every smartphone maker. AMD has emerged as a serious competitor to Intel in personal computers and servers under CEO Lisa Su.
+&nbsp;
+Semiconductor equipment suppliers form a critical but often overlooked layer of the industry ecosystem. Applied Materials, Lam Research, and KLA Corporation of the United States provide deposition, etching, and inspection equipment essential to manufacturing. Tokyo Electron of Japan contributes coating and cleaning systems. These companies invest billions annually in research and development to push the boundaries of manufacturing precision.
+&nbsp;
+The environmental footprint of semiconductor manufacturing raises sustainability concerns that the industry increasingly addresses. A modern fabrication facility consumes electricity equivalent to a small city, with some plants in Taiwan using as much power as 300,000 homes. Water consumption reaches millions of gallons daily for cooling and cleaning processes. The industry has committed to renewable energy adoption and water recycling to reduce environmental impact, with TSMC pledging net-zero emissions by 2050.
+&nbsp;
+Advanced packaging technologies extend semiconductor performance beyond what transistor miniaturization alone can achieve. Chiplet architectures combine multiple smaller chips into packages that function as single processors. Three-dimensional stacking places chips vertically connected by microscopic pillars. These techniques enable continued improvement even as approaching atomic limits threatens traditional scaling. AMD's latest processors use chiplet designs that reduce manufacturing costs while improving performance.
+&nbsp;
+The workforce demands of semiconductor manufacturing create challenges for industry expansion. Skilled technicians operating fabrication equipment require years of training. Engineers designing next-generation processes need advanced degrees and specialized expertise. The United States faces particular shortages after decades of manufacturing decline. Educational initiatives and immigration policies will determine whether countries can staff the fabrication facilities they are racing to build.
+&nbsp;
+Security concerns pervade the semiconductor industry as chips become weapons in technological competition between nations. Defense systems depend on trusted chip supplies free from hidden vulnerabilities. Economic prosperity requires access to the most advanced technologies for artificial intelligence, autonomous vehicles, and other emerging applications. The strategic importance of semiconductors ensures that governments will continue investing heavily and restricting exports to protect perceived national interests.
+&nbsp;
+The next decade will determine whether the semiconductor industry remains concentrated in East Asia or diversifies globally. Enormous investments in new fabrication facilities will take years to become productive. Technological challenges multiply as transistors approach fundamental physical limits. New computing paradigms including quantum processing and neuromorphic chips may eventually complement or replace traditional semiconductors. Whatever directions the industry takes, these tiny chips will remain essential to modern life for the foreseeable future.`,
+    questions: [
+      {
+        id: 'technology-internet-p07-q1',
+        type: 'single_choice',
+        question: 'When was the first transistor demonstrated at Bell Labs?',
+        options: ['December 23, 1945', 'December 23, 1947', 'December 23, 1950', 'December 23, 1955'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p07-q2',
+        type: 'multiple_select',
+        question: 'Which companies are mentioned as memory chip manufacturers? Select all that apply.',
+        options: ['Samsung', 'SK Hynix', 'Micron', 'Intel'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-p07-q3',
+        type: 'true_false',
+        question: 'TSMC produced over 90 percent of the world\'s most advanced chips by 2023.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p07-q4',
+        type: 'numeric',
+        question: 'How much does an ASML extreme ultraviolet lithography machine cost (in millions of dollars)?',
+        correctValue: 200,
+        tolerance: 20,
+        min: 100,
+        max: 400,
+        step: 10,
+        unit: 'million dollars',
+      },
+      {
+        id: 'technology-internet-p07-q5',
+        type: 'single_choice',
+        question: 'Who founded TSMC in 1987?',
+        options: ['Jensen Huang', 'Morris Chang', 'Pat Gelsinger', 'Lisa Su'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-p07-q6',
+        type: 'single_choice',
+        question: 'How much did the CHIPS and Science Act allocate for semiconductors in August 2022?',
+        options: ['32 billion dollars', '42 billion dollars', '52 billion dollars', '62 billion dollars'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p07-q7',
+        type: 'numeric',
+        question: 'How much did the automotive chip shortage cost the industry in lost revenue (in billions of dollars)?',
+        correctValue: 210,
+        tolerance: 20,
+        min: 100,
+        max: 400,
+        step: 10,
+        unit: 'billion dollars',
+      },
+      {
+        id: 'technology-internet-p07-q8',
+        type: 'true_false',
+        question: 'Nvidia\'s market capitalization exceeded one trillion dollars in June 2023.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-p07-q9',
+        type: 'single_choice',
+        question: 'What temperature is the plasma heated to in ASML EUV machines?',
+        options: ['22,000 degrees Celsius', '120,000 degrees Celsius', '220,000 degrees Celsius', '1,400 degrees Celsius'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-p07-q10',
+        type: 'numeric',
+        question: 'How many billion transistors do modern processors contain?',
+        correctValue: 100,
+        tolerance: 20,
+        min: 50,
+        max: 200,
+        step: 10,
+        unit: 'billion transistors',
+      },
+      {
+        id: 'technology-internet-p07-q11',
+        type: 'single_choice',
+        question: 'When did Jack Kilby invent the integrated circuit at Texas Instruments?',
+        options: ['1955', '1958', '1962', '1965'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-c1',
+    topicId: 'technology-internet',
+    title: 'The Rise of Artificial Intelligence',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `Artificial intelligence has evolved from science fiction fantasy to practical technology that affects nearly every aspect of modern life. From smartphone assistants to medical diagnosis systems, AI now performs tasks that once required human intelligence. This transformation represents one of the most significant technological shifts since the invention of computing itself.
+&nbsp;
+The concept of artificial intelligence emerged at a workshop held at Dartmouth College in New Hampshire during the summer of 1956. Computer scientist John McCarthy coined the term and gathered researchers who believed machines could be made to simulate human intelligence. These pioneers imagined creating thinking machines within a single generation, though progress proved far slower than their optimistic predictions.
+&nbsp;
+Early AI research focused on symbolic reasoning, programming computers with explicit rules about how to solve problems. Researchers created expert systems that encoded human knowledge into decision trees and logical rules. These systems achieved impressive results in narrow domains like chess and medical diagnosis, but struggled with tasks requiring common sense or handling ambiguous information.
+&nbsp;
+The machine learning revolution began transforming AI in the 1990s and accelerated dramatically after 2010. Instead of programming explicit rules, researchers trained algorithms to discover patterns in large datasets. Neural networks, loosely inspired by biological brain structures, proved especially powerful at recognizing images, understanding speech, and generating human-like text.
+&nbsp;
+Deep learning emerged as the dominant approach to AI after a breakthrough in 2012. Geoffrey Hinton and his students at the University of Toronto demonstrated that deep neural networks with many layers could dramatically outperform previous methods on image recognition tasks. Their system reduced error rates by more than 40 percent compared to the previous best approaches.
+&nbsp;
+Training modern AI systems requires enormous computational resources and vast amounts of data. Large language models may contain hundreds of billions of parameters and require thousands of specialized processors working for months. Tech companies like Google, Microsoft, and OpenAI have invested billions of dollars building the infrastructure necessary to train these increasingly capable systems.
+&nbsp;
+The capabilities of AI systems have expanded remarkably in recent years. Computer vision systems can now identify objects, faces, and activities in images with superhuman accuracy. Natural language processing has advanced to the point where AI can engage in nuanced conversations, write coherent essays, and translate between dozens of languages. AI systems now compose music, generate artwork, and write computer code.
+&nbsp;
+AI already powers many services people use daily without conscious awareness. Recommendation algorithms suggest videos on YouTube and products on Amazon based on learned preferences. Email filters use machine learning to separate important messages from spam. Navigation apps predict traffic patterns and suggest optimal routes. Voice assistants like Siri and Alexa use AI to understand spoken commands.
+&nbsp;
+Healthcare represents one of the most promising applications for artificial intelligence. AI systems can analyze medical images to detect cancer earlier than human radiologists in some cases. Drug discovery uses machine learning to identify promising compounds and predict their effects. AI assistants help doctors stay current with rapidly expanding medical literature and suggest evidence-based treatment options.
+&nbsp;
+Concerns about AI safety and societal impact have grown alongside its capabilities. Researchers worry about systems that pursue goals in unexpected or harmful ways. Ethicists raise questions about bias in AI systems trained on historical data that reflects human prejudices. Economists debate how automation will affect employment as AI takes over tasks previously performed by human workers.
+&nbsp;
+Governments worldwide have begun developing regulations for artificial intelligence. The European Union passed comprehensive AI legislation in 2024 that categorizes systems by risk level and imposes requirements on high-risk applications. China has implemented rules governing recommendation algorithms and generative AI. The United States has issued executive orders addressing AI safety while debating more comprehensive legislation.
+&nbsp;
+The future of artificial intelligence remains uncertain but seems likely to bring continued rapid advancement. Researchers pursue artificial general intelligence that could match human capability across all cognitive tasks, though estimates of when this might occur range from years to never. What seems certain is that AI will continue reshaping industries, creating new possibilities, and raising profound questions about the relationship between human and machine intelligence.
+&nbsp;
+Understanding artificial intelligence has become essential knowledge for navigating the modern world. Whether as users, workers, citizens, or policymakers, people increasingly need to comprehend what AI can and cannot do. This technology will continue evolving, and informed engagement with its development will help ensure AI benefits humanity broadly.`,
+    questions: [
+      {
+        id: 'technology-internet-c1-q1',
+        type: 'single_choice',
+        question: 'Where and when did the term "artificial intelligence" originate?',
+        options: ['MIT in 1960', 'Dartmouth College in 1956', 'Stanford University in 1965', 'Bell Labs in 1950'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-c1-q2',
+        type: 'multiple_select',
+        question: 'Which AI applications in healthcare are mentioned in the article? Select all that apply.',
+        options: ['Analyzing medical images to detect cancer', 'Performing robotic surgery', 'Drug discovery', 'Suggesting treatment options'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'technology-internet-c1-q3',
+        type: 'true_false',
+        question: 'Early AI research focused primarily on machine learning rather than symbolic reasoning.',
+        correctAnswer: false,
+      },
+      {
+        id: 'technology-internet-c1-q4',
+        type: 'numeric',
+        question: 'In what year did Geoffrey Hinton and his students demonstrate a breakthrough in deep learning?',
+        correctValue: 2012,
+        tolerance: 0,
+        min: 2000,
+        max: 2025,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'technology-internet-c1-q5',
+        type: 'single_choice',
+        question: 'Who coined the term "artificial intelligence"?',
+        options: ['Geoffrey Hinton', 'John McCarthy', 'Alan Turing', 'Tim Berners-Lee'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-c1-q6',
+        type: 'single_choice',
+        question: 'By how much did deep neural networks reduce error rates compared to previous methods in 2012?',
+        options: ['More than 20 percent', 'More than 30 percent', 'More than 40 percent', 'More than 50 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-c1-q7',
+        type: 'numeric',
+        question: 'In what year did the European Union pass comprehensive AI legislation?',
+        correctValue: 2024,
+        tolerance: 0,
+        min: 2020,
+        max: 2026,
+        step: 1,
+        unit: 'year',
+      },
+    ],
+  },
+  {
+    id: 'technology-internet-c2',
+    topicId: 'technology-internet',
+    title: 'The Internet of Things: Connected World',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `The Internet of Things has woven digital intelligence into the fabric of everyday life, connecting billions of devices that sense, communicate, and act without human intervention. From smart thermostats that learn your preferences to industrial sensors monitoring equipment across continents, this technological revolution extends the internet beyond computers and phones into the physical world. Understanding this interconnected ecosystem reveals both remarkable possibilities and significant challenges that will shape the coming decades.
+&nbsp;
+Kevin Ashton, a British technology pioneer working at Procter and Gamble, coined the term Internet of Things in 1999 while developing radio-frequency identification systems to track products through supply chains. He envisioned computers gathering information about the physical world independently rather than relying on humans to input data. This vision took decades to materialize as sensors became cheaper, wireless connectivity improved, and cloud computing provided the infrastructure to process vast data streams.
+&nbsp;
+The number of connected devices has grown exponentially since commercial IoT adoption began around 2010. Analysts at Statista estimated 15.1 billion IoT devices worldwide in 2020, projected to reach 29 billion by 2030. Each device generates data continuously, creating information flows that dwarf traditional internet traffic. A single connected factory might produce terabytes of sensor data daily from thousands of monitoring points.
+&nbsp;
+Smart home technology represents the most visible consumer application of IoT principles. The Nest Learning Thermostat, introduced by former Apple engineer Tony Fadell in October 2011, pioneered mainstream smart home adoption. The device observed when residents were home and their temperature preferences, then automatically adjusted heating and cooling to save energy. Google acquired Nest Labs for 3.2 billion dollars in January 2014, signaling major technology companies' commitment to this market.
+&nbsp;
+Voice assistants have become central hubs for smart home ecosystems. Amazon released the Echo speaker featuring Alexa in November 2014, followed by Google Home in 2016 and Apple's HomePod in 2018. These devices respond to voice commands to control lights, locks, thermostats, and entertainment systems. By 2024, over 200 million households worldwide owned smart speakers, using them for tasks ranging from setting timers to ordering groceries.
+&nbsp;
+Wearable devices track health metrics with increasing sophistication and accuracy. The Apple Watch, released in April 2015, evolved from a fashion accessory into a medical device capable of detecting irregular heart rhythms and falls. A study published in the New England Journal of Medicine in November 2019 found that the watch identified atrial fibrillation, a serious heart condition, with 84 percent accuracy. Continuous glucose monitors allow diabetics to track blood sugar without finger pricks, transmitting data to smartphones and alerting users to dangerous levels.
+&nbsp;
+Industrial IoT, sometimes called Industry 4.0, transforms manufacturing with unprecedented visibility and control. Sensors embedded in machinery detect vibrations, temperatures, and energy consumption that indicate impending failures before breakdowns occur. General Electric pioneered predictive maintenance through its Predix platform, claiming to save customers billions in avoided downtime. A single jet engine generates 10 terabytes of data during a transatlantic flight, analyzed continuously to optimize performance and schedule maintenance.
+&nbsp;
+Agriculture embraces IoT to increase yields while reducing environmental impact. Soil moisture sensors trigger irrigation only when plants need water, reducing consumption by up to 30 percent compared to scheduled watering. Drones equipped with multispectral cameras identify crop stress, pest infestations, and nutrient deficiencies across vast fields. John Deere, the 185-year-old agricultural equipment company, now collects data from millions of connected machines and sells analytics services to farmers alongside tractors.
+&nbsp;
+Smart cities deploy IoT infrastructure to manage urban systems more efficiently. Barcelona implemented one of the most comprehensive smart city programs starting in 2012, installing sensors throughout the city to monitor parking availability, waste bin levels, air quality, and irrigation needs. The city claims annual savings of 75 million dollars while improving services for residents. Singapore, Copenhagen, and Seoul have undertaken similar initiatives, using connected sensors to optimize traffic flow, energy consumption, and emergency response.
+&nbsp;
+Healthcare applications extend far beyond wearables into remote patient monitoring and clinical settings. Patients recovering from surgery or managing chronic conditions can be monitored at home with connected devices that alert care teams to concerning changes. Hospitals track the location and status of critical equipment in real time. Clinical trials use IoT devices to collect more accurate data about participant health between visits. The COVID-19 pandemic accelerated adoption of remote monitoring technologies that had previously faced slow acceptance.
+&nbsp;
+Security concerns surrounding IoT devices have proven disturbingly valid. Many manufacturers prioritize features and low prices over robust security, shipping devices with default passwords and unpatched vulnerabilities. The Mirai botnet attack in October 2016 hijacked hundreds of thousands of unsecured webcams and DVRs to launch distributed denial-of-service attacks that disrupted major websites including Twitter, Netflix, and PayPal. Researchers regularly demonstrate alarming vulnerabilities in baby monitors, cars, medical devices, and industrial systems.
+&nbsp;
+Privacy implications of pervasive sensing raise profound questions about surveillance and data ownership. Voice assistants record conversations in homes. Fitness trackers reveal intimate details about health and daily routines. Connected cars transmit location data that reveals where drivers go and how they drive. Companies collect this information for service improvement and targeted advertising, while governments increasingly seek access for law enforcement and national security purposes.
+&nbsp;
+Interoperability challenges fragment the IoT landscape into incompatible ecosystems. Devices from different manufacturers often cannot communicate directly, requiring consumers to choose platforms and limiting functionality. The Matter protocol, launched in November 2022 by a consortium including Apple, Google, Amazon, and Samsung, aims to create a universal standard for smart home devices. This initiative represents the industry's recognition that fragmentation impedes adoption and innovation.
+&nbsp;
+Edge computing addresses the latency and bandwidth limitations of sending all IoT data to distant cloud servers. Processing information locally on or near devices enables real-time responses for applications like autonomous vehicles and industrial robotics. A self-driving car cannot wait for data to travel to a cloud server and back before deciding to brake. Edge architectures distribute intelligence throughout networks rather than concentrating it in centralized data centers.
+&nbsp;
+Energy constraints shape IoT device design and deployment. Battery-powered sensors must operate for years without replacement in locations that may be inaccessible or dangerous. Low-power wide-area network technologies like LoRaWAN and Sigfox enable devices to communicate over kilometers while consuming minimal energy. Energy harvesting from solar, thermal, or kinetic sources allows some devices to operate indefinitely without batteries.
+&nbsp;
+The environmental footprint of billions of connected devices demands attention as IoT expands. Manufacturing these products consumes resources and energy. Most devices lack provisions for recycling their electronic components. Continuous network connectivity requires energy from both devices and infrastructure. However, IoT applications in energy management, agriculture, and transportation can reduce overall environmental impact when deployed thoughtfully.
+&nbsp;
+The future of IoT points toward ambient intelligence that anticipates needs and responds automatically to changing conditions. Digital twins create virtual replicas of physical systems for simulation and optimization. Artificial intelligence applied to sensor data enables predictions and automations beyond what explicit programming could achieve. The boundary between physical and digital worlds continues blurring as connected intelligence spreads throughout the environment we inhabit.`,
+    questions: [
+      {
+        id: 'technology-internet-c2-q1',
+        type: 'single_choice',
+        question: 'Who coined the term "Internet of Things" in 1999?',
+        options: ['Tony Fadell', 'Kevin Ashton', 'Tim Berners-Lee', 'Jeff Bezos'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-c2-q2',
+        type: 'multiple_select',
+        question: 'Which companies released major voice assistant devices? Select all that apply.',
+        options: ['Amazon with Echo', 'Google with Google Home', 'Apple with HomePod', 'Microsoft with Cortana speaker'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'technology-internet-c2-q3',
+        type: 'true_false',
+        question: 'The Mirai botnet attack in October 2016 hijacked hundreds of thousands of unsecured webcams and DVRs.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-c2-q4',
+        type: 'numeric',
+        question: 'How much did Google pay to acquire Nest Labs in January 2014 (in billions of dollars)?',
+        correctValue: 3.2,
+        tolerance: 0.3,
+        min: 1,
+        max: 10,
+        step: 0.1,
+        unit: 'billion dollars',
+      },
+      {
+        id: 'technology-internet-c2-q5',
+        type: 'single_choice',
+        question: 'When was the Apple Watch released?',
+        options: ['October 2011', 'January 2014', 'April 2015', 'November 2016'],
+        correctIndex: 2,
+      },
+      {
+        id: 'technology-internet-c2-q6',
+        type: 'single_choice',
+        question: 'Which city implemented one of the most comprehensive smart city programs starting in 2012?',
+        options: ['Singapore', 'Barcelona', 'Copenhagen', 'Seoul'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-c2-q7',
+        type: 'numeric',
+        question: 'How many IoT devices are projected to exist worldwide by 2030 (in billions)?',
+        correctValue: 29,
+        tolerance: 3,
+        min: 15,
+        max: 50,
+        step: 1,
+        unit: 'billion devices',
+      },
+      {
+        id: 'technology-internet-c2-q8',
+        type: 'true_false',
+        question: 'The Matter protocol was launched to create a universal standard for smart home devices.',
+        correctAnswer: true,
+      },
+      {
+        id: 'technology-internet-c2-q9',
+        type: 'single_choice',
+        question: 'With what accuracy did the Apple Watch identify atrial fibrillation according to the New England Journal of Medicine study?',
+        options: ['74 percent', '84 percent', '94 percent', '99 percent'],
+        correctIndex: 1,
+      },
+      {
+        id: 'technology-internet-c2-q10',
+        type: 'multiple_select',
+        question: 'Which IoT applications in agriculture are mentioned? Select all that apply.',
+        options: ['Soil moisture sensors for irrigation', 'Drones with multispectral cameras', 'Connected tractors with analytics', 'Robotic harvesting'],
+        correctIndices: [0, 1, 2],
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

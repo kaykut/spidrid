@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { useTheme } from '../common/ThemeProvider';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
+import { useTheme } from '../common/ThemeProvider';
 
 interface NewCertificateModalProps {
   certificate: Certificate | null;
@@ -12,10 +12,10 @@ interface NewCertificateModalProps {
 export function NewCertificateModal({ certificate, visible, onClose }: NewCertificateModalProps) {
   const { theme } = useTheme();
 
-  if (!certificate) return null;
+  if (!certificate) {return null;}
 
   const definition = getCertificateDefinition(certificate.type);
-  if (!definition) return null;
+  if (!definition) {return null;}
 
   return (
     <Modal
@@ -30,7 +30,7 @@ export function NewCertificateModal({ certificate, visible, onClose }: NewCertif
             Congratulations!
           </Text>
 
-          <View style={[styles.iconContainer, { backgroundColor: definition.color + '20' }]}>
+          <View style={[styles.iconContainer, { backgroundColor: `${definition.color  }20` }]}>
             <Text style={styles.icon}>{definition.icon}</Text>
           </View>
 

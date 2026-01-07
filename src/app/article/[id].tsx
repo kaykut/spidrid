@@ -1,21 +1,44 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NewCertificateModal } from '../../components/certificates/NewCertificateModal';
 import { useTheme } from '../../components/common/ThemeProvider';
-import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
+import { Paywall } from '../../components/paywall/Paywall';
+import { RSVPWord } from '../../components/rsvp/RSVPWord';
+import { getArticleById, getTopicById } from '../../data/curriculum';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
-import { getArticleById, getTopicById } from '../../data/curriculum';
+import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { useCertificateStore } from '../../store/certificateStore';
-import { Paywall } from '../../components/paywall/Paywall';
-import { NewCertificateModal } from '../../components/certificates/NewCertificateModal';
 import { Certificate } from '../../types/certificates';
+import {
+  Question,
+  ComprehensionQuestion,
+  normalizeQuestion,
+} from '../../types/learning';
 
 type Phase = 'reading' | 'quiz' | 'results';
+
+/**
+ * Helper to safely get options and correctIndex from a question
+ * Works with both legacy ComprehensionQuestion and new SingleChoiceQuestion
+ */
+function getQuestionData(q: Question | ComprehensionQuestion): {
+  options: string[];
+  correctIndex: number;
+} {
+  const normalized = normalizeQuestion(q);
+  // Currently we only support single_choice in the UI
+  // Other types will be handled in Milestone 6
+  if (normalized.type === 'single_choice') {
+    return { options: normalized.options, correctIndex: normalized.correctIndex };
+  }
+  // Fallback for unsupported types - shouldn't happen with current data
+  return { options: [], correctIndex: -1 };
+}
 
 export default function ArticleReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -68,10 +91,11 @@ export default function ArticleReaderScreen() {
   const currentQuestion = article.questions[currentQuestionIndex];
 
   const handleAnswerSelect = (index: number) => {
-    if (selectedAnswer !== null) return;
+    if (selectedAnswer !== null) {return;}
     setSelectedAnswer(index);
 
-    const isCorrect = index === currentQuestion.correctIndex;
+    const { correctIndex } = getQuestionData(currentQuestion);
+    const isCorrect = index === correctIndex;
     if (isCorrect) {
       setCorrectAnswers((prev) => prev + 1);
     }
@@ -177,15 +201,17 @@ export default function ArticleReaderScreen() {
             </Text>
 
             <View style={styles.optionsContainer}>
-              {currentQuestion.options.map((option, index) => {
+              {(() => {
+                const { options, correctIndex } = getQuestionData(currentQuestion);
+                return options.map((option, index) => {
                 const isSelected = selectedAnswer === index;
-                const isCorrect = index === currentQuestion.correctIndex;
+                const isCorrect = index === correctIndex;
                 const showResult = selectedAnswer !== null;
 
                 let backgroundColor = theme.secondaryBackground;
                 if (showResult) {
-                  if (isCorrect) backgroundColor = '#69db7c40';
-                  else if (isSelected) backgroundColor = '#ff6b6b40';
+                  if (isCorrect) {backgroundColor = '#69db7c40';}
+                  else if (isSelected) {backgroundColor = '#ff6b6b40';}
                 }
 
                 return (
@@ -206,7 +232,8 @@ export default function ArticleReaderScreen() {
                     )}
                   </TouchableOpacity>
                 );
-              })}
+              });
+              })()}
             </View>
           </View>
         )}

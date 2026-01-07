@@ -1,0 +1,2644 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/arts-culture.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> arts-culture.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a>
+<a name='L827'></a><a href='#L827'>827</a>
+<a name='L828'></a><a href='#L828'>828</a>
+<a name='L829'></a><a href='#L829'>829</a>
+<a name='L830'></a><a href='#L830'>830</a>
+<a name='L831'></a><a href='#L831'>831</a>
+<a name='L832'></a><a href='#L832'>832</a>
+<a name='L833'></a><a href='#L833'>833</a>
+<a name='L834'></a><a href='#L834'>834</a>
+<a name='L835'></a><a href='#L835'>835</a>
+<a name='L836'></a><a href='#L836'>836</a>
+<a name='L837'></a><a href='#L837'>837</a>
+<a name='L838'></a><a href='#L838'>838</a>
+<a name='L839'></a><a href='#L839'>839</a>
+<a name='L840'></a><a href='#L840'>840</a>
+<a name='L841'></a><a href='#L841'>841</a>
+<a name='L842'></a><a href='#L842'>842</a>
+<a name='L843'></a><a href='#L843'>843</a>
+<a name='L844'></a><a href='#L844'>844</a>
+<a name='L845'></a><a href='#L845'>845</a>
+<a name='L846'></a><a href='#L846'>846</a>
+<a name='L847'></a><a href='#L847'>847</a>
+<a name='L848'></a><a href='#L848'>848</a>
+<a name='L849'></a><a href='#L849'>849</a>
+<a name='L850'></a><a href='#L850'>850</a>
+<a name='L851'></a><a href='#L851'>851</a>
+<a name='L852'></a><a href='#L852'>852</a>
+<a name='L853'></a><a href='#L853'>853</a>
+<a name='L854'></a><a href='#L854'>854</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const ARTS_CULTURE_ARTICLES: Article[] = [
+  {
+    id: 'arts-culture-p01',
+    topicId: 'arts-culture',
+    title: 'The Renaissance: Art Reborn',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `The Renaissance, meaning "rebirth" in French, transformed European art, culture, and thought between the 14th and 17th centuries. Beginning in Florence, Italy, this movement revived interest in classical Greek and Roman ideals while introducing revolutionary new techniques and perspectives.
+&nbsp;
+Medieval art had been primarily religious, with stylized figures and flat, symbolic representations. Renaissance artists sought to depict the world as it actually appeared, developing techniques like linear perspective, realistic anatomy, and naturalistic lighting. Art became a window onto the world.
+&nbsp;
+Filippo Brunelleschi pioneered linear perspective in the early 1400s. This mathematical system for representing three-dimensional space on flat surfaces transformed painting. Suddenly, artists could create convincing depth and space, drawing viewers into imaginary worlds.
+&nbsp;
+Leonardo da Vinci exemplified the Renaissance ideal of the universal genius. A painter, sculptor, architect, musician, engineer, and scientist, Leonardo's curiosity knew no bounds. His paintings, including the Mona Lisa and The Last Supper, revolutionized portraiture and narrative art through subtle expressions and innovative techniques.
+&nbsp;
+Michelangelo's achievements in sculpture and painting remain unsurpassed. His David, carved from a flawed marble block others had abandoned, demonstrates perfect mastery of human anatomy. The Sistine Chapel ceiling, painted over four years while lying on scaffolding, contains over 300 figures in complex Biblical narratives.
+&nbsp;
+Raphael completed the trio of Renaissance masters with his graceful, harmonious compositions. His School of Athens gathers history's greatest philosophers in a magnificent architectural space, celebrating human reason and achievement.
+&nbsp;
+The Renaissance spread from Italy throughout Europe, adapting to local traditions. Northern Renaissance artists like Jan van Eyck perfected oil painting techniques, achieving unprecedented detail and luminosity. Albrecht Durer brought Renaissance principles to German art through his prints and paintings.
+&nbsp;
+Wealthy patrons like the Medici family in Florence and various popes funded ambitious artistic projects. This patronage system allowed artists to dedicate themselves fully to their work, producing masterpieces that still draw millions of visitors to museums and churches today.
+&nbsp;
+The Renaissance transformed not just art but humanity's view of itself, celebrating individual achievement and the potential of human creativity.`,
+    questions: [
+      {
+        id: 'arts-culture-p01-q1',
+        type: 'single_choice',
+        question: 'Where did the Renaissance begin?',
+        options: ['Rome', 'Venice', 'Florence', 'Milan'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p01-q2',
+        type: 'single_choice',
+        question: 'Who pioneered linear perspective?',
+        options: ['Leonardo da Vinci', 'Michelangelo', 'Filippo Brunelleschi', 'Raphael'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p01-q3',
+        type: 'multiple_select',
+        question: 'Which works did Michelangelo create? Select all that apply.',
+        options: ['David', 'Mona Lisa', 'Sistine Chapel ceiling', 'The Last Supper'],
+        correctIndices: [0, 2],
+      },
+      {
+        id: 'arts-culture-p01-q4',
+        type: 'true_false',
+        question: 'Medieval art primarily used realistic depictions of human anatomy.',
+        correctAnswer: false,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p02',
+    topicId: 'arts-culture',
+    title: 'The Bauhaus Movement: Design That Changed the World',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `The Bauhaus school existed for only fourteen years, yet its influence on modern design remains immeasurable. Founded in 1919 in Weimar, Germany, this revolutionary art school sought to unite fine arts with crafts and industrial production. The principles developed at the Bauhaus continue to shape everything from architecture to furniture to graphic design over a century later.
+&nbsp;
+Walter Gropius, a German architect, established the Bauhaus with a radical vision. He believed that the division between artist and craftsman was artificial and harmful. The school's name combined the German words for building and house, signaling its emphasis on practical construction. Gropius assembled an extraordinary faculty including painters Wassily Kandinsky and Paul Klee.
+&nbsp;
+Students at the Bauhaus followed a distinctive curriculum that began with a preliminary course lasting six months. Johannes Itten originally developed this foundation course, which explored color theory, materials, and form through hands-on experimentation. Students learned to see and think in new ways before specializing in particular workshops focused on furniture, metalwork, weaving, or typography.
+&nbsp;
+The Bauhaus aesthetic rejected ornament and decoration in favor of clean geometric forms. Designers embraced the honest expression of materials, allowing steel to look like steel and concrete to look like concrete. This principle of "form follows function" meant that objects should be designed primarily for their intended purpose, with beauty emerging from utility rather than applied decoration.
+&nbsp;
+Marcel Breuer, who joined the Bauhaus as a student and later became a master, revolutionized furniture design. His Wassily Chair, designed in 1925 and 1926, used bent tubular steel and leather in an entirely new way. Breuer reportedly found inspiration in the handlebars of his bicycle, translating that industrial material into domestic furniture. The chair remains in production today, nearly a century after its creation.
+&nbsp;
+The school moved from Weimar to Dessau in 1925, where Gropius designed a new campus that became an icon of modern architecture. The building's glass curtain walls, asymmetrical composition, and interconnected wings embodied Bauhaus principles in built form. Students lived and worked in this revolutionary environment, surrounded by design that matched the ideas they studied.
+&nbsp;
+Ludwig Mies van der Rohe became the school's final director in 1930, bringing his own exacting standards to Bauhaus design. His famous dictum "less is more" captured the movement's embrace of simplicity and restraint. Mies refined the aesthetic toward ever greater purity, stripping designs to their essential elements and celebrating the beauty of precise proportions.
+&nbsp;
+Political pressure from the Nazi regime, which viewed modernism as degenerate, forced the Bauhaus to relocate to Berlin in 1932. The school closed permanently in 1933, scattered by the forces of fascism. Yet this dispersal paradoxically spread Bauhaus ideas worldwide as faculty and students emigrated to England, Palestine, the United States, and beyond.
+&nbsp;
+Many Bauhaus masters eventually settled in America, transforming design education there. Gropius became dean of architecture at Harvard University, while Mies led the architecture program at the Illinois Institute of Technology in Chicago. Laszlo Moholy-Nagy founded the New Bauhaus in Chicago, which later became the Institute of Design. These transplanted seeds flourished in fertile American soil.
+&nbsp;
+The International Style in architecture, which dominated building design from the 1950s through the 1970s, drew heavily on Bauhaus principles. Glass and steel skyscrapers in cities worldwide echo the school's ideals of transparency and honest structure. Contemporary product design, from Apple electronics to IKEA furniture, continues to reflect Bauhaus influences in its emphasis on simplicity and functionality.
+&nbsp;
+The Bauhaus legacy extends beyond specific products to a way of thinking about design. The integration of theory and practice, the emphasis on understanding materials, and the belief that good design should be accessible to all remain central to design education. What began in a small German city has become a universal language of modern design.`,
+    questions: [
+      {
+        id: 'arts-culture-p02-q1',
+        type: 'single_choice',
+        question: 'Who founded the Bauhaus school?',
+        options: ['Ludwig Mies van der Rohe', 'Walter Gropius', 'Marcel Breuer', 'Wassily Kandinsky'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p02-q2',
+        type: 'numeric',
+        question: 'In what year was the Bauhaus founded?',
+        correctValue: 1919,
+        tolerance: 0,
+        min: 1900,
+        max: 1940,
+        step: 1,
+        unit: '',
+      },
+      {
+        id: 'arts-culture-p02-q3',
+        type: 'single_choice',
+        question: 'What material did Marcel Breuer innovatively use for his Wassily Chair?',
+        options: ['Cast iron', 'Bent tubular steel', 'Aluminum', 'Carved wood'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p02-q4',
+        type: 'multiple_select',
+        question: 'Which artists were faculty members at the Bauhaus? Select all that apply.',
+        options: ['Wassily Kandinsky', 'Paul Klee', 'Pablo Picasso', 'Marcel Breuer'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'arts-culture-p02-q5',
+        type: 'true_false',
+        question: 'The Bauhaus school closed in 1933 due to pressure from the Nazi regime.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p03',
+    topicId: 'arts-culture',
+    title: 'Japanese Woodblock Prints: Ukiyo-e and Its Global Influence',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `Japanese woodblock prints transformed art history on two continents, first flourishing in Japan's Edo period and later revolutionizing European painting. These vibrant images, known as ukiyo-e or "pictures of the floating world," captured scenes of pleasure, nature, and daily life with unprecedented sophistication. Their influence on Western art, particularly French Impressionism, demonstrates how cultural exchange can spark creative revolutions.
+&nbsp;
+The ukiyo-e tradition emerged in the seventeenth century in Japan's major urban centers, particularly Edo, now known as Tokyo. The term "floating world" originally carried Buddhist connotations of life's transience but evolved to describe the entertainment districts where merchants and townspeople sought pleasure. Publishers recognized the commercial potential of affordable prints depicting beautiful courtesans, kabuki actors, and scenic views.
+&nbsp;
+Creating a woodblock print required the collaboration of multiple specialists. First, the artist designed the image, drawing outlines on thin paper. A skilled carver then pasted this design onto a block of cherry wood, cutting away areas that would not print. Separate blocks were carved for each color, sometimes numbering over a dozen for complex images. Finally, a printer applied pigments to the blocks and pressed them onto paper in precise registration.
+&nbsp;
+Hishikawa Moronobu, working in the late seventeenth century, is often credited as the first master of ukiyo-e. His images of the Yoshiwara pleasure district established many conventions of the genre. Early prints used only black ink, with colors added by hand. The development of multiple-block color printing in the 1760s, pioneered by Suzuki Harunobu, transformed the medium entirely.
+&nbsp;
+Kitagawa Utamaro became the foremost portrayer of beautiful women in the 1790s. His large-format bust portraits, called okubi-e, brought new psychological depth to the genre. Utamaro's compositions often placed figures against plain backgrounds, allowing viewers to focus on subtle expressions and luxurious fabrics. His prints influenced fashion and beauty standards throughout Japan.
+&nbsp;
+Katsushika Hokusai, born in 1760, produced his most famous works late in a career spanning nearly seventy years. His series Thirty-Six Views of Mount Fuji, published between 1830 and 1833, includes perhaps the most recognized Japanese artwork globally. The Great Wave off Kanagawa depicts fishing boats dwarfed by a towering wave, with Mount Fuji small but stable in the distance. Hokusai claimed he would achieve true artistic understanding only after reaching one hundred years of age.
+&nbsp;
+Utagawa Hiroshige rivaled Hokusai as a master of landscape prints. His series The Fifty-Three Stations of the Tokaido, documenting stops along the famous highway connecting Edo and Kyoto, appeared in 1833 and 1834. Hiroshige captured atmospheric effects with remarkable sensitivity, portraying rain, snow, mist, and moonlight in ways that would later inspire European artists. He produced over 5,000 prints during his prolific career.
+&nbsp;
+Japan's forced opening to Western trade in 1853 led to an unexpected artistic exchange. European and American visitors purchased prints as exotic souvenirs, and Japanese goods flooded Western markets during the subsequent decades. Artists and collectors in Paris became particularly fascinated with these works, which arrived sometimes as mere packing material wrapped around exported ceramics.
+&nbsp;
+French Impressionists found in Japanese prints a radical alternative to European academic traditions. The flattened perspective, bold outlines, asymmetrical compositions, and vibrant colors challenged Western assumptions about pictorial representation. Claude Monet collected over 230 Japanese prints, which he displayed throughout his home at Giverny. Vincent van Gogh directly copied ukiyo-e works into his own paintings.
+&nbsp;
+Edgar Degas absorbed Japanese compositional techniques, particularly the dramatic cropping of figures at frame edges. Mary Cassatt's intimate domestic scenes reflect ukiyo-e influence in their flattened forms and decorative patterning. James McNeill Whistler, though American, embraced Japanese aesthetics more thoroughly than perhaps any Western painter, from his butterfly signature inspired by Japanese seals to the sparse elegance of his compositions.
+&nbsp;
+The Art Nouveau movement of the late nineteenth and early twentieth centuries drew heavily from Japanese sources. Designers applied ukiyo-e principles to posters, furniture, glass, and architecture throughout Europe and America. The flowing organic lines, integration of image and text, and celebration of natural forms all reflected Japanese influence filtered through Western sensibilities.
+&nbsp;
+Contemporary artists continue finding inspiration in ukiyo-e traditions. Japanese manga and anime inherit visual conventions from these prints, while Western graphic designers study their compositional sophistication. Museums worldwide hold major collections, and original prints by master artists command prices in the hundreds of thousands of dollars at auction.
+&nbsp;
+The story of ukiyo-e demonstrates how art travels across cultures, transforming both the traditions it encounters and itself in the process. What began as popular entertainment for Japanese townspeople became a catalyst for modernism in European painting. This cross-pollination enriched both traditions immeasurably and reminds us that artistic innovation often emerges from the meeting of different worlds.`,
+    questions: [
+      {
+        id: 'arts-culture-p03-q1',
+        type: 'single_choice',
+        question: 'What does the term "ukiyo-e" translate to in English?',
+        options: ['Pictures of mountains', 'Pictures of the floating world', 'Pictures of nature', 'Pictures of the sea'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p03-q2',
+        type: 'numeric',
+        question: 'How many Japanese prints did Claude Monet collect for his home at Giverny?',
+        correctValue: 230,
+        tolerance: 30,
+        min: 100,
+        max: 400,
+        step: 10,
+        unit: 'prints',
+      },
+      {
+        id: 'arts-culture-p03-q3',
+        type: 'single_choice',
+        question: 'Who created the famous series Thirty-Six Views of Mount Fuji?',
+        options: ['Utagawa Hiroshige', 'Kitagawa Utamaro', 'Katsushika Hokusai', 'Hishikawa Moronobu'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p03-q4',
+        type: 'multiple_select',
+        question: 'Which Western artists were influenced by Japanese prints? Select all that apply.',
+        options: ['Claude Monet', 'Vincent van Gogh', 'Edgar Degas', 'Rembrandt'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p03-q5',
+        type: 'true_false',
+        question: 'Suzuki Harunobu pioneered the development of multiple-block color printing in the 1760s.',
+        correctAnswer: true,
+      },
+      {
+        id: 'arts-culture-p03-q6',
+        type: 'single_choice',
+        question: 'Approximately how many prints did Utagawa Hiroshige produce during his career?',
+        options: ['Over 1,000', 'Over 3,000', 'Over 5,000', 'Over 10,000'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p04',
+    topicId: 'arts-culture',
+    title: 'The Impressionists: Revolutionaries of Light and Color',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `The Impressionist movement transformed Western art in ways that continue to resonate today. Beginning in Paris during the 1860s and 1870s, a group of young painters rejected the established traditions of the art academies in favor of capturing fleeting moments of light and atmosphere. Their revolutionary approach scandalized contemporary critics yet laid the groundwork for modern art movements that followed.
+&nbsp;
+The name "Impressionism" originated as an insult. When critic Louis Leroy reviewed the group's first independent exhibition in 1874, he mocked Claude Monet's painting "Impression, Sunrise" as mere impression rather than finished art. The artists embraced the term, finding in it an accurate description of their aims. They sought not precise representation but rather the impression of a scene as perceived in a particular moment under particular conditions of light.
+&nbsp;
+Traditional academic painting demanded smooth brushwork, muted colors, and subjects drawn from history, mythology, or religion. Impressionists challenged every aspect of this orthodoxy. They applied paint in visible, broken brushstrokes that shimmered with color when viewed from appropriate distance. They abandoned the studio for outdoor painting, seeking to capture natural light directly rather than reconstructing it from memory.
+&nbsp;
+Claude Monet pursued this approach with obsessive dedication throughout his 86 years of life. His series paintings, depicting the same subject under different lighting conditions, demonstrated how radically perception changes with time and weather. The Rouen Cathedral series from 1892 to 1894 includes over thirty canvases showing the Gothic facade at various hours and seasons. His water lily paintings, begun in his seventies at Giverny, eventually filled enormous canvases with shimmering abstraction.
+&nbsp;
+Pierre-Auguste Renoir brought Impressionist techniques to subjects centering on human pleasure and beauty. His bustling scenes of Parisian cafe life, including the celebrated "Bal du moulin de la Galette" from 1876, captured the sparkle of sunlight filtering through trees onto dancing figures. Renoir's voluptuous nudes and intimate domestic scenes reveal a sensuous appreciation for the human form that distinguishes his work from his more landscape-focused colleagues.
+&nbsp;
+Edgar Degas stood somewhat apart from the other Impressionists, preferring indoor scenes illuminated by artificial light to the sun-drenched landscapes that attracted Monet and Renoir. His depictions of ballet dancers, painted from the 1870s until his death in 1917, remain his most iconic works. Degas captured dancers in rehearsal, backstage, and mid-performance, often from unusual angles that reflected his study of Japanese prints. His exploration of movement and gesture anticipated photographic and cinematic approaches to capturing motion.
+&nbsp;
+Berthe Morisot was the first woman to join the Impressionist circle, exhibiting in seven of their eight group shows. Her domestic subjects, including mothers with children and women at their toilettes, brought feminine perspectives often overlooked by male artists. Morisot's loose, feathery brushwork rivaled that of any Impressionist, yet her work received less recognition than her male colleagues until recent scholarly reassessment.
+&nbsp;
+Mary Cassatt, an American who settled permanently in Paris in 1874, became the only American to exhibit with the core Impressionist group. Her friendship with Degas profoundly influenced both artists' work. Cassatt focused almost exclusively on images of women and children, bringing psychological depth and emotional intimacy to these subjects. Her 1891 series of color prints, inspired by Japanese woodblocks she encountered at a Paris exhibition, demonstrated remarkable technical innovation.
+&nbsp;
+The Impressionists faced relentless rejection from the official art establishment. The annual Salon, which controlled access to collectors and commissions, repeatedly rejected their submissions. In response, the artists organized eight independent exhibitions between 1874 and 1886, creating an alternative pathway to public view. These exhibitions attracted ridicule from conservative critics but gradually built audiences who appreciated the new approach.
+&nbsp;
+Color theory informed Impressionist practice in sophisticated ways. Rather than mixing colors on the palette to achieve desired hues, Impressionists placed complementary colors adjacent on the canvas, allowing the viewer's eye to blend them optically. This technique produced more vibrant effects than traditional mixing. Michel Eugene Chevreul's research on simultaneous contrast, published in 1839, provided scientific foundation for these intuitive discoveries.
+&nbsp;
+The development of paint in tubes revolutionized artistic practice in the 1840s and directly enabled Impressionism. Previously, artists or their assistants ground pigments and mixed paints fresh daily. Portable tubes allowed painters to work outdoors for extended periods without concern for their materials drying out. Monet, Renoir, and their colleagues could now chase changing light across landscapes impossible to paint from indoor studios.
+&nbsp;
+Japanese art profoundly influenced the Impressionists after Japan opened to Western trade in 1853. Woodblock prints by Hokusai, Hiroshige, and others arrived in Paris and circulated among artists fascinated by their flat areas of color, bold outlines, and asymmetrical compositions. The influence appears throughout Impressionist work, from Degas's unusual cropping to Monet's Japanese-style garden at Giverny.
+&nbsp;
+By the 1880s, younger artists began moving beyond Impressionism while building on its foundations. Post-Impressionists including Paul Cezanne, Vincent van Gogh, and Georges Seurat developed more structured approaches to color and form. Yet the Impressionist revolution had permanently altered artistic possibilities. The idea that an artist's subjective perception held value equal to objective representation opened doors that subsequent generations rushed through enthusiastically.`,
+    questions: [
+      {
+        id: 'arts-culture-p04-q1',
+        type: 'single_choice',
+        question: 'Which painting gave Impressionism its name?',
+        options: ['Water Lilies', 'Impression, Sunrise', 'Bal du moulin de la Galette', 'Rouen Cathedral'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p04-q2',
+        type: 'numeric',
+        question: 'How many independent exhibitions did the Impressionists organize between 1874 and 1886?',
+        correctValue: 8,
+        tolerance: 0,
+        min: 4,
+        max: 12,
+        step: 1,
+        unit: 'exhibitions',
+      },
+      {
+        id: 'arts-culture-p04-q3',
+        type: 'true_false',
+        question: 'Edgar Degas preferred outdoor landscapes illuminated by natural sunlight.',
+        correctAnswer: false,
+      },
+      {
+        id: 'arts-culture-p04-q4',
+        type: 'multiple_select',
+        question: 'Which artists were part of the Impressionist movement? Select all that apply.',
+        options: ['Claude Monet', 'Pierre-Auguste Renoir', 'Berthe Morisot', 'Pablo Picasso'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p04-q5',
+        type: 'single_choice',
+        question: 'How many canvases did Monet paint of Rouen Cathedral?',
+        options: ['Over 10', 'Over 20', 'Over 30', 'Over 50'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p04-q6',
+        type: 'single_choice',
+        question: 'Who was the only American artist to exhibit with the core Impressionist group?',
+        options: ['Berthe Morisot', 'Mary Cassatt', 'James McNeill Whistler', 'John Singer Sargent'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p05',
+    topicId: 'arts-culture',
+    title: 'The Harlem Renaissance: A Cultural Awakening',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `The Harlem Renaissance stands as one of the most influential cultural movements in American history. Centered in the Harlem neighborhood of New York City during the 1920s and 1930s, this explosion of African American artistic expression encompassed literature, music, visual arts, theater, and intellectual discourse. The movement reshaped American culture while asserting Black identity and excellence in ways that reverberate through contemporary art and society.
+&nbsp;
+The Great Migration provided the demographic foundation for the Harlem Renaissance. Between 1910 and 1930, approximately 1.6 million African Americans left the rural South seeking economic opportunities and escape from Jim Crow segregation. Many settled in northern cities including Chicago, Detroit, and Philadelphia. New York's Harlem neighborhood, which had been developed for white middle-class residents, began attracting Black newcomers around 1905. By 1930, over 200,000 African Americans called Harlem home.
+&nbsp;
+Alain Locke's 1925 anthology "The New Negro" gave the movement its philosophical framework. Locke, a Harvard-educated philosopher and the first African American Rhodes Scholar, argued that a new generation of Black artists was emerging who would transform both African American and American culture. Rather than accepting stereotypes imposed by white society, these artists would define their own identities and celebrate their heritage.
+&nbsp;
+Langston Hughes became perhaps the most influential literary voice of the Harlem Renaissance. His 1926 essay "The Negro Artist and the Racial Mountain" urged Black artists to embrace their distinctive experiences rather than imitating white standards. Hughes's poetry drew on jazz and blues rhythms, incorporating vernacular speech and celebrating working-class Black life. His 1921 poem "The Negro Speaks of Rivers" established his reputation while still in his teens.
+&nbsp;
+Zora Neale Hurston brought anthropological training to her fiction, capturing the speech patterns and folklore of the rural South. Her masterpiece "Their Eyes Were Watching God," published in 1937, tells the story of Janie Crawford's journey toward self-realization through three marriages. Though the novel received mixed reviews initially, it gained recognition as a foundational work of African American and feminist literature following its rediscovery in the 1970s.
+&nbsp;
+Claude McKay's poetry moved between celebration of Black culture and fierce protest against racism. His 1919 sonnet "If We Must Die," written in response to violent race riots across America, called for resistance against oppression. The poem circulated widely and was later quoted by Winston Churchill during World War Two. McKay's 1928 novel "Home to Harlem" became the first bestseller written by a Black author.
+&nbsp;
+The visual arts flourished alongside literature during the Harlem Renaissance. Aaron Douglas developed a distinctive style combining modernist geometry with African visual traditions. His murals, including the monumental "Aspects of Negro Life" series at the Schomburg Center in Harlem, depicted African American history from Africa through slavery to contemporary urban life. Douglas's illustrations for books and magazines helped define the visual vocabulary of the movement.
+&nbsp;
+Augusta Savage overcame poverty and discrimination to become a leading sculptor of the era. Her 1939 sculpture "The Harp," created for the New York World's Fair, depicted Black singers as strings of a harp. Though the sculpture was destroyed after the fair for lack of funds to cast it in bronze, photographs preserve its striking image. Savage also taught and mentored younger artists, including Jacob Lawrence, ensuring the transmission of skills and vision to subsequent generations.
+&nbsp;
+Music permeated Harlem Renaissance culture, with jazz clubs and cabarets drawing both Black and white audiences. Duke Ellington's orchestra began its legendary residence at the Cotton Club in 1927, broadcasting live performances nationwide via radio. The Cotton Club's segregated policies, which welcomed white patrons while restricting Black attendees to performers, reflected the complex racial dynamics of the era. Despite such contradictions, the music flourished and reached unprecedented audiences.
+&nbsp;
+Bessie Smith, the "Empress of the Blues," recorded over 160 songs between 1923 and 1933, selling millions of records and becoming the highest-paid Black performer of her time. Her powerful voice and emotional depth transformed the blues from regional folk music into a nationally recognized art form. Smith's 1929 recording of "Nobody Knows You When You're Down and Out" remains a classic of American music.
+&nbsp;
+Theater provided another platform for Harlem Renaissance expression. The Krigwa Players, founded by W.E.B. Du Bois in 1926, produced works by and about African Americans for Black audiences. The Lafayette Theatre in Harlem presented both original works and Black interpretations of classics. These theatrical ventures established traditions continued by later companies and playwrights who transformed American drama.
+&nbsp;
+White patronage enabled many Harlem Renaissance achievements while creating complicated dynamics. Charlotte Osgood Mason, a wealthy white woman known as "Godmother," financially supported Langston Hughes, Zora Neale Hurston, and other artists during the 1920s. Her support came with expectations of control over their work that eventually caused conflicts. The relationship between Black artists and white patrons illustrated broader tensions over cultural ownership and authenticity.
+&nbsp;
+The Great Depression devastated Harlem and curtailed much Renaissance activity. Economic collapse hit Black communities particularly hard, as unemployment among African Americans reached over 50 percent in some areas. Federal programs including the Works Progress Administration employed some artists during the 1930s, but the concentrated energy of the Renaissance years dissipated.
+&nbsp;
+The Harlem Renaissance's influence extended far beyond its historical moment. The movement established foundations for subsequent generations of Black artists and intellectuals. The civil rights and Black Power movements drew inspiration from Renaissance assertions of Black pride and excellence. Contemporary artists from Toni Morrison to Beyonce acknowledge debts to Renaissance pioneers who first insisted that Black experience deserved artistic expression on its own terms.
+&nbsp;
+The neighborhood itself has changed dramatically since the Renaissance years. Gentrification has displaced many longtime residents while transforming Harlem's character. Yet institutions like the Schomburg Center for Research in Black Culture preserve the movement's legacy. The Harlem Renaissance demonstrated that African American creativity could reshape American culture, a demonstration whose effects continue multiplying today.`,
+    questions: [
+      {
+        id: 'arts-culture-p05-q1',
+        type: 'numeric',
+        question: 'How many African Americans migrated from the rural South between 1910 and 1930?',
+        correctValue: 1600000,
+        tolerance: 200000,
+        min: 500000,
+        max: 3000000,
+        step: 100000,
+        unit: 'people',
+      },
+      {
+        id: 'arts-culture-p05-q2',
+        type: 'single_choice',
+        question: 'Who wrote "The New Negro" anthology in 1925?',
+        options: ['Langston Hughes', 'Alain Locke', 'Claude McKay', 'W.E.B. Du Bois'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p05-q3',
+        type: 'true_false',
+        question: 'The Cotton Club in Harlem welcomed both Black and white patrons equally.',
+        correctAnswer: false,
+      },
+      {
+        id: 'arts-culture-p05-q4',
+        type: 'multiple_select',
+        question: 'Which artists were key figures of the Harlem Renaissance? Select all that apply.',
+        options: ['Langston Hughes', 'Zora Neale Hurston', 'Aaron Douglas', 'Andy Warhol'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p05-q5',
+        type: 'single_choice',
+        question: 'When was Zora Neale Hurston\'s "Their Eyes Were Watching God" published?',
+        options: ['1927', '1932', '1937', '1942'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p05-q6',
+        type: 'numeric',
+        question: 'How many songs did Bessie Smith record between 1923 and 1933?',
+        correctValue: 160,
+        tolerance: 20,
+        min: 50,
+        max: 300,
+        step: 10,
+        unit: 'songs',
+      },
+      {
+        id: 'arts-culture-p05-q7',
+        type: 'single_choice',
+        question: 'When did Duke Ellington\'s orchestra begin its residence at the Cotton Club?',
+        options: ['1923', '1925', '1927', '1929'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p05-q8',
+        type: 'true_false',
+        question: 'Augusta Savage\'s sculpture "The Harp" was cast in bronze and remains on display today.',
+        correctAnswer: false,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p06',
+    topicId: 'arts-culture',
+    title: 'Ancient Greek Theater: The Birth of Western Drama',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `The theatrical traditions that emerged in ancient Greece nearly 2,500 years ago established foundations that continue shaping drama, film, and storytelling to this day. Greek playwrights invented tragedy and comedy as distinct art forms, explored the depths of human experience, and created works that audiences still find compelling across vast cultural and temporal distances. Understanding Greek theater illuminates not only ancient civilization but also the dramatic arts we encounter every day.
+&nbsp;
+Theater emerged from religious festivals honoring Dionysus, the Greek god of wine, fertility, and ecstasy. The City Dionysia festival in Athens became the premiere theatrical event of the ancient world, attracting visitors from across the Mediterranean beginning in the sixth century BC. Performances took place in large outdoor amphitheaters that could seat up to 17,000 spectators, with audiences gathering before dawn and watching plays throughout the day.
+&nbsp;
+Thespis of Icaria is traditionally credited as the first actor, stepping out from the chorus around 534 BC to speak individual lines and portray characters. His innovation of impersonation, speaking as someone other than oneself, represented such a radical departure that his name gave us the word thespian. Before Thespis, performances consisted only of choral singing and dancing without individual dramatic action.
+&nbsp;
+The three great tragedians whose works survive transformed theater into a vehicle for exploring profound philosophical and moral questions. Aeschylus, born around 525 BC, introduced the second actor and expanded dramatic possibilities beyond simple dialogue between actor and chorus. His Oresteia trilogy, produced in 458 BC, remains the only complete trilogy surviving from Greek drama. This masterwork examines justice, revenge, and the transition from blood feuds to rule of law through the story of Agamemnon's murder and its aftermath.
+&nbsp;
+Sophocles dominated Athenian theater for over sixty years, winning first prize at the City Dionysia an unprecedented 24 times. His innovations included adding a third actor and reducing the role of the chorus in favor of character development. Oedipus Rex, considered by Aristotle the perfect tragedy, tells of a king who unknowingly fulfills a prophecy by killing his father and marrying his mother. The play's exploration of fate versus free will continues generating scholarly debate and theatrical productions 2,400 years after its premiere.
+&nbsp;
+Euripides, the youngest of the three tragedians, challenged conventions in ways that made him controversial in his own time but influential for posterity. His portrayals of women, foreigners, and slaves demonstrated unprecedented psychological complexity. Medea, performed in 431 BC, depicts a foreign princess who murders her own children to punish her unfaithful husband. Ancient audiences found the play disturbing enough that Euripides won only third prize at that year's festival. Modern audiences recognize his work as remarkably contemporary in its examination of gender, power, and marginalization.
+&nbsp;
+Comedy developed alongside tragedy, offering Athenians opportunities to laugh at their own society. Aristophanes wrote over forty comedies, of which eleven survive complete. His plays satirized politicians, philosophers, and social trends with a bawdiness that surprises modern readers expecting dignified classical literature. The Clouds mocked Socrates so mercilessly that some historians suggest the play contributed to the philosopher's eventual trial and execution.
+&nbsp;
+The physical theaters of ancient Greece exemplified sophisticated understanding of acoustics and sightlines. The Theater of Dionysus on the south slope of the Acropolis seated approximately 17,000 spectators in its final form. The best-preserved ancient theater at Epidaurus, built around 340 BC, demonstrates acoustic engineering so precise that a whisper on stage can be heard in the highest rows. Its 55 semicircular rows of limestone seats remain in use for performances today.
+&nbsp;
+Masks served essential functions in Greek theater, both practical and symbolic. Actors wore large masks that projected character types to distant spectators and amplified voices through megaphone-like mouth openings. A single actor might play multiple roles by changing masks between scenes. The masks also allowed male actors to portray female characters, since women were prohibited from performing on the Greek stage.
+&nbsp;
+The chorus, typically consisting of twelve to fifteen performers, maintained continuity throughout Greek dramas. Chorus members sang, danced, and commented on the action, often representing ordinary citizens reacting to events involving nobles and heroes. Their odes between scenes provided reflection on themes and emotional intensification. The chorus leader could engage in dialogue with actors, bridging the worlds of divine spectacle and human response.
+&nbsp;
+The competitive nature of Athenian drama drove innovation and excellence. Each year at the City Dionysia, three playwrights competed, each presenting three tragedies and a satyr play. A panel of ten judges, chosen by lot to prevent bribery, awarded prizes based on criteria including poetry, music, dancing, and moral impact. Victory brought enormous prestige, with successful playwrights celebrated as benefactors of Athenian culture.
+&nbsp;
+Greek tragedy follows conventions that Aristotle codified in his Poetics, written around 335 BC. Unity of action focused plots on single storylines without subplots. Unity of time compressed events into a single day. Unity of place restricted settings to single locations, with offstage events reported by messengers. These unities were not universally followed by actual Greek playwrights but became influential rules for later dramatists, particularly during the French neoclassical period.
+&nbsp;
+Catharsis, the emotional purging Aristotle identified as tragedy's purpose, remains debated by scholars. Aristotle suggested that witnessing terrible events befalling characters of high status evoked pity and fear in audiences, releasing these emotions safely through vicarious experience. This theory has influenced understanding of how dramatic arts affect psychology, though modern interpretations vary widely on what catharsis actually entails.
+&nbsp;
+The influence of Greek theater extended throughout the ancient world and into the Renaissance. Roman playwrights including Seneca adapted Greek models for Latin audiences, often intensifying violence and rhetoric. When European scholars rediscovered classical texts in the fifteenth century, Greek dramatic principles informed the development of modern drama. Shakespeare's tragedies, French neoclassical theater, and nineteenth-century opera all drew on Greek precedents.
+&nbsp;
+Contemporary theater continues engaging with Greek plays both through faithful productions and radical reinterpretations. Directors stage the ancient texts in settings ranging from ancient Greece to modern war zones. Playwrights create new works responding to Greek originals, examining how ancient stories illuminate contemporary concerns. The questions Greek dramatists posed about justice, fate, family, and power remain as urgent today as when first performed in the Theater of Dionysus.
+&nbsp;
+Understanding Greek theater enriches appreciation of dramatic arts in all their modern forms. The basic elements of plot, character, dialogue, and spectacle that Greek playwrights established continue structuring storytelling across media. Film, television, and even video games draw on narrative techniques pioneered in ancient Athens. The masks may have changed, but the human dramas they represent endure across millennia.`,
+    questions: [
+      {
+        id: 'arts-culture-p06-q1',
+        type: 'numeric',
+        question: 'How many spectators could the Theater of Dionysus seat in its final form?',
+        correctValue: 17000,
+        tolerance: 1000,
+        min: 10000,
+        max: 25000,
+        step: 1000,
+        unit: 'spectators',
+      },
+      {
+        id: 'arts-culture-p06-q2',
+        type: 'single_choice',
+        question: 'When was the Oresteia trilogy produced?',
+        options: ['478 BC', '458 BC', '438 BC', '418 BC'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p06-q3',
+        type: 'true_false',
+        question: 'Sophocles won first prize at the City Dionysia 24 times.',
+        correctAnswer: true,
+      },
+      {
+        id: 'arts-culture-p06-q4',
+        type: 'multiple_select',
+        question: 'Which innovations did Greek theater introduce? Select all that apply.',
+        options: ['Individual actors speaking as characters', 'Use of masks', 'Chorus commentary', 'Electric lighting'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p06-q5',
+        type: 'single_choice',
+        question: 'Who is traditionally credited as the first actor?',
+        options: ['Aeschylus', 'Sophocles', 'Thespis', 'Euripides'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-p06-q6',
+        type: 'numeric',
+        question: 'Around what year BC did Thespis step out from the chorus?',
+        correctValue: 534,
+        tolerance: 10,
+        min: 500,
+        max: 600,
+        step: 5,
+        unit: 'BC',
+      },
+      {
+        id: 'arts-culture-p06-q7',
+        type: 'single_choice',
+        question: 'Which play depicts a woman who murders her children to punish her unfaithful husband?',
+        options: ['Oedipus Rex', 'Medea', 'The Clouds', 'Oresteia'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p06-q8',
+        type: 'true_false',
+        question: 'Women were allowed to perform on the ancient Greek stage.',
+        correctAnswer: false,
+      },
+      {
+        id: 'arts-culture-p06-q9',
+        type: 'single_choice',
+        question: 'When was Aristotle\'s Poetics written?',
+        options: ['Around 385 BC', 'Around 365 BC', 'Around 335 BC', 'Around 305 BC'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-p07',
+    topicId: 'arts-culture',
+    title: 'The Art of Photography: From Daguerreotypes to Digital',
+    difficulty: 'advanced',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `Photography transformed how humans see, remember, and understand the world within decades of its invention in the 1830s. This revolutionary medium democratized image-making, documented history with unprecedented accuracy, and eventually became an art form capable of profound aesthetic expression. The journey from fragile early experiments to ubiquitous smartphone cameras represents one of the most significant technological and cultural developments in human history.
+&nbsp;
+Louis-Jacques-Mande Daguerre announced his photographic process to the French Academy of Sciences on January 7, 1839, a date often cited as photography's birthday. His daguerreotypes produced sharply detailed images on silver-coated copper plates, capturing likenesses with accuracy that astonished contemporaries accustomed only to painted portraits. The French government purchased Daguerre's patent and made the process freely available worldwide, sparking immediate global enthusiasm.
+&nbsp;
+William Henry Fox Talbot, an English scientist, developed a different photographic process virtually simultaneously. His calotype process produced paper negatives from which multiple positive prints could be made, establishing the negative-positive system that dominated photography until digital technology emerged. While daguerreotypes produced sharper images, Talbot's reproducible prints eventually proved more practical and influential.
+&nbsp;
+Early photography required exposures lasting many minutes, making portraits challenging ordeals for sitters who had to remain absolutely still. Studios used head braces and arm rests to help subjects maintain positions without visible strain. Portrait photographers often captured the dead as well as the living, with post-mortem photography becoming common practice for families who wanted visual records of deceased loved ones before burial.
+&nbsp;
+The collodion wet plate process, introduced by Frederick Scott Archer in 1851, dramatically improved both sensitivity and sharpness. Photographers could now make exposures in seconds rather than minutes, though the process required coating glass plates immediately before exposure and developing them while still wet. Traveling photographers carried portable darkrooms in wagons, bringing the new medium to remote locations.
+&nbsp;
+Photography's documentary power became apparent during the American Civil War, when photographers including Mathew Brady and Alexander Gardner brought images of battlefields to northern audiences. Gardner's 1862 exhibition "The Dead of Antietam" showed casualties where they fell, confronting viewers with war's reality in ways no painting could match. These photographs helped shape public opinion and established documentary photography as a force for social awareness.
+&nbsp;
+The Kodak camera, introduced by George Eastman in 1888, transformed photography from a specialized craft into a popular pastime. His slogan "You press the button, we do the rest" promised simplicity that attracted millions of amateur photographers. Customers purchased cameras pre-loaded with film for 100 exposures, then shipped the entire camera back to Kodak for processing, receiving prints and a reloaded camera in return.
+&nbsp;
+Pictorialism emerged in the late nineteenth century as photographers sought recognition as artists rather than mere technicians. Practitioners including Alfred Stieglitz, Edward Steichen, and Gertrude Kasebier employed soft focus, special printing techniques, and carefully composed scenes to create images resembling paintings. Their work appeared in exhibitions alongside paintings and sculptures, challenging assumptions about photography's artistic limitations.
+&nbsp;
+The Photo-Secession movement, founded by Stieglitz in New York in 1902, fought to establish photography's place in the art world. Stieglitz's journal Camera Work published the finest photographic work of the era alongside avant-garde painting and sculpture. His gallery at 291 Fifth Avenue introduced American audiences to Cezanne, Matisse, and Picasso while championing photography as a legitimate art form.
+&nbsp;
+Straight photography emerged in reaction against pictorialism's manipulated images. Practitioners including Paul Strand, Edward Weston, and Ansel Adams celebrated the camera's unique ability to render sharp detail and tonal range. The Group f/64, founded in 1932, promoted an aesthetic of precise focus and unmanipulated prints that became dominant in American fine art photography for decades.
+&nbsp;
+Documentary photography evolved sophisticated approaches for capturing social reality. Lewis Hine's photographs of child laborers helped build support for protective legislation in the early twentieth century. During the Great Depression, photographers working for the Farm Security Administration created an extraordinary archive of American hardship and resilience. Dorothea Lange's "Migrant Mother," photographed in 1936, became one of the most recognizable images in photographic history.
+&nbsp;
+The thirty-five millimeter camera revolutionized photography after its introduction in the 1920s. The Leica, designed by Oskar Barnack, allowed photographers to work quickly and unobtrusively in available light. This capability transformed photojournalism, enabling practitioners like Henri Cartier-Bresson to develop approaches based on capturing decisive moments as events unfolded naturally.
+&nbsp;
+Color photography became commercially viable with Kodachrome film, introduced in 1935, though black and white remained dominant in serious photography for decades. Many photographers considered color vulgar or commercial, unsuited for artistic expression. William Eggleston's 1976 exhibition at the Museum of Modern Art marked a turning point, demonstrating that color could convey profound aesthetic meaning.
+&nbsp;
+Digital photography emerged from experiments at Eastman Kodak in 1975, when engineer Steven Sasson built a prototype camera capturing 0.01 megapixel images stored on cassette tape. Early digital cameras remained expensive curiosities until the 1990s, when falling prices and improving quality began attracting professional and amateur photographers. By 2003, digital camera sales exceeded film cameras, and the transition accelerated rapidly thereafter.
+&nbsp;
+The smartphone camera, pioneered by Sharp's J-SH04 in 2000 and revolutionized by Apple's iPhone in 2007, placed photography in billions of pockets worldwide. More photographs are now taken every two minutes than were made during photography's entire first century. Social media platforms including Instagram, launched in 2010, created new contexts for photographic sharing and new aesthetic conventions shaped by filters and square formats.
+&nbsp;
+Contemporary art photography encompasses extraordinary diversity of approaches and concerns. Conceptual photographers create images that function primarily as ideas rather than aesthetic objects. Portrait photographers explore identity and representation through varied strategies. Documentary practitioners continue investigating social conditions while acknowledging that photographs inevitably construct rather than simply record reality.
+&nbsp;
+Digital manipulation has complicated photography's relationship with truth, as software enables alterations invisible to viewers. News organizations maintain ethical guidelines restricting manipulation, while advertising and fine art photography embrace digital possibilities. Questions about photographic truthfulness that seemed settled in the medium's early decades have reopened with new urgency.
+&nbsp;
+The democratization of photography has produced both celebration and concern. Never before have so many people had the ability to create and share images instantly. Yet the flood of photographs may diminish attention to individual images and reduce the cultural significance of photography as a whole. Some critics worry that constant documentation prevents full experience of events themselves.
+&nbsp;
+Photography remains powerful precisely because cameras capture light reflected from actual subjects at specific moments. Even as digital technology enables unlimited manipulation, the medium retains indexical connections to reality that distinguish it from painting or illustration. Photographers continue exploring what this unique capability can reveal about human experience.
+&nbsp;
+The future of photography seems certain to involve technologies not yet imagined. Computational photography, artificial intelligence, and virtual reality are already transforming image-making in profound ways. Yet the fundamental human desire to capture and share visual experience that motivated Daguerre and Talbot nearly two centuries ago shows no sign of diminishing.`,
+    questions: [
+      {
+        id: 'arts-culture-p07-q1',
+        type: 'numeric',
+        question: 'On what date in 1839 did Daguerre announce his photographic process?',
+        correctValue: 7,
+        tolerance: 0,
+        min: 1,
+        max: 31,
+        step: 1,
+        unit: 'January',
+      },
+      {
+        id: 'arts-culture-p07-q2',
+        type: 'single_choice',
+        question: 'Who developed the calotype process using paper negatives?',
+        options: ['Louis Daguerre', 'William Henry Fox Talbot', 'Frederick Scott Archer', 'George Eastman'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p07-q3',
+        type: 'true_false',
+        question: 'The Kodak camera was introduced by George Eastman in 1888.',
+        correctAnswer: true,
+      },
+      {
+        id: 'arts-culture-p07-q4',
+        type: 'multiple_select',
+        question: 'Which photographers were associated with pictorialism? Select all that apply.',
+        options: ['Alfred Stieglitz', 'Edward Steichen', 'Gertrude Kasebier', 'Ansel Adams'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p07-q5',
+        type: 'single_choice',
+        question: 'When was the Photo-Secession movement founded?',
+        options: ['1892', '1902', '1912', '1922'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p07-q6',
+        type: 'numeric',
+        question: 'In what year was Dorothea Lange\'s "Migrant Mother" photographed?',
+        correctValue: 1936,
+        tolerance: 0,
+        min: 1920,
+        max: 1950,
+        step: 1,
+        unit: '',
+      },
+      {
+        id: 'arts-culture-p07-q7',
+        type: 'single_choice',
+        question: 'When was Kodachrome color film introduced?',
+        options: ['1925', '1935', '1945', '1955'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p07-q8',
+        type: 'true_false',
+        question: 'By 2003, digital camera sales exceeded film camera sales.',
+        correctAnswer: true,
+      },
+      {
+        id: 'arts-culture-p07-q9',
+        type: 'single_choice',
+        question: 'Who built the first digital camera prototype at Eastman Kodak in 1975?',
+        options: ['George Eastman', 'Steven Sasson', 'Frederick Archer', 'William Talbot'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-p07-q10',
+        type: 'numeric',
+        question: 'When was Instagram launched?',
+        correctValue: 2010,
+        tolerance: 0,
+        min: 2005,
+        max: 2015,
+        step: 1,
+        unit: '',
+      },
+      {
+        id: 'arts-culture-p07-q11',
+        type: 'multiple_select',
+        question: 'Which photographers were associated with straight photography and Group f/64? Select all that apply.',
+        options: ['Edward Weston', 'Ansel Adams', 'Paul Strand', 'Alfred Stieglitz'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-p07-q12',
+        type: 'single_choice',
+        question: 'Whose 1976 exhibition at MoMA established color photography as a legitimate art form?',
+        options: ['Ansel Adams', 'William Eggleston', 'Henri Cartier-Bresson', 'Dorothea Lange'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-c1',
+    topicId: 'arts-culture',
+    title: 'The Golden Age of Jazz: America\'s Original Art Form',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `Jazz emerged from the streets of New Orleans in the early 1900s, blending African rhythms, blues traditions, and European harmonies into something entirely new. This uniquely American art form would go on to influence virtually every genre of popular music and produce some of the most innovative musicians in history.
+&nbsp;
+The origins of jazz trace back to the diverse cultural mixing pot of New Orleans. African American musicians combined work songs, spirituals, and blues with the brass band tradition and ragtime piano. Congo Square, where enslaved people had gathered to play music since the 1700s, remained a vital cultural crossroads even after emancipation.
+&nbsp;
+Buddy Bolden is often credited as one of the first jazz musicians, though no recordings of his performances survive. By 1905, his powerful cornet playing and improvisational style had made him a legend in New Orleans. His influence spread through the musicians who heard him play in the city's many dance halls and street parades.
+&nbsp;
+The Great Migration brought jazz northward. Between 1916 and 1970, approximately six million African Americans moved from the rural South to cities in the North and West. Musicians carried jazz with them, and Chicago became a major center by the 1920s. King Oliver's Creole Jazz Band and Louis Armstrong's Hot Five recordings from this era remain foundational documents of the genre.
+&nbsp;
+Louis Armstrong revolutionized jazz through his virtuosic trumpet playing and innovative scat singing. His 1928 recording of "West End Blues" demonstrated technical mastery and emotional depth that expanded what jazz could express. Armstrong became one of the first Black entertainers to achieve mainstream crossover success, though he navigated the prejudices of his era throughout his career.
+&nbsp;
+The swing era of the 1930s and 1940s brought jazz to its widest popular audience. Big bands led by Duke Ellington, Count Basie, and Benny Goodman filled ballrooms and dominated radio airwaves. The music provided escape and solidarity during the Great Depression and World War Two. Swing dances like the Lindy Hop became national crazes.
+&nbsp;
+Duke Ellington elevated jazz composition to new heights of sophistication. Over a career spanning more than fifty years, he composed nearly 3,000 pieces, from three-minute dance numbers to extended suites and sacred concerts. His orchestra served as his instrument, and he wrote music specifically tailored to the unique voices of his players.
+&nbsp;
+Bebop emerged in the 1940s as a reaction against the commercial constraints of swing. Young musicians including Charlie Parker, Dizzy Gillespie, and Thelonious Monk developed a faster, more harmonically complex style that prioritized artistic expression over danceable rhythms. Small combos replaced big bands, and jazz transformed from popular entertainment into an art form demanding focused listening.
+&nbsp;
+The 52nd Street clubs of New York became the center of the bebop revolution. Between 1945 and 1950, clubs like the Three Deuces and the Onyx presented nightly performances by the genre's pioneers. Musicians developed new compositions at breakneck speed, often building elaborate improvisations over chord changes borrowed from popular songs.
+&nbsp;
+Cool jazz offered a more relaxed alternative to bebop's intensity. Miles Davis's 1949 recordings with an unusual nonet, later released as "Birth of the Cool," introduced softer tones and more spacious arrangements. West Coast musicians including Chet Baker and Dave Brubeck further developed this style, achieving significant commercial success by the late 1950s.
+&nbsp;
+John Coltrane pushed jazz in more adventurous directions during the 1960s. His 1965 album "A Love Supreme" combined spiritual seeking with technical innovation, becoming one of the most celebrated recordings in jazz history. Coltrane's later work explored free jazz, abandoning traditional harmonic structures entirely.
+&nbsp;
+Jazz has always been more than entertainment. During the civil rights movement, musicians used their platforms to advocate for equality. Charles Mingus wrote "Fables of Faubus" to protest segregationist Governor Orval Faubus. Max Roach created the album "We Insist! Freedom Now Suite" as an explicit statement of resistance. The music itself, with its emphasis on individual expression within collective improvisation, embodied democratic ideals.
+&nbsp;
+Today, jazz continues to evolve while honoring its traditions. Musicians like Kamasi Washington and Esperanza Spalding bring new audiences to the genre while pushing its boundaries. Jazz education has become institutionalized in universities worldwide, ensuring that knowledge of the tradition passes to new generations. The music born in New Orleans has become a global language of creative expression.`,
+    questions: [
+      {
+        id: 'arts-culture-c1-q1',
+        type: 'single_choice',
+        question: 'In which city did jazz originate?',
+        options: ['Chicago', 'New York', 'New Orleans', 'Memphis'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-c1-q2',
+        type: 'numeric',
+        question: 'Approximately how many musical pieces did Duke Ellington compose over his career?',
+        correctValue: 3000,
+        tolerance: 500,
+        min: 1000,
+        max: 5000,
+        step: 100,
+        unit: 'pieces',
+      },
+      {
+        id: 'arts-culture-c1-q3',
+        type: 'multiple_select',
+        question: 'Which musicians were pioneers of bebop? Select all that apply.',
+        options: ['Charlie Parker', 'Louis Armstrong', 'Dizzy Gillespie', 'Duke Ellington'],
+        correctIndices: [0, 2],
+      },
+      {
+        id: 'arts-culture-c1-q4',
+        type: 'true_false',
+        question: 'Bebop emphasized danceable rhythms over artistic expression.',
+        correctAnswer: false,
+      },
+      {
+        id: 'arts-culture-c1-q5',
+        type: 'single_choice',
+        question: 'What was Miles Davis\'s influential 1949 recording that introduced cool jazz?',
+        options: ['A Love Supreme', 'Kind of Blue', 'Birth of the Cool', 'West End Blues'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-c1-q6',
+        type: 'single_choice',
+        question: 'Which musician wrote "Fables of Faubus" to protest segregation?',
+        options: ['John Coltrane', 'Charles Mingus', 'Max Roach', 'Miles Davis'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-c1-q7',
+        type: 'true_false',
+        question: 'The Great Migration brought approximately six million African Americans from the South to northern and western cities.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'arts-culture-c2',
+    topicId: 'arts-culture',
+    title: 'World Cinema: Global Voices in Film',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `Cinema emerged as a universal art form in the late nineteenth century, and filmmakers around the world quickly developed distinctive national traditions that enriched the medium beyond its Hollywood origins. World cinema encompasses the diverse filmmaking traditions of countries outside the dominant American industry, offering audiences perspectives and storytelling approaches that expand understanding of both art and human experience.
+&nbsp;
+The Lumiere brothers held the first public film screening in Paris on December 28, 1895, projecting short scenes of everyday life to paying audiences. Within months, cameras and projectors spread across Europe, Asia, and the Americas. Each culture that embraced the new medium eventually shaped it according to local artistic traditions, social concerns, and political circumstances. This global evolution created the rich tapestry of world cinema appreciated by audiences today.
+&nbsp;
+German Expressionism of the 1920s demonstrated cinema's capacity for visual stylization and psychological depth. Films like Robert Wiene's "The Cabinet of Dr. Caligari" from 1920 employed distorted sets, dramatic shadows, and angular compositions to externalize characters' mental states. Fritz Lang's "Metropolis" from 1927 created a dystopian future through elaborate special effects and monumental architecture. These techniques influenced horror films, film noir, and science fiction for decades afterward.
+&nbsp;
+Soviet montage theory developed simultaneously, treating cinema as a revolutionary tool for reshaping consciousness. Sergei Eisenstein argued that meaning emerged not from individual shots but from the collision between shots edited together. His 1925 film "Battleship Potemkin" demonstrated these principles in the famous Odessa Steps sequence, where rapidly edited images of soldiers, civilians, and a baby carriage created emotional impact greater than any single image. Soviet filmmakers believed cinema could teach audiences to think dialectically about society.
+&nbsp;
+Italian Neorealism arose from the ashes of World War Two, rejecting studio artifice in favor of location shooting, non-professional actors, and stories of ordinary people struggling against poverty and social injustice. Roberto Rossellini's "Rome, Open City" from 1945 depicted life under Nazi occupation with documentary-like immediacy. Vittorio De Sica's "Bicycle Thieves" from 1948 followed a working-class father and son through Rome's streets in search of their stolen bicycle. These films influenced generations of filmmakers seeking authenticity over spectacle.
+&nbsp;
+Japanese cinema gained international recognition in the 1950s through masters whose work bridged Eastern and Western sensibilities. Akira Kurosawa's "Rashomon" won the Golden Lion at Venice in 1951, introducing Western audiences to Japanese film and to narrative techniques involving multiple unreliable perspectives. His samurai epics, including "Seven Samurai" from 1954, directly inspired Western remakes and established templates for action filmmaking. Yasujiro Ozu developed a radically different style, using static cameras positioned low to the ground to observe family life with contemplative patience.
+&nbsp;
+The French New Wave of the late 1950s and 1960s revolutionized filmmaking through stylistic innovation and intellectual ambition. Directors including Jean-Luc Godard, Francois Truffaut, and Agnes Varda had worked as critics before making films, bringing theoretical sophistication to their practice. They employed jump cuts, direct address to the camera, location shooting, and narrative experimentation that challenged Hollywood conventions. Godard's "Breathless" from 1960 compressed a gangster story into fragmented, improvisational form that felt entirely new.
+&nbsp;
+Indian cinema developed into the world's largest film industry by volume, producing over 1,500 films annually in dozens of languages. The popular Hindi film industry, nicknamed Bollywood, specializes in musical melodramas featuring elaborate song and dance sequences. Parallel cinema, led by directors like Satyajit Ray, pursued more realistic and socially conscious approaches. Ray's Apu Trilogy, completed between 1955 and 1959, followed a Bengali boy from village childhood through young adulthood with humanistic depth that earned international acclaim.
+&nbsp;
+Latin American cinema has produced politically engaged filmmakers challenging both colonialism and local authoritarianism. Brazilian Cinema Novo of the 1960s, influenced by Italian Neorealism and Marxist politics, depicted poverty and inequality in works like Glauber Rocha's "Black God, White Devil" from 1964. Mexican directors including Alfonso Cuaron, Guillermo del Toro, and Alejandro Gonzalez Inarritu have achieved Hollywood success while maintaining distinctive voices. South Korean cinema has emerged as a global force, culminating in Bong Joon-ho's "Parasite" winning the Academy Award for Best Picture in 2020.
+&nbsp;
+Iranian cinema has flourished despite censorship restrictions that forbid certain subjects and require female actors to wear headscarves even in domestic scenes. Directors including Abbas Kiarostami and Jafar Panahi have developed innovative techniques to tell stories under these constraints. Kiarostami's "Close-Up" from 1990 blurred boundaries between documentary and fiction in recounting a real-life case of impersonation. Panahi continued making films even after being banned from directing, shooting "This Is Not a Film" in 2011 on an iPhone while under house arrest.
+&nbsp;
+African cinema has struggled against limited resources and distribution challenges while producing significant works. Senegalese director Ousmane Sembene, often called the father of African cinema, depicted colonialism's legacy and postcolonial society in films like "Black Girl" from 1966. Nollywood, the Nigerian film industry, has become Africa's largest through low-budget productions distributed directly to audiences via video. South African films have examined apartheid's history and legacy, including Gavin Hood's "Tsotsi," which won the Academy Award for Best Foreign Language Film in 2006.
+&nbsp;
+Documentary filmmaking has produced masterworks from every corner of the globe. French director Jean Rouch pioneered cinema verite in the 1950s and 1960s, developing techniques of observational filmmaking later adopted worldwide. Werner Herzog's documentaries explore human obsession and natural wonder with philosophical depth. Chinese documentaries have captured rapid social transformation, while Palestinian films document life under occupation.
+&nbsp;
+Animation traditions vary dramatically across cultures. Japanese anime has developed distinctive visual styles and narrative approaches through studios like Ghibli, founded by Hayao Miyazaki and Isao Takahata in 1985. Miyazaki's films, including "Spirited Away" from 2001, blend traditional and digital techniques to create fantasy worlds of unprecedented visual imagination. European animation has produced more varied styles, from the Czech surrealism of Jan Svankmajer to the stark imagery of Waltz with Bashir from Israel.
+&nbsp;
+Streaming platforms have dramatically altered world cinema's accessibility, making films from dozens of countries available to global audiences. Netflix, Amazon, and other services have invested in international productions, bringing exposure to filmmakers who might otherwise remain unknown outside their home countries. This democratization of distribution creates opportunities alongside concerns about cultural homogenization and algorithmic curation.
+&nbsp;
+World cinema offers windows into diverse human experiences that expand empathy and understanding across cultural boundaries. The best films from any tradition speak to universal concerns while remaining rooted in particular places and perspectives. Audiences willing to read subtitles and engage with unfamiliar storytelling conventions discover richness impossible to find in any single national cinema. The global film landscape continues evolving as new voices emerge and new technologies reshape how films are made and seen.`,
+    questions: [
+      {
+        id: 'arts-culture-c2-q1',
+        type: 'single_choice',
+        question: 'When did the Lumiere brothers hold the first public film screening?',
+        options: ['December 28, 1885', 'December 28, 1890', 'December 28, 1895', 'December 28, 1900'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-c2-q2',
+        type: 'numeric',
+        question: 'How many films does the Indian film industry produce annually?',
+        correctValue: 1500,
+        tolerance: 300,
+        min: 500,
+        max: 3000,
+        step: 100,
+        unit: 'films',
+      },
+      {
+        id: 'arts-culture-c2-q3',
+        type: 'true_false',
+        question: 'Akira Kurosawa\'s "Rashomon" won the Golden Lion at Venice in 1951.',
+        correctAnswer: true,
+      },
+      {
+        id: 'arts-culture-c2-q4',
+        type: 'multiple_select',
+        question: 'Which movements or styles are associated with world cinema? Select all that apply.',
+        options: ['German Expressionism', 'Italian Neorealism', 'French New Wave', 'American Realism'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-c2-q5',
+        type: 'single_choice',
+        question: 'Which film by Bong Joon-ho won Best Picture at the Academy Awards in 2020?',
+        options: ['Oldboy', 'The Host', 'Parasite', 'Memories of Murder'],
+        correctIndex: 2,
+      },
+      {
+        id: 'arts-culture-c2-q6',
+        type: 'single_choice',
+        question: 'Who directed "Bicycle Thieves" in 1948?',
+        options: ['Roberto Rossellini', 'Vittorio De Sica', 'Federico Fellini', 'Luchino Visconti'],
+        correctIndex: 1,
+      },
+      {
+        id: 'arts-culture-c2-q7',
+        type: 'numeric',
+        question: 'In what year was Studio Ghibli founded?',
+        correctValue: 1985,
+        tolerance: 0,
+        min: 1970,
+        max: 2000,
+        step: 1,
+        unit: '',
+      },
+      {
+        id: 'arts-culture-c2-q8',
+        type: 'true_false',
+        question: 'Soviet montage theory held that meaning emerged from individual shots rather than editing.',
+        correctAnswer: false,
+      },
+      {
+        id: 'arts-culture-c2-q9',
+        type: 'multiple_select',
+        question: 'Which Mexican directors have achieved Hollywood success? Select all that apply.',
+        options: ['Alfonso Cuaron', 'Guillermo del Toro', 'Alejandro Gonzalez Inarritu', 'Pedro Almodovar'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'arts-culture-c2-q10',
+        type: 'single_choice',
+        question: 'Which Hayao Miyazaki film was released in 2001?',
+        options: ['My Neighbor Totoro', 'Princess Mononoke', 'Spirited Away', 'Howl\'s Moving Castle'],
+        correctIndex: 2,
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

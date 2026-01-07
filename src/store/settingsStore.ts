@@ -1,8 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserSettings, DEFAULT_SETTINGS, Theme } from '../types/settings';
 import { themes } from '../data/themes';
+import { UserSettings, DEFAULT_SETTINGS, Theme } from '../types/settings';
 
 interface SettingsState extends UserSettings {
   theme: Theme;

@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
-import { useOnboardingStore } from '../../store/onboardingStore';
 import { InterestPill } from '../../components/onboarding/InterestPill';
 import { INTERESTS } from '../../data/interests';
+import { useOnboardingStore } from '../../store/onboardingStore';
 
 export default function TopicsScreen() {
   const { theme } = useTheme();

@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { useOnboardingStore } from '../../store/onboardingStore';
 
 export default function PurposeScreen() {
   const { theme } = useTheme();
-  const { setUsageMode, completeOnboarding } = useOnboardingStore();
+  const { setUsageMode } = useOnboardingStore();
 
   const handleTrainWithContent = () => {
     setUsageMode('train');
@@ -31,7 +31,7 @@ export default function PurposeScreen() {
             onPress={handleTrainWithContent}
             activeOpacity={0.7}
           >
-            <View style={[styles.iconContainer, { backgroundColor: theme.accentColor + '20' }]}>
+            <View style={[styles.iconContainer, { backgroundColor: `${theme.accentColor  }20` }]}>
               <Text style={styles.emoji}>📚</Text>
             </View>
             <Text style={[styles.optionTitle, { color: theme.textColor }]}>
@@ -47,7 +47,7 @@ export default function PurposeScreen() {
             onPress={handleImportOnly}
             activeOpacity={0.7}
           >
-            <View style={[styles.iconContainer, { backgroundColor: theme.accentColor + '20' }]}>
+            <View style={[styles.iconContainer, { backgroundColor: `${theme.accentColor  }20` }]}>
               <Text style={styles.emoji}>📥</Text>
             </View>
             <Text style={[styles.optionTitle, { color: theme.textColor }]}>

@@ -7,9 +7,9 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
-import { useTheme } from '../common/ThemeProvider';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { MOCK_OFFERING, FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../types/subscription';
+import { useTheme } from '../common/ThemeProvider';
 
 interface PaywallProps {
   visible: boolean;
@@ -136,7 +136,7 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
   );
 }
 
-function BenefitItem({ text, theme }: { text: string; theme: any }) {
+function BenefitItem({ text, theme }: { text: string; theme: { accentColor: string; textColor: string } }) {
   return (
     <View style={styles.benefitRow}>
       <Text style={[styles.checkmark, { color: theme.accentColor }]}>✓</Text>

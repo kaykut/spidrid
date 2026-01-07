@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
 import { useLearningStore } from '../../store/learningStore';
@@ -64,7 +64,7 @@ export default function TopicScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Topic Header */}
         <View style={styles.topicHeader}>
-          <View style={[styles.topicIcon, { backgroundColor: topic.color + '20' }]}>
+          <View style={[styles.topicIcon, { backgroundColor: `${topic.color  }20` }]}>
             <Text style={styles.topicEmoji}>{topic.icon}</Text>
           </View>
           <Text style={[styles.topicName, { color: theme.textColor }]}>{topic.name}</Text>

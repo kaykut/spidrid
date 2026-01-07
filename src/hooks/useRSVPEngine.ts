@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { ProcessedWord, RSVPEngineControls } from '../types/playback';
 import { findSentenceStarts, findPreviousSentenceStart, findNextSentenceStart } from '../services/textProcessor';
+import { ProcessedWord, RSVPEngineControls } from '../types/playback';
 
 /**
  * RSVP Engine Hook

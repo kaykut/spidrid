@@ -8,13 +8,13 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { WebView } from 'react-native-webview';
+import { generateCertificatePDF, shareCertificate, deleteCertificatePDF } from '../../services/certificatePDF';
+import { generateCertificateHTML } from '../../services/certificateTemplate';
+import { useSettingsStore } from '../../store/settingsStore';
 import { Certificate } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
-import { useSettingsStore } from '../../store/settingsStore';
-import { generateCertificateHTML } from '../../services/certificateTemplate';
-import { generateCertificatePDF, shareCertificate, deleteCertificatePDF } from '../../services/certificatePDF';
 
 interface CertificateViewerModalProps {
   certificate: Certificate | null;
@@ -42,7 +42,7 @@ export function CertificateViewerModal({
     : '';
 
   const handleShare = useCallback(async () => {
-    if (!certificate) return;
+    if (!certificate) {return;}
 
     setIsGenerating(true);
     let pdfUri: string | null = null;
@@ -55,7 +55,7 @@ export function CertificateViewerModal({
       });
 
       await shareCertificate(pdfUri);
-    } catch (error) {
+    } catch (_error) {
       Alert.alert(
         'Share Failed',
         'Could not generate or share the certificate. Please try again.'
@@ -69,7 +69,7 @@ export function CertificateViewerModal({
     }
   }, [certificate, userName, readingLanguage]);
 
-  if (!certificate) return null;
+  if (!certificate) {return null;}
 
   return (
     <Modal

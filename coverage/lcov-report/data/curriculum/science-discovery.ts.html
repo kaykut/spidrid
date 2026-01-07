@@ -1,0 +1,2569 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/science-discovery.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> science-discovery.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a>
+<a name='L827'></a><a href='#L827'>827</a>
+<a name='L828'></a><a href='#L828'>828</a>
+<a name='L829'></a><a href='#L829'>829</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const SCIENCE_DISCOVERY_ARTICLES: Article[] = [
+  // Practice articles (P01-P10) - progressively longer
+  {
+    id: 'science-discovery-p01',
+    topicId: 'science-discovery',
+    title: 'The Water Cycle',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `Water moves through our planet in a continuous cycle that has been repeating for billions of years. The sun heats water in oceans, lakes, and rivers, causing it to evaporate into the atmosphere as water vapor. This invisible gas rises high into the sky where temperatures are much cooler.
+&nbsp;
+As water vapor rises and cools, it undergoes a process called condensation. The water molecules slow down and come together, forming tiny droplets that cling to particles of dust and pollen in the air. These droplets gather together to form clouds that float across the sky, carried by wind currents.
+&nbsp;
+When clouds become heavy with water droplets, precipitation occurs. Depending on temperature conditions, this water falls back to Earth as rain, snow, sleet, or hail. In warmer regions, rain is most common, while colder areas experience more snow and ice.
+&nbsp;
+Once water reaches the ground, it begins its journey back to larger bodies of water. Some water flows across the surface as runoff, collecting in streams and rivers that eventually reach the ocean. Other water seeps into the ground, becoming groundwater that moves slowly through soil and rock layers.
+&nbsp;
+Plants play an important role in the water cycle through a process called transpiration. Trees and plants absorb water through their roots and release it back into the atmosphere through tiny pores in their leaves. A single large oak tree can release over 100 gallons of water into the air each day.
+&nbsp;
+The water cycle is essential for life on Earth. It distributes heat around the planet, shapes landscapes through erosion, and provides fresh water for drinking, agriculture, and industry. Scientists study this cycle to understand climate patterns and predict weather changes.
+&nbsp;
+Climate change is affecting the water cycle in significant ways. Warmer temperatures increase evaporation rates and change precipitation patterns. Some regions experience more intense storms while others face prolonged droughts. Understanding these changes helps communities prepare for future water challenges.
+&nbsp;
+The same water molecules that exist today have been cycling through our planet for billions of years. The water you drink may have once been part of a dinosaur's lake or a glacier during the ice age. This remarkable recycling system connects all life on Earth across time and space.`,
+    questions: [
+      {
+        id: 'science-discovery-p01-q1',
+        type: 'single_choice',
+        question: 'What causes water to evaporate from oceans and lakes?',
+        options: ['The moon\'s gravity', 'Heat from the sun', 'Wind currents', 'Ocean currents'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p01-q2',
+        type: 'single_choice',
+        question: 'What process occurs when water vapor cools and forms droplets?',
+        options: ['Evaporation', 'Precipitation', 'Condensation', 'Transpiration'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p01-q3',
+        type: 'true_false',
+        question: 'Plants release water into the atmosphere through transpiration.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p02',
+    topicId: 'science-discovery',
+    title: 'Photosynthesis: Nature\'s Energy Factory',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `Photosynthesis is one of the most important chemical processes on Earth. It allows plants, algae, and certain bacteria to convert sunlight into chemical energy stored in glucose. This remarkable process sustains nearly all life on our planet by producing food and oxygen.
+&nbsp;
+The word photosynthesis comes from Greek roots meaning "light" and "putting together." This perfectly describes what happens during the process. Plants combine simple ingredients using light energy to create complex sugar molecules. The basic equation is straightforward: carbon dioxide plus water plus light energy yields glucose plus oxygen.
+&nbsp;
+Leaves are the primary factories where photosynthesis occurs. Their flat, broad shape maximizes exposure to sunlight. Inside each leaf, millions of cells contain specialized structures called chloroplasts. These tiny organelles are filled with chlorophyll, the green pigment that gives plants their characteristic color and captures light energy.
+&nbsp;
+Chlorophyll molecules are remarkably efficient at absorbing light. They primarily capture red and blue wavelengths while reflecting green light back to our eyes. This is why most plants appear green to us. Some plants have additional pigments that create red, purple, or orange colors, but chlorophyll remains the key player in photosynthesis.
+&nbsp;
+The process of photosynthesis occurs in two main stages. The light-dependent reactions happen first, taking place in the thylakoid membranes inside chloroplasts. Here, chlorophyll captures light energy and uses it to split water molecules. This releases oxygen as a byproduct and creates energy-carrying molecules that power the next stage.
+&nbsp;
+The second stage, called the Calvin cycle, occurs in the fluid-filled region of the chloroplast called the stroma. During this stage, the plant uses the energy captured earlier to convert carbon dioxide from the air into glucose. This sugar serves as the plant's primary food source and building material for growth.
+&nbsp;
+Plants use glucose in several ways. Some is immediately broken down through cellular respiration to release energy for growth and other life processes. Some is converted into starches and stored for later use. The rest becomes structural materials like cellulose that form cell walls and other plant tissues.
+&nbsp;
+The oxygen produced during photosynthesis is essential for most life on Earth. Animals, including humans, breathe this oxygen and use it in cellular respiration to release energy from food. In return, we exhale carbon dioxide that plants use for photosynthesis. This beautiful cycle connects all living things.
+&nbsp;
+Photosynthesis has shaped Earth's atmosphere over billions of years. Early photosynthetic organisms, likely cyanobacteria, began producing oxygen about 2.7 billion years ago. This gradually transformed Earth's atmosphere from one dominated by carbon dioxide and methane to the oxygen-rich air we breathe today. This change, called the Great Oxygenation Event, made complex life possible.
+&nbsp;
+Scientists study photosynthesis intensively because of its potential applications. Researchers hope to create artificial photosynthesis systems that could produce clean fuel from sunlight and water. Others work to enhance photosynthesis in crop plants to increase food production and help feed our growing population.
+&nbsp;
+Climate change adds urgency to understanding photosynthesis. Plants absorb about 30 percent of human carbon dioxide emissions through photosynthesis. Protecting and expanding forests is crucial for managing atmospheric carbon levels. However, rising temperatures and changing conditions may affect how efficiently plants photosynthesize in the future.`,
+    questions: [
+      {
+        id: 'science-discovery-p02-q1',
+        type: 'single_choice',
+        question: 'What pigment is primarily responsible for capturing light energy in plants?',
+        options: ['Glucose', 'Chlorophyll', 'Cellulose', 'Carotene'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p02-q2',
+        type: 'single_choice',
+        question: 'Where does the Calvin cycle occur?',
+        options: ['In the thylakoid membranes', 'In the stroma', 'In the cell wall', 'In the nucleus'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p02-q3',
+        type: 'multiple_select',
+        question: 'What are the products of photosynthesis? Select all that apply.',
+        options: ['Glucose', 'Oxygen', 'Carbon dioxide', 'Water'],
+        correctIndices: [0, 1],
+      },
+      {
+        id: 'science-discovery-p02-q4',
+        type: 'numeric',
+        question: 'Approximately when did early organisms begin producing oxygen (in billions of years ago)?',
+        correctValue: 2.7,
+        tolerance: 0.3,
+        min: 1,
+        max: 5,
+        step: 0.1,
+        unit: 'billion years',
+      },
+      {
+        id: 'science-discovery-p02-q5',
+        type: 'true_false',
+        question: 'The Great Oxygenation Event made complex life possible on Earth.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p03',
+    topicId: 'science-discovery',
+    title: 'The Solar System: Our Cosmic Neighborhood',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `Our solar system formed approximately 4.6 billion years ago from a massive cloud of gas and dust called a solar nebula. Gravity pulled this material together, with most of it collapsing to form the Sun at the center. The remaining debris eventually coalesced into planets, moons, asteroids, and comets that orbit our star today.
+&nbsp;
+The Sun contains over 99 percent of the total mass in our solar system. This enormous ball of hot plasma generates energy through nuclear fusion, converting hydrogen into helium in its core where temperatures reach 27 million degrees Fahrenheit. The energy produced travels outward and eventually reaches Earth as sunlight, sustaining all life on our planet.
+&nbsp;
+Mercury is the closest planet to the Sun, orbiting at an average distance of just 36 million miles. Despite its proximity to our star, Mercury is not the hottest planet because it lacks an atmosphere to trap heat. Temperatures on Mercury swing wildly from 800 degrees Fahrenheit during the day to minus 290 degrees at night.
+&nbsp;
+Venus, often called Earth's twin because of its similar size, has a thick atmosphere composed primarily of carbon dioxide. This creates an extreme greenhouse effect that makes Venus the hottest planet in our solar system, with surface temperatures reaching 900 degrees Fahrenheit. Soviet spacecraft Venera 7 became the first probe to transmit data from Venus's surface in December 1970.
+&nbsp;
+Earth is the third planet from the Sun and the only known world to harbor life. Our planet sits in what astronomers call the habitable zone, where temperatures allow liquid water to exist on the surface. Earth's atmosphere protects us from harmful radiation while maintaining temperatures suitable for life through a balanced greenhouse effect.
+&nbsp;
+Mars, the fourth planet, has fascinated humans for centuries with its distinctive red color caused by iron oxide on its surface. NASA's Perseverance rover landed in Jezero Crater on February 18, 2021, beginning its search for signs of ancient microbial life. Scientists believe Mars once had rivers and lakes billions of years ago when its atmosphere was thicker.
+&nbsp;
+The asteroid belt separates the inner rocky planets from the outer gas giants. This region contains millions of rocky objects ranging from small boulders to the dwarf planet Ceres, which measures 590 miles in diameter. The asteroid belt formed from material that never coalesced into a planet due to Jupiter's powerful gravitational influence.
+&nbsp;
+Jupiter is the largest planet in our solar system, with a mass greater than all other planets combined. This gas giant has no solid surface, just layers of hydrogen and helium that become denser with depth. The Great Red Spot is a massive storm larger than Earth that has been raging for at least 400 years since astronomers first observed it in the 1600s.
+&nbsp;
+Saturn is famous for its spectacular ring system, which consists of billions of particles of ice and rock. Italian astronomer Galileo Galilei first observed Saturn's rings in 1610, though his telescope was too primitive to resolve them clearly. The Cassini spacecraft orbited Saturn from 2004 to 2017, revealing incredible details about the planet and its 146 known moons.
+&nbsp;
+Uranus rotates on its side, likely due to a collision with an Earth-sized object early in the solar system's history. British astronomer William Herschel discovered Uranus on March 13, 1781, making it the first planet found using a telescope. The planet appears blue-green due to methane in its atmosphere, which absorbs red light from the Sun.
+&nbsp;
+Neptune, the eighth and most distant planet, was discovered through mathematical prediction in 1846. Astronomers noticed that Uranus was not following its expected orbit and calculated that another planet's gravity must be affecting it. German astronomer Johann Galle found Neptune within one degree of the predicted position.
+&nbsp;
+Beyond Neptune lies the Kuiper Belt, a vast region of icy bodies including the dwarf planet Pluto. The International Astronomical Union reclassified Pluto as a dwarf planet in August 2006 because it has not cleared the neighborhood around its orbit. NASA's New Horizons spacecraft flew past Pluto on July 14, 2015, revealing a complex world with mountains, glaciers, and a thin atmosphere.
+&nbsp;
+Our understanding of the solar system continues to expand as new missions explore these distant worlds. Scientists have discovered over 5,500 planets orbiting other stars, suggesting that planetary systems are common throughout the universe. The search for life beyond Earth remains one of humanity's most profound scientific endeavors.`,
+    questions: [
+      {
+        id: 'science-discovery-p03-q1',
+        type: 'single_choice',
+        question: 'Which planet is the hottest in our solar system?',
+        options: ['Mercury', 'Venus', 'Mars', 'Jupiter'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p03-q2',
+        type: 'single_choice',
+        question: 'Who discovered Uranus?',
+        options: ['Galileo Galilei', 'Johann Galle', 'William Herschel', 'Isaac Newton'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p03-q3',
+        type: 'multiple_select',
+        question: 'Which statements about Jupiter are true? Select all that apply.',
+        options: ['It has a solid surface', 'It is the largest planet', 'The Great Red Spot is a massive storm', 'It has a mass greater than all other planets combined'],
+        correctIndices: [1, 2, 3],
+      },
+      {
+        id: 'science-discovery-p03-q4',
+        type: 'true_false',
+        question: 'Pluto was reclassified as a dwarf planet in 2006.',
+        correctAnswer: true,
+      },
+      {
+        id: 'science-discovery-p03-q5',
+        type: 'numeric',
+        question: 'Approximately how old is our solar system (in billions of years)?',
+        correctValue: 4.6,
+        tolerance: 0.2,
+        min: 3,
+        max: 6,
+        step: 0.1,
+        unit: 'billion years',
+      },
+      {
+        id: 'science-discovery-p03-q6',
+        type: 'single_choice',
+        question: 'What separates the inner rocky planets from the outer gas giants?',
+        options: ['The Kuiper Belt', 'The Oort Cloud', 'The asteroid belt', 'The habitable zone'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p04',
+    topicId: 'science-discovery',
+    title: 'The Theory of Evolution: Life\'s Grand Story',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `Charles Darwin published On the Origin of Species on November 24, 1859, forever changing how humans understand life on Earth. His theory of evolution by natural selection explained how species change over time and how the remarkable diversity of life arose from common ancestors. This revolutionary idea remains the foundation of modern biology nearly two centuries later.
+&nbsp;
+Darwin developed his theory during a five-year voyage aboard HMS Beagle, which departed Plymouth, England in December 1831. The ship's mission was to survey South American coastlines, but Darwin used this opportunity to observe wildlife across multiple continents. His observations in the Galapagos Islands proved particularly influential when he noticed that finches on different islands had distinctly shaped beaks adapted to local food sources.
+&nbsp;
+Natural selection works through a simple but powerful mechanism that Darwin described after years of careful thought. All organisms produce more offspring than can survive given limited resources like food and territory. Individuals within a species vary in their traits, and some of these variations provide advantages in the struggle for survival. Those individuals with beneficial traits survive longer and reproduce more successfully than those without them.
+&nbsp;
+Offspring inherit traits from their parents, so advantageous characteristics become more common in each successive generation. Over thousands and millions of years, small changes accumulate to produce major transformations. Populations gradually adapt to their environments, and given enough time, new species emerge from ancestral forms. Darwin called this process descent with modification.
+&nbsp;
+The fossil record provides compelling evidence for evolution by documenting life's history in stone. Paleontologists have discovered thousands of transitional forms showing intermediate stages between major groups. Archaeopteryx, found in Germany in 1861, displays both dinosaur and bird features, supporting the evolutionary connection between these groups. Tiktaalik, discovered in Arctic Canada in 2004, shows how fish evolved features necessary for life on land approximately 375 million years ago.
+&nbsp;
+DNA evidence has revolutionized our understanding of evolutionary relationships since James Watson and Francis Crick discovered its structure in 1953. All living organisms use the same genetic code, demonstrating their common ancestry. Scientists can compare DNA sequences to determine how closely related different species are and when their evolutionary paths diverged. Human DNA shares approximately 98.8 percent of its sequence with chimpanzee DNA, confirming our close evolutionary relationship.
+&nbsp;
+Evolution continues occurring today, sometimes fast enough for scientists to observe directly. Bacteria develop antibiotic resistance within years or even months because their short generation times allow rapid natural selection. Darwin's finches in the Galapagos showed measurable beak changes after a severe drought in 1977 favored birds that could crack larger seeds. The peppered moth in England evolved darker coloring during the Industrial Revolution when pollution darkened tree bark.
+&nbsp;
+Alfred Russel Wallace independently developed a nearly identical theory while studying wildlife in Southeast Asia during the 1850s. Wallace wrote to Darwin describing his ideas in February 1858, prompting Darwin to finally publish his long-delayed work. Both scientists presented their theories jointly at the Linnean Society of London on July 1, 1858, though Darwin's book appeared the following year and received most of the credit.
+&nbsp;
+The theory of evolution faced significant opposition when first proposed, particularly from religious groups who saw it as contradicting biblical accounts of creation. However, overwhelming evidence accumulated over subsequent decades convinced the scientific community. Today virtually all biologists accept evolution as the best explanation for life's diversity, supported by evidence from paleontology, genetics, anatomy, embryology, and direct observation.
+&nbsp;
+Evolution has practical applications beyond pure scientific understanding. Medical researchers use evolutionary principles to track disease outbreaks and predict how viruses might mutate. Agricultural scientists apply evolutionary thinking to develop crops resistant to pests and diseases. Conservation biologists use evolutionary analysis to identify genetically distinct populations that deserve protection.
+&nbsp;
+Understanding evolution helps us appreciate our place in the history of life on Earth. Humans are not separate from nature but products of the same evolutionary processes that shaped all other species. Our ancestors lived in trees, walked on four legs, and swam in ancient seas billions of years ago. The atoms in our bodies were forged in dying stars before Earth existed. Evolution connects us to all living things in a grand story spanning nearly four billion years.`,
+    questions: [
+      {
+        id: 'science-discovery-p04-q1',
+        type: 'single_choice',
+        question: 'When did Darwin publish On the Origin of Species?',
+        options: ['November 24, 1831', 'November 24, 1859', 'July 1, 1858', 'February 12, 1809'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p04-q2',
+        type: 'single_choice',
+        question: 'What fossil discovery shows intermediate features between fish and land animals?',
+        options: ['Archaeopteryx', 'Tiktaalik', 'Australopithecus', 'Megalodon'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p04-q3',
+        type: 'multiple_select',
+        question: 'Which statements about natural selection are true? Select all that apply.',
+        options: ['Organisms produce more offspring than can survive', 'Individuals with beneficial traits reproduce more successfully', 'All offspring are identical to their parents', 'Small changes accumulate over millions of years'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'science-discovery-p04-q4',
+        type: 'true_false',
+        question: 'Alfred Russel Wallace independently developed a theory of evolution similar to Darwin\'s.',
+        correctAnswer: true,
+      },
+      {
+        id: 'science-discovery-p04-q5',
+        type: 'numeric',
+        question: 'Approximately what percentage of DNA do humans share with chimpanzees?',
+        correctValue: 98.8,
+        tolerance: 0.5,
+        min: 90,
+        max: 100,
+        step: 0.1,
+        unit: 'percent',
+      },
+      {
+        id: 'science-discovery-p04-q6',
+        type: 'single_choice',
+        question: 'Who discovered the structure of DNA in 1953?',
+        options: ['Charles Darwin and Alfred Wallace', 'James Watson and Francis Crick', 'Gregor Mendel and Thomas Hunt Morgan', 'Louis Pasteur and Robert Koch'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p05',
+    topicId: 'science-discovery',
+    title: 'Quantum Mechanics: The Strange World of the Very Small',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `Quantum mechanics describes the behavior of matter and energy at the smallest scales, where particles act in ways that defy everyday intuition. This revolutionary branch of physics emerged in the early twentieth century when scientists discovered that classical physics could not explain certain phenomena. Today quantum mechanics underlies technologies from lasers to smartphones to medical imaging equipment.
+&nbsp;
+The quantum revolution began when German physicist Max Planck proposed in December 1900 that energy comes in discrete packets called quanta rather than flowing continuously. Planck made this suggestion to solve a problem in physics called the ultraviolet catastrophe, where classical theory predicted that hot objects should emit infinite amounts of high-frequency radiation. His quantum hypothesis accurately described the actual radiation patterns that scientists observed in laboratory experiments.
+&nbsp;
+Albert Einstein extended Planck's ideas in 1905 by proposing that light itself consists of discrete particles now called photons. Einstein used this concept to explain the photoelectric effect, where light striking metal surfaces releases electrons in patterns that classical wave theory could not predict. He showed that only light above a certain frequency would eject electrons, regardless of intensity, because individual photons needed sufficient energy. This work earned Einstein the Nobel Prize in Physics in 1921.
+&nbsp;
+Danish physicist Niels Bohr applied quantum concepts to atomic structure in 1913, explaining why atoms emit light at specific wavelengths. Bohr proposed that electrons orbit the nucleus only at certain allowed distances, each corresponding to a specific energy level. When electrons jump between levels, they absorb or emit photons with energy exactly equal to the difference between levels. This model explained the spectral lines that scientists had observed for decades without understanding their origin.
+&nbsp;
+Werner Heisenberg and Erwin Schrodinger developed more complete mathematical frameworks for quantum mechanics during the 1920s. Heisenberg formulated matrix mechanics in 1925, while Schrodinger introduced his famous wave equation in 1926. Though these approaches initially appeared different, physicists soon proved they were mathematically equivalent ways of describing the same underlying reality.
+&nbsp;
+The uncertainty principle, which Heisenberg announced in 1927, reveals a fundamental limit on what we can know about quantum particles. This principle states that we cannot simultaneously measure both the position and momentum of a particle with perfect accuracy. The more precisely we determine one quantity, the less precisely we can know the other. This limitation is not due to imperfect instruments but reflects the intrinsic nature of quantum reality.
+&nbsp;
+Wave-particle duality represents another deeply counterintuitive aspect of quantum mechanics. Experiments show that particles like electrons behave as waves under some circumstances and as particles under others. The famous double-slit experiment demonstrates this strangeness dramatically. When electrons pass through two parallel slits, they create an interference pattern characteristic of waves, even when sent through one at a time. Yet when scientists attempt to detect which slit each electron passes through, the interference pattern disappears and the electrons behave as particles.
+&nbsp;
+Quantum superposition allows particles to exist in multiple states simultaneously until measured. Schrodinger illustrated this concept with his famous thought experiment involving a cat in a sealed box with a quantum trigger that might or might not release poison. According to quantum mechanics, until someone opens the box and observes the outcome, the cat exists in a superposition of alive and dead states. While macroscopic objects like cats do not actually exhibit such behavior due to rapid environmental interactions, individual particles genuinely exist in superposition states.
+&nbsp;
+Quantum entanglement connects particles in ways Einstein famously called spooky action at a distance. When two particles become entangled, measuring one instantly affects the other regardless of the distance separating them. Einstein believed this implied some flaw in quantum mechanics, but experiments since the 1980s have confirmed that entanglement is real. Scientists led by Alain Aspect performed landmark tests in Paris in 1982 that ruled out classical explanations for entanglement correlations.
+&nbsp;
+Quantum mechanics has enabled technologies that transformed modern life beyond recognition. Transistors, the building blocks of all electronic devices, rely on quantum mechanical behavior of electrons in semiconductors. The first working transistor was demonstrated at Bell Labs on December 23, 1947, by John Bardeen, Walter Brattain, and William Shockley. Lasers, which produce coherent light through quantum processes, enable everything from fiber optic communications to barcode scanners to eye surgery.
+&nbsp;
+Quantum computing represents the next frontier in applying quantum principles to technology. Unlike classical computers that process information as bits valued at either zero or one, quantum computers use quantum bits or qubits that can exist in superposition of both values simultaneously. This allows quantum computers to explore many possible solutions at once for certain problems. Google announced in October 2019 that its 53-qubit processor performed a calculation in 200 seconds that would take the most powerful classical supercomputer approximately 10,000 years.
+&nbsp;
+Medical imaging technologies including MRI scanners depend on quantum mechanical phenomena. Magnetic resonance imaging exploits the quantum spin properties of hydrogen atoms in body tissues. By placing patients in strong magnetic fields and applying radio pulses, MRI machines can create detailed images of internal organs without using harmful radiation. This technology has revolutionized diagnosis of neurological conditions, joint injuries, and many other medical problems.
+&nbsp;
+The interpretation of quantum mechanics remains philosophically controversial despite its mathematical precision and predictive success. The Copenhagen interpretation, developed primarily by Bohr and Heisenberg, holds that particles do not have definite properties until measured. The many-worlds interpretation, proposed by Hugh Everett in 1957, suggests that all possible measurement outcomes actually occur in branching parallel universes. Physicists continue debating these foundational questions while using quantum mechanics successfully in practical applications.
+&nbsp;
+Quantum mechanics reveals a universe far stranger than our everyday experience suggests. At the smallest scales, certainty gives way to probability, particles become waves, and observers affect what they observe. This revolutionary theory has passed every experimental test while enabling technologies that previous generations could scarcely imagine.`,
+    questions: [
+      {
+        id: 'science-discovery-p05-q1',
+        type: 'single_choice',
+        question: 'Who first proposed that energy comes in discrete packets called quanta?',
+        options: ['Albert Einstein', 'Niels Bohr', 'Max Planck', 'Werner Heisenberg'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p05-q2',
+        type: 'single_choice',
+        question: 'For which discovery did Einstein win the Nobel Prize in Physics in 1921?',
+        options: ['Theory of relativity', 'Explanation of the photoelectric effect', 'Discovery of quantum entanglement', 'Development of the atomic bomb'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p05-q3',
+        type: 'multiple_select',
+        question: 'Which technologies depend on quantum mechanics? Select all that apply.',
+        options: ['Transistors', 'MRI scanners', 'Steam engines', 'Lasers'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'science-discovery-p05-q4',
+        type: 'true_false',
+        question: 'The uncertainty principle states that we cannot simultaneously measure both the position and momentum of a particle with perfect accuracy.',
+        correctAnswer: true,
+      },
+      {
+        id: 'science-discovery-p05-q5',
+        type: 'numeric',
+        question: 'In what year was the first working transistor demonstrated at Bell Labs?',
+        correctValue: 1947,
+        tolerance: 0,
+        min: 1900,
+        max: 2000,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'science-discovery-p05-q6',
+        type: 'single_choice',
+        question: 'Who performed landmark experiments in 1982 confirming quantum entanglement?',
+        options: ['Erwin Schrodinger', 'Hugh Everett', 'Alain Aspect', 'Richard Feynman'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p05-q7',
+        type: 'single_choice',
+        question: 'What is the many-worlds interpretation of quantum mechanics?',
+        options: ['Particles do not have definite properties until measured', 'All possible measurement outcomes occur in parallel universes', 'Quantum effects only occur at absolute zero temperature', 'Entangled particles communicate faster than light'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p05-q8',
+        type: 'numeric',
+        question: 'How many qubits did Google\'s quantum processor have when it achieved quantum supremacy?',
+        correctValue: 53,
+        tolerance: 2,
+        min: 10,
+        max: 100,
+        step: 1,
+        unit: 'qubits',
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p06',
+    topicId: 'science-discovery',
+    title: 'Black Holes: Gravity\'s Ultimate Mystery',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `Black holes represent some of the most extreme objects in the universe, where gravity becomes so powerful that nothing can escape, not even light itself. These cosmic phenomena challenge our understanding of physics and continue revealing secrets about space, time, and the fundamental nature of reality. Scientists have transformed black holes from theoretical curiosities into observational targets that help unlock the mysteries of the cosmos.
+&nbsp;
+Albert Einstein's general theory of relativity, published in November 1915, predicted the existence of black holes as a mathematical consequence of how mass warps spacetime. German physicist Karl Schwarzschild calculated the first exact solution to Einstein's equations while serving on the Russian front during World War I, describing what we now call a Schwarzschild black hole. He completed this groundbreaking work in December 1915, just weeks after Einstein presented his theory, and died from illness the following May at age 42.
+&nbsp;
+The term black hole was not coined until 1967, when American physicist John Wheeler popularized it during a lecture at the Goddard Institute for Space Studies in New York City. Before this catchy name gained acceptance, scientists called these objects frozen stars or collapsed stars. Wheeler's memorable phrase captured public imagination and helped black holes become icons of modern cosmology and popular science fiction.
+&nbsp;
+Black holes form through several different processes depending on their size and origin. Stellar black holes result when massive stars exhaust their nuclear fuel and collapse under their own gravity. Stars with masses greater than about 20 times our Sun can produce black holes when they die in supernova explosions. The core collapses to a point while outer layers blast outward, leaving behind an invisible gravitational remnant typically containing between 5 and 30 solar masses.
+&nbsp;
+Supermassive black holes lurk at the centers of most large galaxies, containing millions or even billions of times the mass of our Sun. The Milky Way's central black hole, called Sagittarius A*, contains approximately 4 million solar masses packed into a region smaller than Mercury's orbit around the Sun. Astronomers Reinhard Genzel and Andrea Ghez shared the 2020 Nobel Prize in Physics for decades of observations proving this monster exists by tracking stars orbiting the invisible mass at our galaxy's heart.
+&nbsp;
+The event horizon defines the boundary from which nothing can return once crossed. This spherical surface marks the point of no return, where escape velocity equals the speed of light. For a black hole with the mass of our Sun, the event horizon would be roughly 6 kilometers in diameter. Supermassive black holes have proportionally larger event horizons, with Sagittarius A* spanning roughly 24 million kilometers.
+&nbsp;
+Spacetime becomes increasingly warped as objects approach a black hole, creating effects that seem like science fiction but follow directly from Einstein's equations. Time runs slower near the event horizon compared to distant locations, a phenomenon called gravitational time dilation. An astronaut falling toward a black hole would observe the outside universe speeding up while observers watching from afar would see the astronaut appearing to freeze at the event horizon.
+&nbsp;
+Tidal forces near smaller black holes would stretch any object falling inward through a process scientists grimly call spaghettification. The gravity acting on closer portions of the object exceeds that on farther portions, pulling it apart lengthwise while compressing it from the sides. Supermassive black holes actually pose less immediate danger from tidal forces because their event horizons are relatively farther from the central singularity.
+&nbsp;
+The singularity at a black hole's center represents our physics breaking down entirely. General relativity predicts that matter falling inward eventually compresses to a point of infinite density where known physical laws cease to apply. Most physicists believe this prediction reveals the limits of our current theories rather than describing actual infinite density. A complete theory of quantum gravity might explain what really happens at the singularity.
+&nbsp;
+Stephen Hawking revolutionized black hole physics in 1974 when he proposed that black holes emit radiation through quantum effects near the event horizon. This Hawking radiation causes black holes to slowly evaporate over immense timescales, with smaller black holes radiating faster than larger ones. A stellar mass black hole would take far longer than the current age of the universe to evaporate completely, but the theoretical breakthrough connected gravity, quantum mechanics, and thermodynamics in profound new ways.
+&nbsp;
+Black holes do not simply swallow everything nearby but can power spectacular cosmic fireworks. Matter falling toward a black hole forms a swirling accretion disk that heats to millions of degrees through friction and compression. This superheated material emits intense radiation across the electromagnetic spectrum before crossing the event horizon. Some black holes produce jets of particles traveling at nearly the speed of light that extend thousands of light-years into space.
+&nbsp;
+Quasars are among the brightest objects in the universe, powered by supermassive black holes actively consuming surrounding matter. These cosmic beacons can outshine their entire host galaxies by factors of hundreds or thousands. The most distant known quasar, discovered in January 2021, existed when the universe was only 670 million years old and contains a black hole with 1.6 billion solar masses.
+&nbsp;
+The Event Horizon Telescope collaboration achieved a historic milestone on April 10, 2019, when they released the first direct image of a black hole's shadow. This image captured the supermassive black hole at the center of galaxy M87, located 55 million light-years from Earth. The project combined data from radio telescopes spanning the globe to create an Earth-sized virtual telescope capable of resolving details smaller than 20 microarcseconds.
+&nbsp;
+Gravitational waves from colliding black holes provided another revolution in observational astronomy. The Laser Interferometer Gravitational-Wave Observatory, known as LIGO, detected ripples in spacetime from two merging black holes on September 14, 2015. This observation confirmed another prediction from Einstein's theory while opening an entirely new window for studying the universe. The discovery earned Rainer Weiss, Kip Thorne, and Barry Barish the 2017 Nobel Prize in Physics.
+&nbsp;
+Scientists continue discovering surprises about black holes as observational techniques improve. The detection of unexpectedly massive black hole mergers suggests that some black holes form through processes we do not yet understand. Intermediate-mass black holes, larger than stellar black holes but smaller than supermassive ones, remain elusive targets that might reveal how the largest black holes grow. Future space-based gravitational wave detectors will hear collisions involving supermassive black holes across the observable universe.
+&nbsp;
+Black holes have transformed from mathematical abstractions into real objects that astronomers observe and study regularly. They challenge our intuitions about space and time while driving fundamental advances in theoretical physics. The ongoing exploration of these extreme environments promises continued discoveries about how the universe works at its most extreme limits.`,
+    questions: [
+      {
+        id: 'science-discovery-p06-q1',
+        type: 'single_choice',
+        question: 'Who coined the term "black hole" in 1967?',
+        options: ['Albert Einstein', 'Stephen Hawking', 'John Wheeler', 'Karl Schwarzschild'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p06-q2',
+        type: 'single_choice',
+        question: 'What is the name of the supermassive black hole at the center of the Milky Way?',
+        options: ['M87', 'Cygnus X-1', 'Sagittarius A*', 'Quasar 3C 273'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p06-q3',
+        type: 'multiple_select',
+        question: 'Which scientists won Nobel Prizes for black hole research? Select all that apply.',
+        options: ['Reinhard Genzel', 'Stephen Hawking', 'Andrea Ghez', 'Kip Thorne'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'science-discovery-p06-q4',
+        type: 'true_false',
+        question: 'Karl Schwarzschild calculated his solution to Einstein\'s equations while serving on the Russian front during World War I.',
+        correctAnswer: true,
+      },
+      {
+        id: 'science-discovery-p06-q5',
+        type: 'numeric',
+        question: 'Approximately how many solar masses does Sagittarius A* contain (in millions)?',
+        correctValue: 4,
+        tolerance: 0.5,
+        min: 1,
+        max: 10,
+        step: 0.5,
+        unit: 'million solar masses',
+      },
+      {
+        id: 'science-discovery-p06-q6',
+        type: 'single_choice',
+        question: 'When did LIGO first detect gravitational waves from merging black holes?',
+        options: ['April 10, 2019', 'September 14, 2015', 'January 2021', 'November 1915'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p06-q7',
+        type: 'single_choice',
+        question: 'What is Hawking radiation?',
+        options: ['Light emitted from accretion disks', 'Radiation that causes black holes to slowly evaporate', 'X-rays from colliding black holes', 'Radio waves from quasars'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p06-q8',
+        type: 'numeric',
+        question: 'In what year did Stephen Hawking propose that black holes emit radiation?',
+        correctValue: 1974,
+        tolerance: 0,
+        min: 1950,
+        max: 2000,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'science-discovery-p06-q9',
+        type: 'true_false',
+        question: 'The Event Horizon Telescope produced the first direct image of a black hole in 2019.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-p07',
+    topicId: 'science-discovery',
+    title: 'Plate Tectonics: The Moving Earth Beneath Our Feet',
+    difficulty: 'advanced',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `The theory of plate tectonics revolutionized Earth science by explaining how continents drift, mountains rise, earthquakes strike, and volcanoes erupt through the movement of massive slabs of rock covering our planet's surface. This unifying framework connects phenomena that scientists once studied in isolation, revealing Earth as a dynamic system constantly reshaping itself over millions of years. The journey from initial hypothesis to scientific consensus transformed our understanding of the ground beneath our feet.
+&nbsp;
+German meteorologist Alfred Wegener proposed the theory of continental drift in January 1912 at a meeting of the German Geological Society in Frankfurt. He noticed that the coastlines of Africa and South America fit together like puzzle pieces and gathered evidence from fossils, rock formations, and ancient climate patterns suggesting these continents were once joined. His book The Origin of Continents and Oceans, published in 1915, presented comprehensive arguments that the continents had moved vast distances over geological time.
+&nbsp;
+The scientific establishment rejected Wegener's ideas for decades because he could not explain what force moved entire continents. Critics dismissed his matching coastlines as coincidence and his fossil evidence as flawed. Wegener died during an expedition to Greenland in November 1930 at age 50, never seeing his revolutionary concept gain acceptance. Only after World War II did new discoveries finally provide the mechanism that Wegener lacked.
+&nbsp;
+Exploration of the ocean floor revealed features that transformed geological thinking. American geologist Harry Hess proposed in 1962 that new oceanic crust forms at underwater mountain chains called mid-ocean ridges, where molten rock rises from Earth's interior. He suggested that this seafloor spreading pushes older crust sideways in a process like a conveyor belt. Hess called his idea geopoetry because it remained speculative, but evidence soon confirmed his vision.
+&nbsp;
+The Mid-Atlantic Ridge runs down the center of the Atlantic Ocean for over 10,000 miles, making it the longest mountain range on Earth. Hot magma wells up along this ridge, solidifying into new oceanic crust that then moves away at rates of roughly 2.5 centimeters per year. This speed seems trivially slow but produces significant motion over geological timescales. The Atlantic Ocean has widened by approximately 2,000 miles since the dinosaurs went extinct 66 million years ago.
+&nbsp;
+Magnetic patterns recorded in oceanic rocks provided stunning confirmation of seafloor spreading during the early 1960s. Earth's magnetic field periodically reverses polarity, with magnetic north and south switching places over intervals ranging from tens of thousands to millions of years. Newly formed rocks record the magnetic orientation existing when they cooled. British geophysicists Frederick Vine and Drummond Matthews discovered in 1963 that oceanic crust displays symmetric stripes of alternating magnetic polarity on either side of mid-ocean ridges.
+&nbsp;
+These magnetic stripes created a barcode-like pattern that confirmed rocks were forming at ridges and moving outward on both sides. The symmetry proved that new material was continuously being added at the center while older material moved away. This evidence, combined with increasingly precise dating of oceanic rocks, demonstrated that Hess's seafloor spreading hypothesis was fundamentally correct.
+&nbsp;
+The surface of Earth consists of roughly a dozen major tectonic plates and numerous smaller ones that fit together like a cracked eggshell. These plates include both oceanic crust, which is relatively thin and dense, and continental crust, which is thicker and more buoyant. The Pacific Plate is the largest, covering approximately 103 million square kilometers of Earth's surface. The North American Plate includes not only the continent but extends halfway across the Atlantic Ocean.
+&nbsp;
+Plate boundaries come in three varieties that produce different geological features. Divergent boundaries occur where plates move apart, allowing magma to rise and create new crust. The East African Rift represents a divergent boundary currently splitting the African continent, with the Somali Plate separating from the larger African Plate at roughly 6 to 7 millimeters per year. Given enough time, a new ocean basin will form where this rift widens.
+&nbsp;
+Convergent boundaries form where plates collide with dramatic consequences depending on what type of crust is involved. When oceanic crust meets continental crust, the denser oceanic plate dives beneath the lighter continental plate in a process called subduction. This creates deep ocean trenches like the Mariana Trench, which reaches nearly 11,000 meters below sea level. Subducting plates also generate volcanic arcs as water released from descending crust triggers melting in the overlying mantle.
+&nbsp;
+The collision of two continental plates produces the most spectacular mountain ranges on Earth. The Himalayas formed when the Indian subcontinent collided with the Eurasian plate beginning approximately 50 million years ago. This collision continues today, pushing Mount Everest higher by roughly 4 millimeters each year. The Alps, Appalachians, and other major mountain chains all record ancient continental collisions that compressed and uplifted rock layers.
+&nbsp;
+Transform boundaries occur where plates slide horizontally past each other without creating or destroying crust. The San Andreas Fault in California represents the most famous example, where the Pacific Plate moves northward relative to the North American Plate at about 46 millimeters per year. Los Angeles sits on the Pacific Plate while San Francisco sits on the North American Plate. In roughly 15 million years, these cities will be neighbors as the Pacific Plate carries Los Angeles northward.
+&nbsp;
+Earthquakes result primarily from stress accumulating and suddenly releasing along plate boundaries. Friction temporarily locks plates together as they attempt to move past each other. Strain builds over years or decades until rocks finally rupture, releasing energy as seismic waves. The 2011 Tohoku earthquake in Japan released energy equivalent to approximately 600 million Hiroshima atomic bombs when the Pacific Plate suddenly lurched beneath the Eurasian Plate.
+&nbsp;
+Volcanic activity concentrates along plate boundaries where conditions favor magma generation and ascent. The Ring of Fire encircling the Pacific Ocean contains about 75 percent of the world's active volcanoes and generates about 90 percent of earthquakes. This horseshoe-shaped zone stretches 40,000 kilometers from New Zealand through Indonesia, Japan, and Alaska to the western coasts of North and South America. The concentration of volcanic and seismic activity directly reflects the many convergent and transform boundaries surrounding the Pacific Plate.
+&nbsp;
+Hot spots provide exceptions to the boundary-focused pattern, creating volcanic activity in plate interiors. The Hawaiian Islands formed as the Pacific Plate moved over a stationary plume of hot material rising from deep in the mantle. The youngest island, Hawaii itself, currently sits over the hot spot and hosts active volcanoes. Older islands extending northwestward were once positioned over the same hot spot millions of years ago but have since been carried away by plate motion.
+&nbsp;
+Understanding plate tectonics helps predict geological hazards and locate natural resources. Earthquake monitoring networks track seismic activity to assess risk in populated areas. Oil and mineral deposits often concentrate in specific geological settings that plate tectonics helps identify. Climate scientists study how continental positions affected past climates by altering ocean circulation and atmospheric patterns.
+&nbsp;
+The movement of continents has profoundly influenced the evolution and distribution of life on Earth. When landmasses were connected, organisms could migrate freely across what are now separate continents. The supercontinent Pangaea, which existed from about 335 to 175 million years ago, allowed similar species to spread across regions now separated by oceans. When continents rifted apart, populations became isolated and evolved independently, producing the distinct flora and fauna we see on different continents today.
+&nbsp;
+Earth remains a geologically active planet with tectonic processes continuing to reshape its surface. The Atlantic Ocean continues widening while the Pacific shrinks. Australia drifts northward toward Asia at roughly 70 millimeters per year. Africa is slowly rifting apart along the East African Rift. Over hundreds of millions of years, these movements will create entirely new continental configurations as Earth's restless surface continues its endless dance.`,
+    questions: [
+      {
+        id: 'science-discovery-p07-q1',
+        type: 'single_choice',
+        question: 'Who first proposed the theory of continental drift in 1912?',
+        options: ['Harry Hess', 'Alfred Wegener', 'Frederick Vine', 'Drummond Matthews'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p07-q2',
+        type: 'single_choice',
+        question: 'What mechanism did Harry Hess propose in 1962 to explain plate movement?',
+        options: ['Continental drift', 'Seafloor spreading', 'Volcanic eruption', 'Magnetic reversal'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-p07-q3',
+        type: 'multiple_select',
+        question: 'Which types of plate boundaries are described in the article? Select all that apply.',
+        options: ['Divergent boundaries', 'Convergent boundaries', 'Transform boundaries', 'Circular boundaries'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'science-discovery-p07-q4',
+        type: 'true_false',
+        question: 'The Mid-Atlantic Ridge is over 10,000 miles long, making it the longest mountain range on Earth.',
+        correctAnswer: true,
+      },
+      {
+        id: 'science-discovery-p07-q5',
+        type: 'numeric',
+        question: 'At approximately what rate (in millimeters per year) does the Pacific Plate move past the North American Plate along the San Andreas Fault?',
+        correctValue: 46,
+        tolerance: 5,
+        min: 20,
+        max: 80,
+        step: 1,
+        unit: 'millimeters per year',
+      },
+      {
+        id: 'science-discovery-p07-q6',
+        type: 'single_choice',
+        question: 'What provided the evidence that confirmed seafloor spreading in 1963?',
+        options: ['Fossil distributions', 'Coastline matching', 'Magnetic stripe patterns in oceanic crust', 'Earthquake measurements'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p07-q7',
+        type: 'single_choice',
+        question: 'How did the Hawaiian Islands form?',
+        options: ['At a divergent boundary', 'At a convergent boundary', 'Over a hot spot in the mantle', 'Along a transform boundary'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p07-q8',
+        type: 'numeric',
+        question: 'Approximately how deep is the Mariana Trench (in meters below sea level)?',
+        correctValue: 11000,
+        tolerance: 500,
+        min: 5000,
+        max: 15000,
+        step: 500,
+        unit: 'meters',
+      },
+      {
+        id: 'science-discovery-p07-q9',
+        type: 'true_false',
+        question: 'Wegener lived to see his continental drift theory accepted by the scientific community.',
+        correctAnswer: false,
+      },
+      {
+        id: 'science-discovery-p07-q10',
+        type: 'single_choice',
+        question: 'What percentage of earthquakes occur within the Ring of Fire?',
+        options: ['About 50 percent', 'About 75 percent', 'About 90 percent', 'About 99 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-p07-q11',
+        type: 'numeric',
+        question: 'When did the Indian subcontinent begin colliding with the Eurasian plate (millions of years ago)?',
+        correctValue: 50,
+        tolerance: 5,
+        min: 20,
+        max: 100,
+        step: 5,
+        unit: 'million years ago',
+      },
+    ],
+  },
+  // Certification texts (C1-C3)
+  {
+    id: 'science-discovery-c1',
+    topicId: 'science-discovery',
+    title: 'The Scientific Method: How We Know What We Know',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `The scientific method is the foundation of modern scientific inquiry. This systematic approach to understanding the natural world has transformed human knowledge over the past several centuries. From medicine to physics, from biology to chemistry, the scientific method provides a reliable way to test ideas and build understanding.
+&nbsp;
+At its core, the scientific method involves making observations, forming hypotheses, conducting experiments, and drawing conclusions. This cycle repeats as scientists refine their understanding. No idea is ever considered absolutely proven; instead, theories are constantly tested and updated as new evidence emerges.
+&nbsp;
+The process typically begins with observation. Scientists notice something in the natural world that sparks curiosity. Perhaps they observe an unusual pattern, an unexpected result, or a phenomenon that existing theories cannot explain. This observation leads to questions about why or how something occurs.
+&nbsp;
+From these questions, scientists develop hypotheses. A hypothesis is a proposed explanation that can be tested. Good hypotheses are specific and falsifiable, meaning they make predictions that could potentially be proven wrong. A hypothesis that cannot possibly be disproven is not scientifically useful.
+&nbsp;
+Testing hypotheses requires carefully designed experiments. Scientists identify variables they will manipulate and measure, while controlling other factors that might influence results. They establish control groups for comparison and determine what observations would support or refute their hypothesis.
+&nbsp;
+Data collection during experiments must be rigorous and unbiased. Scientists record observations systematically, often using standardized measurements and instruments. They take multiple measurements to ensure reliability. Statistical analysis helps determine whether results are significant or merely due to random chance.
+&nbsp;
+After analyzing data, scientists draw conclusions about whether the evidence supports their hypothesis. If results contradict the hypothesis, scientists must revise or reject it. If results support the hypothesis, scientists design additional experiments to further test the idea from different angles.
+&nbsp;
+Peer review is crucial to the scientific process. Before publishing results, scientists submit their work to other experts in their field for evaluation. These reviewers scrutinize the methodology, data analysis, and conclusions. This process helps catch errors and ensures quality, though it is not perfect.
+&nbsp;
+Replication is another essential component. Other scientists should be able to repeat an experiment and achieve similar results. When multiple independent researchers confirm findings, confidence in those results increases dramatically. Findings that cannot be replicated are viewed with skepticism.
+&nbsp;
+The scientific method has evolved significantly since its origins. Ancient Greek philosophers made important observations about nature but rarely conducted experiments. Medieval Islamic scholars made advances in systematic observation and experimentation. During the Scientific Revolution of the 16th and 17th centuries, figures like Francis Bacon and Galileo Galilei formalized experimental methodology.
+&nbsp;
+Today, the scientific method faces new challenges. Big data and computational methods allow analysis of massive datasets, changing how hypotheses are generated and tested. Interdisciplinary research blurs traditional boundaries between fields. Questions about reproducibility in some areas have sparked important discussions about research practices.
+&nbsp;
+Understanding the scientific method helps people evaluate claims critically. Not all studies are equally reliable. Sample size, methodology, statistical analysis, and potential biases all affect how much weight we should give particular findings. Scientific literacy empowers citizens to make informed decisions about health, policy, and personal choices.
+&nbsp;
+The scientific method is not limited to professional scientists. Anyone can apply its principles to everyday questions. From testing which plant food works best in your garden to evaluating whether a new exercise routine actually improves your fitness, systematic observation and testing lead to better understanding than intuition alone.
+&nbsp;
+Science is a human endeavor with all the strengths and weaknesses that implies. Scientists make mistakes, have biases, and sometimes pursue wrong paths. The self-correcting nature of the scientific method, however, gradually identifies errors and moves toward better understanding. This process has produced remarkable advances in our knowledge of the universe and our ability to improve human life.`,
+    questions: [
+      {
+        id: 'science-discovery-c1-q1',
+        type: 'single_choice',
+        question: 'What characteristic makes a hypothesis scientifically useful?',
+        options: ['It must be proven true', 'It must be falsifiable', 'It must be complex', 'It must be original'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-c1-q2',
+        type: 'single_choice',
+        question: 'What is the primary purpose of peer review?',
+        options: ['To publish research faster', 'To scrutinize methodology and catch errors', 'To determine funding priorities', 'To assign credit to researchers'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-c1-q3',
+        type: 'multiple_select',
+        question: 'Who contributed to formalizing experimental methodology during the Scientific Revolution?',
+        options: ['Francis Bacon', 'Galileo Galilei', 'Albert Einstein', 'Charles Darwin'],
+        correctIndices: [0, 1],
+      },
+      {
+        id: 'science-discovery-c1-q4',
+        type: 'true_false',
+        question: 'Scientific theories are considered absolutely proven once enough evidence supports them.',
+        correctAnswer: false,
+      },
+      {
+        id: 'science-discovery-c1-q5',
+        type: 'single_choice',
+        question: 'Why is replication important in science?',
+        options: ['It speeds up research', 'It reduces costs', 'It increases confidence in findings', 'It simplifies experiments'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-c1-q6',
+        type: 'single_choice',
+        question: 'What does statistical analysis help determine?',
+        options: ['What hypothesis to test', 'Whether results are significant or due to chance', 'Which journal to publish in', 'How to design experiments'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'science-discovery-c2',
+    topicId: 'science-discovery',
+    title: 'The Discovery of DNA: Unlocking Life\'s Blueprint',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `The discovery of DNA's structure stands among the greatest scientific achievements of the twentieth century. This breakthrough revealed how genetic information is stored and transmitted across generations, transforming our understanding of life itself. The path to this discovery involved brilliant insights, fierce competition, and contributions from scientists across multiple disciplines over nearly a century.
+&nbsp;
+Swiss physician Friedrich Miescher made the first step toward understanding DNA in 1869 when he isolated a new substance from the nuclei of white blood cells. Working in a laboratory at Tubingen Castle in Germany, Miescher extracted pus-soaked bandages from a nearby hospital to obtain cells for his experiments. He discovered a phosphorus-rich compound unlike any known protein, which he named nuclein. Though Miescher suspected this substance might be important, the scientific tools of his era could not reveal its structure or function.
+&nbsp;
+Scientists gradually learned more about nuclein throughout the following decades. In 1919, Russian-American biochemist Phoebus Levene identified the basic components of DNA: a sugar called deoxyribose, phosphate groups, and four nitrogen-containing bases named adenine, thymine, guanine, and cytosine. Levene proposed that these components formed repeating units called nucleotides, though he incorrectly believed DNA was too simple a molecule to carry genetic information.
+&nbsp;
+The question of what substance carries hereditary information remained controversial into the 1940s. Many scientists assumed proteins must serve this function because they were more complex and varied than DNA. In 1944, Oswald Avery, Colin MacLeod, and Maclyn McCarty at Rockefeller University in New York demonstrated that DNA alone could transform bacteria from one form to another. Their experiment provided strong evidence that DNA carried genetic information, though skeptics remained unconvinced.
+&nbsp;
+Alfred Hershey and Martha Chase settled the debate with elegant experiments in 1952 at Cold Spring Harbor Laboratory on Long Island. They studied bacteriophages, viruses that infect bacteria, using radioactive labels to track DNA and protein separately. Their results showed conclusively that DNA entered bacteria during infection while protein remained outside. This Hershey-Chase experiment convinced most scientists that DNA was indeed the genetic material they had sought.
+&nbsp;
+While biochemists established that DNA carried genetic information, understanding how required determining its physical structure. Erwin Chargaff at Columbia University made a crucial discovery in 1950 when he analyzed DNA from various organisms. He found that the amount of adenine always equaled the amount of thymine, while guanine always equaled cytosine. These relationships, known as Chargaff's rules, provided an essential clue that would help solve the structural puzzle.
+&nbsp;
+The race to determine DNA's three-dimensional structure intensified in the early 1950s. At King's College London, biophysicist Rosalind Franklin produced remarkably detailed X-ray diffraction images of DNA fibers. Her famous Photograph 51, taken in May 1952, clearly showed that DNA formed a helix with specific dimensions. Franklin methodically analyzed her data, calculating that the phosphate groups must lie on the outside of the structure and determining key measurements.
+&nbsp;
+James Watson, a young American biologist, and Francis Crick, a British physicist, worked together at Cambridge University's Cavendish Laboratory to build physical models of possible DNA structures. Watson had arrived in Cambridge in 1951 specifically hoping to solve the DNA structure. Crick brought expertise in X-ray crystallography and a talent for theoretical analysis. Neither had produced the crucial experimental data themselves, but they excelled at synthesizing information from multiple sources.
+&nbsp;
+Watson attended a lecture by Franklin in November 1951 and attempted to build a model based on what he remembered. His first attempt placed the bases on the outside and got the water content wrong. Franklin quickly demolished this incorrect model when she saw it, pointing out numerous errors. Watson and Crick were temporarily banned from working on DNA by the head of their laboratory.
+&nbsp;
+The breakthrough came in early 1953 after Watson saw Photograph 51 without Franklin's knowledge or permission. Maurice Wilkins, Franklin's colleague at King's College, showed Watson the image during a visit on January 30, 1953. Watson immediately recognized that it confirmed a helical structure. Crick obtained additional crucial data from a research report that Franklin had submitted to the Medical Research Council.
+&nbsp;
+Armed with this information, Watson and Crick resumed model building with intense focus. They struggled with how the bases might pair together in the interior of the helix. Watson initially proposed pairing like bases together, but this created a structure with irregular width. American chemist Jerry Donohue, who shared their office, pointed out that Watson was using incorrect structures for the bases. When Watson cut out cardboard shapes of the correct base structures, he discovered that adenine paired perfectly with thymine through two hydrogen bonds, while guanine paired with cytosine through three bonds.
+&nbsp;
+Watson and Crick completed their model on March 7, 1953. The double helix structure they proposed elegantly explained both DNA's stability and its ability to replicate. The two strands wound around each other with bases facing inward like rungs on a twisted ladder. Because of the specific base pairing rules, each strand contained all the information needed to reconstruct its partner. The structure immediately suggested a copying mechanism for genetic information.
+&nbsp;
+Watson and Crick published their findings in the journal Nature on April 25, 1953, in a paper remarkable for its brevity. The famous article, only 900 words long, ended with one of science's most understated sentences: "It has not escaped our notice that the specific pairing we have postulated immediately suggests a possible copying mechanism for the genetic material." Franklin's paper describing her experimental data appeared in the same issue but without acknowledgment of how crucial her work had been.
+&nbsp;
+The discovery's implications unfolded rapidly over the following years. Matthew Meselson and Franklin Stahl confirmed the replication mechanism through elegant experiments at Caltech in 1958. Scientists deciphered the genetic code by 1966, revealing how sequences of bases specify amino acids in proteins. The tools of molecular biology that emerged from understanding DNA structure led to modern genetic engineering, DNA sequencing, and countless medical advances.
+&nbsp;
+Watson, Crick, and Wilkins received the Nobel Prize in Physiology or Medicine in 1962. Rosalind Franklin, who had died of ovarian cancer in 1958 at age 37, could not share the award since Nobel Prizes are not given posthumously. Her essential contributions went largely unrecognized for decades, though historians have since documented how crucial her experimental work was to the discovery. Franklin's story has become emblematic of the obstacles women scientists faced during this era.
+&nbsp;
+The human genome project completed the first full sequence of human DNA in April 2003, fifty years after Watson and Crick's discovery. This massive international effort involving scientists from twenty institutions in six countries identified approximately 20,000 genes spread across 3 billion base pairs. Today, personal genome sequencing costs less than one thousand dollars and takes just days, advances unimaginable to the pioneers who first revealed life's blueprint.
+&nbsp;
+DNA technology has transformed medicine, agriculture, criminal justice, and our understanding of human history. Genetic testing can reveal disease risks before symptoms appear, allowing preventive interventions. CRISPR gene editing technology, developed from bacterial immune systems, now enables precise modifications to DNA sequences. Scientists can trace human migrations across tens of thousands of years by analyzing DNA preserved in ancient bones.
+&nbsp;
+The discovery of DNA's structure demonstrates how scientific progress often requires contributions from many individuals working across different disciplines. Miescher's initial isolation, Chargaff's chemical analysis, Franklin's crystallography, and Watson and Crick's model building all played essential roles. Understanding this history helps us appreciate both the cumulative nature of scientific knowledge and the human stories behind transformative discoveries.`,
+    questions: [
+      {
+        id: 'science-discovery-c2-q1',
+        type: 'single_choice',
+        question: 'Who first isolated DNA (then called nuclein) in 1869?',
+        options: ['Erwin Chargaff', 'Friedrich Miescher', 'Phoebus Levene', 'Rosalind Franklin'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-c2-q2',
+        type: 'single_choice',
+        question: 'What was the significance of Chargaff\'s rules?',
+        options: ['They proved DNA was the genetic material', 'They showed adenine equals thymine and guanine equals cytosine', 'They described how DNA replicates', 'They identified the components of nucleotides'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-c2-q3',
+        type: 'multiple_select',
+        question: 'Which scientists worked at King\'s College London on DNA structure? Select all that apply.',
+        options: ['James Watson', 'Rosalind Franklin', 'Maurice Wilkins', 'Francis Crick'],
+        correctIndices: [1, 2],
+      },
+      {
+        id: 'science-discovery-c2-q4',
+        type: 'true_false',
+        question: 'Rosalind Franklin shared the Nobel Prize in 1962 for the DNA discovery.',
+        correctAnswer: false,
+      },
+      {
+        id: 'science-discovery-c2-q5',
+        type: 'numeric',
+        question: 'In what year did Watson and Crick publish their DNA structure paper?',
+        correctValue: 1953,
+        tolerance: 0,
+        min: 1900,
+        max: 2000,
+        step: 1,
+        unit: 'year',
+      },
+      {
+        id: 'science-discovery-c2-q6',
+        type: 'single_choice',
+        question: 'What did the Hershey-Chase experiment demonstrate?',
+        options: ['The structure of DNA is a double helix', 'DNA carries genetic information, not protein', 'Adenine pairs with thymine', 'DNA can transform bacteria'],
+        correctIndex: 1,
+      },
+      {
+        id: 'science-discovery-c2-q7',
+        type: 'single_choice',
+        question: 'Who pointed out that Watson was using incorrect base structures during model building?',
+        options: ['Francis Crick', 'Rosalind Franklin', 'Jerry Donohue', 'Maurice Wilkins'],
+        correctIndex: 2,
+      },
+      {
+        id: 'science-discovery-c2-q8',
+        type: 'multiple_select',
+        question: 'Which bases pair together in DNA according to Watson and Crick\'s model? Select all correct pairings.',
+        options: ['Adenine with thymine', 'Adenine with guanine', 'Guanine with cytosine', 'Thymine with cytosine'],
+        correctIndices: [0, 2],
+      },
+      {
+        id: 'science-discovery-c2-q9',
+        type: 'numeric',
+        question: 'Approximately how many genes did the Human Genome Project identify?',
+        correctValue: 20000,
+        tolerance: 2000,
+        min: 10000,
+        max: 50000,
+        step: 1000,
+        unit: 'genes',
+      },
+      {
+        id: 'science-discovery-c2-q10',
+        type: 'true_false',
+        question: 'Watson and Crick produced the X-ray diffraction images that revealed DNA\'s helical structure.',
+        correctAnswer: false,
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

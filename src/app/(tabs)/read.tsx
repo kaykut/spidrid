@@ -10,12 +10,12 @@ import {
   Alert,
 } from 'react-native';
 import { router } from 'expo-router';
-import { useTheme } from '../../components/common/ThemeProvider';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
+import { useTheme } from '../../components/common/ThemeProvider';
+import { Paywall } from '../../components/paywall/Paywall';
+import { extractFromUrl, createFromText } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { extractFromUrl, createFromText } from '../../services/contentExtractor';
-import { Paywall } from '../../components/paywall/Paywall';
 
 type ImportMode = 'url' | 'text' | null;
 
@@ -33,7 +33,7 @@ export default function ReadScreen() {
 
   const handleOpenContent = (id: string) => {
     const content = importedContent.find(c => c.id === id);
-    if (!content) return;
+    if (!content) {return;}
 
     // Check content limit for unfinished content
     if (content.readProgress < 1 && !isPremium) {
@@ -47,7 +47,7 @@ export default function ReadScreen() {
   };
 
   const handleImportUrl = async () => {
-    if (!urlInput.trim()) return;
+    if (!urlInput.trim()) {return;}
 
     // Check content limit before importing
     if (!isPremium && !canAccessContent()) {
@@ -61,7 +61,7 @@ export default function ReadScreen() {
 
     if (result.success && result.content) {
       const saved = addContent(result.content);
-      if (!isPremium) incrementContentCount();
+      if (!isPremium) {incrementContentCount();}
       setImportMode(null);
       setUrlInput('');
       router.push(`/content/${saved.id}`);
@@ -71,7 +71,7 @@ export default function ReadScreen() {
   };
 
   const handleImportText = () => {
-    if (!textInput.trim()) return;
+    if (!textInput.trim()) {return;}
 
     // Check content limit before importing
     if (!isPremium && !canAccessContent()) {
@@ -83,7 +83,7 @@ export default function ReadScreen() {
 
     if (result.success && result.content) {
       const saved = addContent(result.content);
-      if (!isPremium) incrementContentCount();
+      if (!isPremium) {incrementContentCount();}
       setImportMode(null);
       setTextInput('');
       setTitleInput('');
@@ -143,7 +143,7 @@ export default function ReadScreen() {
                     { backgroundColor: theme.backgroundColor, color: theme.textColor },
                   ]}
                   placeholder="Enter URL (e.g., https://example.com/article)"
-                  placeholderTextColor={theme.textColor + '60'}
+                  placeholderTextColor={`${theme.textColor  }60`}
                   value={urlInput}
                   onChangeText={setUrlInput}
                   autoCapitalize="none"
@@ -176,7 +176,7 @@ export default function ReadScreen() {
                     { backgroundColor: theme.backgroundColor, color: theme.textColor },
                   ]}
                   placeholder="Title (optional)"
-                  placeholderTextColor={theme.textColor + '60'}
+                  placeholderTextColor={`${theme.textColor  }60`}
                   value={titleInput}
                   onChangeText={setTitleInput}
                 />
@@ -186,7 +186,7 @@ export default function ReadScreen() {
                     { backgroundColor: theme.backgroundColor, color: theme.textColor },
                   ]}
                   placeholder="Paste your text here..."
-                  placeholderTextColor={theme.textColor + '60'}
+                  placeholderTextColor={`${theme.textColor  }60`}
                   value={textInput}
                   onChangeText={setTextInput}
                   multiline

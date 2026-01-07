@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '../common/ThemeProvider';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
+import { useTheme } from '../common/ThemeProvider';
 
 interface CertificateCardProps {
   certificate: Certificate;
@@ -13,7 +13,7 @@ export function CertificateCard({ certificate, size = 'small', onPress }: Certif
   const { theme } = useTheme();
   const definition = getCertificateDefinition(certificate.type);
 
-  if (!definition) return null;
+  if (!definition) {return null;}
 
   const isLarge = size === 'large';
   const earnedDate = new Date(certificate.earnedAt).toLocaleDateString(undefined, {
@@ -28,7 +28,7 @@ export function CertificateCard({ certificate, size = 'small', onPress }: Certif
         style={[
           styles.iconContainer,
           isLarge ? styles.iconLarge : styles.iconSmall,
-          { backgroundColor: definition.color + '20' },
+          { backgroundColor: `${definition.color  }20` },
         ]}
       >
         <Text style={isLarge ? styles.iconTextLarge : styles.iconTextSmall}>
@@ -99,7 +99,7 @@ export function LockedCertificateCard({ type, progress }: LockedCertificateCardP
   const { theme } = useTheme();
   const definition = getCertificateDefinition(type);
 
-  if (!definition) return null;
+  if (!definition) {return null;}
 
   return (
     <View style={[styles.card, styles.cardSmall, { backgroundColor: theme.secondaryBackground }]}>

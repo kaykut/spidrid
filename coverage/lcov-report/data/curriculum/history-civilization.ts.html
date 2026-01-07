@@ -1,0 +1,2644 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/history-civilization.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> history-civilization.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a>
+<a name='L827'></a><a href='#L827'>827</a>
+<a name='L828'></a><a href='#L828'>828</a>
+<a name='L829'></a><a href='#L829'>829</a>
+<a name='L830'></a><a href='#L830'>830</a>
+<a name='L831'></a><a href='#L831'>831</a>
+<a name='L832'></a><a href='#L832'>832</a>
+<a name='L833'></a><a href='#L833'>833</a>
+<a name='L834'></a><a href='#L834'>834</a>
+<a name='L835'></a><a href='#L835'>835</a>
+<a name='L836'></a><a href='#L836'>836</a>
+<a name='L837'></a><a href='#L837'>837</a>
+<a name='L838'></a><a href='#L838'>838</a>
+<a name='L839'></a><a href='#L839'>839</a>
+<a name='L840'></a><a href='#L840'>840</a>
+<a name='L841'></a><a href='#L841'>841</a>
+<a name='L842'></a><a href='#L842'>842</a>
+<a name='L843'></a><a href='#L843'>843</a>
+<a name='L844'></a><a href='#L844'>844</a>
+<a name='L845'></a><a href='#L845'>845</a>
+<a name='L846'></a><a href='#L846'>846</a>
+<a name='L847'></a><a href='#L847'>847</a>
+<a name='L848'></a><a href='#L848'>848</a>
+<a name='L849'></a><a href='#L849'>849</a>
+<a name='L850'></a><a href='#L850'>850</a>
+<a name='L851'></a><a href='#L851'>851</a>
+<a name='L852'></a><a href='#L852'>852</a>
+<a name='L853'></a><a href='#L853'>853</a>
+<a name='L854'></a><a href='#L854'>854</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const HISTORY_CIVILIZATION_ARTICLES: Article[] = [
+  {
+    id: 'history-civilization-p01',
+    topicId: 'history-civilization',
+    title: 'Ancient Egypt: Land of the Pharaohs',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `Ancient Egypt flourished along the Nile River for over three thousand years, creating one of humanity's most remarkable civilizations. The Egyptians built massive pyramids as tombs for their pharaohs, believing these divine rulers needed provisions for their eternal journey through the afterlife.
+&nbsp;
+The Nile River was the lifeblood of Egyptian civilization, flowing over 4,000 miles from central Africa to the Mediterranean Sea. Its annual floods deposited rich, fertile soil along its banks, allowing agriculture to thrive in an otherwise desert landscape. Egyptian farmers developed sophisticated irrigation systems to maximize the benefits of these predictable floods.
+&nbsp;
+Egyptian society was highly organized with the pharaoh at the top of a rigid hierarchy. Believed to be a living god on Earth, the pharaoh held absolute power over all aspects of Egyptian life. Below the pharaoh were priests, nobles, scribes, craftsmen, and farmers, each with specific roles and responsibilities in this ancient society.
+&nbsp;
+The Egyptians developed hieroglyphics around 3200 BCE, creating one of the earliest and most elaborate writing systems ever invented. These pictorial symbols served religious, administrative, and commemorative purposes throughout Egyptian history. Scribes were highly respected members of society who spent years mastering this complex writing system at temple schools.
+&nbsp;
+Egyptian innovations transformed ancient technology and left lasting influences on world culture. They created paper from papyrus plants growing along the Nile, developed a 365-day calendar remarkably similar to our modern one, and advanced medical knowledge through systematic observation and documented treatment methods.
+&nbsp;
+The Great Pyramid of Giza, built around 2560 BCE for Pharaoh Khufu, stood as the tallest human-made structure for over 3,800 years. Its construction required an estimated 2.3 million stone blocks, each weighing an average of 2.5 tons. Modern engineers still marvel at how ancient workers achieved such precise construction without modern tools.
+&nbsp;
+Egyptian religion centered on preparing for the afterlife through elaborate burial practices and rituals. Mummification preserved bodies for eternity using natron salt and linen wrappings over a 70-day process. The famous golden death mask of Tutankhamun, discovered by Howard Carter in 1922, demonstrates the extraordinary wealth and artistry devoted to royal burials.
+&nbsp;
+Egyptian influence spread throughout the Mediterranean world and beyond, shaping art, architecture, and religious thought for millennia. Their achievements in mathematics, astronomy, and engineering laid foundations for later Greek and Roman civilizations.`,
+    questions: [
+      {
+        id: 'history-civilization-p01-q1',
+        type: 'single_choice',
+        question: 'Why were pyramids built in ancient Egypt?',
+        options: ['As homes for nobles', 'As religious temples', 'As tombs for pharaohs', 'As astronomical observatories'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p01-q2',
+        type: 'multiple_select',
+        question: 'Which innovations did the ancient Egyptians develop? Select all that apply.',
+        options: ['Paper from papyrus', 'A 365-day calendar', 'The printing press', 'Hieroglyphic writing'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'history-civilization-p01-q3',
+        type: 'true_false',
+        question: 'The Great Pyramid of Giza was the tallest human-made structure for over 3,800 years.',
+        correctAnswer: true,
+      },
+      {
+        id: 'history-civilization-p01-q4',
+        type: 'numeric',
+        question: 'Approximately when was the Great Pyramid of Giza built (BCE)?',
+        correctValue: 2560,
+        tolerance: 100,
+        min: 2000,
+        max: 3500,
+        step: 50,
+        unit: 'BCE',
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p02',
+    topicId: 'history-civilization',
+    title: 'The Renaissance: Rebirth of European Culture',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `The Renaissance began in Florence, Italy around 1400 and spread throughout Europe over the following two centuries. This cultural movement marked a dramatic shift from medieval thinking toward renewed interest in classical Greek and Roman ideas. Artists, scholars, and scientists transformed European civilization during this remarkable period.
+&nbsp;
+The word Renaissance comes from the French word meaning rebirth, perfectly capturing the era's spirit of rediscovery and innovation. Wealthy merchant families like the Medici of Florence patronized artists and scholars, funding projects that shaped Western culture. Cosimo de Medici and his grandson Lorenzo the Magnificent spent fortunes supporting creative geniuses during the fifteenth century.
+&nbsp;
+Leonardo da Vinci exemplified the Renaissance ideal of the universal man who excelled in multiple fields. Born in 1452 near Florence, he became a painter, sculptor, architect, musician, mathematician, engineer, and anatomist. His Mona Lisa and The Last Supper remain among history's most famous paintings, while his notebooks reveal designs for flying machines centuries ahead of their time.
+&nbsp;
+Michelangelo Buonarroti created masterpieces that still inspire awe over five hundred years later. Pope Julius II commissioned him to paint the Sistine Chapel ceiling, which Michelangelo completed between 1508 and 1512 while lying on scaffolding high above the floor. His sculpture of David, carved from a single block of marble in Florence, demonstrates his extraordinary understanding of human anatomy.
+&nbsp;
+Renaissance artists developed techniques that revolutionized visual representation. Filippo Brunelleschi formalized linear perspective around 1415, allowing painters to create realistic three-dimensional spaces on flat surfaces. Artists studied light, shadow, and human anatomy to achieve unprecedented naturalism in their work.
+&nbsp;
+The printing press, invented by Johannes Gutenberg in Mainz, Germany around 1440, accelerated the spread of Renaissance ideas. His movable type technology made books far cheaper and faster to produce than hand-copied manuscripts. By 1500, printing presses across Europe had produced approximately 20 million volumes, dramatically expanding literacy and knowledge.
+&nbsp;
+Humanism emerged as the defining intellectual movement of the Renaissance era. Humanist scholars focused on studying classical texts in their original Greek and Latin rather than medieval translations. They emphasized human potential, individual achievement, and secular concerns alongside traditional religious values. Petrarch, often called the father of humanism, pioneered this approach in the fourteenth century.
+&nbsp;
+Scientific thinking advanced significantly during the Renaissance period. Nicolaus Copernicus proposed in 1543 that Earth and other planets orbit the Sun, challenging the prevailing belief that Earth sat motionless at the universe's center. His heliocentric theory sparked a scientific revolution that would transform human understanding of the cosmos.
+&nbsp;
+Renaissance architecture drew heavily on classical Roman models while adding innovative elements. Brunelleschi designed the magnificent dome of Florence Cathedral, completed in 1436, using techniques inspired by ancient Roman construction. This dome remains the largest masonry dome ever built and demonstrated that contemporary architects could rival ancient achievements.
+&nbsp;
+The Renaissance eventually spread from Italy to northern Europe, taking on distinctive regional characteristics. German artist Albrecht Durer combined Italian techniques with northern European traditions in his paintings and prints. The Low Countries produced masters like Jan van Eyck, whose oil painting techniques achieved remarkable detail and luminosity.
+&nbsp;
+The Renaissance laid foundations for the modern world by emphasizing observation, experimentation, and individual expression. This era produced not only extraordinary art but also new ways of thinking about humanity's place in the universe. The confidence and creativity of Renaissance culture continue influencing civilization today.`,
+    questions: [
+      {
+        id: 'history-civilization-p02-q1',
+        type: 'single_choice',
+        question: 'Where did the Renaissance begin?',
+        options: ['Rome, Italy', 'Florence, Italy', 'Paris, France', 'London, England'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p02-q2',
+        type: 'single_choice',
+        question: 'Who invented the printing press around 1440?',
+        options: ['Leonardo da Vinci', 'Filippo Brunelleschi', 'Johannes Gutenberg', 'Nicolaus Copernicus'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p02-q3',
+        type: 'multiple_select',
+        question: 'Which fields did Leonardo da Vinci work in? Select all that apply.',
+        options: ['Painting', 'Engineering', 'Politics', 'Anatomy'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'history-civilization-p02-q4',
+        type: 'true_false',
+        question: 'Michelangelo painted the Sistine Chapel ceiling while lying on scaffolding.',
+        correctAnswer: true,
+      },
+      {
+        id: 'history-civilization-p02-q5',
+        type: 'numeric',
+        question: 'In what year did Michelangelo complete the Sistine Chapel ceiling?',
+        correctValue: 1512,
+        tolerance: 0,
+        min: 1400,
+        max: 1600,
+        step: 1,
+        unit: 'year',
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p03',
+    topicId: 'history-civilization',
+    title: 'The Industrial Revolution: Transforming Human Society',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `The Industrial Revolution began in Britain during the mid-eighteenth century and fundamentally transformed how humans live, work, and interact with the world. This period saw the transition from hand production methods to machine manufacturing, creating changes in society that continue shaping our lives today.
+&nbsp;
+Several factors made Britain the birthplace of industrialization. The country possessed abundant coal and iron ore deposits essential for powering and building machinery. Its extensive canal and river network facilitated transportation of raw materials and finished goods. A stable political system and growing banking industry provided conditions favorable for investment and innovation.
+&nbsp;
+The textile industry led the Industrial Revolution through a series of breakthrough inventions. James Hargreaves patented the spinning jenny in 1770, which allowed a single worker to operate eight spindles simultaneously instead of just one. Richard Arkwright developed the water frame in 1769, using water power to spin stronger thread. Edmund Cartwright invented the power loom in 1785, mechanizing the weaving process and dramatically increasing cloth production.
+&nbsp;
+James Watt's improvements to the steam engine in the 1760s provided the power source that drove industrialization forward. Watt's engines were far more efficient than earlier designs, consuming less coal while producing more power. His partnership with manufacturer Matthew Boulton spread steam power throughout British industry, freeing factories from dependence on water power and allowing them to locate anywhere.
+&nbsp;
+The factory system replaced traditional cottage industries where families worked at home producing goods by hand. Factory workers operated machines in large buildings, often working twelve to sixteen hours per day under harsh conditions. Children as young as five years old labored in mines and textile mills until reform movements gradually improved working conditions.
+&nbsp;
+Transportation improvements connected industrial centers to markets and raw material sources. George Stephenson built the first public railway using steam locomotives, the Stockton and Darlington Railway, which opened in 1825. Railways soon crisscrossed Britain and spread across Europe and North America, moving goods and people at unprecedented speeds.
+&nbsp;
+Urbanization accelerated dramatically as workers moved from rural areas to factory towns seeking employment. Manchester's population grew from approximately 25,000 in 1772 to over 300,000 by 1850. Cities expanded rapidly without adequate planning, creating overcrowded slums with poor sanitation that bred disease outbreaks including cholera epidemics.
+&nbsp;
+The Industrial Revolution spread from Britain to continental Europe and North America during the nineteenth century. Belgium industrialized first, followed by France and Germany. The United States began industrializing after 1800, and by 1900 American industrial production exceeded that of any European nation.
+&nbsp;
+New social classes emerged from industrial capitalism. Factory owners and industrialists accumulated vast wealth, forming a powerful bourgeoisie that challenged the traditional aristocracy's political dominance. Industrial workers formed a new urban working class that would eventually organize labor unions to fight for better wages and conditions.
+&nbsp;
+Karl Marx and Friedrich Engels published The Communist Manifesto in 1848, analyzing industrial capitalism's effects on society and predicting that workers would eventually overthrow the capitalist system. Their ideas influenced political movements throughout the nineteenth and twentieth centuries, though events did not unfold exactly as they predicted.
+&nbsp;
+Environmental consequences of industrialization became apparent as factories polluted air and water. Coal smoke blackened buildings and damaged lungs in industrial cities. Rivers became open sewers carrying industrial waste and human effluent. These problems sparked early environmental awareness and eventually led to pollution control measures.
+&nbsp;
+The Industrial Revolution created the modern world of mass production, global trade, and technological innovation. Living standards eventually rose dramatically despite initial hardships, as industrial productivity generated unprecedented wealth. Agricultural innovations freed workers from farms, allowing population growth that supported expanding industries.
+&nbsp;
+Scientific and technological advances accelerated throughout the nineteenth century. Michael Faraday's work on electromagnetism in the 1830s laid foundations for electrical power generation. The second industrial revolution of the late nineteenth century brought steel, chemicals, petroleum, and electricity, further transforming economies and daily life.
+&nbsp;
+Understanding the Industrial Revolution helps us recognize patterns still relevant today. Questions about workers' rights, environmental protection, urban planning, and technological disruption echo concerns first raised during industrialization. This transformative period reminds us that economic and technological changes carry profound social consequences.`,
+    questions: [
+      {
+        id: 'history-civilization-p03-q1',
+        type: 'single_choice',
+        question: 'Where did the Industrial Revolution begin?',
+        options: ['France', 'Germany', 'Britain', 'United States'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p03-q2',
+        type: 'single_choice',
+        question: 'Who made crucial improvements to the steam engine in the 1760s?',
+        options: ['George Stephenson', 'James Watt', 'Edmund Cartwright', 'Richard Arkwright'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p03-q3',
+        type: 'single_choice',
+        question: 'What was the first public railway using steam locomotives?',
+        options: ['Liverpool and Manchester Railway', 'Stockton and Darlington Railway', 'London and Birmingham Railway', 'Great Western Railway'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p03-q4',
+        type: 'multiple_select',
+        question: 'Which inventions advanced the textile industry? Select all that apply.',
+        options: ['Spinning jenny', 'Steam locomotive', 'Power loom', 'Water frame'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'history-civilization-p03-q5',
+        type: 'true_false',
+        question: 'By 1900, American industrial production exceeded that of any European nation.',
+        correctAnswer: true,
+      },
+      {
+        id: 'history-civilization-p03-q6',
+        type: 'numeric',
+        question: 'In what year was The Communist Manifesto published?',
+        correctValue: 1848,
+        tolerance: 0,
+        min: 1800,
+        max: 1900,
+        step: 1,
+        unit: 'year',
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p04',
+    topicId: 'history-civilization',
+    title: 'The Silk Road: Ancient Highway of Commerce and Culture',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `The Silk Road connected East and West for nearly two thousand years, facilitating the exchange of goods, ideas, religions, and technologies across vast distances. This network of trade routes stretched over 4,000 miles from Chang'an in China to the Mediterranean ports of the Roman Empire. The name itself was coined by German geographer Ferdinand von Richthofen in 1877, though the routes had operated for centuries before Europeans understood their full extent.
+&nbsp;
+Chinese silk gave the route its name because this luxury fabric was among the most valuable commodities traveling westward. Silk production remained a closely guarded Chinese secret for centuries, with harsh penalties for anyone who revealed the process to foreigners. According to legend, two Byzantine monks smuggled silkworm eggs out of China hidden in hollow bamboo walking sticks around 550 CE, finally breaking China's monopoly on silk production.
+&nbsp;
+The Silk Road emerged during the Han Dynasty when Emperor Wu sent his envoy Zhang Qian westward in 138 BCE to seek military allies against nomadic threats. Zhang Qian's journey took thirteen years and covered territories never before visited by Chinese officials. Though he failed to secure the alliance he sought, his reports of wealthy kingdoms to the west sparked Chinese interest in trade and diplomacy across Central Asia.
+&nbsp;
+Caravans traveling the Silk Road faced extraordinary challenges that tested human endurance and ingenuity. The Taklamakan Desert, whose name means "place of no return" in Uyghur, claimed countless lives with its extreme temperatures and shifting sand dunes. Mountain passes through the Pamir and Tian Shan ranges reached elevations exceeding 15,000 feet, where thin air and harsh weather endangered travelers and animals alike.
+&nbsp;
+Oasis cities along the route became prosperous trading centers where merchants exchanged goods and replenished supplies. Samarkand in modern Uzbekistan flourished as a crossroads where Chinese, Indian, Persian, and Mediterranean traders met to conduct business. Kashgar served as the gateway where routes diverged around the Taklamakan Desert before rejoining on the other side. These cities developed sophisticated irrigation systems that transformed desert landscapes into productive agricultural zones.
+&nbsp;
+Goods flowing eastward from Mediterranean lands included glassware, gold and silver jewelry, wool textiles, and exotic animals for Chinese imperial menageries. Westward traffic carried not only silk but also spices, tea, porcelain, paper, and gunpowder. The exact origins of many products remained mysteries to consumers at the routes' endpoints, who knew only that caravans brought remarkable goods from distant lands.
+&nbsp;
+Religion traveled the Silk Road alongside merchandise, profoundly shaping civilizations across the Asian continent. Buddhism spread from India into Central Asia and China through missionary activity along the trade routes. Buddhist monasteries dotted the landscape from Afghanistan to Japan by the first millennium CE. Islam later followed similar paths, converting populations across Central Asia from the seventh century onward.
+&nbsp;
+Technology and knowledge crossed cultural boundaries through Silk Road contacts with transformative effects. Papermaking spread from China westward, reaching Baghdad by the eighth century and eventually revolutionizing European intellectual life. Chinese innovations in metalwork, textile production, and agricultural techniques enriched societies from Persia to Byzantium. Medical knowledge, astronomical observations, and mathematical concepts flowed in multiple directions.
+&nbsp;
+The Mongol Empire under Genghis Khan and his successors created unprecedented conditions for Silk Road commerce during the thirteenth and fourteenth centuries. Mongol rule stretched from Korea to Eastern Europe, establishing the largest contiguous land empire in history. The Pax Mongolica provided security for merchants and travelers, with Mongol law punishing bandits severely. Marco Polo famously traveled from Venice to the court of Kublai Khan during this period, returning with detailed accounts that fascinated European readers.
+&nbsp;
+The Black Death demonstrated the Silk Road's potential for spreading destruction alongside prosperity. This devastating plague outbreak originated in Central Asia and traveled westward along trade routes during the 1340s. Arriving in Europe in October 1347 aboard ships from the Black Sea, the plague killed approximately one-third of Europe's population within five years. The pandemic disrupted trade networks and contributed to the Silk Road's gradual decline.
+&nbsp;
+Maritime trade routes eventually supplanted the overland Silk Road as technological advances made sea travel more efficient and profitable. Portuguese explorer Vasco da Gama reached India by sailing around Africa in 1498, establishing direct European access to Asian goods. Sea routes could transport larger quantities more cheaply than camel caravans crossing dangerous terrain. By the sixteenth century, maritime commerce dominated intercontinental trade.
+&nbsp;
+The Silk Road's legacy extends far beyond its commercial importance, representing humanity's capacity for exchange across cultural boundaries. Artistic styles, architectural techniques, musical instruments, and culinary traditions all spread along these ancient routes. The genetic mixing of populations created new ethnic communities whose descendants still inhabit Silk Road cities. Modern initiatives like China's Belt and Road project consciously invoke Silk Road imagery to promote contemporary economic connections.
+&nbsp;
+Understanding the Silk Road reveals how interconnected ancient civilizations were despite distances that seemed insurmountable. The goods in a Roman aristocrat's home or a Tang Dynasty palace reflected trade networks spanning continents. This history reminds us that globalization is not a modern invention but a recurring pattern in human affairs, with both benefits and costs that echo across millennia.`,
+    questions: [
+      {
+        id: 'history-civilization-p04-q1',
+        type: 'single_choice',
+        question: 'Who coined the term "Silk Road"?',
+        options: ['Marco Polo', 'Zhang Qian', 'Ferdinand von Richthofen', 'Genghis Khan'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p04-q2',
+        type: 'single_choice',
+        question: 'When did Emperor Wu send Zhang Qian westward?',
+        options: ['550 CE', '138 BCE', '1498 CE', '1347 CE'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p04-q3',
+        type: 'multiple_select',
+        question: 'Which goods traveled westward on the Silk Road? Select all that apply.',
+        options: ['Silk', 'Glassware', 'Paper', 'Spices'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'history-civilization-p04-q4',
+        type: 'true_false',
+        question: 'The Mongol Empire made the Silk Road more dangerous for merchants.',
+        correctAnswer: false,
+      },
+      {
+        id: 'history-civilization-p04-q5',
+        type: 'numeric',
+        question: 'Approximately how many miles did the Silk Road stretch?',
+        correctValue: 4000,
+        tolerance: 500,
+        min: 1000,
+        max: 8000,
+        step: 500,
+        unit: 'miles',
+      },
+      {
+        id: 'history-civilization-p04-q6',
+        type: 'single_choice',
+        question: 'Which city served as a gateway where routes diverged around the Taklamakan Desert?',
+        options: ['Samarkand', 'Chang\'an', 'Kashgar', 'Baghdad'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p05',
+    topicId: 'history-civilization',
+    title: 'The French Revolution: Birth of Modern Politics',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `The French Revolution transformed not only France but the entire Western world, establishing principles of popular sovereignty and individual rights that remain foundational to modern political systems. Beginning in 1789 and continuing for a decade of turmoil, the revolution overthrew a centuries-old monarchy, executed a king, and unleashed forces that would reshape European society. The events in France demonstrated both the power of revolutionary ideals and the dangers of political extremism.
+&nbsp;
+France in the 1780s faced a perfect storm of crises that made revolution increasingly likely. The government teetered on the edge of bankruptcy after decades of expensive wars, including costly support for American independence. A series of poor harvests drove bread prices to unprecedented levels, causing widespread hunger among common people. The rigid social structure divided French society into three estates, with the clergy and nobility enjoying privileges that the commoners deeply resented.
+&nbsp;
+King Louis XVI, who had ascended the throne in 1774 at age nineteen, proved unable to navigate these challenges effectively. His attempts at financial reform foundered against aristocratic resistance. In desperation, Louis summoned the Estates-General in May 1789 for the first time since 1614, hoping to raise new taxes. This decision set in motion a chain of events that would ultimately cost him his crown and his life.
+&nbsp;
+The Third Estate, representing over 95 percent of the French population, demanded greater political representation. When the king rejected their demands, representatives of the Third Estate declared themselves the National Assembly on June 17, 1789, claiming authority to govern France. Three days later, finding themselves locked out of their meeting hall, the delegates gathered in a nearby tennis court and swore not to disband until they had given France a constitution.
+&nbsp;
+Popular unrest exploded on July 14, 1789, when a Parisian mob stormed the Bastille fortress seeking weapons and gunpowder. The prison held only seven inmates at the time, but the Bastille symbolized royal tyranny in the public imagination. The storming of this fortress became the defining image of the revolution, and July 14 remains France's national holiday. News of the event sparked peasant uprisings throughout the countryside as commoners attacked noble estates and destroyed feudal records.
+&nbsp;
+The National Assembly moved quickly to dismantle the old regime's foundations. On August 4, 1789, nobles voluntarily surrendered their feudal privileges in an emotional late-night session. Three weeks later, the assembly adopted the Declaration of the Rights of Man and of the Citizen, proclaiming that all men are born free and equal in rights. This document, influenced by American precedents and Enlightenment philosophy, established principles that would guide democratic movements worldwide.
+&nbsp;
+The revolution radicalized steadily as conflicts intensified between competing factions. The royal family's attempted flight to Austrian territory in June 1791 destroyed remaining popular trust in the monarchy. War with Austria and Prussia beginning in April 1792 created both external threats and internal paranoia about traitors. The September Massacres of 1792 saw Parisian mobs kill over one thousand prisoners suspected of counter-revolutionary sympathies.
+&nbsp;
+The Convention that replaced the National Assembly abolished the monarchy on September 21, 1792, and declared France a republic. Louis XVI faced trial for treason in December and was found guilty by an overwhelming vote. The Convention narrowly approved his execution by a margin of just one vote. Louis died by guillotine on January 21, 1793, in a public execution witnessed by thousands in what is now the Place de la Concorde.
+&nbsp;
+The Reign of Terror under Maximilien Robespierre and the Committee of Public Safety brought revolutionary violence to its most extreme phase. Between September 1793 and July 1794, approximately 17,000 people were officially executed, with many more dying in prisons or summary killings. The guillotine claimed victims ranging from Queen Marie Antoinette to revolutionary leaders like Georges Danton who had questioned the terror's necessity. Even the chemist Antoine Lavoisier, father of modern chemistry, was executed.
+&nbsp;
+Robespierre himself fell victim to the forces he had unleashed when the Convention turned against him on 9 Thermidor Year II by the revolutionary calendar, corresponding to July 27, 1794. He was executed the following day along with close supporters. The Thermidorian Reaction that followed rolled back the most radical revolutionary measures and eventually established a more moderate government called the Directory.
+&nbsp;
+The Directory governed France from 1795 to 1799 but never achieved stability or legitimacy. Economic problems persisted, political factions battled constantly, and military threats continued from European monarchies alarmed by revolutionary contagion. The government relied increasingly on the army to suppress domestic unrest and defend against foreign invasion. This dependence on military force would prove fatal to the republic.
+&nbsp;
+Napoleon Bonaparte seized power in a coup on November 9, 1799, ending the revolutionary decade and beginning a new era of French and European history. The young general had risen to prominence through brilliant military campaigns in Italy and Egypt. His coup established the Consulate, with Napoleon as First Consul and effective dictator. He would crown himself Emperor in 1804, founding a dynasty that represented both the revolution's achievements and its betrayal.
+&nbsp;
+The French Revolution's legacy proved both enduring and contested. Revolutionary ideals of liberty, equality, and fraternity inspired democratic movements across Europe and Latin America throughout the nineteenth century. The revolution established the template for modern nationalism, with the citizen army and mass political mobilization that would characterize subsequent conflicts. Legal reforms codified under Napoleon spread French revolutionary principles across much of Europe.
+&nbsp;
+Critics pointed to the revolution's violence, instability, and ultimate failure to establish lasting democratic institutions. Edmund Burke's Reflections on the Revolution in France, published in 1790, articulated conservative concerns about radical change that continue influencing political thought. The debate between revolutionary transformation and gradual reform remains central to political philosophy.
+&nbsp;
+The French Revolution demonstrated that ordinary people could overthrow seemingly permanent institutions and remake society according to new principles. It showed both the possibilities and the perils of revolutionary politics, creating a template that subsequent movements would follow and learn from. The questions it raised about democracy, violence, and social change remain relevant more than two centuries later.`,
+    questions: [
+      {
+        id: 'history-civilization-p05-q1',
+        type: 'single_choice',
+        question: 'When did the storming of the Bastille occur?',
+        options: ['June 17, 1789', 'July 14, 1789', 'August 4, 1789', 'January 21, 1793'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p05-q2',
+        type: 'single_choice',
+        question: 'What document proclaimed that all men are born free and equal in rights?',
+        options: ['The Tennis Court Oath', 'The Declaration of the Rights of Man and of the Citizen', 'The Constitution of Year III', 'The Civil Constitution of the Clergy'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p05-q3',
+        type: 'multiple_select',
+        question: 'Which factors contributed to the French Revolution? Select all that apply.',
+        options: ['Government bankruptcy', 'Poor harvests causing hunger', 'Successful tax reform', 'Rigid social structure with privileged estates'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'history-civilization-p05-q4',
+        type: 'true_false',
+        question: 'Louis XVI was executed on January 21, 1793.',
+        correctAnswer: true,
+      },
+      {
+        id: 'history-civilization-p05-q5',
+        type: 'numeric',
+        question: 'Approximately how many people were officially executed during the Reign of Terror?',
+        correctValue: 17000,
+        tolerance: 2000,
+        min: 5000,
+        max: 50000,
+        step: 1000,
+        unit: 'people',
+      },
+      {
+        id: 'history-civilization-p05-q6',
+        type: 'single_choice',
+        question: 'Who led the Committee of Public Safety during the Reign of Terror?',
+        options: ['Napoleon Bonaparte', 'Georges Danton', 'Maximilien Robespierre', 'King Louis XVI'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p05-q7',
+        type: 'single_choice',
+        question: 'When did Napoleon Bonaparte seize power in France?',
+        options: ['July 14, 1789', 'January 21, 1793', 'July 27, 1794', 'November 9, 1799'],
+        correctIndex: 3,
+      },
+      {
+        id: 'history-civilization-p05-q8',
+        type: 'numeric',
+        question: 'How old was Louis XVI when he became king in 1774?',
+        correctValue: 19,
+        tolerance: 0,
+        min: 10,
+        max: 40,
+        step: 1,
+        unit: 'years old',
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p06',
+    topicId: 'history-civilization',
+    title: 'The Age of Exploration: When Europe Reached the World',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `The Age of Exploration transformed global history between the fifteenth and seventeenth centuries as European sailors ventured into unknown waters seeking trade routes, riches, and new lands. These voyages connected continents that had developed in isolation for thousands of years, launching an era of exchange, colonization, and conflict that shaped the modern world. The consequences of this age continue reverberating through economics, politics, and culture today.
+&nbsp;
+Portugal pioneered European exploration under the leadership of Prince Henry the Navigator, who established a navigation school at Sagres around 1420. Henry sponsored expeditions down the African coast, seeking gold, slaves, and a sea route to Asian spice markets. Portuguese sailors gradually extended their reach southward, reaching the equator by 1471 and the Cape of Good Hope at Africa's southern tip in 1488 when Bartolomeu Dias rounded this treacherous point during a violent storm.
+&nbsp;
+The search for a westward route to Asia led to the most consequential voyage in world history. Christopher Columbus, a Genoese sailor sponsored by Spanish monarchs Ferdinand and Isabella, departed Spain on August 3, 1492, with three ships and approximately 90 crew members. After 36 days sailing across the Atlantic, Columbus reached the Bahamas on October 12, 1492, believing he had found islands near Japan. He died in 1506 still convinced he had reached Asia, never realizing he had stumbled upon continents unknown to Europeans.
+&nbsp;
+Vasco da Gama completed the first direct sea voyage from Europe to India, departing Lisbon on July 8, 1497, with four ships. His expedition rounded Africa, crossed the Indian Ocean, and reached Calicut on India's southwestern coast on May 20, 1498. This journey of over 24,000 miles established a sea route that would make Portugal immensely wealthy from the spice trade. Da Gama returned home with cargo worth 60 times the cost of the entire expedition.
+&nbsp;
+Ferdinand Magellan organized the first expedition to circumnavigate the globe, departing Spain on September 20, 1519, with 270 men aboard five ships. The voyage proved extraordinarily difficult, with mutinies, starvation, and Magellan's own death in a battle with indigenous warriors in the Philippines on April 27, 1521. Only one ship, the Victoria, completed the journey, arriving in Spain on September 6, 1522, with just 18 surviving crew members under the command of Juan Sebastian Elcano.
+&nbsp;
+The Treaty of Tordesillas, signed on June 7, 1494, divided newly discovered lands between Spain and Portugal along a line approximately 1,700 miles west of the Cape Verde Islands. Lands east of this line belonged to Portugal, explaining why Brazil became Portuguese while the rest of South America became Spanish. This agreement, blessed by Pope Alexander VI, ignored the rights of indigenous peoples and set precedents for European claims to territories occupied by others.
+&nbsp;
+Spanish conquistadors rapidly conquered vast territories in the Americas during the early sixteenth century. Hernan Cortes landed in Mexico in February 1519 with approximately 600 men and, exploiting indigenous divisions and European diseases, conquered the Aztec Empire by August 1521. Francisco Pizarro captured the Inca emperor Atahualpa in November 1532 with fewer than 200 soldiers, dismantling another great civilization. These conquests brought unprecedented wealth to Spain and devastation to native populations.
+&nbsp;
+The Columbian Exchange describes the transfer of plants, animals, diseases, and ideas between the Old and New Worlds following Columbus's voyages. Europeans brought horses, cattle, wheat, and smallpox to the Americas, while receiving potatoes, tomatoes, corn, and chocolate in return. The demographic consequences proved catastrophic for indigenous Americans, as diseases to which they had no immunity killed an estimated 90 percent of the pre-contact population within a century.
+&nbsp;
+European powers competed intensely for colonies and trade routes throughout the exploration era. The Dutch established the Dutch East India Company in 1602, creating the world's first multinational corporation and building a trading empire across Asia. England chartered its own East India Company in 1600 and gradually expanded from trading posts to territorial control in India. France, England, Spain, and the Netherlands all claimed territories in North America, leading to conflicts that continued for centuries.
+&nbsp;
+The transatlantic slave trade emerged as one of the most tragic consequences of European expansion. Portuguese traders began transporting enslaved Africans to Brazil in the 1530s, and the practice spread throughout the Americas. Between 1500 and 1870, approximately 12.5 million Africans were forcibly transported across the Atlantic under horrific conditions. This human catastrophe provided labor for plantation agriculture while devastating African societies through warfare and depopulation.
+&nbsp;
+Navigation technology advanced significantly during the exploration era. The magnetic compass, adopted from Chinese invention, allowed sailors to determine direction regardless of weather or visibility. The astrolabe and cross-staff enabled calculation of latitude by measuring the angle of the sun or stars above the horizon. Portuguese and Spanish cartographers created increasingly accurate maps that accumulated knowledge from each successive voyage.
+&nbsp;
+The Age of Exploration permanently altered global power dynamics and established patterns that persisted for centuries. European nations gained vast colonial empires that they would maintain until the twentieth century. The exchange of crops transformed agriculture and diets on every continent. Global trade networks emerged that would eventually create the interconnected world economy we know today. The encounter between civilizations, while often catastrophic for non-European peoples, began the process of creating a truly global human community.
+&nbsp;
+Understanding this period requires acknowledging both its achievements and its costs. European explorers displayed remarkable courage and skill in navigating unknown waters. Their voyages expanded human knowledge and created connections that shaped modern civilization. Yet these same expeditions enabled conquest, colonization, and slavery that inflicted immeasurable suffering on millions. The Age of Exploration thus represents a pivotal era whose complex legacy continues demanding careful examination and honest assessment.`,
+    questions: [
+      {
+        id: 'history-civilization-p06-q1',
+        type: 'single_choice',
+        question: 'Who established a navigation school at Sagres around 1420?',
+        options: ['Christopher Columbus', 'Vasco da Gama', 'Prince Henry the Navigator', 'Ferdinand Magellan'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p06-q2',
+        type: 'single_choice',
+        question: 'When did Columbus reach the Bahamas?',
+        options: ['August 3, 1492', 'October 12, 1492', 'July 8, 1497', 'September 20, 1519'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p06-q3',
+        type: 'multiple_select',
+        question: 'Which items were brought from the Americas to Europe in the Columbian Exchange? Select all that apply.',
+        options: ['Potatoes', 'Horses', 'Tomatoes', 'Wheat'],
+        correctIndices: [0, 2],
+      },
+      {
+        id: 'history-civilization-p06-q4',
+        type: 'true_false',
+        question: 'Ferdinand Magellan completed the first circumnavigation of the globe.',
+        correctAnswer: false,
+      },
+      {
+        id: 'history-civilization-p06-q5',
+        type: 'numeric',
+        question: 'How many surviving crew members completed Magellan\'s circumnavigation aboard the Victoria?',
+        correctValue: 18,
+        tolerance: 2,
+        min: 5,
+        max: 50,
+        step: 1,
+        unit: 'crew members',
+      },
+      {
+        id: 'history-civilization-p06-q6',
+        type: 'single_choice',
+        question: 'Who conquered the Aztec Empire by August 1521?',
+        options: ['Francisco Pizarro', 'Hernan Cortes', 'Juan Sebastian Elcano', 'Bartolomeu Dias'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p06-q7',
+        type: 'single_choice',
+        question: 'When was the Treaty of Tordesillas signed?',
+        options: ['October 12, 1492', 'June 7, 1494', 'May 20, 1498', 'February 1519'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p06-q8',
+        type: 'numeric',
+        question: 'Approximately how many Africans were forcibly transported across the Atlantic between 1500 and 1870 (in millions)?',
+        correctValue: 12.5,
+        tolerance: 1,
+        min: 5,
+        max: 20,
+        step: 0.5,
+        unit: 'million people',
+      },
+      {
+        id: 'history-civilization-p06-q9',
+        type: 'true_false',
+        question: 'The Dutch East India Company was established in 1602.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-p07',
+    topicId: 'history-civilization',
+    title: 'The Cold War: Superpower Standoff That Shaped the Modern World',
+    difficulty: 'advanced',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `The Cold War dominated international relations from 1947 until 1991, pitting the United States and Soviet Union against each other in an ideological, political, and military struggle that shaped every corner of the globe. Unlike previous great power conflicts, this confrontation never erupted into direct warfare between the superpowers, though it spawned numerous proxy conflicts and brought humanity perilously close to nuclear annihilation. Understanding the Cold War is essential for comprehending the world that emerged from its conclusion.
+&nbsp;
+The alliance that defeated Nazi Germany fractured almost immediately after World War II ended. The Soviet Union, having lost approximately 27 million people during the war, sought security through buffer states in Eastern Europe and spread communist influence wherever possible. The United States, emerging from the war as the world's dominant economic and military power, committed to containing Soviet expansion and promoting democratic capitalism. These incompatible visions guaranteed conflict.
+&nbsp;
+Winston Churchill captured the emerging division in a speech at Westminster College in Fulton, Missouri on March 5, 1946, declaring that an iron curtain had descended across Europe from Stettin in the Baltic to Trieste in the Adriatic. This vivid phrase became synonymous with the division between communist Eastern Europe and democratic Western Europe. Behind the curtain, Soviet-backed governments took power in Poland, Czechoslovakia, Hungary, Romania, Bulgaria, and East Germany.
+&nbsp;
+President Harry Truman articulated American strategy in an address to Congress on March 12, 1947, requesting aid for Greece and Turkey to resist communist pressure. The Truman Doctrine committed the United States to supporting free peoples resisting subjugation by armed minorities or outside pressures. This policy of containment, developed by diplomat George Kennan, would guide American foreign policy throughout the Cold War.
+&nbsp;
+The Marshall Plan, announced by Secretary of State George Marshall on June 5, 1947, provided approximately 13 billion dollars to rebuild European economies devastated by war. This aid strengthened Western European governments against communist influence while creating markets for American goods. The Soviet Union rejected Marshall Plan assistance and prevented Eastern European nations from accepting it, deepening the continental divide.
+&nbsp;
+Berlin became the Cold War's most dangerous flashpoint during the late 1940s. The city lay deep within Soviet-occupied Germany but was divided into American, British, French, and Soviet sectors. When Western powers introduced a new currency in their zones in June 1948, the Soviets blockaded all land routes to West Berlin. American and British aircraft responded with a massive airlift, delivering up to 8,000 tons of supplies daily for nearly a year until the Soviets lifted the blockade in May 1949.
+&nbsp;
+The formation of rival military alliances institutionalized the division of Europe. The North Atlantic Treaty Organization, established on April 4, 1949, bound the United States, Canada, and Western European nations in collective defense. The Soviet Union countered by creating the Warsaw Pact on May 14, 1955, uniting communist Eastern European states under Moscow's military leadership. These alliances faced each other across the Iron Curtain with millions of troops and thousands of nuclear weapons.
+&nbsp;
+The Cold War turned hot in Korea when communist North Korea invaded South Korea on June 25, 1950. The United States led a United Nations coalition that pushed North Korean forces back, then approached the Chinese border. China entered the war in October 1950, driving UN forces southward. Fighting stabilized near the original boundary and continued until an armistice on July 27, 1953. The Korean War killed approximately 2.5 million people and left the peninsula divided to this day.
+&nbsp;
+The nuclear arms race escalated throughout the Cold War, creating arsenals capable of destroying civilization multiple times over. The United States developed atomic bombs during World War II and remained the sole nuclear power until the Soviet Union tested its first atomic device on August 29, 1949. Both nations subsequently developed hydrogen bombs hundreds of times more powerful than the weapons that destroyed Hiroshima and Nagasaki. By the 1980s, each side possessed over 20,000 nuclear warheads.
+&nbsp;
+The Cuban Missile Crisis of October 1962 brought the world closer to nuclear war than at any other time. American reconnaissance discovered Soviet nuclear missiles being installed in Cuba, just 90 miles from Florida. President John F. Kennedy demanded their removal and ordered a naval blockade of the island. For thirteen days, the superpowers stood at the brink of catastrophe before Soviet Premier Nikita Khrushchev agreed to withdraw the missiles in exchange for American promises not to invade Cuba and to remove missiles from Turkey.
+&nbsp;
+The space race emerged as another arena of superpower competition. The Soviet Union achieved the first satellite launch on October 4, 1957, when Sputnik orbited the Earth, shocking Americans who believed in their technological superiority. Soviet cosmonaut Yuri Gagarin became the first human in space on April 12, 1961. The United States responded with President Kennedy's commitment to land a man on the Moon by the end of the decade, achieved when Neil Armstrong stepped onto the lunar surface on July 20, 1969.
+&nbsp;
+Vietnam became the Cold War's most divisive proxy conflict. The United States gradually increased its involvement in South Vietnam during the 1960s, eventually deploying over 500,000 troops to prevent communist takeover. The war killed approximately 58,000 Americans and millions of Vietnamese before American withdrawal in 1973. Communist forces conquered South Vietnam in April 1975, representing a major American defeat that constrained interventionist policies for years afterward.
+&nbsp;
+Detente, a period of reduced tensions, characterized Soviet-American relations during the 1970s. Arms control agreements including the Strategic Arms Limitation Talks limited nuclear arsenals for the first time. Trade and cultural exchanges increased between East and West. However, the Soviet invasion of Afghanistan in December 1979 ended detente and initiated a renewed confrontation during President Ronald Reagan's administration.
+&nbsp;
+Reagan's military buildup and confrontational rhetoric challenged Soviet power during the 1980s. He labeled the Soviet Union an evil empire and initiated the Strategic Defense Initiative, proposing a space-based missile defense system that would have negated Soviet nuclear capabilities. Soviet leader Mikhail Gorbachev, facing economic stagnation and technological inferiority, introduced reforms called glasnost and perestroika that would inadvertently unravel communist control.
+&nbsp;
+The Cold War ended with stunning rapidity between 1989 and 1991. Communist governments fell across Eastern Europe in 1989, symbolized most dramatically by the fall of the Berlin Wall on November 9, 1989. East and West Germany reunified on October 3, 1990. Constituent republics declared independence from the Soviet Union, which formally dissolved on December 26, 1991. The United States emerged as the world's sole superpower, and capitalism and democracy appeared triumphant.
+&nbsp;
+The Cold War's legacy includes both the avoidance of great power war and the proxy conflicts, interventions, and repressions that killed millions in its shadow. Nuclear arsenals developed during this era continue threatening humanity decades after the confrontation ended. Institutions created to wage the Cold War, including NATO and the national security state, persist in modified forms. Regional conflicts from Korea to the Middle East remain shaped by Cold War dynamics.
+&nbsp;
+Understanding the Cold War helps illuminate current international tensions, including renewed rivalry between the United States and Russia, competition with China, and debates over American military commitments worldwide. The choices made during those dangerous decades continue influencing a world that has neither achieved the perpetual peace some predicted nor returned to the devastation of great power warfare.`,
+    questions: [
+      {
+        id: 'history-civilization-p07-q1',
+        type: 'single_choice',
+        question: 'Who delivered the "Iron Curtain" speech in March 1946?',
+        options: ['Harry Truman', 'George Marshall', 'Winston Churchill', 'George Kennan'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p07-q2',
+        type: 'single_choice',
+        question: 'How much aid did the Marshall Plan provide to rebuild European economies?',
+        options: ['Approximately 3 billion dollars', 'Approximately 8 billion dollars', 'Approximately 13 billion dollars', 'Approximately 20 billion dollars'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p07-q3',
+        type: 'multiple_select',
+        question: 'Which events occurred in 1949? Select all that apply.',
+        options: ['NATO was established', 'The Berlin Wall fell', 'The Soviet Union tested its first atomic bomb', 'The Korean War began'],
+        correctIndices: [0, 2],
+      },
+      {
+        id: 'history-civilization-p07-q4',
+        type: 'true_false',
+        question: 'The Cuban Missile Crisis occurred in October 1962.',
+        correctAnswer: true,
+      },
+      {
+        id: 'history-civilization-p07-q5',
+        type: 'numeric',
+        question: 'Approximately how many American troops were deployed to Vietnam at the peak?',
+        correctValue: 500000,
+        tolerance: 50000,
+        min: 100000,
+        max: 1000000,
+        step: 50000,
+        unit: 'troops',
+      },
+      {
+        id: 'history-civilization-p07-q6',
+        type: 'single_choice',
+        question: 'When did the Berlin Wall fall?',
+        options: ['October 3, 1990', 'November 9, 1989', 'December 26, 1991', 'June 25, 1950'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-p07-q7',
+        type: 'single_choice',
+        question: 'Who was the first human in space?',
+        options: ['Neil Armstrong', 'John Glenn', 'Yuri Gagarin', 'Alan Shepard'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-p07-q8',
+        type: 'numeric',
+        question: 'When did Neil Armstrong land on the Moon (day of July 1969)?',
+        correctValue: 20,
+        tolerance: 0,
+        min: 1,
+        max: 31,
+        step: 1,
+        unit: 'July 1969',
+      },
+      {
+        id: 'history-civilization-p07-q9',
+        type: 'true_false',
+        question: 'The Warsaw Pact was established before NATO.',
+        correctAnswer: false,
+      },
+      {
+        id: 'history-civilization-p07-q10',
+        type: 'single_choice',
+        question: 'When did the Soviet Union formally dissolve?',
+        options: ['November 9, 1989', 'October 3, 1990', 'August 29, 1991', 'December 26, 1991'],
+        correctIndex: 3,
+      },
+      {
+        id: 'history-civilization-p07-q11',
+        type: 'numeric',
+        question: 'Approximately how many people were killed in the Korean War (in millions)?',
+        correctValue: 2.5,
+        tolerance: 0.5,
+        min: 1,
+        max: 5,
+        step: 0.5,
+        unit: 'million people',
+      },
+      {
+        id: 'history-civilization-p07-q12',
+        type: 'single_choice',
+        question: 'What Soviet leader introduced glasnost and perestroika?',
+        options: ['Nikita Khrushchev', 'Leonid Brezhnev', 'Mikhail Gorbachev', 'Joseph Stalin'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-c1',
+    topicId: 'history-civilization',
+    title: 'The Fall of Rome: End of an Empire',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `The Roman Empire dominated the Mediterranean world for centuries before its western half collapsed in 476 CE. This monumental event marked the end of ancient history and the beginning of the medieval period in Europe. Understanding why Rome fell helps us recognize patterns that affect all great civilizations.
+&nbsp;
+At its peak under Emperor Trajan around 117 CE, the Roman Empire stretched from Britain to Mesopotamia, encompassing approximately 5 million square kilometers. Over 55 million people lived within its borders, united by Roman law, Latin language, and an extensive network of roads spanning over 250,000 miles. The empire seemed invincible to those who lived within its protective boundaries.
+&nbsp;
+Rome's decline resulted from a complex combination of internal weaknesses and external pressures that accumulated over several centuries. No single cause brought down this mighty empire, but rather a perfect storm of problems that Roman institutions could no longer manage effectively.
+&nbsp;
+Political instability plagued the empire during its final centuries. Between 235 and 284 CE, Rome experienced the Crisis of the Third Century, during which over twenty emperors ruled in rapid succession. Many gained power through military force and died violently, creating uncertainty that undermined public confidence and economic stability throughout Roman territories.
+&nbsp;
+Emperor Diocletian attempted to solve the leadership problem in 284 CE by dividing the empire into eastern and western halves, each with its own emperor. His successor Constantine founded Constantinople in 330 CE as a new eastern capital, shifting Roman power toward the wealthier and more stable east. This division eventually became permanent, with the two halves following different historical paths.
+&nbsp;
+Economic troubles weakened Rome's ability to defend its borders and maintain infrastructure. Heavy taxation drove farmers off their land and into cities where they became dependent on grain doles from the government. Trade declined as roads fell into disrepair and pirates threatened Mediterranean shipping lanes. Currency devaluation caused inflation that eroded savings and disrupted commerce.
+&nbsp;
+The Roman army transformed from a professional fighting force of citizen soldiers into a mercenary force increasingly staffed by Germanic warriors. These soldiers often had little loyalty to Rome and sometimes turned against the emperors they served. The practice of paying tribute to barbarian tribes rather than fighting them drained imperial treasuries without providing lasting security.
+&nbsp;
+Germanic tribes pressing against Roman frontiers posed an escalating military threat. The Visigoths, fleeing from Hunnic invaders in central Asia, crossed the Danube River in 376 CE seeking refuge within Roman territory. Poor treatment by Roman officials led to rebellion, and in 378 CE the Visigoths destroyed a Roman army at Adrianople, killing Emperor Valens himself.
+&nbsp;
+The sack of Rome in 410 CE by Alaric and his Visigoth army shocked the Mediterranean world. For the first time in 800 years, foreign invaders had breached the walls of the eternal city. Saint Augustine wrote his famous work "The City of God" partly in response to this traumatic event, arguing that earthly empires inevitably fall but spiritual kingdoms endure.
+&nbsp;
+The final blow came on September 4, 476 CE, when the Germanic chieftain Odoacer deposed Romulus Augustulus, the last Western Roman Emperor. Odoacer chose not to name a replacement, instead sending the imperial regalia to Constantinople and ruling Italy as a barbarian king. This date traditionally marks the end of ancient Rome and the beginning of the Middle Ages.
+&nbsp;
+The Eastern Roman Empire, later called the Byzantine Empire, survived for nearly a thousand more years until Constantinople fell to the Ottoman Turks in 1453. The Byzantines preserved Roman law, Greek learning, and Christian traditions that would later help spark the Renaissance in Western Europe.
+&nbsp;
+Rome's legacy persisted despite its political collapse. Latin evolved into the Romance languages including Italian, French, Spanish, Portuguese, and Romanian. Roman law forms the basis of legal systems throughout Europe and Latin America today. The Catholic Church preserved Roman administrative structures and carried classical learning through the medieval period.
+&nbsp;
+The fall of Rome reminds us that even the mightiest civilizations can decline when institutions fail to adapt to changing circumstances. Internal division, economic inequality, military overextension, and leadership failures all contributed to Rome's collapse. Historians continue debating the relative importance of these factors, finding new relevance in Rome's story for understanding contemporary challenges.`,
+    questions: [
+      {
+        id: 'history-civilization-c1-q1',
+        type: 'single_choice',
+        question: 'Who deposed the last Western Roman Emperor?',
+        options: ['Alaric', 'Diocletian', 'Odoacer', 'Constantine'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-c1-q2',
+        type: 'multiple_select',
+        question: 'Which factors contributed to Rome\'s decline according to the article? Select all that apply.',
+        options: ['Political instability', 'Climate change', 'Economic troubles', 'Heavy taxation'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'history-civilization-c1-q3',
+        type: 'true_false',
+        question: 'The Visigoths sacked Rome in 476 CE.',
+        correctAnswer: false,
+      },
+      {
+        id: 'history-civilization-c1-q4',
+        type: 'numeric',
+        question: 'In what year did the western half of the Roman Empire collapse?',
+        correctValue: 476,
+        tolerance: 0,
+        min: 300,
+        max: 600,
+        step: 1,
+        unit: 'CE',
+      },
+      {
+        id: 'history-civilization-c1-q5',
+        type: 'single_choice',
+        question: 'Who founded Constantinople as a new eastern capital?',
+        options: ['Trajan', 'Diocletian', 'Constantine', 'Valens'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-c1-q6',
+        type: 'single_choice',
+        question: 'What happened at the Battle of Adrianople in 378 CE?',
+        options: ['The Visigoths sacked Rome', 'The Roman army was destroyed and Emperor Valens was killed', 'Constantine became emperor', 'The empire was divided in two'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-c1-q7',
+        type: 'numeric',
+        question: 'Approximately how many square kilometers did the Roman Empire cover at its peak?',
+        correctValue: 5000000,
+        tolerance: 500000,
+        min: 2000000,
+        max: 10000000,
+        step: 500000,
+        unit: 'square kilometers',
+      },
+    ],
+  },
+  {
+    id: 'history-civilization-c2',
+    topicId: 'history-civilization',
+    title: 'World War I: The Conflict That Shaped the Modern World',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `World War I erupted in the summer of 1914 and reshaped the global order more dramatically than any conflict before it. This catastrophic war killed approximately 17 million people, destroyed four empires, and redrew the map of Europe and the Middle East. The political, social, and technological changes unleashed by this conflict continue influencing world affairs more than a century later.
+&nbsp;
+The assassination of Archduke Franz Ferdinand of Austria-Hungary on June 28, 1914, in Sarajevo provided the spark that ignited the war. A Bosnian Serb nationalist named Gavrilo Princip shot the heir to the Austro-Hungarian throne and his wife Sophie during an official visit. Austria-Hungary blamed Serbia for the assassination and issued an ultimatum designed to be rejected. Within weeks, the alliance systems that had developed over previous decades pulled all major European powers into war.
+&nbsp;
+Europe in 1914 was divided into two major alliance blocs that transformed what might have been a local Balkan conflict into a continental catastrophe. The Triple Alliance linked Germany, Austria-Hungary, and Italy, though Italy would later switch sides. The Triple Entente joined France, Russia, and Britain. When Austria-Hungary declared war on Serbia on July 28, 1914, Russia mobilized to support its Slavic ally. Germany declared war on Russia on August 1 and on France two days later.
+&nbsp;
+The German war plan, developed by Count Alfred von Schlieffen and modified by Helmuth von Moltke, called for a rapid invasion of France through neutral Belgium before turning east to face the slower-mobilizing Russian army. This strategy brought Britain into the war on August 4, 1914, since Britain had guaranteed Belgian neutrality in an 1839 treaty. The violation of Belgian sovereignty also generated international condemnation that damaged Germany's diplomatic position throughout the war.
+&nbsp;
+Initial expectations of a short, decisive war quickly proved tragically mistaken. The German advance through Belgium stalled short of Paris in September 1914 at the First Battle of the Marne. Both sides then attempted to outflank each other in what became known as the Race to the Sea. By November, continuous trench lines stretched from the English Channel to Switzerland, establishing the Western Front that would consume millions of lives over the next four years.
+&nbsp;
+Trench warfare produced conditions of unprecedented misery and deadlock. Soldiers lived in muddy ditches surrounded by rats, lice, and the constant threat of enemy fire. The space between opposing trenches, called no man's land, was swept by machine gun fire that made frontal attacks suicidal. Artillery bombardments churned the landscape into a moonscape of craters and destroyed villages. The combination of defensive firepower and offensive tactics that had not yet adapted to industrial warfare created a stalemate that generals struggled to break.
+&nbsp;
+The Battle of the Somme, launched by British and French forces on July 1, 1916, exemplified the war's horrific waste of human life. The British army suffered nearly 60,000 casualties on the first day alone, making it the bloodiest day in British military history. The offensive continued for over four months but advanced only six miles at a cost of over one million total casualties on both sides. Similar carnage occurred at Verdun, where German and French forces fought from February to December 1916 with approximately 700,000 combined casualties.
+&nbsp;
+The Eastern Front remained more fluid than the Western Front but proved equally devastating. Russian forces initially advanced into German East Prussia before suffering a crushing defeat at the Battle of Tannenberg in late August 1914. The war placed enormous strain on the Russian economy and political system, contributing to the revolution that overthrew Tsar Nicholas II in February 1917. The Bolshevik seizure of power in November 1917 led to Russia's withdrawal from the war through the Treaty of Brest-Litovsk in March 1918.
+&nbsp;
+New weapons and technologies transformed warfare during the conflict. Poison gas was first used on a large scale by German forces at Ypres in April 1915, creating a new form of terror on the battlefield. Tanks, developed by the British, made their debut at the Somme in September 1916 and would eventually help restore mobility to ground warfare. Aircraft evolved from reconnaissance platforms to fighters and bombers capable of striking enemy territory. Submarines, particularly German U-boats, threatened supply lines and played a crucial role in bringing the United States into the war.
+&nbsp;
+The United States entered World War I on April 6, 1917, after German resumption of unrestricted submarine warfare threatened American shipping and lives. The Zimmermann Telegram, a German diplomatic communication proposing a military alliance with Mexico against the United States, further inflamed American public opinion when British intelligence revealed it in February 1917. American troops began arriving in France in significant numbers by spring 1918, providing fresh manpower that helped tip the balance against Germany.
+&nbsp;
+Germany launched massive offensives in spring 1918, hoping to win before American strength became decisive. These attacks, named after German military heroes, achieved stunning initial success using new infiltration tactics. German forces advanced to within 50 miles of Paris by June 1918. However, the offensives exhausted German reserves without achieving a decisive breakthrough. Allied counteroffensives beginning in July steadily pushed German forces back, and by autumn Germany faced military collapse.
+&nbsp;
+The armistice ending the fighting took effect at 11:00 AM on November 11, 1918. Kaiser Wilhelm II had abdicated two days earlier, and Germany was declared a republic. Austria-Hungary had already dissolved into multiple successor states as its component nationalities declared independence. The Ottoman Empire, which had entered the war on Germany's side, faced partition by the victorious Allies. These changes redrew the map of Europe and the Middle East in ways that continue shaping global politics.
+&nbsp;
+The Paris Peace Conference that convened in January 1919 produced the Treaty of Versailles, signed on June 28, 1919, exactly five years after the assassination that started the war. The treaty imposed harsh terms on Germany, including territorial losses, military restrictions, and massive reparations payments. Article 231, the war guilt clause, held Germany responsible for the war and its damages. These terms created resentment that Adolf Hitler would later exploit in his rise to power.
+&nbsp;
+World War I shattered the optimism and confidence that had characterized prewar European civilization. The unprecedented casualties traumatized an entire generation and produced literature, art, and philosophy reflecting disillusionment with traditional values. The war weakened European colonial empires by demonstrating that European powers could destroy themselves. Nationalist movements in Asia, Africa, and the Middle East gained momentum as colonial subjects questioned their rulers' claims to superiority.
+&nbsp;
+The League of Nations, established by the peace treaties, represented an attempt to prevent future wars through collective security and international cooperation. However, the organization was fatally weakened when the United States Senate refused to ratify the Treaty of Versailles and the nation never joined. Without American participation and lacking enforcement mechanisms, the League proved unable to prevent aggression during the 1930s.
+&nbsp;
+World War I created conditions that led directly to World War II just two decades later. The Treaty of Versailles left Germany bitter and humiliated but not permanently weakened. Economic chaos during the Great Depression radicalized German politics and brought the Nazis to power. The failure of the democracies to enforce the peace settlement emboldened aggressive regimes in Germany, Italy, and Japan. Understanding World War I is essential for comprehending the turbulent century that followed.`,
+    questions: [
+      {
+        id: 'history-civilization-c2-q1',
+        type: 'single_choice',
+        question: 'What event sparked the outbreak of World War I?',
+        options: ['German invasion of Belgium', 'Assassination of Archduke Franz Ferdinand', 'The Zimmermann Telegram', 'The Russian Revolution'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-c2-q2',
+        type: 'single_choice',
+        question: 'How many casualties did the British suffer on the first day of the Battle of the Somme?',
+        options: ['Nearly 20,000', 'Nearly 40,000', 'Nearly 60,000', 'Nearly 80,000'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-c2-q3',
+        type: 'multiple_select',
+        question: 'Which new weapons or technologies were introduced or widely used during World War I? Select all that apply.',
+        options: ['Poison gas', 'Tanks', 'Nuclear weapons', 'Military aircraft'],
+        correctIndices: [0, 1, 3],
+      },
+      {
+        id: 'history-civilization-c2-q4',
+        type: 'true_false',
+        question: 'The United States joined the League of Nations after World War I.',
+        correctAnswer: false,
+      },
+      {
+        id: 'history-civilization-c2-q5',
+        type: 'numeric',
+        question: 'On what date did the armistice ending the fighting take effect (day of the month)?',
+        correctValue: 11,
+        tolerance: 0,
+        min: 1,
+        max: 30,
+        step: 1,
+        unit: 'November 1918',
+      },
+      {
+        id: 'history-civilization-c2-q6',
+        type: 'single_choice',
+        question: 'What brought Britain into World War I?',
+        options: ['The assassination of Franz Ferdinand', 'Germany\'s violation of Belgian neutrality', 'The sinking of the Lusitania', 'The Zimmermann Telegram'],
+        correctIndex: 1,
+      },
+      {
+        id: 'history-civilization-c2-q7',
+        type: 'single_choice',
+        question: 'When did the United States enter World War I?',
+        options: ['August 1914', 'February 1917', 'April 1917', 'November 1918'],
+        correctIndex: 2,
+      },
+      {
+        id: 'history-civilization-c2-q8',
+        type: 'multiple_select',
+        question: 'Which empires collapsed as a result of World War I? Select all that apply.',
+        options: ['Austria-Hungary', 'British Empire', 'Ottoman Empire', 'German Empire'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'history-civilization-c2-q9',
+        type: 'numeric',
+        question: 'Approximately how many people were killed during World War I (in millions)?',
+        correctValue: 17,
+        tolerance: 3,
+        min: 5,
+        max: 30,
+        step: 1,
+        unit: 'million',
+      },
+      {
+        id: 'history-civilization-c2-q10',
+        type: 'true_false',
+        question: 'The Treaty of Versailles was signed on June 28, 1919, exactly five years after the assassination of Franz Ferdinand.',
+        correctAnswer: true,
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

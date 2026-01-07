@@ -14,10 +14,10 @@
 export function calculateORP(word: string): number {
   const len = word.length;
 
-  if (len <= 1) return 0;
-  if (len <= 5) return Math.floor(len / 3);
-  if (len <= 9) return Math.floor(len * 0.3);
-  if (len <= 13) return Math.floor(len * 0.25) + 1;
+  if (len <= 1) {return 0;}
+  if (len <= 5) {return Math.floor(len / 3);}
+  if (len <= 9) {return Math.floor(len * 0.3);}
+  if (len <= 13) {return Math.floor(len * 0.25) + 1;}
   return Math.floor(len * 0.25) + 2;
 }
 
@@ -29,13 +29,13 @@ export function calculateORP(word: string): number {
  */
 export function calculatePauseMultiplier(word: string): number {
   // Sentence end - longest pause
-  if (/[.!?]$/.test(word)) return 1.8;
+  if (/[.!?]$/.test(word)) {return 1.8;}
 
   // Clause break - medium pause
-  if (/[,;:]$/.test(word)) return 1.3;
+  if (/[,;:]$/.test(word)) {return 1.3;}
 
   // Long word - slightly longer
-  if (word.length > 12) return 1.2;
+  if (word.length > 12) {return 1.2;}
 
   // Normal
   return 1.0;

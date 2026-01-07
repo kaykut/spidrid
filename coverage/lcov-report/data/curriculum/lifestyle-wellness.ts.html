@@ -1,0 +1,2731 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/curriculum/lifestyle-wellness.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">data/curriculum</a> lifestyle-wellness.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a>
+<a name='L503'></a><a href='#L503'>503</a>
+<a name='L504'></a><a href='#L504'>504</a>
+<a name='L505'></a><a href='#L505'>505</a>
+<a name='L506'></a><a href='#L506'>506</a>
+<a name='L507'></a><a href='#L507'>507</a>
+<a name='L508'></a><a href='#L508'>508</a>
+<a name='L509'></a><a href='#L509'>509</a>
+<a name='L510'></a><a href='#L510'>510</a>
+<a name='L511'></a><a href='#L511'>511</a>
+<a name='L512'></a><a href='#L512'>512</a>
+<a name='L513'></a><a href='#L513'>513</a>
+<a name='L514'></a><a href='#L514'>514</a>
+<a name='L515'></a><a href='#L515'>515</a>
+<a name='L516'></a><a href='#L516'>516</a>
+<a name='L517'></a><a href='#L517'>517</a>
+<a name='L518'></a><a href='#L518'>518</a>
+<a name='L519'></a><a href='#L519'>519</a>
+<a name='L520'></a><a href='#L520'>520</a>
+<a name='L521'></a><a href='#L521'>521</a>
+<a name='L522'></a><a href='#L522'>522</a>
+<a name='L523'></a><a href='#L523'>523</a>
+<a name='L524'></a><a href='#L524'>524</a>
+<a name='L525'></a><a href='#L525'>525</a>
+<a name='L526'></a><a href='#L526'>526</a>
+<a name='L527'></a><a href='#L527'>527</a>
+<a name='L528'></a><a href='#L528'>528</a>
+<a name='L529'></a><a href='#L529'>529</a>
+<a name='L530'></a><a href='#L530'>530</a>
+<a name='L531'></a><a href='#L531'>531</a>
+<a name='L532'></a><a href='#L532'>532</a>
+<a name='L533'></a><a href='#L533'>533</a>
+<a name='L534'></a><a href='#L534'>534</a>
+<a name='L535'></a><a href='#L535'>535</a>
+<a name='L536'></a><a href='#L536'>536</a>
+<a name='L537'></a><a href='#L537'>537</a>
+<a name='L538'></a><a href='#L538'>538</a>
+<a name='L539'></a><a href='#L539'>539</a>
+<a name='L540'></a><a href='#L540'>540</a>
+<a name='L541'></a><a href='#L541'>541</a>
+<a name='L542'></a><a href='#L542'>542</a>
+<a name='L543'></a><a href='#L543'>543</a>
+<a name='L544'></a><a href='#L544'>544</a>
+<a name='L545'></a><a href='#L545'>545</a>
+<a name='L546'></a><a href='#L546'>546</a>
+<a name='L547'></a><a href='#L547'>547</a>
+<a name='L548'></a><a href='#L548'>548</a>
+<a name='L549'></a><a href='#L549'>549</a>
+<a name='L550'></a><a href='#L550'>550</a>
+<a name='L551'></a><a href='#L551'>551</a>
+<a name='L552'></a><a href='#L552'>552</a>
+<a name='L553'></a><a href='#L553'>553</a>
+<a name='L554'></a><a href='#L554'>554</a>
+<a name='L555'></a><a href='#L555'>555</a>
+<a name='L556'></a><a href='#L556'>556</a>
+<a name='L557'></a><a href='#L557'>557</a>
+<a name='L558'></a><a href='#L558'>558</a>
+<a name='L559'></a><a href='#L559'>559</a>
+<a name='L560'></a><a href='#L560'>560</a>
+<a name='L561'></a><a href='#L561'>561</a>
+<a name='L562'></a><a href='#L562'>562</a>
+<a name='L563'></a><a href='#L563'>563</a>
+<a name='L564'></a><a href='#L564'>564</a>
+<a name='L565'></a><a href='#L565'>565</a>
+<a name='L566'></a><a href='#L566'>566</a>
+<a name='L567'></a><a href='#L567'>567</a>
+<a name='L568'></a><a href='#L568'>568</a>
+<a name='L569'></a><a href='#L569'>569</a>
+<a name='L570'></a><a href='#L570'>570</a>
+<a name='L571'></a><a href='#L571'>571</a>
+<a name='L572'></a><a href='#L572'>572</a>
+<a name='L573'></a><a href='#L573'>573</a>
+<a name='L574'></a><a href='#L574'>574</a>
+<a name='L575'></a><a href='#L575'>575</a>
+<a name='L576'></a><a href='#L576'>576</a>
+<a name='L577'></a><a href='#L577'>577</a>
+<a name='L578'></a><a href='#L578'>578</a>
+<a name='L579'></a><a href='#L579'>579</a>
+<a name='L580'></a><a href='#L580'>580</a>
+<a name='L581'></a><a href='#L581'>581</a>
+<a name='L582'></a><a href='#L582'>582</a>
+<a name='L583'></a><a href='#L583'>583</a>
+<a name='L584'></a><a href='#L584'>584</a>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a>
+<a name='L587'></a><a href='#L587'>587</a>
+<a name='L588'></a><a href='#L588'>588</a>
+<a name='L589'></a><a href='#L589'>589</a>
+<a name='L590'></a><a href='#L590'>590</a>
+<a name='L591'></a><a href='#L591'>591</a>
+<a name='L592'></a><a href='#L592'>592</a>
+<a name='L593'></a><a href='#L593'>593</a>
+<a name='L594'></a><a href='#L594'>594</a>
+<a name='L595'></a><a href='#L595'>595</a>
+<a name='L596'></a><a href='#L596'>596</a>
+<a name='L597'></a><a href='#L597'>597</a>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a>
+<a name='L604'></a><a href='#L604'>604</a>
+<a name='L605'></a><a href='#L605'>605</a>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a>
+<a name='L615'></a><a href='#L615'>615</a>
+<a name='L616'></a><a href='#L616'>616</a>
+<a name='L617'></a><a href='#L617'>617</a>
+<a name='L618'></a><a href='#L618'>618</a>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a>
+<a name='L639'></a><a href='#L639'>639</a>
+<a name='L640'></a><a href='#L640'>640</a>
+<a name='L641'></a><a href='#L641'>641</a>
+<a name='L642'></a><a href='#L642'>642</a>
+<a name='L643'></a><a href='#L643'>643</a>
+<a name='L644'></a><a href='#L644'>644</a>
+<a name='L645'></a><a href='#L645'>645</a>
+<a name='L646'></a><a href='#L646'>646</a>
+<a name='L647'></a><a href='#L647'>647</a>
+<a name='L648'></a><a href='#L648'>648</a>
+<a name='L649'></a><a href='#L649'>649</a>
+<a name='L650'></a><a href='#L650'>650</a>
+<a name='L651'></a><a href='#L651'>651</a>
+<a name='L652'></a><a href='#L652'>652</a>
+<a name='L653'></a><a href='#L653'>653</a>
+<a name='L654'></a><a href='#L654'>654</a>
+<a name='L655'></a><a href='#L655'>655</a>
+<a name='L656'></a><a href='#L656'>656</a>
+<a name='L657'></a><a href='#L657'>657</a>
+<a name='L658'></a><a href='#L658'>658</a>
+<a name='L659'></a><a href='#L659'>659</a>
+<a name='L660'></a><a href='#L660'>660</a>
+<a name='L661'></a><a href='#L661'>661</a>
+<a name='L662'></a><a href='#L662'>662</a>
+<a name='L663'></a><a href='#L663'>663</a>
+<a name='L664'></a><a href='#L664'>664</a>
+<a name='L665'></a><a href='#L665'>665</a>
+<a name='L666'></a><a href='#L666'>666</a>
+<a name='L667'></a><a href='#L667'>667</a>
+<a name='L668'></a><a href='#L668'>668</a>
+<a name='L669'></a><a href='#L669'>669</a>
+<a name='L670'></a><a href='#L670'>670</a>
+<a name='L671'></a><a href='#L671'>671</a>
+<a name='L672'></a><a href='#L672'>672</a>
+<a name='L673'></a><a href='#L673'>673</a>
+<a name='L674'></a><a href='#L674'>674</a>
+<a name='L675'></a><a href='#L675'>675</a>
+<a name='L676'></a><a href='#L676'>676</a>
+<a name='L677'></a><a href='#L677'>677</a>
+<a name='L678'></a><a href='#L678'>678</a>
+<a name='L679'></a><a href='#L679'>679</a>
+<a name='L680'></a><a href='#L680'>680</a>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a>
+<a name='L685'></a><a href='#L685'>685</a>
+<a name='L686'></a><a href='#L686'>686</a>
+<a name='L687'></a><a href='#L687'>687</a>
+<a name='L688'></a><a href='#L688'>688</a>
+<a name='L689'></a><a href='#L689'>689</a>
+<a name='L690'></a><a href='#L690'>690</a>
+<a name='L691'></a><a href='#L691'>691</a>
+<a name='L692'></a><a href='#L692'>692</a>
+<a name='L693'></a><a href='#L693'>693</a>
+<a name='L694'></a><a href='#L694'>694</a>
+<a name='L695'></a><a href='#L695'>695</a>
+<a name='L696'></a><a href='#L696'>696</a>
+<a name='L697'></a><a href='#L697'>697</a>
+<a name='L698'></a><a href='#L698'>698</a>
+<a name='L699'></a><a href='#L699'>699</a>
+<a name='L700'></a><a href='#L700'>700</a>
+<a name='L701'></a><a href='#L701'>701</a>
+<a name='L702'></a><a href='#L702'>702</a>
+<a name='L703'></a><a href='#L703'>703</a>
+<a name='L704'></a><a href='#L704'>704</a>
+<a name='L705'></a><a href='#L705'>705</a>
+<a name='L706'></a><a href='#L706'>706</a>
+<a name='L707'></a><a href='#L707'>707</a>
+<a name='L708'></a><a href='#L708'>708</a>
+<a name='L709'></a><a href='#L709'>709</a>
+<a name='L710'></a><a href='#L710'>710</a>
+<a name='L711'></a><a href='#L711'>711</a>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a>
+<a name='L727'></a><a href='#L727'>727</a>
+<a name='L728'></a><a href='#L728'>728</a>
+<a name='L729'></a><a href='#L729'>729</a>
+<a name='L730'></a><a href='#L730'>730</a>
+<a name='L731'></a><a href='#L731'>731</a>
+<a name='L732'></a><a href='#L732'>732</a>
+<a name='L733'></a><a href='#L733'>733</a>
+<a name='L734'></a><a href='#L734'>734</a>
+<a name='L735'></a><a href='#L735'>735</a>
+<a name='L736'></a><a href='#L736'>736</a>
+<a name='L737'></a><a href='#L737'>737</a>
+<a name='L738'></a><a href='#L738'>738</a>
+<a name='L739'></a><a href='#L739'>739</a>
+<a name='L740'></a><a href='#L740'>740</a>
+<a name='L741'></a><a href='#L741'>741</a>
+<a name='L742'></a><a href='#L742'>742</a>
+<a name='L743'></a><a href='#L743'>743</a>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a>
+<a name='L749'></a><a href='#L749'>749</a>
+<a name='L750'></a><a href='#L750'>750</a>
+<a name='L751'></a><a href='#L751'>751</a>
+<a name='L752'></a><a href='#L752'>752</a>
+<a name='L753'></a><a href='#L753'>753</a>
+<a name='L754'></a><a href='#L754'>754</a>
+<a name='L755'></a><a href='#L755'>755</a>
+<a name='L756'></a><a href='#L756'>756</a>
+<a name='L757'></a><a href='#L757'>757</a>
+<a name='L758'></a><a href='#L758'>758</a>
+<a name='L759'></a><a href='#L759'>759</a>
+<a name='L760'></a><a href='#L760'>760</a>
+<a name='L761'></a><a href='#L761'>761</a>
+<a name='L762'></a><a href='#L762'>762</a>
+<a name='L763'></a><a href='#L763'>763</a>
+<a name='L764'></a><a href='#L764'>764</a>
+<a name='L765'></a><a href='#L765'>765</a>
+<a name='L766'></a><a href='#L766'>766</a>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a>
+<a name='L777'></a><a href='#L777'>777</a>
+<a name='L778'></a><a href='#L778'>778</a>
+<a name='L779'></a><a href='#L779'>779</a>
+<a name='L780'></a><a href='#L780'>780</a>
+<a name='L781'></a><a href='#L781'>781</a>
+<a name='L782'></a><a href='#L782'>782</a>
+<a name='L783'></a><a href='#L783'>783</a>
+<a name='L784'></a><a href='#L784'>784</a>
+<a name='L785'></a><a href='#L785'>785</a>
+<a name='L786'></a><a href='#L786'>786</a>
+<a name='L787'></a><a href='#L787'>787</a>
+<a name='L788'></a><a href='#L788'>788</a>
+<a name='L789'></a><a href='#L789'>789</a>
+<a name='L790'></a><a href='#L790'>790</a>
+<a name='L791'></a><a href='#L791'>791</a>
+<a name='L792'></a><a href='#L792'>792</a>
+<a name='L793'></a><a href='#L793'>793</a>
+<a name='L794'></a><a href='#L794'>794</a>
+<a name='L795'></a><a href='#L795'>795</a>
+<a name='L796'></a><a href='#L796'>796</a>
+<a name='L797'></a><a href='#L797'>797</a>
+<a name='L798'></a><a href='#L798'>798</a>
+<a name='L799'></a><a href='#L799'>799</a>
+<a name='L800'></a><a href='#L800'>800</a>
+<a name='L801'></a><a href='#L801'>801</a>
+<a name='L802'></a><a href='#L802'>802</a>
+<a name='L803'></a><a href='#L803'>803</a>
+<a name='L804'></a><a href='#L804'>804</a>
+<a name='L805'></a><a href='#L805'>805</a>
+<a name='L806'></a><a href='#L806'>806</a>
+<a name='L807'></a><a href='#L807'>807</a>
+<a name='L808'></a><a href='#L808'>808</a>
+<a name='L809'></a><a href='#L809'>809</a>
+<a name='L810'></a><a href='#L810'>810</a>
+<a name='L811'></a><a href='#L811'>811</a>
+<a name='L812'></a><a href='#L812'>812</a>
+<a name='L813'></a><a href='#L813'>813</a>
+<a name='L814'></a><a href='#L814'>814</a>
+<a name='L815'></a><a href='#L815'>815</a>
+<a name='L816'></a><a href='#L816'>816</a>
+<a name='L817'></a><a href='#L817'>817</a>
+<a name='L818'></a><a href='#L818'>818</a>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a>
+<a name='L821'></a><a href='#L821'>821</a>
+<a name='L822'></a><a href='#L822'>822</a>
+<a name='L823'></a><a href='#L823'>823</a>
+<a name='L824'></a><a href='#L824'>824</a>
+<a name='L825'></a><a href='#L825'>825</a>
+<a name='L826'></a><a href='#L826'>826</a>
+<a name='L827'></a><a href='#L827'>827</a>
+<a name='L828'></a><a href='#L828'>828</a>
+<a name='L829'></a><a href='#L829'>829</a>
+<a name='L830'></a><a href='#L830'>830</a>
+<a name='L831'></a><a href='#L831'>831</a>
+<a name='L832'></a><a href='#L832'>832</a>
+<a name='L833'></a><a href='#L833'>833</a>
+<a name='L834'></a><a href='#L834'>834</a>
+<a name='L835'></a><a href='#L835'>835</a>
+<a name='L836'></a><a href='#L836'>836</a>
+<a name='L837'></a><a href='#L837'>837</a>
+<a name='L838'></a><a href='#L838'>838</a>
+<a name='L839'></a><a href='#L839'>839</a>
+<a name='L840'></a><a href='#L840'>840</a>
+<a name='L841'></a><a href='#L841'>841</a>
+<a name='L842'></a><a href='#L842'>842</a>
+<a name='L843'></a><a href='#L843'>843</a>
+<a name='L844'></a><a href='#L844'>844</a>
+<a name='L845'></a><a href='#L845'>845</a>
+<a name='L846'></a><a href='#L846'>846</a>
+<a name='L847'></a><a href='#L847'>847</a>
+<a name='L848'></a><a href='#L848'>848</a>
+<a name='L849'></a><a href='#L849'>849</a>
+<a name='L850'></a><a href='#L850'>850</a>
+<a name='L851'></a><a href='#L851'>851</a>
+<a name='L852'></a><a href='#L852'>852</a>
+<a name='L853'></a><a href='#L853'>853</a>
+<a name='L854'></a><a href='#L854'>854</a>
+<a name='L855'></a><a href='#L855'>855</a>
+<a name='L856'></a><a href='#L856'>856</a>
+<a name='L857'></a><a href='#L857'>857</a>
+<a name='L858'></a><a href='#L858'>858</a>
+<a name='L859'></a><a href='#L859'>859</a>
+<a name='L860'></a><a href='#L860'>860</a>
+<a name='L861'></a><a href='#L861'>861</a>
+<a name='L862'></a><a href='#L862'>862</a>
+<a name='L863'></a><a href='#L863'>863</a>
+<a name='L864'></a><a href='#L864'>864</a>
+<a name='L865'></a><a href='#L865'>865</a>
+<a name='L866'></a><a href='#L866'>866</a>
+<a name='L867'></a><a href='#L867'>867</a>
+<a name='L868'></a><a href='#L868'>868</a>
+<a name='L869'></a><a href='#L869'>869</a>
+<a name='L870'></a><a href='#L870'>870</a>
+<a name='L871'></a><a href='#L871'>871</a>
+<a name='L872'></a><a href='#L872'>872</a>
+<a name='L873'></a><a href='#L873'>873</a>
+<a name='L874'></a><a href='#L874'>874</a>
+<a name='L875'></a><a href='#L875'>875</a>
+<a name='L876'></a><a href='#L876'>876</a>
+<a name='L877'></a><a href='#L877'>877</a>
+<a name='L878'></a><a href='#L878'>878</a>
+<a name='L879'></a><a href='#L879'>879</a>
+<a name='L880'></a><a href='#L880'>880</a>
+<a name='L881'></a><a href='#L881'>881</a>
+<a name='L882'></a><a href='#L882'>882</a>
+<a name='L883'></a><a href='#L883'>883</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Article } from '../../types/learning';
+&nbsp;
+export const LIFESTYLE_WELLNESS_ARTICLES: Article[] = [
+  {
+    id: 'lifestyle-wellness-p01',
+    topicId: 'lifestyle-wellness',
+    title: 'The Science of Sleep',
+    difficulty: 'beginner',
+    wordCount: 500,
+    articleType: 'practice',
+    orderIndex: 1,
+    content: `Sleep is one of the most important activities for human health, yet many people don't get enough of it. Scientists have discovered that sleep affects nearly every system in the body, from brain function to immune response. Understanding sleep can help you improve your health and daily performance.
+&nbsp;
+Adults typically need seven to nine hours of sleep per night for optimal functioning. However, about 35 percent of Americans report getting less than seven hours regularly. This chronic sleep deprivation has significant consequences for health, cognitive performance, and emotional wellbeing.
+&nbsp;
+Sleep occurs in cycles lasting about 90 minutes each. Each cycle includes stages of progressively deeper sleep followed by REM (Rapid Eye Movement) sleep, when most dreaming occurs. A typical night includes four to six complete cycles, with more REM sleep toward morning.
+&nbsp;
+During deep sleep, your body repairs tissues, builds bone and muscle, and strengthens the immune system. Growth hormone is primarily released during deep sleep, making it especially important for children and athletes. Missing deep sleep impairs physical recovery and resilience.
+&nbsp;
+REM sleep serves crucial functions for the brain. During this stage, the brain processes emotions, consolidates memories, and clears metabolic waste products. Dreams may help the brain make connections between experiences and integrate new learning. Consistently interrupted REM sleep affects mood and cognitive function.
+&nbsp;
+Your circadian rhythm, the internal 24-hour clock governing sleep-wake cycles, is regulated by light exposure. The hormone melatonin rises in the evening when light dims, promoting sleepiness. Morning light suppresses melatonin and promotes wakefulness. Screen light in the evening can disrupt these natural rhythms.
+&nbsp;
+Good sleep hygiene practices improve sleep quality. Maintaining consistent bedtimes, creating a cool dark sleeping environment, avoiding caffeine after noon, and limiting screen time before bed all help. Regular exercise improves sleep, though intense exercise close to bedtime may be stimulating.
+&nbsp;
+Prioritizing sleep is one of the most effective things you can do for your health. The benefits extend to mood, memory, creativity, immune function, and even longevity. Sleep is not a luxury but a biological necessity.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p01-q1',
+        type: 'single_choice',
+        question: 'How much sleep do adults typically need per night?',
+        options: ['4-5 hours', '5-6 hours', '7-9 hours', '10-12 hours'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p01-q2',
+        type: 'numeric',
+        question: 'Approximately how long is one sleep cycle (in minutes)?',
+        correctValue: 90,
+        tolerance: 15,
+        min: 30,
+        max: 180,
+        step: 10,
+        unit: 'minutes',
+      },
+      {
+        id: 'lifestyle-wellness-p01-q3',
+        type: 'single_choice',
+        question: 'What hormone promotes sleepiness in the evening?',
+        options: ['Cortisol', 'Adrenaline', 'Melatonin', 'Dopamine'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p01-q4',
+        type: 'true_false',
+        question: 'REM sleep is when the body primarily repairs tissues and builds muscle.',
+        correctAnswer: false,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p02',
+    topicId: 'lifestyle-wellness',
+    title: 'Mindfulness and Meditation: Training Your Attention',
+    difficulty: 'beginner',
+    wordCount: 750,
+    articleType: 'practice',
+    orderIndex: 2,
+    content: `Mindfulness has moved from ancient contemplative traditions into mainstream medicine and psychology over the past four decades. Research now supports what practitioners have known for millennia: training attention through meditation produces measurable benefits for mental and physical health. Understanding these practices can help anyone develop greater calm, focus, and emotional resilience.
+&nbsp;
+Jon Kabat-Zinn brought mindfulness into medical settings when he founded the Stress Reduction Clinic at the University of Massachusetts Medical School in 1979. His eight-week Mindfulness-Based Stress Reduction program taught chronic pain patients to observe their experience without judgment. The results impressed skeptical physicians, as patients reported significant improvements in pain management and quality of life.
+&nbsp;
+The word mindfulness describes a particular way of paying attention. Rather than dwelling on past regrets or future worries, mindfulness involves directing awareness to present-moment experience. This includes noticing physical sensations, thoughts, and emotions as they arise without immediately reacting to them. The practice cultivates what psychologists call metacognition, the ability to observe one's own mental processes.
+&nbsp;
+Meditation provides the formal training ground for developing mindfulness. Most beginners start with breath awareness, simply noticing the physical sensations of breathing in and out. When the mind wanders to thoughts, which it inevitably does, the meditator gently returns attention to the breath. This simple practice, repeated thousands of times, strengthens the capacity for sustained attention.
+&nbsp;
+Research using brain imaging technology has revealed that meditation produces measurable changes in brain structure and function. A 2011 study at Harvard found that eight weeks of meditation practice increased gray matter density in areas associated with learning, memory, and emotional regulation. The amygdala, the brain's fear center, showed decreased gray matter density, correlating with reduced stress levels.
+&nbsp;
+Different meditation traditions offer varied techniques suited to different temperaments. Concentration practices develop focused attention on a single object like the breath or a mantra. Open awareness practices cultivate a spacious attention that notices whatever arises without fixating. Loving-kindness meditation generates feelings of warmth and goodwill toward oneself and others.
+&nbsp;
+The benefits of regular practice accumulate over time. Beginners often notice reduced reactivity to stress within the first few weeks. Long-term practitioners report profound shifts in how they relate to difficult emotions and challenging situations. Studies of experienced meditators show remarkably stable attention and rapid recovery from emotional disturbance.
+&nbsp;
+Mindfulness has proven effective for treating various psychological conditions. Mindfulness-Based Cognitive Therapy, developed in the 1990s, reduces relapse rates for recurrent depression by approximately 50 percent. The approach teaches patients to recognize early warning signs of depressive episodes and respond skillfully rather than getting swept into downward spirals. Insurance companies increasingly cover mindfulness training as evidence of effectiveness grows.
+&nbsp;
+Physical health also benefits from meditation practice. Research links regular practice to reduced blood pressure, improved immune function, and decreased inflammation. Chronic pain patients often find that changing their relationship to pain through mindfulness produces relief even when the pain itself persists. Athletes use mindfulness to enhance performance and manage competitive pressure.
+&nbsp;
+Starting a meditation practice requires no special equipment or beliefs. Finding a quiet place to sit, setting a timer for ten minutes, and simply attending to the breath provides sufficient foundation. Many people find guided meditations helpful when beginning, with apps like Headspace and Calm offering structured introductions. Consistency matters more than duration, with daily short sessions building skills more effectively than occasional long ones.
+&nbsp;
+Common obstacles arise for most practitioners. Restlessness, drowsiness, and doubt challenge even experienced meditators. These difficulties are not signs of failure but opportunities for learning. Approaching practice with patience and self-compassion supports continued engagement even when sessions feel difficult.
+&nbsp;
+Mindfulness offers skills increasingly relevant in our distracted digital age. Learning to direct attention deliberately rather than being pulled by every notification builds psychological freedom. The ancient practice of meditation has found new relevance as modern life generates unprecedented demands on our attention. Training the mind has become essential self-care for the twenty-first century.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p02-q1',
+        type: 'numeric',
+        question: 'In what year did Jon Kabat-Zinn found the Stress Reduction Clinic at UMass Medical School?',
+        correctValue: 1979,
+        tolerance: 0,
+        min: 1960,
+        max: 2000,
+        step: 1,
+        unit: '',
+      },
+      {
+        id: 'lifestyle-wellness-p02-q2',
+        type: 'single_choice',
+        question: 'What does the 2011 Harvard study show happened to the amygdala after eight weeks of meditation?',
+        options: ['Increased gray matter density', 'Decreased gray matter density', 'No change', 'Increased activity'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p02-q3',
+        type: 'single_choice',
+        question: 'By approximately what percentage does Mindfulness-Based Cognitive Therapy reduce depression relapse rates?',
+        options: ['25 percent', '50 percent', '75 percent', '90 percent'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p02-q4',
+        type: 'multiple_select',
+        question: 'What types of meditation are mentioned in the article? Select all that apply.',
+        options: ['Concentration practices', 'Open awareness practices', 'Loving-kindness meditation', 'Movement meditation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p02-q5',
+        type: 'true_false',
+        question: 'Most beginners start meditation practice with loving-kindness techniques.',
+        correctAnswer: false,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p03',
+    topicId: 'lifestyle-wellness',
+    title: 'The Science of Exercise: How Movement Transforms Body and Mind',
+    difficulty: 'beginner',
+    wordCount: 1000,
+    articleType: 'practice',
+    orderIndex: 3,
+    content: `Physical exercise produces benefits that extend far beyond weight management and muscle building. Researchers have discovered that movement affects nearly every system in the human body, from cardiovascular health to brain function to emotional regulation. Understanding the science behind exercise can motivate lasting behavior change and help people optimize their fitness routines.
+&nbsp;
+The human body evolved for movement across the African savanna, where our ancestors walked an estimated eight to ten miles daily. Modern sedentary lifestyles represent a dramatic departure from this evolutionary heritage. The average American adult now takes fewer than 5,000 steps per day, well below the 7,500 to 10,000 steps associated with reduced mortality risk. This physical inactivity contributes to chronic diseases that claim millions of lives annually.
+&nbsp;
+Cardiovascular exercise strengthens the heart and circulatory system through repeated demands. When you run, swim, or cycle, your heart rate increases to pump oxygen-rich blood to working muscles. Over time, the heart muscle grows stronger and more efficient, capable of pumping more blood with each contraction. Resting heart rate decreases in trained individuals, typically falling from around 70 beats per minute to 50 or below.
+&nbsp;
+Blood vessels also adapt to regular exercise. The endothelium, the thin layer of cells lining blood vessels, becomes more responsive and flexible. This improved vascular function reduces blood pressure and decreases the risk of atherosclerosis. Regular exercisers show healthier cholesterol profiles, with higher levels of protective HDL cholesterol and lower levels of harmful LDL cholesterol.
+&nbsp;
+Resistance training produces distinct but complementary benefits. Lifting weights or performing bodyweight exercises creates microscopic damage to muscle fibers. The repair process rebuilds muscles stronger than before, increasing both size and power. This process, called hypertrophy, peaks in the 24 to 48 hours following a workout, explaining why muscles need rest between intense training sessions.
+&nbsp;
+Bone health depends critically on weight-bearing exercise. When muscles pull against bones during activity, specialized cells called osteoblasts respond by building new bone tissue. This process is particularly important during childhood and adolescence when peak bone mass develops. In older adults, resistance training helps prevent osteoporosis by maintaining bone density that would otherwise decline with age.
+&nbsp;
+Perhaps the most exciting research concerns exercise and brain health. Physical activity triggers the release of brain-derived neurotrophic factor, a protein that promotes the growth of new neurons and strengthens connections between existing ones. The hippocampus, the brain region crucial for memory, actually increases in volume with regular aerobic exercise. These findings have profound implications for preventing cognitive decline.
+&nbsp;
+Exercise produces immediate effects on mood and emotional regulation. Within minutes of beginning activity, the brain releases endorphins, natural chemicals that reduce pain and produce feelings of pleasure. Regular exercise also normalizes levels of stress hormones like cortisol and adrenaline. Studies consistently show that exercise matches or exceeds antidepressant medication for treating mild to moderate depression.
+&nbsp;
+Sleep quality improves with regular physical activity. Exercisers fall asleep faster, spend more time in deep restorative sleep stages, and report feeling more rested upon waking. The timing of exercise matters, however, as intense activity within three hours of bedtime can interfere with sleep for some individuals. Morning or afternoon workouts generally produce the greatest sleep benefits.
+&nbsp;
+The type and intensity of exercise should match individual goals and current fitness levels. Health benefits begin with surprisingly modest amounts of activity, roughly 150 minutes of moderate exercise or 75 minutes of vigorous exercise weekly. These guidelines from the World Health Organization and other authorities represent minimums rather than optimal targets. Greater benefits accrue with increased activity up to certain thresholds.
+&nbsp;
+High-intensity interval training has gained popularity for its efficiency and effectiveness. Alternating short bursts of intense effort with recovery periods produces cardiovascular benefits comparable to longer moderate sessions in less time. A 2019 meta-analysis found that HIIT improved cardiorespiratory fitness 25 percent more than traditional continuous training of similar duration.
+&nbsp;
+Consistency proves more important than any particular exercise modality. The best workout is one that you will actually do regularly. Finding activities that you genuinely enjoy increases the likelihood of long-term adherence. Social exercise, whether team sports, group fitness classes, or walking with friends, adds accountability and enjoyment that support sustained engagement.
+&nbsp;
+Starting an exercise program requires appropriate progression to avoid injury. Beginning with modest goals and gradually increasing intensity allows the body to adapt safely. Muscles, tendons, and cardiovascular systems need time to strengthen. Many people abandon exercise programs after pushing too hard too soon and experiencing soreness or injury.
+&nbsp;
+The evidence overwhelmingly supports exercise as one of the most powerful interventions for human health. If the benefits of physical activity could be bottled as a pill, it would be the most prescribed medication in history. The challenge lies not in understanding the science but in translating that knowledge into consistent action. Movement is medicine, available to all who choose to take it.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p03-q1',
+        type: 'numeric',
+        question: 'How many miles did our ancestors walk daily on average?',
+        correctValue: 9,
+        tolerance: 2,
+        min: 3,
+        max: 15,
+        step: 1,
+        unit: 'miles',
+      },
+      {
+        id: 'lifestyle-wellness-p03-q2',
+        type: 'single_choice',
+        question: 'What protein does physical activity trigger that promotes the growth of new neurons?',
+        options: ['Insulin', 'Cortisol', 'Brain-derived neurotrophic factor', 'Adrenaline'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p03-q3',
+        type: 'single_choice',
+        question: 'According to WHO guidelines, how many minutes of moderate exercise per week provides health benefits?',
+        options: ['75 minutes', '100 minutes', '150 minutes', '200 minutes'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p03-q4',
+        type: 'multiple_select',
+        question: 'What cardiovascular benefits result from regular exercise? Select all that apply.',
+        options: ['Lower resting heart rate', 'Healthier cholesterol profiles', 'Reduced blood pressure', 'Smaller heart muscle'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p03-q5',
+        type: 'true_false',
+        question: 'The hippocampus decreases in volume with regular aerobic exercise.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-p03-q6',
+        type: 'single_choice',
+        question: 'By what percentage did HIIT improve cardiorespiratory fitness compared to traditional training, according to a 2019 meta-analysis?',
+        options: ['10 percent', '25 percent', '40 percent', '50 percent'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p04',
+    topicId: 'lifestyle-wellness',
+    title: 'The Psychology of Habits: Building Lasting Change',
+    difficulty: 'intermediate',
+    wordCount: 1300,
+    articleType: 'practice',
+    orderIndex: 4,
+    content: `Habits shape our daily lives more than most people realize. Researchers estimate that approximately 40 percent of our daily actions occur automatically, driven by patterns established through repetition rather than conscious decision-making. Understanding how habits form and change empowers individuals to design their behaviors intentionally, replacing destructive patterns with beneficial ones.
+&nbsp;
+The habit loop, described by journalist Charles Duhigg in his 2012 book "The Power of Habit," consists of three components. A cue triggers the behavior, initiating the automatic sequence. The routine represents the behavior itself, the action performed in response to the cue. The reward provides positive reinforcement that strengthens the neural pathways connecting cue and routine. This simple framework explains why habits prove so difficult to change.
+&nbsp;
+Neurological research has revealed the brain structures underlying habit formation. The basal ganglia, a cluster of structures deep within the brain, stores habitual patterns. When a behavior becomes habitual, activity shifts from the prefrontal cortex, which handles conscious decision-making, to the basal ganglia. This transfer frees mental resources for other tasks but makes habits resistant to conscious override.
+&nbsp;
+Psychologist Wendy Wood at the University of Southern California has studied habit formation for over three decades. Her research demonstrates that habits form most readily when behaviors occur consistently in stable contexts. Exercising at the same time each day, in the same location, establishes stronger habits than varying the circumstances. Wood found that students who transferred to new universities temporarily lost established habits, suggesting environment plays a crucial role.
+&nbsp;
+The concept of habit stacking, popularized by James Clear in his 2018 book "Atomic Habits," offers practical strategy for building new behaviors. By linking a desired new habit to an existing established habit, individuals leverage automatic cues already present in their routines. For example, someone wanting to establish a meditation practice might attach it to their morning coffee ritual, meditating immediately after pouring their first cup.
+&nbsp;
+Implementation intentions, a technique developed by psychologist Peter Gollwitzer in the 1990s, significantly increase follow-through on intended behaviors. Rather than forming vague goals like "exercise more," implementation intentions specify precisely when, where, and how the behavior will occur. Stating "I will walk for thirty minutes at 7 AM in Riverside Park every Monday, Wednesday, and Friday" creates a concrete plan that activates automatically when circumstances arise.
+&nbsp;
+The twenty-one day myth has misled generations of self-improvement seekers. This notion, derived from a misreading of plastic surgeon Maxwell Maltz's 1960 observations about patient adjustment, suggests habits form in three weeks. Rigorous research by Phillippa Lally at University College London found that habit formation actually requires an average of 66 days, with substantial individual variation ranging from 18 to 254 days depending on behavior complexity and individual differences.
+&nbsp;
+Friction proves a powerful tool for shaping habits. Reducing friction makes desired behaviors easier, while increasing friction makes unwanted behaviors harder. Laying out workout clothes the night before removes a small obstacle to morning exercise. Keeping smartphones in another room during study sessions adds friction to the temptation of checking social media. These environmental modifications work because they influence behavior before willpower depletes.
+&nbsp;
+Willpower operates as a limited resource, depleting throughout the day as we make decisions and resist temptations. Psychologist Roy Baumeister's research on ego depletion showed that participants who resisted chocolate chip cookies subsequently gave up faster on difficult puzzles. While recent replication studies have questioned some specifics, the practical wisdom remains valid. Designing environments that minimize willpower demands increases success rates for behavior change.
+&nbsp;
+Keystone habits possess disproportionate influence on other behaviors. Exercise functions as a keystone habit for many people, triggering improvements in eating, sleep, and productivity. Identifying and focusing on keystone habits produces cascading benefits that extend far beyond the initial behavior change. Different individuals may find different keystone habits depending on their circumstances and psychology.
+&nbsp;
+Social connections profoundly influence habit formation and maintenance. Joining a running group makes exercise a social commitment rather than solely individual discipline. The phenomenon works in reverse as well, with social networks transmitting unhealthy behaviors. Research by Nicholas Christakis and James Fowler demonstrated that obesity spreads through social networks, with friends of obese individuals having increased obesity risk themselves.
+&nbsp;
+Breaking bad habits requires different strategies than building good ones. Simply trying to stop through willpower rarely succeeds. More effective approaches involve identifying the cue that triggers the behavior and either avoiding it or replacing the routine with a healthier alternative that provides similar reward. Someone who stress-eats might recognize stress as the cue and substitute a brief walk, which provides emotional relief without unwanted calories.
+&nbsp;
+The compound effect of small habits accumulates dramatically over time. Improving by just one percent daily results in nearly 38-fold improvement over a year. Conversely, declining by one percent daily leaves you with less than three percent of where you started. These mathematics explain why consistent small actions matter more than occasional heroic efforts.
+&nbsp;
+Self-compassion proves more effective than self-criticism for habit change. Research by Kristin Neff and others demonstrates that treating setbacks with understanding rather than harsh judgment actually increases resilience and long-term success. Perfectionism often backfires, with the "what the hell effect" causing people who slip once to abandon efforts entirely. Accepting imperfection while maintaining commitment sustains progress through inevitable difficulties.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p04-q1',
+        type: 'numeric',
+        question: 'What percentage of daily actions are estimated to occur automatically through habits?',
+        correctValue: 40,
+        tolerance: 5,
+        min: 20,
+        max: 60,
+        step: 5,
+        unit: 'percent',
+      },
+      {
+        id: 'lifestyle-wellness-p04-q2',
+        type: 'single_choice',
+        question: 'According to Phillippa Lally\'s research, how many days on average does habit formation require?',
+        options: ['21 days', '45 days', '66 days', '90 days'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p04-q3',
+        type: 'true_false',
+        question: 'The basal ganglia handles conscious decision-making in the brain.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-p04-q4',
+        type: 'multiple_select',
+        question: 'What are the three components of the habit loop? Select all that apply.',
+        options: ['Cue', 'Routine', 'Reward', 'Motivation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p04-q5',
+        type: 'single_choice',
+        question: 'Who wrote "Atomic Habits" in 2018?',
+        options: ['Charles Duhigg', 'James Clear', 'Wendy Wood', 'Peter Gollwitzer'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p04-q6',
+        type: 'single_choice',
+        question: 'Who developed the implementation intentions technique in the 1990s?',
+        options: ['Roy Baumeister', 'Wendy Wood', 'Peter Gollwitzer', 'Kristin Neff'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p05',
+    topicId: 'lifestyle-wellness',
+    title: 'The Science of Longevity: Lessons from Blue Zones',
+    difficulty: 'intermediate',
+    wordCount: 1700,
+    articleType: 'practice',
+    orderIndex: 5,
+    content: `Certain regions of the world produce far more centenarians than statistical averages would predict. Researcher Dan Buettner, working with National Geographic and longevity experts, identified five such regions and named them Blue Zones. These communities, scattered across different continents and cultures, share lifestyle patterns that appear to extend healthy life spans well beyond global norms.
+&nbsp;
+The original Blue Zone emerged from demographic research in Sardinia, Italy. Researchers Gianni Pes and Michel Poulain discovered that the mountainous Nuoro province contained unusually high concentrations of male centenarians. They marked the region on a map with blue ink, inadvertently coining the term that would come to describe all such longevity hotspots. Sardinia's long-lived residents tend to be shepherds who walk mountainous terrain daily, eat plant-heavy diets, and maintain strong family bonds.
+&nbsp;
+Okinawa, Japan, gained recognition as a Blue Zone before the concept had a name. This chain of islands south of mainland Japan boasts the world's longest-lived women. Traditional Okinawan culture includes the practice of hara hachi bu, eating until only 80 percent full. Social groups called moai provide lifelong emotional and practical support. The traditional diet emphasizes sweet potatoes, soy products, and green vegetables while limiting meat and dairy.
+&nbsp;
+The Nicoya Peninsula of Costa Rica represents a Latin American Blue Zone where residents reach 90 years at rates more than twice the average in developed nations. Nicoyans typically rise with the sun and maintain physically active lifestyles into advanced age. Their diet centers on beans, corn tortillas, and tropical fruits. Strong religious faith and family connections provide meaning and social support throughout the lifespan.
+&nbsp;
+Ikaria, a Greek island in the Aegean Sea, produces residents who reach 90 at rates roughly ten times higher than Americans. The island's rugged geography requires regular physical exertion simply to move about. Ikarians maintain Mediterranean dietary traditions, drinking herbal tea and homemade wine while eating vegetables from their gardens. The culture emphasizes afternoon naps and late-night socializing, creating relaxed daily rhythms.
+&nbsp;
+Loma Linda, California, stands out as the only Blue Zone in the United States. This community centers on Seventh-day Adventist Church members who follow biblical dietary guidelines, typically eating vegetarian or vegan diets. The church prohibits smoking and discourages alcohol. Saturday Sabbath observance provides weekly rest and community connection. Adventists in Loma Linda live approximately ten years longer than other California residents.
+&nbsp;
+Nine common lifestyle factors appear across all Blue Zones, which Buettner calls the Power 9. Natural movement integrates physical activity into daily life rather than isolating it in gyms. Purpose provides reason to wake up each morning, known as ikigai in Okinawa and plan de vida in Costa Rica. Downshifting routines help manage stress through prayer, napping, or happy hour depending on the culture.
+&nbsp;
+The 80 percent rule prevents overeating in most Blue Zone cultures. Whether through small plates, saying grace, or conscious attention, residents stop eating before feeling completely full. Plant-based diets dominate, with beans, whole grains, and vegetables forming the dietary foundation. Meat appears rarely, typically in small portions at celebrations. Moderate alcohol consumption, particularly wine, occurs in most Blue Zones.
+&nbsp;
+Social connections prove essential to Blue Zone longevity. The right tribe surrounds residents with people who support healthy behaviors. Faith communities provide belonging and purpose regardless of specific denomination. Family comes first in Blue Zone cultures, with elderly parents kept nearby or in the home, children prioritized, and committed partnerships maintained.
+&nbsp;
+Critics have raised methodological concerns about Blue Zone research. Some question whether claimed ages of centenarians in certain regions can be verified with documentary evidence. Others note that Blue Zones represent survivorship bias, highlighting successful populations without examining those who died younger in the same communities. These criticisms merit consideration without entirely dismissing patterns that appear across diverse cultures.
+&nbsp;
+The application of Blue Zone principles in American communities has produced promising results. The Blue Zones Project, launched in 2009, partners with cities to implement environmental and policy changes supporting healthier lifestyles. Albert Lea, Minnesota, became the first pilot city, making changes including building more sidewalks, creating community gardens, and forming walking groups. Subsequent surveys showed measurable improvements in health behaviors and outcomes.
+&nbsp;
+Genetics undoubtedly influence longevity, but research suggests lifestyle factors matter more than many assume. Studies of Danish twins found that genetics account for only about 20 percent of longevity variation. The remaining 80 percent depends on environmental factors and choices that individuals and communities can influence. This finding offers hope that adopting Blue Zone behaviors can extend healthy life regardless of genetic inheritance.
+&nbsp;
+Sleep quality distinguishes Blue Zone residents from many modern populations. Rather than fighting natural circadian rhythms with artificial light and stimulants, traditional communities align their schedules with daylight. Regular sleep patterns, afternoon rest, and freedom from alarm clocks characterize Blue Zone living. Modern sleep research confirms the profound health impacts of adequate rest, from immune function to cognitive performance.
+&nbsp;
+Social integration provides health benefits approaching those of not smoking. Loneliness increases mortality risk by 26 percent according to research by Julianne Holt-Lunstad. Blue Zone cultures embed individuals in webs of social connection that prevent isolation. Weekly religious services, daily visits with neighbors, and lifelong membership in social clubs create human contact that modern atomized societies often lack.
+&nbsp;
+Chronic stress accelerates aging through mechanisms including inflammation and telomere shortening. Blue Zone cultures incorporate stress management through practices ranging from Adventist prayer to Ikarian napping to Sardinian happy hour. These routines provide daily recovery from stress that prevents cumulative damage. Modern Americans might adopt similar practices despite different cultural contexts.
+&nbsp;
+The Blue Zone research suggests that longevity emerges not from single interventions but from integrated lifestyles. Diet, movement, purpose, connection, and rest work together synergistically. Attempting to isolate magic bullets misses the holistic nature of these traditions. Building a long, healthy life requires attention to multiple domains simultaneously maintained over decades.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p05-q1',
+        type: 'numeric',
+        question: 'How many Blue Zones did Dan Buettner identify worldwide?',
+        correctValue: 5,
+        tolerance: 0,
+        min: 3,
+        max: 10,
+        step: 1,
+        unit: 'zones',
+      },
+      {
+        id: 'lifestyle-wellness-p05-q2',
+        type: 'single_choice',
+        question: 'Which Blue Zone is located in the United States?',
+        options: ['Nicoya Peninsula', 'Loma Linda', 'Ikaria', 'Okinawa'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p05-q3',
+        type: 'true_false',
+        question: 'The Okinawan practice of hara hachi bu means eating until completely full.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-p05-q4',
+        type: 'multiple_select',
+        question: 'Which regions are identified as Blue Zones? Select all that apply.',
+        options: ['Sardinia, Italy', 'Okinawa, Japan', 'Nicoya Peninsula, Costa Rica', 'Barcelona, Spain'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p05-q5',
+        type: 'single_choice',
+        question: 'According to Danish twin studies, what percentage of longevity variation is determined by genetics?',
+        options: ['About 10 percent', 'About 20 percent', 'About 40 percent', 'About 60 percent'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p05-q6',
+        type: 'numeric',
+        question: 'By what percentage does loneliness increase mortality risk according to Julianne Holt-Lunstad\'s research?',
+        correctValue: 26,
+        tolerance: 5,
+        min: 10,
+        max: 50,
+        step: 2,
+        unit: 'percent',
+      },
+      {
+        id: 'lifestyle-wellness-p05-q7',
+        type: 'single_choice',
+        question: 'What is the Okinawan term for purpose or reason to wake up?',
+        options: ['Hara hachi bu', 'Ikigai', 'Moai', 'Plan de vida'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p05-q8',
+        type: 'single_choice',
+        question: 'Which city became the first Blue Zones Project pilot city in 2009?',
+        options: ['San Diego, California', 'Albert Lea, Minnesota', 'Fort Worth, Texas', 'Portland, Oregon'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p06',
+    topicId: 'lifestyle-wellness',
+    title: 'The Science of Nutrition: Understanding What We Eat',
+    difficulty: 'intermediate',
+    wordCount: 2100,
+    articleType: 'practice',
+    orderIndex: 6,
+    content: `Nutrition science has transformed our understanding of how food affects human health, moving from basic calorie counting to sophisticated analysis of nutrients, gut microbiomes, and metabolic pathways. This knowledge empowers individuals to make informed dietary choices while navigating a landscape of conflicting claims and commercial interests. Understanding the fundamentals of nutrition provides tools for evaluating evidence and building eating patterns that support long-term wellbeing.
+&nbsp;
+Macronutrients provide the energy and building blocks that sustain human life. Carbohydrates, proteins, and fats each serve distinct functions that cannot be replaced by the others. Carbohydrates break down into glucose, the primary fuel for brain and muscle function. Proteins supply amino acids essential for building and repairing tissues. Fats provide concentrated energy, insulate organs, and enable absorption of fat-soluble vitamins.
+&nbsp;
+The calorie, technically a kilocalorie, measures the energy contained in food. Carbohydrates and proteins each provide approximately 4 calories per gram, while fats provide 9 calories per gram. This caloric density explains why high-fat foods satisfy hunger effectively but can lead to overconsumption when eaten freely. Alcohol contributes 7 calories per gram with no nutritional benefit, often called empty calories.
+&nbsp;
+Protein requirements vary based on age, activity level, and health status. The recommended dietary allowance of 0.8 grams per kilogram of body weight represents a minimum for sedentary adults. Athletes, older adults, and those recovering from illness or injury typically need 1.2 to 2.0 grams per kilogram daily. Complete proteins containing all essential amino acids come primarily from animal sources, though combining plant proteins throughout the day achieves similar results.
+&nbsp;
+Carbohydrate quality matters more than quantity for most people. Whole grains, legumes, fruits, and vegetables provide carbohydrates packaged with fiber, vitamins, and minerals that support health. Refined carbohydrates and added sugars deliver energy without these beneficial components. The glycemic index measures how quickly foods raise blood sugar, with lower values generally preferred for sustained energy and metabolic health.
+&nbsp;
+Dietary fiber deserves special attention despite providing minimal calories. This indigestible carbohydrate component supports digestive health, feeds beneficial gut bacteria, and helps regulate blood sugar and cholesterol levels. Most Americans consume only about 15 grams of fiber daily, far below the recommended 25 to 38 grams. Gradually increasing fiber intake while drinking adequate water prevents digestive discomfort.
+&nbsp;
+Fats have undergone dramatic reputation changes over the past fifty years. Saturated fats, found primarily in animal products and tropical oils, were long considered dangerous, though recent research has complicated this picture. Unsaturated fats from olive oil, nuts, and fish appear consistently beneficial. Trans fats, created through industrial hydrogenation, increase cardiovascular risk so significantly that most countries have banned or restricted them.
+&nbsp;
+Omega-3 fatty acids, found abundantly in fatty fish like salmon and sardines, reduce inflammation throughout the body. The American Heart Association recommends eating fish at least twice weekly to obtain these benefits. Plant sources including flaxseed, chia seeds, and walnuts provide a precursor form that the body converts less efficiently. Supplements provide an alternative for those who dislike or cannot eat fish.
+&nbsp;
+Vitamins and minerals regulate countless biological processes despite being needed only in small quantities. Deficiencies cause specific diseases that early nutritionists identified and eventually conquered. Scurvy results from vitamin C deficiency, beriberi from thiamine deficiency, and rickets from vitamin D deficiency. Modern diets rarely produce such dramatic deficiencies, though subclinical insufficiencies may affect many people.
+&nbsp;
+Vitamin D stands out for widespread insufficiency in populations that spend little time outdoors. This vitamin, technically a hormone precursor, supports bone health, immune function, and mood regulation. Few foods naturally contain significant vitamin D, making fortified foods and supplements important for many people. Blood testing can determine individual status and guide supplementation decisions.
+&nbsp;
+The gut microbiome has emerged as a frontier of nutritional science with implications for overall health. Trillions of bacteria inhabiting the digestive tract influence nutrient absorption, immune function, and even mental health through the gut-brain axis. Fermented foods like yogurt, kefir, sauerkraut, and kimchi introduce beneficial bacteria, while fiber-rich foods feed existing populations. Antibiotic use disrupts these communities, highlighting the importance of thoughtful prescribing.
+&nbsp;
+Hydration affects every bodily function yet remains overlooked by many people. The conventional advice to drink eight glasses of water daily lacks scientific basis, though it provides a reasonable target for most adults. Thirst typically guides intake adequately for healthy individuals, though older adults may experience diminished thirst sensation. Urine color provides a practical indicator, with pale yellow suggesting adequate hydration.
+&nbsp;
+Nutritional needs change across the lifespan in predictable ways. Children require relatively more protein and fat to support growth and brain development. Adolescents need increased calcium for peak bone mass development. Older adults often need more protein than younger people to maintain muscle mass, along with increased attention to vitamin B12 and vitamin D. Pregnancy and lactation create unique demands that dietary adjustments and supplements address.
+&nbsp;
+The science of nutrient timing has generated considerable interest among athletes and fitness enthusiasts. Consuming protein within a few hours of resistance exercise may optimize muscle protein synthesis. Carbohydrates before endurance exercise provide readily available fuel. However, for most people pursuing general health, overall dietary patterns matter far more than precise timing of individual nutrients.
+&nbsp;
+Ultra-processed foods have attracted increasing scrutiny from nutrition researchers. These products, which contain ingredients not found in home kitchens and undergo extensive industrial manufacturing, now constitute over 50 percent of calories in many Western diets. Studies consistently associate high ultra-processed food intake with obesity, metabolic dysfunction, and various chronic diseases. The mechanisms remain debated, but the associations appear robust across multiple populations.
+&nbsp;
+Reading nutrition labels empowers consumers to make informed choices despite marketing designed to obscure rather than illuminate. Serving sizes often understate typical consumption, making per-serving numbers misleading. Ingredient lists reveal added sugars hiding under dozens of names and identify artificial additives some people prefer to avoid. Understanding labels requires practice but rewards attention with better dietary decisions.
+&nbsp;
+Nutrition research faces inherent limitations that explain why advice seems to change constantly. Randomized controlled trials, the gold standard for medical research, prove difficult to conduct for dietary interventions. Observational studies that follow people over time reveal associations but cannot prove causation. Self-reported dietary intake, the basis for most nutrition research, introduces substantial measurement error.
+&nbsp;
+Despite these limitations, core principles have emerged from decades of research. Diets emphasizing whole foods, particularly vegetables, fruits, whole grains, legumes, nuts, and fish, consistently associate with better health outcomes across diverse populations. Minimizing ultra-processed foods, added sugars, and excessive red meat appears beneficial. No single food proves either essential or catastrophic for most people.
+&nbsp;
+Personalized nutrition represents the field's emerging frontier. Individual genetic variations influence how bodies process specific nutrients. The gut microbiome varies enormously between people, affecting responses to identical diets. Continuous glucose monitors reveal that the same foods produce dramatically different blood sugar responses in different individuals. Future nutritional guidance may increasingly account for these personal factors rather than issuing universal recommendations.
+&nbsp;
+Building sustainable eating patterns matters more than following restrictive diets. Drastic dietary changes rarely persist, with most people reverting to previous patterns within months. Gradual modifications that accommodate preferences and circumstances prove more lasting. The best diet is one that provides adequate nutrition while remaining enjoyable and sustainable over a lifetime.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p06-q1',
+        type: 'numeric',
+        question: 'How many calories per gram do fats provide?',
+        correctValue: 9,
+        tolerance: 0,
+        min: 4,
+        max: 12,
+        step: 1,
+        unit: 'calories',
+      },
+      {
+        id: 'lifestyle-wellness-p06-q2',
+        type: 'single_choice',
+        question: 'What is the recommended dietary allowance of protein for sedentary adults (grams per kilogram)?',
+        options: ['0.4 grams', '0.6 grams', '0.8 grams', '1.0 grams'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p06-q3',
+        type: 'true_false',
+        question: 'Most Americans consume the recommended 25 to 38 grams of fiber daily.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-p06-q4',
+        type: 'multiple_select',
+        question: 'Which foods are good sources of omega-3 fatty acids? Select all that apply.',
+        options: ['Salmon', 'Flaxseed', 'Walnuts', 'White bread'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p06-q5',
+        type: 'single_choice',
+        question: 'What percentage of calories in many Western diets now comes from ultra-processed foods?',
+        options: ['Over 30 percent', 'Over 40 percent', 'Over 50 percent', 'Over 60 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p06-q6',
+        type: 'numeric',
+        question: 'How many calories per gram do carbohydrates provide?',
+        correctValue: 4,
+        tolerance: 0,
+        min: 2,
+        max: 10,
+        step: 1,
+        unit: 'calories',
+      },
+      {
+        id: 'lifestyle-wellness-p06-q7',
+        type: 'single_choice',
+        question: 'How many times per week does the American Heart Association recommend eating fish?',
+        options: ['Once weekly', 'Twice weekly', 'Three times weekly', 'Daily'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p06-q8',
+        type: 'true_false',
+        question: 'Trans fats have been banned or restricted in most countries due to cardiovascular risk.',
+        correctAnswer: true,
+      },
+      {
+        id: 'lifestyle-wellness-p06-q9',
+        type: 'multiple_select',
+        question: 'Which conditions result from vitamin deficiencies? Select all that apply.',
+        options: ['Scurvy from vitamin C', 'Beriberi from thiamine', 'Rickets from vitamin D', 'Arthritis from vitamin E'],
+        correctIndices: [0, 1, 2],
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-p07',
+    topicId: 'lifestyle-wellness',
+    title: 'The Psychology of Happiness: What Science Reveals',
+    difficulty: 'advanced',
+    wordCount: 2500,
+    articleType: 'practice',
+    orderIndex: 7,
+    content: `The scientific study of happiness has emerged as a serious academic discipline over the past three decades, producing surprising findings that challenge conventional wisdom about what makes life satisfying. Positive psychology, as this field is known, examines human flourishing with the same rigor applied to mental illness, revealing patterns that can guide individuals toward greater wellbeing. Understanding this research helps separate effective strategies from popular myths about pursuing happiness.
+&nbsp;
+Psychologist Martin Seligman launched positive psychology as a formal field when he became president of the American Psychological Association in 1998. He observed that psychology had spent a century studying mental illness while largely ignoring what makes life worth living. Seligman called for systematic research into positive emotions, character strengths, and institutions that promote human flourishing. The field has since produced thousands of studies published in peer-reviewed journals.
+&nbsp;
+Subjective wellbeing, the scientific term for happiness, encompasses both emotional and cognitive components. The affective component includes the balance of positive and negative emotions experienced over time. The cognitive component involves life satisfaction, the judgment that one's life meets expectations and approaches ideals. Researchers measure these components through standardized questionnaires that have proven remarkably valid across diverse cultures.
+&nbsp;
+The hedonic treadmill, a concept developed by psychologists Philip Brickman and Donald Campbell in 1971, explains why major life events have less lasting impact on happiness than most people expect. Lottery winners and accident victims both return toward baseline happiness levels within months of their windfalls or misfortunes. Humans adapt to changed circumstances, eventually taking new conditions for granted and resuming the pursuit of further improvements or dreading fresh challenges.
+&nbsp;
+However, research by Sonja Lyubomirsky and others suggests the hedonic treadmill can be slowed or even reversed through intentional activities. Her studies indicate that circumstances account for only about 10 percent of happiness variation between individuals, with 50 percent attributable to genetic set points and 40 percent to intentional activities. This framework implies substantial scope for improving wellbeing through deliberate practice rather than changing external circumstances.
+&nbsp;
+Gratitude has emerged as one of the most robust predictors of subjective wellbeing across numerous studies. People who regularly notice and appreciate good things in their lives report higher life satisfaction, more positive emotions, and fewer symptoms of depression. Gratitude interventions, such as writing weekly gratitude letters or keeping daily gratitude journals, produce measurable improvements that persist for months after the intervention ends.
+&nbsp;
+Social relationships provide perhaps the strongest and most consistent predictor of happiness across cultures and age groups. The Harvard Study of Adult Development, which has followed participants since 1938, concluded that close relationships matter more than money or fame for lifelong wellbeing. Quality trumps quantity, with deep connections to a few people proving more beneficial than superficial acquaintance with many.
+&nbsp;
+The concept of flow, developed by psychologist Mihaly Csikszentmihalyi beginning in the 1970s, describes optimal experiences of complete absorption in challenging activities. During flow states, people lose awareness of time passing, feel competent meeting challenges, and experience intrinsic satisfaction regardless of external rewards. Activities that reliably produce flow typically match skill levels with challenge levels, provide clear goals and immediate feedback, and allow focused concentration.
+&nbsp;
+Meaning and purpose contribute to wellbeing independently of pleasure and positive emotions. Viktor Frankl, the Austrian psychiatrist who survived Nazi concentration camps, argued that finding meaning allows humans to endure even extreme suffering. Modern research confirms that people who view their work, relationships, and activities as meaningful report higher life satisfaction than those pursuing pleasure alone. A sense of purpose also predicts better physical health outcomes and longer life expectancy.
+&nbsp;
+The PERMA model, developed by Martin Seligman, identifies five elements of flourishing. Positive emotions encompass joy, gratitude, hope, and other pleasant feelings. Engagement describes the flow states that arise during absorbing activities. Relationships provide connection and belonging essential for human wellbeing. Meaning involves serving something larger than oneself. Accomplishment brings satisfaction from achieving goals and developing competence. Seligman argues that wellbeing requires all five elements rather than positive emotions alone.
+&nbsp;
+Money's relationship to happiness proves more complex than either common assumption suggests. Research by Nobel laureate Daniel Kahneman found that emotional wellbeing rises with income up to approximately 75,000 dollars annually in the United States, then plateaus. However, more recent research by Matthew Killingsworth suggests that experiential wellbeing may continue rising with income beyond this threshold. Both studies agree that relative income matters, with comparison to peers affecting satisfaction more than absolute amounts.
+&nbsp;
+Happiness varies systematically across cultures in ways that challenge universal prescriptions. Individualistic Western cultures emphasize personal achievement and positive emotions. Collectivist cultures in Asia and elsewhere prioritize social harmony and fulfilling role obligations. What counts as happiness and the appropriate means of pursuing it differ accordingly. Cross-cultural researchers urge caution in applying findings from Western samples to diverse populations.
+&nbsp;
+Age affects happiness in patterns that surprised early researchers. Contrary to assumptions that youth brings happiness and age brings decline, studies reveal a U-shaped curve across the lifespan. Happiness typically decreases from early adulthood through middle age, reaching a low point around 50 years old, then rises steadily into later decades. This pattern appears across diverse countries and cultures, suggesting biological or life-stage factors rather than purely cultural explanations.
+&nbsp;
+Physical health and happiness influence each other in bidirectional ways. Chronic illness and pain reliably reduce subjective wellbeing, though people adapt to conditions more than they expect. Conversely, happiness predicts better health outcomes, with positive emotional states associated with lower inflammation, stronger immune function, and longer life expectancy. Exercise improves mood reliably, with effects comparable to antidepressant medication for mild to moderate depression.
+&nbsp;
+Helping others consistently increases happiness, often more than helping oneself. Elizabeth Dunn's research demonstrates that spending money on others produces greater happiness than spending equivalent amounts on oneself. Volunteering predicts increased life satisfaction and reduced depression across age groups. The benefits appear to flow from social connection, sense of meaning, and positive self-image that prosocial behavior generates rather than from recipients' gratitude alone.
+&nbsp;
+Mindfulness and meditation have accumulated substantial evidence as happiness interventions. Eight-week mindfulness-based programs produce lasting increases in positive emotions and life satisfaction while reducing anxiety and depression. Brain imaging reveals increased activity in regions associated with positive emotions among experienced meditators. Mechanisms likely include reduced rumination, improved emotional regulation, and enhanced present-moment awareness that prevents dwelling on past regrets or future worries.
+&nbsp;
+Setting and pursuing goals contributes to wellbeing when goals align with intrinsic values rather than external pressures. Self-determination theory, developed by Edward Deci and Richard Ryan, distinguishes between intrinsic goals like personal growth, relationships, and community contribution versus extrinsic goals like wealth, fame, and image. Pursuing intrinsic goals predicts greater wellbeing, while emphasis on extrinsic goals predicts anxiety, depression, and lower life satisfaction regardless of achievement.
+&nbsp;
+Character strengths represent stable traits that contribute to flourishing when recognized and developed. The VIA Classification of Character Strengths, developed by Christopher Peterson and Martin Seligman, identifies 24 strengths organized under six virtues. Research suggests that using signature strengths in new ways produces lasting increases in happiness. Identifying personal strengths through the VIA survey and deliberately applying them represents one practical intervention derived from positive psychology research.
+&nbsp;
+Critics raise important concerns about positive psychology's limitations and potential misapplications. Emphasis on individual happiness may neglect structural factors like poverty, discrimination, and oppression that impair wellbeing for entire populations. Pressure to maintain positive emotions can backfire, increasing distress when negative emotions inevitably arise. Some researchers question whether happiness should be the ultimate goal, suggesting that pursuing meaning, excellence, or justice may sometimes require sacrificing immediate wellbeing.
+&nbsp;
+The practical implications of happiness research extend beyond individual self-improvement to institutions and policy. Bhutan pioneered Gross National Happiness as an alternative to Gross Domestic Product for measuring national progress. Several countries now include wellbeing measures in official statistics. Workplace interventions based on positive psychology principles show promise for improving employee satisfaction and productivity. Schools have begun teaching resilience and character strengths alongside academic subjects.
+&nbsp;
+Understanding what science reveals about happiness empowers individuals to invest effort where it matters most. While genes and circumstances constrain possibilities, substantial scope remains for intentional activities that reliably increase wellbeing. Cultivating gratitude, nurturing relationships, pursuing meaningful goals, and developing character strengths represent evidence-based strategies for building a satisfying life.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-p07-q1',
+        type: 'numeric',
+        question: 'What percentage of happiness variation does Lyubomirsky attribute to intentional activities?',
+        correctValue: 40,
+        tolerance: 5,
+        min: 20,
+        max: 60,
+        step: 5,
+        unit: 'percent',
+      },
+      {
+        id: 'lifestyle-wellness-p07-q2',
+        type: 'single_choice',
+        question: 'When did Martin Seligman launch positive psychology as president of the APA?',
+        options: ['1988', '1993', '1998', '2003'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q3',
+        type: 'true_false',
+        question: 'The Harvard Study of Adult Development has followed participants since 1938.',
+        correctAnswer: true,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q4',
+        type: 'multiple_select',
+        question: 'What are the elements of Seligman\'s PERMA model? Select all that apply.',
+        options: ['Positive emotions', 'Engagement', 'Relationships', 'Profit'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p07-q5',
+        type: 'single_choice',
+        question: 'At what age does happiness typically reach its low point according to the U-shaped curve?',
+        options: ['Around 30 years old', 'Around 40 years old', 'Around 50 years old', 'Around 60 years old'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q6',
+        type: 'numeric',
+        question: 'According to Kahneman\'s research, at approximately what income level does emotional wellbeing plateau (in thousands of dollars)?',
+        correctValue: 75,
+        tolerance: 10,
+        min: 50,
+        max: 150,
+        step: 5,
+        unit: 'thousand dollars',
+      },
+      {
+        id: 'lifestyle-wellness-p07-q7',
+        type: 'single_choice',
+        question: 'Who developed the concept of flow beginning in the 1970s?',
+        options: ['Martin Seligman', 'Daniel Kahneman', 'Mihaly Csikszentmihalyi', 'Sonja Lyubomirsky'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q8',
+        type: 'true_false',
+        question: 'Spending money on others produces less happiness than spending equivalent amounts on oneself.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q9',
+        type: 'single_choice',
+        question: 'Which country pioneered Gross National Happiness as an alternative to GDP?',
+        options: ['Nepal', 'Bhutan', 'Thailand', 'Vietnam'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-p07-q10',
+        type: 'numeric',
+        question: 'How many character strengths does the VIA Classification identify?',
+        correctValue: 24,
+        tolerance: 2,
+        min: 15,
+        max: 35,
+        step: 1,
+        unit: 'strengths',
+      },
+      {
+        id: 'lifestyle-wellness-p07-q11',
+        type: 'multiple_select',
+        question: 'What does self-determination theory identify as intrinsic goals? Select all that apply.',
+        options: ['Personal growth', 'Relationships', 'Community contribution', 'Fame'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-p07-q12',
+        type: 'single_choice',
+        question: 'When was the hedonic treadmill concept developed by Brickman and Campbell?',
+        options: ['1961', '1971', '1981', '1991'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-c1',
+    topicId: 'lifestyle-wellness',
+    title: 'The Mediterranean Diet: Eating for Longevity',
+    difficulty: 'intermediate',
+    wordCount: 1000,
+    articleType: 'certification',
+    orderIndex: 1,
+    certificationLength: 'short',
+    content: `The Mediterranean diet has been studied extensively for its remarkable health benefits. Researchers first noticed in the 1960s that people living in countries bordering the Mediterranean Sea had significantly lower rates of heart disease than Americans. This observation sparked decades of scientific investigation into how food choices affect longevity and wellbeing.
+&nbsp;
+Ancel Keys, an American physiologist, pioneered research into the Mediterranean diet through his Seven Countries Study beginning in 1958. His team followed over 12,000 middle-aged men across the United States, Japan, and five European countries for several decades. The results showed that populations consuming traditional Mediterranean diets had dramatically lower rates of cardiovascular disease.
+&nbsp;
+The core principles of this eating pattern are surprisingly simple. The diet emphasizes plant-based foods including vegetables, fruits, whole grains, legumes, nuts, and seeds. Olive oil serves as the primary source of added fat, replacing butter and other saturated fats. Fish and seafood appear on the table several times weekly, while red meat is limited to occasional consumption.
+&nbsp;
+Olive oil deserves special attention as a cornerstone of Mediterranean eating. This ancient food, produced around the Mediterranean basin for over 6,000 years, contains monounsaturated fats that support heart health. Extra virgin olive oil also provides polyphenols, antioxidant compounds that reduce inflammation throughout the body. Greeks consume an average of 20 liters of olive oil per person annually.
+&nbsp;
+The role of wine in the Mediterranean diet has generated considerable discussion. Moderate consumption of red wine with meals is traditional in countries like France, Italy, and Spain. Some research suggests that compounds in red wine, particularly resveratrol, may offer cardiovascular benefits. However, current guidelines emphasize that non-drinkers should not start drinking for health purposes.
+&nbsp;
+Social aspects of eating play an important role in Mediterranean cultures. Meals are typically shared with family and friends, savored slowly rather than rushed. This approach to eating may contribute to better digestion and more mindful food choices. The pleasure of shared meals also supports mental and emotional wellbeing.
+&nbsp;
+Scientific evidence supporting the Mediterranean diet has grown substantially since Keys's original research. A major Spanish study called PREDIMED, published in 2013, randomly assigned nearly 7,500 participants to either a Mediterranean diet supplemented with olive oil, a Mediterranean diet supplemented with nuts, or a reduced-fat control diet. After about five years, those following Mediterranean patterns showed 30 percent fewer cardiovascular events.
+&nbsp;
+Beyond heart health, the Mediterranean diet appears to benefit cognitive function. Research published in 2015 followed over 900 older adults for an average of 4.5 years. Those most closely adhering to Mediterranean eating patterns showed cognitive abilities equivalent to being 7.5 years younger than participants with less healthy diets. The brain, like the heart, seems to thrive on this way of eating.
+&nbsp;
+Weight management becomes easier with Mediterranean eating patterns. Despite relatively high fat consumption from olive oil and nuts, populations following this diet tend to maintain healthy weights. The abundance of fiber from whole grains, legumes, and vegetables promotes satiety. The emphasis on whole foods naturally limits the ultra-processed products associated with weight gain.
+&nbsp;
+Implementing Mediterranean eating does not require perfection or dramatic changes. Experts suggest starting with small substitutions. Choosing olive oil over butter, adding an extra serving of vegetables to dinner, or replacing a weekly meat meal with fish or legumes all move eating patterns in a healthier direction. Gradual changes prove more sustainable than complete dietary overhauls.
+&nbsp;
+The Mediterranean diet offers environmental benefits alongside personal health advantages. Plant-centered eating requires fewer resources than meat-heavy diets. Traditional Mediterranean agriculture has shaped sustainable landscapes over centuries. Choosing locally grown produce and seasonal foods further reduces the environmental footprint of meals.
+&nbsp;
+Critics note that the modern Mediterranean region has moved away from traditional eating patterns. Fast food chains and processed foods have made inroads throughout Europe. Rates of obesity and related diseases have risen accordingly. The Mediterranean diet, as studied by researchers, represents historical patterns that require conscious effort to maintain.
+&nbsp;
+Cultural context matters when adopting dietary patterns from other traditions. The Mediterranean diet evolved over centuries within specific agricultural, economic, and social conditions. Adapting its principles to different food cultures and individual preferences while maintaining core elements offers a practical path forward. The goal is sustainable eating habits that support long-term health.
+&nbsp;
+The evidence overwhelmingly supports Mediterranean eating as one of the healthiest dietary patterns ever studied. Unlike restrictive diets that prove difficult to maintain, this approach offers abundance and pleasure alongside documented benefits. Food can be both delicious and health-promoting, a lesson the Mediterranean cultures have demonstrated for generations.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-c1-q1',
+        type: 'single_choice',
+        question: 'Who pioneered research into the Mediterranean diet through the Seven Countries Study?',
+        options: ['Ancel Keys', 'Walter Willett', 'Dean Ornish', 'T. Colin Campbell'],
+        correctIndex: 0,
+      },
+      {
+        id: 'lifestyle-wellness-c1-q2',
+        type: 'numeric',
+        question: 'How many liters of olive oil do Greeks consume per person annually on average?',
+        correctValue: 20,
+        tolerance: 5,
+        min: 5,
+        max: 50,
+        step: 1,
+        unit: 'liters',
+      },
+      {
+        id: 'lifestyle-wellness-c1-q3',
+        type: 'multiple_select',
+        question: 'What are core components of the Mediterranean diet? Select all that apply.',
+        options: ['Olive oil as primary fat source', 'Frequent red meat consumption', 'Vegetables and whole grains', 'Fish several times weekly'],
+        correctIndices: [0, 2, 3],
+      },
+      {
+        id: 'lifestyle-wellness-c1-q4',
+        type: 'true_false',
+        question: 'The PREDIMED study showed that Mediterranean diet participants had 30 percent fewer cardiovascular events.',
+        correctAnswer: true,
+      },
+      {
+        id: 'lifestyle-wellness-c1-q5',
+        type: 'single_choice',
+        question: 'According to the 2015 cognitive study, how many years younger did Mediterranean diet adherents appear cognitively?',
+        options: ['2.5 years', '5 years', '7.5 years', '10 years'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-c1-q6',
+        type: 'single_choice',
+        question: 'What compound in red wine is mentioned as potentially offering cardiovascular benefits?',
+        options: ['Caffeine', 'Resveratrol', 'Tannin', 'Quercetin'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-c1-q7',
+        type: 'true_false',
+        question: 'Extra virgin olive oil provides polyphenols that reduce inflammation in the body.',
+        correctAnswer: true,
+      },
+    ],
+  },
+  {
+    id: 'lifestyle-wellness-c2',
+    topicId: 'lifestyle-wellness',
+    title: 'The Science of Stress: Understanding and Managing Your Response',
+    difficulty: 'intermediate',
+    wordCount: 2000,
+    articleType: 'certification',
+    orderIndex: 2,
+    certificationLength: 'medium',
+    content: `Stress has become one of the defining health challenges of modern life. The American Psychological Association reports that 75 percent of Americans experience at least one stress symptom in any given month. Yet stress itself is neither inherently good nor bad. Understanding the biological mechanisms of stress and developing effective management strategies can transform this universal experience from health threat to useful signal.
+&nbsp;
+The stress response evolved as a survival mechanism enabling rapid reaction to threats. When the brain perceives danger, the hypothalamus triggers a cascade of hormonal signals culminating in the release of adrenaline and cortisol. Adrenaline increases heart rate, elevates blood pressure, and boosts energy supplies. Cortisol suppresses non-essential functions like digestion and reproduction while enhancing the brain's ability to use glucose. This "fight or flight" response prepared our ancestors to escape predators or confront enemies.
+&nbsp;
+Hungarian endocrinologist Hans Selye pioneered stress research beginning in the 1930s, introducing the term "stress" in its modern psychological sense. Selye distinguished between eustress, positive stress that motivates and enhances performance, and distress, negative stress that overwhelms coping capacity. He described the General Adaptation Syndrome, the body's three-stage response to prolonged stress consisting of alarm, resistance, and exhaustion.
+&nbsp;
+Acute stress differs fundamentally from chronic stress in its health effects. Brief stress episodes actually enhance immune function and sharpen cognitive performance. The surge of hormones and neurotransmitters prepares the body and mind for peak performance. Athletes, performers, and public speakers often report that moderate pre-event stress improves their outcomes. Problems arise when stress becomes chronic, persisting for weeks, months, or years without adequate recovery.
+&nbsp;
+Chronic stress wreaks havoc on multiple body systems. Elevated cortisol levels suppress immune function, increasing susceptibility to infections and slowing wound healing. The cardiovascular system suffers from sustained high blood pressure and inflammation, raising risk of heart attack and stroke. Digestive problems including irritable bowel syndrome and acid reflux commonly accompany chronic stress. Sleep disruption creates a vicious cycle as poor rest reduces stress resilience.
+&nbsp;
+The brain itself changes under chronic stress. The hippocampus, essential for memory formation, shrinks when bathed in cortisol over extended periods. The prefrontal cortex, which manages executive functions like planning and impulse control, becomes less effective. Meanwhile, the amygdala, the brain's fear center, grows more reactive. These changes explain why chronically stressed individuals struggle with memory, decision-making, and emotional regulation.
+&nbsp;
+Psychologist Richard Lazarus developed the transactional model of stress in 1984, emphasizing that stress results from the interaction between person and environment rather than from external events alone. The same objective situation produces different stress responses depending on how individuals appraise the threat and their resources for coping. This insight suggests that stress management can target not just stressors themselves but also how we perceive and respond to them.
+&nbsp;
+Cognitive reappraisal represents one powerful stress management technique supported by substantial research. Rather than suppressing stressful thoughts or avoiding triggers, cognitive reappraisal involves reinterpreting situations in less threatening ways. Viewing a job interview as an opportunity to learn rather than a test to pass fundamentally changes the stress response. Studies using functional brain imaging show that successful reappraisal reduces amygdala activation.
+&nbsp;
+The relaxation response, discovered by cardiologist Herbert Benson at Harvard Medical School in the 1970s, provides a physiological counterweight to stress activation. Through techniques including meditation, deep breathing, and progressive muscle relaxation, individuals can consciously trigger parasympathetic nervous system activity. Heart rate slows, blood pressure drops, and stress hormones decrease. Benson found that regular practice of relaxation techniques produced lasting changes in baseline stress levels.
+&nbsp;
+Exercise provides perhaps the most well-documented stress management intervention. Physical activity metabolizes stress hormones and triggers release of endorphins, natural mood elevators. Regular exercisers show smaller cortisol responses to psychological stressors than sedentary individuals. The American Heart Association recommends at least 150 minutes of moderate aerobic activity weekly, which provides substantial stress management benefits alongside cardiovascular protection.
+&nbsp;
+Social support buffers stress through multiple mechanisms. Simply being in the presence of trusted others reduces cortisol response to stressors. Sharing problems with supportive listeners helps process difficult emotions. Practical assistance from social networks reduces objective stressors like financial strain or overwhelming workloads. Research by Sheldon Cohen at Carnegie Mellon University demonstrated that people with diverse social networks were less susceptible to common colds after experimental virus exposure.
+&nbsp;
+Sleep hygiene profoundly affects stress resilience. Sleep deprivation amplifies emotional reactivity and impairs the prefrontal cortex's ability to regulate amygdala responses. Adults require seven to nine hours of sleep nightly for optimal functioning, yet the Centers for Disease Control reports that one-third of Americans fall short of this target. Consistent sleep schedules, dark cool bedrooms, and limiting screen exposure before bed improve sleep quality.
+&nbsp;
+Mindfulness meditation has accumulated impressive evidence as a stress management tool. Mindfulness-Based Stress Reduction, the eight-week program developed by Jon Kabat-Zinn at the University of Massachusetts Medical School in 1979, has been studied in hundreds of clinical trials. Participants show reduced anxiety, depression, and physical stress symptoms. Brain imaging reveals increased gray matter in regions associated with emotional regulation and decreased amygdala reactivity.
+&nbsp;
+Time management and boundary-setting address stress at its source. The feeling of having insufficient time to meet demands ranks among the most common stressors reported by working adults. Techniques like prioritization, delegation, and saying no to non-essential commitments can reduce objective overload. Technology management, including designated email-free hours and notification controls, prevents constant interruption from fragmenting attention and elevating stress.
+&nbsp;
+Nature exposure has emerged as a surprisingly effective stress intervention. Japanese researchers have documented the benefits of "forest bathing," spending contemplative time in wooded environments. Just 20 minutes in nature significantly reduces cortisol levels. Views of green space from windows, indoor plants, and even nature sounds provide partial benefits when full immersion is impractical. Evolutionary psychologists suggest humans remain adapted to natural environments despite our technological surroundings.
+&nbsp;
+Workplace stress deserves particular attention given how much time most adults spend at work. The demand-control model developed by Robert Karasek identifies high demand combined with low control as especially stressful. Jobs that offer autonomy, skill development, and social support produce less stress than those featuring external control and isolation. Organizational interventions addressing work design often prove more effective than individual coping strategies.
+&nbsp;
+The relationship between stress and performance follows an inverted U-curve described by the Yerkes-Dodson law, formulated in 1908. Performance improves with increasing arousal up to an optimal point, then declines as stress becomes overwhelming. The optimal stress level varies by task complexity and individual characteristics. Learning to recognize your personal optimal zone and adjust demands accordingly maximizes performance while minimizing harmful stress effects.
+&nbsp;
+Stress management represents not elimination of stress but rather optimization of the stress response. Complete absence of stress would indicate a life lacking challenge, growth, or engagement. The goal involves building resilience that allows recovery from acute stress, preventing chronic activation, and harnessing eustress for motivation and performance. With understanding and appropriate strategies, stress becomes a manageable aspect of a meaningful life.`,
+    questions: [
+      {
+        id: 'lifestyle-wellness-c2-q1',
+        type: 'numeric',
+        question: 'What percentage of Americans experience at least one stress symptom in any given month?',
+        correctValue: 75,
+        tolerance: 5,
+        min: 50,
+        max: 95,
+        step: 5,
+        unit: 'percent',
+      },
+      {
+        id: 'lifestyle-wellness-c2-q2',
+        type: 'single_choice',
+        question: 'Who pioneered stress research and introduced the term "stress" in its modern sense?',
+        options: ['Richard Lazarus', 'Herbert Benson', 'Hans Selye', 'Jon Kabat-Zinn'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q3',
+        type: 'true_false',
+        question: 'Chronic stress causes the hippocampus to grow larger.',
+        correctAnswer: false,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q4',
+        type: 'multiple_select',
+        question: 'What are the stages of Hans Selye\'s General Adaptation Syndrome? Select all that apply.',
+        options: ['Alarm', 'Resistance', 'Exhaustion', 'Recovery'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'lifestyle-wellness-c2-q5',
+        type: 'single_choice',
+        question: 'Who developed the transactional model of stress in 1984?',
+        options: ['Hans Selye', 'Richard Lazarus', 'Herbert Benson', 'Robert Karasek'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q6',
+        type: 'numeric',
+        question: 'How many minutes of moderate aerobic activity weekly does the American Heart Association recommend?',
+        correctValue: 150,
+        tolerance: 10,
+        min: 60,
+        max: 300,
+        step: 15,
+        unit: 'minutes',
+      },
+      {
+        id: 'lifestyle-wellness-c2-q7',
+        type: 'single_choice',
+        question: 'According to the CDC, what fraction of Americans get less than the recommended amount of sleep?',
+        options: ['One-fifth', 'One-quarter', 'One-third', 'One-half'],
+        correctIndex: 2,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q8',
+        type: 'true_false',
+        question: 'Brief acute stress episodes can actually enhance immune function.',
+        correctAnswer: true,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q9',
+        type: 'single_choice',
+        question: 'When was the Yerkes-Dodson law formulated?',
+        options: ['1888', '1908', '1928', '1948'],
+        correctIndex: 1,
+      },
+      {
+        id: 'lifestyle-wellness-c2-q10',
+        type: 'multiple_select',
+        question: 'Which hormones are released during the stress response? Select all that apply.',
+        options: ['Adrenaline', 'Cortisol', 'Melatonin', 'Insulin'],
+        correctIndices: [0, 1],
+      },
+    ],
+  },
+];
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-01-07T01:42:55.146Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

@@ -1,7 +1,7 @@
 // Simple HTML content extraction
 // In a production app, you'd use a library like @mozilla/readability
 
-import { ImportedContent, ContentImportResult } from '../types/content';
+import { ContentImportResult } from '../types/content';
 
 // Basic HTML tag stripping
 function stripHtml(html: string): string {
@@ -58,7 +58,7 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
   try {
     // Validate URL
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://' + url;
+      url = `https://${  url}`;
     }
 
     new URL(url); // Validate URL format

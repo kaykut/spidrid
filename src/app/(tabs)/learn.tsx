@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { useTheme } from '../../components/common/ThemeProvider';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
+import { useTheme } from '../../components/common/ThemeProvider';
 import { TOPICS } from '../../data/curriculum';
+import { getCurriculumTopicsForInterests } from '../../data/interests';
 import { useLearningStore } from '../../store/learningStore';
 import { useOnboardingStore } from '../../store/onboardingStore';
-import { getCurriculumTopicsForInterests } from '../../data/interests';
 
 export default function LearnScreen() {
   const { theme } = useTheme();
@@ -66,7 +66,7 @@ export default function LearnScreen() {
                 style={[styles.topicCard, { backgroundColor: theme.secondaryBackground }]}
                 onPress={() => router.push(`/topic/${topic.id}`)}
               >
-                <View style={[styles.topicIcon, { backgroundColor: topic.color + '20' }]}>
+                <View style={[styles.topicIcon, { backgroundColor: `${topic.color  }20` }]}>
                   <Text style={styles.topicEmoji}>{topic.icon}</Text>
                 </View>
                 <Text style={[styles.topicName, { color: theme.textColor }]}>{topic.name}</Text>

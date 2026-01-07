@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { router } from 'expo-router';
-import { useTheme } from '../../components/common/ThemeProvider';
-import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
-import { useLearningStore } from '../../store/learningStore';
-import { useContentStore } from '../../store/contentStore';
-import { useCertificateStore } from '../../store/certificateStore';
-import { useSettingsStore } from '../../store/settingsStore';
-import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { useOnboardingStore } from '../../store/onboardingStore';
 import { CertificateCard, LockedCertificateCard } from '../../components/certificates/CertificateCard';
 import { CertificateViewerModal } from '../../components/certificates/CertificateViewerModal';
+import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
+import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
+import { INTERESTS } from '../../data/interests';
+import { themeList } from '../../data/themes';
+import { useCertificateStore } from '../../store/certificateStore';
+import { useContentStore } from '../../store/contentStore';
+import { useLearningStore } from '../../store/learningStore';
+import { useOnboardingStore } from '../../store/onboardingStore';
+import { useSettingsStore } from '../../store/settingsStore';
+import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { CERTIFICATE_DEFINITIONS, Certificate } from '../../types/certificates';
 import { READING_LANGUAGES } from '../../types/settings';
 import { FREE_TIER_LIMITS } from '../../types/subscription';
-import { themeList } from '../../data/themes';
-import { INTERESTS } from '../../data/interests';
 
 export default function ProfileScreen() {
   const { theme, setTheme } = useTheme();
@@ -46,7 +46,7 @@ export default function ProfileScreen() {
   // Calculate progress for locked certificates
   const getProgress = (type: Certificate['type']): number => {
     const def = CERTIFICATE_DEFINITIONS.find(d => d.type === type);
-    if (!def) return 0;
+    if (!def) {return 0;}
     return highestWPM / def.requirement.wpm;
   };
 
@@ -134,7 +134,7 @@ export default function ProfileScreen() {
                     key={lang.code}
                     style={[
                       styles.languageOption,
-                      readingLanguage === lang.code && { backgroundColor: theme.accentColor + '20' },
+                      readingLanguage === lang.code && { backgroundColor: `${theme.accentColor  }20` },
                     ]}
                     onPress={() => {
                       setReadingLanguage(lang.code);
@@ -169,7 +169,7 @@ export default function ProfileScreen() {
                 {selectedInterestObjects.map((interest) => (
                   <View
                     key={interest.id}
-                    style={[styles.interestPill, { backgroundColor: theme.accentColor + '20' }]}
+                    style={[styles.interestPill, { backgroundColor: `${theme.accentColor  }20` }]}
                   >
                     <Text style={styles.interestEmoji}>{interest.emoji}</Text>
                     <Text style={[styles.interestLabel, { color: theme.textColor }]}>
@@ -208,9 +208,9 @@ export default function ProfileScreen() {
                     onPress={() => setSelectedCertificate(earned)}
                   />
                 );
-              } else {
+              } 
                 return <LockedCertificateCard key={def.type} type={def.type} progress={progress} />;
-              }
+              
             })}
           </View>
 

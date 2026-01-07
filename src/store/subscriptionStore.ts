@@ -1,6 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../types/subscription';
 
 interface SubscriptionStore {
@@ -35,7 +35,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
 
       // Initialize (would call RevenueCat in production)
       initialize: async () => {
-        if (get().isInitialized) return;
+        if (get().isInitialized) {return;}
         set({ isLoading: true });
 
         // In production, this would call:
