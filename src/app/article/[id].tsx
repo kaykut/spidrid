@@ -3,42 +3,23 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NewCertificateModal } from '../../components/certificates/NewCertificateModal';
+import { CertificationReadyModal } from '../../components/certifications';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
+import { QuestionRenderer, QuestionAnswer } from '../../components/quiz';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { getArticleById, getTopicById } from '../../data/curriculum';
+import { useCertificationDetection } from '../../hooks/useCertificationDetection';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { Certificate } from '../../types/certificates';
-import {
-  Question,
-  ComprehensionQuestion,
-  normalizeQuestion,
-} from '../../types/learning';
+import { isAnswerCorrect } from '../../utils/calculateQuizScore';
 
 type Phase = 'reading' | 'quiz' | 'results';
-
-/**
- * Helper to safely get options and correctIndex from a question
- * Works with both legacy ComprehensionQuestion and new SingleChoiceQuestion
- */
-function getQuestionData(q: Question | ComprehensionQuestion): {
-  options: string[];
-  correctIndex: number;
-} {
-  const normalized = normalizeQuestion(q);
-  // Currently we only support single_choice in the UI
-  // Other types will be handled in Milestone 6
-  if (normalized.type === 'single_choice') {
-    return { options: normalized.options, correctIndex: normalized.correctIndex };
-  }
-  // Fallback for unsupported types - shouldn't happen with current data
-  return { options: [], correctIndex: -1 };
-}
 
 export default function ArticleReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -47,12 +28,21 @@ export default function ArticleReaderScreen() {
   const { getMaxWPM } = useSubscriptionStore();
   const { checkAndAwardCertificates } = useCertificateStore();
 
+  // Certification detection
+  const {
+    state: certState,
+    checkAfterPractice,
+    dismissReadiness,
+    startCertificationTest,
+  } = useCertificationDetection();
+
   const article = getArticleById(id);
   const topic = article ? getTopicById(article.topicId) : null;
+  const isPracticeArticle = article?.articleType !== 'certification';
 
   const [phase, setPhase] = useState<Phase>('reading');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [currentAnswer, setCurrentAnswer] = useState<QuestionAnswer | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [showPaywall, setShowPaywall] = useState(false);
   const [readingWPM, setReadingWPM] = useState(currentWPM);
@@ -90,12 +80,11 @@ export default function ArticleReaderScreen() {
 
   const currentQuestion = article.questions[currentQuestionIndex];
 
-  const handleAnswerSelect = (index: number) => {
-    if (selectedAnswer !== null) {return;}
-    setSelectedAnswer(index);
+  const handleAnswer = (answer: QuestionAnswer) => {
+    if (currentAnswer !== null) { return; }
+    setCurrentAnswer(answer);
 
-    const { correctIndex } = getQuestionData(currentQuestion);
-    const isCorrect = index === correctIndex;
+    const isCorrect = isAnswerCorrect(currentQuestion, answer);
     if (isCorrect) {
       setCorrectAnswers((prev) => prev + 1);
     }
@@ -104,18 +93,26 @@ export default function ArticleReaderScreen() {
     setTimeout(() => {
       if (currentQuestionIndex < article.questions.length - 1) {
         setCurrentQuestionIndex((prev) => prev + 1);
-        setSelectedAnswer(null);
+        setCurrentAnswer(null);
       } else {
         // Calculate final score and save
         const finalCorrect = correctAnswers + (isCorrect ? 1 : 0);
         const score = Math.round((finalCorrect / article.questions.length) * 100);
         completeArticle(article.id, score, readingWPM);
 
-        // Check for new certificates
+        // Check for new certificates (legacy speed-only certificates)
         const highestWPM = Math.max(getHighestWPM(), readingWPM);
         const newCerts = checkAndAwardCertificates(highestWPM);
         if (newCerts.length > 0) {
           setNewCertificate(newCerts[0]); // Show first new certificate
+        }
+
+        // Check certification readiness for practice articles
+        if (isPracticeArticle) {
+          // Delay slightly to let the store update with the new completion
+          setTimeout(() => {
+            checkAfterPractice();
+          }, 100);
         }
 
         setPhase('results');
@@ -130,6 +127,13 @@ export default function ArticleReaderScreen() {
 
   const finalScore = Math.round((correctAnswers / article.questions.length) * 100);
 
+  const handleTakeCertificationTest = () => {
+    startCertificationTest();
+    // Navigate to certification text selection screen
+    // For now, just go back to topic screen where they can select a certification text
+    router.back();
+  };
+
   return (
     <>
       <Paywall
@@ -141,6 +145,14 @@ export default function ArticleReaderScreen() {
         certificate={newCertificate}
         visible={newCertificate !== null}
         onClose={() => setNewCertificate(null)}
+      />
+      <CertificationReadyModal
+        tier={certState.readyTier}
+        currentWPM={certState.currentWPM}
+        currentAccuracy={certState.currentAccuracy}
+        visible={certState.showReadinessModal}
+        onTakeTest={handleTakeCertificationTest}
+        onKeepPracticing={dismissReadiness}
       />
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         {/* Header */}
@@ -196,45 +208,12 @@ export default function ArticleReaderScreen() {
               </Text>
             </View>
 
-            <Text style={[styles.questionText, { color: theme.textColor }]}>
-              {currentQuestion.question}
-            </Text>
-
-            <View style={styles.optionsContainer}>
-              {(() => {
-                const { options, correctIndex } = getQuestionData(currentQuestion);
-                return options.map((option, index) => {
-                const isSelected = selectedAnswer === index;
-                const isCorrect = index === correctIndex;
-                const showResult = selectedAnswer !== null;
-
-                let backgroundColor = theme.secondaryBackground;
-                if (showResult) {
-                  if (isCorrect) {backgroundColor = '#69db7c40';}
-                  else if (isSelected) {backgroundColor = '#ff6b6b40';}
-                }
-
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={[styles.optionButton, { backgroundColor }]}
-                    onPress={() => handleAnswerSelect(index)}
-                    disabled={selectedAnswer !== null}
-                  >
-                    <Text style={[styles.optionText, { color: theme.textColor }]}>
-                      {option}
-                    </Text>
-                    {showResult && isCorrect && (
-                      <Text style={styles.correctIndicator}>✓</Text>
-                    )}
-                    {showResult && isSelected && !isCorrect && (
-                      <Text style={styles.incorrectIndicator}>✗</Text>
-                    )}
-                  </TouchableOpacity>
-                );
-              });
-              })()}
-            </View>
+            <QuestionRenderer
+              question={currentQuestion}
+              answer={currentAnswer}
+              onAnswer={handleAnswer}
+              disabled={currentAnswer !== null}
+            />
           </View>
         )}
 
@@ -288,7 +267,7 @@ export default function ArticleReaderScreen() {
               onPress={() => {
                 setPhase('reading');
                 setCurrentQuestionIndex(0);
-                setSelectedAnswer(null);
+                setCurrentAnswer(null);
                 setCorrectAnswers(0);
                 engine.reset();
               }}
@@ -361,36 +340,6 @@ const styles = StyleSheet.create({
   quizProgressText: {
     fontSize: 14,
     opacity: 0.6,
-  },
-  questionText: {
-    fontSize: 22,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 32,
-    lineHeight: 32,
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  optionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 18,
-    borderRadius: 14,
-  },
-  optionText: {
-    flex: 1,
-    fontSize: 16,
-  },
-  correctIndicator: {
-    fontSize: 20,
-    color: '#69db7c',
-    fontWeight: 'bold',
-  },
-  incorrectIndicator: {
-    fontSize: 20,
-    color: '#ff6b6b',
-    fontWeight: 'bold',
   },
   resultsContainer: {
     flex: 1,

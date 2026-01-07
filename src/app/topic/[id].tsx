@@ -3,18 +3,31 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
+import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
+import { Article } from '../../types/learning';
 
 export default function TopicScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
   const { getArticleProgress, getTopicProgress } = useLearningStore();
   const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
+  const { getCertificationProgress } = useCertificateStore();
 
   const topic = getTopicById(id);
   const articles = getArticlesByTopic(id);
   const topicProgress = getTopicProgress(id);
+  const certificationProgress = getCertificationProgress();
+
+  // Separate practice and certification articles
+  const practiceArticles = articles.filter(a => a.articleType !== 'certification');
+  const certificationArticles = articles.filter(a => a.articleType === 'certification');
+
+  // Check if user is ready for any certification tier
+  const isReadyForCertification = certificationProgress.tierProgress.quick_reader.isReady ||
+    certificationProgress.tierProgress.speed_reader.isReady ||
+    certificationProgress.tierProgress.lightning_reader.isReady;
 
   if (!topic) {
     return (
@@ -75,57 +88,160 @@ export default function TopicScreen() {
           </Text>
         </View>
 
-        {/* Articles List */}
+        {/* Practice Articles */}
+        <View style={styles.sectionHeader}>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Practice Articles</Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.textColor }]}>
+            Build your speed reading skills
+          </Text>
+        </View>
         <View style={styles.articlesList}>
-          {articles.map((article, index) => {
-            const progress = getArticleProgress(article.id);
-            const isCompleted = progress?.completed;
+          {practiceArticles.map((article, index) => (
+            <ArticleCard
+              key={article.id}
+              article={article}
+              index={index + 1}
+              topicColor={topic.color}
+              theme={theme}
+              progress={getArticleProgress(article.id)}
+              difficultyColor={difficultyColor}
+              onPress={() => handleArticlePress(article.id)}
+            />
+          ))}
+        </View>
 
-            return (
-              <TouchableOpacity
-                key={article.id}
-                style={[styles.articleCard, { backgroundColor: theme.secondaryBackground }]}
-                onPress={() => handleArticlePress(article.id)}
-              >
-                <View style={styles.articleHeader}>
-                  <View style={[styles.articleNumber, { backgroundColor: topic.color }]}>
-                    <Text style={styles.articleNumberText}>{index + 1}</Text>
-                  </View>
-                  <View style={styles.articleInfo}>
-                    <Text style={[styles.articleTitle, { color: theme.textColor }]}>
-                      {article.title}
-                    </Text>
-                    <View style={styles.articleMeta}>
-                      <Text style={[styles.difficulty, { color: difficultyColor(article.difficulty) }]}>
-                        {article.difficulty}
-                      </Text>
-                      <Text style={[styles.wordCount, { color: theme.textColor }]}>
-                        · {article.wordCount} words
-                      </Text>
-                    </View>
-                  </View>
-                  {isCompleted && (
-                    <View style={[styles.completedBadge, { backgroundColor: theme.accentColor }]}>
-                      <Text style={styles.completedText}>✓</Text>
-                    </View>
-                  )}
-                </View>
-                {isCompleted && progress && (
-                  <View style={[styles.progressInfo, { borderTopColor: theme.crosshairColor }]}>
-                    <Text style={[styles.progressText, { color: theme.textColor }]}>
-                      Score: {progress.comprehensionScore}%
-                    </Text>
-                    <Text style={[styles.progressText, { color: theme.textColor }]}>
-                      Best: {progress.highestWPM} WPM
-                    </Text>
+        {/* Certification Articles Section */}
+        {certificationArticles.length > 0 && (
+          <>
+            <View style={[styles.sectionHeader, styles.certificationSection]}>
+              <View style={styles.sectionTitleRow}>
+                <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+                  Certification Tests
+                </Text>
+                {isReadyForCertification && (
+                  <View style={[styles.readyBadge, { backgroundColor: '#69db7c' }]}>
+                    <Text style={styles.readyBadgeText}>Ready!</Text>
                   </View>
                 )}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+              </View>
+              <Text style={[styles.sectionSubtitle, { color: theme.textColor }]}>
+                Demonstrate your mastery
+              </Text>
+            </View>
+            <View style={styles.articlesList}>
+              {certificationArticles.map((article, index) => (
+                <ArticleCard
+                  key={article.id}
+                  article={article}
+                  index={index + 1}
+                  topicColor={topic.color}
+                  theme={theme}
+                  progress={getArticleProgress(article.id)}
+                  difficultyColor={difficultyColor}
+                  onPress={() => handleArticlePress(article.id)}
+                  isCertification={true}
+                />
+              ))}
+            </View>
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+interface ArticleCardProps {
+  article: Article;
+  index: number;
+  topicColor: string;
+  theme: {
+    textColor: string;
+    secondaryBackground: string;
+    accentColor: string;
+    crosshairColor: string;
+  };
+  progress: { completed: boolean; comprehensionScore: number; highestWPM: number } | null | undefined;
+  difficultyColor: (d: string) => string;
+  onPress: () => void;
+  isCertification?: boolean;
+}
+
+function ArticleCard({
+  article,
+  index,
+  topicColor,
+  theme,
+  progress,
+  difficultyColor,
+  onPress,
+  isCertification = false,
+}: ArticleCardProps) {
+  const isCompleted = progress?.completed;
+  const lengthLabel = article.certificationLength
+    ? article.certificationLength.charAt(0).toUpperCase() + article.certificationLength.slice(1)
+    : null;
+
+  return (
+    <TouchableOpacity
+      style={[
+        styles.articleCard,
+        { backgroundColor: theme.secondaryBackground },
+        isCertification && styles.certificationCard,
+      ]}
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${article.title}, ${article.wordCount} words, ${article.difficulty}`}
+      accessibilityHint={isCompleted ? 'Completed' : 'Tap to read'}
+    >
+      <View style={styles.articleHeader}>
+        <View
+          style={[
+            styles.articleNumber,
+            { backgroundColor: isCertification ? '#9775fa' : topicColor },
+          ]}
+        >
+          {isCertification ? (
+            <Text style={styles.articleNumberText}>🏆</Text>
+          ) : (
+            <Text style={styles.articleNumberText}>{index}</Text>
+          )}
+        </View>
+        <View style={styles.articleInfo}>
+          <Text style={[styles.articleTitle, { color: theme.textColor }]}>
+            {article.title}
+          </Text>
+          <View style={styles.articleMeta}>
+            {isCertification && lengthLabel ? (
+              <Text style={[styles.certificationLength, { color: '#9775fa' }]}>
+                {lengthLabel}
+              </Text>
+            ) : (
+              <Text style={[styles.difficulty, { color: difficultyColor(article.difficulty) }]}>
+                {article.difficulty}
+              </Text>
+            )}
+            <Text style={[styles.wordCount, { color: theme.textColor }]}>
+              · {article.wordCount} words
+            </Text>
+          </View>
+        </View>
+        {isCompleted && (
+          <View style={[styles.completedBadge, { backgroundColor: theme.accentColor }]}>
+            <Text style={styles.completedText}>✓</Text>
+          </View>
+        )}
+      </View>
+      {isCompleted && progress && (
+        <View style={[styles.progressInfo, { borderTopColor: theme.crosshairColor }]}>
+          <Text style={[styles.progressText, { color: theme.textColor }]}>
+            Score: {progress.comprehensionScore}%
+          </Text>
+          <Text style={[styles.progressText, { color: theme.textColor }]}>
+            Best: {progress.highestWPM} WPM
+          </Text>
+        </View>
+      )}
+    </TouchableOpacity>
   );
 }
 
@@ -250,5 +366,47 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginTop: 40,
+  },
+  sectionHeader: {
+    marginBottom: 12,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  sectionSubtitle: {
+    fontSize: 14,
+    opacity: 0.6,
+  },
+  certificationSection: {
+    marginTop: 24,
+    paddingTop: 24,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.1)',
+  },
+  readyBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  readyBadgeText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  certificationCard: {
+    borderWidth: 1,
+    borderColor: 'rgba(151, 117, 250, 0.3)',
+  },
+  certificationLength: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'capitalize',
   },
 });

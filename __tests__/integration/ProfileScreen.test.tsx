@@ -43,10 +43,25 @@ const mockGetAllCertificates = jest.fn(() => [
 ]);
 const mockCheckAndAwardCertificates = jest.fn();
 
+const mockGetCertificationProgress = jest.fn(() => ({
+  highestCertificationWPM: 0,
+  averageCertificationAccuracy: 0,
+  shortTextsPassed: 0,
+  mediumTextsPassed: 0,
+  longTextsPassed: 0,
+  earnedTiers: [],
+  tierProgress: {
+    quick_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
+    speed_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
+    lightning_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
+  },
+}));
+
 jest.mock('../../src/store/certificateStore', () => ({
   useCertificateStore: () => ({
     getAllCertificates: mockGetAllCertificates,
     checkAndAwardCertificates: mockCheckAndAwardCertificates,
+    getCertificationProgress: mockGetCertificationProgress,
   }),
 }));
 
@@ -91,6 +106,18 @@ jest.mock('../../src/components/paywall/Paywall', () => ({
 // Mock CertificateViewerModal
 jest.mock('../../src/components/certificates/CertificateViewerModal', () => ({
   CertificateViewerModal: () => null,
+}));
+
+// Mock certifications components
+jest.mock('../../src/components/certifications', () => ({
+  MilestoneBadge: ({ tier }: { tier: string }) => {
+    const { View, Text } = require('react-native');
+    return (
+      <View>
+        <Text>Badge: {tier}</Text>
+      </View>
+    );
+  },
 }));
 
 // Mock CertificateCard

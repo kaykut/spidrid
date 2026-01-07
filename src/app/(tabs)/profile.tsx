@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import { router } from 'expo-router';
 import { CertificateCard, LockedCertificateCard } from '../../components/certificates/CertificateCard';
 import { CertificateViewerModal } from '../../components/certificates/CertificateViewerModal';
+import { MilestoneBadge } from '../../components/certifications';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
@@ -14,7 +15,7 @@ import { useLearningStore } from '../../store/learningStore';
 import { useOnboardingStore } from '../../store/onboardingStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { CERTIFICATE_DEFINITIONS, Certificate } from '../../types/certificates';
+import { CERTIFICATE_DEFINITIONS, Certificate, CertificationTier } from '../../types/certificates';
 import { READING_LANGUAGES } from '../../types/settings';
 import { FREE_TIER_LIMITS } from '../../types/subscription';
 
@@ -22,10 +23,13 @@ export default function ProfileScreen() {
   const { theme, setTheme } = useTheme();
   const { getTotalArticlesCompleted, getHighestWPM } = useLearningStore();
   const { importedContent } = useContentStore();
-  const { getAllCertificates, checkAndAwardCertificates } = useCertificateStore();
+  const { getAllCertificates, checkAndAwardCertificates, getCertificationProgress } = useCertificateStore();
   const { userName, readingLanguage, setUserName, setReadingLanguage } = useSettingsStore();
   const { isPremium, setPremium, contentAccessCount, resetContentCount, getMaxWPM } = useSubscriptionStore();
   const { selectedInterests } = useOnboardingStore();
+
+  // Get certification progress
+  const certificationProgress = getCertificationProgress();
 
   const selectedInterestObjects = INTERESTS.filter((i) => selectedInterests.includes(i.id));
 
@@ -185,8 +189,39 @@ export default function ProfileScreen() {
             )}
           </View>
 
-          {/* Certificates Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Certificates</Text>
+          {/* Certification Journey Section */}
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Certification Journey</Text>
+            <TouchableOpacity onPress={() => router.push('/certifications')}>
+              <Text style={[styles.updateLink, { color: theme.accentColor }]}>View All</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[styles.journeyCard, { backgroundColor: theme.secondaryBackground }]}
+            onPress={() => router.push('/certifications')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.journeyBadges}>
+              {(['quick_reader', 'speed_reader', 'lightning_reader'] as CertificationTier[]).map((tier) => (
+                <MilestoneBadge
+                  key={tier}
+                  tier={tier}
+                  progress={certificationProgress.tierProgress[tier]}
+                  size="medium"
+                />
+              ))}
+            </View>
+            <Text style={[styles.journeyText, { color: theme.textColor }]}>
+              {certificationProgress.earnedTiers.length === 0
+                ? 'Start earning certification tiers!'
+                : certificationProgress.earnedTiers.length === 3
+                ? 'All tiers earned! '
+                : `${certificationProgress.earnedTiers.length}/3 tiers earned`}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Legacy Certificates Section */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Speed Certificates</Text>
 
           {earnedCertificates.length === 0 && (
             <Text style={[styles.emptyText, { color: theme.textColor }]}>
@@ -380,6 +415,22 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     textAlign: 'center',
     marginBottom: 16,
+  },
+  journeyCard: {
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  journeyBadges: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 12,
+  },
+  journeyText: {
+    fontSize: 14,
+    fontWeight: '500',
   },
   certificatesGrid: {
     flexDirection: 'row',

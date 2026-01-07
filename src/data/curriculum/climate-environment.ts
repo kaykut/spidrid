@@ -624,6 +624,417 @@ The pathway to sustainable cities requires coordinated action across multiple se
     ],
   },
   {
+    id: 'climate-environment-p08',
+    topicId: 'climate-environment',
+    title: 'The Global Transition to Electric Vehicles',
+    difficulty: 'intermediate',
+    wordCount: 2800,
+    articleType: 'practice',
+    orderIndex: 8,
+    content: `The transportation sector accounts for approximately 16 percent of global greenhouse gas emissions, with road vehicles contributing the vast majority of this pollution. Electric vehicles have emerged as the primary pathway to decarbonizing personal transportation, with sales accelerating at rates that repeatedly exceed forecasts and battery costs falling faster than anyone predicted a decade ago. This transformation of the automobile industry represents one of the most rapid industrial transitions in history, reshaping not just how people drive but how societies generate, store, and distribute energy.
+
+The history of electric vehicles predates the internal combustion engine by decades. Scottish inventor Robert Anderson created the first crude electric carriage in the 1830s, and by 1900 electric cars outsold gasoline vehicles in the United States. Thomas Edison worked to develop improved batteries for electric cars, believing they represented the future of transportation. However, the discovery of cheap oil in Texas and Henry Ford's mass production of the Model T from 1908 onward shifted the market decisively toward gasoline. Electric vehicles nearly disappeared for most of the twentieth century.
+
+The modern electric vehicle revolution began with Tesla's founding in 2003 by engineers Martin Eberhard and Marc Tarpenning in San Carlos, California. Elon Musk joined as chairman of the board in 2004 and led subsequent funding rounds. The company's first vehicle, the Tesla Roadster launched in 2008, demonstrated that electric cars could be desirable rather than merely practical. The Model S sedan followed in 2012, and the more affordable Model 3 reached production in 2017. Tesla's success proved electric vehicles could compete with conventional cars on performance, range, and appeal.
+
+Battery technology improvements have driven the electric vehicle transition by reducing costs and extending range. Lithium-ion batteries dominated the market after Sony commercialized the technology in 1991. Energy density has improved approximately 7 percent annually while costs have fallen from over 1,000 dollars per kilowatt-hour in 2010 to under 150 dollars by 2023. BloombergNEF projects that electric vehicles will reach purchase price parity with gasoline cars by the mid-2020s in most major markets. At that point, fuel and maintenance savings make electric vehicles unambiguously cheaper to own.
+
+China has become the undisputed leader in electric vehicle manufacturing and adoption through aggressive government support and strategic industrial policy. Chinese automaker BYD sold over 3 million electric and hybrid vehicles in 2023, surpassing Tesla in global sales. The Chinese government provided extensive subsidies for electric vehicle purchases while mandating that automakers meet escalating production quotas. Chinese companies now dominate battery manufacturing, controlling over 75 percent of global production capacity. This industrial lead positions China to capture the greatest share of value from the transportation transition.
+
+European governments have set ambitious targets for phasing out combustion engine vehicles. Norway leads the world with electric vehicles comprising over 80 percent of new car sales in 2023, driven by exemptions from registration taxes, value-added tax, and road tolls. The European Union adopted regulations requiring all new cars sold from 2035 to produce zero emissions. Germany, France, and the United Kingdom have each announced combustion engine phase-out dates. These policies create regulatory certainty that accelerates automaker investment in electric platforms.
+
+Traditional automakers have scrambled to develop competitive electric vehicles after initially dismissing Tesla's threat. Volkswagen committed over 100 billion euros to electrification through 2030 after the diesel emissions scandal damaged its reputation. General Motors announced plans to offer only electric vehicles by 2035 and invested billions in battery manufacturing through a joint venture with LG. Ford's electric F-150 Lightning pickup truck outsold the company's expectations, demonstrating that electric vehicles can succeed in market segments previously considered challenging.
+
+Charging infrastructure expansion remains essential for widespread electric vehicle adoption. Public charging stations numbered over 2.7 million globally by 2023, with China accounting for approximately half. Fast chargers capable of adding 200 miles of range in 30 minutes have proliferated along highways, reducing range anxiety for long-distance travel. Home charging provides the most convenient option for daily driving, though apartment dwellers and those without dedicated parking face challenges. Governments and utilities invest heavily in charging network expansion.
+
+Grid impacts from electric vehicle charging require careful management as adoption scales. If millions of vehicles plugged in simultaneously upon arriving home from work, the resulting demand spike could strain electricity systems designed for different load patterns. Smart charging systems delay vehicle charging until overnight hours when demand falls and renewable energy often goes unused. Vehicle-to-grid technology could eventually allow parked electric vehicles to supply power back to the grid during peak demand, turning distributed batteries into grid stabilization resources.
+
+Heavy-duty trucks present greater challenges than passenger vehicles for electrification due to weight and range requirements. A battery pack providing 500 miles of range would weigh thousands of kilograms and reduce cargo capacity significantly. Tesla's Semi truck, unveiled in 2017 and finally entering production in 2022, targets short and medium-haul routes where overnight charging is practical. Hydrogen fuel cell trucks may prove more suitable for long-haul applications since hydrogen provides higher energy density than batteries. Companies including Nikola and Hyundai are developing fuel cell trucks for this market segment.
+
+The raw materials required for batteries have sparked concerns about supply chains and environmental impacts. Lithium extraction in South America and Australia raises water use and ecosystem concerns. Cobalt mining in the Democratic Republic of Congo has faced criticism over child labor and unsafe working conditions. Battery manufacturers are developing chemistries requiring less cobalt while recycling programs aim to recover materials from spent batteries. These challenges must be addressed to ensure the electric vehicle transition delivers genuine environmental benefits.
+
+Electric motorcycles and scooters transform urban transportation in developing countries where two-wheelers dominate. Companies including Ola Electric in India and Niu Technologies in China have sold millions of electric scooters. These vehicles offer lower operating costs than gasoline equivalents while reducing local air pollution. Electric buses have also achieved significant adoption, with Chinese cities including Shenzhen operating entirely electric bus fleets. These applications demonstrate that electrification extends beyond personal cars to reshape transportation more broadly.
+
+The environmental benefits of electric vehicles depend significantly on how the electricity they consume is generated. In regions with coal-heavy grids, lifecycle emissions may equal or exceed efficient gasoline vehicles. As grids incorporate more renewable energy, electric vehicle emissions fall correspondingly. A vehicle purchased today will operate for 10 to 15 years, potentially becoming cleaner over its lifetime as grid electricity greens. Studies consistently find that even with current grid mixes, electric vehicles produce lower lifecycle emissions than comparable gasoline vehicles in most markets.
+
+Job transitions in the automotive industry accompany the shift to electric vehicles. Electric motors contain far fewer moving parts than internal combustion engines, requiring less labor to assemble. Battery manufacturing creates new jobs but in different locations than traditional engine plants. The United Auto Workers union has pushed for provisions ensuring that electric vehicle jobs match the wages and benefits of combustion vehicle production. Managing this transition fairly for affected workers and communities presents significant policy challenges.
+
+The coming decades will determine whether electric vehicles can deliver their environmental promise at scale. Continued cost reductions, charging infrastructure expansion, and grid decarbonization must proceed in parallel. The pace of change has consistently exceeded expectations, suggesting that transportation electrification may transform mobility faster than current projections assume. Whatever the exact timeline, the direction is clear: the age of the internal combustion engine is ending, and the electric era has begun.`,
+    questions: [
+      {
+        id: 'climate-environment-p08-q1',
+        type: 'single_choice',
+        question: 'When was Tesla founded?',
+        options: ['2000', '2003', '2006', '2009'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p08-q2',
+        type: 'multiple_select',
+        question: 'Which countries have set policies to phase out combustion engine vehicles? Select all that apply.',
+        options: ['Norway', 'Germany', 'United Kingdom', 'Brazil'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'climate-environment-p08-q3',
+        type: 'true_false',
+        question: 'Electric vehicles outsold gasoline vehicles in the United States by 1900.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p08-q4',
+        type: 'numeric',
+        question: 'What percentage of new car sales in Norway were electric vehicles in 2023?',
+        correctValue: 80,
+        tolerance: 5,
+        min: 50,
+        max: 100,
+        step: 5,
+        unit: 'percent',
+      },
+      {
+        id: 'climate-environment-p08-q5',
+        type: 'single_choice',
+        question: 'How much has battery cost fallen to per kilowatt-hour by 2023?',
+        options: ['Under 300 dollars', 'Under 250 dollars', 'Under 200 dollars', 'Under 150 dollars'],
+        correctIndex: 3,
+      },
+      {
+        id: 'climate-environment-p08-q6',
+        type: 'single_choice',
+        question: 'When did the first Tesla Roadster launch?',
+        options: ['2006', '2008', '2010', '2012'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p08-q7',
+        type: 'numeric',
+        question: 'How many electric and hybrid vehicles did BYD sell in 2023 (in millions)?',
+        correctValue: 3,
+        tolerance: 0.5,
+        min: 1,
+        max: 6,
+        step: 0.5,
+        unit: 'million vehicles',
+      },
+      {
+        id: 'climate-environment-p08-q8',
+        type: 'true_false',
+        question: 'Chinese companies control over 75 percent of global battery production capacity.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p08-q9',
+        type: 'single_choice',
+        question: 'When did the European Union adopt regulations requiring all new cars sold from 2035 to produce zero emissions?',
+        options: ['2020', '2021', '2022', '2023'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p08-q10',
+        type: 'numeric',
+        question: 'How many public charging stations existed globally by 2023 (in millions)?',
+        correctValue: 2.7,
+        tolerance: 0.3,
+        min: 1,
+        max: 5,
+        step: 0.1,
+        unit: 'million stations',
+      },
+      {
+        id: 'climate-environment-p08-q11',
+        type: 'single_choice',
+        question: 'How much did Volkswagen commit to electrification through 2030?',
+        options: ['Over 50 billion euros', 'Over 75 billion euros', 'Over 100 billion euros', 'Over 150 billion euros'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'climate-environment-p09',
+    topicId: 'climate-environment',
+    title: 'Arctic Melting and Global Consequences',
+    difficulty: 'advanced',
+    wordCount: 3000,
+    articleType: 'practice',
+    orderIndex: 9,
+    content: `The Arctic region is warming at nearly four times the rate of the global average, triggering cascading changes that extend far beyond the frozen north to affect weather patterns, ecosystems, and human societies across the entire planet. Sea ice that has covered the Arctic Ocean for millions of years is disappearing at rates that consistently exceed scientific predictions, while permafrost that has remained frozen for thousands of years is thawing and releasing stored carbon. These transformations represent some of the most dramatic and concerning manifestations of climate change, with implications that scientists are only beginning to fully understand.
+
+Arctic sea ice has declined by approximately 13 percent per decade since satellite measurements began in 1979, with summer ice extent reaching record lows in 2012 and near-record lows in subsequent years. The minimum extent in September 2012 measured just 3.4 million square kilometers, roughly half the average extent during the 1980s. Multi-year ice, the thick ice that survives multiple summer melt seasons, has declined even more dramatically. Where ice several years old once dominated, much of today's Arctic ice formed within the past year and melts more easily.
+
+The ice-albedo feedback amplifies Arctic warming through a self-reinforcing cycle that accelerates change. Fresh snow reflects up to 90 percent of incoming solar radiation back to space, while dark ocean water absorbs over 90 percent. As sea ice melts and exposes dark water, more heat is absorbed rather than reflected, warming the ocean and melting more ice. This feedback explains why the Arctic warms faster than other regions and why ice loss tends to accelerate rather than proceeding at a constant rate.
+
+Dr. Mark Serreze, director of the National Snow and Ice Data Center in Boulder, Colorado, has tracked Arctic ice trends since the 1980s. His research documented what he termed the death spiral of Arctic sea ice, the accelerating decline that made predictions of ice-free summers, once considered alarmist, appear increasingly likely within this century. Some projections suggest the Arctic Ocean could experience ice-free summers as early as the 2040s, though natural variability makes precise timing uncertain.
+
+Permafrost, ground that remains frozen for at least two consecutive years, underlies approximately 25 percent of Northern Hemisphere land surfaces. This frozen ground contains an estimated 1,400 to 1,700 billion metric tons of organic carbon, roughly twice the amount currently in the atmosphere as carbon dioxide. As permafrost thaws, microbes begin decomposing this organic material and releasing carbon dioxide and methane. Methane is a particularly potent greenhouse gas, with warming effects 80 times greater than carbon dioxide over a 20-year period.
+
+The rate of permafrost thaw has surprised scientists with its speed and extent. Research published in Nature Communications in 2019 found that permafrost was thawing 70 years earlier than models predicted in some Canadian Arctic locations. Dr. Merritt Turetsky at the University of Colorado Boulder documented abrupt permafrost collapse, where thawing creates sinkholes, landslides, and rapid terrain changes. This abrupt collapse releases carbon faster than gradual thawing and may significantly increase total emissions from permafrost over this century.
+
+Infrastructure across the Arctic faces growing damage from permafrost thaw and unstable ground conditions. The Trans-Alaska Pipeline, completed in 1977, was designed with refrigeration systems to keep permafrost frozen around its supports. These systems now struggle to maintain stability as temperatures rise. Roads, buildings, and airports throughout Russia, Canada, and Alaska suffer cracking, tilting, and collapse as the ground beneath them softens. Repair costs across the Arctic region are projected to reach tens of billions of dollars by mid-century.
+
+Indigenous communities who have lived in the Arctic for thousands of years face existential threats from rapid environmental change. Villages built on permafrost along coastlines suffer erosion as sea ice no longer protects shores from wave action. Traditional hunting grounds become inaccessible as ice conditions become unpredictable. Whale and seal populations shift ranges, disrupting hunting practices passed down through generations. The village of Newtok, Alaska, began relocating in 2019 after years of erosion threatened to destroy the community.
+
+Arctic wildlife adapted to ice-dependent ecosystems faces population pressures as habitat disappears. Polar bears, which hunt seals from sea ice platforms, must swim longer distances and fast longer as ice retreats. The International Union for Conservation of Nature lists polar bears as vulnerable, with populations projected to decline by 30 percent by mid-century. Walruses crowd onto beaches when ice is unavailable, leading to deadly stampedes. Caribou herds face disrupted migration routes and changes to vegetation upon which they depend.
+
+The opening of the Arctic Ocean to shipping and resource extraction creates new geopolitical tensions alongside economic opportunities. Russia has invested heavily in icebreaker fleets and military bases along the Northern Sea Route. China has declared itself a near-Arctic state and seeks resources and transit routes through the region. The United States, Canada, Norway, and Denmark assert competing territorial claims over continental shelf areas that may contain oil and gas reserves. These dynamics add international security dimensions to environmental concerns.
+
+Arctic changes influence weather patterns in mid-latitudes through mechanisms scientists are actively researching. The polar vortex, a band of cold air circulating around the Arctic, weakens as the region warms, potentially allowing frigid air to spill southward more frequently. Research by Dr. Jennifer Francis at the Woodwell Climate Research Center suggests that Arctic warming affects the jet stream, potentially contributing to weather extremes including cold snaps, heat waves, and persistent weather patterns. However, the strength and nature of these connections remain subjects of scientific debate.
+
+Greenland's ice sheet contains enough frozen water to raise global sea levels by over 7 meters if completely melted. While total loss would take centuries, the ice sheet is currently losing mass at accelerating rates. Satellite measurements show Greenland losing approximately 280 billion metric tons of ice annually, up from 86 billion metric tons annually during the 1990s. Summer melt seasons now affect over 90 percent of the ice sheet surface, compared to roughly 50 percent in the 1980s. The ice sheet has likely passed tipping points beyond which some loss becomes irreversible regardless of future emissions.
+
+Research expeditions to the Arctic have intensified as scientists race to understand changes occurring faster than anyone anticipated. The MOSAiC expedition in 2019-2020 deliberately froze the research vessel Polarstern into sea ice for a year of drift observations. Scientists from 20 countries collected data on ice, ocean, atmosphere, and ecosystem dynamics throughout an entire seasonal cycle. This unprecedented collaboration generated insights that will improve climate models and projections for years to come.
+
+International governance of the Arctic operates through the Arctic Council, established in 1996 with eight member nations plus indigenous peoples' organizations. The council addresses environmental protection, sustainable development, and research coordination but lacks authority over resource extraction or territorial disputes. Russia's 2022 invasion of Ukraine disrupted Arctic cooperation, with Western nations suspending participation in council activities involving Russia. This breakdown threatens coordination on environmental monitoring and emergency response in the region.
+
+The future of the Arctic depends on global emissions trajectories that will be determined by decisions made far from the frozen north. Even aggressive emissions reductions cannot prevent additional warming already locked in from past emissions. Adaptation strategies must help Arctic communities and ecosystems cope with inevitable changes while mitigation efforts limit ultimate warming. The Arctic serves as an early warning system for planetary health, demonstrating the reality of climate change in ways that should inform global action.`,
+    questions: [
+      {
+        id: 'climate-environment-p09-q1',
+        type: 'single_choice',
+        question: 'How fast is the Arctic warming compared to the global average?',
+        options: ['Twice as fast', 'Three times as fast', 'Nearly four times as fast', 'Five times as fast'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p09-q2',
+        type: 'multiple_select',
+        question: 'What are consequences of Arctic permafrost thaw? Select all that apply.',
+        options: ['Release of stored carbon', 'Infrastructure damage', 'Methane emissions', 'Increased ice formation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'climate-environment-p09-q3',
+        type: 'true_false',
+        question: 'The minimum Arctic sea ice extent in September 2012 was roughly half the average from the 1980s.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p09-q4',
+        type: 'numeric',
+        question: 'How much has Arctic sea ice declined per decade since 1979 (in percent)?',
+        correctValue: 13,
+        tolerance: 2,
+        min: 5,
+        max: 25,
+        step: 1,
+        unit: 'percent per decade',
+      },
+      {
+        id: 'climate-environment-p09-q5',
+        type: 'single_choice',
+        question: 'What was the minimum sea ice extent in September 2012?',
+        options: ['2.4 million square kilometers', '3.4 million square kilometers', '4.4 million square kilometers', '5.4 million square kilometers'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p09-q6',
+        type: 'single_choice',
+        question: 'How much ice is Greenland losing annually according to recent satellite measurements?',
+        options: ['About 180 billion metric tons', 'About 280 billion metric tons', 'About 380 billion metric tons', 'About 480 billion metric tons'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p09-q7',
+        type: 'numeric',
+        question: 'How many meters could global sea levels rise if Greenland\'s ice sheet completely melted?',
+        correctValue: 7,
+        tolerance: 1,
+        min: 3,
+        max: 12,
+        step: 1,
+        unit: 'meters',
+      },
+      {
+        id: 'climate-environment-p09-q8',
+        type: 'true_false',
+        question: 'Permafrost underlies approximately 25 percent of Northern Hemisphere land surfaces.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p09-q9',
+        type: 'single_choice',
+        question: 'When was the Arctic Council established?',
+        options: ['1986', '1996', '2006', '2016'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p09-q10',
+        type: 'numeric',
+        question: 'How much carbon is estimated in permafrost (in billions of metric tons, using the higher estimate)?',
+        correctValue: 1700,
+        tolerance: 200,
+        min: 1000,
+        max: 2500,
+        step: 100,
+        unit: 'billion metric tons',
+      },
+      {
+        id: 'climate-environment-p09-q11',
+        type: 'single_choice',
+        question: 'When did the village of Newtok, Alaska begin relocating?',
+        options: ['2015', '2017', '2019', '2021'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p09-q12',
+        type: 'single_choice',
+        question: 'When was the Trans-Alaska Pipeline completed?',
+        options: ['1967', '1972', '1977', '1982'],
+        correctIndex: 2,
+      },
+    ],
+  },
+  {
+    id: 'climate-environment-p10',
+    topicId: 'climate-environment',
+    title: 'Coral Reef Collapse and Ocean Ecosystems',
+    difficulty: 'advanced',
+    wordCount: 3000,
+    articleType: 'practice',
+    orderIndex: 10,
+    content: `Coral reefs support approximately 25 percent of all marine species while covering less than 1 percent of the ocean floor, making them the most biodiverse ecosystems in the sea and among the most threatened by climate change. These underwater rainforests have evolved over millions of years into complex communities where thousands of species interact in intricate webs of predation, symbiosis, and competition. Rising ocean temperatures and acidification now threaten to destroy reef systems worldwide within decades, with potentially catastrophic consequences for marine life and the hundreds of millions of people who depend on reefs for food, income, and coastal protection.
+
+The foundation of coral reefs consists of tiny animals called polyps that secrete calcium carbonate skeletons and host symbiotic algae called zooxanthellae within their tissues. The algae photosynthesize and share nutrients with their coral hosts, providing up to 90 percent of the coral's energy needs. This partnership enables reef-building corals to thrive in nutrient-poor tropical waters where they would otherwise starve. However, this same symbiosis makes corals extremely vulnerable to temperature stress, as heat disrupts the relationship upon which coral survival depends.
+
+Coral bleaching occurs when stressed corals expel their symbiotic algae, turning ghostly white as the colorful algae depart and the underlying white skeleton becomes visible. Mild bleaching events may allow recovery if conditions improve quickly, but prolonged heat stress kills corals outright. Mass bleaching events, affecting reefs across entire ocean basins simultaneously, have become increasingly frequent and severe as ocean temperatures rise. The first global mass bleaching event occurred in 1998 during a strong El Nino, affecting reefs worldwide.
+
+The Great Barrier Reef off Australia's northeastern coast, the largest coral reef system on Earth, has experienced unprecedented bleaching in recent years. Research led by Professor Terry Hughes at James Cook University documented severe bleaching affecting 93 percent of the reef in 2016, followed by additional mass events in 2017, 2020, and 2022. Areas that escaped one bleaching event often succumbed to subsequent ones, leaving little opportunity for recovery between stresses. Hughes described witnessing the death of the reef as one of the most gut-wrenching experiences of his scientific career.
+
+Ocean acidification compounds heat stress by weakening coral skeletons and slowing reef growth. The ocean has absorbed approximately 30 percent of carbon dioxide released since the Industrial Revolution, buffering atmospheric concentrations but at the cost of increased acidity. Ocean pH has already declined by 0.1 units, representing a 30 percent increase in acidity since pre-industrial times. Acidification reduces the availability of carbonate ions that corals need to build their limestone skeletons, making it harder for reefs to grow and recover from damage.
+
+Dr. Charlie Veron, often called the godfather of coral, has described over 400 coral species during his career and witnessed the transformation of reefs worldwide. His 2008 warning that mass extinction of coral could occur within decades seemed alarmist at the time but appears increasingly prescient. Veron argues that unless humanity dramatically reduces carbon emissions, coral reefs as we know them will cease to exist, replaced by degraded ecosystems dominated by algae and less diverse communities.
+
+Local stressors including pollution, overfishing, and coastal development exacerbate climate impacts on coral reefs. Agricultural runoff carries sediments and nutrients that smother corals and promote algae growth. Destructive fishing practices including dynamite and cyanide damage reef structure directly. Poorly planned coastal development destroys mangroves and seagrasses that filter water before it reaches reefs. Reducing these local stressors can improve reef resilience to climate change, though it cannot eliminate climate impacts entirely.
+
+Marine protected areas provide partial refuge for coral ecosystems by limiting fishing pressure and coastal development. The Coral Triangle, spanning waters between Indonesia, Malaysia, the Philippines, Papua New Guinea, Timor-Leste, and the Solomon Islands, contains the highest coral diversity on Earth. Conservation initiatives across this region aim to protect at least 30 percent of near-shore habitats by 2030. Well-managed marine reserves support higher fish populations and healthier corals than unprotected areas, though they cannot shield reefs from ocean warming and acidification.
+
+Coral restoration efforts attempt to accelerate reef recovery through active intervention. Fragment gardening grows coral pieces in underwater nurseries before outplanting to damaged reefs. Scientists have transplanted heat-tolerant corals to cooler areas in experiments testing assisted migration. The Mars Coral Reef Restoration Project in Indonesia has restored over 200 hectares of degraded reef since 2010 through proprietary hexagonal structures that provide attachment points for coral fragments. These efforts demonstrate restoration is possible but cannot match the scale of global reef decline.
+
+The economic value of coral reefs reaches into hundreds of billions of dollars annually through fisheries, tourism, coastal protection, and pharmaceutical compounds. An estimated 500 million people depend on reefs for food and livelihoods. Healthy reefs can dissipate up to 97 percent of wave energy, protecting coastal communities from storms and erosion. The loss of this natural infrastructure would force expensive artificial alternatives or abandonment of vulnerable coastlines.
+
+Fish populations throughout tropical oceans depend on coral reefs at some life stage, even species that do not live on reefs as adults. Many commercially important fish spawn on or near reefs, with juveniles sheltering among coral branches before migrating to open water. Reef decline translates directly to reduced fish catches, threatening protein supplies for communities across the tropics. Cascading effects ripple through food webs as key species disappear, fundamentally altering ecosystem structure and function.
+
+Traditional ecological knowledge from Pacific Island communities offers insights into reef conservation developed over centuries of sustainable use. Indigenous practices including seasonal fishing restrictions, spatial closures, and species-specific harvesting rules maintained reef productivity for generations. Modern conservation increasingly incorporates these traditional approaches alongside Western science. Community-based management empowering local communities to set and enforce rules often succeeds where top-down regulations fail.
+
+The future of coral reefs depends almost entirely on whether humanity limits global warming to the lower end of projected scenarios. The Intergovernmental Panel on Climate Change concluded that limiting warming to 1.5 degrees Celsius would allow 10 to 30 percent of reefs to survive, while 2 degrees warming would result in losses exceeding 99 percent. Current emissions trajectories suggest warming will likely exceed these thresholds, making aggressive emissions reductions essential if any significant reef area is to persist.
+
+Research into heat-tolerant coral strains and assisted evolution offers long-term hope for reef persistence in warmer conditions. Scientists at the Australian Institute of Marine Science have bred corals with enhanced heat tolerance that survive temperatures lethal to their parents. These super corals might eventually recolonize reefs if emissions fall enough to stabilize temperatures. Such interventions remain experimental and controversial, raising questions about unintended consequences and the ethics of manipulating evolution. Regardless, they cannot substitute for addressing the root cause of reef decline: greenhouse gas emissions from human activities.`,
+    questions: [
+      {
+        id: 'climate-environment-p10-q1',
+        type: 'single_choice',
+        question: 'What percentage of marine species do coral reefs support?',
+        options: ['About 10 percent', 'About 15 percent', 'About 25 percent', 'About 40 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p10-q2',
+        type: 'multiple_select',
+        question: 'What local stressors exacerbate climate impacts on coral reefs? Select all that apply.',
+        options: ['Agricultural runoff', 'Overfishing', 'Coastal development', 'Wind patterns'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'climate-environment-p10-q3',
+        type: 'true_false',
+        question: 'The first global mass coral bleaching event occurred in 1998.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p10-q4',
+        type: 'numeric',
+        question: 'What percentage of the Great Barrier Reef was affected by severe bleaching in 2016?',
+        correctValue: 93,
+        tolerance: 5,
+        min: 70,
+        max: 100,
+        step: 1,
+        unit: 'percent',
+      },
+      {
+        id: 'climate-environment-p10-q5',
+        type: 'single_choice',
+        question: 'What percentage of energy do zooxanthellae provide to corals?',
+        options: ['Up to 50 percent', 'Up to 70 percent', 'Up to 90 percent', 'Up to 99 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p10-q6',
+        type: 'single_choice',
+        question: 'How much has ocean pH declined since pre-industrial times?',
+        options: ['0.05 units', '0.1 units', '0.2 units', '0.5 units'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p10-q7',
+        type: 'numeric',
+        question: 'How many people are estimated to depend on reefs for food and livelihoods (in millions)?',
+        correctValue: 500,
+        tolerance: 50,
+        min: 300,
+        max: 800,
+        step: 25,
+        unit: 'million people',
+      },
+      {
+        id: 'climate-environment-p10-q8',
+        type: 'true_false',
+        question: 'Healthy coral reefs can dissipate up to 97 percent of wave energy.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-p10-q9',
+        type: 'single_choice',
+        question: 'What percentage of carbon dioxide released since the Industrial Revolution has the ocean absorbed?',
+        options: ['About 10 percent', 'About 20 percent', 'About 30 percent', 'About 40 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-p10-q10',
+        type: 'numeric',
+        question: 'How many hectares of reef has the Mars Coral Reef Restoration Project restored since 2010?',
+        correctValue: 200,
+        tolerance: 30,
+        min: 100,
+        max: 400,
+        step: 25,
+        unit: 'hectares',
+      },
+      {
+        id: 'climate-environment-p10-q11',
+        type: 'single_choice',
+        question: 'What would be the reef survival rate if warming is limited to 1.5 degrees Celsius according to the IPCC?',
+        options: ['5 to 15 percent', '10 to 30 percent', '30 to 50 percent', '50 to 70 percent'],
+        correctIndex: 1,
+      },
+      {
+        id: 'climate-environment-p10-q12',
+        type: 'single_choice',
+        question: 'How much reef loss would occur at 2 degrees of warming according to the IPCC?',
+        options: ['Over 80 percent', 'Over 90 percent', 'Over 95 percent', 'Over 99 percent'],
+        correctIndex: 3,
+      },
+      {
+        id: 'climate-environment-p10-q13',
+        type: 'numeric',
+        question: 'What is the increase in ocean acidity since pre-industrial times (in percent)?',
+        correctValue: 30,
+        tolerance: 5,
+        min: 10,
+        max: 60,
+        step: 5,
+        unit: 'percent',
+      },
+      {
+        id: 'climate-environment-p10-q14',
+        type: 'single_choice',
+        question: 'What percentage of the ocean floor do coral reefs cover?',
+        options: ['Less than 0.5 percent', 'Less than 1 percent', 'About 2 percent', 'About 5 percent'],
+        correctIndex: 1,
+      },
+    ],
+  },
+  {
     id: 'climate-environment-c1',
     topicId: 'climate-environment',
     title: 'The Rise of Renewable Energy',
@@ -833,6 +1244,187 @@ The future of water security depends on integrating demand management, supply au
         type: 'multiple_select',
         question: 'What mechanisms does climate change use to intensify water scarcity? Select all that apply.',
         options: ['Increased evaporation', 'Altered precipitation patterns', 'Glacier retreat', 'Improved aquifer recharge'],
+        correctIndices: [0, 1, 2],
+      },
+    ],
+  },
+  {
+    id: 'climate-environment-c3',
+    topicId: 'climate-environment',
+    title: 'The Global Extinction Crisis',
+    difficulty: 'advanced',
+    wordCount: 3000,
+    articleType: 'certification',
+    orderIndex: 3,
+    certificationLength: 'long',
+    content: `Earth is experiencing a mass extinction event driven by human activities that rivals the five previous catastrophic die-offs in the planet's 4.5 billion year history, with species disappearing at rates 100 to 1,000 times higher than natural background extinction. Scientists estimate that approximately one million plant and animal species face extinction within decades unless humanity fundamentally transforms its relationship with the natural world. This crisis represents not just an environmental tragedy but an existential threat to human civilization, which depends on biodiversity for food, medicine, clean water, climate regulation, and countless other ecosystem services.
+
+The Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services released its landmark Global Assessment Report in May 2019, synthesizing research from over 15,000 scientific and government sources. This comprehensive study, prepared by 145 expert authors from 50 countries, found that natural ecosystems have declined by 47 percent on average compared to estimated baseline conditions. Three-quarters of land environments and two-thirds of marine environments have been significantly altered by human actions. The rate of species extinction is accelerating, with current rates tens to hundreds of times higher than averaged over the past 10 million years.
+
+The five previous mass extinctions fundamentally reshaped life on Earth over millions of years. The Permian extinction approximately 252 million years ago eliminated over 90 percent of all species, requiring tens of millions of years for recovery. The Cretaceous extinction 66 million years ago, caused by an asteroid impact near what is now Mexico's Yucatan Peninsula, killed the non-avian dinosaurs and allowed mammals to diversify. The current extinction differs in both cause and speed, with human activities compressing changes that previously occurred over geological timescales into mere decades or centuries.
+
+Habitat destruction ranks as the primary driver of biodiversity loss worldwide. Humans have converted approximately 75 percent of ice-free land surface for agriculture, urban development, and resource extraction. Tropical rainforests, which contain over half of all terrestrial species despite covering only 6 percent of Earth's surface, disappear at rates exceeding 10 million hectares annually. Wetlands have declined by 35 percent since 1970. Mangrove forests, critical nurseries for marine species, have lost a quarter of their extent in the past four decades.
+
+Agricultural expansion drives most habitat conversion, with cropland and pasture now occupying approximately 50 percent of habitable land. The Green Revolution increased yields dramatically but also intensified farming's environmental footprint. Industrial agriculture relies on monocultures that eliminate habitat diversity, pesticides that poison non-target species, and fertilizers that create dead zones in coastal waters. Meat production carries particularly heavy impacts, with livestock grazing and feed crops occupying 80 percent of agricultural land while providing only 18 percent of calories.
+
+Climate change increasingly compounds direct habitat destruction as a driver of biodiversity loss. Species adapted to specific temperature and precipitation regimes face displacement as conditions shift faster than they can migrate or adapt. Mountain species climb upward until they run out of habitat at summits. Arctic species including polar bears and walruses lose the ice platforms upon which they depend. Coral reefs, among the most biodiverse ecosystems on Earth, face devastation from warming and acidification, with projections suggesting 70 to 90 percent loss even if warming is limited to 1.5 degrees Celsius.
+
+Overexploitation ranks as the second largest direct driver of extinction risk after habitat loss. Overfishing has collapsed populations of commercially valuable species across ocean basins. Atlantic cod, once so abundant that early explorers described walking across their backs, declined by 95 percent before Canada's 1992 moratorium failed to prevent continued decline. The global fishing fleet is now two to three times larger than sustainable fish populations can support. Approximately 34 percent of assessed fish stocks are overfished, with the proportion increasing over time.
+
+Wildlife trafficking represents a 23 billion dollar annual criminal enterprise that drives numerous species toward extinction. Elephants are poached for ivory, with African populations declining from an estimated 3 to 5 million individuals at the beginning of the twentieth century to fewer than 415,000 today. Rhinoceroses face poaching pressure from demand for horns used in traditional medicine despite containing only keratin, the same protein in human fingernails. Pangolins, scaly mammals native to Asia and Africa, have become the most trafficked wild mammals on Earth.
+
+Invasive species transform ecosystems by outcompeting, predating, or introducing diseases to native organisms that lack evolutionary defenses. Island species prove particularly vulnerable, having evolved without exposure to mammalian predators and competitors. Rats, cats, and goats carried by humans to islands worldwide have driven hundreds of endemic species to extinction. The brown tree snake devastated bird populations on Guam after its accidental introduction around 1950. Invasive species now cause or contribute to approximately 40 percent of animal extinctions since 1500.
+
+Pollution threatens biodiversity through multiple pathways often invisible until damage becomes severe. Pesticides accumulate through food chains, with concentrations magnifying at each level. DDT famously thinned the eggshells of raptors including bald eagles and peregrine falcons before its ban in 1972. Neonicotinoid insecticides, now the world's most widely used class, have been implicated in pollinator declines. Plastic pollution pervades marine environments, with microplastics found in organisms from plankton to whales. Nutrient pollution from agriculture creates over 400 oxygen-depleted dead zones in coastal waters worldwide.
+
+Amphibians face perhaps the most severe extinction crisis of any vertebrate group, with over 40 percent of species threatened. The chytrid fungus Batrachochytrium dendrobatidis has spread worldwide since its discovery in 1998, causing population crashes and extinctions on every continent where amphibians occur. The related Batrachochytrium salamandrivorans threatens European salamanders. Climate change, habitat loss, and pollution compound disease impacts. Over 90 species of frogs and salamanders have likely gone extinct in recent decades, with many more declining precipitously.
+
+Insects have experienced dramatic but poorly documented declines that could cascade through ecosystems dependent on their pollination, decomposition, and prey services. A 2017 German study found that flying insect biomass in protected areas declined by 76 percent over 27 years. Research in Puerto Rican rainforests documented 98 percent declines in ground-caught arthropods between 1976 and 2012. While comprehensive global data remain limited, evidence consistently points toward significant insect losses, sometimes called the insect apocalypse.
+
+Conservation efforts have achieved notable successes that demonstrate species recovery is possible with sufficient commitment. The bald eagle, reduced to 417 nesting pairs in the lower 48 states by 1963, recovered to over 71,400 pairs by 2020 following DDT bans and habitat protection. California condors numbered only 22 individuals in 1982 before captive breeding programs expanded populations to over 500 today. Giant pandas improved from endangered to vulnerable status following Chinese habitat protection efforts. These recoveries required decades of sustained action and substantial resources.
+
+Protected areas now cover approximately 17 percent of land and 8 percent of ocean, falling short of the 30 percent target adopted by the Convention on Biological Diversity in December 2022 at COP15 in Montreal. The Kunming-Montreal Global Biodiversity Framework established ambitious goals including restoring 30 percent of degraded ecosystems, reducing extinction rates tenfold, and halving the introduction of invasive species by 2030. Implementation will require unprecedented coordination across governments, businesses, and civil society.
+
+Indigenous peoples manage or have tenure rights over at least 25 percent of global land surface, including some of the most biodiverse regions on Earth. Research consistently demonstrates that indigenous territories experience lower deforestation rates and maintain higher biodiversity than surrounding areas. Recognition of indigenous rights and incorporation of traditional ecological knowledge into conservation efforts offers pathways to protect biodiversity while respecting human rights. The Global Biodiversity Framework acknowledges indigenous leadership as essential to achieving conservation goals.
+
+Economic transformation must accompany conservation efforts since current economic systems treat nature as an externality whose destruction carries no price. The World Economic Forum estimates that over half of global GDP, approximately 44 trillion dollars annually, depends moderately or highly on nature and its services. The Dasgupta Review commissioned by the UK Treasury and published in February 2021 concluded that economic success has come at the cost of depleting nature. The review called for fundamental changes to economic theory and practice to account for natural capital.
+
+The extinction crisis ultimately represents a crisis of values and governance that only collective human action can resolve. Technical solutions exist for most drivers of biodiversity loss, but implementation requires political will, international cooperation, and societal transformation. The choices made in the coming decade will determine whether Earth retains its biological heritage or enters an impoverished future where humanity has eliminated the evolutionary companions that shared this planet for millions of years. The stakes could not be higher for human civilization or for the countless species whose fate rests in human hands.`,
+    questions: [
+      {
+        id: 'climate-environment-c3-q1',
+        type: 'single_choice',
+        question: 'When was the IPBES Global Assessment Report released?',
+        options: ['May 2017', 'May 2018', 'May 2019', 'May 2020'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q2',
+        type: 'multiple_select',
+        question: 'What are the primary drivers of biodiversity loss mentioned? Select all that apply.',
+        options: ['Habitat destruction', 'Overexploitation', 'Climate change', 'Solar radiation'],
+        correctIndices: [0, 1, 2],
+      },
+      {
+        id: 'climate-environment-c3-q3',
+        type: 'true_false',
+        question: 'Approximately one million plant and animal species face extinction within decades.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-c3-q4',
+        type: 'numeric',
+        question: 'By what percentage have natural ecosystems declined on average compared to baseline conditions?',
+        correctValue: 47,
+        tolerance: 5,
+        min: 30,
+        max: 70,
+        step: 1,
+        unit: 'percent',
+      },
+      {
+        id: 'climate-environment-c3-q5',
+        type: 'single_choice',
+        question: 'What percentage of amphibian species are threatened?',
+        options: ['Over 20 percent', 'Over 30 percent', 'Over 40 percent', 'Over 50 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q6',
+        type: 'single_choice',
+        question: 'How many bald eagle nesting pairs were in the lower 48 states by 2020?',
+        options: ['Over 21,400 pairs', 'Over 41,400 pairs', 'Over 71,400 pairs', 'Over 91,400 pairs'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q7',
+        type: 'numeric',
+        question: 'How much is wildlife trafficking worth annually (in billions of dollars)?',
+        correctValue: 23,
+        tolerance: 3,
+        min: 10,
+        max: 40,
+        step: 1,
+        unit: 'billion dollars',
+      },
+      {
+        id: 'climate-environment-c3-q8',
+        type: 'true_false',
+        question: 'The Permian extinction eliminated over 90 percent of all species.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-c3-q9',
+        type: 'single_choice',
+        question: 'When was the Kunming-Montreal Global Biodiversity Framework adopted?',
+        options: ['December 2020', 'December 2021', 'December 2022', 'December 2023'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q10',
+        type: 'numeric',
+        question: 'What percentage of assessed fish stocks are overfished?',
+        correctValue: 34,
+        tolerance: 5,
+        min: 15,
+        max: 55,
+        step: 1,
+        unit: 'percent',
+      },
+      {
+        id: 'climate-environment-c3-q11',
+        type: 'single_choice',
+        question: 'By what percentage did flying insect biomass decline in the German study over 27 years?',
+        options: ['56 percent', '66 percent', '76 percent', '86 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q12',
+        type: 'single_choice',
+        question: 'When was the Dasgupta Review published?',
+        options: ['February 2019', 'February 2020', 'February 2021', 'February 2022'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q13',
+        type: 'numeric',
+        question: 'How many California condors existed at their lowest point in 1982?',
+        correctValue: 22,
+        tolerance: 3,
+        min: 10,
+        max: 50,
+        step: 1,
+        unit: 'individuals',
+      },
+      {
+        id: 'climate-environment-c3-q14',
+        type: 'true_false',
+        question: 'Indigenous territories experience lower deforestation rates than surrounding areas.',
+        correctAnswer: true,
+      },
+      {
+        id: 'climate-environment-c3-q15',
+        type: 'single_choice',
+        question: 'What protection target did the Convention on Biological Diversity adopt in December 2022?',
+        options: ['20 percent', '25 percent', '30 percent', '35 percent'],
+        correctIndex: 2,
+      },
+      {
+        id: 'climate-environment-c3-q16',
+        type: 'numeric',
+        question: 'How many oxygen-depleted dead zones exist in coastal waters worldwide?',
+        correctValue: 400,
+        tolerance: 50,
+        min: 200,
+        max: 700,
+        step: 25,
+        unit: 'dead zones',
+      },
+      {
+        id: 'climate-environment-c3-q17',
+        type: 'multiple_select',
+        question: 'Which species recovery successes are mentioned? Select all that apply.',
+        options: ['Bald eagle', 'California condor', 'Giant panda', 'Passenger pigeon'],
         correctIndices: [0, 1, 2],
       },
     ],
