@@ -16,9 +16,8 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen name="journey" />
-        <Tabs.Screen name="train" />
-        <Tabs.Screen name="read" />
-        <Tabs.Screen name="learn" />
+        <Tabs.Screen name="play" />
+        <Tabs.Screen name="content" />
         <Tabs.Screen name="profile" />
       </Tabs>
       <FloatingNavBar />

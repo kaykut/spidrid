@@ -228,6 +228,10 @@ export function PdfExtractorProvider({ children }: Props) {
         case 'progress':
           // Could emit progress events here if needed
           break;
+
+        default:
+          // Unknown message type, ignore
+          break;
       }
     } catch (_e) {
       // Ignore parse errors

@@ -6,14 +6,14 @@
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import LearnScreen from '../../src/app/(tabs)/learn';
+import LearnScreen from '../../src/app/(tabs)/content/learn';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 
 // Mock expo-router
-const mockPush = jest.fn();
+const mockReplace = jest.fn();
 jest.mock('expo-router', () => ({
   router: {
-    push: (path: string) => mockPush(path),
+    replace: (path: string) => mockReplace(path),
   },
 }));
 
@@ -68,7 +68,7 @@ describe('LearnScreen Integration', () => {
       const trainButton = screen.getByText('Go to Train');
       fireEvent.press(trainButton);
 
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/train');
+      expect(mockReplace).toHaveBeenCalledWith('/(tabs)/content/train');
     });
   });
 });

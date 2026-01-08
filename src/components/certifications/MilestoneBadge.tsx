@@ -66,6 +66,12 @@ export function MilestoneBadge({
     return `${definition.name} certification, ${Math.round(overallProgress * 100)}% progress`;
   };
 
+  const getBadgeBackgroundColor = () => {
+    if (isEarned) {return definition.color;}
+    if (isLocked) {return theme.secondaryBackground;}
+    return `${definition.color}20`;
+  };
+
   return (
     <View
       style={styles.container}
@@ -114,7 +120,7 @@ export function MilestoneBadge({
             width: sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
             height: sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
             borderRadius: (sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0)) / 2,
-            backgroundColor: isEarned ? definition.color : isLocked ? theme.secondaryBackground : `${definition.color}20`,
+            backgroundColor: getBadgeBackgroundColor(),
           },
           isLocked && styles.locked,
         ]}

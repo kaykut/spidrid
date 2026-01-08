@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import ReadScreen from '../../src/app/(tabs)/read';
+import ReadScreen from '../../src/app/(tabs)/content/read';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 
 // Mock expo-router

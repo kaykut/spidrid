@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Testing Tab
  *
@@ -10,17 +11,9 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-// ============================================================
-// Import ALL Components
-// ============================================================
-
-// Certificates
 import { CertificateCard, LockedCertificateCard } from '../components/certificates/CertificateCard';
 import { CertificateViewerModal } from '../components/certificates/CertificateViewerModal';
 import { NewCertificateModal } from '../components/certificates/NewCertificateModal';
-
-// Certifications
 import { CertificationEarnedModal } from '../components/certifications/CertificationEarnedModal';
 import { CertificationReadyModal } from '../components/certifications/CertificationReadyModal';
 import { JourneyPath } from '../components/certifications/JourneyPath';
@@ -28,15 +21,9 @@ import { MilestoneBadge } from '../components/certifications/MilestoneBadge';
 import { ProgressRing } from '../components/certifications/ProgressRing';
 import { StatsSummary } from '../components/certifications/StatsSummary';
 import { TierCard } from '../components/certifications/TierCard';
-
-// Common
 import { EdgeFadeScrollView } from '../components/common/EdgeFadeScrollView';
 import { useTheme } from '../components/common/ThemeProvider';
-
-// Controls
 import { PlaybackControls } from '../components/controls/PlaybackControls';
-
-// Journey
 import { GlowAnimation } from '../components/journey/animations/GlowAnimation';
 import { PulseAnimation } from '../components/journey/animations/PulseAnimation';
 import { InsightsPanel } from '../components/journey/InsightsPanel';
@@ -44,27 +31,15 @@ import { MetricsPanel } from '../components/journey/MetricsPanel';
 import { SmartQueue } from '../components/journey/SmartQueue';
 import { UnifiedProgressPath } from '../components/journey/UnifiedProgressPath';
 import { UpNextCard } from '../components/journey/UpNextCard';
-
-// Navigation - skip FloatingNavBar as it's already on screen
-
-// Onboarding
 import { InterestPill } from '../components/onboarding/InterestPill';
-
-// Paywall
 import { Paywall } from '../components/paywall/Paywall';
-
-// Quiz
 import { MultipleSelectQuestion } from '../components/quiz/MultipleSelectQuestion';
 import { NumericQuestion } from '../components/quiz/NumericQuestion';
 import { SingleChoiceQuestion } from '../components/quiz/SingleChoiceQuestion';
 import { TrueFalseQuestion } from '../components/quiz/TrueFalseQuestion';
-
-// RSVP
 import { RSVPWord } from '../components/rsvp/RSVPWord';
 import { SPACING, RADIUS } from '../constants/spacing';
 import { FONT_WEIGHTS, PAGE_TITLE, BODY, CAPTION, CARD_TITLE } from '../constants/typography';
-
-// Types
 import type { Certificate, CertificationTierProgress, EarnedCertification } from '../types/certificates';
 import type {
   ArticleRecommendation,

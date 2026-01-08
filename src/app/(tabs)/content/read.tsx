@@ -11,15 +11,15 @@ import {
 } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { router } from 'expo-router';
-import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
-import { useTheme } from '../../components/common/ThemeProvider';
-import { Paywall } from '../../components/paywall/Paywall';
-import { usePdfExtractor } from '../../components/PdfExtractorProvider';
-import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
-import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
-import { useContentStore } from '../../store/contentStore';
-import { useSubscriptionStore } from '../../store/subscriptionStore';
+import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
+import { useTheme } from '../../../components/common/ThemeProvider';
+import { Paywall } from '../../../components/paywall/Paywall';
+import { usePdfExtractor } from '../../../components/PdfExtractorProvider';
+import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
+import { TYPOGRAPHY } from '../../../constants/typography';
+import { extractFromUrl, createFromText, extractFromEbook } from '../../../services/contentExtractor';
+import { useContentStore } from '../../../store/contentStore';
+import { useSubscriptionStore } from '../../../store/subscriptionStore';
 
 type ImportMode = 'url' | 'text' | null;
 
@@ -156,6 +156,15 @@ export default function ReadScreen() {
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  };
+
+  const getSourceIcon = (source: string) => {
+    const icons: Record<string, string> = {
+      url: '🔗',
+      epub: '📚',
+      pdf: '📄',
+    };
+    return icons[source] || '📝';
   };
 
   return (
@@ -329,7 +338,7 @@ export default function ReadScreen() {
                       </Text>
                       <View style={styles.contentMeta}>
                         <Text style={[styles.metaText, { color: theme.textColor }]}>
-                          {item.source === 'url' ? '🔗' : item.source === 'epub' ? '📚' : item.source === 'pdf' ? '📄' : '📝'} {item.wordCount} words
+                          {getSourceIcon(item.source)} {item.wordCount} words
                         </Text>
                         <Text style={[styles.metaText, { color: theme.textColor }]}>
                           · {formatDate(item.createdAt)}

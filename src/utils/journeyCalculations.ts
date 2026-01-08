@@ -423,13 +423,19 @@ export function checkCertUnlockStatus(
     return { canUnlock: true, vsUnlocked: true, speedProofAchieved: true };
   }
 
+  const getBlockedReason = (): 'both' | 'speed' | 'vs' => {
+    if (!vsUnlocked && !speedProofAchieved) {return 'both';}
+    if (vsUnlocked) {return 'speed';}
+    return 'vs';
+  };
+
   return {
     canUnlock: false,
     vsUnlocked,
     speedProofAchieved,
     vsNeeded: vsUnlocked ? undefined : certDef.vsThreshold,
     speedNeeded: speedProofAchieved ? undefined : certDef.speedProofWpm,
-    reason: !vsUnlocked && !speedProofAchieved ? 'both' : vsUnlocked ? 'speed' : 'vs',
+    reason: getBlockedReason(),
   };
 }
 

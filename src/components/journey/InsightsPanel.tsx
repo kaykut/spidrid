@@ -51,6 +51,16 @@ export function InsightsPanel({
 }: InsightsPanelProps) {
   const showPlaceholder = sessionsNeeded !== undefined && sessionsNeeded > 0;
 
+  const renderProgressCard = () => {
+    if (showPlaceholder) {
+      return <PlaceholderContent sessionsNeeded={sessionsNeeded!} />;
+    }
+    if (progressInsight.available) {
+      return <ProgressContent insight={progressInsight} />;
+    }
+    return <PlaceholderContent sessionsNeeded={5} />;
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -68,13 +78,7 @@ export function InsightsPanel({
             <Text style={styles.cardTitle}>YOUR PROGRESS</Text>
           </View>
 
-          {showPlaceholder ? (
-            <PlaceholderContent sessionsNeeded={sessionsNeeded!} />
-          ) : progressInsight.available ? (
-            <ProgressContent insight={progressInsight} />
-          ) : (
-            <PlaceholderContent sessionsNeeded={5} />
-          )}
+          {renderProgressCard()}
         </View>
 
         {/* Card 2: Recent Trend */}

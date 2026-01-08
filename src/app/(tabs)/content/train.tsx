@@ -1,5 +1,5 @@
 /**
- * Train Tab Screen
+ * Train Sub-Tab Screen
  *
  * Shows pre-generated curriculum articles for RSVP skill training.
  * Displays MetricsPanel (WPM + Comprehension) at top, followed by topics grid.
@@ -7,15 +7,15 @@
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
-import { useTheme } from '../../components/common/ThemeProvider';
-import { MetricsPanel } from '../../components/journey/MetricsPanel';
-import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
-import { TOPICS } from '../../data/curriculum';
-import { getCurriculumTopicsForInterests } from '../../data/interests';
-import { useLearningStore } from '../../store/learningStore';
-import { useOnboardingStore } from '../../store/onboardingStore';
+import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
+import { useTheme } from '../../../components/common/ThemeProvider';
+import { MetricsPanel } from '../../../components/journey/MetricsPanel';
+import { SPACING, COMPONENT_RADIUS } from '../../../constants/spacing';
+import { TYPOGRAPHY } from '../../../constants/typography';
+import { TOPICS } from '../../../data/curriculum';
+import { getCurriculumTopicsForInterests } from '../../../data/interests';
+import { useLearningStore } from '../../../store/learningStore';
+import { useOnboardingStore } from '../../../store/onboardingStore';
 
 export default function TrainScreen() {
   const { theme } = useTheme();

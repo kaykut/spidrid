@@ -1,7 +1,7 @@
 /**
  * Tests for FloatingNavBar Component.
  *
- * Navigation bar with Journey, Train, Read, and Learn tabs.
+ * Navigation bar with Journey, Play, and Content tabs.
  */
 
 import React from 'react';
@@ -15,7 +15,7 @@ jest.mock('expo-router', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
-  usePathname: () => '/learn',
+  usePathname: () => '/content',
 }));
 
 // Mock react-native-safe-area-context
@@ -48,17 +48,17 @@ describe('FloatingNavBar', () => {
     it('renders nav item icons', () => {
       renderWithProviders(<FloatingNavBar />);
 
-      // Icons render via mock - there are 4 nav items
+      // Icons render via mock - there are 3 nav items
       const icons = screen.getAllByTestId('icon-Ionicons');
       expect(icons.length).toBeGreaterThan(0);
     });
 
-    it('renders all four navigation items', () => {
+    it('renders all three navigation items', () => {
       renderWithProviders(<FloatingNavBar />);
 
-      // All icons are rendered (4 nav items: Journey, Train, Read, Learn)
+      // All icons are rendered (3 nav items: Journey, Play, Content)
       const icons = screen.getAllByTestId('icon-Ionicons');
-      expect(icons.length).toBe(4);
+      expect(icons.length).toBe(3);
     });
   });
 
@@ -73,34 +73,24 @@ describe('FloatingNavBar', () => {
       expect(mockPush).toHaveBeenCalledWith('/(tabs)/journey');
     });
 
-    it('navigates to train when train button is pressed', () => {
+    it('navigates to play when play button is pressed', () => {
       renderWithProviders(<FloatingNavBar />);
 
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // Second icon is Train
+      // Second icon is Play
       fireEvent.press(icons[1]);
 
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/train');
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/play');
     });
 
-    it('navigates to read when read button is pressed', () => {
+    it('navigates to content when content button is pressed', () => {
       renderWithProviders(<FloatingNavBar />);
 
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // Third icon is Read
+      // Third icon is Content
       fireEvent.press(icons[2]);
 
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/read');
-    });
-
-    it('navigates to learn when learn button is pressed', () => {
-      renderWithProviders(<FloatingNavBar />);
-
-      const icons = screen.getAllByTestId('icon-Ionicons');
-      // Fourth icon is Learn
-      fireEvent.press(icons[3]);
-
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/learn');
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/content');
     });
   });
 });
@@ -112,7 +102,7 @@ describe('FloatingNavBar with different pathname', () => {
 
   it('identifies active route correctly', () => {
     // The isActive function checks if pathname includes the route name
-    // We already mock pathname as '/learn', so learn should be active
+    // We already mock pathname as '/content', so content should be active
     const { root } = renderWithProviders(<FloatingNavBar />);
 
     expect(root).toBeTruthy();

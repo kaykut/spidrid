@@ -39,6 +39,12 @@ export default function ProfileScreen() {
 
   const currentLanguage = READING_LANGUAGES.find(l => l.code === readingLanguage)?.label || 'English';
 
+  const getJourneyStatusText = (count: number) => {
+    if (count === 0) {return 'Start earning certification tiers!';}
+    if (count === 3) {return 'All tiers earned! ';}
+    return `${count}/3 tiers earned`;
+  };
+
   return (
     <>
       <Paywall
@@ -161,11 +167,7 @@ export default function ProfileScreen() {
               ))}
             </View>
             <Text style={[styles.journeyText, { color: theme.textColor }]}>
-              {earnedCerts.length === 0
-                ? 'Start earning certification tiers!'
-                : earnedCerts.length === 3
-                ? 'All tiers earned! '
-                : `${earnedCerts.length}/3 tiers earned`}
+              {getJourneyStatusText(earnedCerts.length)}
             </Text>
           </TouchableOpacity>
 

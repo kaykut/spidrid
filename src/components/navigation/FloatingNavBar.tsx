@@ -15,7 +15,7 @@ import { useTheme } from '../common/ThemeProvider';
 
 interface NavItem {
   name: string;
-  route: '/(tabs)/journey' | '/(tabs)/train' | '/(tabs)/read' | '/(tabs)/learn';
+  route: '/(tabs)/journey' | '/(tabs)/play' | '/(tabs)/content';
   activeIcon: keyof typeof Ionicons.glyphMap;
   inactiveIcon: keyof typeof Ionicons.glyphMap;
 }
@@ -28,22 +28,16 @@ const NAV_ITEMS: NavItem[] = [
     inactiveIcon: 'rocket-outline',
   },
   {
-    name: 'Train',
-    route: '/(tabs)/train',
-    activeIcon: 'barbell',
-    inactiveIcon: 'barbell-outline',
+    name: 'Play',
+    route: '/(tabs)/play',
+    activeIcon: 'play-circle',
+    inactiveIcon: 'play-circle-outline',
   },
   {
-    name: 'Read',
-    route: '/(tabs)/read',
-    activeIcon: 'document-text',
-    inactiveIcon: 'document-text-outline',
-  },
-  {
-    name: 'Learn',
-    route: '/(tabs)/learn',
-    activeIcon: 'book',
-    inactiveIcon: 'book-outline',
+    name: 'Content',
+    route: '/(tabs)/content',
+    activeIcon: 'library',
+    inactiveIcon: 'library-outline',
   },
 ];
 

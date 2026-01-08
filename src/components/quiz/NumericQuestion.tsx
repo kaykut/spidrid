@@ -59,6 +59,11 @@ export function NumericQuestion({
   const isCorrect = showResult && Math.abs(selectedAnswer! - correctValue) <= tolerance;
   const displayValue = showResult ? selectedAnswer! : currentValue;
 
+  const getResultColor = () => {
+    if (!showResult) {return theme.accentColor;}
+    return isCorrect ? '#69db7c' : '#ff6b6b';
+  };
+
   // Calculate positions for correct range indicator
   const correctMinPos = valueToPosition(Math.max(min, correctValue - tolerance));
   const correctMaxPos = valueToPosition(Math.min(max, correctValue + tolerance));
@@ -105,9 +110,7 @@ export function NumericQuestion({
               styles.trackFill,
               {
                 width: valueToPosition(displayValue),
-                backgroundColor: showResult
-                  ? (isCorrect ? '#69db7c' : '#ff6b6b')
-                  : theme.accentColor,
+                backgroundColor: getResultColor(),
               },
             ]}
           />
@@ -120,9 +123,7 @@ export function NumericQuestion({
             styles.thumb,
             {
               left: valueToPosition(displayValue) - THUMB_SIZE / 2 + SPACING.huge,
-              backgroundColor: showResult
-                ? (isCorrect ? '#69db7c' : '#ff6b6b')
-                : theme.accentColor,
+              backgroundColor: getResultColor(),
             },
           ]}
         />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, DimensionValue } from 'react-native';
 import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import {
@@ -70,6 +70,18 @@ export function TierCard({
   };
 
   const isUnlocked = progress.vsUnlocked || progress.speedProofAchieved || progress.examPassed;
+
+  const getExamStatusText = () => {
+    if (progress.examPassed) {return 'Passed';}
+    if (progress.examUnlocked) {return 'Unlocked';}
+    return 'Locked';
+  };
+
+  const getExamProgressWidth = (): DimensionValue => {
+    if (progress.examPassed) {return '100%';}
+    if (progress.examUnlocked) {return '50%';}
+    return '0%';
+  };
 
   const getNextStep = () => {
     if (progress.examPassed) { return null; }
@@ -150,7 +162,7 @@ export function TierCard({
                     Certification Exam
                   </Text>
                   <Text style={[styles.progressBarValue, { color: theme.textColor }]}>
-                    {progress.examPassed ? 'Passed' : progress.examUnlocked ? 'Unlocked' : 'Locked'}
+                    {getExamStatusText()}
                   </Text>
                 </View>
                 <View style={[styles.progressBarTrack, { backgroundColor: theme.backgroundColor }]}>
@@ -158,7 +170,7 @@ export function TierCard({
                     style={[
                       styles.progressBarFill,
                       {
-                        width: progress.examPassed ? '100%' : progress.examUnlocked ? '50%' : '0%',
+                        width: getExamProgressWidth(),
                         backgroundColor: progress.examPassed ? '#69db7c' : definition.color,
                       },
                     ]}

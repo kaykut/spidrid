@@ -1,8 +1,8 @@
 /**
- * Learn Tab Screen (Placeholder)
+ * Play Tab Screen (Placeholder)
  *
- * Placeholder for the future Learning mode.
- * This tab will contain interactive learning experiences.
+ * Unified playback screen for the player.
+ * Will show current content being played with RSVP controls.
  */
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
@@ -13,32 +13,32 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 
-export default function LearnScreen() {
+export default function PlayScreen() {
   const { theme } = useTheme();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]} edges={['top']}>
       <View style={styles.content}>
-        <Text style={[styles.title, { color: theme.textColor }]}>Learn</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Player</Text>
 
         <View style={styles.placeholderContainer}>
           <View style={[styles.iconCircle, { backgroundColor: theme.secondaryBackground }]}>
-            <Ionicons name="book-outline" size={48} color={theme.accentColor} />
+            <Ionicons name="play-circle-outline" size={64} color={theme.accentColor} />
           </View>
 
-          <Text style={[styles.comingSoon, { color: theme.textColor }]}>
-            Coming Soon
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
+            No Content Playing
           </Text>
 
           <Text style={[styles.description, { color: theme.textColor }]}>
-            Interactive learning experiences are being developed. In the meantime, build your speed reading skills with our training articles.
+            Add content from Train, Read, or Learn tabs to start your speed reading session.
           </Text>
 
           <TouchableOpacity
             style={[styles.ctaButton, { backgroundColor: theme.accentColor }]}
-            onPress={() => router.push('/(tabs)/train')}
+            onPress={() => router.push('/(tabs)/content/train')}
           >
-            <Text style={styles.ctaButtonText}>Go to Train</Text>
+            <Text style={styles.ctaButtonText}>Browse Content</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xxxl,
   },
   iconCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.xl,
   },
-  comingSoon: {
+  emptyTitle: {
     ...TYPOGRAPHY.sectionHeader,
     marginBottom: SPACING.md,
   },

@@ -46,6 +46,7 @@ export default function ContentReaderScreen() {
     if (startIndex > 0 && words.length > 0) {
       engine.jumpToIndex(startIndex);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startIndex]);
 
   // Update progress as user reads
@@ -74,11 +75,13 @@ export default function ContentReaderScreen() {
         articleType: 'imported',
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [engine.currentIndex, engine.isPlaying, words.length, content?.readProgress, isComplete]);
 
   // Update last read timestamp
   useEffect(() => {
     updateLastRead(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (!content) {

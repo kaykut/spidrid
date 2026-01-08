@@ -1,4 +1,4 @@
-# Unified Player and Playlist Architecture: Tab Restructuring
+# Unified Player and Playlist Architecture: 3-Tab Navigation
 
 This ExecPlan is a living document. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
@@ -7,54 +7,74 @@ This document must be maintained in accordance with PLANS.md at the repository r
 
 ## Purpose / Big Picture
 
-Spidrid currently organizes content consumption around three tabs: Journey (certification progress), Read (import content), and Profile. The user experience will be improved by restructuring navigation to clearly separate the three ways users can add content to a unified playlist:
+Spidrid's navigation is being simplified from 4+ tabs down to 3 main tabs to reduce user confusion while maintaining access to all functionality. The three main tabs are:
 
-1. **Train** - Pre-generated curriculum articles for skill training
-2. **Read** - User-imported content (URLs, text, ebooks)
-3. **Learn** - Placeholder for future learning mode
+1. **Journey** - Certification progress and milestones (leftmost)
+2. **Play** - The unified player with playlist (center)
+3. **Content** - A single tab containing 3 sub-tabs for content sources (rightmost)
 
-After this change, users will see three tabs in the bottom navigation corresponding to these three content sources. The Journey certification screen will be removed from the main tabs (its content may be reintegrated elsewhere in a future milestone). This first increment establishes the new tab structure; subsequent increments will add the Player screen with playlist functionality.
+The Content tab consolidates three content sources (Train, Read, Learn) into sub-tabs within a single main tab. This keeps the main navigation clean while preserving the distinct content pathways. Profile remains accessible via a floating button in the top-right corner.
+
+After this change, users see exactly 3 tabs in the floating navbar. Tapping Content reveals a horizontal sub-tab bar at the top of the screen with Train, Read, and Learn options. The active sub-tab is remembered between visits.
 
 
 ## Progress
 
-- [x] (2026-01-08) Create Train tab screen with MetricsPanel and topic picker
-- [x] (2026-01-08) Create Learn tab placeholder screen
-- [x] (2026-01-08) Update tab layout to register Train, Read, Learn, Profile
-- [x] (2026-01-08) Create FloatingProfileButton component for top-right
-- [x] (2026-01-08) Update FloatingNavBar with 4 nav items (Journey, Train, Read, Learn)
-- [x] (2026-01-08) Update MetricsPanel with hideStreak prop
-- [x] (2026-01-08) Update index.tsx to redirect to train tab
-- [x] (2026-01-08) TypeScript compilation verified - no source errors
-- [ ] Manual testing: Verify navigation between all tabs and profile button
+**Increment 1 (Completed):**
+- [x] (2026-01-08) Created Train screen with MetricsPanel and topic picker
+- [x] (2026-01-08) Created Learn placeholder screen
+- [x] (2026-01-08) Created FloatingProfileButton component
+- [x] (2026-01-08) Updated MetricsPanel with hideStreak prop
+
+**Increment 2 (Current - 3-Tab Restructure):**
+- [ ] Create Content tab with nested sub-tabs (Train, Read, Learn)
+- [ ] Create Play tab placeholder screen
+- [ ] Move train.tsx, read.tsx, learn.tsx into content/ folder
+- [ ] Create ContentSubTabBar component for horizontal sub-navigation
+- [ ] Update FloatingNavBar to 3 items (Journey, Play, Content)
+- [ ] Update tab layout for new structure
+- [ ] Persist active content sub-tab in store
+- [ ] Update index.tsx redirect
+- [ ] Test navigation and sub-tab persistence
 
 
 ## Surprises & Discoveries
 
-- Observation: Journey tab restored to navigation after initial removal
-  Evidence: User requested Journey remain visible as the leftmost tab. Nav now has 4 items: Journey, Train, Read, Learn.
+- Observation: Initial 4-tab design (Journey, Train, Read, Learn) would become 5 tabs with Play, causing user confusion.
+  Evidence: User feedback indicated need for simpler navigation structure.
+
+- Observation: Sub-tabs within Content tab provide cleaner UX than multiple top-level tabs.
+  Evidence: Consolidating content sources into one tab reduces cognitive load while maintaining functionality.
 
 
 ## Decision Log
 
-- Decision: Tab order will be Journey, Train, Read, Learn (left to right) - 4 tabs in nav
-  Rationale: Journey remains visible as the leftmost tab for certification progress. Train, Read, Learn are the three content sources for the playlist. Profile is accessed via floating button.
-  Date/Author: 2026-01-08 / User + Claude (revised)
+- Decision: Main nav has exactly 3 tabs: Journey, Play, Content
+  Rationale: Adding Play as a 5th tab would be confusing. Consolidating Train/Read/Learn into Content sub-tabs keeps navigation simple.
+  Date/Author: 2026-01-08 / User
+
+- Decision: Content sub-tabs use horizontal tab bar at top of screen with icon + text
+  Rationale: Clear visual distinction from main nav. Icons provide quick recognition, text provides clarity.
+  Date/Author: 2026-01-08 / User
+
+- Decision: Content sub-tab state persists (remembers last visited)
+  Rationale: Users returning to Content tab should see where they left off, not always reset to a default.
+  Date/Author: 2026-01-08 / User
+
+- Decision: Profile button must not overlap rightmost sub-tab
+  Rationale: UI collision would make the rightmost sub-tab (Learn) difficult to tap.
+  Date/Author: 2026-01-08 / User
+
+- Decision: Content tab icon is `library`
+  Rationale: Represents collection of content sources. Other options considered: `albums`, `add-circle`.
+  Date/Author: 2026-01-08 / Claude
 
 - Decision: Profile accessible via floating button in top-right corner
-  Rationale: Profile is not a content source for the playlist, so it should not be a main tab. A floating profile button in the top-right provides quick access without cluttering the content-source tabs.
+  Rationale: Profile is not a content source, so it should not be a main tab. Floating button provides quick access.
   Date/Author: 2026-01-08 / User
 
-- Decision: MetricsPanel in Train tab will show WPM and Comprehension only (no Streak)
-  Rationale: User explicitly requested removing the Streak section to simplify the metrics display.
-  Date/Author: 2026-01-08 / User
-
-- Decision: Train tab triggers article by adding to playlist top, navigating to player, and auto-playing
-  Rationale: User specified this as the expected behavior when selecting an article from the Train tab. However, Player infrastructure is deferred to a later increment.
-  Date/Author: 2026-01-08 / User
-
-- Decision: Playlist modal tabs in Player will be {Training, Reading, Learning} as 3 distinct queues
-  Rationale: Each queue maps to content from the corresponding tab, allowing unified playback across content sources.
+- Decision: MetricsPanel in Train sub-tab shows WPM and Comprehension only (no Streak)
+  Rationale: Simplify metrics display in training context.
   Date/Author: 2026-01-08 / User
 
 
@@ -65,213 +85,240 @@ After this change, users will see three tabs in the bottom navigation correspond
 
 ## Context and Orientation
 
-Spidrid is a React Native (Expo) RSVP speed reading app. Navigation uses Expo Router with file-based routing. The relevant files are:
+Spidrid is a React Native (Expo) RSVP speed reading app using Expo Router for file-based navigation. This section describes the current state after Increment 1 and what needs to change for Increment 2.
 
-**Tab Layout and Navigation:**
-- `src/app/(tabs)/_layout.tsx` - Registers tabs using Expo Router's `<Tabs>` component. Currently defines journey, read, profile tabs.
-- `src/components/navigation/FloatingNavBar.tsx` - Custom floating navigation bar positioned at bottom-right. Contains `NAV_ITEMS` array defining routes, icons, and labels.
+**Current State (after Increment 1):**
 
-**Current Tab Screens:**
-- `src/app/(tabs)/journey.tsx` - Certification progress with StatsSummary and VerticalProgressPath. Will be removed from tabs.
-- `src/app/(tabs)/read.tsx` - Content import UI (URL, text, ebook). Unchanged.
-- `src/app/(tabs)/profile.tsx` - User stats and certificates. Unchanged.
+The FloatingNavBar currently has 4 items: Journey, Train, Read, Learn. These are registered as separate tabs in `src/app/(tabs)/_layout.tsx`. The files are:
 
-**Old Learn Tab (deleted, in git history):**
-- Contained: stats card, demo button, topics grid with progress bars
-- Used: `TOPICS` from curriculum, `useLearningStore` for progress tracking
-- Navigated to `/topic/{id}` for article lists
+- `src/app/(tabs)/journey.tsx` - Certification progress screen
+- `src/app/(tabs)/train.tsx` - MetricsPanel + topics grid (created in Increment 1)
+- `src/app/(tabs)/read.tsx` - Content import UI
+- `src/app/(tabs)/learn.tsx` - Placeholder (created in Increment 1)
+- `src/app/(tabs)/profile.tsx` - User stats and certificates
 
-**MetricsPanel Component:**
-- `src/components/journey/MetricsPanel.tsx` - Displays avg WPM, comprehension %, streak in horizontal row
-- Props: `avgWpm`, `avgComprehension`, `streakDays`, `bestWpmAt80`, `embedded`
-- We will create a modified version or pass props to hide streak
+The FloatingProfileButton component exists at `src/components/navigation/FloatingProfileButton.tsx` and provides access to Profile from the top-right corner.
 
-**Curriculum Data:**
-- `src/data/curriculum.ts` - Exports `TOPICS`, `ARTICLES`, helper functions
-- `src/data/curriculum/index.ts` - Actual implementation
-- Topics have: id, name, description, icon, color
-- Articles have: id, topicId, title, content, wordCount, articleType
+**Target State (after Increment 2):**
+
+The FloatingNavBar will have 3 items: Journey, Play, Content. The Content tab uses Expo Router's nested navigation to provide sub-tabs:
+
+    src/app/(tabs)/
+      _layout.tsx              # Main tab layout: journey, play, content, profile
+      journey.tsx              # Unchanged
+      play.tsx                 # NEW: Player screen placeholder
+      profile.tsx              # Unchanged (accessed via floating button)
+      content/                 # NEW: Nested route group
+        _layout.tsx            # Sub-tab layout with ContentSubTabBar
+        train.tsx              # Moved from (tabs)/train.tsx
+        read.tsx               # Moved from (tabs)/read.tsx
+        learn.tsx              # Moved from (tabs)/learn.tsx
+
+**Key Components:**
+
+- `FloatingNavBar` at `src/components/navigation/FloatingNavBar.tsx` - Will be updated to 3 items
+- `FloatingProfileButton` at `src/components/navigation/FloatingProfileButton.tsx` - Unchanged
+- `ContentSubTabBar` (NEW) at `src/components/navigation/ContentSubTabBar.tsx` - Horizontal sub-tab bar for Content
 
 **Stores:**
-- `src/store/learningStore.ts` - Article progress, topic progress, WPM tracking
-- `src/store/journeyStore.ts` - Certification progress (avgWpmLast3, avgCompLast5)
+
+- `src/store/settingsStore.ts` - Will add `activeContentTab` state to persist sub-tab selection
 
 
 ## Plan of Work
 
-This increment restructures tabs only. The Player screen and playlist infrastructure are deferred.
+**Step 1: Create Content nested route structure**
 
-**Step 1: Create Train tab screen**
+Create directory `src/app/(tabs)/content/` with a layout file that renders the ContentSubTabBar and child screens. The layout uses Expo Router's `<Slot>` to render the active sub-tab.
 
-Create `src/app/(tabs)/train.tsx`. This screen combines the old Learn tab's topic picker with a MetricsPanel at the top (without streak). The screen will:
-- Import `MetricsPanel` from `src/components/journey/MetricsPanel.tsx`
-- Import `TOPICS` and use `useLearningStore` for progress
-- Display MetricsPanel with avgWpm and avgComprehension from `useLearningStore.getRecentPerformance()`, passing `streakDays: 0` to effectively hide it (or we modify the component to accept a `hideStreak` prop)
-- Display topic grid below, identical to the old Learn tab
-- Navigation to `/topic/{id}` remains unchanged for now (Player integration comes later)
+**Step 2: Create ContentSubTabBar component**
 
-**Step 2: Create Learn tab placeholder**
+Create `src/components/navigation/ContentSubTabBar.tsx`. This is a horizontal bar at the top of the Content tab showing three sub-tabs: Train (barbell icon), Read (document icon), Learn (book icon). Each sub-tab shows icon + text label. The bar must be positioned so it doesn't collide with the FloatingProfileButton in the top-right.
 
-Create `src/app/(tabs)/learn.tsx`. A simple placeholder screen with:
-- SafeAreaView wrapper
-- Title "Learn"
-- Centered "Coming Soon" message with brief explanation
-- Link/button encouraging users to use Train tab in the meantime
+**Step 3: Move existing screens into content folder**
 
-**Step 3: Update tab layout**
+Move the following files:
+- `src/app/(tabs)/train.tsx` → `src/app/(tabs)/content/train.tsx`
+- `src/app/(tabs)/read.tsx` → `src/app/(tabs)/content/read.tsx`
+- `src/app/(tabs)/learn.tsx` → `src/app/(tabs)/content/learn.tsx`
 
-Modify `src/app/(tabs)/_layout.tsx`:
-- Replace `<Tabs.Screen name="journey" />` with `<Tabs.Screen name="train" />`
-- Add `<Tabs.Screen name="learn" />` after read
-- Order: train, read, learn, profile (profile stays for now)
+Update imports if any paths change (likely not, since imports use relative paths from the file location).
 
-Wait - the user said 3 tabs: Train, Read, Learn. Profile may need to move or be accessible elsewhere. Let me check the user's intent... The user mentioned "The various ways that can add to the playlist each have their own tab from the main navigation" - so the 3 tabs are specifically for content sources. Profile might become a settings/account accessible from elsewhere, or remain as a 4th tab.
+**Step 4: Create Play tab placeholder**
 
-Profile will be a separate floating button in the top-right corner, not a tab. The FloatingNavBar will show Train, Read, Learn only.
+Create `src/app/(tabs)/play.tsx`. For now, this is a placeholder screen similar to the Learn placeholder. It will show "Player" title and a message indicating the player functionality is coming.
 
-**Step 4: Update FloatingNavBar**
+**Step 5: Update main tab layout**
+
+Modify `src/app/(tabs)/_layout.tsx` to register: journey, play, content, profile. The content route will automatically use the nested layout.
+
+**Step 6: Update FloatingNavBar**
 
 Modify `src/components/navigation/FloatingNavBar.tsx`:
-- Update `NAV_ITEMS` array to only 3 items:
-  - Train: route `/(tabs)/train`, icon `barbell` (or `school` or `flash`)
-  - Read: unchanged, icon `document-text`
-  - Learn: route `/(tabs)/learn`, icon `book` or `library`
-- Remove Profile from nav items
-- Adjust NavItem type to include the new routes
+- Change NAV_ITEMS to 3 items: Journey, Play, Content
+- Journey: route `/(tabs)/journey`, icon `rocket`
+- Play: route `/(tabs)/play`, icon `play-circle`
+- Content: route `/(tabs)/content`, icon `library`
 
-**Step 5.5: Create FloatingProfileButton**
+**Step 7: Add sub-tab persistence**
 
-Create `src/components/navigation/FloatingProfileButton.tsx`:
-- A floating circular button positioned at top-right
-- Uses person icon from Ionicons
-- Navigates to `/(tabs)/profile` on press
-- Similar glass/blur styling as FloatingNavBar for consistency
+Add `activeContentTab: 'train' | 'read' | 'learn'` to settingsStore (or create a dedicated uiStore). The ContentSubTabBar reads this value on mount and navigates to it. When user switches sub-tabs, update the store.
 
-**Step 5: Update MetricsPanel to support hiding streak**
+**Step 8: Update index.tsx redirect**
 
-Modify `src/components/journey/MetricsPanel.tsx`:
-- Add optional `hideStreak?: boolean` prop
-- Conditionally render the streak MetricItem and its divider based on this prop
-- This is a minimal change that preserves existing behavior elsewhere
+Change the default redirect from `/(tabs)/train` to `/(tabs)/content/train` (or just `/(tabs)/content` if the layout handles default routing).
 
 
 ## Concrete Steps
 
 All commands run from `/Users/kaya/Coding/spidrid`.
 
-**1. Create Train tab:**
+**1. Create content directory and layout:**
 
-    npx expo start  # Verify app runs before changes
+    mkdir -p src/app/\(tabs\)/content
 
-Create file `src/app/(tabs)/train.tsx` with topic picker and MetricsPanel.
+Create `src/app/(tabs)/content/_layout.tsx` with SafeAreaView, ContentSubTabBar, and Slot.
 
-**2. Modify MetricsPanel:**
+**2. Create ContentSubTabBar component:**
 
-Edit `src/components/journey/MetricsPanel.tsx` to add `hideStreak` prop.
+Create `src/components/navigation/ContentSubTabBar.tsx` with horizontal tabs.
 
-**3. Create Learn placeholder:**
+**3. Move screen files:**
 
-Create file `src/app/(tabs)/learn.tsx` with placeholder content.
+    mv src/app/\(tabs\)/train.tsx src/app/\(tabs\)/content/train.tsx
+    mv src/app/\(tabs\)/read.tsx src/app/\(tabs\)/content/read.tsx
+    mv src/app/\(tabs\)/learn.tsx src/app/\(tabs\)/content/learn.tsx
 
-**4. Update tab layout:**
+**4. Create Play placeholder:**
 
-Edit `src/app/(tabs)/_layout.tsx` to register train, read, learn, profile.
+Create `src/app/(tabs)/play.tsx` with placeholder content.
 
-**5. Update FloatingNavBar:**
+**5. Update _layout.tsx:**
 
-Edit `src/components/navigation/FloatingNavBar.tsx` with new NAV_ITEMS.
+Edit `src/app/(tabs)/_layout.tsx` to register journey, play, content, profile.
 
-**6. Test:**
+**6. Update FloatingNavBar:**
+
+Edit `src/components/navigation/FloatingNavBar.tsx` with 3 nav items.
+
+**7. Update settingsStore:**
+
+Add activeContentTab state to persist sub-tab selection.
+
+**8. Update index.tsx:**
+
+Change redirect to `/(tabs)/content/train` or `/(tabs)/content`.
+
+**9. Test:**
 
     npx expo start --ios
 
-- Tap each tab in FloatingNavBar, verify navigation
-- On Train tab: verify MetricsPanel shows WPM and Comprehension (no streak), verify topics grid displays
-- Tap a topic, verify article list loads
-- On Read tab: verify import UI works
-- On Learn tab: verify placeholder displays
+- Tap Journey: see certification progress
+- Tap Play: see placeholder
+- Tap Content: see sub-tab bar with Train active (or last visited)
+- Tap each sub-tab: Train shows topics, Read shows import UI, Learn shows placeholder
+- Navigate away and back to Content: sub-tab should persist
+- Tap Profile button: see profile screen
 
 
 ## Validation and Acceptance
 
-After implementation, start the app with `npx expo start --ios` (or use a running dev server).
+After implementation, start the app with `npx expo start --ios`.
 
-1. **Train tab**: Tapping the Train icon navigates to the Train screen. The screen shows a MetricsPanel at the top displaying average WPM and comprehension percentage (streak is hidden or shows "-"). Below is a grid of topics. Tapping a topic navigates to `/topic/{id}` and shows the article list.
+1. **FloatingNavBar**: Shows exactly 3 icons: Journey (rocket), Play (play-circle), Content (library). Active states work correctly.
 
-2. **Read tab**: Unchanged from current behavior. Import buttons (URL, Text, Ebook) work correctly.
+2. **Journey tab**: Tapping Journey shows certification progress screen with milestones. Unchanged from before.
 
-3. **Learn tab**: Shows "Coming Soon" placeholder text with encouragement to use Train tab.
+3. **Play tab**: Tapping Play shows placeholder with "Player" title and coming soon message.
 
-4. **Profile tab**: Unchanged from current behavior. Stats and certificates display.
+4. **Content tab**: Tapping Content shows:
+   - Horizontal sub-tab bar at top with Train, Read, Learn (icon + text each)
+   - Sub-tab bar does not overlap with Profile button in top-right
+   - Active sub-tab is highlighted
+   - Content area shows the selected sub-tab's screen
 
-5. **FloatingNavBar**: Four icons visible. Active state highlights correctly when navigating between tabs.
+5. **Content sub-tabs**:
+   - Train: MetricsPanel (WPM + Comprehension, no streak) + topics grid
+   - Read: Import UI (URL, Text, Ebook buttons) + content list
+   - Learn: Placeholder with "Coming Soon"
+
+6. **Sub-tab persistence**: Navigate to Read sub-tab, then navigate to Journey, then back to Content. Content should show Read (not Train).
+
+7. **Profile button**: Floating button in top-right navigates to Profile screen. Does not overlap with Learn sub-tab.
 
 
 ## Idempotence and Recovery
 
-All changes are additive file creations or edits. If a step fails:
-- Train tab: Delete `src/app/(tabs)/train.tsx` and retry
-- Learn tab: Delete `src/app/(tabs)/learn.tsx` and retry
-- Layout/NavBar changes: Revert edits using git checkout
+All changes are file moves, creates, and edits. If a step fails:
+- Content directory: Delete `src/app/(tabs)/content/` and restore original files from git
+- FloatingNavBar: Revert using git checkout
+- Store changes: Revert using git checkout
 
-The old `journey.tsx` file will remain in the codebase but will no longer be registered in the tab layout. It can be deleted in a later cleanup step or repurposed.
+The original train.tsx, read.tsx, learn.tsx files can be restored from git if the move fails.
 
 
 ## Artifacts and Notes
 
-**Expected Train tab structure:**
+**Expected ContentSubTabBar structure:**
 
-    // src/app/(tabs)/train.tsx
-    export default function TrainScreen() {
-      // MetricsPanel at top (hideStreak=true)
-      // Topics grid below
-      // Each topic links to /topic/{id}
-    }
-
-**Expected FloatingNavBar NAV_ITEMS (3 items only):**
-
-    const NAV_ITEMS: NavItem[] = [
-      { name: 'Train', route: '/(tabs)/train', activeIcon: 'barbell', inactiveIcon: 'barbell-outline' },
-      { name: 'Read', route: '/(tabs)/read', activeIcon: 'document-text', inactiveIcon: 'document-text-outline' },
-      { name: 'Learn', route: '/(tabs)/learn', activeIcon: 'book', inactiveIcon: 'book-outline' },
+    // src/components/navigation/ContentSubTabBar.tsx
+    const SUB_TABS = [
+      { name: 'Train', route: 'train', icon: 'barbell' },
+      { name: 'Read', route: 'read', icon: 'document-text' },
+      { name: 'Learn', route: 'learn', icon: 'book' },
     ];
 
-**Expected FloatingProfileButton:**
+    export function ContentSubTabBar() {
+      // Horizontal row of touchable tabs
+      // Each tab shows icon + text
+      // Active tab highlighted
+      // On press, navigate to sub-route and update store
+    }
 
-    // src/components/navigation/FloatingProfileButton.tsx
-    // Circular floating button at top-right with person icon
-    // Navigates to /(tabs)/profile on press
+**Expected content/_layout.tsx structure:**
+
+    // src/app/(tabs)/content/_layout.tsx
+    export default function ContentLayout() {
+      return (
+        <SafeAreaView>
+          <ContentSubTabBar />
+          <Slot />
+        </SafeAreaView>
+      );
+    }
+
+**Expected FloatingNavBar NAV_ITEMS:**
+
+    const NAV_ITEMS: NavItem[] = [
+      { name: 'Journey', route: '/(tabs)/journey', activeIcon: 'rocket', inactiveIcon: 'rocket-outline' },
+      { name: 'Play', route: '/(tabs)/play', activeIcon: 'play-circle', inactiveIcon: 'play-circle-outline' },
+      { name: 'Content', route: '/(tabs)/content', activeIcon: 'library', inactiveIcon: 'library-outline' },
+    ];
 
 
 ## Interfaces and Dependencies
 
-**MetricsPanel modification:**
+**ContentSubTabBar component:**
 
-In `src/components/journey/MetricsPanel.tsx`, modify the interface:
-
-    export interface MetricsPanelProps {
-      avgWpm: number;
-      avgComprehension: number;
-      streakDays: number;
-      bestWpmAt80?: number;
-      embedded?: boolean;
-      hideStreak?: boolean;  // NEW: When true, hides the streak metric and its divider
+    interface SubTab {
+      name: string;
+      route: string;
+      icon: keyof typeof Ionicons.glyphMap;
     }
 
-**Train screen dependencies:**
+**settingsStore addition:**
 
-    import { MetricsPanel } from '../../components/journey/MetricsPanel';
-    import { TOPICS } from '../../data/curriculum';
-    import { useLearningStore } from '../../store/learningStore';
-    import { useOnboardingStore } from '../../store/onboardingStore';
+    interface SettingsStore {
+      // existing fields...
+      activeContentTab: 'train' | 'read' | 'learn';
+      setActiveContentTab: (tab: 'train' | 'read' | 'learn') => void;
+    }
 
 **NavItem type update:**
 
-In `src/components/navigation/FloatingNavBar.tsx`:
-
     interface NavItem {
       name: string;
-      route: '/(tabs)/train' | '/(tabs)/read' | '/(tabs)/learn';
+      route: '/(tabs)/journey' | '/(tabs)/play' | '/(tabs)/content';
       activeIcon: keyof typeof Ionicons.glyphMap;
       inactiveIcon: keyof typeof Ionicons.glyphMap;
     }
@@ -281,4 +328,6 @@ In `src/components/navigation/FloatingNavBar.tsx`:
 
 **Revision Notes:**
 
-2026-01-08: Initial ExecPlan created for tab restructuring (Increment 1). Scope limited to renaming/restructuring tabs. Player screen, playlist modal, and play button in FloatingNavBar are deferred to subsequent increments.
+2026-01-08: Initial ExecPlan created for tab restructuring (Increment 1).
+
+2026-01-08: Major revision - Changed from 4-tab structure to 3-tab structure. Train, Read, Learn become sub-tabs within a unified Content tab. Play becomes a main tab. This simplifies navigation while maintaining all functionality.

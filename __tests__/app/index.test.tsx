@@ -47,7 +47,7 @@ describe('Index', () => {
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/(tabs)/read');
+    expect(redirect.props.href).toBe('/(tabs)/content/read');
   });
 
   it('redirects to train tab for train mode', () => {
@@ -57,6 +57,6 @@ describe('Index', () => {
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/(tabs)/train');
+    expect(redirect.props.href).toBe('/(tabs)/content/train');
   });
 });

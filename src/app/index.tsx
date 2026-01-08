@@ -9,8 +9,8 @@ export default function Index() {
   }
 
   if (usageMode === 'import-only') {
-    return <Redirect href="/(tabs)/read" />;
+    return <Redirect href="/(tabs)/content/read" />;
   }
 
-  return <Redirect href="/(tabs)/train" />;
+  return <Redirect href="/(tabs)/content/train" />;
 }
