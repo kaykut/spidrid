@@ -1,4 +1,3 @@
-// @ts-nocheck - Test file with mock JSX elements
 /**
  * Tests for EdgeFadeScrollView Component.
  *
@@ -17,18 +16,21 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock LinearGradient
-jest.mock('expo-linear-gradient', () => ({
-  LinearGradient: ({ children, testID, colors, style }: {
-    children?: React.ReactNode;
-    testID?: string;
-    colors: string[];
-    style?: object;
-  }) => (
-    <mock-gradient testID={testID || 'gradient'} colors={colors} style={style}>
-      {children}
-    </mock-gradient>
-  ),
-}));
+jest.mock('expo-linear-gradient', () => {
+  const { View } = require('react-native');
+  return {
+    LinearGradient: ({ children, testID, colors, style }: {
+      children?: React.ReactNode;
+      testID?: string;
+      colors: string[];
+      style?: object;
+    }) => (
+      <View testID={testID || 'gradient'} style={style}>
+        {children}
+      </View>
+    ),
+  };
+});
 
 const renderWithProviders = (ui: React.ReactElement) => {
   return render(<ThemeProvider>{ui}</ThemeProvider>);

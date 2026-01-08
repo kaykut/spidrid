@@ -1,4 +1,3 @@
-// @ts-nocheck - Test file with mock JSX elements
 /**
  * Tests for Root Index Screen.
  *
@@ -9,10 +8,15 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import Index from '../../src/app/index';
 
-// Mock expo-router
-jest.mock('expo-router', () => ({
-  Redirect: ({ href }: { href: string }) => <mock-redirect testID="redirect" href={href} />,
-}));
+// Mock expo-router with proper React element
+jest.mock('expo-router', () => {
+  const { View } = require('react-native');
+  return {
+    Redirect: ({ href }: { href: string }) => (
+      <View testID="redirect" accessibilityHint={href} />
+    ),
+  };
+});
 
 // Mock onboarding store with different states
 let mockHasCompletedOnboarding = false;
@@ -37,7 +41,7 @@ describe('Index', () => {
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/onboarding/purpose');
+    expect(redirect.props.accessibilityHint).toBe('/onboarding/purpose');
   });
 
   it('redirects to read tab for import-only mode', () => {
@@ -47,7 +51,7 @@ describe('Index', () => {
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/(tabs)/content/read');
+    expect(redirect.props.accessibilityHint).toBe('/(tabs)/content/read');
   });
 
   it('redirects to train tab for train mode', () => {
@@ -57,6 +61,6 @@ describe('Index', () => {
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/(tabs)/content/train');
+    expect(redirect.props.accessibilityHint).toBe('/(tabs)/content/train');
   });
 });

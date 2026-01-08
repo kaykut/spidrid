@@ -1,4 +1,3 @@
-// @ts-nocheck - Test file with mock JSX elements
 /**
  * Integration Tests for Demo Reader Screen.
  *
@@ -19,40 +18,58 @@ jest.mock('expo-router', () => ({
 }));
 
 // Mock safe-area-context
-jest.mock('react-native-safe-area-context', () => ({
-  SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
-}));
+jest.mock('react-native-safe-area-context', () => {
+  const { View } = require('react-native');
+  return {
+    SafeAreaView: ({ children }: { children: React.ReactNode }) => (
+      <View>{children}</View>
+    ),
+  };
+});
 
 // Mock Paywall
-jest.mock('../../src/components/paywall/Paywall', () => ({
-  Paywall: ({ visible }: { visible: boolean }) =>
-    visible ? <mock-paywall testID="paywall" /> : null,
-}));
+jest.mock('../../src/components/paywall/Paywall', () => {
+  const { View } = require('react-native');
+  return {
+    Paywall: ({ visible }: { visible: boolean }) =>
+      visible ? <View testID="paywall" /> : null,
+  };
+});
 
 // Mock RSVPWord
-jest.mock('../../src/components/rsvp/RSVPWord', () => ({
-  RSVPWord: ({ word }: { word: { display: string } | null }) => (
-    <mock-rsvp-word testID="rsvp-word">
-      {word?.display || 'Ready'}
-    </mock-rsvp-word>
-  ),
-}));
+jest.mock('../../src/components/rsvp/RSVPWord', () => {
+  const { View, Text } = require('react-native');
+  return {
+    RSVPWord: ({ word }: { word: { display: string } | null }) => (
+      <View testID="rsvp-word">
+        <Text>{word?.display || 'Ready'}</Text>
+      </View>
+    ),
+  };
+});
 
 // Mock PlaybackControls
-jest.mock('../../src/components/controls/PlaybackControls', () => ({
-  PlaybackControls: ({
-    onToggle,
-    onWPMLimitHit
-  }: {
-    onToggle: () => void;
-    onWPMLimitHit: () => void;
-  }) => (
-    <mock-controls testID="playback-controls">
-      <mock-button testID="toggle-btn" onPress={onToggle}>Toggle</mock-button>
-      <mock-button testID="wpm-limit-btn" onPress={onWPMLimitHit}>Hit Limit</mock-button>
-    </mock-controls>
-  ),
-}));
+jest.mock('../../src/components/controls/PlaybackControls', () => {
+  const { View, Text, TouchableOpacity } = require('react-native');
+  return {
+    PlaybackControls: ({
+      onToggle,
+      onWPMLimitHit
+    }: {
+      onToggle: () => void;
+      onWPMLimitHit: () => void;
+    }) => (
+      <View testID="playback-controls">
+        <TouchableOpacity testID="toggle-btn" onPress={onToggle}>
+          <Text>Toggle</Text>
+        </TouchableOpacity>
+        <TouchableOpacity testID="wpm-limit-btn" onPress={onWPMLimitHit}>
+          <Text>Hit Limit</Text>
+        </TouchableOpacity>
+      </View>
+    ),
+  };
+});
 
 // Mock useRSVPEngine
 const mockToggle = jest.fn();

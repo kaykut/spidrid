@@ -2,14 +2,17 @@
  * Integration Tests for Read Screen (Content Import).
  *
  * Tests URL/text import and content management.
+ * Uses real Zustand stores instead of mocks for proper integration testing.
  */
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import ReadScreen from '../../src/app/(tabs)/content/read';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
+import { useContentStore } from '../../src/store/contentStore';
+import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 
-// Mock expo-router
+// Mock expo-router (external dependency)
 const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
   router: {
@@ -17,17 +20,28 @@ jest.mock('expo-router', () => ({
   },
 }));
 
-// Mock react-native-webview to prevent TurboModule errors
+// Mock react-native-safe-area-context (external dependency)
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
+
+// Mock expo-linear-gradient (external dependency with native module)
+jest.mock('expo-linear-gradient', () => ({
+  LinearGradient: ({ children }: { children: React.ReactNode }) => children,
+}));
+
+// Mock react-native-webview (external dependency with native module)
 jest.mock('react-native-webview', () => ({
   WebView: 'WebView',
 }));
 
-// Mock expo-document-picker
+// Mock expo-document-picker (external dependency with native module)
 jest.mock('expo-document-picker', () => ({
   getDocumentAsync: jest.fn(() => Promise.resolve({ canceled: true })),
 }));
 
-// Mock expo-file-system
+// Mock expo-file-system (external dependency with native module)
 jest.mock('expo-file-system', () => ({
   readAsStringAsync: jest.fn(),
   EncodingType: {
@@ -36,7 +50,7 @@ jest.mock('expo-file-system', () => ({
   },
 }));
 
-// Mock PdfExtractorProvider
+// Mock PdfExtractorProvider (uses WebView internally)
 jest.mock('../../src/components/PdfExtractorProvider', () => ({
   usePdfExtractor: () => ({
     extractPdf: jest.fn(),
@@ -44,69 +58,33 @@ jest.mock('../../src/components/PdfExtractorProvider', () => ({
   PdfExtractorProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-// Mock Alert
+// Mock Alert (native API)
 jest.mock('react-native/Libraries/Alert/Alert', () => ({
   alert: jest.fn(),
 }));
 
-// Mock stores
-const mockAddContent = jest.fn(() => ({ id: 'new-content-123' }));
-const mockDeleteContent = jest.fn();
-const mockImportedContent = [
-  {
-    id: 'content-1',
-    title: 'Test Article',
-    content: 'This is test content.',
-    wordCount: 50,
-    readProgress: 0.5,
-    source: 'url',
-    createdAt: Date.now(),
-  },
-];
-
-jest.mock('../../src/store/contentStore', () => ({
-  useContentStore: () => ({
-    importedContent: mockImportedContent,
-    addContent: mockAddContent,
-    deleteContent: mockDeleteContent,
-  }),
-}));
-
-const mockCanAccessContent = jest.fn(() => true);
-const mockIncrementContentCount = jest.fn();
-
-jest.mock('../../src/store/subscriptionStore', () => ({
-  useSubscriptionStore: () => ({
-    canAccessContent: mockCanAccessContent,
-    incrementContentCount: mockIncrementContentCount,
-    isPremium: false,
-  }),
-}));
-
-// Mock content extractor
+// Mock content extractor (makes network calls)
 const mockExtractFromUrl = jest.fn();
 jest.mock('../../src/services/contentExtractor', () => ({
   extractFromUrl: (url: string) => mockExtractFromUrl(url),
-  createFromText: jest.fn(() => ({
+  createFromText: jest.fn((text: string, title?: string) => ({
     success: true,
     content: {
       id: 'text-123',
-      title: 'Pasted Text',
-      content: 'Test content.',
-      wordCount: 2,
+      title: title || 'Pasted Text',
+      content: text,
+      wordCount: text.split(/\s+/).length,
+      source: 'text',
+      sourceUrl: '',
     },
   })),
+  extractFromEbook: jest.fn(() => Promise.resolve({ success: false, error: 'Not implemented in test' })),
 }));
 
-// Mock EdgeFadeScrollView
-jest.mock('../../src/components/common/EdgeFadeScrollView', () => ({
-  EdgeFadeScrollView: ({ children }: { children: React.ReactNode }) => children,
-}));
-
-// Mock Paywall
+// Mock Paywall (complex component with network calls in production)
 jest.mock('../../src/components/paywall/Paywall', () => ({
   Paywall: ({ visible, onClose }: { visible: boolean; onClose: () => void }) => {
-    if (!visible) return null;
+    if (!visible) {return null;}
     const { View, Text, TouchableOpacity } = require('react-native');
     return (
       <View testID="paywall-modal">
@@ -126,7 +104,32 @@ const renderWithProviders = (ui: React.ReactElement) => {
 describe('ReadScreen Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockCanAccessContent.mockReturnValue(true);
+
+    // Reset content store with some imported content
+    useContentStore.setState({
+      importedContent: [
+        {
+          id: 'content-1',
+          title: 'Test Article',
+          content: 'This is test content for testing purposes.',
+          wordCount: 50,
+          readProgress: 0.5,
+          source: 'url',
+          sourceUrl: 'https://example.com',
+          createdAt: Date.now(),
+        },
+      ],
+      currentContentId: null,
+    });
+
+    // Reset subscription store to free tier with available content
+    useSubscriptionStore.setState({
+      isPremium: false,
+      isLoading: false,
+      isInitialized: true,
+      contentAccessCount: 0,
+    });
+
     mockExtractFromUrl.mockResolvedValue({
       success: true,
       content: {
@@ -134,6 +137,8 @@ describe('ReadScreen Integration', () => {
         title: 'Extracted Article',
         content: 'Article content here.',
         wordCount: 100,
+        source: 'url',
+        sourceUrl: 'https://example.com/article',
       },
     });
   });
@@ -152,7 +157,7 @@ describe('ReadScreen Integration', () => {
       expect(screen.getByText('Paste Text')).toBeTruthy();
     });
 
-    it('displays existing imported content', () => {
+    it('displays existing imported content from real store', () => {
       renderWithProviders(<ReadScreen />);
 
       expect(screen.getByText('Test Article')).toBeTruthy();
@@ -163,6 +168,13 @@ describe('ReadScreen Integration', () => {
 
       // Word count is shown with icon prefix
       expect(screen.getByText(/50 words/)).toBeTruthy();
+    });
+
+    it('shows progress indicator for partially read content', () => {
+      renderWithProviders(<ReadScreen />);
+
+      // 50% progress
+      expect(screen.getByText('50%')).toBeTruthy();
     });
   });
 
@@ -177,15 +189,72 @@ describe('ReadScreen Integration', () => {
     });
   });
 
-  describe('content limit', () => {
-    it('shows paywall when content limit reached', () => {
-      mockCanAccessContent.mockReturnValue(false);
+  describe('content access with real subscription store', () => {
+    it('shows paywall when content limit reached for unfinished content', () => {
+      // Set content count at limit (5 for free tier)
+      useSubscriptionStore.setState({
+        isPremium: false,
+        isLoading: false,
+        isInitialized: true,
+        contentAccessCount: 5,
+      });
+
       renderWithProviders(<ReadScreen />);
 
       const contentItem = screen.getByText('Test Article');
       fireEvent.press(contentItem);
 
       expect(screen.getByTestId('paywall-modal')).toBeTruthy();
+    });
+
+    it('allows access to fully read content even at limit', () => {
+      // Set content count at limit but content is fully read
+      useContentStore.setState({
+        importedContent: [
+          {
+            id: 'content-1',
+            title: 'Test Article',
+            content: 'This is test content.',
+            wordCount: 50,
+            readProgress: 1, // Fully read
+            source: 'url',
+            sourceUrl: 'https://example.com',
+            createdAt: Date.now(),
+          },
+        ],
+        currentContentId: null,
+      });
+
+      useSubscriptionStore.setState({
+        isPremium: false,
+        isLoading: false,
+        isInitialized: true,
+        contentAccessCount: 5,
+      });
+
+      renderWithProviders(<ReadScreen />);
+
+      const contentItem = screen.getByText('Test Article');
+      fireEvent.press(contentItem);
+
+      // Should navigate, not show paywall
+      expect(mockPush).toHaveBeenCalledWith('/content/content-1');
+    });
+
+    it('allows unlimited access for premium users', () => {
+      useSubscriptionStore.setState({
+        isPremium: true,
+        isLoading: false,
+        isInitialized: true,
+        contentAccessCount: 100,
+      });
+
+      renderWithProviders(<ReadScreen />);
+
+      const contentItem = screen.getByText('Test Article');
+      fireEvent.press(contentItem);
+
+      expect(mockPush).toHaveBeenCalledWith('/content/content-1');
     });
   });
 
@@ -241,6 +310,28 @@ describe('ReadScreen Integration', () => {
       fireEvent.press(screen.getByText('Paste Text'));
 
       expect(screen.getByText('Save & Read')).toBeTruthy();
+    });
+  });
+
+  describe('empty state', () => {
+    it('shows empty state when no content imported', () => {
+      useContentStore.setState({
+        importedContent: [],
+        currentContentId: null,
+      });
+
+      renderWithProviders(<ReadScreen />);
+
+      expect(screen.getByText('Import content to start speed reading')).toBeTruthy();
+    });
+  });
+
+  describe('e-book import', () => {
+    it('shows e-book import button', () => {
+      renderWithProviders(<ReadScreen />);
+
+      expect(screen.getByText('Import E-book')).toBeTruthy();
+      expect(screen.getByText('EPUB & PDF files')).toBeTruthy();
     });
   });
 });

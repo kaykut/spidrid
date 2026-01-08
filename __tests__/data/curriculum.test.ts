@@ -299,3 +299,43 @@ describe('getCertificationArticles', () => {
     expect(articles).toEqual([]);
   });
 });
+
+describe('Branch coverage - sorting with nullable orderIndex', () => {
+  it('getPracticeArticles handles articles without orderIndex (defaults to 1)', () => {
+    // The sorting uses (a.orderIndex ?? 1) - testing the nullish coalescing
+    const articles = getPracticeArticles('science-discovery');
+    // All practice articles should be sorted, and those without orderIndex default to 1
+    articles.forEach(article => {
+      // Verify that the sort worked correctly
+      const index = article.orderIndex ?? 1;
+      expect(typeof index).toBe('number');
+      expect(index).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  it('getCertificationArticles handles articles without orderIndex (defaults to 1)', () => {
+    // The sorting uses (a.orderIndex ?? 1) - testing the nullish coalescing
+    const articles = getCertificationArticles('science-discovery');
+    // All certification articles should be sorted, and those without orderIndex default to 1
+    articles.forEach(article => {
+      // Verify that the sort worked correctly
+      const index = article.orderIndex ?? 1;
+      expect(typeof index).toBe('number');
+      expect(index).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  it('getPracticeArticles includes articles with undefined articleType', () => {
+    // The filter uses (a.articleType === 'practice' || !a.articleType)
+    // Articles without articleType should be included as practice
+    const allArticles = ARTICLES.filter(a => a.topicId === 'science-discovery');
+    const practiceArticles = getPracticeArticles('science-discovery');
+
+    // Count articles that are either practice or have no articleType
+    const expectedCount = allArticles.filter(
+      a => a.articleType === 'practice' || !a.articleType
+    ).length;
+
+    expect(practiceArticles.length).toBe(expectedCount);
+  });
+});

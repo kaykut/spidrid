@@ -8,6 +8,7 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/types/**/*',
     '!src/app/**/_layout.tsx',
+    '!src/app/testing.tsx', // Dev-only component gallery
   ],
   coverageThreshold: {
     global: {

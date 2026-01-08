@@ -359,6 +359,63 @@ describe('contentStore', () => {
 
       expect(secondRead).toBeGreaterThanOrEqual(firstRead!);
     });
+
+    it('handles unknown ID gracefully (no-op)', () => {
+      const { result } = renderHook(() => useContentStore());
+
+      let content: { id: string };
+
+      act(() => {
+        content = result.current.addContent({
+          title: 'Test',
+          content: 'Content',
+          wordCount: 1,
+          source: 'text',
+        });
+      });
+
+      const originalLastReadAt = result.current.importedContent[0].lastReadAt;
+
+      act(() => {
+        result.current.updateLastRead('nonexistent-id');
+      });
+
+      // The existing content should be unchanged
+      expect(result.current.importedContent).toHaveLength(1);
+      expect(result.current.importedContent[0].lastReadAt).toBe(originalLastReadAt);
+    });
+
+    it('does not affect other items when updating lastRead', () => {
+      const { result } = renderHook(() => useContentStore());
+
+      let content1: { id: string };
+      let content2: { id: string };
+
+      act(() => {
+        content1 = result.current.addContent({
+          title: 'First',
+          content: 'Content 1',
+          wordCount: 2,
+          source: 'text',
+        });
+        content2 = result.current.addContent({
+          title: 'Second',
+          content: 'Content 2',
+          wordCount: 2,
+          source: 'text',
+        });
+      });
+
+      const originalLastReadAt2 = result.current.importedContent.find(c => c.id === content2!.id)?.lastReadAt;
+
+      act(() => {
+        result.current.updateLastRead(content1!.id);
+      });
+
+      // content2 should be unchanged
+      const second = result.current.importedContent.find(c => c.id === content2!.id);
+      expect(second?.lastReadAt).toBe(originalLastReadAt2);
+    });
   });
 
   describe('deleteContent()', () => {

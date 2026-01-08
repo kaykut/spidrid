@@ -2,6 +2,7 @@
  * Integration Tests for Onboarding Screens.
  *
  * Tests the purpose selection and topics selection onboarding flow.
+ * Uses real Zustand stores instead of mocks for proper integration testing.
  */
 
 import React from 'react';
@@ -9,40 +10,23 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 import PurposeScreen from '../../src/app/onboarding/purpose';
 import TopicsScreen from '../../src/app/onboarding/topics';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
+import { useOnboardingStore } from '../../src/store/onboardingStore';
 
-// Mock expo-router
+// Mock expo-router (external dependency)
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
+const mockBack = jest.fn();
 jest.mock('expo-router', () => ({
   router: {
     push: (path: string) => mockPush(path),
     replace: (path: string) => mockReplace(path),
+    back: () => mockBack(),
   },
 }));
 
-// Mock safe-area-context
+// Mock safe-area-context (external dependency)
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
-}));
-
-// Mock onboarding store
-const mockSetUsageMode = jest.fn();
-const mockToggleInterest = jest.fn();
-const mockCompleteOnboarding = jest.fn();
-
-jest.mock('../../src/store/onboardingStore', () => ({
-  useOnboardingStore: () => ({
-    setUsageMode: mockSetUsageMode,
-    toggleInterest: mockToggleInterest,
-    completeOnboarding: mockCompleteOnboarding,
-    selectedInterests: ['science', 'technology'],
-    usageMode: 'train',
-  }),
-}));
-
-// Mock EdgeFadeScrollView
-jest.mock('../../src/components/common/EdgeFadeScrollView', () => ({
-  EdgeFadeScrollView: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 const renderWithProviders = (ui: React.ReactElement) => {
@@ -52,6 +36,12 @@ const renderWithProviders = (ui: React.ReactElement) => {
 describe('PurposeScreen Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset store to initial state before each test
+    useOnboardingStore.setState({
+      hasCompletedOnboarding: false,
+      usageMode: null,
+      selectedInterests: [],
+    });
   });
 
   describe('initial rendering', () => {
@@ -90,7 +80,8 @@ describe('PurposeScreen Integration', () => {
       const trainOption = screen.getByText('Train with our content');
       fireEvent.press(trainOption);
 
-      expect(mockSetUsageMode).toHaveBeenCalledWith('train');
+      // Verify the real store was updated
+      expect(useOnboardingStore.getState().usageMode).toBe('train');
       expect(mockPush).toHaveBeenCalledWith('/onboarding/topics');
     });
 
@@ -100,7 +91,8 @@ describe('PurposeScreen Integration', () => {
       const importOption = screen.getByText('Import my own content');
       fireEvent.press(importOption);
 
-      expect(mockSetUsageMode).toHaveBeenCalledWith('import-only');
+      // Verify the real store was updated
+      expect(useOnboardingStore.getState().usageMode).toBe('import-only');
       expect(mockPush).toHaveBeenCalledWith('/onboarding/topics');
     });
   });
@@ -109,6 +101,12 @@ describe('PurposeScreen Integration', () => {
 describe('TopicsScreen Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset store to initial state with some interests selected
+    useOnboardingStore.setState({
+      hasCompletedOnboarding: false,
+      usageMode: 'train',
+      selectedInterests: ['science', 'tech'],
+    });
   });
 
   describe('initial rendering', () => {
@@ -133,29 +131,109 @@ describe('TopicsScreen Integration', () => {
     it('renders topic pills', () => {
       renderWithProviders(<TopicsScreen />);
 
-      // Check for some topic names from TOPICS
+      // Check for some topic names from INTERESTS
       expect(screen.getByText('Science & Discovery')).toBeTruthy();
     });
   });
 
   describe('interactions', () => {
     it('toggles interest when topic pill is pressed', () => {
+      // Start with science already selected
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: false,
+        usageMode: 'train',
+        selectedInterests: ['science'],
+      });
+
       renderWithProviders(<TopicsScreen />);
 
+      // Press Science to toggle it off
       const scienceTopic = screen.getByText('Science & Discovery');
       fireEvent.press(scienceTopic);
 
-      expect(mockToggleInterest).toHaveBeenCalledWith('science');
+      // Verify the real store was updated (science should be removed)
+      expect(useOnboardingStore.getState().selectedInterests).not.toContain('science');
     });
 
-    it('completes onboarding and navigates to tabs when continue is pressed', () => {
+    it('adds interest when unselected topic pill is pressed', () => {
+      // Start with no interests selected
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: false,
+        usageMode: 'train',
+        selectedInterests: [],
+      });
+
+      renderWithProviders(<TopicsScreen />);
+
+      // Press Science to select it
+      const scienceTopic = screen.getByText('Science & Discovery');
+      fireEvent.press(scienceTopic);
+
+      // Verify the real store was updated (science should be added)
+      expect(useOnboardingStore.getState().selectedInterests).toContain('science');
+    });
+
+    it('completes onboarding and navigates to learn tab when continue is pressed with train mode', () => {
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: false,
+        usageMode: 'train',
+        selectedInterests: ['science'],
+      });
+
       renderWithProviders(<TopicsScreen />);
 
       const continueButton = screen.getByText('Continue');
       fireEvent.press(continueButton);
 
-      expect(mockCompleteOnboarding).toHaveBeenCalled();
+      // Verify the real store was updated
+      expect(useOnboardingStore.getState().hasCompletedOnboarding).toBe(true);
       expect(mockReplace).toHaveBeenCalledWith('/(tabs)/learn');
+    });
+
+    it('completes onboarding and navigates to read tab when continue is pressed with import-only mode', () => {
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: false,
+        usageMode: 'import-only',
+        selectedInterests: ['science'],
+      });
+
+      renderWithProviders(<TopicsScreen />);
+
+      const continueButton = screen.getByText('Continue');
+      fireEvent.press(continueButton);
+
+      // Verify the real store was updated
+      expect(useOnboardingStore.getState().hasCompletedOnboarding).toBe(true);
+      expect(mockReplace).toHaveBeenCalledWith('/(tabs)/read');
+    });
+  });
+
+  describe('updating interests after onboarding', () => {
+    it('shows Save button when updating interests after onboarding', () => {
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: true,
+        usageMode: 'train',
+        selectedInterests: ['science'],
+      });
+
+      renderWithProviders(<TopicsScreen />);
+
+      expect(screen.getByText('Save')).toBeTruthy();
+    });
+
+    it('navigates back when Save is pressed during update', () => {
+      useOnboardingStore.setState({
+        hasCompletedOnboarding: true,
+        usageMode: 'train',
+        selectedInterests: ['science'],
+      });
+
+      renderWithProviders(<TopicsScreen />);
+
+      const saveButton = screen.getByText('Save');
+      fireEvent.press(saveButton);
+
+      expect(mockBack).toHaveBeenCalled();
     });
   });
 });

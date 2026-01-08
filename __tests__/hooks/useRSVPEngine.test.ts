@@ -604,6 +604,86 @@ describe('useRSVPEngine', () => {
 
       expect(result.current.currentIndex).toBe(currentIndex);
     });
+
+    it('clears timer in playback effect cleanup when dependencies change', () => {
+      const words = createTestWords(10);
+      const { result } = renderHook(() => useRSVPEngine(words, 250));
+
+      act(() => {
+        result.current.play();
+      });
+
+      // Start advancing partway through an interval
+      act(() => {
+        jest.advanceTimersByTime(100);
+      });
+
+      // Change WPM while playing - this triggers effect cleanup which should clear timer
+      act(() => {
+        result.current.setWPM(500);
+      });
+
+      // The timer from before the WPM change should have been cleared
+      // and a new timer started with the new WPM
+      // At 500 WPM, interval is 120ms
+      act(() => {
+        jest.advanceTimersByTime(120);
+      });
+
+      expect(result.current.currentIndex).toBe(1);
+    });
+
+    it('handles cleanup when timer ref is null', () => {
+      const words = createTestWords(10);
+      const { result } = renderHook(() => useRSVPEngine(words, 250));
+
+      // Play and immediately pause before any timer fires
+      act(() => {
+        result.current.play();
+        result.current.pause();
+      });
+
+      // Start and stop again - timer ref might be null
+      act(() => {
+        result.current.play();
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(240);
+      });
+
+      expect(result.current.currentIndex).toBe(1);
+    });
+
+    it('clears timer when reaching end of words', () => {
+      const words = createTestWords(2);
+      const { result } = renderHook(() => useRSVPEngine(words, 250));
+
+      act(() => {
+        result.current.play();
+      });
+
+      // Advance to last word
+      act(() => {
+        jest.advanceTimersByTime(240);
+      });
+
+      expect(result.current.currentIndex).toBe(1);
+
+      // Play through to end (triggers timer cleanup path)
+      act(() => {
+        jest.advanceTimersByTime(240);
+      });
+
+      expect(result.current.isPlaying).toBe(false);
+
+      // Additional time should not throw or change state
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+
+      expect(result.current.currentIndex).toBe(1);
+    });
   });
 
   describe('edge cases', () => {
