@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 import type { TrueFalseQuestion as TrueFalseQuestionType } from '../../types/learning';
 
@@ -92,41 +94,40 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   questionText: {
-    fontSize: 22,
-    fontWeight: '600',
+    ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
-    marginBottom: 32,
-    lineHeight: 32,
+    marginBottom: SPACING.xxxl,
+    lineHeight: SPACING.xxxl,
   },
   buttonsContainer: {
     flexDirection: 'row',
-    gap: 16,
+    gap: SPACING.lg,
     justifyContent: 'center',
   },
   answerButton: {
     flex: 1,
-    paddingVertical: 24,
-    paddingHorizontal: 20,
-    borderRadius: 14,
+    paddingVertical: SPACING.xxl,
+    paddingHorizontal: SPACING.xl,
+    borderRadius: RADIUS.xl,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     maxWidth: 160,
   },
   answerButtonText: {
-    fontSize: 20,
-    fontWeight: '600',
+    ...TYPOGRAPHY.metric,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   correctIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#69db7c',
-    fontWeight: 'bold',
-    marginLeft: 8,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginLeft: SPACING.sm,
   },
   incorrectIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#ff6b6b',
-    fontWeight: 'bold',
-    marginLeft: 8,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginLeft: SPACING.sm,
   },
 });

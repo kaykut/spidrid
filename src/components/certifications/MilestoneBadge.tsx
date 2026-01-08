@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SPACING } from '../../constants/spacing';
+import { FONT_WEIGHTS } from '../../constants/typography';
 import {
   CertificationTier,
   CertificationTierProgress,
-  getCertificationTierDefinition,
+  CERTIFICATION_TIER_DEFINITIONS,
 } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -13,6 +15,24 @@ interface MilestoneBadgeProps {
   size?: 'small' | 'medium' | 'large';
 }
 
+/**
+ * Get the certification definition by tier
+ */
+function getCertDefinition(tier: CertificationTier) {
+  return CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === tier);
+}
+
+/**
+ * Calculate overall progress (0-1) from VS unlock and speed proof
+ */
+function getOverallProgress(progress: CertificationTierProgress): number {
+  let completed = 0;
+  if (progress.vsUnlocked) { completed++; }
+  if (progress.speedProofAchieved) { completed++; }
+  if (progress.examPassed) { completed++; }
+  return completed / 3;
+}
+
 export function MilestoneBadge({
   tier,
   progress,
@@ -20,27 +40,30 @@ export function MilestoneBadge({
 }: MilestoneBadgeProps) {
   const { theme } = useTheme();
 
-  const definition = getCertificationTierDefinition(tier);
+  const definition = getCertDefinition(tier);
   if (!definition) { return null; }
 
+  // Size configurations using spacing constants where applicable
   const sizes = {
-    small: { container: 40, icon: 18, ring: 3 },
-    medium: { container: 56, icon: 24, ring: 4 },
-    large: { container: 72, icon: 32, ring: 5 },
+    small: { container: SPACING.huge, icon: 18, ring: 3 },
+    medium: { container: 56, icon: SPACING.xxl, ring: SPACING.xs },
+    large: { container: 72, icon: SPACING.xxxl, ring: 5 },
   };
 
   const sizeConfig = sizes[size];
-  const isEarned = progress.isEarned;
-  const isLocked = !progress.isUnlocked && !isEarned;
+  const isEarned = progress.examPassed;
+  const isUnlocked = progress.vsUnlocked || progress.speedProofAchieved;
+  const isLocked = !isUnlocked && !isEarned;
+  const overallProgress = getOverallProgress(progress);
 
   const getAccessibilityLabel = () => {
     if (isEarned) {
-      return `${definition.title} certification earned`;
+      return `${definition.name} certification earned`;
     }
     if (isLocked) {
-      return `${definition.title} certification locked`;
+      return `${definition.name} certification locked`;
     }
-    return `${definition.title} certification, ${Math.round(progress.overallProgress * 100)}% progress`;
+    return `${definition.name} certification, ${Math.round(overallProgress * 100)}% progress`;
   };
 
   return (
@@ -51,7 +74,7 @@ export function MilestoneBadge({
       accessibilityLabel={getAccessibilityLabel()}
     >
       {/* Progress ring (only for unlocked, not earned) */}
-      {progress.isUnlocked && !isEarned && (
+      {isUnlocked && !isEarned && (
         <View
           style={[
             styles.progressRing,
@@ -76,7 +99,7 @@ export function MilestoneBadge({
                 height: sizeConfig.ring * 2,
                 borderRadius: sizeConfig.ring,
                 backgroundColor: definition.color,
-                transform: [{ rotate: `${progress.overallProgress * 360}deg` }],
+                transform: [{ rotate: `${overallProgress * 360}deg` }],
               },
             ]}
           />
@@ -88,9 +111,9 @@ export function MilestoneBadge({
         style={[
           styles.badge,
           {
-            width: sizeConfig.container - (progress.isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
-            height: sizeConfig.container - (progress.isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
-            borderRadius: (sizeConfig.container - (progress.isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0)) / 2,
+            width: sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
+            height: sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0),
+            borderRadius: (sizeConfig.container - (isUnlocked && !isEarned ? sizeConfig.ring * 2 : 0)) / 2,
             backgroundColor: isEarned ? definition.color : isLocked ? theme.secondaryBackground : `${definition.color}20`,
           },
           isLocked && styles.locked,
@@ -107,8 +130,8 @@ export function MilestoneBadge({
           style={[
             styles.checkBadge,
             {
-              right: -4,
-              bottom: -4,
+              right: -SPACING.xs,
+              bottom: -SPACING.xs,
               width: sizeConfig.container * 0.35,
               height: sizeConfig.container * 0.35,
               borderRadius: sizeConfig.container * 0.175,
@@ -152,6 +175,6 @@ const styles = StyleSheet.create({
   },
   checkMark: {
     color: '#ffffff',
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });

@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import {
   CertificationTier,
   getCertificationTierDefinition,
@@ -9,7 +11,7 @@ import { useTheme } from '../common/ThemeProvider';
 interface CertificationReadyModalProps {
   tier: CertificationTier | null;
   currentWPM: number;
-  currentAccuracy: number;
+  currentVS: number;
   visible: boolean;
   onTakeTest: () => void;
   onKeepPracticing: () => void;
@@ -18,7 +20,7 @@ interface CertificationReadyModalProps {
 export function CertificationReadyModal({
   tier,
   currentWPM,
-  currentAccuracy,
+  currentVS,
   visible,
   onTakeTest,
   onKeepPracticing,
@@ -30,8 +32,8 @@ export function CertificationReadyModal({
   const definition = getCertificationTierDefinition(tier);
   if (!definition) { return null; }
 
-  const wpmProgress = Math.min(100, Math.round((currentWPM / definition.requirement.minWPM) * 100));
-  const accuracyProgress = Math.min(100, Math.round((currentAccuracy / definition.requirement.minAccuracy) * 100));
+  const vsProgress = Math.min(100, Math.round((currentVS / definition.vsThreshold) * 100));
+  const wpmProgress = Math.min(100, Math.round((currentWPM / definition.speedProofWpm) * 100));
 
   return (
     <Modal
@@ -51,18 +53,45 @@ export function CertificationReadyModal({
           </Text>
 
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {definition.title}
+            {definition.name}
           </Text>
 
           <Text style={[styles.description, { color: theme.textColor }]}>
-            Your recent practice shows you&apos;re performing at certification level.
+            You&apos;ve met all requirements to take the certification exam!
           </Text>
 
           {/* Requirements Progress */}
           <View style={styles.requirementsContainer}>
             <View style={styles.requirementRow}>
               <Text style={[styles.requirementLabel, { color: theme.textColor }]}>
-                Speed
+                Velocity Score
+              </Text>
+              <View style={styles.progressContainer}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    { backgroundColor: theme.backgroundColor },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.progressFill,
+                      {
+                        width: `${vsProgress}%`,
+                        backgroundColor: vsProgress >= 100 ? '#69db7c' : definition.color,
+                      },
+                    ]}
+                  />
+                </View>
+                <Text style={[styles.requirementValue, { color: theme.textColor }]}>
+                  {Math.round(currentVS)}/{definition.vsThreshold} VS
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.requirementRow}>
+              <Text style={[styles.requirementLabel, { color: theme.textColor }]}>
+                Speed Proof
               </Text>
               <View style={styles.progressContainer}>
                 <View
@@ -82,44 +111,28 @@ export function CertificationReadyModal({
                   />
                 </View>
                 <Text style={[styles.requirementValue, { color: theme.textColor }]}>
-                  {currentWPM}/{definition.requirement.minWPM} WPM
+                  {currentWPM}/{definition.speedProofWpm} WPM
                 </Text>
               </View>
             </View>
+          </View>
 
-            <View style={styles.requirementRow}>
-              <Text style={[styles.requirementLabel, { color: theme.textColor }]}>
-                Accuracy
-              </Text>
-              <View style={styles.progressContainer}>
-                <View
-                  style={[
-                    styles.progressBar,
-                    { backgroundColor: theme.backgroundColor },
-                  ]}
-                >
-                  <View
-                    style={[
-                      styles.progressFill,
-                      {
-                        width: `${accuracyProgress}%`,
-                        backgroundColor: accuracyProgress >= 100 ? '#69db7c' : definition.color,
-                      },
-                    ]}
-                  />
-                </View>
-                <Text style={[styles.requirementValue, { color: theme.textColor }]}>
-                  {currentAccuracy}%/{definition.requirement.minAccuracy}%
-                </Text>
-              </View>
-            </View>
+          {/* Exam info */}
+          <View style={[styles.examInfo, { backgroundColor: theme.backgroundColor }]}>
+            <Text style={[styles.examInfoTitle, { color: theme.textColor }]}>
+              Exam Requirements
+            </Text>
+            <Text style={[styles.examInfoText, { color: theme.textColor }]}>
+              Read {definition.examWords.toLocaleString()} words at {definition.examWpm} WPM
+              {'\n'}with {definition.examMinComp}%+ comprehension
+            </Text>
           </View>
 
           <TouchableOpacity
             style={[styles.primaryButton, { backgroundColor: definition.color }]}
             onPress={onTakeTest}
           >
-            <Text style={styles.primaryButtonText}>Take Certification Test</Text>
+            <Text style={styles.primaryButtonText}>Take Certification Exam</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -142,103 +155,117 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.xl,
   },
   container: {
     width: '100%',
     maxWidth: 340,
-    borderRadius: 24,
-    padding: 28,
+    borderRadius: SPACING.xxl,
+    padding: SPACING.xxl + SPACING.xs,
     alignItems: 'center',
   },
   iconContainer: {
     width: 80,
     height: 80,
-    borderRadius: 40,
+    borderRadius: SPACING.huge,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   icon: {
-    fontSize: 40,
+    fontSize: SPACING.huge,
   },
   readyText: {
-    fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 8,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.sm,
     textTransform: 'uppercase',
     letterSpacing: 2,
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   description: {
-    fontSize: 15,
+    ...TYPOGRAPHY.body,
     opacity: 0.7,
     textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 22,
+    marginBottom: SPACING.xxl,
   },
   requirementsContainer: {
     width: '100%',
-    gap: 16,
-    marginBottom: 24,
+    gap: SPACING.lg,
+    marginBottom: SPACING.lg,
   },
   requirementRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   requirementLabel: {
-    width: 70,
-    fontSize: 14,
-    fontWeight: '500',
+    width: 90,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   progressContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: SPACING.sm,
   },
   progressBar: {
     flex: 1,
-    height: 8,
-    borderRadius: 4,
+    height: SIZES.progressBarHeight,
+    borderRadius: RADIUS.xs,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: RADIUS.xs,
   },
   requirementValue: {
-    fontSize: 12,
-    width: 80,
+    ...TYPOGRAPHY.caption,
+    width: 70,
     textAlign: 'right',
+  },
+  examInfo: {
+    width: '100%',
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    marginBottom: SPACING.xxl,
+  },
+  examInfoTitle: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
+    marginBottom: SPACING.xs,
+  },
+  examInfoText: {
+    ...TYPOGRAPHY.caption,
+    opacity: 0.7,
+    lineHeight: 18,
   },
   primaryButton: {
     width: '100%',
-    paddingVertical: 16,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.lg,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   primaryButtonText: {
     color: '#ffffff',
-    fontSize: 17,
-    fontWeight: '600',
+    ...TYPOGRAPHY.cardTitle,
   },
   secondaryButton: {
     width: '100%',
-    paddingVertical: 14,
-    borderRadius: 14,
+    paddingVertical: SPACING.md + 2,
+    borderRadius: RADIUS.lg,
     alignItems: 'center',
     borderWidth: 1,
   },
   secondaryButtonText: {
-    fontSize: 16,
-    fontWeight: '500',
+    ...TYPOGRAPHY.button,
+    fontWeight: FONT_WEIGHTS.medium,
     opacity: 0.7,
   },
 });

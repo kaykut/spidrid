@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 import type { MultipleSelectQuestion as MultipleSelectQuestionType } from '../../types/learning';
 
@@ -135,63 +137,62 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   questionText: {
-    fontSize: 22,
-    fontWeight: '600',
+    ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
-    marginBottom: 12,
-    lineHeight: 32,
+    marginBottom: SPACING.md,
+    lineHeight: SPACING.xxxl,
   },
   instruction: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     textAlign: 'center',
     opacity: 0.7,
-    marginBottom: 24,
+    marginBottom: SPACING.xxl,
   },
   optionsContainer: {
-    gap: 12,
+    gap: SPACING.md,
   },
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 18,
-    borderRadius: 14,
+    padding: SPACING.lg + 2, // 18px approximation
+    borderRadius: RADIUS.xl,
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
+    width: SIZES.iconLg,
+    height: SIZES.iconLg,
+    borderRadius: RADIUS.sm,
     borderWidth: 2,
-    marginRight: 12,
+    marginRight: SPACING.md,
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkmark: {
     color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.bold,
   },
   optionText: {
     flex: 1,
-    fontSize: 16,
+    ...TYPOGRAPHY.button,
   },
   correctIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#69db7c',
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   incorrectIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#ff6b6b',
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   confirmButton: {
-    marginTop: 24,
-    paddingVertical: 16,
-    borderRadius: 14,
+    marginTop: SPACING.xxl,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.xl,
     alignItems: 'center',
   },
   confirmButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
 });

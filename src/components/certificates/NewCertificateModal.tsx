@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -35,7 +37,7 @@ export function NewCertificateModal({ certificate, visible, onClose }: NewCertif
           </View>
 
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {definition.title}
+            {definition.name}
           </Text>
 
           <Text style={[styles.description, { color: theme.textColor }]}>
@@ -64,58 +66,59 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.xl,
   },
   container: {
     width: '100%',
     maxWidth: 320,
-    borderRadius: 24,
-    padding: 32,
+    borderRadius: SPACING.xxl,
+    padding: SPACING.xxxl,
     alignItems: 'center',
   },
   congrats: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 16,
+    ...TYPOGRAPHY.button,
+    fontWeight: FONT_WEIGHTS.semibold,
+    marginBottom: SPACING.lg,
     textTransform: 'uppercase',
     letterSpacing: 2,
   },
   iconContainer: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: RADIUS.full,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: SPACING.xl,
   },
   icon: {
     fontSize: 48,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   description: {
-    fontSize: 16,
+    ...TYPOGRAPHY.button,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   stat: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 24,
+    ...TYPOGRAPHY.metric,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.xxl,
   },
   button: {
-    paddingVertical: 16,
-    paddingHorizontal: 48,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg,
+    paddingHorizontal: SPACING.massive,
+    borderRadius: RADIUS.lg,
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
 });

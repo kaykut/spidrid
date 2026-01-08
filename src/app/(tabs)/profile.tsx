@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { CertificateCard, LockedCertificateCard } from '../../components/certificates/CertificateCard';
-import { CertificateViewerModal } from '../../components/certificates/CertificateViewerModal';
 import { MilestoneBadge } from '../../components/certifications';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
-import { INTERESTS } from '../../data/interests';
+import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { themeList } from '../../data/themes';
-import { useCertificateStore } from '../../store/certificateStore';
 import { useContentStore } from '../../store/contentStore';
+import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
-import { useOnboardingStore } from '../../store/onboardingStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { CERTIFICATE_DEFINITIONS, Certificate, CertificationTier } from '../../types/certificates';
+import { CertificationTier, CERTIFICATION_TIER_DEFINITIONS } from '../../types/certificates';
 import { READING_LANGUAGES } from '../../types/settings';
 import { FREE_TIER_LIMITS } from '../../types/subscription';
 
@@ -23,36 +22,20 @@ export default function ProfileScreen() {
   const { theme, setTheme } = useTheme();
   const { getTotalArticlesCompleted, getHighestWPM } = useLearningStore();
   const { importedContent } = useContentStore();
-  const { getAllCertificates, checkAndAwardCertificates, getCertificationProgress } = useCertificateStore();
+  const { certProgress } = useJourneyStore();
   const { userName, readingLanguage, setUserName, setReadingLanguage } = useSettingsStore();
   const { isPremium, setPremium, contentAccessCount, resetContentCount, getMaxWPM } = useSubscriptionStore();
-  const { selectedInterests } = useOnboardingStore();
 
-  // Get certification progress
-  const certificationProgress = getCertificationProgress();
-
-  const selectedInterestObjects = INTERESTS.filter((i) => selectedInterests.includes(i.id));
+  // Get earned certifications
+  const earnedCerts = CERTIFICATION_TIER_DEFINITIONS.filter(def => certProgress[def.tier]?.examPassed);
 
   const [showPaywall, setShowPaywall] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
-  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
 
   const articlesCompleted = getTotalArticlesCompleted();
   const contentCompleted = importedContent.filter(c => c.readProgress >= 1).length;
   const totalCompleted = articlesCompleted + contentCompleted;
   const highestWPM = getHighestWPM();
-
-  // Check for new certificates on render
-  checkAndAwardCertificates(highestWPM);
-
-  const earnedCertificates = getAllCertificates();
-
-  // Calculate progress for locked certificates
-  const getProgress = (type: Certificate['type']): number => {
-    const def = CERTIFICATE_DEFINITIONS.find(d => d.type === type);
-    if (!def) {return 0;}
-    return highestWPM / def.requirement.wpm;
-  };
 
   const currentLanguage = READING_LANGUAGES.find(l => l.code === readingLanguage)?.label || 'English';
 
@@ -62,11 +45,6 @@ export default function ProfileScreen() {
         visible={showPaywall}
         onClose={() => setShowPaywall(false)}
         reason="content_limit"
-      />
-      <CertificateViewerModal
-        certificate={selectedCertificate}
-        visible={selectedCertificate !== null}
-        onClose={() => setSelectedCertificate(null)}
       />
       <EdgeFadeScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.title, { color: theme.textColor }]}>Profile</Text>
@@ -87,7 +65,7 @@ export default function ProfileScreen() {
             <View style={[styles.statDivider, { backgroundColor: theme.crosshairColor }]} />
             <View style={styles.statItem}>
               <Text style={[styles.statValue, { color: theme.accentColor }]}>
-                {earnedCertificates.length}
+                {earnedCerts.length}
               </Text>
               <Text style={[styles.statLabel, { color: theme.textColor }]}>Certificates</Text>
             </View>
@@ -112,7 +90,7 @@ export default function ProfileScreen() {
               placeholderTextColor={`${theme.textColor}60`}
             />
 
-            <Text style={[styles.inputLabel, { color: theme.textColor, marginTop: 16 }]}>
+            <Text style={[styles.inputLabel, { color: theme.textColor, marginTop: SPACING.lg }]}>
               Reading Language
             </Text>
             <TouchableOpacity
@@ -160,94 +138,36 @@ export default function ProfileScreen() {
             )}
           </View>
 
-          {/* Interests Section */}
-          <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Your Interests</Text>
-            <TouchableOpacity onPress={() => router.push('/onboarding/topics')}>
-              <Text style={[styles.updateLink, { color: theme.accentColor }]}>Update</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
-            {selectedInterestObjects.length > 0 ? (
-              <View style={styles.interestPills}>
-                {selectedInterestObjects.map((interest) => (
-                  <View
-                    key={interest.id}
-                    style={[styles.interestPill, { backgroundColor: `${theme.accentColor  }20` }]}
-                  >
-                    <Text style={styles.interestEmoji}>{interest.emoji}</Text>
-                    <Text style={[styles.interestLabel, { color: theme.textColor }]}>
-                      {interest.label}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={[styles.emptyInterests, { color: theme.textColor }]}>
-                No interests selected
-              </Text>
-            )}
-          </View>
-
           {/* Certification Journey Section */}
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Certification Journey</Text>
-            <TouchableOpacity onPress={() => router.push('/certifications')}>
+            <TouchableOpacity onPress={() => router.navigate('/(tabs)/journey')}>
               <Text style={[styles.updateLink, { color: theme.accentColor }]}>View All</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             style={[styles.journeyCard, { backgroundColor: theme.secondaryBackground }]}
-            onPress={() => router.push('/certifications')}
+            onPress={() => router.navigate('/(tabs)/journey')}
             activeOpacity={0.8}
           >
             <View style={styles.journeyBadges}>
-              {(['quick_reader', 'speed_reader', 'lightning_reader'] as CertificationTier[]).map((tier) => (
+              {(['speed_reader', 'velocity_master', 'transcendent'] as CertificationTier[]).map((tier) => (
                 <MilestoneBadge
                   key={tier}
                   tier={tier}
-                  progress={certificationProgress.tierProgress[tier]}
+                  progress={certProgress[tier]}
                   size="medium"
                 />
               ))}
             </View>
             <Text style={[styles.journeyText, { color: theme.textColor }]}>
-              {certificationProgress.earnedTiers.length === 0
+              {earnedCerts.length === 0
                 ? 'Start earning certification tiers!'
-                : certificationProgress.earnedTiers.length === 3
+                : earnedCerts.length === 3
                 ? 'All tiers earned! '
-                : `${certificationProgress.earnedTiers.length}/3 tiers earned`}
+                : `${earnedCerts.length}/3 tiers earned`}
             </Text>
           </TouchableOpacity>
-
-          {/* Legacy Certificates Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Speed Certificates</Text>
-
-          {earnedCertificates.length === 0 && (
-            <Text style={[styles.emptyText, { color: theme.textColor }]}>
-              Increase your reading speed to earn certificates!
-            </Text>
-          )}
-
-          <View style={styles.certificatesGrid}>
-            {CERTIFICATE_DEFINITIONS.map((def) => {
-              const earned = earnedCertificates.find(c => c.type === def.type);
-              const progress = getProgress(def.type);
-
-              if (earned) {
-                return (
-                  <CertificateCard
-                    key={def.type}
-                    certificate={earned}
-                    size="small"
-                    onPress={() => setSelectedCertificate(earned)}
-                  />
-                );
-              } 
-                return <LockedCertificateCard key={def.type} type={def.type} progress={progress} />;
-              
-            })}
-          </View>
 
           {/* Subscription Section */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Subscription</Text>
@@ -329,6 +249,15 @@ export default function ProfileScreen() {
               • Practice daily for best results
             </Text>
           </View>
+
+          {/* Component Gallery (Dev) */}
+          <TouchableOpacity
+            style={[styles.flaskButton, { backgroundColor: theme.secondaryBackground }]}
+            onPress={() => router.push('/testing')}
+          >
+            <Ionicons name="flask-outline" size={20} color={theme.textColor} style={{ opacity: 0.5 }} />
+            <Text style={[styles.flaskText, { color: theme.textColor }]}>Component Gallery</Text>
+          </TouchableOpacity>
       </EdgeFadeScrollView>
     </>
   );
@@ -339,225 +268,229 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: SPACING.xl,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    ...TYPOGRAPHY.pageTitle,
+    marginBottom: SPACING.xl,
   },
   statsCard: {
     flexDirection: 'row',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.xl,
+    marginBottom: SPACING.xxl,
   },
   statItem: {
     flex: 1,
     alignItems: 'center',
   },
   statValue: {
+    ...TYPOGRAPHY.metricLarge,
     fontSize: 28,
-    fontWeight: 'bold',
   },
   statLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.7,
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   statDivider: {
     width: 1,
-    marginHorizontal: 8,
+    marginHorizontal: SPACING.sm,
   },
   sectionTitle: {
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
-    marginTop: 8,
+    textTransform: 'none',
+    letterSpacing: 0,
+    marginBottom: SPACING.md,
+    marginTop: SPACING.sm,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 8,
-    marginBottom: 12,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.md,
   },
   updateLink: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  interestPills: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  interestPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 16,
-    gap: 6,
-  },
-  interestEmoji: {
-    fontSize: 14,
-  },
-  interestLabel: {
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  emptyInterests: {
-    fontSize: 14,
-    opacity: 0.6,
-  },
-  emptyText: {
-    fontSize: 14,
-    opacity: 0.6,
-    textAlign: 'center',
-    marginBottom: 16,
+    ...TYPOGRAPHY.buttonSmall,
   },
   journeyCard: {
-    padding: 16,
-    borderRadius: 16,
-    marginBottom: 16,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.card,
+    marginBottom: SPACING.lg,
     alignItems: 'center',
   },
   journeyBadges: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   journeyText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
     fontWeight: '500',
-  },
-  certificatesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 8,
   },
   card: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 8,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.button,
+    marginBottom: SPACING.sm,
   },
   inputLabel: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
     fontWeight: '500',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
     opacity: 0.8,
   },
   textInput: {
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingHorizontal: SPACING.lg - 2,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md + 2,
     borderWidth: 1,
+    ...TYPOGRAPHY.body,
     fontSize: 16,
   },
   languageSelector: {
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingHorizontal: SPACING.lg - 2,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md + 2,
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   languageList: {
-    marginTop: 8,
-    borderRadius: 10,
+    marginTop: SPACING.sm,
+    borderRadius: RADIUS.md + 2,
     maxHeight: 200,
   },
   languageOption: {
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.lg - 2,
+    paddingVertical: SPACING.md,
   },
   languageOptionText: {
-    fontSize: 15,
+    ...TYPOGRAPHY.body,
   },
   subscriptionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   subscriptionLabel: {
+    ...TYPOGRAPHY.body,
     fontSize: 16,
   },
   subscriptionValue: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.cardSubtitle,
   },
   upgradeButton: {
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingVertical: SPACING.lg - 2,
+    borderRadius: RADIUS.md + 2,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   upgradeText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
   resetButton: {
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md + 2,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: SPACING.sm,
     borderWidth: 1,
   },
   resetText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
   },
   themeGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 8,
+    gap: SPACING.md,
+    marginBottom: SPACING.sm,
   },
   themeButton: {
     width: '47%',
-    padding: 16,
-    borderRadius: 12,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     borderWidth: 2,
     alignItems: 'center',
   },
   themeName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
+    ...TYPOGRAPHY.cardSubtitle,
+    marginBottom: SPACING.sm,
   },
   orpPreview: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: SIZES.iconLg,
+    height: SIZES.iconLg,
+    borderRadius: SIZES.iconLg / 2,
   },
   devButton: {
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md + 2,
     alignItems: 'center',
     borderWidth: 1,
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   devButtonText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     opacity: 0.7,
   },
   tipsCard: {
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 16,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.xl,
+    marginTop: SPACING.lg,
   },
   tipsTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 12,
+    ...TYPOGRAPHY.cardSubtitle,
+    marginBottom: SPACING.md,
   },
   tipText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     lineHeight: 24,
     opacity: 0.8,
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  toggleLabelContainer: {
+    flex: 1,
+    marginRight: SPACING.md,
+  },
+  toggleLabel: {
+    ...TYPOGRAPHY.body,
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  toggleSubtext: {
+    ...TYPOGRAPHY.caption,
+    opacity: 0.6,
+    marginTop: 2,
+  },
+  premiumNote: {
+    ...TYPOGRAPHY.caption,
+    marginTop: SPACING.sm,
+    fontWeight: '500',
+  },
+  flaskButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md + 2,
+    marginTop: SPACING.xl,
+    marginBottom: SPACING.xxl,
+    gap: SPACING.sm,
+  },
+  flaskText: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
+    opacity: 0.5,
   },
 });

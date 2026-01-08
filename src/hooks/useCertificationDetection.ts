@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useCertificateStore } from '../store/certificateStore';
-import { useLearningStore } from '../store/learningStore';
+import { useJourneyStore } from '../store/journeyStore';
 import { CertificationTier } from '../types/certificates';
 
 export interface CertificationDetectionState {
@@ -8,8 +7,8 @@ export interface CertificationDetectionState {
   readyTier: CertificationTier | null;
   /** User's recent average WPM */
   currentWPM: number;
-  /** User's recent average accuracy */
-  currentAccuracy: number;
+  /** User's current Velocity Score */
+  currentVS: number;
   /** Whether the readiness modal should be shown */
   showReadinessModal: boolean;
 }
@@ -28,43 +27,34 @@ export interface UseCertificationDetectionReturn {
  * Hook for detecting when a user is ready for certification
  *
  * Call checkAfterPractice() after completing a practice article.
- * If a tier is ready and the prompt hasn't been shown recently,
+ * If a tier is ready (examUnlocked but not examPassed),
  * the state will update to show the readiness modal.
  */
 export function useCertificationDetection(): UseCertificationDetectionReturn {
-  const getRecentPerformance = useLearningStore((s) => s.getRecentPerformance);
   const {
-    checkCertificationReadiness,
-    shouldShowReadinessPrompt,
-    markReadinessPromptShown,
-  } = useCertificateStore();
+    velocityScore,
+    avgWpmLast5,
+    certProgress,
+  } = useJourneyStore();
 
   const [state, setState] = useState<CertificationDetectionState>({
     readyTier: null,
     currentWPM: 0,
-    currentAccuracy: 0,
+    currentVS: 0,
     showReadinessModal: false,
   });
 
+  const [promptedTiers, setPromptedTiers] = useState<Set<CertificationTier>>(new Set());
+
   const checkAfterPractice = useCallback(() => {
-    // Get recent performance stats
-    const { averageWPM, averageAccuracy, articleCount } = getRecentPerformance(5);
-
-    // Need at least 3 completions for reliable readiness detection
-    if (articleCount < 3) {
-      return null;
-    }
-
-    // Check which tiers are ready
-    const { ready } = checkCertificationReadiness(averageWPM, averageAccuracy);
-
-    // Find the highest-priority tier that we should show a prompt for
-    // Priority: quick_reader > speed_reader > lightning_reader (progression order)
-    const tierPriority: CertificationTier[] = ['quick_reader', 'speed_reader', 'lightning_reader'];
+    // Find tiers that are exam-unlocked but not yet passed
+    const tierPriority: CertificationTier[] = ['speed_reader', 'velocity_master', 'transcendent'];
 
     let tierToPrompt: CertificationTier | null = null;
     for (const tier of tierPriority) {
-      if (ready.includes(tier) && shouldShowReadinessPrompt(tier)) {
+      const progress = certProgress[tier];
+      // Tier is ready if exam is unlocked but not passed, and we haven't prompted recently
+      if (progress?.examUnlocked && !progress?.examPassed && !promptedTiers.has(tier)) {
         tierToPrompt = tier;
         break;
       }
@@ -73,37 +63,36 @@ export function useCertificationDetection(): UseCertificationDetectionReturn {
     if (tierToPrompt) {
       setState({
         readyTier: tierToPrompt,
-        currentWPM: averageWPM,
-        currentAccuracy: averageAccuracy,
+        currentWPM: Math.round(avgWpmLast5),
+        currentVS: velocityScore,
         showReadinessModal: true,
       });
     }
 
     return tierToPrompt;
-  }, [getRecentPerformance, checkCertificationReadiness, shouldShowReadinessPrompt]);
+  }, [certProgress, avgWpmLast5, velocityScore, promptedTiers]);
 
   const dismissReadiness = useCallback(() => {
     if (state.readyTier) {
-      // Mark as shown so we don't prompt again for 24 hours
-      markReadinessPromptShown(state.readyTier);
+      // Add to prompted set so we don't prompt again this session
+      setPromptedTiers(prev => new Set(prev).add(state.readyTier!));
     }
     setState((prev) => ({
       ...prev,
       showReadinessModal: false,
     }));
-  }, [state.readyTier, markReadinessPromptShown]);
+  }, [state.readyTier]);
 
   const startCertificationTest = useCallback(() => {
-    // Mark prompt as shown
     if (state.readyTier) {
-      markReadinessPromptShown(state.readyTier);
+      setPromptedTiers(prev => new Set(prev).add(state.readyTier!));
     }
     setState((prev) => ({
       ...prev,
       showReadinessModal: false,
     }));
     // Navigation to certification test screen will be handled by the calling component
-  }, [state.readyTier, markReadinessPromptShown]);
+  }, [state.readyTier]);
 
   return {
     state,

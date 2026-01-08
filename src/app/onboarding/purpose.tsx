@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
+import { SPACING, COMPONENT_RADIUS, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useOnboardingStore } from '../../store/onboardingStore';
 
 export default function PurposeScreen() {
@@ -69,41 +71,41 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 24,
+    padding: SPACING.xxl,
     justifyContent: 'center',
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.pageTitle,
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: SPACING.huge,
   },
   optionsContainer: {
-    gap: 16,
+    gap: SPACING.lg,
   },
   optionCard: {
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.xxl,
   },
   iconContainer: {
     width: 56,
     height: 56,
-    borderRadius: 14,
+    borderRadius: RADIUS.lg,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   emoji: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.pageTitle.fontSize,
   },
   optionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
+    marginBottom: SPACING.sm,
   },
   optionDescription: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.buttonSmall.fontSize,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
-    lineHeight: 20,
+    lineHeight: SPACING.xl,
   },
 });

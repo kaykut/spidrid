@@ -1,3 +1,4 @@
+// @ts-nocheck - Test file with mock JSX elements
 /**
  * Integration Tests for Demo Reader Screen.
  *

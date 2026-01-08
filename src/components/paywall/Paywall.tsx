@@ -7,6 +7,8 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { MOCK_OFFERING, FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../types/subscription';
 import { useTheme } from '../common/ThemeProvider';
@@ -152,83 +154,86 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
-    paddingBottom: 40,
+    borderTopLeftRadius: SPACING.xxl,
+    borderTopRightRadius: SPACING.xxl,
+    padding: SPACING.xxl,
+    paddingBottom: SPACING.huge,
   },
   closeButton: {
     position: 'absolute',
-    top: 16,
-    right: 16,
-    padding: 8,
+    top: SPACING.lg,
+    right: SPACING.lg,
+    padding: SPACING.sm,
     zIndex: 1,
   },
   closeText: {
-    fontSize: 24,
+    fontSize: TYPOGRAPHY.metricLarge.fontSize,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.sm,
   },
   reason: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.xxl,
   },
   benefits: {
-    marginBottom: 24,
+    marginBottom: SPACING.xxl,
   },
   benefitRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   checkmark: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginRight: 12,
+    ...TYPOGRAPHY.levelName,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginRight: SPACING.md,
   },
   benefitText: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
+    fontWeight: FONT_WEIGHTS.regular,
   },
   price: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.metricLarge,
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   error: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   purchaseButton: {
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   purchaseText: {
     color: '#ffffff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   restoreButton: {
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
     alignItems: 'center',
   },
   restoreText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
   },
   devNote: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     textAlign: 'center',
     opacity: 0.5,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
 });

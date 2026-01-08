@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Extractor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs';
+
+    // Set worker source
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+
+    // Minimum characters to consider a page as having text
+    const MIN_TEXT_THRESHOLD = 10;
+    // Maximum pages to process (prevent memory issues)
+    const MAX_PAGES = 500;
+
+    function sendMessage(type, data) {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type, ...data }));
+      }
+    }
+
+    async function extractTextFromPdf(base64Data) {
+      try {
+        // Convert base64 to Uint8Array
+        const binaryString = atob(base64Data);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        // Load PDF document
+        const loadingTask = pdfjsLib.getDocument({ data: bytes });
+        const pdf = await loadingTask.promise;
+
+        const numPages = Math.min(pdf.numPages, MAX_PAGES);
+        const textParts = [];
+        let pagesWithText = 0;
+        let totalTextLength = 0;
+
+        // Extract text from each page
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const textContent = await page.getTextContent();
+
+          // Concatenate text items
+          const pageText = textContent.items
+            .filter(item => item.str && item.str.trim())
+            .map(item => item.str)
+            .join(' ');
+
+          if (pageText.length >= MIN_TEXT_THRESHOLD) {
+            pagesWithText++;
+            totalTextLength += pageText.length;
+          }
+
+          if (pageText.trim()) {
+            textParts.push(pageText);
+          }
+
+          // Send progress update every 10 pages
+          if (pageNum % 10 === 0) {
+            sendMessage('progress', {
+              current: pageNum,
+              total: numPages,
+              percent: Math.round((pageNum / numPages) * 100)
+            });
+          }
+        }
+
+        // Check if PDF is scanned (image-only)
+        // If less than 20% of pages have meaningful text, likely scanned
+        const textRatio = pagesWithText / numPages;
+        if (numPages > 0 && textRatio < 0.2 && totalTextLength < 500) {
+          sendMessage('error', {
+            code: 'SCANNED_PDF',
+            message: 'This PDF contains scanned images only. Text cannot be extracted. Please use a text-based PDF or convert to EPUB.'
+          });
+          return;
+        }
+
+        const fullText = textParts.join('\n\n');
+
+        if (fullText.trim().length < 50) {
+          sendMessage('error', {
+            code: 'NO_TEXT',
+            message: 'No readable text found in this PDF.'
+          });
+          return;
+        }
+
+        // Try to extract title from PDF metadata
+        let title = null;
+        try {
+          const metadata = await pdf.getMetadata();
+          if (metadata.info && metadata.info.Title) {
+            title = metadata.info.Title;
+          }
+        } catch (e) {
+          // Metadata not available, will use filename
+        }
+
+        sendMessage('success', {
+          text: fullText,
+          title: title,
+          pageCount: numPages,
+          wordCount: fullText.split(/\s+/).filter(w => w.length > 0).length
+        });
+
+      } catch (error) {
+        let errorCode = 'PARSE_ERROR';
+        let errorMessage = 'Could not read this PDF file. It may be corrupted.';
+
+        if (error.name === 'PasswordException') {
+          errorCode = 'PASSWORD_PROTECTED';
+          errorMessage = 'This PDF is password-protected and cannot be imported.';
+        } else if (error.name === 'InvalidPDFException') {
+          errorCode = 'INVALID_PDF';
+          errorMessage = 'This file is not a valid PDF.';
+        } else if (error.message && error.message.includes('password')) {
+          errorCode = 'PASSWORD_PROTECTED';
+          errorMessage = 'This PDF is password-protected and cannot be imported.';
+        }
+
+        sendMessage('error', {
+          code: errorCode,
+          message: errorMessage,
+          details: error.message
+        });
+      }
+    }
+
+    // Listen for messages from React Native
+    window.addEventListener('message', async (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'extract' && data.base64) {
+          sendMessage('started', {});
+          await extractTextFromPdf(data.base64);
+        }
+      } catch (e) {
+        sendMessage('error', {
+          code: 'MESSAGE_ERROR',
+          message: 'Failed to process message',
+          details: e.message
+        });
+      }
+    });
+
+    // Also listen on document for Android compatibility
+    document.addEventListener('message', async (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'extract' && data.base64) {
+          sendMessage('started', {});
+          await extractTextFromPdf(data.base64);
+        }
+      } catch (e) {
+        sendMessage('error', {
+          code: 'MESSAGE_ERROR',
+          message: 'Failed to process message',
+          details: e.message
+        });
+      }
+    });
+
+    // Signal ready
+    sendMessage('ready', {});
+  </script>
+</head>
+<body>
+  <div id="status">PDF Extractor Ready</div>
+</body>
+</html>

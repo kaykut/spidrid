@@ -1,7 +1,7 @@
 /**
  * Tests for FloatingNavBar Component.
  *
- * Navigation bar with Learn, Read, and Profile tabs.
+ * Navigation bar with Journey, Train, Read, and Learn tabs.
  */
 
 import React from 'react';
@@ -45,52 +45,62 @@ describe('FloatingNavBar', () => {
       expect(root).toBeTruthy();
     });
 
-    it('renders Learn nav item icon', () => {
+    it('renders nav item icons', () => {
       renderWithProviders(<FloatingNavBar />);
 
-      // Icons render via mock - there are 3 nav items
+      // Icons render via mock - there are 4 nav items
       const icons = screen.getAllByTestId('icon-Ionicons');
       expect(icons.length).toBeGreaterThan(0);
     });
 
-    it('renders all three navigation items', () => {
+    it('renders all four navigation items', () => {
       renderWithProviders(<FloatingNavBar />);
 
-      // All icons are rendered (3 nav items)
+      // All icons are rendered (4 nav items: Journey, Train, Read, Learn)
       const icons = screen.getAllByTestId('icon-Ionicons');
-      expect(icons.length).toBe(3);
+      expect(icons.length).toBe(4);
     });
   });
 
   describe('navigation', () => {
-    it('navigates to learn when learn button is pressed', () => {
+    it('navigates to journey when journey button is pressed', () => {
       renderWithProviders(<FloatingNavBar />);
 
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // First icon is Learn
+      // First icon is Journey
       fireEvent.press(icons[0]);
 
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/learn');
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/journey');
+    });
+
+    it('navigates to train when train button is pressed', () => {
+      renderWithProviders(<FloatingNavBar />);
+
+      const icons = screen.getAllByTestId('icon-Ionicons');
+      // Second icon is Train
+      fireEvent.press(icons[1]);
+
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/train');
     });
 
     it('navigates to read when read button is pressed', () => {
       renderWithProviders(<FloatingNavBar />);
 
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // Second icon is Read
-      fireEvent.press(icons[1]);
+      // Third icon is Read
+      fireEvent.press(icons[2]);
 
       expect(mockPush).toHaveBeenCalledWith('/(tabs)/read');
     });
 
-    it('navigates to profile when profile button is pressed', () => {
+    it('navigates to learn when learn button is pressed', () => {
       renderWithProviders(<FloatingNavBar />);
 
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // Third icon is Profile
-      fireEvent.press(icons[2]);
+      // Fourth icon is Learn
+      fireEvent.press(icons[3]);
 
-      expect(mockPush).toHaveBeenCalledWith('/(tabs)/profile');
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/learn');
     });
   });
 });

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder, Dimensions } from 'react-native';
+import { SPACING, RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 import type { NumericQuestion as NumericQuestionType } from '../../types/learning';
 
@@ -10,8 +12,8 @@ interface NumericQuestionProps {
   disabled: boolean;
 }
 
-const SLIDER_WIDTH = Dimensions.get('window').width - 80;
-const THUMB_SIZE = 32;
+const SLIDER_WIDTH = Dimensions.get('window').width - (SPACING.huge * 2);
+const THUMB_SIZE = SIZES.iconXl;
 
 export function NumericQuestion({
   question,
@@ -44,7 +46,7 @@ export function NumericQuestion({
     onStartShouldSetPanResponder: () => !disabled && !showResult,
     onMoveShouldSetPanResponder: () => !disabled && !showResult,
     onPanResponderMove: (_, gestureState) => {
-      const position = Math.max(0, Math.min(SLIDER_WIDTH, gestureState.moveX - 40));
+      const position = Math.max(0, Math.min(SLIDER_WIDTH, gestureState.moveX - SPACING.huge));
       const value = positionToValue(position);
       setCurrentValue(value);
     },
@@ -117,7 +119,7 @@ export function NumericQuestion({
           style={[
             styles.thumb,
             {
-              left: valueToPosition(displayValue) - THUMB_SIZE / 2 + 40,
+              left: valueToPosition(displayValue) - THUMB_SIZE / 2 + SPACING.huge,
               backgroundColor: showResult
                 ? (isCorrect ? '#69db7c' : '#ff6b6b')
                 : theme.accentColor,
@@ -154,38 +156,36 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   questionText: {
-    fontSize: 22,
-    fontWeight: '600',
+    ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 32,
+    marginBottom: SPACING.xxl,
+    lineHeight: SPACING.xxxl,
   },
   valueDisplay: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: SPACING.xxxl,
   },
   currentValue: {
-    fontSize: 48,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.vsNumber,
+    fontSize: SPACING.massive, // 48px for large numeric display
   },
   resultText: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
+    ...TYPOGRAPHY.button,
+    marginTop: SPACING.sm,
   },
   sliderContainer: {
-    paddingHorizontal: 40,
-    height: 80,
+    paddingHorizontal: SPACING.huge,
+    height: SPACING.huge * 2, // 80px
   },
   track: {
-    height: 8,
-    borderRadius: 4,
-    marginTop: 12,
+    height: SIZES.progressBarHeight,
+    borderRadius: RADIUS.xs,
+    marginTop: SPACING.md,
     overflow: 'hidden',
   },
   trackFill: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: RADIUS.xs,
   },
   correctRange: {
     position: 'absolute',
@@ -198,30 +198,26 @@ const styles = StyleSheet.create({
     width: THUMB_SIZE,
     height: THUMB_SIZE,
     borderRadius: THUMB_SIZE / 2,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    ...SHADOWS.md,
   },
   labelsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16,
+    marginTop: SPACING.lg,
   },
   label: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
   },
   submitButton: {
-    marginTop: 24,
-    paddingVertical: 16,
-    borderRadius: 14,
+    marginTop: SPACING.xxl,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.xl,
     alignItems: 'center',
   },
   submitButtonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
 });

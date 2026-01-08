@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import {
   EarnedCertification,
   getCertificationTierDefinition,
@@ -26,7 +28,7 @@ export function CertificationEarnedModal({
   const definition = getCertificationTierDefinition(certification.tier);
   if (!definition) { return null; }
 
-  const { wpm, accuracy, textsCompleted } = certification.earnedStats;
+  const { wpm, comprehension, velocityScore } = certification.earnedStats;
 
   return (
     <Modal
@@ -61,7 +63,7 @@ export function CertificationEarnedModal({
           </View>
 
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {definition.title}
+            {definition.name}
           </Text>
 
           <Text style={[styles.description, { color: theme.textColor }]}>
@@ -72,6 +74,13 @@ export function CertificationEarnedModal({
           <View style={[styles.statsContainer, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.statItem}>
               <Text style={[styles.statValue, { color: definition.color }]}>
+                {Math.round(velocityScore)}
+              </Text>
+              <Text style={[styles.statLabel, { color: theme.textColor }]}>VS</Text>
+            </View>
+            <View style={[styles.statDivider, { backgroundColor: theme.secondaryBackground }]} />
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: definition.color }]}>
                 {wpm}
               </Text>
               <Text style={[styles.statLabel, { color: theme.textColor }]}>WPM</Text>
@@ -79,16 +88,9 @@ export function CertificationEarnedModal({
             <View style={[styles.statDivider, { backgroundColor: theme.secondaryBackground }]} />
             <View style={styles.statItem}>
               <Text style={[styles.statValue, { color: definition.color }]}>
-                {accuracy}%
+                {comprehension}%
               </Text>
-              <Text style={[styles.statLabel, { color: theme.textColor }]}>Accuracy</Text>
-            </View>
-            <View style={[styles.statDivider, { backgroundColor: theme.secondaryBackground }]} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: definition.color }]}>
-                {textsCompleted}
-              </Text>
-              <Text style={[styles.statLabel, { color: theme.textColor }]}>Texts</Text>
+              <Text style={[styles.statLabel, { color: theme.textColor }]}>Comp</Text>
             </View>
           </View>
 
@@ -122,38 +124,38 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.xl,
   },
   container: {
     width: '100%',
     maxWidth: 340,
     borderRadius: 28,
-    padding: 32,
+    padding: SPACING.xxxl,
     alignItems: 'center',
   },
   celebrationText: {
-    fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 20,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.xl,
     textTransform: 'uppercase',
     letterSpacing: 3,
   },
   iconWrapper: {
     position: 'relative',
-    marginBottom: 20,
+    marginBottom: SPACING.xl,
   },
   iconGlow: {
     position: 'absolute',
     width: 140,
     height: 140,
-    borderRadius: 70,
-    top: -20,
-    left: -20,
+    borderRadius: RADIUS.full,
+    top: -SPACING.xl,
+    left: -SPACING.xl,
   },
   iconContainer: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    borderRadius: RADIUS.full,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -162,35 +164,35 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: FONT_WEIGHTS.bold,
+    marginBottom: SPACING.sm,
     textAlign: 'center',
   },
   description: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
     textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 24,
+    marginBottom: SPACING.xxl,
+    lineHeight: SPACING.xxl,
   },
   statsContainer: {
     flexDirection: 'row',
     width: '100%',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 24,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.lg,
+    marginBottom: SPACING.xxl,
   },
   statItem: {
     flex: 1,
     alignItems: 'center',
   },
   statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    ...TYPOGRAPHY.metricLarge,
+    marginBottom: SPACING.xs,
   },
   statLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.6,
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -198,25 +200,25 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: '100%',
-    marginHorizontal: 8,
+    marginHorizontal: SPACING.sm,
   },
   primaryButton: {
     width: '100%',
-    paddingVertical: 16,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.lg,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   primaryButtonText: {
     color: '#ffffff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   linkButton: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   linkButtonText: {
-    fontSize: 15,
-    fontWeight: '500',
+    ...TYPOGRAPHY.body,
+    fontWeight: FONT_WEIGHTS.medium,
   },
 });

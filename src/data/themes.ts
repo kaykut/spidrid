@@ -1,5 +1,30 @@
 import { Theme } from '../types/settings';
 
+/**
+ * Quiet Velocity Design System Colors
+ * Used throughout the Journey tab and applied app-wide
+ */
+export const JOURNEY_COLORS = {
+  // Backgrounds
+  background: '#000000',        // True black - app background
+  surface: '#1A1A1A',           // Cards, elevated elements
+  surfaceLight: '#2A2A2A',      // Borders, subtle divisions
+
+  // Accents
+  accent: '#00D4AA',            // Electric teal - VS number, CTAs, interactive
+  warmAccent: '#FFB84D',        // Amber - achievements, milestones
+
+  // Text
+  textPrimary: '#FFFFFF',       // Headlines, VS, primary content
+  textSecondary: '#8E8E93',     // Labels, supporting text
+  textTertiary: '#636366',      // Hints, disabled states
+
+  // Semantic
+  success: '#34C759',           // Good comprehension, streaks
+  warning: '#FF9F0A',           // Stretch challenges
+  low: '#FF6B6B',               // Low comprehension (muted coral, not alarm red)
+} as const;
+
 export const themes: Record<string, Theme> = {
   dark: {
     id: 'dark',
@@ -8,7 +33,7 @@ export const themes: Record<string, Theme> = {
     textColor: '#ffffff',
     orpColor: '#ff6b6b',
     crosshairColor: '#333333',
-    accentColor: '#4dabf7',
+    accentColor: '#00D4AA',
     secondaryBackground: '#1a1a1a',
   },
   midnight: {

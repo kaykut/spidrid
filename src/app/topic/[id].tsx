@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
+import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
@@ -24,10 +26,10 @@ export default function TopicScreen() {
   const practiceArticles = articles.filter(a => a.articleType !== 'certification');
   const certificationArticles = articles.filter(a => a.articleType === 'certification');
 
-  // Check if user is ready for any certification tier
-  const isReadyForCertification = certificationProgress.tierProgress.quick_reader.isReady ||
-    certificationProgress.tierProgress.speed_reader.isReady ||
-    certificationProgress.tierProgress.lightning_reader.isReady;
+  // Check if user is ready for any certification tier (exam is unlocked but not passed)
+  const isReadyForCertification = (certificationProgress.tierProgress.speed_reader?.examUnlocked && !certificationProgress.tierProgress.speed_reader?.examPassed) ||
+    (certificationProgress.tierProgress.velocity_master?.examUnlocked && !certificationProgress.tierProgress.velocity_master?.examPassed) ||
+    (certificationProgress.tierProgress.transcendent?.examUnlocked && !certificationProgress.tierProgress.transcendent?.examPassed);
 
   if (!topic) {
     return (
@@ -250,31 +252,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
   },
   backButton: {
     alignSelf: 'flex-start',
   },
   backText: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
     fontWeight: '500',
   },
   content: {
-    padding: 20,
-    paddingBottom: 40,
+    padding: SPACING.xl,
+    paddingBottom: SPACING.huge,
   },
   topicHeader: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: SPACING.xxxl,
   },
   topicIcon: {
     width: 72,
     height: 72,
-    borderRadius: 20,
+    borderRadius: SPACING.xl,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: SPACING.lg,
   },
   topicEmoji: {
     fontSize: 36,
@@ -282,62 +284,63 @@ const styles = StyleSheet.create({
   topicName: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   topicDesc: {
+    ...TYPOGRAPHY.body,
     fontSize: 16,
     opacity: 0.7,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
   progressLabel: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     opacity: 0.6,
   },
   articlesList: {
-    gap: 12,
+    gap: SPACING.md,
   },
   articleCard: {
-    borderRadius: 16,
+    borderRadius: COMPONENT_RADIUS.card,
     overflow: 'hidden',
   },
   articleHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.lg,
   },
   articleNumber: {
     width: 36,
     height: 36,
-    borderRadius: 10,
+    borderRadius: RADIUS.md + 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: SPACING.md,
   },
   articleNumberText: {
     color: '#ffffff',
     fontWeight: 'bold',
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
   },
   articleInfo: {
     flex: 1,
   },
   articleTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    ...TYPOGRAPHY.cardSubtitle,
+    marginBottom: SPACING.xs,
   },
   articleMeta: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   difficulty: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     fontWeight: '500',
     textTransform: 'capitalize',
   },
   wordCount: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.6,
   },
   completedBadge: {
@@ -354,50 +357,56 @@ const styles = StyleSheet.create({
   progressInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
     borderTopWidth: 1,
   },
   progressText: {
-    fontSize: 13,
+    ...TYPOGRAPHY.label,
     opacity: 0.7,
   },
   errorText: {
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
+    textTransform: 'none',
+    letterSpacing: 0,
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: SPACING.huge,
   },
   sectionHeader: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   sectionTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: SPACING.sm,
   },
   sectionTitle: {
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 4,
+    textTransform: 'none',
+    letterSpacing: 0,
+    marginBottom: SPACING.xs,
   },
   sectionSubtitle: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     opacity: 0.6,
   },
   certificationSection: {
-    marginTop: 24,
-    paddingTop: 24,
+    marginTop: SPACING.xxl,
+    paddingTop: SPACING.xxl,
     borderTopWidth: 1,
     borderTopColor: 'rgba(255,255,255,0.1)',
   },
   readyBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: COMPONENT_RADIUS.chip,
   },
   readyBadgeText: {
     color: '#ffffff',
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     fontWeight: '600',
   },
   certificationCard: {
@@ -405,7 +414,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(151, 117, 250, 0.3)',
   },
   certificationLength: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     fontWeight: '600',
     textTransform: 'capitalize',
   },

@@ -1,4 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 
 interface InterestPillProps {
@@ -39,16 +41,16 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 20,
-    gap: 6,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.xxl,
+    gap: SPACING.sm,
   },
   emoji: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: TYPOGRAPHY.buttonSmall.fontSize,
+    fontWeight: FONT_WEIGHTS.medium,
   },
 });

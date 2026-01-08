@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, screen, fireEvent } from '@testing-library/react-native';
 import ReadScreen from '../../src/app/(tabs)/read';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 
@@ -15,6 +15,33 @@ jest.mock('expo-router', () => ({
   router: {
     push: (path: string) => mockPush(path),
   },
+}));
+
+// Mock react-native-webview to prevent TurboModule errors
+jest.mock('react-native-webview', () => ({
+  WebView: 'WebView',
+}));
+
+// Mock expo-document-picker
+jest.mock('expo-document-picker', () => ({
+  getDocumentAsync: jest.fn(() => Promise.resolve({ canceled: true })),
+}));
+
+// Mock expo-file-system
+jest.mock('expo-file-system', () => ({
+  readAsStringAsync: jest.fn(),
+  EncodingType: {
+    UTF8: 'utf8',
+    Base64: 'base64',
+  },
+}));
+
+// Mock PdfExtractorProvider
+jest.mock('../../src/components/PdfExtractorProvider', () => ({
+  usePdfExtractor: () => ({
+    extractPdf: jest.fn(),
+  }),
+  PdfExtractorProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 // Mock Alert

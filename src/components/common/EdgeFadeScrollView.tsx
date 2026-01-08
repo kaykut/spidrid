@@ -2,7 +2,13 @@ import React, { ReactNode } from 'react';
 import { View, ScrollView, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SPACING } from '../../constants/spacing';
 import { useTheme } from './ThemeProvider';
+
+// Default fade heights using design system constants
+const DEFAULT_TOP_FADE_HEIGHT = SPACING.huge; // 40
+const DEFAULT_BOTTOM_FADE_HEIGHT = SPACING.huge + SPACING.xl; // 60
+const DEFAULT_EXTRA_BOTTOM_PADDING = SPACING.huge + SPACING.xl; // 60
 
 interface EdgeFadeScrollViewProps {
   children: ReactNode;
@@ -16,9 +22,9 @@ interface EdgeFadeScrollViewProps {
 export function EdgeFadeScrollView({
   children,
   contentContainerStyle,
-  topFadeHeight = 40,
-  bottomFadeHeight = 60,
-  extraBottomPadding = 60,
+  topFadeHeight = DEFAULT_TOP_FADE_HEIGHT,
+  bottomFadeHeight = DEFAULT_BOTTOM_FADE_HEIGHT,
+  extraBottomPadding = DEFAULT_EXTRA_BOTTOM_PADDING,
   style,
 }: EdgeFadeScrollViewProps) {
   const { theme } = useTheme();

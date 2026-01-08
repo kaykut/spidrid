@@ -1,24 +1,36 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import {
   CertificationTier,
-  CertificationProgress,
+  CertificationTierProgress,
   CERTIFICATION_TIER_DEFINITIONS,
 } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
 
 interface JourneyPathProps {
-  progress: CertificationProgress;
+  progress: Record<CertificationTier, CertificationTierProgress>;
+  velocityScore: number;
 }
 
-export function JourneyPath({ progress }: JourneyPathProps) {
+export function JourneyPath({ progress, velocityScore: _velocityScore }: JourneyPathProps) {
   const { theme } = useTheme();
+
+  // Helper to get overall progress for a tier
+  const getOverallProgress = (tierProgress: CertificationTierProgress): number => {
+    let completed = 0;
+    if (tierProgress.vsUnlocked) { completed++; }
+    if (tierProgress.speedProofAchieved) { completed++; }
+    if (tierProgress.examPassed) { completed++; }
+    return completed / 3;
+  };
 
   // Determine current position on the journey
   const getCurrentTierIndex = () => {
-    const tiers: CertificationTier[] = ['quick_reader', 'speed_reader', 'lightning_reader'];
+    const tiers: CertificationTier[] = ['speed_reader', 'velocity_master', 'transcendent'];
     for (let i = tiers.length - 1; i >= 0; i--) {
-      if (progress.earnedTiers.includes(tiers[i])) {
+      if (progress[tiers[i]]?.examPassed) {
         return i + 1; // Past this tier
       }
     }
@@ -30,11 +42,15 @@ export function JourneyPath({ progress }: JourneyPathProps) {
   return (
     <View style={styles.container}>
       {CERTIFICATION_TIER_DEFINITIONS.map((def, index) => {
-        const tierProgress = progress.tierProgress[def.tier];
-        const isEarned = tierProgress.isEarned;
+        const tierProgress = progress[def.tier];
+        if (!tierProgress) { return null; }
+
+        const isEarned = tierProgress.examPassed;
+        const isUnlocked = tierProgress.vsUnlocked || tierProgress.speedProofAchieved;
         const isPast = currentIndex > index;
         const isCurrent = currentIndex === index;
         const isFuture = currentIndex < index;
+        const overallProgress = getOverallProgress(tierProgress);
 
         return (
           <View key={def.tier} style={styles.tierRow}>
@@ -58,11 +74,11 @@ export function JourneyPath({ progress }: JourneyPathProps) {
                     borderColor: isCurrent ? def.color : 'transparent',
                     borderWidth: isCurrent ? 3 : 0,
                   },
-                  isFuture && !tierProgress.isUnlocked && styles.locked,
+                  isFuture && !isUnlocked && styles.locked,
                 ]}
               >
-                <Text style={[styles.nodeIcon, isFuture && !tierProgress.isUnlocked && styles.lockedIcon]}>
-                  {tierProgress.isUnlocked || isEarned ? def.icon : '🔒'}
+                <Text style={[styles.nodeIcon, isFuture && !isUnlocked && styles.lockedIcon]}>
+                  {isUnlocked || isEarned ? def.icon : '🔒'}
                 </Text>
                 {isEarned && (
                   <View style={styles.checkBadge}>
@@ -77,35 +93,35 @@ export function JourneyPath({ progress }: JourneyPathProps) {
                   style={[
                     styles.tierTitle,
                     { color: theme.textColor },
-                    isFuture && !tierProgress.isUnlocked && styles.lockedText,
+                    isFuture && !isUnlocked && styles.lockedText,
                   ]}
                 >
-                  {def.title}
+                  {def.name}
                 </Text>
                 <Text
                   style={[
                     styles.tierRequirement,
                     { color: def.color },
-                    isFuture && !tierProgress.isUnlocked && styles.lockedText,
+                    isFuture && !isUnlocked && styles.lockedText,
                   ]}
                 >
-                  {def.requirement.minWPM} WPM • {def.requirement.minAccuracy}%
+                  VS {def.vsThreshold} • {def.speedProofWpm} WPM
                 </Text>
-                {!isEarned && tierProgress.isUnlocked && (
+                {!isEarned && isUnlocked && (
                   <View style={styles.progressContainer}>
                     <View style={[styles.progressTrack, { backgroundColor: theme.secondaryBackground }]}>
                       <View
                         style={[
                           styles.progressFill,
                           {
-                            width: `${tierProgress.overallProgress * 100}%`,
+                            width: `${overallProgress * 100}%`,
                             backgroundColor: def.color,
                           },
                         ]}
                       />
                     </View>
                     <Text style={[styles.progressPercent, { color: theme.textColor }]}>
-                      {Math.round(tierProgress.overallProgress * 100)}%
+                      {Math.round(overallProgress * 100)}%
                     </Text>
                   </View>
                 )}
@@ -135,7 +151,7 @@ export function JourneyPath({ progress }: JourneyPathProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
   },
   tierRow: {
     position: 'relative',
@@ -143,23 +159,23 @@ const styles = StyleSheet.create({
   connector: {
     position: 'absolute',
     left: 30,
-    top: -20,
-    width: 4,
-    height: 20,
-    borderRadius: 2,
+    top: -SPACING.xl,
+    width: SPACING.xs,
+    height: SPACING.xl,
+    borderRadius: RADIUS.xs,
   },
   connectorBottom: {
     position: 'absolute',
     left: 30,
-    bottom: -20,
-    width: 4,
-    height: 20,
-    borderRadius: 2,
+    bottom: -SPACING.xl,
+    width: SPACING.xs,
+    height: SPACING.xl,
+    borderRadius: RADIUS.xs,
   },
   nodeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: SPACING.lg,
   },
   node: {
     width: 64,
@@ -183,32 +199,33 @@ const styles = StyleSheet.create({
   },
   checkBadge: {
     position: 'absolute',
-    bottom: -4,
-    right: -4,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    bottom: -SPACING.xs,
+    right: -SPACING.xs,
+    width: SPACING.xxl,
+    height: SPACING.xxl,
+    borderRadius: SPACING.md,
     backgroundColor: '#69db7c',
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkMark: {
     color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.bold,
   },
   tierInfo: {
     flex: 1,
-    marginLeft: 16,
+    marginLeft: SPACING.lg,
   },
   tierTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
     marginBottom: 2,
   },
   tierRequirement: {
-    fontSize: 14,
-    marginBottom: 8,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
+    marginBottom: SPACING.sm,
   },
   progressContainer: {
     flexDirection: 'row',
@@ -216,21 +233,21 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     flex: 1,
-    height: 6,
-    borderRadius: 3,
-    marginRight: 8,
+    height: RADIUS.sm,
+    borderRadius: RADIUS.xs,
+    marginRight: SPACING.sm,
   },
   progressFill: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: RADIUS.xs,
   },
   progressPercent: {
-    fontSize: 12,
-    fontWeight: '500',
+    ...TYPOGRAPHY.caption,
+    fontWeight: FONT_WEIGHTS.medium,
     width: 35,
   },
   earnedDate: {
-    fontSize: 12,
-    fontWeight: '500',
+    ...TYPOGRAPHY.caption,
+    fontWeight: FONT_WEIGHTS.medium,
   },
 });

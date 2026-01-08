@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { space } from '../../constants/spacing';
+import { FONT_WEIGHTS, FONT_FAMILY } from '../../constants/typography';
 import { ProcessedWord } from '../../types/playback';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -7,6 +9,13 @@ interface RSVPWordProps {
   word: ProcessedWord | null;
   fontSize?: number;
 }
+
+// Component-specific sizes based on 8pt grid
+const RSVP_SIZES = {
+  containerHeight: space(15), // 120
+  crosshairWidth: 2, // Thin line
+  crosshairHeight: space(10), // 80
+};
 
 /**
  * RSVPWord Component
@@ -67,13 +76,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 120,
+    height: RSVP_SIZES.containerHeight,
     width: '100%',
   },
   crosshair: {
     position: 'absolute',
-    width: 2,
-    height: 80,
+    width: RSVP_SIZES.crosshairWidth,
+    height: RSVP_SIZES.crosshairHeight,
     opacity: 0.3,
   },
   wordRow: {
@@ -90,11 +99,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   word: {
-    fontFamily: 'System',
-    fontWeight: '400',
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHTS.regular,
   },
   orpChar: {
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   placeholder: {
     opacity: 0.5,

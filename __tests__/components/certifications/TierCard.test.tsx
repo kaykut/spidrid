@@ -2,12 +2,13 @@
  * Tests for TierCard component - Milestone 8
  *
  * Tests expandable tier details with progress bars.
+ * PRD Tiers: speed_reader, velocity_master, transcendent
  */
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { TierCard } from '../../../src/components/certifications';
-import { CERTIFICATION_TIER_DEFINITIONS, CertificationTierProgress } from '../../../src/types/certificates';
+import { CertificationTierProgress } from '../../../src/types/certificates';
 
 // Mock ThemeProvider
 jest.mock('../../../src/components/common/ThemeProvider', () => ({
@@ -23,104 +24,101 @@ jest.mock('../../../src/components/common/ThemeProvider', () => ({
 }));
 
 describe('TierCard', () => {
-  const unlockedProgress: CertificationTierProgress = {
-    speedProgress: 0.5,
-    accuracyProgress: 0.7,
-    textsProgress: 0.3,
-    overallProgress: 0.3,
-    isUnlocked: true,
-    isReady: false,
-    isEarned: false,
+  const lockedProgress: CertificationTierProgress = {
+    vsUnlocked: false,
+    speedProofAchieved: false,
+    examUnlocked: false,
+    examPassed: false,
   };
 
-  const lockedProgress: CertificationTierProgress = {
-    speedProgress: 0,
-    accuracyProgress: 0,
-    textsProgress: 0,
-    overallProgress: 0,
-    isUnlocked: false,
-    isReady: false,
-    isEarned: false,
+  const inProgressProgress: CertificationTierProgress = {
+    vsUnlocked: true,
+    speedProofAchieved: false,
+    examUnlocked: false,
+    examPassed: false,
+  };
+
+  const examReadyProgress: CertificationTierProgress = {
+    vsUnlocked: true,
+    speedProofAchieved: true,
+    examUnlocked: true,
+    examPassed: false,
   };
 
   const earnedProgress: CertificationTierProgress = {
-    speedProgress: 1,
-    accuracyProgress: 1,
-    textsProgress: 1,
-    overallProgress: 1,
-    isUnlocked: true,
-    isReady: true,
-    isEarned: true,
+    vsUnlocked: true,
+    speedProofAchieved: true,
+    examUnlocked: true,
+    examPassed: true,
     earnedAt: Date.now(),
   };
-
-  describe('quick_reader tier', () => {
-    it('renders tier title', () => {
-      const { getByText } = render(
-        <TierCard tier="quick_reader" progress={unlockedProgress} />
-      );
-
-      expect(getByText('Quick Reader')).toBeTruthy();
-    });
-
-    it('renders tier icon', () => {
-      const { getByText } = render(
-        <TierCard tier="quick_reader" progress={unlockedProgress} />
-      );
-
-      const definition = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'quick_reader');
-      expect(getByText(definition!.icon)).toBeTruthy();
-    });
-
-    it('shows overall progress percentage', () => {
-      const { getByText } = render(
-        <TierCard tier="quick_reader" progress={unlockedProgress} />
-      );
-
-      expect(getByText('30%')).toBeTruthy();
-    });
-  });
 
   describe('speed_reader tier', () => {
     it('renders tier title', () => {
       const { getByText } = render(
-        <TierCard tier="speed_reader" progress={unlockedProgress} />
+        <TierCard tier="speed_reader" progress={inProgressProgress} currentVS={30} currentWPM={500} />
       );
 
       expect(getByText('Speed Reader')).toBeTruthy();
     });
-  });
 
-  describe('lightning_reader tier', () => {
-    it('renders tier title', () => {
+    it('renders tier icon', () => {
       const { getByText } = render(
-        <TierCard tier="lightning_reader" progress={unlockedProgress} />
+        <TierCard tier="speed_reader" progress={inProgressProgress} currentVS={30} currentWPM={500} />
       );
 
-      expect(getByText('Lightning Reader')).toBeTruthy();
+      expect(getByText('⚡')).toBeTruthy();
+    });
+
+    it('shows overall progress percentage', () => {
+      const { getByText } = render(
+        <TierCard tier="speed_reader" progress={inProgressProgress} currentVS={30} currentWPM={500} />
+      );
+
+      // inProgressProgress has vsUnlocked=true, so 1/3 = 33%
+      expect(getByText('33%')).toBeTruthy();
+    });
+  });
+
+  describe('velocity_master tier', () => {
+    it('renders tier title', () => {
+      const { getByText } = render(
+        <TierCard tier="velocity_master" progress={inProgressProgress} currentVS={50} currentWPM={800} />
+      );
+
+      expect(getByText('Velocity Master')).toBeTruthy();
+    });
+  });
+
+  describe('transcendent tier', () => {
+    it('renders tier title', () => {
+      const { getByText } = render(
+        <TierCard tier="transcendent" progress={inProgressProgress} currentVS={90} currentWPM={1400} />
+      );
+
+      expect(getByText('Transcendent')).toBeTruthy();
     });
   });
 
   describe('expansion behavior', () => {
     it('shows progress bars when tapped (unlocked tier)', () => {
       const { getByText } = render(
-        <TierCard tier="quick_reader" progress={unlockedProgress} />
+        <TierCard tier="speed_reader" progress={inProgressProgress} currentVS={30} currentWPM={500} />
       );
 
       // Tap to expand
-      fireEvent.press(getByText('Quick Reader'));
+      fireEvent.press(getByText('Speed Reader'));
 
-      // Now progress bar labels should be visible
-      expect(getByText('Speed')).toBeTruthy();
-      expect(getByText('Accuracy')).toBeTruthy();
-      expect(getByText('Texts')).toBeTruthy();
+      // Now progress bar labels should be visible (may have checkmark prefix)
+      expect(getByText(/Velocity Score/)).toBeTruthy();
+      expect(getByText('Speed Proof')).toBeTruthy();
     });
   });
 
   describe('status states', () => {
     it('shows Earned status for earned tier', () => {
       const { getByText } = render(
-        <TierCard tier="quick_reader" progress={earnedProgress} />
+        <TierCard tier="speed_reader" progress={earnedProgress} currentVS={50} currentWPM={700} />
       );
 
       expect(getByText('Earned')).toBeTruthy();
@@ -128,7 +126,7 @@ describe('TierCard', () => {
 
     it('shows Locked status for locked tier', () => {
       const { getByText } = render(
-        <TierCard tier="quick_reader" progress={lockedProgress} />
+        <TierCard tier="speed_reader" progress={lockedProgress} currentVS={20} currentWPM={400} />
       );
 
       expect(getByText('Locked')).toBeTruthy();
@@ -136,20 +134,37 @@ describe('TierCard', () => {
 
     it('shows In Progress status for unlocked tier', () => {
       const { getByText } = render(
-        <TierCard tier="quick_reader" progress={unlockedProgress} />
+        <TierCard tier="speed_reader" progress={inProgressProgress} currentVS={30} currentWPM={500} />
       );
 
       expect(getByText('In Progress')).toBeTruthy();
     });
+
+    it('shows Ready for Exam status when exam is unlocked', () => {
+      const { getByText } = render(
+        <TierCard tier="speed_reader" progress={examReadyProgress} currentVS={50} currentWPM={700} />
+      );
+
+      expect(getByText('Ready for Exam')).toBeTruthy();
+    });
   });
 
   describe('progress display', () => {
-    it('shows 100% for completed progress', () => {
+    it('shows 100% for earned tier', () => {
       const { getByText } = render(
-        <TierCard tier="quick_reader" progress={earnedProgress} />
+        <TierCard tier="speed_reader" progress={earnedProgress} currentVS={50} currentWPM={700} />
       );
 
       expect(getByText('100%')).toBeTruthy();
+    });
+
+    it('shows 67% when exam is ready but not passed', () => {
+      const { getByText } = render(
+        <TierCard tier="speed_reader" progress={examReadyProgress} currentVS={50} currentWPM={700} />
+      );
+
+      // examReadyProgress has vsUnlocked=true, speedProofAchieved=true, examPassed=false = 2/3 = 67%
+      expect(getByText('67%')).toBeTruthy();
     });
   });
 });

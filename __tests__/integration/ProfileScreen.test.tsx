@@ -13,6 +13,7 @@ import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 jest.mock('expo-router', () => ({
   router: {
     push: jest.fn(),
+    navigate: jest.fn(),
   },
 }));
 
@@ -33,35 +34,14 @@ jest.mock('../../src/store/contentStore', () => ({
   }),
 }));
 
-const mockGetAllCertificates = jest.fn(() => [
-  {
-    id: 'cert-1',
-    type: 'speed_900',
-    earnedAt: Date.now(),
-    wpm: 950,
-  },
-]);
-const mockCheckAndAwardCertificates = jest.fn();
-
-const mockGetCertificationProgress = jest.fn(() => ({
-  highestCertificationWPM: 0,
-  averageCertificationAccuracy: 0,
-  shortTextsPassed: 0,
-  mediumTextsPassed: 0,
-  longTextsPassed: 0,
-  earnedTiers: [],
-  tierProgress: {
-    quick_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
-    speed_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
-    lightning_reader: { speedProgress: 0, accuracyProgress: 0, textsProgress: 0, isReady: false, isEarned: false },
-  },
-}));
-
-jest.mock('../../src/store/certificateStore', () => ({
-  useCertificateStore: () => ({
-    getAllCertificates: mockGetAllCertificates,
-    checkAndAwardCertificates: mockCheckAndAwardCertificates,
-    getCertificationProgress: mockGetCertificationProgress,
+// Mock journeyStore (used by profile screen for certification progress)
+jest.mock('../../src/store/journeyStore', () => ({
+  useJourneyStore: () => ({
+    certProgress: {
+      speed_reader: { examPassed: false },
+      velocity_master: { examPassed: false },
+      transcendent: { examPassed: false },
+    },
   }),
 }));
 
@@ -173,30 +153,33 @@ describe('ProfileScreen Integration', () => {
     });
   });
 
-  describe('certificates section', () => {
-    it('shows Certificates section title', () => {
+  describe('certification journey section', () => {
+    it('shows Certificates stat in stats card', () => {
       renderWithProviders(<ProfileScreen />);
 
-      // Multiple Certificates text (section title + stats)
-      expect(screen.getAllByText('Certificates').length).toBeGreaterThan(0);
+      // "Certificates" appears in the stats card
+      expect(screen.getByText('Certificates')).toBeTruthy();
     });
 
-    it('displays earned certificates', () => {
+    it('shows Certification Journey section', () => {
       renderWithProviders(<ProfileScreen />);
 
-      expect(screen.getByText('Certificate: speed_900')).toBeTruthy();
+      expect(screen.getByText('Certification Journey')).toBeTruthy();
     });
 
-    it('displays locked certificates', () => {
+    it('displays certification milestone badges', () => {
       renderWithProviders(<ProfileScreen />);
 
-      expect(screen.getByText('Locked: speed_1500')).toBeTruthy();
+      // The MilestoneBadge mock renders "Badge: {tier}"
+      expect(screen.getByText(/Badge:.*speed_reader/)).toBeTruthy();
+      expect(screen.getByText(/Badge:.*velocity_master/)).toBeTruthy();
+      expect(screen.getByText(/Badge:.*transcendent/)).toBeTruthy();
     });
 
-    it('checks for new certificates on render', () => {
+    it('shows View All link for certification journey', () => {
       renderWithProviders(<ProfileScreen />);
 
-      expect(mockCheckAndAwardCertificates).toHaveBeenCalledWith(450);
+      expect(screen.getByText('View All')).toBeTruthy();
     });
   });
 

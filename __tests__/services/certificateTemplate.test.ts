@@ -10,9 +10,9 @@ import { Certificate } from '../../src/types/certificates';
 describe('certificateTemplate', () => {
   const mockCertificate: Certificate = {
     id: 'abc123xyz789',
-    type: 'speed_900',
+    type: 'speed_reader',
     earnedAt: new Date('2026-01-07').getTime(),
-    wpm: 950,
+    wpm: 600,
   };
 
   describe('generateCertificateHTML', () => {
@@ -64,7 +64,7 @@ describe('certificateTemplate', () => {
         readingLanguage: 'en',
       });
 
-      expect(html).toContain('950 WPM');
+      expect(html).toContain('600 WPM');
     });
 
     it('contains formatted date', () => {
@@ -174,7 +174,7 @@ describe('certificateTemplate', () => {
       });
 
       // Should contain an emoji icon
-      expect(html).toContain('⚡'); // speed_900 has lightning bolt icon
+      expect(html).toContain('⚡'); // speed_reader has lightning bolt icon
     });
 
     it('contains appropriate styling', () => {
@@ -200,12 +200,12 @@ describe('certificateTemplate', () => {
     });
 
     describe('with different certificate types', () => {
-      it('handles speed_1500 certificate type', () => {
+      it('handles velocity_master certificate type', () => {
         const masterCert: Certificate = {
           id: 'master123',
-          type: 'speed_1500',
+          type: 'velocity_master',
           earnedAt: Date.now(),
-          wpm: 1500,
+          wpm: 950,
         };
 
         const html = generateCertificateHTML({
@@ -214,8 +214,30 @@ describe('certificateTemplate', () => {
           readingLanguage: 'en',
         });
 
-        expect(html).toContain('1500 WPM');
+        expect(html).toContain('950 WPM');
         expect(html).toContain('Master Reader');
+        expect(html).toContain('Velocity Master');
+        expect(html).toContain('🚀');
+      });
+
+      it('handles transcendent certificate type', () => {
+        const transcendentCert: Certificate = {
+          id: 'transcendent123',
+          type: 'transcendent',
+          earnedAt: Date.now(),
+          wpm: 1250,
+        };
+
+        const html = generateCertificateHTML({
+          certificate: transcendentCert,
+          userName: 'Elite Reader',
+          readingLanguage: 'en',
+        });
+
+        expect(html).toContain('1250 WPM');
+        expect(html).toContain('Elite Reader');
+        expect(html).toContain('Transcendent');
+        expect(html).toContain('🏆');
       });
     });
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import {
   CertificationTier,
   CertificationTierProgress,
@@ -16,7 +18,7 @@ interface TierCardProps {
   tier: CertificationTier;
   progress: CertificationTierProgress;
   currentWPM?: number;
-  currentAccuracy?: number;
+  currentVS?: number;
   onStartCertification?: () => void;
 }
 
@@ -24,7 +26,7 @@ export function TierCard({
   tier,
   progress,
   currentWPM = 0,
-  currentAccuracy = 0,
+  currentVS = 0,
   onStartCertification,
 }: TierCardProps) {
   const { theme } = useTheme();
@@ -38,55 +40,69 @@ export function TierCard({
     setExpanded(!expanded);
   };
 
+  // Calculate progress values for display
+  const vsProgress = Math.min(1, currentVS / definition.vsThreshold);
+  const speedProgress = Math.min(1, currentWPM / definition.speedProofWpm);
+
+  // Calculate overall progress (0-1) based on milestones achieved
+  const getOverallProgress = (): number => {
+    let completed = 0;
+    if (progress.vsUnlocked) {completed++;}
+    if (progress.speedProofAchieved) {completed++;}
+    if (progress.examPassed) {completed++;}
+    return completed / 3;
+  };
+
+  const overallProgress = getOverallProgress();
+
   const getStatusText = () => {
-    if (progress.isEarned) { return 'Earned'; }
-    if (progress.isReady) { return 'Ready'; }
-    if (progress.isUnlocked) { return 'In Progress'; }
+    if (progress.examPassed) { return 'Earned'; }
+    if (progress.examUnlocked) { return 'Ready for Exam'; }
+    if (progress.vsUnlocked || progress.speedProofAchieved) { return 'In Progress'; }
     return 'Locked';
   };
 
   const getStatusColor = () => {
-    if (progress.isEarned) { return '#69db7c'; }
-    if (progress.isReady) { return definition.color; }
-    if (progress.isUnlocked) { return theme.accentColor; }
+    if (progress.examPassed) { return '#69db7c'; }
+    if (progress.examUnlocked) { return definition.color; }
+    if (progress.vsUnlocked || progress.speedProofAchieved) { return theme.accentColor; }
     return theme.textColor;
   };
 
-  const getNextStep = () => {
-    if (progress.isEarned) { return null; }
+  const isUnlocked = progress.vsUnlocked || progress.speedProofAchieved || progress.examPassed;
 
-    const req = definition.requirement;
+  const getNextStep = () => {
+    if (progress.examPassed) { return null; }
+
+    if (progress.examUnlocked) {
+      return 'Take the certification exam!';
+    }
+
     const steps: string[] = [];
 
-    if (currentWPM < req.minWPM) {
-      const needed = req.minWPM - currentWPM;
-      steps.push(`Increase speed by ${needed} WPM`);
+    if (!progress.vsUnlocked && currentVS < definition.vsThreshold) {
+      const needed = definition.vsThreshold - currentVS;
+      steps.push(`Increase Velocity Score by ${Math.ceil(needed)} points`);
     }
 
-    if (currentAccuracy < req.minAccuracy) {
-      const needed = req.minAccuracy - currentAccuracy;
-      steps.push(`Improve accuracy by ${needed}%`);
+    if (!progress.speedProofAchieved && currentWPM < definition.speedProofWpm) {
+      steps.push(`Achieve ${definition.speedProofWpm} WPM with 70%+ comprehension`);
     }
 
-    if (progress.textsProgress < 1) {
-      const textsNeeded = Math.ceil((1 - progress.textsProgress) * 3);
-      steps.push(`Complete ${textsNeeded} more certification text${textsNeeded > 1 ? 's' : ''}`);
-    }
-
-    return steps[0] || 'Take the certification test!';
+    return steps[0] || 'Meet both VS and Speed Proof requirements';
   };
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={toggleExpanded}
-      disabled={!progress.isUnlocked && !progress.isEarned}
+      disabled={!isUnlocked}
     >
       <View
         style={[
           styles.container,
           { backgroundColor: theme.secondaryBackground },
-          (!progress.isUnlocked && !progress.isEarned) && styles.locked,
+          !isUnlocked && styles.locked,
         ]}
       >
         {/* Header */}
@@ -96,7 +112,7 @@ export function TierCard({
           </View>
           <View style={styles.headerText}>
             <Text style={[styles.title, { color: theme.textColor }]}>
-              {definition.title}
+              {definition.name}
             </Text>
             <Text style={[styles.status, { color: getStatusColor() }]}>
               {getStatusText()}
@@ -104,7 +120,7 @@ export function TierCard({
           </View>
           <View style={styles.progressIndicator}>
             <Text style={[styles.progressText, { color: definition.color }]}>
-              {Math.round(progress.overallProgress * 100)}%
+              {Math.round(overallProgress * 100)}%
             </Text>
           </View>
         </View>
@@ -115,27 +131,60 @@ export function TierCard({
             {/* Progress bars */}
             <View style={styles.progressBars}>
               <ProgressBar
-                label="Speed"
-                value={progress.speedProgress}
-                valueText={`${currentWPM}/${definition.requirement.minWPM} WPM`}
+                label="Velocity Score"
+                value={vsProgress}
+                valueText={`${Math.round(currentVS)}/${definition.vsThreshold} VS`}
                 color={definition.color}
+                achieved={progress.vsUnlocked}
               />
               <ProgressBar
-                label="Accuracy"
-                value={progress.accuracyProgress}
-                valueText={`${currentAccuracy}%/${definition.requirement.minAccuracy}%`}
+                label="Speed Proof"
+                value={speedProgress}
+                valueText={`${currentWPM}/${definition.speedProofWpm} WPM`}
                 color={definition.color}
+                achieved={progress.speedProofAchieved}
               />
-              <ProgressBar
-                label="Texts"
-                value={progress.textsProgress}
-                valueText={`${Math.round(progress.textsProgress * 3)}/3 passed`}
-                color={definition.color}
-              />
+              <View style={styles.progressBarContainer}>
+                <View style={styles.progressBarHeader}>
+                  <Text style={[styles.progressBarLabel, { color: theme.textColor }]}>
+                    Certification Exam
+                  </Text>
+                  <Text style={[styles.progressBarValue, { color: theme.textColor }]}>
+                    {progress.examPassed ? 'Passed' : progress.examUnlocked ? 'Unlocked' : 'Locked'}
+                  </Text>
+                </View>
+                <View style={[styles.progressBarTrack, { backgroundColor: theme.backgroundColor }]}>
+                  <View
+                    style={[
+                      styles.progressBarFill,
+                      {
+                        width: progress.examPassed ? '100%' : progress.examUnlocked ? '50%' : '0%',
+                        backgroundColor: progress.examPassed ? '#69db7c' : definition.color,
+                      },
+                    ]}
+                  />
+                </View>
+              </View>
+            </View>
+
+            {/* Requirements summary */}
+            <View style={[styles.requirementsSummary, { backgroundColor: theme.backgroundColor }]}>
+              <Text style={[styles.requirementsTitle, { color: theme.textColor }]}>
+                Requirements
+              </Text>
+              <Text style={[styles.requirementText, { color: theme.textColor }]}>
+                {progress.vsUnlocked ? '✓' : '○'} VS ≥ {definition.vsThreshold}
+              </Text>
+              <Text style={[styles.requirementText, { color: theme.textColor }]}>
+                {progress.speedProofAchieved ? '✓' : '○'} {definition.speedProofWpm} WPM @ {definition.speedProofMinComp}%+ comprehension
+              </Text>
+              <Text style={[styles.requirementText, { color: theme.textColor }]}>
+                {progress.examPassed ? '✓' : '○'} Pass exam: {definition.examWpm} WPM @ {definition.examMinComp}%+
+              </Text>
             </View>
 
             {/* Next step */}
-            {!progress.isEarned && (
+            {!progress.examPassed && (
               <View style={[styles.nextStepContainer, { backgroundColor: theme.backgroundColor }]}>
                 <Text style={[styles.nextStepLabel, { color: theme.textColor }]}>
                   Next step:
@@ -147,17 +196,17 @@ export function TierCard({
             )}
 
             {/* Action button for ready state */}
-            {progress.isReady && !progress.isEarned && onStartCertification && (
+            {progress.examUnlocked && !progress.examPassed && onStartCertification && (
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: definition.color }]}
                 onPress={onStartCertification}
               >
-                <Text style={styles.actionButtonText}>Take Certification Test</Text>
+                <Text style={styles.actionButtonText}>Take Certification Exam</Text>
               </TouchableOpacity>
             )}
 
             {/* Earned badge */}
-            {progress.isEarned && progress.earnedAt && (
+            {progress.examPassed && progress.earnedAt && (
               <View style={styles.earnedBadge}>
                 <Text style={[styles.earnedText, { color: '#69db7c' }]}>
                   Earned on {new Date(progress.earnedAt).toLocaleDateString()}
@@ -176,22 +225,25 @@ interface ProgressBarProps {
   value: number;
   valueText: string;
   color: string;
+  achieved?: boolean;
 }
 
-function ProgressBar({ label, value, valueText, color }: ProgressBarProps) {
+function ProgressBar({ label, value, valueText, color, achieved }: ProgressBarProps) {
   const { theme } = useTheme();
 
   return (
     <View style={styles.progressBarContainer}>
       <View style={styles.progressBarHeader}>
-        <Text style={[styles.progressBarLabel, { color: theme.textColor }]}>{label}</Text>
+        <Text style={[styles.progressBarLabel, { color: theme.textColor }]}>
+          {achieved ? '✓ ' : ''}{label}
+        </Text>
         <Text style={[styles.progressBarValue, { color: theme.textColor }]}>{valueText}</Text>
       </View>
       <View style={[styles.progressBarTrack, { backgroundColor: theme.backgroundColor }]}>
         <View
           style={[
             styles.progressBarFill,
-            { width: `${Math.min(100, value * 100)}%`, backgroundColor: color },
+            { width: `${Math.min(100, value * 100)}%`, backgroundColor: achieved ? '#69db7c' : color },
           ]}
         />
       </View>
@@ -201,9 +253,9 @@ function ProgressBar({ label, value, valueText, color }: ProgressBarProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.lg,
+    marginBottom: SPACING.md,
   },
   locked: {
     opacity: 0.5,
@@ -213,98 +265,114 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: SPACING.massive,
+    height: SPACING.massive,
+    borderRadius: SPACING.xxl,
     justifyContent: 'center',
     alignItems: 'center',
   },
   icon: {
-    fontSize: 24,
+    fontSize: SPACING.xxl,
   },
   headerText: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   title: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   status: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
     marginTop: 2,
   },
   progressIndicator: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   progressText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   expandedContent: {
-    marginTop: 16,
-    paddingTop: 16,
+    marginTop: SPACING.lg,
+    paddingTop: SPACING.lg,
     borderTopWidth: 1,
     borderTopColor: 'rgba(255,255,255,0.1)',
   },
   progressBars: {
-    gap: 12,
+    gap: SPACING.md,
   },
   progressBarContainer: {
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   progressBarHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   progressBarLabel: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
   },
   progressBarValue: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.7,
   },
   progressBarTrack: {
-    height: 6,
-    borderRadius: 3,
+    height: RADIUS.sm,
+    borderRadius: RADIUS.xs,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: RADIUS.xs,
+  },
+  requirementsSummary: {
+    marginTop: SPACING.lg,
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+  },
+  requirementsTitle: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
+    marginBottom: SPACING.sm,
+  },
+  requirementText: {
+    ...TYPOGRAPHY.caption,
+    opacity: 0.8,
+    marginBottom: SPACING.xs,
   },
   nextStepContainer: {
-    marginTop: 16,
-    padding: 12,
-    borderRadius: 8,
+    marginTop: SPACING.lg,
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
   },
   nextStepLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.7,
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   nextStepText: {
-    fontSize: 14,
-    fontWeight: '500',
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   actionButton: {
-    marginTop: 16,
+    marginTop: SPACING.lg,
     paddingVertical: 14,
-    borderRadius: 12,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   actionButtonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
   earnedBadge: {
-    marginTop: 16,
+    marginTop: SPACING.lg,
     alignItems: 'center',
   },
   earnedText: {
-    fontSize: 14,
-    fontWeight: '500',
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
   },
 });

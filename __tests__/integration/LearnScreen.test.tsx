@@ -1,7 +1,7 @@
 /**
  * Integration Tests for Learn Screen.
  *
- * Tests the learning mode screen with topics grid and progress tracking.
+ * Tests the Learn tab placeholder screen with Coming Soon message.
  */
 
 import React from 'react';
@@ -17,34 +17,9 @@ jest.mock('expo-router', () => ({
   },
 }));
 
-// Mock stores
-const mockGetTopicProgress = jest.fn(() => ({
-  topicId: 'science-discovery',
-  articlesCompleted: 2,
-  totalArticles: 10,
-  averageScore: 85,
-}));
-
-const mockGetTotalArticlesCompleted = jest.fn(() => 5);
-const mockGetHighestWPM = jest.fn(() => 350);
-
-jest.mock('../../src/store/learningStore', () => ({
-  useLearningStore: () => ({
-    getTopicProgress: mockGetTopicProgress,
-    getTotalArticlesCompleted: mockGetTotalArticlesCompleted,
-    getHighestWPM: mockGetHighestWPM,
-  }),
-}));
-
-jest.mock('../../src/store/onboardingStore', () => ({
-  useOnboardingStore: () => ({
-    selectedInterests: [],
-  }),
-}));
-
-// Mock EdgeFadeScrollView to render children directly
-jest.mock('../../src/components/common/EdgeFadeScrollView', () => ({
-  EdgeFadeScrollView: ({ children }: { children: React.ReactNode }) => children,
+// Mock react-native-safe-area-context
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 const renderWithProviders = (ui: React.ReactElement) => {
@@ -63,85 +38,37 @@ describe('LearnScreen Integration', () => {
       expect(screen.getByText('Learn')).toBeTruthy();
     });
 
-    it('displays total articles completed', () => {
+    it('displays Coming Soon message', () => {
       renderWithProviders(<LearnScreen />);
 
-      expect(screen.getByText('5')).toBeTruthy();
-      expect(screen.getByText('Articles')).toBeTruthy();
+      expect(screen.getByText('Coming Soon')).toBeTruthy();
     });
 
-    it('displays highest WPM', () => {
+    it('displays description text', () => {
       renderWithProviders(<LearnScreen />);
 
-      expect(screen.getByText('350')).toBeTruthy();
-      expect(screen.getByText('Best WPM')).toBeTruthy();
+      expect(
+        screen.getByText(
+          'Interactive learning experiences are being developed. In the meantime, build your speed reading skills with our training articles.'
+        )
+      ).toBeTruthy();
     });
 
-    it('shows Topics section', () => {
+    it('shows Go to Train button', () => {
       renderWithProviders(<LearnScreen />);
 
-      expect(screen.getByText('Topics')).toBeTruthy();
-    });
-
-    it('shows Try RSVP Demo button', () => {
-      renderWithProviders(<LearnScreen />);
-
-      expect(screen.getByText('Try RSVP Demo')).toBeTruthy();
-    });
-  });
-
-  describe('topics grid', () => {
-    it('renders all topics', () => {
-      renderWithProviders(<LearnScreen />);
-
-      // Check for a few topic names
-      expect(screen.getByText('Science & Discovery')).toBeTruthy();
-    });
-
-    it('shows topic progress', () => {
-      renderWithProviders(<LearnScreen />);
-
-      // Progress is shown as "completed/total"
-      expect(screen.getAllByText('2/10').length).toBeGreaterThan(0);
+      expect(screen.getByText('Go to Train')).toBeTruthy();
     });
   });
 
   describe('navigation', () => {
-    it('navigates to demo when Try RSVP Demo is pressed', () => {
+    it('navigates to train tab when Go to Train button is pressed', () => {
       renderWithProviders(<LearnScreen />);
 
-      const demoButton = screen.getByText('Try RSVP Demo');
-      fireEvent.press(demoButton);
+      const trainButton = screen.getByText('Go to Train');
+      fireEvent.press(trainButton);
 
-      expect(mockPush).toHaveBeenCalledWith('/reader/demo');
-    });
-
-    it('navigates to topic when topic card is pressed', () => {
-      renderWithProviders(<LearnScreen />);
-
-      const topicCard = screen.getByText('Science & Discovery');
-      fireEvent.press(topicCard);
-
-      expect(mockPush).toHaveBeenCalledWith('/topic/science-discovery');
-    });
-  });
-
-  describe('with no progress', () => {
-    beforeEach(() => {
-      mockGetTotalArticlesCompleted.mockReturnValue(0);
-      mockGetHighestWPM.mockReturnValue(0);
-    });
-
-    it('shows 0 for articles completed', () => {
-      renderWithProviders(<LearnScreen />);
-
-      expect(screen.getByText('0')).toBeTruthy();
-    });
-
-    it('shows em-dash for no WPM', () => {
-      renderWithProviders(<LearnScreen />);
-
-      expect(screen.getByText('—')).toBeTruthy();
+      expect(mockPush).toHaveBeenCalledWith('/(tabs)/train');
     });
   });
 });

@@ -6,6 +6,8 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
+import { SPACING, COMPONENT_SPACING, space } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
 
@@ -36,7 +38,7 @@ export default function DemoReaderScreen() {
 
       {/* Word display area */}
       <View style={styles.wordArea}>
-        <RSVPWord word={engine.currentWord} fontSize={48} />
+        <RSVPWord word={engine.currentWord} fontSize={SPACING.massive} />
       </View>
 
       {/* Controls */}
@@ -73,19 +75,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: COMPONENT_SPACING.screenPadding,
+    paddingVertical: SPACING.md,
   },
   backButton: {
-    width: 80,
+    width: space(10),
   },
   backText: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: TYPOGRAPHY.button.fontSize,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   wordArea: {
     flex: 1,
@@ -93,13 +95,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   instructions: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingHorizontal: SPACING.xl,
+    paddingBottom: SPACING.xl,
   },
   instructionText: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.buttonSmall.fontSize,
     textAlign: 'center',
     opacity: 0.7,
-    lineHeight: 20,
+    lineHeight: SPACING.xl,
   },
 });

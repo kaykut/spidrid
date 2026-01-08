@@ -3,6 +3,8 @@ import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { InterestPill } from '../../components/onboarding/InterestPill';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { INTERESTS } from '../../data/interests';
 import { useOnboardingStore } from '../../store/onboardingStore';
 
@@ -83,16 +85,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    padding: 24,
-    paddingBottom: 16,
+    padding: SPACING.xxl,
+    paddingBottom: SPACING.lg,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    ...TYPOGRAPHY.pageTitle,
+    marginBottom: SPACING.sm,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
+    fontWeight: TYPOGRAPHY.button.fontWeight,
     opacity: 0.7,
   },
   scrollView: {
@@ -101,21 +103,20 @@ const styles = StyleSheet.create({
   pillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 24,
+    padding: SPACING.xxl,
     paddingTop: 0,
-    gap: 10,
+    gap: SPACING.md,
   },
   footer: {
-    padding: 24,
-    paddingTop: 16,
+    padding: SPACING.xxl,
+    paddingTop: SPACING.lg,
   },
   continueButton: {
-    borderRadius: 12,
-    paddingVertical: 16,
+    borderRadius: COMPONENT_RADIUS.button,
+    paddingVertical: SPACING.lg,
     alignItems: 'center',
   },
   continueButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
 });

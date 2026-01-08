@@ -262,7 +262,7 @@ export function generateCertificateHTML(params: CertificateTemplateParams): stri
     <div class="app-name">Spidrid</div>
 
     <div class="certificate-of">Certificate of Achievement</div>
-    <h1 class="title">${definition?.title || 'Speed Reader'}</h1>
+    <h1 class="title">${definition?.name || 'Speed Reader'}</h1>
     <div class="achievement-type">Reading Excellence</div>
 
     <p class="presented-to">This certificate is proudly presented to</p>

@@ -21,7 +21,7 @@ const mockShareAsync = Sharing.shareAsync as jest.Mock;
 describe('certificatePDF', () => {
   const mockCertificate: Certificate = {
     id: 'test123',
-    type: 'speed_900',
+    type: 'speed_reader',
     earnedAt: Date.now(),
     wpm: 950,
   };

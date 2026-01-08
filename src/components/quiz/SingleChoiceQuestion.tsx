@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 import type { SingleChoiceQuestion as SingleChoiceQuestionType } from '../../types/learning';
 
@@ -75,33 +77,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   questionText: {
-    fontSize: 22,
-    fontWeight: '600',
+    ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
-    marginBottom: 32,
-    lineHeight: 32,
+    marginBottom: SPACING.xxxl,
+    lineHeight: SPACING.xxxl,
   },
   optionsContainer: {
-    gap: 12,
+    gap: SPACING.md,
   },
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 18,
-    borderRadius: 14,
+    padding: SPACING.lg + 2, // 18px approximation
+    borderRadius: RADIUS.xl,
   },
   optionText: {
     flex: 1,
-    fontSize: 16,
+    ...TYPOGRAPHY.button,
   },
   correctIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#69db7c',
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
   incorrectIndicator: {
-    fontSize: 20,
+    ...TYPOGRAPHY.metric,
     color: '#ff6b6b',
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });

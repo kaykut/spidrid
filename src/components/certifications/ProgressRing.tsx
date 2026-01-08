@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 
 interface ProgressRingProps {
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   percentageText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.levelName,
+    fontWeight: FONT_WEIGHTS.bold,
   },
 });

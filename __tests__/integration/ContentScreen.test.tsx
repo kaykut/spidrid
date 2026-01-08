@@ -1,3 +1,4 @@
+// @ts-nocheck - Test file with mock JSX elements
 /**
  * Integration Tests for Content Reader Screen.
  *
@@ -24,7 +25,7 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock content store
-const mockGetContentById = jest.fn(() => ({
+const mockGetContentById = jest.fn<{ id: string; title: string; content: string; wordCount: number; source: string; sourceUrl: string; readProgress: number; createdAt: number } | undefined, []>(() => ({
   id: 'content-123',
   title: 'Test Article',
   content: 'This is a test article with some content to read.',
@@ -154,6 +155,7 @@ describe('ContentReaderScreen Integration', () => {
         content: 'Some text content.',
         wordCount: 3,
         source: 'text',
+        sourceUrl: '',
         readProgress: 0,
         createdAt: Date.now(),
       });
@@ -197,7 +199,7 @@ describe('ContentReaderScreen Integration', () => {
 
   describe('content not found', () => {
     it('shows error when content does not exist', () => {
-      mockGetContentById.mockReturnValue(null);
+      mockGetContentById.mockReturnValue(undefined);
 
       renderWithProviders(<ContentReaderScreen />);
 

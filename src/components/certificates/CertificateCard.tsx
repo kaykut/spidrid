@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -42,7 +44,7 @@ export function CertificateCard({ certificate, size = 'small', onPress }: Certif
           { color: theme.textColor },
         ]}
       >
-        {definition.title}
+        {definition.name}
       </Text>
       <Text
         style={[
@@ -107,7 +109,7 @@ export function LockedCertificateCard({ type, progress }: LockedCertificateCardP
         <Text style={[styles.iconTextSmall, styles.locked]}>🔒</Text>
       </View>
       <Text style={[styles.title, styles.titleSmall, { color: theme.textColor }, styles.locked]}>
-        {definition.title}
+        {definition.name}
       </Text>
       <Text style={[styles.description, styles.descSmall, { color: theme.textColor }, styles.locked]}>
         {definition.description}
@@ -126,22 +128,22 @@ export function LockedCertificateCard({ type, progress }: LockedCertificateCardP
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: COMPONENT_RADIUS.card,
     alignItems: 'center',
-    padding: 16,
+    padding: SPACING.lg,
   },
   cardSmall: {
     width: '48%',
   },
   cardLarge: {
     width: '100%',
-    paddingVertical: 32,
+    paddingVertical: SPACING.xxxl,
   },
   iconContainer: {
-    borderRadius: 16,
+    borderRadius: COMPONENT_RADIUS.card,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   iconSmall: {
     width: 56,
@@ -158,15 +160,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: FONT_WEIGHTS.bold,
     textAlign: 'center',
-    marginBottom: 4,
+    marginBottom: SPACING.xs,
   },
   titleSmall: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.bold,
   },
   titleLarge: {
-    fontSize: 24,
+    ...TYPOGRAPHY.metricLarge,
   },
   description: {
     opacity: 0.7,
@@ -176,21 +179,22 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   descLarge: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
   },
   date: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.5,
-    marginTop: 8,
+    marginTop: SPACING.sm,
   },
   locked: {
     opacity: 0.5,
   },
   progressBar: {
     width: '100%',
-    height: 4,
-    borderRadius: 2,
-    marginTop: 8,
+    height: SPACING.xs,
+    borderRadius: RADIUS.xs,
+    marginTop: SPACING.sm,
     overflow: 'hidden',
   },
   progressFill: {

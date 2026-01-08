@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { generateCertificatePDF, shareCertificate, deleteCertificatePDF } from '../../services/certificatePDF';
 import { generateCertificateHTML } from '../../services/certificateTemplate';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -84,7 +86,7 @@ export function CertificateViewerModal({
           style={[
             styles.header,
             {
-              paddingTop: insets.top + 8,
+              paddingTop: insets.top + SPACING.sm,
               backgroundColor: theme.secondaryBackground,
               borderBottomColor: theme.crosshairColor,
             },
@@ -127,7 +129,7 @@ export function CertificateViewerModal({
           style={[
             styles.footer,
             {
-              paddingBottom: insets.bottom + 16,
+              paddingBottom: insets.bottom + SPACING.lg,
               backgroundColor: theme.secondaryBackground,
             },
           ]}
@@ -149,33 +151,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingBottom: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingBottom: SPACING.md,
     borderBottomWidth: 1,
   },
   closeButton: {
-    padding: 8,
+    padding: SPACING.sm,
     minWidth: 70,
   },
   closeText: {
-    fontSize: 16,
-    fontWeight: '500',
+    ...TYPOGRAPHY.button,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   headerTitle: {
-    fontSize: 17,
-    fontWeight: '600',
+    ...TYPOGRAPHY.cardTitle,
   },
   shareButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.md,
     minWidth: 70,
     alignItems: 'center',
   },
   shareText: {
     color: '#ffffff',
-    fontSize: 15,
-    fontWeight: '600',
+    ...TYPOGRAPHY.body,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   webviewContainer: {
     flex: 1,
@@ -185,12 +186,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   footer: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
     alignItems: 'center',
   },
   footerText: {
-    fontSize: 13,
+    ...TYPOGRAPHY.label,
     opacity: 0.6,
   },
 });

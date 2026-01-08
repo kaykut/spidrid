@@ -2,6 +2,7 @@
  * Tests for NewCertificateModal Component.
  *
  * Displays a congratulations modal when a certificate is earned.
+ * PRD Tiers: speed_reader, velocity_master, transcendent
  */
 
 import React from 'react';
@@ -15,18 +16,25 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(<ThemeProvider>{ui}</ThemeProvider>);
 };
 
-// Mock certificate data
+// Mock certificate data using PRD tiers
 const mockCertificate: Certificate = {
   id: 'cert-123',
-  type: 'speed_900',
+  type: 'speed_reader',
   earnedAt: new Date('2026-01-07').getTime(),
+  wpm: 650,
+};
+
+const mockVelocityMasterCertificate: Certificate = {
+  id: 'cert-456',
+  type: 'velocity_master',
+  earnedAt: new Date('2026-01-06').getTime(),
   wpm: 950,
 };
 
-const mockMasterCertificate: Certificate = {
-  id: 'cert-456',
-  type: 'speed_1500',
-  earnedAt: new Date('2026-01-06').getTime(),
+const mockTranscendentCertificate: Certificate = {
+  id: 'cert-789',
+  type: 'transcendent',
+  earnedAt: new Date('2026-01-08').getTime(),
   wpm: 1550,
 };
 
@@ -65,7 +73,7 @@ describe('NewCertificateModal', () => {
     });
 
     it('returns null when certificate is null', () => {
-      const { root } = renderWithProviders(
+      renderWithProviders(
         <NewCertificateModal
           certificate={null}
           visible={true}
@@ -77,7 +85,7 @@ describe('NewCertificateModal', () => {
     });
   });
 
-  describe('content display', () => {
+  describe('speed_reader certificate display', () => {
     it('shows congratulations message', () => {
       renderWithProviders(
         <NewCertificateModal
@@ -111,7 +119,7 @@ describe('NewCertificateModal', () => {
         />
       );
 
-      expect(screen.getByText('Achieved 900 WPM reading speed')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
     });
 
     it('shows certificate icon', () => {
@@ -135,7 +143,7 @@ describe('NewCertificateModal', () => {
         />
       );
 
-      expect(screen.getByText('950 WPM')).toBeTruthy();
+      expect(screen.getByText('650 WPM')).toBeTruthy();
     });
 
     it('shows Awesome button', () => {
@@ -151,23 +159,61 @@ describe('NewCertificateModal', () => {
     });
   });
 
-  describe('master certificate display', () => {
-    it('shows master certificate title', () => {
+  describe('velocity_master certificate display', () => {
+    it('shows velocity master certificate title', () => {
       renderWithProviders(
         <NewCertificateModal
-          certificate={mockMasterCertificate}
+          certificate={mockVelocityMasterCertificate}
           visible={true}
           onClose={mockOnClose}
         />
       );
 
-      expect(screen.getByText('Master Reader')).toBeTruthy();
+      expect(screen.getByText('Velocity Master')).toBeTruthy();
     });
 
-    it('shows master certificate icon', () => {
+    it('shows velocity master certificate icon', () => {
       renderWithProviders(
         <NewCertificateModal
-          certificate={mockMasterCertificate}
+          certificate={mockVelocityMasterCertificate}
+          visible={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      expect(screen.getByText('🚀')).toBeTruthy();
+    });
+
+    it('shows velocity master certificate WPM', () => {
+      renderWithProviders(
+        <NewCertificateModal
+          certificate={mockVelocityMasterCertificate}
+          visible={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      expect(screen.getByText('950 WPM')).toBeTruthy();
+    });
+  });
+
+  describe('transcendent certificate display', () => {
+    it('shows transcendent certificate title', () => {
+      renderWithProviders(
+        <NewCertificateModal
+          certificate={mockTranscendentCertificate}
+          visible={true}
+          onClose={mockOnClose}
+        />
+      );
+
+      expect(screen.getByText('Transcendent')).toBeTruthy();
+    });
+
+    it('shows transcendent certificate icon', () => {
+      renderWithProviders(
+        <NewCertificateModal
+          certificate={mockTranscendentCertificate}
           visible={true}
           onClose={mockOnClose}
         />
@@ -176,10 +222,10 @@ describe('NewCertificateModal', () => {
       expect(screen.getByText('🏆')).toBeTruthy();
     });
 
-    it('shows master certificate WPM', () => {
+    it('shows transcendent certificate WPM', () => {
       renderWithProviders(
         <NewCertificateModal
-          certificate={mockMasterCertificate}
+          certificate={mockTranscendentCertificate}
           visible={true}
           onClose={mockOnClose}
         />

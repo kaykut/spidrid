@@ -2,21 +2,21 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NewCertificateModal } from '../../components/certificates/NewCertificateModal';
 import { CertificationReadyModal } from '../../components/certifications';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
 import { QuestionRenderer, QuestionAnswer } from '../../components/quiz';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { getArticleById, getTopicById } from '../../data/curriculum';
 import { useCertificationDetection } from '../../hooks/useCertificationDetection';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
-import { useCertificateStore } from '../../store/certificateStore';
+import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { Certificate } from '../../types/certificates';
 import { isAnswerCorrect } from '../../utils/calculateQuizScore';
 
 type Phase = 'reading' | 'quiz' | 'results';
@@ -24,9 +24,9 @@ type Phase = 'reading' | 'quiz' | 'results';
 export default function ArticleReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
-  const { completeArticle, currentWPM, setCurrentWPM, getHighestWPM } = useLearningStore();
+  const { completeArticle, currentWPM, setCurrentWPM } = useLearningStore();
   const { getMaxWPM } = useSubscriptionStore();
-  const { checkAndAwardCertificates } = useCertificateStore();
+  const { recordSession } = useJourneyStore();
 
   // Certification detection
   const {
@@ -46,7 +46,6 @@ export default function ArticleReaderScreen() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [showPaywall, setShowPaywall] = useState(false);
   const [readingWPM, setReadingWPM] = useState(currentWPM);
-  const [newCertificate, setNewCertificate] = useState<Certificate | null>(null);
 
   const words = useMemo(
     () => (article ? processText(article.content) : []),
@@ -100,12 +99,13 @@ export default function ArticleReaderScreen() {
         const score = Math.round((finalCorrect / article.questions.length) * 100);
         completeArticle(article.id, score, readingWPM);
 
-        // Check for new certificates (legacy speed-only certificates)
-        const highestWPM = Math.max(getHighestWPM(), readingWPM);
-        const newCerts = checkAndAwardCertificates(highestWPM);
-        if (newCerts.length > 0) {
-          setNewCertificate(newCerts[0]); // Show first new certificate
-        }
+        // Record in journey store for VS tracking
+        recordSession({
+          wpm: readingWPM,
+          comprehension: score,
+          articleId: article.id,
+          articleType: article.articleType === 'certification' ? 'certification' : 'curriculum',
+        });
 
         // Check certification readiness for practice articles
         if (isPracticeArticle) {
@@ -141,15 +141,10 @@ export default function ArticleReaderScreen() {
         onClose={() => setShowPaywall(false)}
         reason="wpm_limit"
       />
-      <NewCertificateModal
-        certificate={newCertificate}
-        visible={newCertificate !== null}
-        onClose={() => setNewCertificate(null)}
-      />
       <CertificationReadyModal
         tier={certState.readyTier}
         currentWPM={certState.currentWPM}
-        currentAccuracy={certState.currentAccuracy}
+        currentVS={certState.currentVS}
         visible={certState.showReadinessModal}
         onTakeTest={handleTakeCertificationTest}
         onKeepPracticing={dismissReadiness}
@@ -291,14 +286,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
   },
   backButton: {
     width: 80,
   },
   backText: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
     fontWeight: '500',
   },
   headerCenter: {
@@ -306,12 +301,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topicLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   articleTitle: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
     fontWeight: '500',
   },
   wordArea: {
@@ -320,80 +315,85 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   instructions: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingHorizontal: SPACING.xl,
+    paddingBottom: SPACING.xl,
   },
   instructionText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     textAlign: 'center',
     opacity: 0.7,
     lineHeight: 20,
   },
   quizContainer: {
     flex: 1,
-    padding: 20,
+    padding: SPACING.xl,
   },
   quizProgress: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: SPACING.xxl,
   },
   quizProgressText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     opacity: 0.6,
   },
   resultsContainer: {
     flex: 1,
-    padding: 20,
+    padding: SPACING.xl,
     justifyContent: 'center',
   },
   resultsTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.pageTitle,
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: SPACING.xxxl,
   },
   resultsCard: {
-    borderRadius: 20,
-    padding: 24,
-    marginBottom: 32,
+    borderRadius: RADIUS.xxl,
+    padding: SPACING.xxl,
+    marginBottom: SPACING.xxxl,
   },
   resultRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: SPACING.md,
   },
   resultLabel: {
+    ...TYPOGRAPHY.body,
     fontSize: 16,
   },
   resultValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.metricLarge,
   },
   doneButton: {
-    paddingVertical: 16,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.lg + 2,
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   doneButtonText: {
     color: '#ffffff',
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
-    fontWeight: '600',
+    textTransform: 'none',
+    letterSpacing: 0,
   },
   retryButton: {
-    paddingVertical: 14,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg - 2,
+    borderRadius: RADIUS.lg + 2,
     alignItems: 'center',
     borderWidth: 2,
   },
   retryButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
   errorText: {
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
+    textTransform: 'none',
+    letterSpacing: 0,
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: SPACING.huge,
   },
 });

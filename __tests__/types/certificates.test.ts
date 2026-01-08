@@ -1,24 +1,21 @@
 /**
- * Tests for Certificate Types - Milestone 1
+ * Tests for Certificate Types
  *
- * Tests the CertificationTier system, definitions,
- * tier readiness checking, and legacy compatibility.
+ * Tests the new journey-based certification system with three tiers:
+ * - Speed Reader (VS 40, 600 WPM)
+ * - Velocity Master (VS 60, 900 WPM)
+ * - Transcendent (VS 95, 1200 WPM)
  */
 
 import {
-  CertificationTier,
-  CertificationProgress,
   CertificationTierProgress,
   CERTIFICATION_TIER_DEFINITIONS,
   INITIAL_CERTIFICATION_PROGRESS,
-  READINESS_WPM_THRESHOLD,
-  READINESS_ACCURACY_THRESHOLD,
   getCertificationTierDefinition,
-  checkTierReadiness,
-  getRequiredTextCounts,
-  mapLegacyToTier,
   getCertificateDefinition,
-  CERTIFICATE_DEFINITIONS,
+  Certificate,
+  EarnedCertification,
+  earnedCertificationToCertificate,
 } from '../../src/types/certificates';
 
 describe('Certification Tier Definitions', () => {
@@ -27,89 +24,127 @@ describe('Certification Tier Definitions', () => {
       expect(CERTIFICATION_TIER_DEFINITIONS.length).toBe(3);
     });
 
-    it('includes quick_reader, speed_reader, lightning_reader', () => {
+    it('includes speed_reader, velocity_master, transcendent', () => {
       const tiers = CERTIFICATION_TIER_DEFINITIONS.map(d => d.tier);
-      expect(tiers).toContain('quick_reader');
       expect(tiers).toContain('speed_reader');
-      expect(tiers).toContain('lightning_reader');
-    });
-
-    describe('quick_reader tier', () => {
-      const tier = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'quick_reader')!;
-
-      it('requires 600 WPM', () => {
-        expect(tier.requirement.minWPM).toBe(600);
-      });
-
-      it('requires 80% accuracy', () => {
-        expect(tier.requirement.minAccuracy).toBe(80);
-      });
-
-      it('requires 2 short + 1 medium texts', () => {
-        expect(tier.requirement.requiredTexts.short).toBe(2);
-        expect(tier.requirement.requiredTexts.medium).toBe(1);
-      });
-
-      it('has no prerequisite', () => {
-        expect(tier.requirement.prerequisite).toBeUndefined();
-      });
+      expect(tiers).toContain('velocity_master');
+      expect(tiers).toContain('transcendent');
     });
 
     describe('speed_reader tier', () => {
       const tier = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'speed_reader')!;
 
-      it('requires 900 WPM', () => {
-        expect(tier.requirement.minWPM).toBe(900);
+      it('has VS threshold of 40', () => {
+        expect(tier.vsThreshold).toBe(40);
       });
 
-      it('requires 85% accuracy', () => {
-        expect(tier.requirement.minAccuracy).toBe(85);
+      it('has speed proof of 600 WPM', () => {
+        expect(tier.speedProofWpm).toBe(600);
       });
 
-      it('requires 1 medium + 2 long texts', () => {
-        expect(tier.requirement.requiredTexts.medium).toBe(1);
-        expect(tier.requirement.requiredTexts.long).toBe(2);
+      it('has exam WPM of 600', () => {
+        expect(tier.examWpm).toBe(600);
       });
 
-      it('requires quick_reader as prerequisite', () => {
-        expect(tier.requirement.prerequisite).toBe('quick_reader');
+      it('has exam words of 1000', () => {
+        expect(tier.examWords).toBe(1000);
+      });
+
+      it('has exam min comprehension of 80%', () => {
+        expect(tier.examMinComp).toBe(80);
+      });
+
+      it('has speed proof min comprehension of 70%', () => {
+        expect(tier.speedProofMinComp).toBe(70);
+      });
+
+      it('has name Speed Reader', () => {
+        expect(tier.name).toBe('Speed Reader');
+      });
+
+      it('has icon ⚡', () => {
+        expect(tier.icon).toBe('⚡');
+      });
+
+      it('has color #fab005', () => {
+        expect(tier.color).toBe('#fab005');
       });
     });
 
-    describe('lightning_reader tier', () => {
-      const tier = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'lightning_reader')!;
+    describe('velocity_master tier', () => {
+      const tier = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'velocity_master')!;
 
-      it('requires 1200 WPM', () => {
-        expect(tier.requirement.minWPM).toBe(1200);
+      it('has VS threshold of 60', () => {
+        expect(tier.vsThreshold).toBe(60);
       });
 
-      it('requires 90% accuracy', () => {
-        expect(tier.requirement.minAccuracy).toBe(90);
+      it('has speed proof of 900 WPM', () => {
+        expect(tier.speedProofWpm).toBe(900);
       });
 
-      it('requires 3 long texts', () => {
-        expect(tier.requirement.requiredTexts.long).toBe(3);
+      it('has exam WPM of 900', () => {
+        expect(tier.examWpm).toBe(900);
       });
 
-      it('requires speed_reader as prerequisite', () => {
-        expect(tier.requirement.prerequisite).toBe('speed_reader');
+      it('has exam words of 2000', () => {
+        expect(tier.examWords).toBe(2000);
+      });
+
+      it('has name Velocity Master', () => {
+        expect(tier.name).toBe('Velocity Master');
+      });
+
+      it('has icon 🚀', () => {
+        expect(tier.icon).toBe('🚀');
+      });
+    });
+
+    describe('transcendent tier', () => {
+      const tier = CERTIFICATION_TIER_DEFINITIONS.find(d => d.tier === 'transcendent')!;
+
+      it('has VS threshold of 95', () => {
+        expect(tier.vsThreshold).toBe(95);
+      });
+
+      it('has speed proof of 1200 WPM', () => {
+        expect(tier.speedProofWpm).toBe(1200);
+      });
+
+      it('has exam WPM of 1200', () => {
+        expect(tier.examWpm).toBe(1200);
+      });
+
+      it('has exam words of 3000', () => {
+        expect(tier.examWords).toBe(3000);
+      });
+
+      it('has name Transcendent', () => {
+        expect(tier.name).toBe('Transcendent');
+      });
+
+      it('has icon 🏆', () => {
+        expect(tier.icon).toBe('🏆');
       });
     });
   });
 
   describe('getCertificationTierDefinition', () => {
-    it('returns correct definition for valid tier', () => {
-      const quickReader = getCertificationTierDefinition('quick_reader');
-      expect(quickReader).toBeDefined();
-      expect(quickReader!.title).toBe('Quick Reader');
+    it('returns correct definition for speed_reader', () => {
+      const def = getCertificationTierDefinition('speed_reader');
+      expect(def).toBeDefined();
+      expect(def!.name).toBe('Speed Reader');
+    });
 
-      const speedReader = getCertificationTierDefinition('speed_reader');
-      expect(speedReader).toBeDefined();
-      expect(speedReader!.title).toBe('Speed Reader');
+    it('returns correct definition for velocity_master', () => {
+      const def = getCertificationTierDefinition('velocity_master');
+      expect(def).toBeDefined();
+      expect(def!.name).toBe('Velocity Master');
+    });
 
-      const lightningReader = getCertificationTierDefinition('lightning_reader');
-      expect(lightningReader).toBeDefined();
-      expect(lightningReader!.title).toBe('Lightning Reader');
+    it('returns correct definition for transcendent', () => {
+      const def = getCertificationTierDefinition('transcendent');
+      expect(def).toBeDefined();
+      expect(def!.name).toBe('Transcendent');
     });
 
     it('returns undefined for invalid tier', () => {
@@ -118,176 +153,12 @@ describe('Certification Tier Definitions', () => {
       expect(invalid).toBeUndefined();
     });
   });
-});
 
-describe('Certification Progress', () => {
-  describe('INITIAL_CERTIFICATION_PROGRESS', () => {
-    it('starts with zero WPM and accuracy', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.highestCertificationWPM).toBe(0);
-      expect(INITIAL_CERTIFICATION_PROGRESS.averageCertificationAccuracy).toBe(0);
-    });
-
-    it('starts with zero texts passed', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.shortTextsPassed).toBe(0);
-      expect(INITIAL_CERTIFICATION_PROGRESS.mediumTextsPassed).toBe(0);
-      expect(INITIAL_CERTIFICATION_PROGRESS.longTextsPassed).toBe(0);
-    });
-
-    it('starts with no earned tiers', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.earnedTiers).toEqual([]);
-    });
-
-    it('quick_reader is unlocked by default', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.tierProgress.quick_reader.isUnlocked).toBe(true);
-    });
-
-    it('speed_reader is locked by default', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.tierProgress.speed_reader.isUnlocked).toBe(false);
-    });
-
-    it('lightning_reader is locked by default', () => {
-      expect(INITIAL_CERTIFICATION_PROGRESS.tierProgress.lightning_reader.isUnlocked).toBe(false);
-    });
-
-    it('no tier is ready or earned initially', () => {
-      const tiers: CertificationTier[] = ['quick_reader', 'speed_reader', 'lightning_reader'];
-      tiers.forEach(tier => {
-        expect(INITIAL_CERTIFICATION_PROGRESS.tierProgress[tier].isReady).toBe(false);
-        expect(INITIAL_CERTIFICATION_PROGRESS.tierProgress[tier].isEarned).toBe(false);
-      });
-    });
-  });
-});
-
-describe('Readiness Thresholds', () => {
-  it('WPM threshold is 90%', () => {
-    expect(READINESS_WPM_THRESHOLD).toBe(0.9);
-  });
-
-  it('Accuracy threshold is 95%', () => {
-    expect(READINESS_ACCURACY_THRESHOLD).toBe(0.95);
-  });
-});
-
-describe('checkTierReadiness', () => {
-  describe('quick_reader (no prerequisite)', () => {
-    it('is unlocked with empty earnedTiers', () => {
-      const result = checkTierReadiness('quick_reader', 0, 0, []);
-      expect(result.isUnlocked).toBe(true);
-    });
-
-    it('is ready when WPM >= 540 (90% of 600) and accuracy >= 76% (95% of 80%)', () => {
-      const result = checkTierReadiness('quick_reader', 540, 76, []);
-      expect(result.isUnlocked).toBe(true);
-      expect(result.isReady).toBe(true);
-    });
-
-    it('is not ready when WPM < 540', () => {
-      const result = checkTierReadiness('quick_reader', 539, 80, []);
-      expect(result.isUnlocked).toBe(true);
-      expect(result.isReady).toBe(false);
-    });
-
-    it('is not ready when accuracy < 76%', () => {
-      const result = checkTierReadiness('quick_reader', 600, 75, []);
-      expect(result.isUnlocked).toBe(true);
-      expect(result.isReady).toBe(false);
-    });
-  });
-
-  describe('speed_reader (requires quick_reader)', () => {
-    it('is not unlocked without quick_reader earned', () => {
-      const result = checkTierReadiness('speed_reader', 1000, 90, []);
-      expect(result.isUnlocked).toBe(false);
-      expect(result.isReady).toBe(false);
-    });
-
-    it('is unlocked with quick_reader earned', () => {
-      const result = checkTierReadiness('speed_reader', 0, 0, ['quick_reader']);
-      expect(result.isUnlocked).toBe(true);
-    });
-
-    it('is ready when WPM >= 810 (90% of 900) and accuracy >= 80.75% (95% of 85%)', () => {
-      const result = checkTierReadiness('speed_reader', 810, 81, ['quick_reader']);
-      expect(result.isUnlocked).toBe(true);
-      expect(result.isReady).toBe(true);
-    });
-  });
-
-  describe('lightning_reader (requires speed_reader)', () => {
-    it('is not unlocked without speed_reader earned', () => {
-      const result = checkTierReadiness('lightning_reader', 1500, 95, ['quick_reader']);
-      expect(result.isUnlocked).toBe(false);
-    });
-
-    it('is unlocked with speed_reader earned', () => {
-      const result = checkTierReadiness('lightning_reader', 0, 0, ['quick_reader', 'speed_reader']);
-      expect(result.isUnlocked).toBe(true);
-    });
-
-    it('is ready when WPM >= 1080 (90% of 1200) and accuracy >= 85.5% (95% of 90%)', () => {
-      const result = checkTierReadiness('lightning_reader', 1080, 86, ['quick_reader', 'speed_reader']);
-      expect(result.isUnlocked).toBe(true);
-      expect(result.isReady).toBe(true);
-    });
-  });
-});
-
-describe('getRequiredTextCounts', () => {
-  it('returns correct counts for quick_reader', () => {
-    const counts = getRequiredTextCounts('quick_reader');
-    expect(counts.short).toBe(2);
-    expect(counts.medium).toBe(1);
-    expect(counts.long).toBe(0);
-  });
-
-  it('returns correct counts for speed_reader', () => {
-    const counts = getRequiredTextCounts('speed_reader');
-    expect(counts.short).toBe(0);
-    expect(counts.medium).toBe(1);
-    expect(counts.long).toBe(2);
-  });
-
-  it('returns correct counts for lightning_reader', () => {
-    const counts = getRequiredTextCounts('lightning_reader');
-    expect(counts.short).toBe(0);
-    expect(counts.medium).toBe(0);
-    expect(counts.long).toBe(3);
-  });
-
-  it('returns zeros for invalid tier', () => {
-    // @ts-expect-error Testing invalid input
-    const counts = getRequiredTextCounts('invalid');
-    expect(counts.short).toBe(0);
-    expect(counts.medium).toBe(0);
-    expect(counts.long).toBe(0);
-  });
-});
-
-describe('Legacy Certificate Compatibility', () => {
-  describe('CERTIFICATE_DEFINITIONS (legacy)', () => {
-    it('has 2 legacy certificate types', () => {
-      expect(CERTIFICATE_DEFINITIONS.length).toBe(2);
-    });
-
-    it('includes speed_900 and speed_1500', () => {
-      const types = CERTIFICATE_DEFINITIONS.map(d => d.type);
-      expect(types).toContain('speed_900');
-      expect(types).toContain('speed_1500');
-    });
-  });
-
-  describe('getCertificateDefinition (legacy)', () => {
-    it('returns correct definition for speed_900', () => {
-      const def = getCertificateDefinition('speed_900');
-      expect(def).toBeDefined();
-      expect(def!.requirement.wpm).toBe(900);
-    });
-
-    it('returns correct definition for speed_1500', () => {
-      const def = getCertificateDefinition('speed_1500');
-      expect(def).toBeDefined();
-      expect(def!.requirement.wpm).toBe(1500);
+  describe('getCertificateDefinition (alias)', () => {
+    it('returns same result as getCertificationTierDefinition', () => {
+      const fromTier = getCertificationTierDefinition('speed_reader');
+      const fromAlias = getCertificateDefinition('speed_reader');
+      expect(fromTier).toEqual(fromAlias);
     });
 
     it('returns undefined for invalid type', () => {
@@ -296,19 +167,38 @@ describe('Legacy Certificate Compatibility', () => {
       expect(def).toBeUndefined();
     });
   });
+});
 
-  describe('mapLegacyToTier', () => {
-    it('maps speed_900 to speed_reader', () => {
-      expect(mapLegacyToTier('speed_900')).toBe('speed_reader');
+describe('Certification Progress', () => {
+  describe('INITIAL_CERTIFICATION_PROGRESS', () => {
+    it('has progress for all three tiers', () => {
+      expect(INITIAL_CERTIFICATION_PROGRESS).toHaveProperty('speed_reader');
+      expect(INITIAL_CERTIFICATION_PROGRESS).toHaveProperty('velocity_master');
+      expect(INITIAL_CERTIFICATION_PROGRESS).toHaveProperty('transcendent');
     });
 
-    it('maps speed_1500 to lightning_reader', () => {
-      expect(mapLegacyToTier('speed_1500')).toBe('lightning_reader');
+    it('speed_reader starts with all false flags', () => {
+      const progress = INITIAL_CERTIFICATION_PROGRESS.speed_reader;
+      expect(progress.vsUnlocked).toBe(false);
+      expect(progress.speedProofAchieved).toBe(false);
+      expect(progress.examUnlocked).toBe(false);
+      expect(progress.examPassed).toBe(false);
     });
 
-    it('returns undefined for unknown type', () => {
-      // @ts-expect-error Testing invalid input
-      expect(mapLegacyToTier('unknown')).toBeUndefined();
+    it('velocity_master starts with all false flags', () => {
+      const progress = INITIAL_CERTIFICATION_PROGRESS.velocity_master;
+      expect(progress.vsUnlocked).toBe(false);
+      expect(progress.speedProofAchieved).toBe(false);
+      expect(progress.examUnlocked).toBe(false);
+      expect(progress.examPassed).toBe(false);
+    });
+
+    it('transcendent starts with all false flags', () => {
+      const progress = INITIAL_CERTIFICATION_PROGRESS.transcendent;
+      expect(progress.vsUnlocked).toBe(false);
+      expect(progress.speedProofAchieved).toBe(false);
+      expect(progress.examUnlocked).toBe(false);
+      expect(progress.examPassed).toBe(false);
     });
   });
 });
@@ -316,61 +206,142 @@ describe('Legacy Certificate Compatibility', () => {
 describe('CertificationTierProgress structure', () => {
   it('can be created with all required fields', () => {
     const progress: CertificationTierProgress = {
-      speedProgress: 0.8,
-      accuracyProgress: 0.9,
-      textsProgress: 0.67,
-      overallProgress: 0.67,
-      isUnlocked: true,
-      isReady: false,
-      isEarned: false,
+      vsUnlocked: true,
+      speedProofAchieved: false,
+      examUnlocked: false,
+      examPassed: false,
     };
 
-    expect(progress.speedProgress).toBe(0.8);
-    expect(progress.accuracyProgress).toBe(0.9);
-    expect(progress.overallProgress).toBe(0.67);
-    expect(progress.isUnlocked).toBe(true);
-    expect(progress.isReady).toBe(false);
-    expect(progress.isEarned).toBe(false);
+    expect(progress.vsUnlocked).toBe(true);
+    expect(progress.speedProofAchieved).toBe(false);
+    expect(progress.examUnlocked).toBe(false);
+    expect(progress.examPassed).toBe(false);
   });
 
   it('can include optional earnedAt timestamp', () => {
     const progress: CertificationTierProgress = {
-      speedProgress: 1,
-      accuracyProgress: 1,
-      textsProgress: 1,
-      overallProgress: 1,
-      isUnlocked: true,
-      isReady: true,
-      isEarned: true,
+      vsUnlocked: true,
+      speedProofAchieved: true,
+      examUnlocked: true,
+      examPassed: true,
       earnedAt: Date.now(),
     };
 
     expect(progress.earnedAt).toBeDefined();
     expect(typeof progress.earnedAt).toBe('number');
   });
+
+  it('exam is unlocked only when VS and speed proof are achieved', () => {
+    // This is the expected state when exam becomes unlocked
+    const examReady: CertificationTierProgress = {
+      vsUnlocked: true,
+      speedProofAchieved: true,
+      examUnlocked: true,
+      examPassed: false,
+    };
+
+    expect(examReady.vsUnlocked).toBe(true);
+    expect(examReady.speedProofAchieved).toBe(true);
+    expect(examReady.examUnlocked).toBe(true);
+    expect(examReady.examPassed).toBe(false);
+  });
 });
 
-describe('CertificationProgress structure', () => {
-  it('can track earned tiers', () => {
-    const progress: CertificationProgress = {
-      ...INITIAL_CERTIFICATION_PROGRESS,
-      earnedTiers: ['quick_reader'],
-      tierProgress: {
-        ...INITIAL_CERTIFICATION_PROGRESS.tierProgress,
-        quick_reader: {
-          ...INITIAL_CERTIFICATION_PROGRESS.tierProgress.quick_reader,
-          isEarned: true,
-          earnedAt: Date.now(),
-        },
-        speed_reader: {
-          ...INITIAL_CERTIFICATION_PROGRESS.tierProgress.speed_reader,
-          isUnlocked: true, // Now unlocked since quick_reader is earned
-        },
+describe('Certificate interface', () => {
+  it('can be created with required fields', () => {
+    const cert: Certificate = {
+      id: 'cert_123',
+      type: 'speed_reader',
+      wpm: 650,
+      earnedAt: Date.now(),
+    };
+
+    expect(cert.id).toBe('cert_123');
+    expect(cert.type).toBe('speed_reader');
+    expect(cert.wpm).toBe(650);
+    expect(typeof cert.earnedAt).toBe('number');
+  });
+
+  it('type can be any of the three tiers', () => {
+    const speedReaderCert: Certificate = {
+      id: 'cert_1',
+      type: 'speed_reader',
+      wpm: 600,
+      earnedAt: Date.now(),
+    };
+    const velocityMasterCert: Certificate = {
+      id: 'cert_2',
+      type: 'velocity_master',
+      wpm: 900,
+      earnedAt: Date.now(),
+    };
+    const transcendentCert: Certificate = {
+      id: 'cert_3',
+      type: 'transcendent',
+      wpm: 1200,
+      earnedAt: Date.now(),
+    };
+
+    expect(speedReaderCert.type).toBe('speed_reader');
+    expect(velocityMasterCert.type).toBe('velocity_master');
+    expect(transcendentCert.type).toBe('transcendent');
+  });
+});
+
+describe('EarnedCertification interface', () => {
+  it('can be created with required fields', () => {
+    const earned: EarnedCertification = {
+      tier: 'speed_reader',
+      earnedAt: Date.now(),
+      earnedStats: {
+        wpm: 650,
+        comprehension: 85,
+        velocityScore: 45,
       },
     };
 
-    expect(progress.earnedTiers).toContain('quick_reader');
-    expect(progress.tierProgress.quick_reader.isEarned).toBe(true);
-    expect(progress.tierProgress.speed_reader.isUnlocked).toBe(true);
+    expect(earned.tier).toBe('speed_reader');
+    expect(earned.earnedStats.wpm).toBe(650);
+    expect(earned.earnedStats.comprehension).toBe(85);
+    expect(earned.earnedStats.velocityScore).toBe(45);
+  });
+});
+
+describe('earnedCertificationToCertificate', () => {
+  it('converts EarnedCertification to Certificate', () => {
+    const now = Date.now();
+    const earned: EarnedCertification = {
+      tier: 'velocity_master',
+      earnedAt: now,
+      earnedStats: {
+        wpm: 950,
+        comprehension: 88,
+        velocityScore: 65,
+      },
+    };
+
+    const cert = earnedCertificationToCertificate(earned);
+
+    expect(cert.type).toBe('velocity_master');
+    expect(cert.wpm).toBe(950);
+    expect(cert.earnedAt).toBe(now);
+    expect(cert.id).toBe(`cert_velocity_master_${now}`);
+  });
+
+  it('generates unique ID based on tier and timestamp', () => {
+    const now = 1704672000000; // Fixed timestamp
+    const earned: EarnedCertification = {
+      tier: 'transcendent',
+      earnedAt: now,
+      earnedStats: {
+        wpm: 1250,
+        comprehension: 92,
+        velocityScore: 96,
+      },
+    };
+
+    const cert = earnedCertificationToCertificate(earned);
+
+    expect(cert.id).toBe('cert_transcendent_1704672000000');
   });
 });

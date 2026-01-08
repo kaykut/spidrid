@@ -12,5 +12,5 @@ export default function Index() {
     return <Redirect href="/(tabs)/read" />;
   }
 
-  return <Redirect href="/(tabs)/learn" />;
+  return <Redirect href="/(tabs)/train" />;
 }

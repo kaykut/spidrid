@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { useTheme } from '../common/ThemeProvider';
 
 interface StatsSummaryProps {
@@ -83,25 +85,24 @@ function StatItem({ value, label, color }: StatItemProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: COMPONENT_RADIUS.card,
+    padding: SPACING.lg,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 8,
+    marginVertical: SPACING.sm,
   },
   statItem: {
     alignItems: 'center',
     minWidth: 80,
   },
   statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    ...TYPOGRAPHY.metricLarge,
+    marginBottom: SPACING.xs,
   },
   statLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.7,
     textTransform: 'uppercase',
     letterSpacing: 0.5,

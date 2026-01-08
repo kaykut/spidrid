@@ -1,3 +1,4 @@
+// @ts-nocheck - Test file with mock JSX elements
 /**
  * Tests for Root Index Screen.
  *
@@ -49,13 +50,13 @@ describe('Index', () => {
     expect(redirect.props.href).toBe('/(tabs)/read');
   });
 
-  it('redirects to learn tab for train mode', () => {
+  it('redirects to train tab for train mode', () => {
     mockHasCompletedOnboarding = true;
     mockUsageMode = 'train';
 
     const { getByTestId } = render(<Index />);
     const redirect = getByTestId('redirect');
 
-    expect(redirect.props.href).toBe('/(tabs)/learn');
+    expect(redirect.props.href).toBe('/(tabs)/train');
   });
 });

@@ -2,6 +2,7 @@
  * Tests for CertificationReadyModal component - Milestone 7
  *
  * Tests the certification readiness prompt UI.
+ * PRD Tiers: speed_reader (VS 40, 600 WPM), velocity_master (VS 60, 900 WPM), transcendent (VS 95, 1500 WPM)
  */
 
 import React from 'react';
@@ -29,61 +30,61 @@ describe('CertificationReadyModal', () => {
     mockOnKeepPracticing.mockClear();
   });
 
-  describe('quick_reader tier', () => {
+  describe('speed_reader tier', () => {
     it('renders tier title and icon', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="quick_reader"
-          currentWPM={550}
-          currentAccuracy={78}
+          tier="speed_reader"
+          currentWPM={650}
+          currentVS={45}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      expect(getByText('Quick Reader')).toBeTruthy();
+      expect(getByText('Speed Reader')).toBeTruthy();
       expect(getByText("You're Ready!")).toBeTruthy();
     });
 
-    it('displays current stats', () => {
+    it('displays current VS and WPM progress', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="quick_reader"
-          currentWPM={550}
-          currentAccuracy={78}
+          tier="speed_reader"
+          currentWPM={650}
+          currentVS={45}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      expect(getByText('550/600 WPM')).toBeTruthy();
-      expect(getByText('78%/80%')).toBeTruthy();
+      expect(getByText('45/40 VS')).toBeTruthy();
+      expect(getByText('650/600 WPM')).toBeTruthy();
     });
 
-    it('calls onTakeTest when Take Certification Test is pressed', () => {
+    it('calls onTakeTest when Take Certification Exam is pressed', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="quick_reader"
-          currentWPM={550}
-          currentAccuracy={78}
+          tier="speed_reader"
+          currentWPM={650}
+          currentVS={45}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      fireEvent.press(getByText('Take Certification Test'));
+      fireEvent.press(getByText('Take Certification Exam'));
       expect(mockOnTakeTest).toHaveBeenCalledTimes(1);
     });
 
     it('calls onKeepPracticing when Keep Practicing is pressed', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="quick_reader"
-          currentWPM={550}
-          currentAccuracy={78}
+          tier="speed_reader"
+          currentWPM={650}
+          currentVS={45}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
@@ -95,53 +96,70 @@ describe('CertificationReadyModal', () => {
     });
   });
 
-  describe('speed_reader tier', () => {
+  describe('velocity_master tier', () => {
     it('renders tier title', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="speed_reader"
-          currentWPM={850}
-          currentAccuracy={83}
+          tier="velocity_master"
+          currentWPM={950}
+          currentVS={65}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      expect(getByText('Speed Reader')).toBeTruthy();
+      expect(getByText('Velocity Master')).toBeTruthy();
     });
 
-    it('displays requirement stats for speed_reader', () => {
+    it('displays requirement progress for velocity_master', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="speed_reader"
-          currentWPM={850}
-          currentAccuracy={83}
+          tier="velocity_master"
+          currentWPM={950}
+          currentVS={65}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      expect(getByText('850/900 WPM')).toBeTruthy();
-      expect(getByText('83%/85%')).toBeTruthy();
+      expect(getByText('65/60 VS')).toBeTruthy();
+      expect(getByText('950/900 WPM')).toBeTruthy();
     });
   });
 
-  describe('lightning_reader tier', () => {
+  describe('transcendent tier', () => {
     it('renders tier title', () => {
       const { getByText } = render(
         <CertificationReadyModal
-          tier="lightning_reader"
-          currentWPM={1100}
-          currentAccuracy={88}
+          tier="transcendent"
+          currentWPM={1550}
+          currentVS={96}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
         />
       );
 
-      expect(getByText('Lightning Reader')).toBeTruthy();
+      expect(getByText('Transcendent')).toBeTruthy();
+    });
+
+    it('displays requirement progress for transcendent', () => {
+      const { getByText } = render(
+        <CertificationReadyModal
+          tier="transcendent"
+          currentWPM={1250}
+          currentVS={96}
+          visible={true}
+          onTakeTest={mockOnTakeTest}
+          onKeepPracticing={mockOnKeepPracticing}
+        />
+      );
+
+      expect(getByText('96/95 VS')).toBeTruthy();
+      // Transcendent tier requires 1200 WPM
+      expect(getByText('1250/1200 WPM')).toBeTruthy();
     });
   });
 
@@ -151,7 +169,7 @@ describe('CertificationReadyModal', () => {
         <CertificationReadyModal
           tier={null}
           currentWPM={0}
-          currentAccuracy={0}
+          currentVS={0}
           visible={true}
           onTakeTest={mockOnTakeTest}
           onKeepPracticing={mockOnKeepPracticing}
@@ -159,6 +177,25 @@ describe('CertificationReadyModal', () => {
       );
 
       expect(queryByText("You're Ready!")).toBeNull();
+    });
+  });
+
+  describe('exam info', () => {
+    it('shows exam requirements for speed_reader', () => {
+      const { getByText } = render(
+        <CertificationReadyModal
+          tier="speed_reader"
+          currentWPM={650}
+          currentVS={45}
+          visible={true}
+          onTakeTest={mockOnTakeTest}
+          onKeepPracticing={mockOnKeepPracticing}
+        />
+      );
+
+      expect(getByText('Exam Requirements')).toBeTruthy();
+      expect(getByText(/1,000 words at 600 WPM/)).toBeTruthy();
+      expect(getByText(/80%\+ comprehension/)).toBeTruthy();
     });
   });
 });

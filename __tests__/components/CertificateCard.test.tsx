@@ -2,6 +2,7 @@
  * Tests for CertificateCard Component.
  *
  * Displays earned certificates with icon, title, and description.
+ * PRD Tiers: speed_reader, velocity_master, transcendent
  */
 
 import React from 'react';
@@ -15,19 +16,26 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(<ThemeProvider>{ui}</ThemeProvider>);
 };
 
-// Mock certificate data
+// Mock certificate data using PRD tiers
 const mockCertificate: Certificate = {
   id: 'cert-123',
-  type: 'speed_900',
+  type: 'speed_reader',
   earnedAt: new Date('2026-01-07').getTime(),
-  wpm: 950,
+  wpm: 650,
 };
 
 const mockMasterCertificate: Certificate = {
   id: 'cert-456',
-  type: 'speed_1500',
+  type: 'velocity_master',
   earnedAt: new Date('2026-01-06').getTime(),
-  wpm: 1550,
+  wpm: 950,
+};
+
+const mockTranscendentCertificate: Certificate = {
+  id: 'cert-789',
+  type: 'transcendent',
+  earnedAt: new Date('2026-01-08').getTime(),
+  wpm: 1250,
 };
 
 describe('CertificateCard', () => {
@@ -41,7 +49,7 @@ describe('CertificateCard', () => {
     it('renders certificate description', () => {
       renderWithProviders(<CertificateCard certificate={mockCertificate} />);
 
-      expect(screen.getByText('Achieved 900 WPM reading speed')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
     });
 
     it('renders certificate icon', () => {
@@ -50,29 +58,37 @@ describe('CertificateCard', () => {
       expect(screen.getByText('⚡')).toBeTruthy();
     });
 
-    it('renders master certificate correctly', () => {
+    it('renders velocity master certificate correctly', () => {
       renderWithProviders(<CertificateCard certificate={mockMasterCertificate} />);
 
-      expect(screen.getByText('Master Reader')).toBeTruthy();
-      expect(screen.getByText('Achieved 1500 WPM reading speed')).toBeTruthy();
+      expect(screen.getByText('Velocity Master')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 60 with 900 WPM capability')).toBeTruthy();
+      expect(screen.getByText('🚀')).toBeTruthy();
+    });
+
+    it('renders transcendent certificate correctly', () => {
+      renderWithProviders(<CertificateCard certificate={mockTranscendentCertificate} />);
+
+      expect(screen.getByText('Transcendent')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 95 with 1200 WPM capability')).toBeTruthy();
       expect(screen.getByText('🏆')).toBeTruthy();
     });
   });
 
   describe('size variants', () => {
     it('renders small size by default', () => {
-      const { root } = renderWithProviders(<CertificateCard certificate={mockCertificate} />);
+      renderWithProviders(<CertificateCard certificate={mockCertificate} />);
 
       // Component should render (small is default)
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('renders small size explicitly', () => {
-      const { root } = renderWithProviders(
+      renderWithProviders(
         <CertificateCard certificate={mockCertificate} size="small" />
       );
 
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('renders large size', () => {
@@ -126,13 +142,12 @@ describe('CertificateCard', () => {
         wpm: 100,
       };
 
-      const { root } = renderWithProviders(<CertificateCard certificate={invalidCert} />);
+      renderWithProviders(<CertificateCard certificate={invalidCert} />);
 
-      // The component returns null for invalid types, so the root should still exist
-      // but the specific certificate content should not be present
-      // Note: root always exists, but content may be empty
+      // The component returns null for invalid types
       expect(screen.queryByText('Speed Reader')).toBeNull();
-      expect(screen.queryByText('Master Reader')).toBeNull();
+      expect(screen.queryByText('Velocity Master')).toBeNull();
+      expect(screen.queryByText('Transcendent')).toBeNull();
     });
   });
 });
@@ -140,74 +155,82 @@ describe('CertificateCard', () => {
 describe('LockedCertificateCard', () => {
   describe('basic rendering', () => {
     it('renders locked icon', () => {
-      renderWithProviders(<LockedCertificateCard type="speed_900" progress={0.5} />);
+      renderWithProviders(<LockedCertificateCard type="speed_reader" progress={0.5} />);
 
       expect(screen.getByText('🔒')).toBeTruthy();
     });
 
     it('renders certificate title', () => {
-      renderWithProviders(<LockedCertificateCard type="speed_900" progress={0.5} />);
+      renderWithProviders(<LockedCertificateCard type="speed_reader" progress={0.5} />);
 
       expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('renders certificate description', () => {
-      renderWithProviders(<LockedCertificateCard type="speed_900" progress={0.5} />);
+      renderWithProviders(<LockedCertificateCard type="speed_reader" progress={0.5} />);
 
-      expect(screen.getByText('Achieved 900 WPM reading speed')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
     });
 
-    it('renders master reader locked card', () => {
-      renderWithProviders(<LockedCertificateCard type="speed_1500" progress={0.3} />);
+    it('renders velocity master locked card', () => {
+      renderWithProviders(<LockedCertificateCard type="velocity_master" progress={0.3} />);
 
       expect(screen.getByText('🔒')).toBeTruthy();
-      expect(screen.getByText('Master Reader')).toBeTruthy();
+      expect(screen.getByText('Velocity Master')).toBeTruthy();
+    });
+
+    it('renders transcendent locked card', () => {
+      renderWithProviders(<LockedCertificateCard type="transcendent" progress={0.1} />);
+
+      expect(screen.getByText('🔒')).toBeTruthy();
+      expect(screen.getByText('Transcendent')).toBeTruthy();
     });
   });
 
   describe('progress bar', () => {
     it('renders with 0% progress', () => {
-      const { root } = renderWithProviders(
-        <LockedCertificateCard type="speed_900" progress={0} />
+      renderWithProviders(
+        <LockedCertificateCard type="speed_reader" progress={0} />
       );
 
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('renders with 50% progress', () => {
-      const { root } = renderWithProviders(
-        <LockedCertificateCard type="speed_900" progress={0.5} />
+      renderWithProviders(
+        <LockedCertificateCard type="speed_reader" progress={0.5} />
       );
 
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('renders with 100% progress', () => {
-      const { root } = renderWithProviders(
-        <LockedCertificateCard type="speed_900" progress={1} />
+      renderWithProviders(
+        <LockedCertificateCard type="speed_reader" progress={1} />
       );
 
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
 
     it('clamps progress above 100% to 100%', () => {
-      const { root } = renderWithProviders(
-        <LockedCertificateCard type="speed_900" progress={1.5} />
+      renderWithProviders(
+        <LockedCertificateCard type="speed_reader" progress={1.5} />
       );
 
-      expect(root).toBeTruthy();
+      expect(screen.getByText('Speed Reader')).toBeTruthy();
     });
   });
 
   describe('invalid type', () => {
     it('returns null for invalid type', () => {
-      const { root } = renderWithProviders(
+      renderWithProviders(
         <LockedCertificateCard type={'invalid' as Certificate['type']} progress={0.5} />
       );
 
       // Should not find any certificate content
       expect(screen.queryByText('Speed Reader')).toBeNull();
-      expect(screen.queryByText('Master Reader')).toBeNull();
+      expect(screen.queryByText('Velocity Master')).toBeNull();
+      expect(screen.queryByText('Transcendent')).toBeNull();
     });
   });
 });

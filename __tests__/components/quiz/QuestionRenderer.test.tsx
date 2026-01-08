@@ -1,3 +1,4 @@
+// @ts-nocheck - Test file with mock JSX elements
 /**
  * Tests for QuestionRenderer component - Milestone 6
  *

@@ -9,21 +9,29 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DURATION } from '../../constants/animations';
+import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
 import { useTheme } from '../common/ThemeProvider';
 
 interface NavItem {
   name: string;
-  route: '/(tabs)/learn' | '/(tabs)/read' | '/(tabs)/profile';
+  route: '/(tabs)/journey' | '/(tabs)/train' | '/(tabs)/read' | '/(tabs)/learn';
   activeIcon: keyof typeof Ionicons.glyphMap;
   inactiveIcon: keyof typeof Ionicons.glyphMap;
 }
 
 const NAV_ITEMS: NavItem[] = [
   {
-    name: 'Learn',
-    route: '/(tabs)/learn',
-    activeIcon: 'book',
-    inactiveIcon: 'book-outline',
+    name: 'Journey',
+    route: '/(tabs)/journey',
+    activeIcon: 'rocket',
+    inactiveIcon: 'rocket-outline',
+  },
+  {
+    name: 'Train',
+    route: '/(tabs)/train',
+    activeIcon: 'barbell',
+    inactiveIcon: 'barbell-outline',
   },
   {
     name: 'Read',
@@ -32,10 +40,10 @@ const NAV_ITEMS: NavItem[] = [
     inactiveIcon: 'document-text-outline',
   },
   {
-    name: 'Profile',
-    route: '/(tabs)/profile',
-    activeIcon: 'person',
-    inactiveIcon: 'person-outline',
+    name: 'Learn',
+    route: '/(tabs)/learn',
+    activeIcon: 'book',
+    inactiveIcon: 'book-outline',
   },
 ];
 
@@ -63,7 +71,7 @@ export function FloatingNavBar() {
       style={[
         styles.container,
         {
-          bottom: Math.max(insets.bottom, 20) + 12,
+          bottom: Math.max(insets.bottom, SPACING.xl) + SPACING.md,
           backgroundColor: glassBackground,
           borderColor: borderColor,
         },
@@ -100,7 +108,7 @@ function NavButton({ item, active, activeColor, inactiveColor, onPress }: NavBut
   const handlePressIn = () => {
     Animated.timing(scaleAnim, {
       toValue: 0.88,
-      duration: 100,
+      duration: DURATION.instant,
       useNativeDriver: true,
     }).start();
   };
@@ -108,7 +116,7 @@ function NavButton({ item, active, activeColor, inactiveColor, onPress }: NavBut
   const handlePressOut = () => {
     Animated.timing(scaleAnim, {
       toValue: 1,
-      duration: 100,
+      duration: DURATION.instant,
       useNativeDriver: true,
     }).start();
   };
@@ -130,7 +138,7 @@ function NavButton({ item, active, activeColor, inactiveColor, onPress }: NavBut
       >
         <Ionicons
           name={active ? item.activeIcon : item.inactiveIcon}
-          size={22}
+          size={SIZES.iconLg}
           color={active ? activeColor : inactiveColor}
         />
       </Animated.View>
@@ -141,40 +149,40 @@ function NavButton({ item, active, activeColor, inactiveColor, onPress }: NavBut
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    right: 20,
+    right: SPACING.xl,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    borderRadius: 28,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.full,
     borderWidth: 1,
-    gap: 4,
+    gap: SPACING.xs,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: { width: 0, height: SPACING.xs },
         shadowOpacity: 0.2,
-        shadowRadius: 12,
+        shadowRadius: SPACING.md,
       },
       android: {
-        elevation: 8,
+        elevation: SPACING.sm,
       },
     }),
   },
   navButton: {
-    width: 44,
-    height: 44,
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconContainer: {
-    width: 40,
-    height: 40,
+    width: SPACING.huge,
+    height: SPACING.huge,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: RADIUS.xxl,
   },
   activeIconContainer: {
-    backgroundColor: 'rgba(77, 171, 247, 0.15)',
+    backgroundColor: 'rgba(0, 212, 170, 0.15)',
   },
 });

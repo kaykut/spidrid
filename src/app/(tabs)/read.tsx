@@ -9,11 +9,15 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
 import { router } from 'expo-router';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
-import { extractFromUrl, createFromText } from '../../services/contentExtractor';
+import { usePdfExtractor } from '../../components/PdfExtractorProvider';
+import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
+import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 
@@ -21,6 +25,7 @@ type ImportMode = 'url' | 'text' | null;
 
 export default function ReadScreen() {
   const { theme } = useTheme();
+  const { extractPdf } = usePdfExtractor();
   const { importedContent, addContent, deleteContent } = useContentStore();
   const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
 
@@ -102,6 +107,50 @@ export default function ReadScreen() {
         { text: 'Delete', style: 'destructive', onPress: () => deleteContent(id) },
       ]
     );
+  };
+
+  const handlePickEbook = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: [
+          'application/epub+zip',
+          'application/pdf',
+          'application/x-mobipocket-ebook',
+        ],
+        copyToCacheDirectory: true,
+      });
+
+      if (result.canceled) {
+        return;
+      }
+
+      const asset = result.assets[0];
+
+      // Check content limit before importing
+      if (!isPremium && !canAccessContent()) {
+        setShowPaywall(true);
+        return;
+      }
+
+      setIsLoading(true);
+
+      const importResult = await extractFromEbook(asset.uri, asset.name, {
+        pdfExtractor: extractPdf,
+      });
+
+      setIsLoading(false);
+
+      if (importResult.success && importResult.content) {
+        const saved = addContent(importResult.content);
+        if (!isPremium) {incrementContentCount();}
+        router.push(`/content/${saved.id}`);
+      } else {
+        Alert.alert('Import Failed', importResult.error || 'Could not extract content');
+      }
+    } catch (_error) {
+      setIsLoading(false);
+      Alert.alert('Error', 'Failed to pick document');
+    }
   };
 
   const formatDate = (timestamp: number) => {
@@ -236,6 +285,27 @@ export default function ReadScreen() {
             </TouchableOpacity>
           </View>
 
+          {/* E-book Import Button */}
+          <TouchableOpacity
+            style={[styles.ebookCard, { backgroundColor: theme.secondaryBackground }]}
+            onPress={handlePickEbook}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color={theme.accentColor} />
+            ) : (
+              <>
+                <Text style={styles.importIcon}>📚</Text>
+                <View style={styles.ebookTextContainer}>
+                  <Text style={[styles.importLabel, { color: theme.textColor }]}>Import E-book</Text>
+                  <Text style={[styles.importDesc, { color: theme.textColor }]}>
+                    EPUB & PDF files
+                  </Text>
+                </View>
+              </>
+            )}
+          </TouchableOpacity>
+
           {/* Content List */}
           {importedContent.length > 0 && (
             <>
@@ -259,7 +329,7 @@ export default function ReadScreen() {
                       </Text>
                       <View style={styles.contentMeta}>
                         <Text style={[styles.metaText, { color: theme.textColor }]}>
-                          {item.source === 'url' ? '🔗' : '📝'} {item.wordCount} words
+                          {item.source === 'url' ? '🔗' : item.source === 'epub' ? '📚' : item.source === 'pdf' ? '📄' : '📝'} {item.wordCount} words
                         </Text>
                         <Text style={[styles.metaText, { color: theme.textColor }]}>
                           · {formatDate(item.createdAt)}
@@ -303,79 +373,84 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: SPACING.xl,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    ...TYPOGRAPHY.pageTitle,
+    marginBottom: SPACING.xl,
   },
   importButtons: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 32,
+    gap: SPACING.md,
+    marginBottom: SPACING.md,
   },
   importCard: {
     flex: 1,
-    padding: 20,
-    borderRadius: 16,
+    padding: SPACING.xl,
+    borderRadius: COMPONENT_RADIUS.card,
     alignItems: 'center',
   },
+  ebookCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.card,
+    marginBottom: SPACING.xxxl,
+  },
+  ebookTextContainer: {
+    marginLeft: SPACING.md,
+  },
   importIcon: {
-    fontSize: 32,
-    marginBottom: 8,
+    fontSize: SIZES.iconXl,
+    marginBottom: SPACING.sm,
   },
   importLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    ...TYPOGRAPHY.cardSubtitle,
+    marginBottom: SPACING.xs,
   },
   importDesc: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.6,
     textAlign: 'center',
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
+    ...TYPOGRAPHY.sectionHeader,
+    marginBottom: SPACING.lg,
   },
   contentList: {
-    gap: 12,
+    gap: SPACING.md,
   },
   contentCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    borderRadius: 14,
+    padding: SPACING.lg,
+    borderRadius: RADIUS.lg + 2, // 14pt
   },
   contentInfo: {
     flex: 1,
   },
   contentTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
+    ...TYPOGRAPHY.cardSubtitle,
+    marginBottom: SPACING.xs,
   },
   contentMeta: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   metaText: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.6,
   },
   progressIndicator: {
-    marginLeft: 12,
+    marginLeft: SPACING.md,
   },
   progressText: {
-    fontSize: 14,
-    fontWeight: '600',
+    ...TYPOGRAPHY.buttonSmall,
   },
   completeBadge: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: SIZES.iconLg,
+    height: SIZES.iconLg,
+    borderRadius: SIZES.iconLg / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -385,17 +460,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   hint: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     opacity: 0.5,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: SPACING.lg,
   },
   emptyState: {
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: SPACING.huge,
   },
   emptyText: {
-    fontSize: 16,
+    ...TYPOGRAPHY.body,
     opacity: 0.6,
     textAlign: 'center',
   },
@@ -405,47 +480,45 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
-    paddingBottom: 40,
+    borderTopLeftRadius: SPACING.xxl,
+    borderTopRightRadius: SPACING.xxl,
+    padding: SPACING.xxl,
+    paddingBottom: SPACING.huge,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: SPACING.xl,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+    ...TYPOGRAPHY.sectionHeader,
   },
   closeButton: {
-    fontSize: 24,
-    padding: 4,
+    fontSize: SIZES.iconLg,
+    padding: SPACING.xs,
   },
   input: {
-    padding: 16,
-    borderRadius: 12,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.input,
     fontSize: 16,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   textArea: {
-    padding: 16,
-    borderRadius: 12,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.input,
     fontSize: 16,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     height: 200,
   },
   importButton: {
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   importButtonText: {
     color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
   disabledButton: {
     opacity: 0.6,

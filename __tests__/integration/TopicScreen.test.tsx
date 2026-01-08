@@ -26,7 +26,7 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock stores
-const mockGetArticleProgress = jest.fn(() => ({
+const mockGetArticleProgress = jest.fn<{ completed: boolean; comprehensionScore: number; highestWPM: number } | undefined, []>(() => ({
   completed: true,
   comprehensionScore: 85,
   highestWPM: 300,
@@ -149,7 +149,7 @@ describe('TopicScreen Integration', () => {
 
   describe('content access', () => {
     it('increments content count for non-completed articles', () => {
-      mockGetArticleProgress.mockReturnValue(null); // Not completed
+      mockGetArticleProgress.mockReturnValue(undefined); // Not completed
       renderWithProviders(<TopicScreen />);
 
       const articleCard = screen.getByText('The Water Cycle');
@@ -173,7 +173,7 @@ describe('TopicScreen Integration', () => {
     });
 
     it('redirects to paywall when content limit reached', () => {
-      mockGetArticleProgress.mockReturnValue(null);
+      mockGetArticleProgress.mockReturnValue(undefined);
       mockCanAccessContent.mockReturnValue(false);
       renderWithProviders(<TopicScreen />);
 

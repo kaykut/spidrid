@@ -28,7 +28,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
   persist(
     (set, get) => ({
       // Initial state
-      isPremium: false,
+      isPremium: true, // DEV: Set to false for production
       isLoading: false,
       isInitialized: false,
       contentAccessCount: 0,

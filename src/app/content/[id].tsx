@@ -6,9 +6,12 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
+import { SPACING, RADIUS } from '../../constants/spacing';
+import { TYPOGRAPHY } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
 import { useContentStore } from '../../store/contentStore';
+import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 
@@ -16,6 +19,7 @@ export default function ContentReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
   const { getContentById, updateProgress, updateLastRead } = useContentStore();
+  const { recordSession } = useJourneyStore();
   const { currentWPM, setCurrentWPM } = useLearningStore();
   const { getMaxWPM } = useSubscriptionStore();
 
@@ -60,6 +64,15 @@ export default function ContentReaderScreen() {
     if (progress >= 1 && !engine.isPlaying && !isComplete) {
       setIsComplete(true);
       updateProgress(id, 1);
+
+      // Record in journey store for VS tracking
+      // For imported content without quizzes, we record 100% comprehension
+      recordSession({
+        wpm: engine.wpm,
+        comprehension: 100,
+        articleId: id,
+        articleType: 'imported',
+      });
     }
   }, [engine.currentIndex, engine.isPlaying, words.length, content?.readProgress, isComplete]);
 
@@ -184,14 +197,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
   },
   backButton: {
     width: 80,
   },
   backText: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
     fontWeight: '500',
   },
   headerCenter: {
@@ -199,11 +212,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sourceLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.caption,
     fontWeight: '600',
   },
   contentTitle: {
-    fontSize: 16,
+    ...TYPOGRAPHY.cardSubtitle,
     fontWeight: '500',
   },
   wordArea: {
@@ -212,11 +225,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   instructions: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingHorizontal: SPACING.xl,
+    paddingBottom: SPACING.xl,
   },
   instructionText: {
-    fontSize: 14,
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '400',
     textAlign: 'center',
     opacity: 0.7,
     lineHeight: 20,
@@ -225,42 +239,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: SPACING.xl,
   },
   completeTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 12,
+    ...TYPOGRAPHY.pageTitle,
+    marginBottom: SPACING.md,
   },
   completeSubtitle: {
+    ...TYPOGRAPHY.body,
     fontSize: 16,
     opacity: 0.7,
-    marginBottom: 40,
+    marginBottom: SPACING.huge,
   },
   doneButton: {
-    paddingVertical: 16,
-    paddingHorizontal: 48,
-    borderRadius: 14,
-    marginBottom: 12,
+    paddingVertical: SPACING.lg,
+    paddingHorizontal: SPACING.massive,
+    borderRadius: RADIUS.lg + 2,
+    marginBottom: SPACING.md,
   },
   doneButtonText: {
     color: '#ffffff',
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
-    fontWeight: '600',
+    textTransform: 'none',
+    letterSpacing: 0,
   },
   rereadButton: {
-    paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 14,
+    paddingVertical: SPACING.lg - 2,
+    paddingHorizontal: SPACING.huge,
+    borderRadius: RADIUS.lg + 2,
     borderWidth: 2,
   },
   rereadButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
+    ...TYPOGRAPHY.button,
   },
   errorText: {
+    ...TYPOGRAPHY.levelName,
     fontSize: 18,
+    textTransform: 'none',
+    letterSpacing: 0,
     textAlign: 'center',
-    marginTop: 40,
+    marginTop: SPACING.huge,
   },
 });

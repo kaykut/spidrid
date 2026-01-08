@@ -1,7 +1,9 @@
-// Simple HTML content extraction
+// Content extraction from URLs, text, and e-books
 // In a production app, you'd use a library like @mozilla/readability
 
 import { ContentImportResult } from '../types/content';
+import { parseEpub } from './epubParser';
+import { parsePdf, PdfExtractFunction } from './pdfParser';
 
 // Basic HTML tag stripping
 function stripHtml(html: string): string {
@@ -131,4 +133,85 @@ export function createFromText(text: string, title?: string): ContentImportResul
       readProgress: 0,
     },
   };
+}
+
+export interface ExtractFromEbookOptions {
+  pdfExtractor?: PdfExtractFunction;
+}
+
+export async function extractFromEbook(
+  fileUri: string,
+  fileName: string,
+  options?: ExtractFromEbookOptions
+): Promise<ContentImportResult> {
+  try {
+    const extension = fileName.toLowerCase().split('.').pop();
+
+    // Route based on file extension
+    switch (extension) {
+      case 'epub': {
+        const result = await parseEpub(fileUri);
+        const wordCount = countWords(result.content);
+
+        return {
+          success: true,
+          content: {
+            id: '',
+            title: result.title,
+            content: result.content,
+            wordCount,
+            source: 'epub',
+            fileName,
+            createdAt: 0,
+            readProgress: 0,
+          },
+        };
+      }
+
+      case 'pdf': {
+        if (!options?.pdfExtractor) {
+          return {
+            success: false,
+            error: 'PDF extraction not available. Please try again.',
+          };
+        }
+
+        const result = await parsePdf(fileUri, options.pdfExtractor);
+        const wordCount = countWords(result.content);
+
+        return {
+          success: true,
+          content: {
+            id: '',
+            title: result.title,
+            content: result.content,
+            wordCount,
+            source: 'pdf',
+            fileName,
+            createdAt: 0,
+            readProgress: 0,
+          },
+        };
+      }
+
+      case 'mobi':
+      case 'azw':
+      case 'azw3':
+        return {
+          success: false,
+          error: 'MOBI/Kindle format requires conversion. Please convert to EPUB using Calibre (free).',
+        };
+
+      default:
+        return {
+          success: false,
+          error: `Unsupported file format: .${extension}. Please use EPUB or PDF format.`,
+        };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to parse e-book',
+    };
+  }
 }

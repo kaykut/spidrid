@@ -27,6 +27,7 @@ React Native (Expo) RSVP speed reading app with freemium monetization.
 - Prefer named exports over default exports
 - Store files use pattern: use[Name]Store
 - All colors from theme, never hardcoded
+- NEVER use --legacy-peer-deps or --force with npm install; fix dependency conflicts properly
 
 ## Project Status: ALL MILESTONES COMPLETE
 - M1: Foundation - Expo, Router, Themes

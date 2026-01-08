@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SPACING, RADIUS, SIZES, space } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -16,6 +18,16 @@ interface PlaybackControlsProps {
   onSkip: () => void;
   onWPMLimitHit?: () => void;
 }
+
+// Component-specific sizes based on 8pt grid
+const CONTROL_SIZES = {
+  controlButton: space(7), // 56
+  playButton: space(9), // 72
+  wpmDisplayMinWidth: space(10), // 80
+  progressBarHeight: SPACING.xs, // 4
+  progressBarRadius: SPACING.xs / 2, // 2
+  playIconSize: 28, // Between iconLg (24) and iconXl (32)
+};
 
 /**
  * PlaybackControls Component
@@ -95,21 +107,21 @@ export function PlaybackControls({
           style={[styles.controlButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={onRewind}
         >
-          <Ionicons name="play-skip-back" size={24} color={theme.textColor} />
+          <Ionicons name="play-skip-back" size={SIZES.iconLg} color={theme.textColor} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.playButton, { backgroundColor: theme.accentColor }]}
           onPress={onToggle}
         >
-          <Ionicons name={isPlaying ? 'pause' : 'play'} size={28} color="#ffffff" />
+          <Ionicons name={isPlaying ? 'pause' : 'play'} size={CONTROL_SIZES.playIconSize} color="#ffffff" />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.controlButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={onSkip}
         >
-          <Ionicons name="play-skip-forward" size={24} color={theme.textColor} />
+          <Ionicons name="play-skip-forward" size={SIZES.iconLg} color={theme.textColor} />
         </TouchableOpacity>
       </View>
     </View>
@@ -118,20 +130,21 @@ export function PlaybackControls({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    gap: 16,
+    padding: SPACING.xl,
+    gap: SPACING.lg,
   },
   progressBar: {
-    height: 4,
-    borderRadius: 2,
+    height: CONTROL_SIZES.progressBarHeight,
+    borderRadius: CONTROL_SIZES.progressBarRadius,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: 2,
+    borderRadius: CONTROL_SIZES.progressBarRadius,
   },
   counter: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.buttonSmall.fontSize,
+    fontWeight: FONT_WEIGHTS.regular,
     textAlign: 'center',
     opacity: 0.7,
   },
@@ -139,48 +152,47 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: SPACING.lg,
   },
   wpmButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+    borderRadius: RADIUS.full,
     alignItems: 'center',
     justifyContent: 'center',
   },
   wpmButtonText: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: TYPOGRAPHY.metricLarge.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   wpmDisplay: {
     alignItems: 'center',
-    minWidth: 80,
+    minWidth: CONTROL_SIZES.wpmDisplayMinWidth,
   },
   wpmValue: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.statValue,
   },
   wpmLabel: {
-    fontSize: 12,
+    ...TYPOGRAPHY.labelSmall,
     opacity: 0.7,
   },
   mainControls: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 20,
+    gap: SPACING.xl,
   },
   controlButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: CONTROL_SIZES.controlButton,
+    height: CONTROL_SIZES.controlButton,
+    borderRadius: RADIUS.full,
     alignItems: 'center',
     justifyContent: 'center',
   },
   playButton: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: CONTROL_SIZES.playButton,
+    height: CONTROL_SIZES.playButton,
+    borderRadius: RADIUS.full,
     alignItems: 'center',
     justifyContent: 'center',
   },

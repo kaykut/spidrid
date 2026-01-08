@@ -1,7 +1,9 @@
+// @ts-nocheck - Test file with mock JSX elements
 /**
  * Tests for CertificateViewerModal Component.
  *
  * Modal for viewing and sharing earned certificates.
+ * PRD Tiers: speed_reader, velocity_master, transcendent
  */
 
 import React from 'react';
@@ -16,11 +18,16 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock WebView
-jest.mock('react-native-webview', () => ({
-  WebView: ({ source }: { source: { html: string } }) => (
-    <mock-webview testID="certificate-webview">{source.html ? 'HTML Content' : ''}</mock-webview>
-  ),
-}));
+jest.mock('react-native-webview', () => {
+  const { View, Text } = require('react-native');
+  return {
+    WebView: ({ source }: { source: { html: string } }) => (
+      <View testID="certificate-webview">
+        <Text>{source.html ? 'HTML Content' : ''}</Text>
+      </View>
+    ),
+  };
+});
 
 // Mock settings store
 jest.mock('../../src/store/settingsStore', () => ({
@@ -54,9 +61,9 @@ const mockOnClose = jest.fn();
 
 const mockCertificate: Certificate = {
   id: 'cert-123',
-  type: 'speed_900',
+  type: 'speed_reader',
   earnedAt: Date.now(),
-  wpm: 950,
+  wpm: 650,
 };
 
 const renderWithProviders = (ui: React.ReactElement) => {
