@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { MilestoneBadge } from '../../components/certifications';
@@ -24,7 +24,7 @@ export default function ProfileScreen() {
   const { getTotalArticlesCompleted, getHighestWPM } = useLearningStore();
   const { importedContent } = useContentStore();
   const { certProgress } = useJourneyStore();
-  const { userName, readingLanguage, setUserName, setReadingLanguage } = useSettingsStore();
+  const { userName, readingLanguage, paragraphPauseEnabled, setUserName, setReadingLanguage, setParagraphPauseEnabled } = useSettingsStore();
   const { isPremium, setPremium, contentAccessCount, resetContentCount, getMaxWPM } = useSubscriptionStore();
 
   // Get earned certifications
@@ -227,6 +227,25 @@ export default function ProfileScreen() {
                 <View style={[styles.orpPreview, { backgroundColor: t.orpColor }]} />
               </TouchableOpacity>
             ))}
+          </View>
+
+          {/* Reading Settings */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Reading</Text>
+          <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+            <View style={styles.settingRow}>
+              <View style={styles.settingInfo}>
+                <Text style={[styles.settingLabel, { color: theme.textColor }]}>Paragraph Pause</Text>
+                <Text style={[styles.settingDesc, { color: theme.textColor }]}>
+                  Brief pause between paragraphs
+                </Text>
+              </View>
+              <Switch
+                value={paragraphPauseEnabled}
+                onValueChange={setParagraphPauseEnabled}
+                trackColor={{ false: theme.trackColor, true: theme.accentColor }}
+                thumbColor={theme.textColor}
+              />
+            </View>
           </View>
 
           {/* Dev controls */}
@@ -464,5 +483,24 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.5,
+  },
+  settingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  settingInfo: {
+    flex: 1,
+    marginRight: SPACING.md,
+  },
+  settingLabel: {
+    ...TYPOGRAPHY.body,
+    fontSize: TYPOGRAPHY.button.fontSize,
+  },
+  settingDesc: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
+    opacity: 0.6,
+    marginTop: SPACING.xs,
   },
 });

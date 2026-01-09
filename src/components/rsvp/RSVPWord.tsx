@@ -23,6 +23,10 @@ const RSVP_SIZES = {
  * Displays a single word with the ORP letter highlighted.
  * The ORP letter is ALWAYS positioned at the exact horizontal center (aligned with crosshair).
  * This eliminates eye movement - the core principle of RSVP speed reading.
+ *
+ * For headers:
+ * - Short headers (≤3 words): Display as snapshot (entire header at once) in ALL CAPS
+ * - Long headers: Display word-by-word in ALL CAPS with meta color
  */
 export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize }: RSVPWordProps) {
   const { theme } = useTheme();
@@ -37,10 +41,32 @@ export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize }: RSVPWordPro
     );
   }
 
-  const { display, orpIndex } = word;
-  const before = display.slice(0, orpIndex);
-  const orpChar = display[orpIndex] || '';
-  const after = display.slice(orpIndex + 1);
+  // Header snapshot mode: display entire short header centered
+  if (word.headerText) {
+    return (
+      <View style={styles.container}>
+        <View style={[styles.crosshair, { backgroundColor: theme.crosshairColor }]} />
+        <Text
+          style={[
+            styles.headerSnapshot,
+            { color: theme.metaColor, fontSize: fontSize * 0.8 },
+          ]}
+        >
+          {word.headerText.toUpperCase()}
+        </Text>
+      </View>
+    );
+  }
+
+  const { display, orpIndex, isHeader } = word;
+  const displayText = isHeader ? display.toUpperCase() : display;
+  const before = displayText.slice(0, orpIndex);
+  const orpChar = displayText[orpIndex] || '';
+  const after = displayText.slice(orpIndex + 1);
+
+  // Use meta color for headers, regular colors for normal text
+  const textColor = isHeader ? theme.metaColor : theme.textColor;
+  const highlightColor = isHeader ? theme.metaColor : theme.orpColor;
 
   return (
     <View style={styles.container}>
@@ -51,19 +77,19 @@ export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize }: RSVPWordPro
       <View style={styles.wordRow}>
         {/* Before text: right-aligned so it ends at the ORP */}
         <View style={styles.beforeContainer}>
-          <Text style={[styles.word, { color: theme.textColor, fontSize }]}>
+          <Text style={[styles.word, { color: textColor, fontSize }]}>
             {before}
           </Text>
         </View>
 
         {/* ORP character: fixed at center */}
-        <Text style={[styles.word, styles.orpChar, { color: theme.orpColor, fontSize }]}>
+        <Text style={[styles.word, styles.orpChar, { color: highlightColor, fontSize }]}>
           {orpChar}
         </Text>
 
         {/* After text: left-aligned so it starts after the ORP */}
         <View style={styles.afterContainer}>
-          <Text style={[styles.word, { color: theme.textColor, fontSize }]}>
+          <Text style={[styles.word, { color: textColor, fontSize }]}>
             {after}
           </Text>
         </View>

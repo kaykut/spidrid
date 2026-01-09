@@ -14,6 +14,7 @@ import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { NowPlayingBar, PlaylistBottomSheet } from '../../components/playlist';
 import { QuestionRenderer, QuestionAnswer } from '../../components/quiz';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
+import { ChapterPauseOverlay } from '../../components/rsvp/ChapterPauseOverlay';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -188,7 +189,14 @@ export default function PlayScreen() {
             {/* RSVP Display Area */}
             <View style={styles.rsvpContainer}>
               {hasContent ? (
-                <RSVPWord word={engine.currentWord} />
+                engine.chapterPaused ? (
+                  <ChapterPauseOverlay
+                    chapter={engine.chapterPaused}
+                    onContinue={engine.resumeFromChapter}
+                  />
+                ) : (
+                  <RSVPWord word={engine.currentWord} />
+                )
               ) : (
                 <View style={styles.emptyState}>
                   <Text style={[styles.emptyTitle, { color: theme.textColor }]}>

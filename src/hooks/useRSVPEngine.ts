@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { findSentenceStarts, findPreviousSentenceStart, findNextSentenceStart } from '../services/textProcessor';
-import { ProcessedWord, RSVPEngineControls } from '../types/playback';
+import { ProcessedWord, RSVPEngineControls, ChapterPauseInfo } from '../types/playback';
+import { useSettingsStore } from '../store/settingsStore';
 
 /**
  * RSVP Engine Hook
@@ -15,9 +16,11 @@ export function useRSVPEngine(
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [wpm, setWPM] = useState(initialWPM);
+  const [chapterPaused, setChapterPaused] = useState<ChapterPauseInfo | null>(null);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sentenceStarts = useMemo(() => findSentenceStarts(words), [words]);
+  const paragraphPauseEnabled = useSettingsStore(state => state.paragraphPauseEnabled);
 
   const currentWord = words[currentIndex] ?? null;
   const totalWords = words.length;
@@ -38,8 +41,25 @@ export function useRSVPEngine(
       return;
     }
 
+    // Check for chapter start (auto-pause at chapter boundaries, but not at the very start)
+    if (currentWord.chapterStart && currentIndex > 0) {
+      setIsPlaying(false);
+      setChapterPaused(currentWord.chapterStart);
+      return;
+    }
+
     const baseInterval = 60000 / wpm;
-    const interval = baseInterval * currentWord.pauseMultiplier;
+    let interval = baseInterval * currentWord.pauseMultiplier;
+
+    // Header timing: 4x delay for cognitive breath
+    if (currentWord.isHeader) {
+      interval = baseInterval * 4;
+    }
+
+    // Add paragraph pause (3 words worth of time)
+    if (paragraphPauseEnabled && currentWord.paragraphEnd) {
+      interval += baseInterval * 3;
+    }
 
     timerRef.current = setTimeout(() => {
       if (currentIndex < totalWords - 1) {
@@ -55,7 +75,7 @@ export function useRSVPEngine(
         clearTimeout(timerRef.current);
       }
     };
-  }, [isPlaying, currentIndex, wpm, currentWord, totalWords]);
+  }, [isPlaying, currentIndex, wpm, currentWord, totalWords, paragraphPauseEnabled]);
 
   const play = useCallback(() => {
     if (currentIndex >= totalWords - 1 && totalWords > 0) {
@@ -100,6 +120,12 @@ export function useRSVPEngine(
   const reset = useCallback(() => {
     setIsPlaying(false);
     setCurrentIndex(0);
+    setChapterPaused(null);
+  }, []);
+
+  const resumeFromChapter = useCallback(() => {
+    setChapterPaused(null);
+    setIsPlaying(true);
   }, []);
 
   return {
@@ -109,6 +135,7 @@ export function useRSVPEngine(
     wpm,
     totalWords,
     progress,
+    chapterPaused,
     play,
     pause,
     toggle,
@@ -117,5 +144,6 @@ export function useRSVPEngine(
     skipSentence,
     jumpToIndex,
     reset,
+    resumeFromChapter,
   };
 }

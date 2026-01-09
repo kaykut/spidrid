@@ -17,11 +17,19 @@ export interface ImportedContent {
   siteName?: string; // Source website name
 }
 
+// Chapter metadata for EPUB navigation
+export interface ChapterMetadata {
+  title: string;
+  startCharOffset: number;
+  startWordIndex?: number; // Filled in during text processing
+}
+
 // Result from e-book parser
 export interface EbookParseResult {
   title: string;
   content: string;
   author?: string;
+  chapters?: ChapterMetadata[];
 }
 
 export interface ContentImportResult {

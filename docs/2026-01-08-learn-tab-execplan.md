@@ -18,8 +18,8 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 - [x] Milestone 2: Supabase Edge Function
 - [x] Milestone 3: Learn Tab UI with Article Generation
 - [x] Milestone 4: Generated Article Reader
-- [ ] Milestone 5: Curriculum Types and Store
-- [ ] Milestone 6: Curriculum Generation Backend
+- [x] Milestone 5: Curriculum Types and Store
+- [x] Milestone 6: Curriculum Generation Backend
 - [ ] Milestone 7: Curriculum UI (Wizard and Accordion)
 - [ ] Milestone 8: Background Pre-generation
 
@@ -65,6 +65,10 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
   Rationale: Navigation structure was updated to use a two-level system. Content tab contains Train, Read, and Learn subtabs. The Learn subtab placeholder already exists at `src/app/(tabs)/content/learn.tsx`.
   Date/Author: 2026-01-08
 
+- Decision: Use Gemini 3.0 Flash for curriculum outline generation (same as article generation).
+  Rationale: Consistency with article generation, single API key management, Structured Output guarantees valid JSON schema for outline. Original plan specified Anthropic Claude but changed for consistency.
+  Date/Author: 2026-01-09
+
 
 ## Outcomes & Retrospective
 
@@ -90,7 +94,26 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 - [GenerateArticleModal.tsx](src/components/learn/GenerateArticleModal.tsx) - Topic/duration/tone form
 - [[id].tsx](src/app/generated/[id].tsx) - Generated article reader
 
-(Phase 2 - Curricula - not yet started)
+### Phase 2 In Progress (2026-01-09)
+
+**Milestones 5-6 delivered:**
+- Types: `src/types/curriculum.ts` with `Curriculum`, `CurriculumArticle`, `CurriculumOutline`, status types
+- Store: `src/store/curriculumStore.ts` with curriculum CRUD, article generation, progress tracking, pre-generation
+- Edge Function: `supabase/functions/generate-curriculum-outline/` using Gemini 3.0 Flash with Structured Output
+- Article Edge Function: Updated `supabase/functions/generate-article/` to accept `curriculumContext` for curriculum articles
+- Helper Functions: `isValidArticleCount()`, `durationToWordCount()` for input validation
+
+**Test Coverage (TDD approach):**
+- `__tests__/types/curriculum.test.ts` - 34 tests for types, interfaces, helper functions
+- `__tests__/store/curriculumStore.test.ts` - 42 tests for curriculum creation, article generation, progress tracking, error handling
+- All 1991 tests pass
+
+**Key Implementation Files:**
+- [curriculum.ts](src/types/curriculum.ts) - Curriculum type definitions
+- [curriculumStore.ts](src/store/curriculumStore.ts) - Zustand store with full lifecycle management
+- [generate-curriculum-outline/index.ts](supabase/functions/generate-curriculum-outline/index.ts) - Outline generation edge function
+
+(Phase 2 - UI components - Milestones 7-8 pending)
 
 
 ## Context and Orientation

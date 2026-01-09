@@ -17,6 +17,7 @@ interface SettingsState extends UserSettings {
   setHapticFeedback: (enabled: boolean) => void;
   setUserName: (name: string) => void;
   setReadingLanguage: (language: string) => void;
+  setParagraphPauseEnabled: (enabled: boolean) => void;
   setActiveContentTab: (tab: ContentTab) => void;
   resetSettings: () => void;
 
@@ -46,6 +47,7 @@ export const useSettingsStore = create<SettingsState>()(
       setHapticFeedback: (hapticFeedback) => set({ hapticFeedback }),
       setUserName: (userName) => set({ userName }),
       setReadingLanguage: (readingLanguage) => set({ readingLanguage }),
+      setParagraphPauseEnabled: (paragraphPauseEnabled) => set({ paragraphPauseEnabled }),
       setActiveContentTab: (activeContentTab) => set({ activeContentTab }),
 
       resetSettings: () => set({
@@ -71,6 +73,7 @@ export const useSettingsStore = create<SettingsState>()(
         hapticFeedback: state.hapticFeedback,
         userName: state.userName,
         readingLanguage: state.readingLanguage,
+        paragraphPauseEnabled: state.paragraphPauseEnabled,
         activeContentTab: state.activeContentTab,
       }),
     }

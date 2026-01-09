@@ -11,6 +11,7 @@ export interface Theme {
   secondaryBackground: string;
   secondaryBackgroundGradient: string;
   trackColor: string;
+  metaColor: string; // Color for headers and metadata
 }
 
 export interface UserSettings {
@@ -22,6 +23,7 @@ export interface UserSettings {
   hapticFeedback: boolean;
   userName: string;
   readingLanguage: string;
+  paragraphPauseEnabled: boolean;
 }
 
 export const READING_LANGUAGES = [
@@ -48,4 +50,5 @@ export const DEFAULT_SETTINGS: UserSettings = {
   hapticFeedback: true,
   userName: '',
   readingLanguage: 'en',
+  paragraphPauseEnabled: true,
 };

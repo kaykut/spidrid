@@ -1,11 +1,22 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
+interface CurriculumContext {
+  curriculumTitle: string;
+  articleTitle: string;
+  articleSummary: string;
+  keyConceptsToIntroduce: string[];
+  prerequisiteConcepts: string[];
+  previousArticleSummary: string | null;
+  position: string; // e.g., "1 of 5"
+}
+
 interface RequestBody {
   topic: string;
   targetWordCount: number;
   tone: string;
   tonePrompt: string;
   userId: string;
+  curriculumContext?: CurriculumContext;
 }
 
 const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY') || '';
@@ -124,13 +135,34 @@ serve(async (req) => {
       );
     }
 
-    const userPrompt = `Write an educational article about: "${topic}"
+    // Build prompt based on whether this is a curriculum article or standalone
+    let userPrompt: string;
+
+    if (body.curriculumContext) {
+      const ctx = body.curriculumContext;
+      userPrompt = `You are writing article ${ctx.position} in a curriculum titled "${ctx.curriculumTitle}".
+
+ARTICLE DETAILS:
+- Title: ${ctx.articleTitle}
+- Summary: ${ctx.articleSummary}
+- Key concepts to cover: ${ctx.keyConceptsToIntroduce.join(', ')}
+${ctx.prerequisiteConcepts.length > 0 ? `- Prerequisites already covered: ${ctx.prerequisiteConcepts.join(', ')}` : '- This is the first article in the curriculum (no prerequisites)'}
+${ctx.previousArticleSummary ? `- Previous article summary (for continuity): ${ctx.previousArticleSummary}` : ''}
+
+Target word count: ${targetWordCount} words (stay within 10% of this target)
+
+Writing style: ${tonePrompt}
+
+Write the complete article content maintaining continuity with previous material if applicable. Focus on the key concepts listed above. Then generate exactly 5 comprehension questions.`;
+    } else {
+      userPrompt = `Write an educational article about: "${topic}"
 
 Target word count: ${targetWordCount} words (stay within 10% of this target)
 
 Writing style: ${tonePrompt}
 
 Generate the article with title, content, and exactly 5 comprehension questions.`;
+    }
 
     // Call Gemini API with Structured Output
     const geminiResponse = await fetch(
