@@ -14,10 +14,10 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 
 ## Progress
 
-- [ ] Milestone 1: Types and Store Foundation
-- [ ] Milestone 2: Supabase Edge Function
-- [ ] Milestone 3: Learn Tab UI with Article Generation
-- [ ] Milestone 4: Generated Article Reader
+- [x] Milestone 1: Types and Store Foundation
+- [x] Milestone 2: Supabase Edge Function
+- [x] Milestone 3: Learn Tab UI with Article Generation
+- [x] Milestone 4: Generated Article Reader
 - [ ] Milestone 5: Curriculum Types and Store
 - [ ] Milestone 6: Curriculum Generation Backend
 - [ ] Milestone 7: Curriculum UI (Wizard and Accordion)
@@ -26,14 +26,20 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 
 ## Surprises & Discoveries
 
-(To be populated during implementation)
+- **ExecPlan design system tokens were incorrect**: The code samples used `theme.colors.primary`, `theme.colors.surface`, etc. but the actual design system uses `theme.accentColor`, `theme.secondaryBackground`, `theme.textColor`. Required careful correction in all M3/M4 files.
+
+- **useRSVPEngine interface differs from ExecPlan**: The hook signature is `useRSVPEngine(processedWords, currentWPM)` with completion detected via `useEffect` on `progress === 1`, not via a callback parameter as suggested.
+
+- **Paywall component has no `reason` prop**: ExecPlan suggested passing `reason="premium_feature"` but the actual Paywall component only accepts `visible` and `onClose`.
+
+- **Quiz flow pattern requires specific mock structure**: Testing the reader screen required comprehensive mocks for QuestionRenderer that properly handle the answer callback pattern with discriminated union types.
 
 
 ## Decision Log
 
-- Decision: Use Claude (Anthropic) as the LLM provider.
-  Rationale: User preference, already in Anthropic ecosystem. Claude excels at nuanced writing and tone control.
-  Date/Author: 2026-01-08
+- Decision: Use Google Gemini 3.0 Flash with Structured Output as the LLM provider.
+  Rationale: Gemini 3.0 Flash offers cost-effective generation with a free tier. Structured Output feature guarantees response schema compliance, eliminating fragile text parsing and field normalization. Uses `anyOf` discriminated union for question types.
+  Date/Author: 2026-01-09 (Updated from original Claude decision)
 
 - Decision: Premium-only access for all LLM features.
   Rationale: Simplifies implementation, clear value proposition for subscription, avoids complex usage tracking.
@@ -62,7 +68,29 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 
 ## Outcomes & Retrospective
 
-(To be populated at milestone completions and final delivery)
+### Phase 1 Complete (2026-01-09)
+
+**Milestones 1-4 delivered:**
+- Types: `src/types/generated.ts` with `GeneratedArticle`, `ArticleTone`, `TONE_DEFINITIONS`
+- Store: `src/store/generatedStore.ts` with full CRUD + generation state
+- Edge Function: `supabase/functions/generate-article/` using Gemini 3.0 Flash
+- Learn Tab UI: Segmented control (Articles|Curricula), premium-gated generate button, article list
+- Components: `GenerateArticleModal`, `DurationPill`, `TonePill`, `GeneratedArticleCard`
+- Reader: `src/app/generated/[id].tsx` with RSVP playback, quiz flow, session recording
+
+**Test Coverage:**
+- `__tests__/integration/LearnScreen.test.tsx` - 18 tests for premium gating, navigation, article list
+- `__tests__/components/learn/GenerateArticleModal.test.tsx` - Form validation, word estimation, generate flow
+- `__tests__/components/learn/GeneratedArticleCard.test.tsx` - Display logic for all tones and states
+- `__tests__/app/generated/[id].test.tsx` - Reader loading, error handling, store integration
+- All 1873 tests pass
+
+**Key Implementation Files:**
+- [learn.tsx](src/app/(tabs)/content/learn.tsx) - Learn subtab screen
+- [GenerateArticleModal.tsx](src/components/learn/GenerateArticleModal.tsx) - Topic/duration/tone form
+- [[id].tsx](src/app/generated/[id].tsx) - Generated article reader
+
+(Phase 2 - Curricula - not yet started)
 
 
 ## Context and Orientation
@@ -434,7 +462,13 @@ Expected output: no errors. If there are errors, they will indicate missing impo
 
 ## Milestone 2: Supabase Edge Function
 
-This milestone creates the backend that securely calls Claude without exposing the API key. At the end, we will have a deployed Supabase Edge Function that accepts article generation requests, calls Claude, parses the response, and returns structured JSON.
+This milestone creates the backend that securely calls Google Gemini 3.0 without exposing the API key. At the end, we will have a deployed Supabase Edge Function that accepts article generation requests, calls Gemini with Structured Output, and returns guaranteed-schema JSON.
+
+**Key Implementation Details:**
+- Uses Gemini 3.0 Flash (`gemini-3-flash-preview`) with Structured Output
+- Response schema uses `anyOf` discriminated union for question types (single_choice, true_false)
+- No text parsing or field normalization needed - schema guarantees correct format
+- Deployed with `--no-verify-jwt` flag (required for new Supabase API key format)
 
 ### Prerequisites
 
@@ -444,7 +478,7 @@ You need a Supabase project. If one does not exist, create one at supabase.com. 
 - The anon public key (safe to embed in client)
 - Access to deploy Edge Functions via Supabase CLI
 
-You also need an Anthropic API key with access to Claude.
+You also need a Google AI API key from ai.google.dev.
 
 ### Supabase CLI Setup
 
@@ -467,225 +501,111 @@ Create the function directory and file:
     mkdir -p supabase/functions/generate-article
     touch supabase/functions/generate-article/index.ts
 
-Contents of `supabase/functions/generate-article/index.ts`:
+The full implementation is in `supabase/functions/generate-article/index.ts`. Key aspects:
 
-    import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+**1. JSON Schema with `anyOf` Discriminated Union:**
 
-    interface RequestBody {
-      topic: string;
-      targetWordCount: number;
-      tone: string;
-      tonePrompt: string;
-      userId: string;
-    }
-
-    interface Question {
-      id: string;
-      type: 'single_choice' | 'true_false' | 'multiple_select' | 'numeric';
-      question: string;
-      options?: string[];
-      correctIndex?: number;
-      correctIndices?: number[];
-      correctAnswer?: boolean;
-      correctValue?: number;
-      tolerance?: number;
-      min?: number;
-      max?: number;
-      unit?: string;
-    }
-
-    const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') || '';
-
-    const SYSTEM_PROMPT = `You are an expert educational content writer creating articles for a speed reading practice app. Your task is to generate engaging, informative articles that help readers learn while practicing their reading speed.
-
-    CRITICAL REQUIREMENTS:
-    1. The article MUST be approximately the requested word count (within 10% tolerance)
-    2. Use clear, well-structured prose with logical flow between paragraphs
-    3. Include interesting facts, insights, and memorable details
-    4. AVOID bullet points and lists - use flowing prose paragraphs only
-    5. Each paragraph should be 3-5 sentences
-    6. Make the content educational and substantive, not fluff
-
-    After the article, generate 5 comprehension questions. Use a mix of question types:
-    - single_choice: Multiple choice with 4 options, 1 correct (correctIndex is 0-based)
-    - true_false: Statement with boolean correctAnswer
-    - numeric: Number answer with correctValue, tolerance, min, max, and optional unit
-
-    Questions should test genuine comprehension of the article content, not trivia. Include plausible wrong answers for multiple choice.
-
-    OUTPUT FORMAT (follow exactly):
-    ---ARTICLE---
-    [Article title on first line, no # prefix]
-    [Blank line]
-    [Article content as paragraphs separated by blank lines...]
-    ---QUESTIONS---
-    [JSON array of exactly 5 questions]`;
-
-    serve(async (req) => {
-      if (req.method === 'OPTIONS') {
-        return new Response('ok', {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    const RESPONSE_SCHEMA = {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: 'The article title' },
+        content: { type: 'string', description: 'Article content as paragraphs' },
+        questions: {
+          type: 'array',
+          items: {
+            anyOf: [
+              {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  type: { type: 'string', enum: ['single_choice'] },
+                  question: { type: 'string' },
+                  options: { type: 'array', items: { type: 'string' }, minItems: 4, maxItems: 4 },
+                  correctIndex: { type: 'integer', minimum: 0, maximum: 3 },
+                },
+                required: ['id', 'type', 'question', 'options', 'correctIndex'],
+              },
+              {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  type: { type: 'string', enum: ['true_false'] },
+                  question: { type: 'string' },
+                  correctAnswer: { type: 'boolean' },
+                },
+                required: ['id', 'type', 'question', 'correctAnswer'],
+              },
+            ],
           },
-        });
-      }
+        },
+      },
+      required: ['title', 'content', 'questions'],
+    };
 
-      try {
-        const body: RequestBody = await req.json();
-        const { topic, targetWordCount, tone, tonePrompt, userId } = body;
+**2. Gemini API Call with Structured Output:**
 
-        // Input validation
-        if (!topic || topic.length < 3 || topic.length > 500) {
-          return new Response(
-            JSON.stringify({
-              success: false,
-              error: 'Topic must be between 3 and 500 characters',
-              errorCode: 'INVALID_REQUEST',
-            }),
-            { status: 400, headers: { 'Content-Type': 'application/json' } }
-          );
-        }
-
-        if (!targetWordCount || targetWordCount < 100 || targetWordCount > 10000) {
-          return new Response(
-            JSON.stringify({
-              success: false,
-              error: 'Invalid word count',
-              errorCode: 'INVALID_REQUEST',
-            }),
-            { status: 400, headers: { 'Content-Type': 'application/json' } }
-          );
-        }
-
-        // TODO: Add premium verification check using userId
-        // For now, assume all requests are authorized
-
-        const userPrompt = `Write an educational article about: "${topic}"
-
-    Target word count: ${targetWordCount} words (IMPORTANT: stay within 10% of this target)
-
-    Writing style instructions: ${tonePrompt}
-
-    Remember:
-    - Write in flowing prose paragraphs, no bullet points or lists
-    - Make the content genuinely educational and interesting
-    - Include specific facts, examples, and insights
-    - End with exactly 5 comprehension questions in valid JSON format`;
-
-        const anthropicResponse = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': ANTHROPIC_API_KEY,
-            'anthropic-version': '2023-06-01',
+    const geminiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GOOGLE_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ parts: [{ text: userPrompt }] }],
+          generationConfig: {
+            maxOutputTokens: 8192,
+            temperature: 0.7,
+            responseMimeType: 'application/json',
+            responseSchema: RESPONSE_SCHEMA,
           },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 8192,
-            system: SYSTEM_PROMPT,
-            messages: [{ role: 'user', content: userPrompt }],
-          }),
-        });
-
-        if (!anthropicResponse.ok) {
-          const errorText = await anthropicResponse.text();
-          console.error('Anthropic API error:', errorText);
-          throw new Error('Failed to generate content');
-        }
-
-        const anthropicData = await anthropicResponse.json();
-        const responseText =
-          anthropicData.content[0]?.type === 'text' ? anthropicData.content[0].text : '';
-
-        // Parse the response
-        const articleMatch = responseText.match(/---ARTICLE---\s*([\s\S]*?)\s*---QUESTIONS---/);
-        const questionsMatch = responseText.match(/---QUESTIONS---\s*([\s\S]*?)$/);
-
-        if (!articleMatch || !questionsMatch) {
-          console.error('Failed to parse response format:', responseText.substring(0, 500));
-          throw new Error('Failed to parse LLM response format');
-        }
-
-        const articleText = articleMatch[1].trim();
-        const lines = articleText.split('\n');
-        const title = lines[0].replace(/^#\s*/, '').trim();
-        const content = lines
-          .slice(1)
-          .join('\n')
-          .trim();
-
-        let questions: Question[];
-        try {
-          const questionsJson = questionsMatch[1].trim();
-          // Handle potential markdown code fence around JSON
-          const cleanJson = questionsJson.replace(/^```json?\s*|\s*```$/g, '');
-          questions = JSON.parse(cleanJson);
-        } catch (parseError) {
-          console.error('Failed to parse questions JSON:', questionsMatch[1]);
-          throw new Error('Failed to parse questions JSON');
-        }
-
-        const wordCount = content.split(/\s+/).filter(Boolean).length;
-
-        return new Response(
-          JSON.stringify({
-            success: true,
-            article: { title, content, wordCount, questions },
-          }),
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        );
-      } catch (error) {
-        console.error('Generation error:', error);
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: 'Failed to generate article. Please try again.',
-            errorCode: 'GENERATION_FAILED',
-          }),
-          {
-            status: 500,
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        );
+        }),
       }
-    });
+    );
+
+**3. Simplified Response Handling (no parsing needed):**
+
+    const geminiData = await geminiResponse.json();
+    const responseText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const parsed = JSON.parse(responseText); // Guaranteed valid by schema
+    const wordCount = parsed.content.split(/\s+/).filter(Boolean).length;
+
+Reference: See `supabase/functions/generate-article/index.ts` for full implementation.
 
 ### Deploy the Function
 
-Set the Anthropic API key as a secret:
+Set the Google API key as a secret:
 
-    supabase secrets set ANTHROPIC_API_KEY=sk-ant-your-key-here
+    supabase secrets set GOOGLE_API_KEY=your-google-api-key
 
-Deploy the function:
+Deploy the function (note: `--no-verify-jwt` is required for new Supabase API key format):
 
-    supabase functions deploy generate-article
+    supabase functions deploy generate-article --no-verify-jwt
 
 ### Client Environment Variables
 
-Create or update `.env` at the repository root:
+Create `.env.local` at the repository root (this file is gitignored):
 
     EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-    EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+    EXPO_PUBLIC_SUPABASE_ANON_KEY=your-publishable-key
 
-Update `app.config.js` or `app.json` to expose these to Expo if needed.
+Create `app.config.js` to expose these to Expo:
+
+    export default {
+      expo: {
+        // ... existing config
+        extra: {
+          supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
+          supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+        },
+      },
+    };
 
 ### Validation
 
-Test the function with curl:
+Test the function with curl (no Authorization header needed with `--no-verify-jwt`):
 
     curl -X POST https://your-project.supabase.co/functions/v1/generate-article \
       -H "Content-Type: application/json" \
-      -H "Authorization: Bearer YOUR_ANON_KEY" \
       -d '{
         "topic": "The history of coffee",
         "targetWordCount": 500,
@@ -694,7 +614,7 @@ Test the function with curl:
         "userId": "test-user"
       }'
 
-Expected response (abbreviated):
+Expected response (Structured Output guarantees this format):
 
     {
       "success": true,
@@ -703,7 +623,8 @@ Expected response (abbreviated):
         "content": "In the misty highlands of Ethiopia...",
         "wordCount": 487,
         "questions": [
-          {"id": "q1", "type": "single_choice", "question": "...", ...},
+          {"id": "q1", "type": "single_choice", "question": "...", "options": [...], "correctIndex": 2},
+          {"id": "q2", "type": "true_false", "question": "...", "correctAnswer": true},
           ...
         ]
       }

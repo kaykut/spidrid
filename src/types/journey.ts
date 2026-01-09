@@ -53,7 +53,7 @@ export const DEFAULT_COMFORT_BAND: ComfortBand = {
 // Session Record
 // =============================================================================
 
-export type ArticleType = 'curriculum' | 'certification' | 'imported';
+export type ArticleType = 'curriculum' | 'certification' | 'imported' | 'generated';
 export type CardTypeChosen = 'primary' | 'stretch' | 'continue' | 'browse';
 
 export interface JourneySession {

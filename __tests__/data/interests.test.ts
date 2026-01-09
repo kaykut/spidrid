@@ -4,7 +4,12 @@
  * Tests the 1:1 mapping between interests and curriculum topics.
  */
 
-import { INTERESTS } from '../../src/data/interests';
+import {
+  INTERESTS,
+  getCurriculumTopicsForInterests,
+  getInterestById,
+  getInterestForTopic,
+} from '../../src/data/interests';
 import { TOPICS } from '../../src/data/curriculum';
 
 describe('INTERESTS', () => {
@@ -108,13 +113,6 @@ describe('Legacy curriculumTopicIds array (backwards compatibility)', () => {
     });
   });
 });
-
-// Import helper functions for testing
-import {
-  getCurriculumTopicsForInterests,
-  getInterestById,
-  getInterestForTopic,
-} from '../../src/data/interests';
 
 describe('getCurriculumTopicsForInterests', () => {
   it('returns curriculum topic IDs for selected interests', () => {

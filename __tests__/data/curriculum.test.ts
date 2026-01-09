@@ -10,6 +10,8 @@ import {
   getTopicById,
   getArticlesByTopic,
   getArticleById,
+  getPracticeArticles,
+  getCertificationArticles,
 } from '../../src/data/curriculum';
 
 describe('TOPICS', () => {
@@ -231,12 +233,6 @@ describe('Topic-Article relationship', () => {
     });
   });
 });
-
-// Import additional functions for testing
-import {
-  getPracticeArticles,
-  getCertificationArticles,
-} from '../../src/data/curriculum';
 
 describe('getPracticeArticles', () => {
   it('returns practice articles for valid topic ID', () => {

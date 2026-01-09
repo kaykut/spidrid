@@ -17,7 +17,7 @@ import {
 import { LayoutAnimation } from 'react-native';
 
 // Mock LayoutAnimation.configureNext
-jest.spyOn(LayoutAnimation, 'configureNext').mockImplementation(() => {});
+jest.spyOn(LayoutAnimation, 'configureNext').mockImplementation(() => { /* noop */ });
 
 describe('animation constants', () => {
   describe('DURATION', () => {

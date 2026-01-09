@@ -25,6 +25,7 @@
     "dist",
     "build",
     "android",
-    "ios"
+    "ios",
+    "supabase"
   ]
 }

@@ -186,7 +186,7 @@ describe('PdfExtractorProvider', () => {
 
     it('throws error when used outside provider', () => {
       // Suppress console.error for this test since React will log the error
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { /* noop */ });
 
       renderWithProviders(<HookWithoutProvider />);
 
@@ -883,7 +883,7 @@ describe('PdfExtractorProvider', () => {
 
       await act(async () => {
         extractionPromise = extractPdfFn!('file://large.pdf');
-        extractionPromise.catch(() => {}); // Ignore rejection
+        extractionPromise.catch(() => { /* ignore rejection */ }); // Ignore rejection
         await Promise.resolve();
       });
 
@@ -972,7 +972,7 @@ describe('PdfExtractorProvider', () => {
         });
       });
 
-      await extractionPromise!.catch(() => {});
+      await extractionPromise!.catch(() => { /* ignore rejection */ });
 
       // Advance past timeout
       await act(async () => {
@@ -1113,7 +1113,7 @@ describe('PdfExtractorProvider', () => {
         });
       });
 
-      await promise1!.catch(() => {});
+      await promise1!.catch(() => { /* ignore rejection */ });
 
       // Second extraction should work
       let promise2: Promise<PdfExtractionResult>;
