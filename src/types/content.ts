@@ -11,6 +11,10 @@ export interface ImportedContent {
   createdAt: number;
   lastReadAt?: number;
   readProgress: number; // 0-1
+  // Optional metadata from article extraction
+  author?: string; // Article byline
+  excerpt?: string; // Article description/subtitle
+  siteName?: string; // Source website name
 }
 
 // Result from e-book parser

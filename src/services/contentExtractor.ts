@@ -1,9 +1,67 @@
 // Content extraction from URLs, text, and e-books
-// In a production app, you'd use a library like @mozilla/readability
+// Uses @mozilla/readability with linkedom for intelligent article extraction
 
+import { Readability } from '@mozilla/readability';
+import { parseHTML } from 'linkedom';
 import { ContentImportResult } from '../types/content';
 import { parseEpub } from './epubParser';
 import { parsePdf, PdfExtractFunction } from './pdfParser';
+
+// Result from Readability extraction
+interface ReadabilityResult {
+  title: string;
+  content: string;
+  author?: string;
+  excerpt?: string;
+  siteName?: string;
+}
+
+/**
+ * Extract article content using linkedom + Readability.
+ * Returns null if extraction fails or content is insufficient.
+ */
+function extractWithReadability(html: string, _url: string): ReadabilityResult | null {
+  try {
+    // Parse HTML with linkedom (creates DOM-like structure)
+    const { document } = parseHTML(html);
+
+    // Create Readability instance and parse
+    const reader = new Readability(document, {
+      // Readability options - keep defaults for best results
+    });
+
+    const article = reader.parse();
+
+    if (!article || !article.textContent) {
+      return null;
+    }
+
+    // Clean up the text content
+    const cleanContent = article.textContent
+      .replace(/\s+/g, ' ')
+      .replace(/\n\s*\n/g, '\n\n')
+      .trim();
+
+    // Require minimum content length
+    if (cleanContent.length < 100) {
+      return null;
+    }
+
+    return {
+      title: article.title || '',
+      content: cleanContent,
+      author: article.byline || undefined,
+      excerpt: article.excerpt || undefined,
+      siteName: article.siteName || undefined,
+    };
+  } catch (error) {
+    // Log in development, fail silently in production
+    if (__DEV__) {
+      console.warn('Readability extraction failed:', error);
+    }
+    return null;
+  }
+}
 
 // Basic HTML tag stripping
 function stripHtml(html: string): string {
@@ -60,7 +118,7 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
   try {
     // Validate URL
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = `https://${  url}`;
+      url = `https://${url}`;
     }
 
     new URL(url); // Validate URL format
@@ -76,6 +134,34 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
     }
 
     const html = await response.text();
+
+    // Try Readability extraction first (intelligent article detection)
+    const readabilityResult = extractWithReadability(html, url);
+
+    if (readabilityResult && readabilityResult.content.length >= 100) {
+      // Readability succeeded - use its results with metadata
+      const wordCount = countWords(readabilityResult.content);
+
+      return {
+        success: true,
+        content: {
+          id: '', // Will be set by store
+          title: readabilityResult.title || extractTitle(html, url),
+          content: readabilityResult.content,
+          wordCount,
+          source: 'url',
+          sourceUrl: url,
+          createdAt: 0, // Will be set by store
+          readProgress: 0,
+          // New optional metadata fields
+          author: readabilityResult.author,
+          excerpt: readabilityResult.excerpt,
+          siteName: readabilityResult.siteName,
+        },
+      };
+    }
+
+    // Fallback to basic regex extraction
     const title = extractTitle(html, url);
     const content = stripHtml(html);
 
