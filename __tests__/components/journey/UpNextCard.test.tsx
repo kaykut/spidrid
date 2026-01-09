@@ -231,23 +231,9 @@ describe('UpNextCard', () => {
       expect(screen.getByText('500')).toBeTruthy();
     });
 
-    it('uses custom wpmStep', () => {
-      renderWithProviders(<UpNextCard {...defaultProps} wpmStep={50} />);
-
-      // Component should render with step of 50
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('long content handling', () => {
-    it('handles long article title', () => {
-      const longTitle = 'This is a very long article title that should be truncated at some point because it exceeds the normal length limit for titles in this component and might wrap to multiple lines';
-      renderWithProviders(<UpNextCard {...defaultProps} title={longTitle} />);
-
-      // Component should render with numberOfLines={2}
-      expect(screen.root).toBeTruthy();
-    });
-
     it('handles long topic name', () => {
       renderWithProviders(
         <UpNextCard {...defaultProps} topicName="Very Long Topic Name That Might Wrap" />
@@ -296,22 +282,6 @@ describe('UpNextCard', () => {
       expect(screen.getByText('Fundamentals')).toBeTruthy();
       expect(screen.getByText(/words/)).toBeTruthy();
       expect(screen.getByText(/min/)).toBeTruthy();
-    });
-  });
-
-  describe('slider track rendering', () => {
-    it('renders slider track', () => {
-      renderWithProviders(<UpNextCard {...defaultProps} />);
-
-      // Slider track should be rendered
-      expect(screen.root).toBeTruthy();
-    });
-
-    it('renders slider thumb', () => {
-      renderWithProviders(<UpNextCard {...defaultProps} />);
-
-      // Slider thumb should be rendered
-      expect(screen.root).toBeTruthy();
     });
   });
 

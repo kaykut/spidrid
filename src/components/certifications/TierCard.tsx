@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, DimensionValue } from 'react-native';
 import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   CertificationTierProgress,
   getCertificationTierDefinition,
 } from '../../types/certificates';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 
 // Enable LayoutAnimation on Android

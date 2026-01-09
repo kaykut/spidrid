@@ -350,22 +350,6 @@ describe('SmartQueue', () => {
   });
 
   describe('edge cases', () => {
-    it('handles long article title', () => {
-      const longTitleRecommendation: ArticleRecommendation = {
-        ...mockPrimaryRecommendation,
-        title: 'This is a very long article title that should be truncated at some point because it is too long to fit',
-      };
-
-      renderWithProviders(
-        <SmartQueue
-          {...defaultProps}
-          primaryRecommendation={longTitleRecommendation}
-        />
-      );
-
-      expect(screen.root).toBeTruthy();
-    });
-
     it('handles zero WPM delta', () => {
       const sameWpmStretch: ArticleRecommendation = {
         ...mockStretchRecommendation,

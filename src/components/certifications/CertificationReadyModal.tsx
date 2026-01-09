@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   getCertificationTierDefinition,
 } from '../../types/certificates';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 
 interface CertificationReadyModalProps {

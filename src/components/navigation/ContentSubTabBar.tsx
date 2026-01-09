@@ -12,9 +12,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { OVERLAY_COLORS } from '../../data/themes';
 import { useSettingsStore } from '../../store/settingsStore';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 
 interface SubTab {

@@ -52,12 +52,6 @@ describe('MetricsPanel', () => {
       expect(screen.getByText('avg speed')).toBeTruthy();
     });
 
-    it('renders fire emoji for active streak', () => {
-      renderWithProviders(<MetricsPanel {...defaultProps} />);
-
-      // Fire emoji is rendered when streakDays > 0
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('zero values', () => {
@@ -136,12 +130,6 @@ describe('MetricsPanel', () => {
       expect(screen.getByText(/Best: -- WPM/)).toBeTruthy();
     });
 
-    it('shows expand indicator arrow down when collapsed', () => {
-      renderWithProviders(<MetricsPanel {...defaultProps} />);
-
-      // Down arrow when collapsed
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('embedded mode', () => {
@@ -196,13 +184,6 @@ describe('MetricsPanel', () => {
       fireEvent.press(avgSpeedText);
 
       expect(screen.getByText(/Best: -- WPM/)).toBeTruthy();
-    });
-
-    it('uses default embedded value of false', () => {
-      renderWithProviders(<MetricsPanel {...defaultProps} />);
-
-      // Component should render with card background (not embedded)
-      expect(screen.root).toBeTruthy();
     });
 
     it('uses default hideStreak value of false', () => {

@@ -63,35 +63,6 @@ describe('PlaybackControls', () => {
       expect(screen.getByText(/WPM.*max 450/)).toBeTruthy();
     });
 
-    it('renders play icon when not playing', () => {
-      renderWithProviders(<PlaybackControls {...defaultProps} isPlaying={false} />);
-
-      // Play button should be present
-      expect(screen.root).toBeTruthy();
-    });
-
-    it('renders pause icon when playing', () => {
-      renderWithProviders(<PlaybackControls {...defaultProps} isPlaying={true} />);
-
-      // Pause button should be present
-      expect(screen.root).toBeTruthy();
-    });
-  });
-
-  describe('progress bar', () => {
-    it('renders progress bar', () => {
-      renderWithProviders(<PlaybackControls {...defaultProps} progress={0.5} />);
-
-      // Progress bar is rendered
-      expect(screen.root).toBeTruthy();
-    });
-
-    it('progress bar width reflects progress value', () => {
-      renderWithProviders(<PlaybackControls {...defaultProps} progress={0.75} />);
-
-      // Progress bar with 75% width is rendered
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('play/pause button', () => {

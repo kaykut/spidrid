@@ -20,9 +20,9 @@ import {
 import { LAYOUT_ANIMATION_EXPAND } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { ArticleRecommendation, UserState } from '../../types/journey';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {

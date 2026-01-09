@@ -11,6 +11,12 @@ import { CertificateViewerModal } from '../../src/components/certificates/Certif
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 import { Certificate } from '../../src/types/certificates';
 
+// Mock Alert
+import { Alert } from 'react-native';
+
+// Import the mocked functions
+import * as certificatePDF from '../../src/services/certificatePDF';
+
 // Mock safe-area-context
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 44, bottom: 34, left: 0, right: 0 }),
@@ -43,13 +49,7 @@ jest.mock('../../src/services/certificatePDF');
 jest.mock('../../src/services/certificateTemplate', () => ({
   generateCertificateHTML: () => '<html><body>Certificate</body></html>',
 }));
-
-// Mock Alert
-import { Alert } from 'react-native';
 jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
-
-// Import the mocked functions
-import * as certificatePDF from '../../src/services/certificatePDF';
 
 const mockGenerateCertificatePDF = certificatePDF.generateCertificatePDF as jest.MockedFunction<typeof certificatePDF.generateCertificatePDF>;
 const mockShareCertificate = certificatePDF.shareCertificate as jest.MockedFunction<typeof certificatePDF.shareCertificate>;

@@ -257,18 +257,6 @@ describe('Paywall', () => {
     });
   });
 
-  describe('price display', () => {
-    it('shows price string', () => {
-      renderWithProviders(
-        <Paywall visible={true} onClose={jest.fn()} />
-      );
-
-      // The component uses MOCK_OFFERING.priceString
-      // Should show some price
-      expect(screen.root).toBeTruthy();
-    });
-  });
-
   describe('dev note', () => {
     it('shows dev mode note', () => {
       renderWithProviders(

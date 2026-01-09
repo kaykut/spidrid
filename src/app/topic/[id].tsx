@@ -7,12 +7,12 @@ import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constan
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
 import { JOURNEY_COLORS, OVERLAY_COLORS, COLOR_OPACITY, DIFFICULTY_COLORS } from '../../data/themes';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
 import { usePlaylistStore } from '../../store/playlistStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { Article } from '../../types/learning';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 
 export default function TopicScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

@@ -13,6 +13,9 @@
 
 import { parseEpub } from '../../src/services/epubParser';
 
+import * as FileSystem from 'expo-file-system';
+import JSZip from 'jszip';
+
 // Mock expo-file-system
 jest.mock('expo-file-system', () => ({
   readAsStringAsync: jest.fn(),
@@ -24,9 +27,6 @@ jest.mock('jszip', () => {
     loadAsync: jest.fn(),
   };
 });
-
-import * as FileSystem from 'expo-file-system';
-import JSZip from 'jszip';
 
 const mockReadAsStringAsync = FileSystem.readAsStringAsync as jest.Mock;
 const mockLoadAsync = JSZip.loadAsync as jest.Mock;

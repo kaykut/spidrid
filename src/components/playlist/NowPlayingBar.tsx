@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { PlaylistItem, PlaylistSource } from '../../types/playlist';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 
 interface NowPlayingBarProps {

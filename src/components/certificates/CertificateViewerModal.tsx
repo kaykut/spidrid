@@ -11,8 +11,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { generateCertificatePDF, shareCertificate, deleteCertificatePDF } from '../../services/certificatePDF';
 import { generateCertificateHTML } from '../../services/certificateTemplate';
 import { useSettingsStore } from '../../store/settingsStore';

@@ -238,7 +238,7 @@ describe('JourneyScreen with article progress data', () => {
 
   it('calculates articlesRead correctly', () => {
     // This test verifies the reduce/filter logic paths are executed
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const JourneyScreenModule = require('../../src/app/(tabs)/journey');
     const { getByTestId } = render(<JourneyScreenModule.default />);
     const articlesRead = getByTestId('articles-read');
@@ -247,7 +247,7 @@ describe('JourneyScreen with article progress data', () => {
   });
 
   it('calculates totalWords correctly', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const JourneyScreenModule = require('../../src/app/(tabs)/journey');
     const { getByTestId } = render(<JourneyScreenModule.default />);
     const totalWords = getByTestId('total-words');
@@ -256,7 +256,7 @@ describe('JourneyScreen with article progress data', () => {
   });
 
   it('calculates averageAccuracy correctly', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const JourneyScreenModule = require('../../src/app/(tabs)/journey');
     const { getByTestId } = render(<JourneyScreenModule.default />);
     const avgAccuracy = getByTestId('average-accuracy');

@@ -8,7 +8,6 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { themeList, JOURNEY_COLORS } from '../../data/themes';
 import { useContentStore } from '../../store/contentStore';
 import { useJourneyStore } from '../../store/journeyStore';
@@ -18,6 +17,7 @@ import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { CertificationTier, CERTIFICATION_TIER_DEFINITIONS } from '../../types/certificates';
 import { READING_LANGUAGES } from '../../types/settings';
 import { FREE_TIER_LIMITS } from '../../types/subscription';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 
 export default function ProfileScreen() {
   const { theme, setTheme } = useTheme();

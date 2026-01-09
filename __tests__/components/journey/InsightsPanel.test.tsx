@@ -80,17 +80,6 @@ describe('InsightsPanel', () => {
       expect(screen.getByText('LAST 4 WEEKS')).toBeTruthy();
     });
 
-    it('renders card icons', () => {
-      renderWithProviders(
-        <InsightsPanel
-          progressInsight={mockProgressInsight}
-          weeklyTrend={mockWeeklyTrend}
-        />
-      );
-
-      // Card icons are rendered as Unicode characters
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('progress content', () => {
@@ -235,18 +224,6 @@ describe('InsightsPanel', () => {
       expect(screen.getByText(/Complete 1 more session to unlock insights/)).toBeTruthy();
     });
 
-    it('renders placeholder dots', () => {
-      renderWithProviders(
-        <InsightsPanel
-          progressInsight={mockProgressInsight}
-          weeklyTrend={mockWeeklyTrend}
-          sessionsNeeded={3}
-        />
-      );
-
-      // Dots are rendered as views, component should render
-      expect(screen.root).toBeTruthy();
-    });
   });
 
   describe('trend content', () => {
@@ -301,18 +278,6 @@ describe('InsightsPanel', () => {
   });
 
   describe('trend chart rendering', () => {
-    it('renders chart points for trend data', () => {
-      renderWithProviders(
-        <InsightsPanel
-          progressInsight={mockProgressInsight}
-          weeklyTrend={mockWeeklyTrend}
-        />
-      );
-
-      // Chart is rendered with data points
-      expect(screen.root).toBeTruthy();
-    });
-
     it('handles trend with exactly 2 data points', () => {
       const twoPointTrend: WeeklyTrendPoint[] = [
         { weekStart: '2026-01-06', avgWpm: 280, avgComprehension: 75, sessionCount: 3 },

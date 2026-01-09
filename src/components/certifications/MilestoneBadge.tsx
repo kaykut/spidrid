@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SPACING } from '../../constants/spacing';
 import { FONT_WEIGHTS } from '../../constants/typography';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { JOURNEY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   CertificationTierProgress,
   CERTIFICATION_TIER_DEFINITIONS,
 } from '../../types/certificates';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 
 interface MilestoneBadgeProps {
