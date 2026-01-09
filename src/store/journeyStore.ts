@@ -142,6 +142,15 @@ interface JourneyActions {
 
   // Reset (for testing/development)
   resetJourneyData: () => void;
+
+  // Testing only - directly set state for persona testing
+  hydrateForTesting: (state: {
+    sessions: JourneySession[];
+    speedProofs: SpeedProof[];
+    certProgress: Record<JourneyCertTier, JourneyCertProgress>;
+    streak: StreakData;
+    baseline: BaselineStats | null;
+  }) => void;
 }
 
 // =============================================================================
@@ -538,6 +547,21 @@ export const useJourneyStore = create<JourneyState & JourneyActions>()(
             transcendent: { ...DEFAULT_CERT_PROGRESS },
           },
         });
+      },
+
+      // =========================================================================
+      // Testing
+      // =========================================================================
+
+      hydrateForTesting: (testState) => {
+        set({
+          sessions: testState.sessions,
+          speedProofs: testState.speedProofs,
+          certProgress: testState.certProgress,
+          streak: testState.streak,
+          baseline: testState.baseline,
+        });
+        get().recalculateAll();
       },
     }),
     {

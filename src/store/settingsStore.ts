@@ -19,6 +19,12 @@ interface SettingsState extends UserSettings {
   setReadingLanguage: (language: string) => void;
   setActiveContentTab: (tab: ContentTab) => void;
   resetSettings: () => void;
+
+  // Testing only - directly set state for persona testing
+  hydrateForTesting: (state: {
+    defaultWPM: number;
+    userName: string;
+  }) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -45,6 +51,12 @@ export const useSettingsStore = create<SettingsState>()(
       resetSettings: () => set({
         ...DEFAULT_SETTINGS,
         theme: themes[DEFAULT_SETTINGS.themeId],
+      }),
+
+      // Testing only
+      hydrateForTesting: (testState) => set({
+        defaultWPM: testState.defaultWPM,
+        userName: testState.userName,
       }),
     }),
     {

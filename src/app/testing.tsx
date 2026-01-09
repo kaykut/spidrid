@@ -40,7 +40,9 @@ import { TrueFalseQuestion } from '../components/quiz/TrueFalseQuestion';
 import { RSVPWord } from '../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { FONT_WEIGHTS, TYPOGRAPHY, RSVP_DISPLAY } from '../constants/typography';
+import { TEST_PERSONAS, applyPersona, resetToCleanSlate, getPersonaCertCount } from '../data/testPersonas';
 import { DIFFICULTY_COLORS, JOURNEY_COLORS } from '../data/themes';
+import { useJourneyStore } from '../store/journeyStore';
 import type { Certificate, CertificationTierProgress, EarnedCertification } from '../types/certificates';
 import type {
   ArticleRecommendation,
@@ -247,6 +249,30 @@ function ModalToggle({ label, onPress }: ModalToggleProps) {
 export default function TestingScreen() {
   const { theme } = useTheme();
 
+  // Journey store for current state display
+  const { velocityScore, sessions, certProgress } = useJourneyStore();
+  const certsEarned = Object.values(certProgress).filter((p) => p.examPassed).length;
+
+  // Persona switcher state
+  const [selectedPersonaId, setSelectedPersonaId] = useState<string | null>(null);
+  const [isApplying, setIsApplying] = useState(false);
+
+  // Handle persona selection
+  const handleApplyPersona = async (personaId: string) => {
+    setIsApplying(true);
+    await applyPersona(personaId);
+    setSelectedPersonaId(personaId);
+    setIsApplying(false);
+  };
+
+  // Handle reset to clean slate
+  const handleReset = async () => {
+    setIsApplying(true);
+    await resetToCleanSlate();
+    setSelectedPersonaId(null);
+    setIsApplying(false);
+  };
+
   // Modal visibility states
   const [showCertificateViewer, setShowCertificateViewer] = useState(false);
   const [showNewCertificate, setShowNewCertificate] = useState(false);
@@ -280,6 +306,61 @@ export default function TestingScreen() {
         <Text style={[styles.subtitle, { color: theme.textColor, opacity: 0.6 }]}>
           All components with mock data
         </Text>
+
+        {/* ============================================================ */}
+        {/* TEST PERSONAS */}
+        {/* ============================================================ */}
+
+        <View style={[styles.personaCard, { backgroundColor: theme.secondaryBackground }]}>
+          <Text style={[styles.personaTitle, { color: theme.textColor }]}>
+            Test Persona Switcher
+          </Text>
+          <Text style={[styles.personaSubtitle, { color: theme.textColor }]}>
+            Current: VS {velocityScore} | {sessions.length} sessions | {certsEarned} certs
+          </Text>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.personaScroll}
+            contentContainerStyle={styles.personaScrollContent}
+          >
+            {/* Reset button */}
+            <TouchableOpacity
+              style={[styles.personaButton, styles.personaButtonReset]}
+              onPress={handleReset}
+              disabled={isApplying}
+            >
+              <Ionicons name="refresh" size={16} color={JOURNEY_COLORS.textPrimary} />
+              <Text style={styles.personaButtonLabel}>Reset</Text>
+              <Text style={styles.personaButtonDetail}>Clean slate</Text>
+            </TouchableOpacity>
+
+            {/* Persona buttons */}
+            {TEST_PERSONAS.map((persona) => (
+              <TouchableOpacity
+                key={persona.id}
+                style={[
+                  styles.personaButton,
+                  selectedPersonaId === persona.id && styles.personaButtonActive,
+                ]}
+                onPress={() => handleApplyPersona(persona.id)}
+                disabled={isApplying}
+              >
+                <Text style={styles.personaButtonLabel}>{persona.name}</Text>
+                <Text style={styles.personaButtonDetail}>
+                  {persona.targetWpm} WPM | {getPersonaCertCount(persona)} cert{getPersonaCertCount(persona) !== 1 ? 's' : ''}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {isApplying && (
+            <Text style={[styles.applyingText, { color: theme.accentColor }]}>
+              Applying persona...
+            </Text>
+          )}
+        </View>
 
         {/* ============================================================ */}
         {/* CERTIFICATES */}
@@ -751,5 +832,57 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 120,
+  },
+  // Persona switcher styles
+  personaCard: {
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.card,
+    marginBottom: SPACING.xl,
+  },
+  personaTitle: {
+    fontSize: TYPOGRAPHY.sectionTitle.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
+    marginBottom: SPACING.xs,
+  },
+  personaSubtitle: {
+    fontSize: TYPOGRAPHY.caption.fontSize,
+    opacity: 0.6,
+    marginBottom: SPACING.md,
+  },
+  personaScroll: {
+    marginHorizontal: -SPACING.lg,
+  },
+  personaScrollContent: {
+    paddingHorizontal: SPACING.lg,
+    gap: SPACING.sm,
+  },
+  personaButton: {
+    padding: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.chip,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    minWidth: 120,
+    alignItems: 'center',
+  },
+  personaButtonActive: {
+    borderWidth: 2,
+    borderColor: JOURNEY_COLORS.accent,
+  },
+  personaButtonReset: {
+    backgroundColor: 'rgba(255,100,100,0.2)',
+  },
+  personaButtonLabel: {
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.medium,
+    fontSize: TYPOGRAPHY.body.fontSize,
+    marginBottom: SPACING.xs,
+  },
+  personaButtonDetail: {
+    color: JOURNEY_COLORS.textSecondary,
+    fontSize: TYPOGRAPHY.caption.fontSize,
+  },
+  applyingText: {
+    marginTop: SPACING.md,
+    fontSize: TYPOGRAPHY.body.fontSize,
+    textAlign: 'center',
   },
 });

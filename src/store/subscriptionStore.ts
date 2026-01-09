@@ -22,6 +22,12 @@ interface SubscriptionStore {
   canAccessContent: () => boolean;
   getMaxWPM: () => number;
   canUseWPM: (wpm: number) => boolean;
+
+  // Testing only - directly set state for persona testing
+  hydrateForTesting: (state: {
+    isPremium: boolean;
+    contentAccessCount: number;
+  }) => void;
 }
 
 export const useSubscriptionStore = create<SubscriptionStore>()(
@@ -95,6 +101,14 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       canUseWPM: (wpm: number) => {
         const maxWPM = get().getMaxWPM();
         return wpm <= maxWPM;
+      },
+
+      // Testing only
+      hydrateForTesting: (testState) => {
+        set({
+          isPremium: testState.isPremium,
+          contentAccessCount: testState.contentAccessCount,
+        });
       },
     }),
     {

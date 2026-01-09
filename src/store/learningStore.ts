@@ -77,6 +77,19 @@ interface LearningStore {
   isArticleUnlocked: (articleId: string) => boolean;
 
   resetProgress: () => void;
+
+  // Testing only - directly set state for persona testing
+  hydrateForTesting: (state: {
+    articleProgress: Record<string, ArticleProgress>;
+    currentWPM: number;
+    recentCompletions: Array<{
+      articleId: string;
+      wpm: number;
+      score: number;
+      timestamp: number;
+      isCertificationText: boolean;
+    }>;
+  }) => void;
 }
 
 export const useLearningStore = create<LearningStore>()(
@@ -253,6 +266,14 @@ export const useLearningStore = create<LearningStore>()(
           articleProgress: {},
           currentArticleId: null,
           recentCompletions: [],
+        });
+      },
+
+      hydrateForTesting: (testState) => {
+        set({
+          articleProgress: testState.articleProgress,
+          currentWPM: testState.currentWPM,
+          recentCompletions: testState.recentCompletions,
         });
       },
     }),
