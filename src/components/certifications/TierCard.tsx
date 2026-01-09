@@ -57,33 +57,36 @@ export function TierCard({
 
   const overallProgress = getOverallProgress();
 
-  const getStatusText = () => {
-    if (progress.examPassed) { return 'Earned'; }
-    if (progress.examUnlocked) { return 'Ready for Exam'; }
-    if (progress.vsUnlocked || progress.speedProofAchieved) { return 'In Progress'; }
-    return 'Locked';
-  };
-
-  const getStatusColor = () => {
-    if (progress.examPassed) { return JOURNEY_COLORS.success; }
-    if (progress.examUnlocked) { return definition.color; }
-    if (progress.vsUnlocked || progress.speedProofAchieved) { return theme.accentColor; }
-    return theme.textColor;
-  };
-
   const isUnlocked = progress.vsUnlocked || progress.speedProofAchieved || progress.examPassed;
+  const isInProgress = isUnlocked && !progress.examPassed;
 
-  const getExamStatusText = () => {
-    if (progress.examPassed) {return 'Passed';}
-    if (progress.examUnlocked) {return 'Unlocked';}
-    return 'Locked';
+  // Derive status text and color from progress state
+  const getStatus = (): { text: string; color: string } => {
+    if (progress.examPassed) {
+      return { text: 'Earned', color: JOURNEY_COLORS.success };
+    }
+    if (progress.examUnlocked) {
+      return { text: 'Ready for Exam', color: definition.color };
+    }
+    if (isInProgress) {
+      return { text: 'In Progress', color: theme.accentColor };
+    }
+    return { text: 'Locked', color: theme.textColor };
   };
 
-  const getExamProgressWidth = (): DimensionValue => {
-    if (progress.examPassed) {return '100%';}
-    if (progress.examUnlocked) {return '50%';}
-    return '0%';
+  const status = getStatus();
+
+  // Derive exam status for expanded view
+  const getExamStatus = (): { text: string; width: DimensionValue } => {
+    if (progress.examPassed) {
+      return { text: 'Passed', width: '100%' };
+    }
+    if (progress.examUnlocked) {
+      return { text: 'Unlocked', width: '50%' };
+    }
+    return { text: 'Locked', width: '0%' };
   };
+  const examStatus = getExamStatus();
 
   const getNextStep = () => {
     if (progress.examPassed) { return null; }
@@ -128,8 +131,8 @@ export function TierCard({
             <Text style={[styles.title, { color: theme.textColor }]}>
               {definition.name}
             </Text>
-            <Text style={[styles.status, { color: getStatusColor() }]}>
-              {getStatusText()}
+            <Text style={[styles.status, { color: status.color }]}>
+              {status.text}
             </Text>
           </View>
           <View style={styles.progressIndicator}>
@@ -164,7 +167,7 @@ export function TierCard({
                     Certification Exam
                   </Text>
                   <Text style={[styles.progressBarValue, { color: theme.textColor }]}>
-                    {getExamStatusText()}
+                    {examStatus.text}
                   </Text>
                 </View>
                 <View style={[styles.progressBarTrack, { backgroundColor: theme.backgroundColor }]}>
@@ -172,7 +175,7 @@ export function TierCard({
                     style={[
                       styles.progressBarFill,
                       {
-                        width: getExamProgressWidth(),
+                        width: examStatus.width,
                         backgroundColor: progress.examPassed ? JOURNEY_COLORS.success : definition.color,
                       },
                     ]}

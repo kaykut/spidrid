@@ -40,46 +40,55 @@ export default function ReadScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
 
+  /**
+   * Check if content can be accessed, showing paywall if limit reached.
+   * Returns true if access is allowed.
+   */
+  const checkContentAccess = (content: { readProgress: number }): boolean => {
+    if (isPremium || content.readProgress >= 1) {return true;}
+    if (!canAccessContent()) {
+      setShowPaywall(true);
+      return false;
+    }
+    return true;
+  };
+
   const handleOpenContent = (id: string) => {
     const content = importedContent.find(c => c.id === id);
-    if (!content) {return;}
-
-    // Check content limit for unfinished content
-    if (content.readProgress < 1 && !isPremium) {
-      if (!canAccessContent()) {
-        setShowPaywall(true);
-        return;
-      }
-    }
-
+    if (!content || !checkContentAccess(content)) {return;}
     router.push(`/content/${id}`);
   };
 
   const handlePlayContent = (id: string) => {
     const content = importedContent.find(c => c.id === id);
-    if (!content) {return;}
-
-    // Check content limit for unfinished content
-    if (content.readProgress < 1 && !isPremium) {
-      if (!canAccessContent()) {
-        setShowPaywall(true);
-        return;
-      }
-    }
-
-    // Add to playlist and navigate to player
+    if (!content || !checkContentAccess(content)) {return;}
     loadContent(id, 'reading');
     router.push('/(tabs)/play');
   };
 
-  const handleImportUrl = async () => {
-    if (!urlInput.trim()) {return;}
-
-    // Check content limit before importing
-    if (!isPremium && !canAccessContent()) {
+  /**
+   * Check if import is allowed (non-premium users have limits).
+   * Returns true if import can proceed.
+   */
+  const checkImportLimit = (): boolean => {
+    if (isPremium) {return true;}
+    if (!canAccessContent()) {
       setShowPaywall(true);
-      return;
+      return false;
     }
+    return true;
+  };
+
+  /**
+   * Track import for non-premium users and navigate to content.
+   */
+  const handleImportSuccess = (contentId: string) => {
+    if (!isPremium) {incrementContentCount();}
+    router.push(`/content/${contentId}`);
+  };
+
+  const handleImportUrl = async () => {
+    if (!urlInput.trim() || !checkImportLimit()) {return;}
 
     setIsLoading(true);
     const result = await extractFromUrl(urlInput.trim());
@@ -87,33 +96,25 @@ export default function ReadScreen() {
 
     if (result.success && result.content) {
       const saved = addContent(result.content);
-      if (!isPremium) {incrementContentCount();}
       setImportMode(null);
       setUrlInput('');
-      router.push(`/content/${saved.id}`);
+      handleImportSuccess(saved.id);
     } else {
       Alert.alert('Import Failed', result.error || 'Could not extract content from URL');
     }
   };
 
   const handleImportText = () => {
-    if (!textInput.trim()) {return;}
-
-    // Check content limit before importing
-    if (!isPremium && !canAccessContent()) {
-      setShowPaywall(true);
-      return;
-    }
+    if (!textInput.trim() || !checkImportLimit()) {return;}
 
     const result = createFromText(textInput.trim(), titleInput.trim() || undefined);
 
     if (result.success && result.content) {
       const saved = addContent(result.content);
-      if (!isPremium) {incrementContentCount();}
       setImportMode(null);
       setTextInput('');
       setTitleInput('');
-      router.push(`/content/${saved.id}`);
+      handleImportSuccess(saved.id);
     } else {
       Alert.alert('Import Failed', result.error || 'Could not process text');
     }
@@ -141,18 +142,9 @@ export default function ReadScreen() {
         copyToCacheDirectory: true,
       });
 
-      if (result.canceled) {
-        return;
-      }
+      if (result.canceled || !checkImportLimit()) {return;}
 
       const asset = result.assets[0];
-
-      // Check content limit before importing
-      if (!isPremium && !canAccessContent()) {
-        setShowPaywall(true);
-        return;
-      }
-
       setIsLoading(true);
 
       const importResult = await extractFromEbook(asset.uri, asset.name, {
@@ -163,8 +155,7 @@ export default function ReadScreen() {
 
       if (importResult.success && importResult.content) {
         const saved = addContent(importResult.content);
-        if (!isPremium) {incrementContentCount();}
-        router.push(`/content/${saved.id}`);
+        handleImportSuccess(saved.id);
       } else {
         Alert.alert('Import Failed', importResult.error || 'Could not extract content');
       }

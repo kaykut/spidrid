@@ -60,31 +60,9 @@ export function SmartQueue({
     onToggleExpand();
   };
 
-  const handlePrimaryPress = () => {
-    onSelectArticle(
-      primaryRecommendation.articleId,
-      primaryRecommendation.suggestedWpm,
-      'primary'
-    );
-  };
-
-  const handleStretchPress = () => {
-    if (stretchRecommendation) {
-      onSelectArticle(
-        stretchRecommendation.articleId,
-        stretchRecommendation.suggestedWpm,
-        'stretch'
-      );
-    }
-  };
-
-  const handleContinuePress = () => {
-    if (continueTopicRecommendation) {
-      onSelectArticle(
-        continueTopicRecommendation.articleId,
-        continueTopicRecommendation.suggestedWpm,
-        'continue'
-      );
+  const selectRecommendation = (rec: ArticleRecommendation | null | undefined, cardType: string) => {
+    if (rec) {
+      onSelectArticle(rec.articleId, rec.suggestedWpm, cardType);
     }
   };
 
@@ -101,7 +79,7 @@ export function SmartQueue({
       {/* Primary Card (UpNextCard style) */}
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={handlePrimaryPress}
+        onPress={() => selectRecommendation(primaryRecommendation, 'primary')}
         style={styles.primaryCardTouchable}
       >
         <View style={[styles.primaryCard, { backgroundColor: JOURNEY_COLORS.surface }]}>
@@ -160,7 +138,7 @@ export function SmartQueue({
         <View style={styles.expandedContainer}>
           {/* Stretch Goal Card */}
           {showStretch && (
-            <TouchableOpacity activeOpacity={0.8} onPress={handleStretchPress}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => selectRecommendation(stretchRecommendation, 'stretch')}>
               <View
                 style={[
                   styles.optionCard,
@@ -194,7 +172,7 @@ export function SmartQueue({
 
           {/* Continue Topic Card */}
           {continueTopicRecommendation && (
-            <TouchableOpacity activeOpacity={0.8} onPress={handleContinuePress}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => selectRecommendation(continueTopicRecommendation, 'continue')}>
               <View style={[styles.optionCard, { backgroundColor: JOURNEY_COLORS.surface }]}>
                 <View style={styles.optionHeader}>
                   <Text style={styles.optionIcon}>&#x1F4DA;</Text>

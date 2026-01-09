@@ -267,9 +267,6 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   content: {
     paddingHorizontal: SPACING.xl,
   },
@@ -452,30 +449,6 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.8,
-  },
-  toggleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  toggleLabelContainer: {
-    flex: 1,
-    marginRight: SPACING.md,
-  },
-  toggleLabel: {
-    ...TYPOGRAPHY.body,
-    fontSize: TYPOGRAPHY.button.fontSize,
-    fontWeight: FONT_WEIGHTS.medium,
-  },
-  toggleSubtext: {
-    ...TYPOGRAPHY.caption,
-    opacity: 0.6,
-    marginTop: SPACING.xs,
-  },
-  premiumNote: {
-    ...TYPOGRAPHY.caption,
-    marginTop: SPACING.sm,
-    fontWeight: FONT_WEIGHTS.medium,
   },
   flaskButton: {
     flexDirection: 'row',

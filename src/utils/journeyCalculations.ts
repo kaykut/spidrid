@@ -38,16 +38,21 @@ export function calculateEffectiveWpm(wpm: number, comprehension: number): numbe
 }
 
 /**
+ * Calculate average of a numeric array
+ */
+function average(values: number[]): number {
+  if (values.length === 0) {return 0;}
+  return values.reduce((a, b) => a + b, 0) / values.length;
+}
+
+/**
  * Calculate Velocity Score from session history
  * VS = avg(last 5 Effective WPMs) / 12, capped at 100
  */
 export function calculateVelocityScore(sessions: JourneySession[]): number {
   if (sessions.length === 0) {return 0;}
 
-  const last5 = sessions.slice(-5);
-  const effectiveWpms = last5.map((s) => s.effectiveWpm);
-  const avgEffective = effectiveWpms.reduce((a, b) => a + b, 0) / effectiveWpms.length;
-
+  const avgEffective = average(sessions.slice(-5).map((s) => s.effectiveWpm));
   return Math.min(Math.round(avgEffective / 12), 100);
 }
 
@@ -103,8 +108,7 @@ export function getVSToNextLevel(vs: number): number | null {
  */
 export function calculateAvgWpm(sessions: JourneySession[], count: number): number {
   if (sessions.length === 0) {return 0;}
-  const slice = sessions.slice(-count);
-  return Math.round(slice.reduce((sum, s) => sum + s.wpm, 0) / slice.length);
+  return Math.round(average(sessions.slice(-count).map((s) => s.wpm)));
 }
 
 /**
@@ -112,8 +116,7 @@ export function calculateAvgWpm(sessions: JourneySession[], count: number): numb
  */
 export function calculateAvgComprehension(sessions: JourneySession[], count: number): number {
   if (sessions.length === 0) {return 0;}
-  const slice = sessions.slice(-count);
-  return Math.round(slice.reduce((sum, s) => sum + s.comprehension, 0) / slice.length);
+  return Math.round(average(sessions.slice(-count).map((s) => s.comprehension)));
 }
 
 /**
@@ -646,22 +649,19 @@ export function calculateWeeklyTrend(
     weekMap.set(weekStart, existing);
   }
 
-  // Get last N weeks
-  const sortedWeeks = Array.from(weekMap.keys()).sort().slice(-weeks);
-
-  return sortedWeeks.map((weekStart) => {
-    const weekSessions = weekMap.get(weekStart) || [];
-    return {
-      weekStart,
-      avgWpm: Math.round(
-        weekSessions.reduce((sum, s) => sum + s.wpm, 0) / weekSessions.length
-      ),
-      avgComprehension: Math.round(
-        weekSessions.reduce((sum, s) => sum + s.comprehension, 0) / weekSessions.length
-      ),
-      sessionCount: weekSessions.length,
-    };
-  });
+  // Get last N weeks and map to trend points
+  return Array.from(weekMap.keys())
+    .sort()
+    .slice(-weeks)
+    .map((weekStart) => {
+      const weekSessions = weekMap.get(weekStart)!;
+      return {
+        weekStart,
+        avgWpm: Math.round(average(weekSessions.map((s) => s.wpm))),
+        avgComprehension: Math.round(average(weekSessions.map((s) => s.comprehension))),
+        sessionCount: weekSessions.length,
+      };
+    });
 }
 
 // =============================================================================

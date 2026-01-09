@@ -44,34 +44,28 @@ export default function TopicScreen() {
     );
   }
 
-  const handleArticlePress = (articleId: string) => {
+  /**
+   * Check content access for non-premium users on incomplete articles.
+   * Returns true if access is allowed, increments count if needed.
+   */
+  const checkArticleAccess = (articleId: string): boolean => {
     const progress = getArticleProgress(articleId);
-
-    // If not completed and not premium, check content limit
-    if (!progress?.completed && !isPremium) {
-      if (!canAccessContent()) {
-        router.push('/paywall?reason=content_limit');
-        return;
-      }
-      incrementContentCount();
+    if (progress?.completed || isPremium) {return true;}
+    if (!canAccessContent()) {
+      router.push('/paywall?reason=content_limit');
+      return false;
     }
+    incrementContentCount();
+    return true;
+  };
 
+  const handleArticlePress = (articleId: string) => {
+    if (!checkArticleAccess(articleId)) {return;}
     router.push(`/article/${articleId}`);
   };
 
   const handlePlayPress = (articleId: string) => {
-    const progress = getArticleProgress(articleId);
-
-    // If not completed and not premium, check content limit
-    if (!progress?.completed && !isPremium) {
-      if (!canAccessContent()) {
-        router.push('/paywall?reason=content_limit');
-        return;
-      }
-      incrementContentCount();
-    }
-
-    // Add to playlist and navigate to player
+    if (!checkArticleAccess(articleId)) {return;}
     loadContent(articleId, 'training');
     router.push('/(tabs)/play');
   };

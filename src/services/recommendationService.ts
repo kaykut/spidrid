@@ -76,8 +76,7 @@ export function getSimpleRecommendation(): ArticleRecommendation | null {
 
   // No history or all complete - get first article from random topic
   const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-  const firstArticle = getArticlesByTopic(randomTopic.id)
-    .filter(a => a.articleType !== 'certification')[0];
+  const firstArticle = getPracticeArticles(randomTopic.id)[0];
 
   if (firstArticle) {
     const suggestedWpm = calculateSuggestedWpm(journeyState, 'primary');
@@ -136,12 +135,19 @@ export function getSmartQueueRecommendations(): RecommendationResult {
 // Helper Functions
 // =============================================================================
 
+/**
+ * Get practice articles for a topic (excludes certification articles)
+ */
+function getPracticeArticles(topicId: string): Article[] {
+  return getArticlesByTopic(topicId).filter(a => a.articleType !== 'certification');
+}
+
 function getTopicEngagements(
   topics: Topic[],
   learningState: ReturnType<typeof useLearningStore.getState>
 ): TopicEngagement[] {
   return topics.map(topic => {
-    const articles = getArticlesByTopic(topic.id).filter(a => a.articleType !== 'certification');
+    const articles = getPracticeArticles(topic.id);
     const completedArticles = articles.filter(a =>
       learningState.articleProgress[a.id]?.completed
     );
@@ -170,8 +176,7 @@ function getNextUncompletedArticle(
   topicId: string,
   learningState: ReturnType<typeof useLearningStore.getState>
 ): Article | null {
-  const articles = getArticlesByTopic(topicId)
-    .filter(a => a.articleType !== 'certification')
+  const articles = getPracticeArticles(topicId)
     .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
 
   for (const article of articles) {

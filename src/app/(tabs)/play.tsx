@@ -43,6 +43,14 @@ export default function PlayScreen() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [readingWPM, setReadingWPM] = useState(currentWPM);
 
+  // Consolidated reset function for quiz state
+  const resetQuizState = useCallback(() => {
+    setPhase('playing');
+    setCurrentQuestionIndex(0);
+    setCurrentAnswer(null);
+    setCorrectAnswers(0);
+  }, []);
+
   // Resolve content from now playing item
   const resolvedContent = useMemo(() => {
     if (!nowPlaying?.item) {return null;}
@@ -60,11 +68,8 @@ export default function PlayScreen() {
 
   // Reset quiz state when content changes
   useEffect(() => {
-    setPhase('playing');
-    setCurrentQuestionIndex(0);
-    setCurrentAnswer(null);
-    setCorrectAnswers(0);
-  }, [nowPlaying?.item?.id]);
+    resetQuizState();
+  }, [nowPlaying?.item?.id, resetQuizState]);
 
   // Update progress in store when playback progresses
   useEffect(() => {
@@ -109,10 +114,7 @@ export default function PlayScreen() {
   const handleItemSelect = (_itemId: string, _source: PlaylistSource) => {
     // Item is already loaded via moveToTopAndLoad in the bottom sheet
     // Reset to playing phase when new content is selected
-    setPhase('playing');
-    setCurrentQuestionIndex(0);
-    setCurrentAnswer(null);
-    setCorrectAnswers(0);
+    resetQuizState();
   };
 
   const handleAnswer = (answer: QuestionAnswer) => {
@@ -152,20 +154,13 @@ export default function PlayScreen() {
   };
 
   const handlePlayAgain = () => {
-    setPhase('playing');
-    setCurrentQuestionIndex(0);
-    setCurrentAnswer(null);
-    setCorrectAnswers(0);
+    resetQuizState();
     engine.reset();
   };
 
   const handleDone = () => {
-    // Clear now playing and return to empty state
     stopPlayback();
-    setPhase('playing');
-    setCurrentQuestionIndex(0);
-    setCurrentAnswer(null);
-    setCorrectAnswers(0);
+    resetQuizState();
   };
 
   // Determine if we have content loaded

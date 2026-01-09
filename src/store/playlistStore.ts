@@ -41,33 +41,31 @@ interface PlaylistState {
  * Create a PlaylistItem from a content ID and source
  */
 function createPlaylistItem(contentId: string, source: PlaylistSource): PlaylistItem | null {
-  if (source === 'training') {
-    const article = getArticleById(contentId);
-    if (!article) {return null;}
-    return {
-      id: generateId(),
-      contentId,
-      source,
-      title: article.title,
-      wordCount: article.wordCount,
-      addedAt: Date.now(),
-      progress: 0,
-    };
-  } else if (source === 'reading') {
-    const content = useContentStore.getState().getContentById(contentId);
-    if (!content) {return null;}
-    return {
-      id: generateId(),
-      contentId,
-      source,
-      title: content.title,
-      wordCount: content.wordCount,
-      addedAt: Date.now(),
-      progress: 0,
-    };
-  }
-  // Learning not implemented yet
-  return null;
+  // Get content metadata based on source type
+  const getMetadata = (): { title: string; wordCount: number } | null => {
+    if (source === 'training') {
+      const article = getArticleById(contentId);
+      return article ? { title: article.title, wordCount: article.wordCount } : null;
+    }
+    if (source === 'reading') {
+      const content = useContentStore.getState().getContentById(contentId);
+      return content ? { title: content.title, wordCount: content.wordCount } : null;
+    }
+    return null; // Learning not implemented yet
+  };
+
+  const metadata = getMetadata();
+  if (!metadata) {return null;}
+
+  return {
+    id: generateId(),
+    contentId,
+    source,
+    title: metadata.title,
+    wordCount: metadata.wordCount,
+    addedAt: Date.now(),
+    progress: 0,
+  };
 }
 
 /**
@@ -232,17 +230,7 @@ export const usePlaylistStore = create<PlaylistState>()(
       },
 
       getQueue: (source) => {
-        const state = get();
-        switch (source) {
-          case 'training':
-            return state.trainingQueue;
-          case 'reading':
-            return state.readingQueue;
-          case 'learning':
-            return state.learningQueue;
-          default:
-            return state.trainingQueue;
-        }
+        return get()[getQueueKey(source)];
       },
 
       getQueueLength: (source) => {
