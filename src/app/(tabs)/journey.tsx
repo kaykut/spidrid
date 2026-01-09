@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Text, StyleSheet, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatsSummary } from '../../components/certifications';
 import { useTheme } from '../../components/common/ThemeProvider';
@@ -60,16 +61,22 @@ export default function JourneyScreen() {
         />
 
         {/* Vertical Progress Path */}
-        <View style={[styles.progressContainer, { backgroundColor: theme.secondaryBackground }]}>
+        <LinearGradient
+          colors={[theme.secondaryBackground, theme.secondaryBackgroundGradient]}
+          style={styles.progressContainer}
+        >
           <VerticalProgressPath
             avgWpm={avgWpmLast3}
             avgComp={avgCompLast5}
             certProgress={certProgress}
           />
-        </View>
+        </LinearGradient>
 
         {/* Info */}
-        <View style={[styles.infoCard, { backgroundColor: theme.secondaryBackground }]}>
+        <LinearGradient
+          colors={[theme.secondaryBackground, theme.secondaryBackgroundGradient]}
+          style={styles.infoCard}
+        >
           <Text style={[styles.infoTitle, { color: theme.textColor }]}>
             How Certification Works
           </Text>
@@ -82,7 +89,7 @@ export default function JourneyScreen() {
             {'\n\n'}
             Pass the exam with the required WPM and 80%+ comprehension to earn your certification!
           </Text>
-        </View>
+        </LinearGradient>
       </ScrollView>
     </SafeAreaView>
   );

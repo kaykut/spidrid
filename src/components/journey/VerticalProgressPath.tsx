@@ -14,6 +14,7 @@ import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import {
   JourneyCertTier,
   JourneyCertProgress,
+  SIMPLE_MILESTONES,
 } from '../../types/journey';
 import {
   getMilestoneStates,
@@ -42,12 +43,15 @@ interface ProgressBarProps {
   label: string;
   current: number;
   target: number;
+  floor?: number;
   color: string;
+  trackColor: string;
   isPercentage?: boolean;
 }
 
-function ProgressBar({ label, current, target, color, isPercentage = false }: ProgressBarProps) {
-  const progress = Math.min(1, current / target);
+function ProgressBar({ label, current, target, floor = 0, color, trackColor, isPercentage = false }: ProgressBarProps) {
+  const range = target - floor;
+  const progress = range > 0 ? Math.min(1, Math.max(0, (current - floor) / range)) : 0;
   const displayCurrent = isPercentage ? `${Math.round(current)}%` : Math.round(current);
   const displayTarget = isPercentage ? `${target}%` : target;
 
@@ -59,7 +63,7 @@ function ProgressBar({ label, current, target, color, isPercentage = false }: Pr
           {displayCurrent} / {displayTarget}
         </Text>
       </View>
-      <View style={styles.progressBarTrack}>
+      <View style={[styles.progressBarTrack, { backgroundColor: trackColor }]}>
         <View
           style={[
             styles.progressBarFill,
@@ -80,11 +84,14 @@ interface MilestoneRowProps {
 
 function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProps) {
   const { theme } = useTheme();
-  const { milestone, status, isNext } = state;
+  const { milestone, status, isNext, index } = state;
 
   const hasCert = milestone.certTier !== undefined;
   const certDef = hasCert ? getCertDefinition(milestone.certTier!) : null;
   const certEarned = hasCert && certProgress[milestone.certTier!]?.examPassed;
+
+  // Get previous milestone WPM for progress bar floor
+  const prevMilestoneWpm = index > 0 ? SIMPLE_MILESTONES[index - 1].wpm : 0;
 
   // Node sizing
   const nodeSize = status === 'current' || isNext ? SIZES.currentNodeSize : SIZES.nodeSize;
@@ -118,7 +125,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
               },
               isCompleted && styles.nodeCompleted,
               isNext && styles.nodeNext,
-              !isCompleted && !isNext && [styles.nodeFuture, { borderColor: theme.secondaryBackground }],
+              !isCompleted && !isNext && styles.nodeFuture,
             ]}
           >
             {getNodeContent()}
@@ -131,7 +138,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
         <Text
           style={[
             styles.milestoneName,
-            { color: isCompleted || isNext ? JOURNEY_COLORS.textPrimary : JOURNEY_COLORS.textTertiary },
+            { color: isCompleted || isNext ? theme.textColor : JOURNEY_COLORS.textTertiary },
           ]}
         >
           {milestone.name}
@@ -140,11 +147,10 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
         <Text
           style={[
             styles.milestoneThreshold,
-            { color: isCompleted || isNext ? JOURNEY_COLORS.textSecondary : JOURNEY_COLORS.textTertiary },
+            { color: isCompleted || isNext ? `${theme.textColor}B3` : JOURNEY_COLORS.textTertiary },
           ]}
         >
           {milestone.wpm} WPM
-          {hasCert && certDef && ` • ${certDef.speedProofMinComp}% comp`}
         </Text>
 
         {/* Progress bars for NEXT milestone only */}
@@ -155,7 +161,9 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
               label="WPM"
               current={avgWpm}
               target={milestone.wpm}
+              floor={prevMilestoneWpm}
               color={JOURNEY_COLORS.accent}
+              trackColor={theme.trackColor}
             />
 
             {/* Comprehension bar for cert milestones */}
@@ -165,12 +173,20 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
                 current={avgComp}
                 target={certDef.speedProofMinComp}
                 color={JOURNEY_COLORS.success}
+                trackColor={theme.trackColor}
                 isPercentage
               />
             )}
           </View>
         )}
       </View>
+
+      {/* Cert badge for certification milestones */}
+      {hasCert && (
+        <View style={styles.certBadge}>
+          <Text style={styles.certBadgeIcon}>🏆</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -184,6 +200,8 @@ export function VerticalProgressPath({
   avgComp,
   certProgress,
 }: VerticalProgressPathProps) {
+  const { theme } = useTheme();
+
   // Calculate milestone states using shared utility
   const milestoneStates = useMemo(() => getMilestoneStates(avgWpm), [avgWpm]);
 
@@ -202,7 +220,7 @@ export function VerticalProgressPath({
     <View style={styles.container}>
       {/* Vertical connecting line */}
       <View style={styles.lineContainer}>
-        <View style={styles.lineBackground} />
+        <View style={[styles.lineBackground, { backgroundColor: theme.trackColor }]} />
         <LinearGradient
           colors={[JOURNEY_COLORS.accent, JOURNEY_COLORS.accent]}
           style={[styles.lineFilled, { height: lineHeight } as ViewStyle]}
@@ -257,7 +275,7 @@ const styles = StyleSheet.create({
   // Milestone row
   milestoneRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: SPACING.xl,
   },
 
@@ -278,13 +296,12 @@ const styles = StyleSheet.create({
     backgroundColor: JOURNEY_COLORS.accent,
   },
   nodeNext: {
-    backgroundColor: JOURNEY_COLORS.surfaceLight,
-    borderWidth: 2,
-    borderColor: JOURNEY_COLORS.accent,
+    backgroundColor: JOURNEY_COLORS.accent,
   },
   nodeFuture: {
     backgroundColor: COLORS.transparent,
     borderWidth: 2,
+    borderColor: JOURNEY_COLORS.textTertiary,
   },
   nodeIcon: {
     fontSize: TYPOGRAPHY.sectionTitle.fontSize,
@@ -298,7 +315,6 @@ const styles = StyleSheet.create({
   // Milestone info
   milestoneInfo: {
     flex: 1,
-    paddingTop: SPACING.xs,
   },
   milestoneName: {
     fontSize: TYPOGRAPHY.levelName.fontSize,
@@ -333,12 +349,23 @@ const styles = StyleSheet.create({
   },
   progressBarTrack: {
     height: SIZES.progressBarHeight,
-    backgroundColor: JOURNEY_COLORS.surfaceLight,
     borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
     borderRadius: COMPONENT_RADIUS.progressBar,
+  },
+
+  // Cert badge
+  certBadge: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: SPACING.sm,
+    paddingRight: SPACING.xs,
+  },
+  certBadgeIcon: {
+    fontSize: 18,
+    opacity: 0.7,
   },
 });

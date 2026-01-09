@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -33,7 +34,10 @@ export function StatsSummary({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.secondaryBackground }]}>
+    <LinearGradient
+      colors={[theme.secondaryBackground, theme.secondaryBackgroundGradient]}
+      style={styles.container}
+    >
       <View style={styles.row}>
         <StatItem
           value={articlesRead}
@@ -63,7 +67,7 @@ export function StatsSummary({
           color={JOURNEY_COLORS.certificationAccent}
         />
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 

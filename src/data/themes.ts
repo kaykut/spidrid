@@ -83,6 +83,8 @@ export const themes: Record<string, Theme> = {
     crosshairColor: '#333333',
     accentColor: '#00D4AA',
     secondaryBackground: '#1a1a1a',
+    secondaryBackgroundGradient: '#141414',
+    trackColor: '#2a2a2a',
   },
   midnight: {
     id: 'midnight',
@@ -93,6 +95,8 @@ export const themes: Record<string, Theme> = {
     crosshairColor: '#16213e',
     accentColor: '#0f3460',
     secondaryBackground: '#16213e',
+    secondaryBackgroundGradient: '#121b33',
+    trackColor: '#1e2d4d',
   },
   sepia: {
     id: 'sepia',
@@ -102,7 +106,9 @@ export const themes: Record<string, Theme> = {
     orpColor: '#c41e3a', // Cardinal red - good contrast against brown text
     crosshairColor: '#d4c4a8',
     accentColor: '#704214',
-    secondaryBackground: '#ebe3d1',
+    secondaryBackground: '#d9ceb8',
+    secondaryBackgroundGradient: '#cfc4ae',
+    trackColor: '#c4b9a3',
   },
   light: {
     id: 'light',
@@ -112,7 +118,9 @@ export const themes: Record<string, Theme> = {
     orpColor: '#dc3545',
     crosshairColor: '#e0e0e0',
     accentColor: '#007bff',
-    secondaryBackground: '#f5f5f5',
+    secondaryBackground: '#e8e8e8',
+    secondaryBackgroundGradient: '#dedede',
+    trackColor: '#d0d0d0',
   },
 };
 

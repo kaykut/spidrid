@@ -9,6 +9,8 @@ export interface Theme {
   crosshairColor: string;
   accentColor: string;
   secondaryBackground: string;
+  secondaryBackgroundGradient: string;
+  trackColor: string;
 }
 
 export interface UserSettings {
