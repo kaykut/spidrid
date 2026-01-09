@@ -5,10 +5,8 @@
  */
 
 import {
-  BASE_UNIT,
   SPACING,
   COMPONENT_SPACING,
-  RADIUS,
   COMPONENT_RADIUS,
   SIZES,
   SHADOWS,
@@ -18,12 +16,6 @@ import {
 } from '../../src/constants/spacing';
 
 describe('spacing constants', () => {
-  describe('BASE_UNIT', () => {
-    it('is 8', () => {
-      expect(BASE_UNIT).toBe(8);
-    });
-  });
-
   describe('SPACING', () => {
     it('has xs as 4', () => {
       expect(SPACING.xs).toBe(4);
@@ -33,32 +25,32 @@ describe('spacing constants', () => {
       expect(SPACING.sm).toBe(8);
     });
 
-    it('has md as 12', () => {
-      expect(SPACING.md).toBe(12);
+    it('has md as 16 (8pt grid)', () => {
+      expect(SPACING.md).toBe(16);
     });
 
-    it('has lg as 16', () => {
-      expect(SPACING.lg).toBe(16);
+    it('has lg as 24 (8pt grid)', () => {
+      expect(SPACING.lg).toBe(24);
     });
 
-    it('has xl as 20', () => {
-      expect(SPACING.xl).toBe(20);
+    it('has xl as 32 (8pt grid)', () => {
+      expect(SPACING.xl).toBe(32);
     });
 
-    it('has xxl as 24', () => {
-      expect(SPACING.xxl).toBe(24);
+    it('has xxl as 40 (8pt grid)', () => {
+      expect(SPACING.xxl).toBe(40);
     });
 
-    it('has xxxl as 32', () => {
-      expect(SPACING.xxxl).toBe(32);
+    it('has xxxl as 48 (8pt grid)', () => {
+      expect(SPACING.xxxl).toBe(48);
     });
 
-    it('has huge as 40', () => {
-      expect(SPACING.huge).toBe(40);
+    it('has huge as 56 (8pt grid)', () => {
+      expect(SPACING.huge).toBe(56);
     });
 
-    it('has massive as 48', () => {
-      expect(SPACING.massive).toBe(48);
+    it('has massive as 64 (8pt grid)', () => {
+      expect(SPACING.massive).toBe(64);
     });
   });
 
@@ -92,36 +84,6 @@ describe('spacing constants', () => {
     });
   });
 
-  describe('RADIUS', () => {
-    it('has xs as 4', () => {
-      expect(RADIUS.xs).toBe(4);
-    });
-
-    it('has sm as 6', () => {
-      expect(RADIUS.sm).toBe(6);
-    });
-
-    it('has md as 8', () => {
-      expect(RADIUS.md).toBe(8);
-    });
-
-    it('has lg as 12', () => {
-      expect(RADIUS.lg).toBe(12);
-    });
-
-    it('has xl as 16', () => {
-      expect(RADIUS.xl).toBe(16);
-    });
-
-    it('has xxl as 20', () => {
-      expect(RADIUS.xxl).toBe(20);
-    });
-
-    it('has full as 9999', () => {
-      expect(RADIUS.full).toBe(9999);
-    });
-  });
-
   describe('COMPONENT_RADIUS', () => {
     it('has card as 16', () => {
       expect(COMPONENT_RADIUS.card).toBe(16);
@@ -150,6 +112,10 @@ describe('spacing constants', () => {
     it('has node as 9999', () => {
       expect(COMPONENT_RADIUS.node).toBe(9999);
     });
+
+    it('has badge as 9999', () => {
+      expect(COMPONENT_RADIUS.badge).toBe(9999);
+    });
   });
 
   describe('SIZES', () => {
@@ -173,9 +139,9 @@ describe('spacing constants', () => {
       expect(SIZES.touchTarget).toBe(44);
     });
 
-    it('has icon sizes', () => {
+    it('has icon sizes (8pt grid)', () => {
       expect(SIZES.iconSm).toBe(16);
-      expect(SIZES.iconMd).toBe(20);
+      expect(SIZES.iconMd).toBe(24);
       expect(SIZES.iconLg).toBe(24);
       expect(SIZES.iconXl).toBe(32);
     });

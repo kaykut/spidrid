@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { SPACING, RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -32,7 +34,7 @@ export function NewCertificateModal({ certificate, visible, onClose }: NewCertif
             Congratulations!
           </Text>
 
-          <View style={[styles.iconContainer, { backgroundColor: `${definition.color  }20` }]}>
+          <View style={[styles.iconContainer, { backgroundColor: withOpacity(definition.color, OPACITY.light) }]}>
             <Text style={styles.icon}>{definition.icon}</Text>
           </View>
 
@@ -63,7 +65,7 @@ export function NewCertificateModal({ certificate, visible, onClose }: NewCertif
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: OVERLAY_COLORS.modalBackdrop,
     justifyContent: 'center',
     alignItems: 'center',
     padding: SPACING.xl,
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     maxWidth: 320,
-    borderRadius: SPACING.xxl,
+    borderRadius: COMPONENT_RADIUS.modal,
     padding: SPACING.xxxl,
     alignItems: 'center',
   },
@@ -80,21 +82,21 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHTS.semibold,
     marginBottom: SPACING.lg,
     textTransform: 'uppercase',
-    letterSpacing: 2,
+    letterSpacing: LETTER_SPACING.wide,
   },
   iconContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: RADIUS.full,
+    width: COMPONENT_SIZES.celebrationIcon,
+    height: COMPONENT_SIZES.celebrationIcon,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.xl,
   },
   icon: {
-    fontSize: 48,
+    fontSize: SIZES.iconHuge,
   },
   title: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.statLarge.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -114,10 +116,10 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: SPACING.lg,
     paddingHorizontal: SPACING.massive,
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.button,
   },
   buttonText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
   },

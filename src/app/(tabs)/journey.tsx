@@ -11,8 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatsSummary } from '../../components/certifications';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../../components/journey/VerticalProgressPath';
-import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, LINE_HEIGHTS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
 import { CERTIFICATION_TIER_DEFINITIONS } from '../../types/certificates';
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
-    lineHeight: 22,
+    fontWeight: FONT_WEIGHTS.regular,
+    lineHeight: LINE_HEIGHTS.relaxed,
     opacity: 0.8,
   },
 });

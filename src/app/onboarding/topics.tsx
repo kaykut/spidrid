@@ -6,6 +6,7 @@ import { InterestPill } from '../../components/onboarding/InterestPill';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { INTERESTS } from '../../data/interests';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useOnboardingStore } from '../../store/onboardingStore';
 
 export default function TopicsScreen() {
@@ -69,7 +70,7 @@ export default function TopicsScreen() {
           <Text
             style={[
               styles.continueButtonText,
-              { color: canContinue ? '#ffffff' : theme.textColor, opacity: canContinue ? 1 : 0.5 },
+              { color: canContinue ? JOURNEY_COLORS.textPrimary : theme.textColor, opacity: canContinue ? 1 : 0.5 },
             ]}
           >
             {isUpdating ? 'Save' : 'Continue'}

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { MOCK_OFFERING, FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../types/subscription';
 import { useTheme } from '../common/ThemeProvider';
@@ -111,7 +112,7 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
             disabled={isLoading}
           >
             {isLoading ? (
-              <ActivityIndicator color="#ffffff" />
+              <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
             ) : (
               <Text style={styles.purchaseText}>Subscribe Now</Text>
             )}
@@ -150,12 +151,12 @@ function BenefitItem({ text, theme }: { text: string; theme: { accentColor: stri
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: OVERLAY_COLORS.modalBackdrop,
     justifyContent: 'flex-end',
   },
   container: {
-    borderTopLeftRadius: SPACING.xxl,
-    borderTopRightRadius: SPACING.xxl,
+    borderTopLeftRadius: COMPONENT_RADIUS.modal,
+    borderTopRightRadius: COMPONENT_RADIUS.modal,
     padding: SPACING.xxl,
     paddingBottom: SPACING.huge,
   },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.metricLarge.fontSize,
   },
   title: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.statLarge.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     textAlign: 'center',
     marginTop: SPACING.sm,
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   purchaseText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
   },

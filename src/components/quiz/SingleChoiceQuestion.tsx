@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SPACING, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 import type { SingleChoiceQuestion as SingleChoiceQuestionType } from '../../types/learning';
 
@@ -35,9 +36,9 @@ export function SingleChoiceQuestion({
           let backgroundColor = theme.secondaryBackground;
           if (showResult) {
             if (isCorrect) {
-              backgroundColor = '#69db7c40';
+              backgroundColor = COLOR_OPACITY.successTint;
             } else if (isSelected) {
-              backgroundColor = '#ff6b6b40';
+              backgroundColor = COLOR_OPACITY.lowTint;
             }
           }
 
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
     marginBottom: SPACING.xxxl,
-    lineHeight: SPACING.xxxl,
+    lineHeight: LINE_HEIGHTS.xxxl,
   },
   optionsContainer: {
     gap: SPACING.md,
@@ -88,8 +89,8 @@ const styles = StyleSheet.create({
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.lg + 2, // 18px approximation
-    borderRadius: RADIUS.xl,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.buttonLarge,
   },
   optionText: {
     flex: 1,
@@ -97,12 +98,12 @@ const styles = StyleSheet.create({
   },
   correctIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#69db7c',
+    color: JOURNEY_COLORS.success,
     fontWeight: FONT_WEIGHTS.bold,
   },
   incorrectIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#ff6b6b',
+    color: JOURNEY_COLORS.low,
     fontWeight: FONT_WEIGHTS.bold,
   },
 });

@@ -10,7 +10,7 @@ import { router } from 'expo-router';
 import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../../components/common/ThemeProvider';
 import { MetricsPanel } from '../../../components/journey/MetricsPanel';
-import { SPACING, COMPONENT_RADIUS } from '../../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
 import { TYPOGRAPHY } from '../../../constants/typography';
 import { TOPICS } from '../../../data/curriculum';
 import { getCurriculumTopicsForInterests } from '../../../data/interests';
@@ -133,15 +133,15 @@ const styles = StyleSheet.create({
     borderRadius: COMPONENT_RADIUS.card,
   },
   topicIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: SIZES.iconLg,
+    height: SIZES.iconLg,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.sm,
   },
   topicEmoji: {
-    fontSize: 24,
+    fontSize: SIZES.iconLg,
   },
   topicName: {
     ...TYPOGRAPHY.cardSubtitle,
@@ -159,13 +159,13 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     flex: 1,
-    height: 4,
-    borderRadius: 2,
+    height: SIZES.progressBarHeight,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: 2,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   progressText: {
     ...TYPOGRAPHY.caption,

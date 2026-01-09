@@ -9,16 +9,19 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import { router } from 'expo-router';
 import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../../components/common/ThemeProvider';
 import { Paywall } from '../../../components/paywall/Paywall';
 import { usePdfExtractor } from '../../../components/PdfExtractorProvider';
-import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
-import { TYPOGRAPHY } from '../../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../../constants/typography';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../../data/themes';
 import { extractFromUrl, createFromText, extractFromEbook } from '../../../services/contentExtractor';
 import { useContentStore } from '../../../store/contentStore';
+import { usePlaylistStore } from '../../../store/playlistStore';
 import { useSubscriptionStore } from '../../../store/subscriptionStore';
 
 type ImportMode = 'url' | 'text' | null;
@@ -27,6 +30,7 @@ export default function ReadScreen() {
   const { theme } = useTheme();
   const { extractPdf } = usePdfExtractor();
   const { importedContent, addContent, deleteContent } = useContentStore();
+  const { loadContent } = usePlaylistStore();
   const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
 
   const [importMode, setImportMode] = useState<ImportMode>(null);
@@ -49,6 +53,23 @@ export default function ReadScreen() {
     }
 
     router.push(`/content/${id}`);
+  };
+
+  const handlePlayContent = (id: string) => {
+    const content = importedContent.find(c => c.id === id);
+    if (!content) {return;}
+
+    // Check content limit for unfinished content
+    if (content.readProgress < 1 && !isPremium) {
+      if (!canAccessContent()) {
+        setShowPaywall(true);
+        return;
+      }
+    }
+
+    // Add to playlist and navigate to player
+    loadContent(id, 'reading');
+    router.push('/(tabs)/play');
   };
 
   const handleImportUrl = async () => {
@@ -218,7 +239,7 @@ export default function ReadScreen() {
                   disabled={isLoading || !urlInput.trim()}
                 >
                   {isLoading ? (
-                    <ActivityIndicator color="#ffffff" />
+                    <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
                   ) : (
                     <Text style={styles.importButtonText}>Import</Text>
                   )}
@@ -345,6 +366,14 @@ export default function ReadScreen() {
                         </Text>
                       </View>
                     </View>
+                    {/* Play button */}
+                    <TouchableOpacity
+                      style={[styles.playButton, { backgroundColor: JOURNEY_COLORS.warmAccent }]}
+                      onPress={() => handlePlayContent(item.id)}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    >
+                      <Ionicons name="play" size={SIZES.iconSm} color={JOURNEY_COLORS.textPrimary} />
+                    </TouchableOpacity>
                     <View style={styles.progressIndicator}>
                       {item.readProgress >= 1 ? (
                         <View style={[styles.completeBadge, { backgroundColor: theme.accentColor }]}>
@@ -433,7 +462,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: SPACING.lg,
-    borderRadius: RADIUS.lg + 2, // 14pt
+    borderRadius: COMPONENT_RADIUS.card,
   },
   contentInfo: {
     flex: 1,
@@ -450,6 +479,14 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.caption,
     opacity: 0.6,
   },
+  playButton: {
+    width: SIZES.iconXl,
+    height: SIZES.iconXl,
+    borderRadius: COMPONENT_RADIUS.badge,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: SPACING.sm,
+  },
   progressIndicator: {
     marginLeft: SPACING.md,
   },
@@ -464,9 +501,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   completeText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
-    fontSize: 12,
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.bold,
+    fontSize: TYPOGRAPHY.caption.fontSize,
   },
   hint: {
     ...TYPOGRAPHY.caption,
@@ -485,12 +522,12 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: OVERLAY_COLORS.modalBackdrop,
     justifyContent: 'flex-end',
   },
   modalContent: {
-    borderTopLeftRadius: SPACING.xxl,
-    borderTopRightRadius: SPACING.xxl,
+    borderTopLeftRadius: COMPONENT_RADIUS.modal,
+    borderTopRightRadius: COMPONENT_RADIUS.modal,
     padding: SPACING.xxl,
     paddingBottom: SPACING.huge,
   },
@@ -510,13 +547,13 @@ const styles = StyleSheet.create({
   input: {
     padding: SPACING.lg,
     borderRadius: COMPONENT_RADIUS.input,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
     marginBottom: SPACING.md,
   },
   textArea: {
     padding: SPACING.lg,
     borderRadius: COMPONENT_RADIUS.input,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
     marginBottom: SPACING.md,
     height: 200,
   },
@@ -526,7 +563,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   importButtonText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.button,
   },
   disabledButton: {

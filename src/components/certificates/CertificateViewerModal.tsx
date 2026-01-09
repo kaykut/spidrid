@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
-import { SPACING, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { generateCertificatePDF, shareCertificate, deleteCertificatePDF } from '../../services/certificatePDF';
 import { generateCertificateHTML } from '../../services/certificateTemplate';
@@ -106,7 +107,7 @@ export function CertificateViewerModal({
             style={[styles.shareButton, { backgroundColor: theme.accentColor }]}
           >
             {isGenerating ? (
-              <ActivityIndicator size="small" color="#ffffff" />
+              <ActivityIndicator size="small" color={JOURNEY_COLORS.textPrimary} />
             ) : (
               <Text style={styles.shareText}>Share</Text>
             )}
@@ -169,12 +170,12 @@ const styles = StyleSheet.create({
   shareButton: {
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     minWidth: 70,
     alignItems: 'center',
   },
   shareText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.body,
     fontWeight: FONT_WEIGHTS.semibold,
   },
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
   },
   footer: {
     paddingHorizontal: SPACING.lg,

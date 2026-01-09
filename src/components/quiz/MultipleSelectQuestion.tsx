@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLOR_OPACITY, COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 import type { MultipleSelectQuestion as MultipleSelectQuestionType } from '../../types/learning';
 
@@ -66,13 +67,13 @@ export function MultipleSelectQuestion({
           const isCorrect = isOptionCorrect(index);
 
           let backgroundColor = theme.secondaryBackground;
-          let borderColor = 'transparent';
+          let borderColor: string = COLORS.transparent;
 
           if (showResult) {
             if (isCorrect) {
-              backgroundColor = '#69db7c40';
+              backgroundColor = COLOR_OPACITY.successTint;
             } else if (isSelected) {
-              backgroundColor = '#ff6b6b40';
+              backgroundColor = COLOR_OPACITY.lowTint;
             }
           } else if (isSelected) {
             borderColor = theme.accentColor;
@@ -90,7 +91,7 @@ export function MultipleSelectQuestion({
             >
               <View style={[
                 styles.checkbox,
-                { borderColor: showResult ? 'transparent' : theme.textColor },
+                { borderColor: showResult ? COLORS.transparent : theme.textColor },
                 isSelected && !showResult && { backgroundColor: theme.accentColor, borderColor: theme.accentColor },
               ]}>
                 {isSelected && !showResult && (
@@ -122,7 +123,7 @@ export function MultipleSelectQuestion({
         >
           <Text style={[
             styles.confirmButtonText,
-            { color: pendingSelections.length > 0 ? '#ffffff' : theme.textColor, opacity: pendingSelections.length > 0 ? 1 : 0.5 },
+            { color: pendingSelections.length > 0 ? JOURNEY_COLORS.textPrimary : theme.textColor, opacity: pendingSelections.length > 0 ? 1 : 0.5 },
           ]}>
             Confirm Selection
           </Text>
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
     marginBottom: SPACING.md,
-    lineHeight: SPACING.xxxl,
+    lineHeight: LINE_HEIGHTS.xxxl,
   },
   instruction: {
     ...TYPOGRAPHY.buttonSmall,
@@ -155,20 +156,20 @@ const styles = StyleSheet.create({
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SPACING.lg + 2, // 18px approximation
-    borderRadius: RADIUS.xl,
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.buttonLarge,
   },
   checkbox: {
     width: SIZES.iconLg,
     height: SIZES.iconLg,
-    borderRadius: RADIUS.sm,
+    borderRadius: COMPONENT_RADIUS.chip / 2,
     borderWidth: 2,
     marginRight: SPACING.md,
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkmark: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.bold,
   },
@@ -178,18 +179,18 @@ const styles = StyleSheet.create({
   },
   correctIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#69db7c',
+    color: JOURNEY_COLORS.success,
     fontWeight: FONT_WEIGHTS.bold,
   },
   incorrectIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#ff6b6b',
+    color: JOURNEY_COLORS.low,
     fontWeight: FONT_WEIGHTS.bold,
   },
   confirmButton: {
     marginTop: SPACING.xxl,
     paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.xl,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   confirmButtonText: {

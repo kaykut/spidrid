@@ -37,15 +37,7 @@ jest.mock('../../src/store/settingsStore', () => ({
 }));
 
 // Mock certificate PDF services
-const mockGenerateCertificatePDF = jest.fn(() => Promise.resolve('file://mock.pdf'));
-const mockShareCertificate = jest.fn(() => Promise.resolve());
-const mockDeleteCertificatePDF = jest.fn();
-
-jest.mock('../../src/services/certificatePDF', () => ({
-  generateCertificatePDF: (...args: unknown[]) => mockGenerateCertificatePDF(...args),
-  shareCertificate: (...args: unknown[]) => mockShareCertificate(...args),
-  deleteCertificatePDF: (...args: unknown[]) => mockDeleteCertificatePDF(...args),
-}));
+jest.mock('../../src/services/certificatePDF');
 
 // Mock certificate template
 jest.mock('../../src/services/certificateTemplate', () => ({
@@ -55,6 +47,13 @@ jest.mock('../../src/services/certificateTemplate', () => ({
 // Mock Alert
 import { Alert } from 'react-native';
 jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
+
+// Import the mocked functions
+import * as certificatePDF from '../../src/services/certificatePDF';
+
+const mockGenerateCertificatePDF = certificatePDF.generateCertificatePDF as jest.MockedFunction<typeof certificatePDF.generateCertificatePDF>;
+const mockShareCertificate = certificatePDF.shareCertificate as jest.MockedFunction<typeof certificatePDF.shareCertificate>;
+const mockDeleteCertificatePDF = certificatePDF.deleteCertificatePDF as jest.MockedFunction<typeof certificatePDF.deleteCertificatePDF>;
 
 const mockOnClose = jest.fn();
 
@@ -72,6 +71,9 @@ const renderWithProviders = (ui: React.ReactElement) => {
 describe('CertificateViewerModal', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Restore mock implementations after clearing
+    mockGenerateCertificatePDF.mockImplementation(() => Promise.resolve('file://mock.pdf'));
+    mockShareCertificate.mockImplementation(() => Promise.resolve());
   });
 
   describe('visibility', () => {

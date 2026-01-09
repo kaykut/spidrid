@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SPACING, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SIZES, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import {
   CertificationTier,
   CertificationTierProgress,
@@ -71,7 +72,7 @@ export function JourneyPath({ progress, velocityScore: _velocityScore }: Journey
                   styles.node,
                   {
                     backgroundColor: isEarned ? def.color : theme.secondaryBackground,
-                    borderColor: isCurrent ? def.color : 'transparent',
+                    borderColor: isCurrent ? def.color : COLORS.transparent,
                     borderWidth: isCurrent ? 3 : 0,
                   },
                   isFuture && !isUnlocked && styles.locked,
@@ -126,7 +127,7 @@ export function JourneyPath({ progress, velocityScore: _velocityScore }: Journey
                   </View>
                 )}
                 {isEarned && tierProgress.earnedAt && (
-                  <Text style={[styles.earnedDate, { color: '#69db7c' }]}>
+                  <Text style={[styles.earnedDate, { color: JOURNEY_COLORS.success }]}>
                     Earned {new Date(tierProgress.earnedAt).toLocaleDateString()}
                   </Text>
                 )}
@@ -158,19 +159,19 @@ const styles = StyleSheet.create({
   },
   connector: {
     position: 'absolute',
-    left: 30,
+    left: SPACING.xxxl,
     top: -SPACING.xl,
     width: SPACING.xs,
     height: SPACING.xl,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   connectorBottom: {
     position: 'absolute',
-    left: 30,
+    left: SPACING.xxxl,
     bottom: -SPACING.xl,
     width: SPACING.xs,
     height: SPACING.xl,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   nodeContainer: {
     flexDirection: 'row',
@@ -178,15 +179,15 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.lg,
   },
   node: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: COMPONENT_SIZES.journeyNode,
+    height: COMPONENT_SIZES.journeyNode,
+    borderRadius: COMPONENT_RADIUS.badge,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
   },
   nodeIcon: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.statLarge.fontSize,
   },
   locked: {
     opacity: 0.4,
@@ -203,13 +204,13 @@ const styles = StyleSheet.create({
     right: -SPACING.xs,
     width: SPACING.xxl,
     height: SPACING.xxl,
-    borderRadius: SPACING.md,
-    backgroundColor: '#69db7c',
+    borderRadius: COMPONENT_RADIUS.badge,
+    backgroundColor: JOURNEY_COLORS.success,
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkMark: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.bold,
   },
@@ -218,9 +219,9 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.lg,
   },
   tierTitle: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
-    marginBottom: 2,
+    marginBottom: SPACING.xs,
   },
   tierRequirement: {
     ...TYPOGRAPHY.buttonSmall,
@@ -233,18 +234,18 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     flex: 1,
-    height: RADIUS.sm,
-    borderRadius: RADIUS.xs,
+    height: COMPONENT_RADIUS.progressBar,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     marginRight: SPACING.sm,
   },
   progressFill: {
     height: '100%',
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   progressPercent: {
     ...TYPOGRAPHY.caption,
     fontWeight: FONT_WEIGHTS.medium,
-    width: 35,
+    width: SIZES.progressPercentWidth,
   },
   earnedDate: {
     ...TYPOGRAPHY.caption,

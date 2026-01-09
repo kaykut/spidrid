@@ -13,7 +13,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { ANIMATION_CONFIG } from '../../../constants/animations';
-import { SIZES } from '../../../constants/spacing';
+import { COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
+import { COLORS } from '../../../data/themes';
 
 export interface GlowAnimationProps {
   children: React.ReactNode;
@@ -95,7 +96,7 @@ export function GlowAnimation({
               left: -glowSize,
               right: -glowSize,
               bottom: -glowSize,
-              borderRadius: 9999, // Full round for nodes
+              borderRadius: COMPONENT_RADIUS.badge,
             },
           ]}
         />
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   glow: {
     position: 'absolute',
     // Additional blur effect via shadow (iOS only, but graceful fallback)
-    shadowColor: 'transparent', // Will be overridden by parent
+    shadowColor: COLORS.transparent, // Will be overridden by parent
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 8,

@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   getCertificationTierDefinition,
@@ -44,7 +46,7 @@ export function CertificationReadyModal({
     >
       <View style={styles.overlay}>
         <View style={[styles.container, { backgroundColor: theme.secondaryBackground }]}>
-          <View style={[styles.iconContainer, { backgroundColor: `${definition.color}20` }]}>
+          <View style={[styles.iconContainer, { backgroundColor: withOpacity(definition.color, OPACITY.light) }]}>
             <Text style={styles.icon}>{definition.icon}</Text>
           </View>
 
@@ -78,7 +80,7 @@ export function CertificationReadyModal({
                       styles.progressFill,
                       {
                         width: `${vsProgress}%`,
-                        backgroundColor: vsProgress >= 100 ? '#69db7c' : definition.color,
+                        backgroundColor: vsProgress >= 100 ? JOURNEY_COLORS.success : definition.color,
                       },
                     ]}
                   />
@@ -105,7 +107,7 @@ export function CertificationReadyModal({
                       styles.progressFill,
                       {
                         width: `${wpmProgress}%`,
-                        backgroundColor: wpmProgress >= 100 ? '#69db7c' : definition.color,
+                        backgroundColor: wpmProgress >= 100 ? JOURNEY_COLORS.success : definition.color,
                       },
                     ]}
                   />
@@ -152,7 +154,7 @@ export function CertificationReadyModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: OVERLAY_COLORS.modalBackdrop,
     justifyContent: 'center',
     alignItems: 'center',
     padding: SPACING.xl,
@@ -160,30 +162,30 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     maxWidth: 340,
-    borderRadius: SPACING.xxl,
-    padding: SPACING.xxl + SPACING.xs,
+    borderRadius: COMPONENT_RADIUS.modal,
+    padding: SPACING.xxxl,
     alignItems: 'center',
   },
   iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: SPACING.huge,
+    width: COMPONENT_SIZES.iconContainerLg,
+    height: COMPONENT_SIZES.iconContainerLg,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.lg,
   },
   icon: {
-    fontSize: SPACING.huge,
+    fontSize: SIZES.iconHuge,
   },
   readyText: {
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.sm,
     textTransform: 'uppercase',
-    letterSpacing: 2,
+    letterSpacing: LETTER_SPACING.wide,
   },
   title: {
-    fontSize: 26,
+    fontSize: TYPOGRAPHY.sectionHeader.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   requirementLabel: {
-    width: 90,
+    width: COMPONENT_SIZES.labelWidth,
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.medium,
   },
@@ -217,22 +219,22 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: SIZES.progressBarHeight,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   requirementValue: {
     ...TYPOGRAPHY.caption,
-    width: 70,
+    width: COMPONENT_SIZES.valueWidth,
     textAlign: 'right',
   },
   examInfo: {
     width: '100%',
     padding: SPACING.md,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     marginBottom: SPACING.xxl,
   },
   examInfoTitle: {
@@ -243,23 +245,22 @@ const styles = StyleSheet.create({
   examInfoText: {
     ...TYPOGRAPHY.caption,
     opacity: 0.7,
-    lineHeight: 18,
   },
   primaryButton: {
     width: '100%',
     paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     marginBottom: SPACING.md,
   },
   primaryButtonText: {
-    color: '#ffffff',
-    ...TYPOGRAPHY.cardTitle,
+    color: JOURNEY_COLORS.textPrimary,
+    ...TYPOGRAPHY.button,
   },
   secondaryButton: {
     width: '100%',
-    paddingVertical: SPACING.md + 2,
-    borderRadius: RADIUS.lg,
+    paddingVertical: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     borderWidth: 1,
   },

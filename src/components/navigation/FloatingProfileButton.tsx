@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DURATION } from '../../constants/animations';
-import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { OVERLAY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
 export function FloatingProfileButton() {
@@ -27,12 +27,12 @@ export function FloatingProfileButton() {
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
   const glassBackground = isDarkTheme
-    ? 'rgba(26, 26, 26, 0.92)'
-    : 'rgba(245, 245, 245, 0.95)';
+    ? OVERLAY_COLORS.glassDark
+    : OVERLAY_COLORS.glassLight;
   const borderColor = isDarkTheme
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(0, 0, 0, 0.08)';
-  const iconColor = isDarkTheme ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.7)';
+    ? OVERLAY_COLORS.glassBorderDark
+    : OVERLAY_COLORS.glassBorderLight;
+  const iconColor = isDarkTheme ? OVERLAY_COLORS.iconDark : OVERLAY_COLORS.iconLight;
 
   const handlePressIn = () => {
     Animated.timing(scaleAnim, {
@@ -86,20 +86,10 @@ const styles = StyleSheet.create({
     right: SPACING.xl,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
-    borderRadius: RADIUS.full,
+    borderRadius: COMPONENT_RADIUS.badge,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: SPACING.xs },
-        shadowOpacity: 0.15,
-        shadowRadius: SPACING.sm,
-      },
-      android: {
-        elevation: SPACING.xs,
-      },
-    }),
+    ...SHADOWS.sm,
   },
 });

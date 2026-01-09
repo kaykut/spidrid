@@ -23,6 +23,54 @@ export const JOURNEY_COLORS = {
   success: '#34C759',           // Good comprehension, streaks
   warning: '#FF9F0A',           // Stretch challenges
   low: '#FF6B6B',               // Low comprehension (muted coral, not alarm red)
+  certificationAccent: '#9775fa', // Purple - certification tiers
+} as const;
+
+/**
+ * Difficulty level colors for curriculum content
+ * Semantic colors representing learning progression
+ */
+export const DIFFICULTY_COLORS = {
+  beginner: JOURNEY_COLORS.success,   // Green - easy, accessible
+  intermediate: '#fab005',             // Amber - moderate challenge
+  advanced: '#ff6b6b',                 // Coral red - advanced difficulty
+} as const;
+
+/**
+ * Color opacity variants for semantic colors
+ * Pre-computed for performance (avoids runtime string concatenation)
+ */
+export const COLOR_OPACITY = {
+  successTint: '#34C75940',      // success @ 25% - quiz correct bg
+  successSubtle: '#34C75960',    // success @ 38% - numeric range
+  lowTint: '#FF6B6B40',          // low @ 25% - quiz incorrect bg
+  accentTint: '#00D4AA26',       // accent @ 15%
+  accentSubtle: '#00D4AA15',     // accent @ 8% - nav highlight
+  certificationTint: '#9775fa4D', // certificationAccent @ 30% - certification card borders
+} as const;
+
+/**
+ * Base color constants
+ */
+export const COLORS = {
+  transparent: 'transparent',
+} as const;
+
+/**
+ * Overlay and glassmorphism colors
+ */
+export const OVERLAY_COLORS = {
+  modalBackdrop: 'rgba(0, 0, 0, 0.7)',
+  glassLight: 'rgba(245, 245, 245, 0.95)',
+  glassDark: 'rgba(26, 26, 26, 0.92)',
+  glassBorderLight: 'rgba(0, 0, 0, 0.08)',
+  glassBorderDark: 'rgba(255, 255, 255, 0.1)',
+  dividerLight: 'rgba(255, 255, 255, 0.1)',
+  dividerDark: 'rgba(0, 0, 0, 0.1)',
+  inactiveLight: 'rgba(0, 0, 0, 0.5)',
+  inactiveDark: 'rgba(255, 255, 255, 0.6)',
+  iconLight: 'rgba(0, 0, 0, 0.7)',
+  iconDark: 'rgba(255, 255, 255, 0.8)',
 } as const;
 
 export const themes: Record<string, Theme> = {

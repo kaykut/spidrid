@@ -6,9 +6,10 @@ import { MilestoneBadge } from '../../components/certifications';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
-import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
-import { themeList } from '../../data/themes';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { themeList, JOURNEY_COLORS } from '../../data/themes';
 import { useContentStore } from '../../store/contentStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
@@ -93,7 +94,7 @@ export default function ProfileScreen() {
               value={userName}
               onChangeText={setUserName}
               placeholder="Enter your name"
-              placeholderTextColor={`${theme.textColor}60`}
+              placeholderTextColor={withOpacity(theme.textColor, OPACITY.strong)}
             />
 
             <Text style={[styles.inputLabel, { color: theme.textColor, marginTop: SPACING.lg }]}>
@@ -122,7 +123,7 @@ export default function ProfileScreen() {
                     key={lang.code}
                     style={[
                       styles.languageOption,
-                      readingLanguage === lang.code && { backgroundColor: `${theme.accentColor  }20` },
+                      readingLanguage === lang.code && { backgroundColor: withOpacity(theme.accentColor, OPACITY.light) },
                     ]}
                     onPress={() => {
                       setReadingLanguage(lang.code);
@@ -133,7 +134,7 @@ export default function ProfileScreen() {
                       style={[
                         styles.languageOptionText,
                         { color: theme.textColor },
-                        readingLanguage === lang.code && { color: theme.accentColor, fontWeight: '600' },
+                        readingLanguage === lang.code && { color: theme.accentColor, fontWeight: FONT_WEIGHTS.semibold },
                       ]}
                     >
                       {lang.label}
@@ -257,7 +258,7 @@ export default function ProfileScreen() {
             style={[styles.flaskButton, { backgroundColor: theme.secondaryBackground }]}
             onPress={() => router.push('/testing')}
           >
-            <Ionicons name="flask-outline" size={20} color={theme.textColor} style={{ opacity: 0.5 }} />
+            <Ionicons name="flask-outline" size={SIZES.iconMd} color={theme.textColor} style={{ opacity: 0.5 }} />
             <Text style={[styles.flaskText, { color: theme.textColor }]}>Component Gallery</Text>
           </TouchableOpacity>
       </EdgeFadeScrollView>
@@ -287,8 +288,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statValue: {
-    ...TYPOGRAPHY.metricLarge,
-    fontSize: 28,
+    ...TYPOGRAPHY.statLarge,
   },
   statLabel: {
     ...TYPOGRAPHY.caption,
@@ -300,10 +300,8 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING.sm,
   },
   sectionTitle: {
-    ...TYPOGRAPHY.levelName,
-    fontSize: 18,
-    textTransform: 'none',
-    letterSpacing: 0,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
     marginBottom: SPACING.md,
     marginTop: SPACING.sm,
   },
@@ -331,31 +329,31 @@ const styles = StyleSheet.create({
   },
   journeyText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHTS.medium,
   },
   card: {
     padding: SPACING.lg,
-    borderRadius: COMPONENT_RADIUS.button,
+    borderRadius: COMPONENT_RADIUS.card,
     marginBottom: SPACING.sm,
   },
   inputLabel: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHTS.medium,
     marginBottom: SPACING.sm,
     opacity: 0.8,
   },
   textInput: {
-    paddingHorizontal: SPACING.lg - 2,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.md + 2,
+    borderRadius: COMPONENT_RADIUS.button,
     borderWidth: 1,
     ...TYPOGRAPHY.body,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
   },
   languageSelector: {
-    paddingHorizontal: SPACING.lg - 2,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.md + 2,
+    borderRadius: COMPONENT_RADIUS.button,
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -363,11 +361,11 @@ const styles = StyleSheet.create({
   },
   languageList: {
     marginTop: SPACING.sm,
-    borderRadius: RADIUS.md + 2,
-    maxHeight: 200,
+    borderRadius: COMPONENT_RADIUS.button,
+    maxHeight: COMPONENT_SIZES.listMaxHeight,
   },
   languageOption: {
-    paddingHorizontal: SPACING.lg - 2,
+    paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.md,
   },
   languageOptionText: {
@@ -381,31 +379,31 @@ const styles = StyleSheet.create({
   },
   subscriptionLabel: {
     ...TYPOGRAPHY.body,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
   },
   subscriptionValue: {
     ...TYPOGRAPHY.cardSubtitle,
   },
   upgradeButton: {
-    paddingVertical: SPACING.lg - 2,
-    borderRadius: RADIUS.md + 2,
+    paddingVertical: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     marginTop: SPACING.sm,
   },
   upgradeText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.button,
   },
   resetButton: {
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.md + 2,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     marginTop: SPACING.sm,
     borderWidth: 1,
   },
   resetText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
+    fontWeight: FONT_WEIGHTS.regular,
   },
   themeGrid: {
     flexDirection: 'row',
@@ -427,18 +425,18 @@ const styles = StyleSheet.create({
   orpPreview: {
     width: SIZES.iconLg,
     height: SIZES.iconLg,
-    borderRadius: SIZES.iconLg / 2,
+    borderRadius: COMPONENT_RADIUS.badge,
   },
   devButton: {
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.md + 2,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     borderWidth: 1,
     marginBottom: SPACING.lg,
   },
   devButtonText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
   },
   tipsCard: {
@@ -452,8 +450,7 @@ const styles = StyleSheet.create({
   },
   tipText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
-    lineHeight: 24,
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.8,
   },
   toggleRow: {
@@ -467,32 +464,32 @@ const styles = StyleSheet.create({
   },
   toggleLabel: {
     ...TYPOGRAPHY.body,
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: TYPOGRAPHY.button.fontSize,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   toggleSubtext: {
     ...TYPOGRAPHY.caption,
     opacity: 0.6,
-    marginTop: 2,
+    marginTop: SPACING.xs,
   },
   premiumNote: {
     ...TYPOGRAPHY.caption,
     marginTop: SPACING.sm,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHTS.medium,
   },
   flaskButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.md + 2,
+    borderRadius: COMPONENT_RADIUS.button,
     marginTop: SPACING.xl,
     marginBottom: SPACING.xxl,
     gap: SPACING.sm,
   },
   flaskText: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.5,
   },
 });

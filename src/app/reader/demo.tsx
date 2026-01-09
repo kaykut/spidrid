@@ -6,7 +6,7 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
-import { SPACING, COMPONENT_SPACING, space } from '../../constants/spacing';
+import { SPACING, COMPONENT_SPACING, space, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.buttonSmall.fontSize,
     textAlign: 'center',
     opacity: 0.7,
-    lineHeight: SPACING.xl,
+    lineHeight: LINE_HEIGHTS.xl,
   },
 });

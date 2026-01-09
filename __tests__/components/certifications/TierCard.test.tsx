@@ -250,7 +250,7 @@ describe('TierCard', () => {
 
   describe('exam status display', () => {
     it('shows Passed for earned tier in expanded view', () => {
-      const { getByText, getAllByText } = render(
+      const { getByText } = render(
         <TierCard tier="speed_reader" progress={earnedProgress} currentVS={50} currentWPM={700} />
       );
 
@@ -330,8 +330,8 @@ describe('TierCard', () => {
 
   describe('invalid tier handling', () => {
     it('returns null for invalid tier', () => {
-      // @ts-ignore - Testing invalid input
       const { toJSON } = render(
+        // @ts-expect-error - Testing invalid input
         <TierCard tier="invalid_tier" progress={lockedProgress} currentVS={0} currentWPM={0} />
       );
 

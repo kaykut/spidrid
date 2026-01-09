@@ -15,18 +15,11 @@ import {
   DEFAULT_CERT_PROGRESS,
   DEFAULT_STREAK,
   DEFAULT_COMFORT_BAND,
-  JourneyCertProgress,
 } from '../../src/types/journey';
 
 // =============================================================================
 // Test Helpers
 // =============================================================================
-
-const initialCertProgress: Record<string, JourneyCertProgress> = {
-  speed_reader: { ...DEFAULT_CERT_PROGRESS },
-  velocity_master: { ...DEFAULT_CERT_PROGRESS },
-  transcendent: { ...DEFAULT_CERT_PROGRESS },
-};
 
 function resetJourneyStore() {
   useJourneyStore.setState({

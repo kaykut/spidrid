@@ -19,10 +19,10 @@ jest.mock('react-native-safe-area-context', () => ({
 jest.mock('expo-linear-gradient', () => {
   const { View } = require('react-native');
   return {
-    LinearGradient: ({ children, testID, colors, style }: {
+    LinearGradient: ({ children, testID, style }: {
       children?: React.ReactNode;
       testID?: string;
-      colors: string[];
+      colors?: string[];
       style?: object;
     }) => (
       <View testID={testID || 'gradient'} style={style}>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { SPACING, RADIUS, SIZES, space } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES, space } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -24,9 +25,9 @@ const CONTROL_SIZES = {
   controlButton: space(7), // 56
   playButton: space(9), // 72
   wpmDisplayMinWidth: space(10), // 80
-  progressBarHeight: SPACING.xs, // 4
-  progressBarRadius: SPACING.xs / 2, // 2
-  playIconSize: 28, // Between iconLg (24) and iconXl (32)
+  progressBarHeight: SIZES.progressBarHeight, // 8
+  progressBarRadius: COMPONENT_RADIUS.progressBar, // 6
+  playIconSize: SIZES.iconMd, // 32
 };
 
 /**
@@ -114,7 +115,7 @@ export function PlaybackControls({
           style={[styles.playButton, { backgroundColor: theme.accentColor }]}
           onPress={onToggle}
         >
-          <Ionicons name={isPlaying ? 'pause' : 'play'} size={CONTROL_SIZES.playIconSize} color="#ffffff" />
+          <Ionicons name={isPlaying ? 'pause' : 'play'} size={CONTROL_SIZES.playIconSize} color={JOURNEY_COLORS.textPrimary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   wpmButton: {
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
-    borderRadius: RADIUS.full,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -185,14 +186,14 @@ const styles = StyleSheet.create({
   controlButton: {
     width: CONTROL_SIZES.controlButton,
     height: CONTROL_SIZES.controlButton,
-    borderRadius: RADIUS.full,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
   },
   playButton: {
     width: CONTROL_SIZES.playButton,
     height: CONTROL_SIZES.playButton,
-    borderRadius: RADIUS.full,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
   },

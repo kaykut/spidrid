@@ -4,13 +4,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
-  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DURATION } from '../../constants/animations';
-import { SPACING, RADIUS, SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { OVERLAY_COLORS, COLOR_OPACITY } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
 interface NavItem {
@@ -54,11 +54,11 @@ export function FloatingNavBar() {
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
   const glassBackground = isDarkTheme
-    ? 'rgba(26, 26, 26, 0.92)'
-    : 'rgba(245, 245, 245, 0.95)';
+    ? OVERLAY_COLORS.glassDark
+    : OVERLAY_COLORS.glassLight;
   const borderColor = isDarkTheme
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(0, 0, 0, 0.08)';
+    ? OVERLAY_COLORS.glassBorderDark
+    : OVERLAY_COLORS.glassBorderLight;
 
   return (
     <View
@@ -79,7 +79,7 @@ export function FloatingNavBar() {
             item={item}
             active={active}
             activeColor={theme.accentColor}
-            inactiveColor={isDarkTheme ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.5)'}
+            inactiveColor={isDarkTheme ? OVERLAY_COLORS.inactiveDark : OVERLAY_COLORS.inactiveLight}
             onPress={() => router.push(item.route)}
           />
         );
@@ -148,20 +148,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.full,
+    borderRadius: COMPONENT_RADIUS.badge,
     borderWidth: 1,
     gap: SPACING.xs,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: SPACING.xs },
-        shadowOpacity: 0.2,
-        shadowRadius: SPACING.md,
-      },
-      android: {
-        elevation: SPACING.sm,
-      },
-    }),
+    ...SHADOWS.lg,
   },
   navButton: {
     width: SIZES.touchTarget,
@@ -174,9 +164,9 @@ const styles = StyleSheet.create({
     height: SPACING.huge,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: RADIUS.xxl,
+    borderRadius: COMPONENT_RADIUS.modal,
   },
   activeIconContainer: {
-    backgroundColor: 'rgba(0, 212, 170, 0.15)',
+    backgroundColor: COLOR_OPACITY.accentSubtle,
   },
 });

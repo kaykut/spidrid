@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { Certificate, getCertificateDefinition } from '../../types/certificates';
 import { useTheme } from '../common/ThemeProvider';
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: COMPONENT_RADIUS.card,
     alignItems: 'center',
-    padding: SPACING.lg,
+    padding: COMPONENT_SPACING.cardPadding,
   },
   cardSmall: {
     width: '48%',
@@ -146,18 +146,18 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   iconSmall: {
-    width: 56,
-    height: 56,
+    width: COMPONENT_SIZES.iconContainerSm,
+    height: COMPONENT_SIZES.iconContainerSm,
   },
   iconLarge: {
-    width: 80,
-    height: 80,
+    width: COMPONENT_SIZES.iconContainerLg,
+    height: COMPONENT_SIZES.iconContainerLg,
   },
   iconTextSmall: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.statLarge.fontSize,
   },
   iconTextLarge: {
-    fontSize: 40,
+    fontSize: SPACING.huge,
   },
   title: {
     fontWeight: FONT_WEIGHTS.bold,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   descSmall: {
-    fontSize: 11,
+    fontSize: TYPOGRAPHY.microText.fontSize,
   },
   descLarge: {
     ...TYPOGRAPHY.buttonSmall,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   progressBar: {
     width: '100%',
     height: SPACING.xs,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     marginTop: SPACING.sm,
     overflow: 'hidden',
   },

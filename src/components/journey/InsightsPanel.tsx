@@ -22,8 +22,8 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { ProgressInsight, WeeklyTrendPoint } from '../../types/journey';
 
@@ -31,9 +31,9 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // Card dimensions per spec
 const CARD_WIDTH = SCREEN_WIDTH * 0.8;
-const CARD_HEIGHT = 180;
-const CARD_SPACING = 12;
-const CARD_BORDER_WIDTH = 1;
+const CARD_HEIGHT = COMPONENT_SIZES.insightCardHeight;
+const CARD_SPACING = SPACING.md;
+const CARD_BORDER_WIDTH = SIZES.hairlineHeight;
 
 export interface InsightsPanelProps {
   /** Progress insight data (baseline vs current) */
@@ -175,8 +175,8 @@ function TrendContent({ weeklyTrend }: TrendContentProps) {
 
   // Calculate chart dimensions
   const chartWidth = CARD_WIDTH - SPACING.xl * 2;
-  const chartHeight = 60;
-  const padding = 4;
+  const chartHeight = COMPONENT_SIZES.chartHeight;
+  const padding = SPACING.xs;
 
   // Get min/max for scaling
   const wpmValues = data.map((d) => d.avgWpm);
@@ -228,8 +228,8 @@ function TrendContent({ weeklyTrend }: TrendContentProps) {
             style={[
               styles.chartPoint,
               {
-                left: point.x - 4,
-                top: point.y - 4,
+                left: point.x - SPACING.xs,
+                top: point.y - SPACING.xs,
                 backgroundColor: index === points.length - 1
                   ? JOURNEY_COLORS.accent
                   : JOURNEY_COLORS.textSecondary,
@@ -333,12 +333,12 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
   },
   cardIcon: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
   },
   cardTitle: {
     ...TYPOGRAPHY.labelSmall,
     fontWeight: FONT_WEIGHTS.semibold,
-    letterSpacing: 1,
+    letterSpacing: LETTER_SPACING.normal,
     color: JOURNEY_COLORS.textSecondary,
   },
 
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     gap: SPACING.xs,
   },
   deltaValue: {
-    fontSize: 28,
+    fontSize: TYPOGRAPHY.statLarge.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     fontVariant: ['tabular-nums'],
   },
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   comparisonLabel: {
     ...TYPOGRAPHY.labelSmall,
     color: JOURNEY_COLORS.textTertiary,
-    width: 36,
+    width: SIZES.iconXxl,
   },
   comparisonValue: {
     ...TYPOGRAPHY.label,
@@ -398,22 +398,22 @@ const styles = StyleSheet.create({
   },
   chartLine: {
     position: 'absolute',
-    height: 2,
+    height: SIZES.dividerHeight,
     backgroundColor: JOURNEY_COLORS.accent,
-    borderRadius: 1,
+    borderRadius: COMPONENT_RADIUS.progressBar / 6,
   },
   chartPoint: {
     position: 'absolute',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: SPACING.sm,
+    height: SPACING.sm,
+    borderRadius: SPACING.xs,
   },
   chartBaseline: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 1,
+    height: SIZES.hairlineHeight,
     backgroundColor: JOURNEY_COLORS.surfaceLight,
   },
   trendFooter: {
@@ -450,9 +450,9 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
   },
   placeholderDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: SIZES.progressBarHeight,
+    height: SIZES.progressBarHeight,
+    borderRadius: SIZES.progressBarHeight / 2,
     backgroundColor: JOURNEY_COLORS.surfaceLight,
   },
   placeholderDotFilled: {
@@ -461,12 +461,12 @@ const styles = StyleSheet.create({
 
   // Skeleton Chart
   skeletonChart: {
-    height: 40,
+    height: COMPONENT_SIZES.skeletonChartHeight,
     justifyContent: 'center',
   },
   skeletonLine: {
-    height: 2,
+    height: SIZES.dividerHeight,
     backgroundColor: JOURNEY_COLORS.surfaceLight,
-    borderRadius: 1,
+    borderRadius: COMPONENT_RADIUS.progressBar / 6,
   },
 });

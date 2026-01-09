@@ -38,8 +38,9 @@ import { NumericQuestion } from '../components/quiz/NumericQuestion';
 import { SingleChoiceQuestion } from '../components/quiz/SingleChoiceQuestion';
 import { TrueFalseQuestion } from '../components/quiz/TrueFalseQuestion';
 import { RSVPWord } from '../components/rsvp/RSVPWord';
-import { SPACING, RADIUS } from '../constants/spacing';
-import { FONT_WEIGHTS, PAGE_TITLE, BODY, CAPTION, CARD_TITLE } from '../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
+import { FONT_WEIGHTS, TYPOGRAPHY, RSVP_DISPLAY } from '../constants/typography';
+import { DIFFICULTY_COLORS, JOURNEY_COLORS } from '../data/themes';
 import type { Certificate, CertificationTierProgress, EarnedCertification } from '../types/certificates';
 import type {
   ArticleRecommendation,
@@ -270,7 +271,7 @@ export default function TestingScreen() {
       {/* Header with close button */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.closeButton}>
-          <Ionicons name="close" size={28} color={theme.textColor} />
+          <Ionicons name="close" size={SIZES.iconXl} color={theme.textColor} />
         </TouchableOpacity>
       </View>
 
@@ -382,9 +383,9 @@ export default function TestingScreen() {
           componentName="ProgressRing"
         >
           <View style={styles.row}>
-            <ProgressRing progress={0.25} size={60} strokeWidth={6} color="#fab005" showPercentage />
-            <ProgressRing progress={0.65} size={80} strokeWidth={8} color="#69db7c" showPercentage />
-            <ProgressRing progress={0.95} size={100} strokeWidth={10} color="#9775fa" showPercentage />
+            <ProgressRing progress={0.25} size={60} strokeWidth={6} color={DIFFICULTY_COLORS.intermediate} showPercentage />
+            <ProgressRing progress={0.65} size={80} strokeWidth={8} color={JOURNEY_COLORS.success} showPercentage />
+            <ProgressRing progress={0.95} size={100} strokeWidth={10} color={JOURNEY_COLORS.certificationAccent} showPercentage />
           </View>
         </ComponentSection>
 
@@ -654,7 +655,7 @@ export default function TestingScreen() {
           componentName="RSVPWord"
         >
           <View style={[styles.rsvpContainer, { backgroundColor: theme.secondaryBackground }]}>
-            <RSVPWord word={MOCK_PROCESSED_WORD} fontSize={48} />
+            <RSVPWord word={MOCK_PROCESSED_WORD} fontSize={RSVP_DISPLAY.fontSize} />
           </View>
         </ComponentSection>
 
@@ -686,24 +687,24 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   title: {
-    fontSize: PAGE_TITLE.fontSize,
+    fontSize: TYPOGRAPHY.pageTitle.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.xs,
   },
   subtitle: {
-    fontSize: BODY.fontSize,
+    fontSize: TYPOGRAPHY.body.fontSize,
     marginBottom: SPACING.xl,
   },
   section: {
     marginBottom: SPACING.xxl,
   },
   filename: {
-    fontSize: CAPTION.fontSize,
+    fontSize: TYPOGRAPHY.caption.fontSize,
     fontFamily: 'monospace',
     opacity: 0.7,
   },
   componentName: {
-    fontSize: CARD_TITLE.fontSize,
+    fontSize: TYPOGRAPHY.cardTitle.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
     marginTop: SPACING.xs,
   },
@@ -723,30 +724,30 @@ const styles = StyleSheet.create({
   modalToggle: {
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.lg,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     alignSelf: 'flex-start',
   },
   modalToggleText: {
-    color: '#fff',
+    color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.semibold,
-    fontSize: BODY.fontSize,
+    fontSize: TYPOGRAPHY.body.fontSize,
   },
   demoText: {
-    fontSize: BODY.fontSize,
+    fontSize: TYPOGRAPHY.body.fontSize,
     paddingVertical: SPACING.sm,
   },
   animationBox: {
     padding: SPACING.lg,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     alignItems: 'center',
     justifyContent: 'center',
   },
   animationText: {
-    fontSize: BODY.fontSize,
+    fontSize: TYPOGRAPHY.body.fontSize,
   },
   rsvpContainer: {
     padding: SPACING.xl,
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.card,
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 120,

@@ -18,8 +18,8 @@ import {
   GestureResponderEvent,
   PanResponderGestureState,
 } from 'react-native';
-import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, SIZES, SHADOWS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS, SECTION_TITLE, CARD_TITLE, LABEL } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, SIZES, SHADOWS, LINE_HEIGHTS } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -234,7 +234,7 @@ export function UpNextCard({
               styles.sliderThumb,
               {
                 left: thumbPosition - THUMB_SIZE / 2 + SLIDER_PADDING,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: JOURNEY_COLORS.textPrimary,
               },
             ]}
           />
@@ -273,12 +273,12 @@ const styles = StyleSheet.create({
     padding: COMPONENT_SPACING.cardPadding,
   },
   sectionLabel: {
-    ...SECTION_TITLE,
+    ...TYPOGRAPHY.sectionTitle,
     marginBottom: SPACING.md,
   },
   title: {
-    ...CARD_TITLE,
-    lineHeight: 24,
+    ...TYPOGRAPHY.cardTitle,
+    lineHeight: LINE_HEIGHTS.loose,
     marginBottom: SPACING.sm,
   },
   metadataRow: {
@@ -288,10 +288,10 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xl,
   },
   metadata: {
-    ...LABEL,
+    ...TYPOGRAPHY.label,
   },
   metadataSeparator: {
-    ...LABEL,
+    ...TYPOGRAPHY.label,
   },
   sliderSection: {
     marginBottom: SPACING.xl,
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   },
   wpmValue: {
     ...TYPOGRAPHY.metric,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
   },
   sliderContainer: {
@@ -350,6 +350,6 @@ const styles = StyleSheet.create({
   },
   startButtonText: {
     ...TYPOGRAPHY.button,
-    color: '#000000',
+    color: JOURNEY_COLORS.background,
   },
 });

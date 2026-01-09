@@ -18,9 +18,10 @@ import {
   UIManager,
 } from 'react-native';
 import { LAYOUT_ANIMATION_EXPAND } from '../../constants/animations';
-import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { JOURNEY_COLORS } from '../../data/themes';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { ArticleRecommendation, UserState } from '../../types/journey';
 
 // Enable LayoutAnimation on Android
@@ -257,16 +258,16 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   primaryBadge: {
-    backgroundColor: `${JOURNEY_COLORS.accent}20`,
+    backgroundColor: withOpacity(JOURNEY_COLORS.accent, OPACITY.light),
     paddingVertical: SPACING.xs,
     paddingHorizontal: SPACING.sm,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.chip / 2,
   },
   primaryBadgeText: {
     ...TYPOGRAPHY.labelSmall,
     fontWeight: FONT_WEIGHTS.semibold,
     color: JOURNEY_COLORS.accent,
-    letterSpacing: 1,
+    letterSpacing: LETTER_SPACING.normal,
   },
   primaryWpm: {
     ...TYPOGRAPHY.metric,
@@ -287,13 +288,13 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.label,
   },
   primaryAction: {
-    paddingVertical: 14,
+    paddingVertical: SPACING.lg,
     borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   primaryActionText: {
     ...TYPOGRAPHY.button,
-    color: '#000000',
+    color: JOURNEY_COLORS.background,
   },
 
   // Expand Toggle
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
     borderColor: JOURNEY_COLORS.surfaceLight,
   },
   stretchCard: {
-    borderColor: `${JOURNEY_COLORS.warning}40`,
+    borderColor: withOpacity(JOURNEY_COLORS.warning, OPACITY.strong),
   },
   optionHeader: {
     flexDirection: 'row',
@@ -335,12 +336,12 @@ const styles = StyleSheet.create({
     gap: SPACING.sm,
   },
   optionIcon: {
-    fontSize: 16,
+    fontSize: SIZES.iconSm,
   },
   optionLabel: {
     ...TYPOGRAPHY.labelSmall,
     fontWeight: FONT_WEIGHTS.semibold,
-    letterSpacing: 1,
+    letterSpacing: LETTER_SPACING.normal,
   },
   optionTitle: {
     ...TYPOGRAPHY.cardSubtitle,
@@ -362,11 +363,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   continueAction: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
     borderWidth: 1,
   },
   optionActionText: {
     ...TYPOGRAPHY.buttonSmall,
-    color: '#000000',
+    color: JOURNEY_COLORS.background,
   },
 });

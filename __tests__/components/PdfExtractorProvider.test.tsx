@@ -845,7 +845,7 @@ describe('PdfExtractorProvider', () => {
 
       await act(async () => {
         extractionPromise = extractPdfFn!('file://large.pdf');
-        extractionPromise.catch((e) => {
+        extractionPromise.catch((e: Error) => {
           rejectedError = e;
         });
         await Promise.resolve();
@@ -857,7 +857,7 @@ describe('PdfExtractorProvider', () => {
       });
 
       expect(rejectedError).not.toBeNull();
-      expect(rejectedError?.message).toBe(
+      expect(rejectedError!.message).toBe(
         'PDF extraction timed out. The file may be too large.'
       );
     });

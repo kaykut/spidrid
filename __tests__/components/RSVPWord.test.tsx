@@ -21,10 +21,11 @@ const createWord = (
   orpIndex: number,
   overrides?: Partial<ProcessedWord>
 ): ProcessedWord => ({
+  original: display,
   display,
   orpIndex,
   pauseMultiplier: 1,
-  isSentenceEnd: false,
+  sentenceEnd: false,
   ...overrides,
 });
 

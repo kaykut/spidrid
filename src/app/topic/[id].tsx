@@ -1,12 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
-import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
+import { JOURNEY_COLORS, OVERLAY_COLORS, COLOR_OPACITY, DIFFICULTY_COLORS } from '../../data/themes';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
+import { usePlaylistStore } from '../../store/playlistStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { Article } from '../../types/learning';
 
@@ -16,6 +20,7 @@ export default function TopicScreen() {
   const { getArticleProgress, getTopicProgress } = useLearningStore();
   const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
   const { getCertificationProgress } = useCertificateStore();
+  const { loadContent } = usePlaylistStore();
 
   const topic = getTopicById(id);
   const articles = getArticlesByTopic(id);
@@ -54,17 +59,25 @@ export default function TopicScreen() {
     router.push(`/article/${articleId}`);
   };
 
-  const difficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner':
-        return '#69db7c';
-      case 'intermediate':
-        return '#fab005';
-      case 'advanced':
-        return '#ff6b6b';
-      default:
-        return theme.textColor;
+  const handlePlayPress = (articleId: string) => {
+    const progress = getArticleProgress(articleId);
+
+    // If not completed and not premium, check content limit
+    if (!progress?.completed && !isPremium) {
+      if (!canAccessContent()) {
+        router.push('/paywall?reason=content_limit');
+        return;
+      }
+      incrementContentCount();
     }
+
+    // Add to playlist and navigate to player
+    loadContent(articleId, 'training');
+    router.push('/(tabs)/play');
+  };
+
+  const difficultyColor = (difficulty: string) => {
+    return DIFFICULTY_COLORS[difficulty as keyof typeof DIFFICULTY_COLORS] || theme.textColor;
   };
 
   return (
@@ -79,7 +92,7 @@ export default function TopicScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Topic Header */}
         <View style={styles.topicHeader}>
-          <View style={[styles.topicIcon, { backgroundColor: `${topic.color  }20` }]}>
+          <View style={[styles.topicIcon, { backgroundColor: withOpacity(topic.color, OPACITY.light) }]}>
             <Text style={styles.topicEmoji}>{topic.icon}</Text>
           </View>
           <Text style={[styles.topicName, { color: theme.textColor }]}>{topic.name}</Text>
@@ -108,6 +121,7 @@ export default function TopicScreen() {
               progress={getArticleProgress(article.id)}
               difficultyColor={difficultyColor}
               onPress={() => handleArticlePress(article.id)}
+              onPlay={() => handlePlayPress(article.id)}
             />
           ))}
         </View>
@@ -121,7 +135,7 @@ export default function TopicScreen() {
                   Certification Tests
                 </Text>
                 {isReadyForCertification && (
-                  <View style={[styles.readyBadge, { backgroundColor: '#69db7c' }]}>
+                  <View style={[styles.readyBadge, { backgroundColor: JOURNEY_COLORS.success }]}>
                     <Text style={styles.readyBadgeText}>Ready!</Text>
                   </View>
                 )}
@@ -141,6 +155,7 @@ export default function TopicScreen() {
                   progress={getArticleProgress(article.id)}
                   difficultyColor={difficultyColor}
                   onPress={() => handleArticlePress(article.id)}
+                  onPlay={() => handlePlayPress(article.id)}
                   isCertification={true}
                 />
               ))}
@@ -165,6 +180,7 @@ interface ArticleCardProps {
   progress: { completed: boolean; comprehensionScore: number; highestWPM: number } | null | undefined;
   difficultyColor: (d: string) => string;
   onPress: () => void;
+  onPlay: () => void;
   isCertification?: boolean;
 }
 
@@ -176,6 +192,7 @@ function ArticleCard({
   progress,
   difficultyColor,
   onPress,
+  onPlay,
   isCertification = false,
 }: ArticleCardProps) {
   const isCompleted = progress?.completed;
@@ -199,7 +216,7 @@ function ArticleCard({
         <View
           style={[
             styles.articleNumber,
-            { backgroundColor: isCertification ? '#9775fa' : topicColor },
+            { backgroundColor: isCertification ? JOURNEY_COLORS.certificationAccent : topicColor },
           ]}
         >
           {isCertification ? (
@@ -214,7 +231,7 @@ function ArticleCard({
           </Text>
           <View style={styles.articleMeta}>
             {isCertification && lengthLabel ? (
-              <Text style={[styles.certificationLength, { color: '#9775fa' }]}>
+              <Text style={[styles.certificationLength, { color: JOURNEY_COLORS.certificationAccent }]}>
                 {lengthLabel}
               </Text>
             ) : (
@@ -227,6 +244,14 @@ function ArticleCard({
             </Text>
           </View>
         </View>
+        {/* Play button */}
+        <TouchableOpacity
+          style={[styles.playButton, { backgroundColor: theme.accentColor }]}
+          onPress={onPlay}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <Ionicons name="play" size={SIZES.iconSm} color={JOURNEY_COLORS.textPrimary} />
+        </TouchableOpacity>
         {isCompleted && (
           <View style={[styles.completedBadge, { backgroundColor: theme.accentColor }]}>
             <Text style={styles.completedText}>✓</Text>
@@ -260,7 +285,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     ...TYPOGRAPHY.cardSubtitle,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHTS.medium,
   },
   content: {
     padding: SPACING.xl,
@@ -271,31 +296,30 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.xxxl,
   },
   topicIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: SPACING.xl,
+    width: COMPONENT_SIZES.iconContainerMd,
+    height: COMPONENT_SIZES.iconContainerMd,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.lg,
   },
   topicEmoji: {
-    fontSize: 36,
+    fontSize: SIZES.iconXxl,
   },
   topicName: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.statLarge,
     marginBottom: SPACING.sm,
   },
   topicDesc: {
     ...TYPOGRAPHY.body,
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.cardSubtitle.fontSize,
     opacity: 0.7,
     textAlign: 'center',
     marginBottom: SPACING.sm,
   },
   progressLabel: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.6,
   },
   articlesList: {
@@ -311,16 +335,16 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
   },
   articleNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: RADIUS.md + 2,
+    width: SIZES.iconXxl,
+    height: SIZES.iconXxl,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: SPACING.md,
   },
   articleNumberText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.bold,
     ...TYPOGRAPHY.cardSubtitle,
   },
   articleInfo: {
@@ -336,23 +360,31 @@ const styles = StyleSheet.create({
   },
   difficulty: {
     ...TYPOGRAPHY.caption,
-    fontWeight: '500',
+    fontWeight: FONT_WEIGHTS.medium,
     textTransform: 'capitalize',
   },
   wordCount: {
     ...TYPOGRAPHY.caption,
     opacity: 0.6,
   },
+  playButton: {
+    width: SIZES.iconXl,
+    height: SIZES.iconXl,
+    borderRadius: COMPONENT_RADIUS.badge,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: SPACING.sm,
+  },
   completedBadge: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: SIZES.iconLg + SPACING.xs,
+    height: SIZES.iconLg + SPACING.xs,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
   },
   completedText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.bold,
   },
   progressInfo: {
     flexDirection: 'row',
@@ -367,9 +399,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...TYPOGRAPHY.levelName,
-    fontSize: 18,
     textTransform: 'none',
-    letterSpacing: 0,
+    letterSpacing: LETTER_SPACING.none,
     textAlign: 'center',
     marginTop: SPACING.huge,
   },
@@ -383,21 +414,20 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...TYPOGRAPHY.levelName,
-    fontSize: 18,
     textTransform: 'none',
-    letterSpacing: 0,
+    letterSpacing: LETTER_SPACING.none,
     marginBottom: SPACING.xs,
   },
   sectionSubtitle: {
     ...TYPOGRAPHY.buttonSmall,
-    fontWeight: '400',
+    fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.6,
   },
   certificationSection: {
     marginTop: SPACING.xxl,
     paddingTop: SPACING.xxl,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.1)',
+    borderTopColor: OVERLAY_COLORS.dividerLight,
   },
   readyBadge: {
     paddingHorizontal: SPACING.sm,
@@ -405,17 +435,17 @@ const styles = StyleSheet.create({
     borderRadius: COMPONENT_RADIUS.chip,
   },
   readyBadgeText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.caption,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
   },
   certificationCard: {
     borderWidth: 1,
-    borderColor: 'rgba(151, 117, 250, 0.3)',
+    borderColor: COLOR_OPACITY.certificationTint,
   },
   certificationLength: {
     ...TYPOGRAPHY.caption,
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
     textTransform: 'capitalize',
   },
 });

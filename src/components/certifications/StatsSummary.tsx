@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
 interface StatsSummaryProps {
@@ -49,17 +50,17 @@ export function StatsSummary({
         <StatItem
           value={`${averageAccuracy}%`}
           label="Avg. Accuracy"
-          color="#69db7c"
+          color={JOURNEY_COLORS.success}
         />
         <StatItem
           value={bestWPM}
           label="Best WPM"
-          color="#fab005"
+          color={JOURNEY_COLORS.warmAccent}
         />
         <StatItem
           value={`${tiersEarned}/3`}
           label="Tiers"
-          color="#9775fa"
+          color={JOURNEY_COLORS.certificationAccent}
         />
       </View>
     </View>
@@ -86,7 +87,7 @@ function StatItem({ value, label, color }: StatItemProps) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: COMPONENT_RADIUS.card,
-    padding: SPACING.lg,
+    padding: COMPONENT_SPACING.cardPadding,
   },
   row: {
     flexDirection: 'row',
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   statItem: {
     alignItems: 'center',
-    minWidth: 80,
+    minWidth: COMPONENT_SIZES.statMinWidth,
   },
   statValue: {
     ...TYPOGRAPHY.metricLarge,
@@ -105,6 +106,6 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.caption,
     opacity: 0.7,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: LETTER_SPACING.tight,
   },
 });

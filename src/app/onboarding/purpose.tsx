@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
-import { SPACING, COMPONENT_RADIUS, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SIZES, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useOnboardingStore } from '../../store/onboardingStore';
 
@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
     padding: SPACING.xxl,
   },
   iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: RADIUS.lg,
+    width: COMPONENT_SIZES.iconContainerSm,
+    height: COMPONENT_SIZES.iconContainerSm,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.lg,
@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.buttonSmall.fontSize,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
-    lineHeight: SPACING.xl,
+    lineHeight: LINE_HEIGHTS.xl,
   },
 });

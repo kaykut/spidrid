@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SPACING } from '../../constants/spacing';
 import { FONT_WEIGHTS } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   CertificationTierProgress,
@@ -69,7 +71,7 @@ export function MilestoneBadge({
   const getBadgeBackgroundColor = () => {
     if (isEarned) {return definition.color;}
     if (isLocked) {return theme.secondaryBackground;}
-    return `${definition.color}20`;
+    return withOpacity(definition.color, OPACITY.light);
   };
 
   return (
@@ -89,7 +91,7 @@ export function MilestoneBadge({
               height: sizeConfig.container,
               borderRadius: sizeConfig.container / 2,
               borderWidth: sizeConfig.ring,
-              borderColor: `${definition.color}30`,
+              borderColor: withOpacity(definition.color, OPACITY.medium),
             },
           ]}
         >
@@ -175,12 +177,12 @@ const styles = StyleSheet.create({
   },
   checkBadge: {
     position: 'absolute',
-    backgroundColor: '#69db7c',
+    backgroundColor: JOURNEY_COLORS.success,
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkMark: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.bold,
   },
 });

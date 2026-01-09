@@ -16,9 +16,9 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { SPACING, SIZES, RADIUS, SHADOWS } from '../../constants/spacing';
+import { SPACING, SIZES, COMPONENT_RADIUS, SHADOWS, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { JOURNEY_COLORS } from '../../data/themes';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import {
   SimpleMilestone,
   JourneyCertTier,
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   // Each node column
   nodeColumn: {
     alignItems: 'center',
-    width: 50,
+    width: COMPONENT_SIZES.nodeColumnWidth,
   },
 
   // Node circle
@@ -296,11 +296,11 @@ const styles = StyleSheet.create({
     backgroundColor: JOURNEY_COLORS.accent,
   },
   nodeFuture: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
     borderWidth: 2,
   },
   checkmarkIcon: {
-    fontSize: 10,
+    fontSize: SIZES.iconMicro,
     color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.bold,
   },
@@ -308,27 +308,27 @@ const styles = StyleSheet.create({
   // Labels
   wpmLabel: {
     ...TYPOGRAPHY.label,
-    fontSize: 13,
+    fontSize: TYPOGRAPHY.label.fontSize,
     fontWeight: FONT_WEIGHTS.medium,
     marginTop: SPACING.xs,
     textAlign: 'center',
   },
   nameLabel: {
     ...TYPOGRAPHY.labelSmall,
-    fontSize: 9,
-    marginTop: 2,
+    fontSize: TYPOGRAPHY.microText.fontSize,
+    marginTop: SPACING.xs,
     textAlign: 'center',
   },
 
   // Certification star
   certStarContainer: {
-    marginTop: 2,
-    minHeight: 16,
+    marginTop: SPACING.xs,
+    minHeight: SIZES.iconSm,
     justifyContent: 'center',
     alignItems: 'center',
   },
   certStar: {
-    fontSize: 12,
+    fontSize: TYPOGRAPHY.caption.fontSize,
     opacity: 0.8,
   },
   certStarEarned: {
@@ -339,14 +339,14 @@ const styles = StyleSheet.create({
   // Tooltip
   tooltipOverlay: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
   },
   tooltipContainer: {
     position: 'absolute',
     backgroundColor: JOURNEY_COLORS.surface,
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     maxWidth: 180,
     minWidth: 120,
     ...SHADOWS.md,

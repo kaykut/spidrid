@@ -9,8 +9,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useTheme } from '../../../components/common/ThemeProvider';
-import { SPACING, COMPONENT_RADIUS } from '../../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SIZES, SIZES } from '../../../constants/spacing';
 import { TYPOGRAPHY } from '../../../constants/typography';
+import { JOURNEY_COLORS } from '../../../data/themes';
 
 export default function LearnScreen() {
   const { theme } = useTheme();
@@ -22,7 +23,7 @@ export default function LearnScreen() {
 
         <View style={styles.placeholderContainer}>
           <View style={[styles.iconCircle, { backgroundColor: theme.secondaryBackground }]}>
-            <Ionicons name="book-outline" size={48} color={theme.accentColor} />
+            <Ionicons name="book-outline" size={SIZES.iconHuge} color={theme.accentColor} />
           </View>
 
           <Text style={[styles.comingSoon, { color: theme.textColor }]}>
@@ -65,9 +66,9 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.xxxl,
   },
   iconCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    width: COMPONENT_SIZES.iconContainerXl,
+    height: COMPONENT_SIZES.iconContainerXl,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.xl,
@@ -90,6 +91,6 @@ const styles = StyleSheet.create({
   },
   ctaButtonText: {
     ...TYPOGRAPHY.button,
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
   },
 });

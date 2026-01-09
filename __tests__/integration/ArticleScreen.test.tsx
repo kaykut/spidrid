@@ -1,137 +1,52 @@
 /**
- * Integration Tests for Article Reader Screen.
+ * Integration Tests for Article Deep Link Screen.
  *
- * Tests the article reading flow with RSVP, quiz, and results.
+ * Tests that article deep links properly redirect to the Player with paywall checks.
  */
 
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react-native';
-import ArticleReaderScreen from '../../src/app/article/[id]';
+import { render, screen, waitFor, act } from '@testing-library/react-native';
+import ArticleDeepLinkScreen from '../../src/app/article/[id]';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
+import { getArticleById } from '../../src/data/curriculum';
 
 // Mock expo-router
 const mockBack = jest.fn();
+const mockReplace = jest.fn();
 jest.mock('expo-router', () => ({
   router: {
     back: () => mockBack(),
+    replace: (path: string) => mockReplace(path),
   },
   useLocalSearchParams: jest.fn(() => ({ id: 'science-discovery-p01' })),
 }));
 
 // Mock safe-area-context
-jest.mock('react-native-safe-area-context', () => {
-  const { View } = require('react-native');
-  return {
-    SafeAreaView: ({ children }: { children: React.ReactNode }) => (
-      <View>{children}</View>
-    ),
-  };
-});
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
+}));
 
-// Mock stores
-const mockCompleteArticle = jest.fn();
-const mockSetCurrentWPM = jest.fn();
-const mockGetHighestWPM = jest.fn(() => 250);
-const mockCheckAndAwardCertificates = jest.fn(() => []);
-const mockGetMaxWPM = jest.fn(() => 450);
+// Mock getArticleById
+jest.mock('../../src/data/curriculum', () => ({
+  getArticleById: jest.fn(),
+}));
 
-jest.mock('../../src/store/learningStore', () => ({
-  useLearningStore: () => ({
-    completeArticle: mockCompleteArticle,
-    currentWPM: 250,
-    setCurrentWPM: mockSetCurrentWPM,
-    getHighestWPM: mockGetHighestWPM,
+// Mock playlistStore
+const mockLoadContent = jest.fn();
+jest.mock('../../src/store/playlistStore', () => ({
+  usePlaylistStore: () => ({
+    loadContent: mockLoadContent,
   }),
 }));
 
-jest.mock('../../src/store/certificateStore', () => ({
-  useCertificateStore: () => ({
-    checkAndAwardCertificates: mockCheckAndAwardCertificates,
-  }),
-}));
-
+// Mock subscriptionStore
+const mockCanAccessContent = jest.fn(() => true);
+const mockIncrementContentCount = jest.fn();
 jest.mock('../../src/store/subscriptionStore', () => ({
   useSubscriptionStore: () => ({
-    getMaxWPM: mockGetMaxWPM,
-  }),
-}));
-
-// Mock NewCertificateModal
-jest.mock('../../src/components/certificates/NewCertificateModal', () => {
-  const { View } = require('react-native');
-  return {
-    NewCertificateModal: ({ visible }: { visible: boolean }) =>
-      visible ? <View testID="new-cert-modal" /> : null,
-  };
-});
-
-// Mock Paywall
-jest.mock('../../src/components/paywall/Paywall', () => {
-  const { View } = require('react-native');
-  return {
-    Paywall: ({ visible }: { visible: boolean }) =>
-      visible ? <View testID="paywall" /> : null,
-  };
-});
-
-// Mock RSVPWord
-jest.mock('../../src/components/rsvp/RSVPWord', () => {
-  const { View, Text } = require('react-native');
-  return {
-    RSVPWord: ({ word }: { word: { display: string } | null }) => (
-      <View testID="rsvp-word">
-        <Text>{word?.display || 'Ready'}</Text>
-      </View>
-    ),
-  };
-});
-
-// Mock PlaybackControls
-jest.mock('../../src/components/controls/PlaybackControls', () => {
-  const { View, Text, TouchableOpacity } = require('react-native');
-  return {
-    PlaybackControls: ({
-      onToggle,
-      wpm,
-      onWPMLimitHit
-    }: {
-      onToggle: () => void;
-      wpm: number;
-      onWPMLimitHit: () => void;
-    }) => (
-      <View testID="playback-controls">
-        <TouchableOpacity testID="toggle-btn" onPress={onToggle}>
-          <Text>Toggle</Text>
-        </TouchableOpacity>
-        <Text testID="wpm-display">{wpm}</Text>
-        <TouchableOpacity testID="wpm-limit-btn" onPress={onWPMLimitHit}>
-          <Text>Hit Limit</Text>
-        </TouchableOpacity>
-      </View>
-    ),
-  };
-});
-
-// Mock useRSVPEngine
-const mockToggle = jest.fn();
-const mockSetWPM = jest.fn();
-const mockReset = jest.fn();
-const mockRewindSentence = jest.fn();
-const mockSkipSentence = jest.fn();
-
-jest.mock('../../src/hooks/useRSVPEngine', () => ({
-  useRSVPEngine: () => ({
-    currentWord: { display: 'Hello', orpIndex: 1, pauseMultiplier: 1, isSentenceEnd: false },
-    currentIndex: 0,
-    totalWords: 100,
-    isPlaying: false,
-    wpm: 250,
-    progress: 0,
-    toggle: mockToggle,
-    setWPM: mockSetWPM,
-    reset: mockReset,
-    rewindSentence: mockRewindSentence,
-    skipSentence: mockSkipSentence,
+    canAccessContent: mockCanAccessContent,
+    incrementContentCount: mockIncrementContentCount,
+    isPremium: false,
   }),
 }));
 
@@ -139,70 +54,104 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(<ThemeProvider>{ui}</ThemeProvider>);
 };
 
-describe('ArticleReaderScreen Integration', () => {
+// Get reference to the mocked function
+const mockGetArticleById = getArticleById as jest.Mock;
+
+describe('ArticleDeepLinkScreen Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
+    mockGetArticleById.mockReturnValue({
+      id: 'science-discovery-p01',
+      title: 'Test Article',
+      content: 'Test content',
+      topicId: 'science-discovery',
+      wordCount: 500,
+      difficulty: 'beginner' as const,
+      questions: [],
+      articleType: 'practice' as const,
+      orderIndex: 1,
+    });
+    mockCanAccessContent.mockReturnValue(true);
   });
 
-  describe('initial rendering', () => {
-    it('renders article title and topic', () => {
-      renderWithProviders(<ArticleReaderScreen />);
-
-      expect(screen.getByText('Science & Discovery')).toBeTruthy();
-      expect(screen.getByText('The Water Cycle')).toBeTruthy();
-    });
-
-    it('renders RSVP word component', () => {
-      renderWithProviders(<ArticleReaderScreen />);
-
-      expect(screen.getByTestId('rsvp-word')).toBeTruthy();
-    });
-
-    it('renders playback controls', () => {
-      renderWithProviders(<ArticleReaderScreen />);
-
-      expect(screen.getByTestId('playback-controls')).toBeTruthy();
-    });
-
-    it('renders instructions text', () => {
-      renderWithProviders(<ArticleReaderScreen />);
-
-      expect(screen.getByText(/Focus on the/)).toBeTruthy();
-      expect(screen.getByText(/Comprehension quiz follows/)).toBeTruthy();
-    });
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
-  describe('navigation', () => {
-    it('navigates back when back button is pressed', () => {
-      renderWithProviders(<ArticleReaderScreen />);
+  describe('valid article', () => {
+    it('loads article into playlist as training source', async () => {
+      renderWithProviders(<ArticleDeepLinkScreen />);
 
-      const backButton = screen.getByText('← Back');
-      fireEvent.press(backButton);
+      await waitFor(() => {
+        expect(mockLoadContent).toHaveBeenCalledWith('science-discovery-p01', 'training');
+      });
+    });
 
-      expect(mockBack).toHaveBeenCalled();
+    it('redirects to player tab', async () => {
+      renderWithProviders(<ArticleDeepLinkScreen />);
+
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/(tabs)/play');
+      });
+    });
+
+    it('shows loading state with article title', () => {
+      renderWithProviders(<ArticleDeepLinkScreen />);
+
+      expect(screen.getByText(/Loading.*Test Article/)).toBeTruthy();
+    });
+
+    it('increments content count for non-premium users', async () => {
+      renderWithProviders(<ArticleDeepLinkScreen />);
+
+      await waitFor(() => {
+        expect(mockIncrementContentCount).toHaveBeenCalled();
+      });
     });
   });
 
   describe('article not found', () => {
     it('shows error when article does not exist', () => {
-      // Change the mock to return a nonexistent article ID
-      const { useLocalSearchParams } = require('expo-router');
-      useLocalSearchParams.mockReturnValueOnce({ id: 'nonexistent' });
+      mockGetArticleById.mockReturnValue(undefined);
 
-      renderWithProviders(<ArticleReaderScreen />);
+      renderWithProviders(<ArticleDeepLinkScreen />);
 
       expect(screen.getByText('Article not found')).toBeTruthy();
+    });
+
+    it('navigates back after delay when not found', async () => {
+      mockGetArticleById.mockReturnValue(undefined);
+
+      renderWithProviders(<ArticleDeepLinkScreen />);
+
+      act(() => {
+        jest.advanceTimersByTime(1500);
+      });
+
+      expect(mockBack).toHaveBeenCalled();
     });
   });
 
   describe('paywall', () => {
-    it('shows paywall when WPM limit is hit', () => {
-      renderWithProviders(<ArticleReaderScreen />);
+    it('redirects to paywall when content limit is reached', async () => {
+      mockCanAccessContent.mockReturnValue(false);
 
-      const limitButton = screen.getByTestId('wpm-limit-btn');
-      fireEvent.press(limitButton);
+      renderWithProviders(<ArticleDeepLinkScreen />);
 
-      expect(screen.getByTestId('paywall')).toBeTruthy();
+      await waitFor(() => {
+        expect(mockReplace).toHaveBeenCalledWith('/paywall?reason=content_limit');
+      });
+    });
+
+    it('does not increment content count when paywall is hit', async () => {
+      mockCanAccessContent.mockReturnValue(false);
+
+      renderWithProviders(<ArticleDeepLinkScreen />);
+
+      await waitFor(() => {
+        expect(mockIncrementContentCount).not.toHaveBeenCalled();
+      });
     });
   });
 });

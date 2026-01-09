@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, DimensionValue } from 'react-native';
-import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import {
   CertificationTier,
   CertificationTierProgress,
@@ -63,7 +65,7 @@ export function TierCard({
   };
 
   const getStatusColor = () => {
-    if (progress.examPassed) { return '#69db7c'; }
+    if (progress.examPassed) { return JOURNEY_COLORS.success; }
     if (progress.examUnlocked) { return definition.color; }
     if (progress.vsUnlocked || progress.speedProofAchieved) { return theme.accentColor; }
     return theme.textColor;
@@ -119,7 +121,7 @@ export function TierCard({
       >
         {/* Header */}
         <View style={styles.header}>
-          <View style={[styles.iconContainer, { backgroundColor: `${definition.color}20` }]}>
+          <View style={[styles.iconContainer, { backgroundColor: withOpacity(definition.color, OPACITY.light) }]}>
             <Text style={styles.icon}>{definition.icon}</Text>
           </View>
           <View style={styles.headerText}>
@@ -171,7 +173,7 @@ export function TierCard({
                       styles.progressBarFill,
                       {
                         width: getExamProgressWidth(),
-                        backgroundColor: progress.examPassed ? '#69db7c' : definition.color,
+                        backgroundColor: progress.examPassed ? JOURNEY_COLORS.success : definition.color,
                       },
                     ]}
                   />
@@ -220,7 +222,7 @@ export function TierCard({
             {/* Earned badge */}
             {progress.examPassed && progress.earnedAt && (
               <View style={styles.earnedBadge}>
-                <Text style={[styles.earnedText, { color: '#69db7c' }]}>
+                <Text style={[styles.earnedText, { color: JOURNEY_COLORS.success }]}>
                   Earned on {new Date(progress.earnedAt).toLocaleDateString()}
                 </Text>
               </View>
@@ -255,7 +257,7 @@ function ProgressBar({ label, value, valueText, color, achieved }: ProgressBarPr
         <View
           style={[
             styles.progressBarFill,
-            { width: `${Math.min(100, value * 100)}%`, backgroundColor: achieved ? '#69db7c' : color },
+            { width: `${Math.min(100, value * 100)}%`, backgroundColor: achieved ? JOURNEY_COLORS.success : color },
           ]}
         />
       </View>
@@ -266,7 +268,7 @@ function ProgressBar({ label, value, valueText, color, achieved }: ProgressBarPr
 const styles = StyleSheet.create({
   container: {
     borderRadius: COMPONENT_RADIUS.card,
-    padding: SPACING.lg,
+    padding: COMPONENT_SPACING.cardPadding,
     marginBottom: SPACING.md,
   },
   locked: {
@@ -279,7 +281,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: SPACING.massive,
     height: SPACING.massive,
-    borderRadius: SPACING.xxl,
+    borderRadius: COMPONENT_RADIUS.badge,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -291,26 +293,26 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.md,
   },
   title: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
   },
   status: {
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
-    marginTop: 2,
+    marginTop: SPACING.xs,
   },
   progressIndicator: {
     marginLeft: SPACING.md,
   },
   progressText: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
   },
   expandedContent: {
     marginTop: SPACING.lg,
     paddingTop: SPACING.lg,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.1)',
+    borderTopColor: OVERLAY_COLORS.dividerLight,
   },
   progressBars: {
     gap: SPACING.md,
@@ -332,18 +334,18 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   progressBarTrack: {
-    height: RADIUS.sm,
-    borderRadius: RADIUS.xs,
+    height: COMPONENT_RADIUS.progressBar,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   requirementsSummary: {
     marginTop: SPACING.lg,
     padding: SPACING.md,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
   },
   requirementsTitle: {
     ...TYPOGRAPHY.buttonSmall,
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
   nextStepContainer: {
     marginTop: SPACING.lg,
     padding: SPACING.md,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
   },
   nextStepLabel: {
     ...TYPOGRAPHY.caption,
@@ -371,12 +373,12 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     marginTop: SPACING.lg,
-    paddingVertical: 14,
+    paddingVertical: SPACING.md,
     borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   actionButtonText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.button,
   },
   earnedBadge: {

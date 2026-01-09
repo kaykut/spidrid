@@ -1,39 +1,41 @@
 /**
  * Quiet Velocity Spacing System
  *
- * 8pt grid system for consistent spacing throughout the app.
- * All values are multiples of the base unit (8).
+ * Pure 8pt grid with micro exceptions (2pt, 4pt) for fine details.
+ * Grid: 8, 16, 24, 32, 40, 48, 56, 64...
  */
 
 // =============================================================================
 // Base Unit
 // =============================================================================
 
-export const BASE_UNIT = 8;
+const BASE = 8;
 
 // =============================================================================
-// Spacing Scale
+// Spacing Scale (8pt grid)
 // =============================================================================
 
 export const SPACING = {
-  /** 4pt - Extra small gaps */
+  /** 2pt - Hairlines only */
+  xxs: 2,
+  /** 4pt - Fine gaps (micro exception) */
   xs: 4,
-  /** 8pt - Small gaps, tight padding */
-  sm: 8,
-  /** 12pt - Between small and medium */
-  md: 12,
-  /** 16pt - Standard padding */
-  lg: 16,
-  /** 20pt - Card padding */
-  xl: 20,
-  /** 24pt - Section gaps */
-  xxl: 24,
-  /** 32pt - Large section gaps */
-  xxxl: 32,
-  /** 40pt - Extra large gaps */
-  huge: 40,
-  /** 48pt - Massive gaps */
-  massive: 48,
+  /** 8pt - Tight */
+  sm: BASE,             // 8
+  /** 16pt - Standard */
+  md: BASE * 2,         // 16 (was 12)
+  /** 24pt - Comfortable */
+  lg: BASE * 3,         // 24 (was 16)
+  /** 32pt - Spacious */
+  xl: BASE * 4,         // 32 (was 20)
+  /** 40pt - Section gaps */
+  xxl: BASE * 5,        // 40 (was 24)
+  /** 48pt - Large sections */
+  xxxl: BASE * 6,       // 48 (was 32)
+  /** 56pt - Extra large */
+  huge: BASE * 7,       // 56 (was 40)
+  /** 64pt - Massive */
+  massive: BASE * 8,    // 64 (was 48)
 } as const;
 
 // =============================================================================
@@ -58,45 +60,92 @@ export const COMPONENT_SPACING = {
 } as const;
 
 // =============================================================================
-// Border Radius
+// Border Radius (Base Scale)
 // =============================================================================
 
+/**
+ * Base radius scale. Prefer COMPONENT_RADIUS for component styling.
+ * These are building blocks - use semantic COMPONENT_RADIUS tokens in components.
+ * Exported for edge cases that need direct access to base values.
+ */
 export const RADIUS = {
+  /** 2pt - Hairline borders, fine dividers */
+  xs: 2,
   /** 4pt - Small elements */
-  xs: 4,
+  sm: 4,
   /** 6pt - Progress bars (full round feel) */
-  sm: 6,
+  md: 6,
   /** 8pt - Small cards, chips */
-  md: 8,
-  /** 12pt - Buttons */
-  lg: 12,
-  /** 16pt - Cards */
-  xl: 16,
-  /** 20pt - Large cards, modals */
-  xxl: 20,
-  /** Full round */
+  lg: 8,
+  /** 12pt - Buttons (prefer COMPONENT_RADIUS.button) */
+  xl: 12,
+  /** 16pt - Cards (prefer COMPONENT_RADIUS.card) */
+  xxl: 16,
+  /** 20pt - Large cards, modals (prefer COMPONENT_RADIUS.modal) */
+  xxxl: 20,
+  /** Full round - circular elements */
   full: 9999,
 } as const;
 
 // =============================================================================
-// Component-Specific Radius
+// Component-Specific Radius (Primary Public API)
 // =============================================================================
 
+/**
+ * Semantic border radius tokens for UI components.
+ * ALWAYS prefer these over base RADIUS tokens for consistency.
+ */
 export const COMPONENT_RADIUS = {
-  /** Cards: 16pt */
-  card: 16,
-  /** Buttons: 12pt */
+  // Interactive Elements (touch targets)
+  /** Standard buttons, tabs, pills: 12pt */
   button: 12,
-  /** Progress bars: 6pt (full round) */
-  progressBar: 6,
-  /** Input fields: 12pt */
+  /** Emphasized buttons (quiz options): 16pt - intentionally larger for visibility */
+  buttonLarge: 16,
+  /** Text inputs, selectors: 12pt */
   input: 12,
-  /** Modals: 20pt */
+
+  // Containers
+  /** Content cards, panels: 16pt */
+  card: 16,
+  /** Modal dialogs, bottom sheets: 20pt */
   modal: 20,
-  /** Chips/badges: 8pt */
+
+  // Decorative Elements
+  /** Small labels, tags, difficulty badges: 8pt */
   chip: 8,
-  /** Journey path nodes */
-  node: 9999,
+  /** Circular badges, avatars: full round */
+  badge: RADIUS.full,
+
+  // Functional Elements
+  /** Progress bar tracks: 6pt (visually full round) */
+  progressBar: 6,
+  /** Journey path nodes: full round */
+  node: RADIUS.full,
+} as const;
+
+// =============================================================================
+// Line Heights
+// =============================================================================
+
+/**
+ * Semantic line height tokens for typography.
+ * Use these with custom text styles when overriding line height.
+ */
+export const LINE_HEIGHTS = {
+  /** Tight - 18pt for captions */
+  tight: 18,
+  /** Normal - 20pt for body text */
+  normal: 20,
+  /** Relaxed - 22pt for readable paragraphs */
+  relaxed: 22,
+  /** Loose - 24pt for headings/titles */
+  loose: 24,
+  /** Extra loose - 26pt for descriptions */
+  xl: 26,
+  /** Very loose - 28pt for large display text */
+  extraLoose: 28,
+  /** Quiz option text - 32pt */
+  xxxl: 32,
 } as const;
 
 // =============================================================================
@@ -104,21 +153,103 @@ export const COMPONENT_RADIUS = {
 // =============================================================================
 
 export const SIZES = {
+  // Functional elements
   /** Progress bar height */
-  progressBarHeight: 8,
+  progressBarHeight: BASE,          // 8
   /** Journey path node size */
-  nodeSize: 16,
+  nodeSize: BASE * 2,               // 16
   /** Journey path current node size */
-  currentNodeSize: 24,
-  /** Journey path line stroke */
+  currentNodeSize: BASE * 3,        // 24
+  /** Journey path line stroke (fine exception) */
   pathLineWidth: 3,
-  /** Touch target minimum */
+  /** Touch target minimum (Apple HIG) */
   touchTarget: 44,
-  /** Icon sizes */
-  iconSm: 16,
-  iconMd: 20,
-  iconLg: 24,
-  iconXl: 32,
+  /** Hairline height */
+  hairlineHeight: 1,
+  /** Divider height */
+  dividerHeight: 2,
+  /** Slider thumb size */
+  sliderThumb: BASE * 3,            // 24
+  /** Slider track height (fine exception) */
+  sliderTrack: 6,
+  /** Progress percent label width */
+  progressPercentWidth: BASE * 4,   // 32
+
+  // Icon sizes (8pt grid)
+  /** Micro icons - checkmarks in nodes */
+  iconMicro: BASE,                  // 8
+  /** Extra small icons - inline indicators */
+  iconXs: BASE * 2,                 // 16 (was 12)
+  /** Small icons */
+  iconSm: BASE * 2,                 // 16
+  /** Navigation icons - tab bars */
+  iconNav: BASE * 3,                // 24 (was 20)
+  /** Medium icons */
+  iconMd: BASE * 3,                 // 24 (was 20)
+  /** Large icons */
+  iconLg: BASE * 3,                 // 24
+  /** Extra large icons */
+  iconXl: BASE * 4,                 // 32
+  /** 2XL icons */
+  iconXxl: BASE * 5,                // 40 (was 36)
+  /** 3XL icons */
+  iconXxxl: BASE * 5,               // 40
+  /** Huge icons */
+  iconHuge: BASE * 6,               // 48
+  /** Massive icons */
+  iconMassive: BASE * 7,            // 56
+} as const;
+
+// =============================================================================
+// Component-Specific Sizes
+// =============================================================================
+
+export const COMPONENT_SIZES = {
+  // Journey/Progress Path Elements
+  /** Journey path large node */
+  journeyNode: BASE * 8,                // 64
+  /** Node column width */
+  nodeColumnWidth: BASE * 6,            // 48
+  /** Bottom sheet peek height */
+  bottomSheetPeekHeight: BASE * 18,     // 144
+
+  // Icon Containers
+  /** Small icon container */
+  iconContainerSm: BASE * 7,            // 56
+  /** Medium icon container */
+  iconContainerMd: BASE * 9,            // 72
+  /** Large icon container */
+  iconContainerLg: BASE * 10,           // 80
+  /** Extra large icon container */
+  iconContainerXl: BASE * 12,           // 96
+
+  // Celebration/Modal Elements
+  /** Celebration icon size */
+  celebrationIcon: BASE * 12,           // 96
+  /** Celebration glow size */
+  celebrationGlow: BASE * 18,           // 144
+
+  // Chart/Data Visualization
+  /** Insight card height */
+  insightCardHeight: BASE * 22,         // 176
+  /** Chart height */
+  chartHeight: BASE * 8,                // 64
+  /** Skeleton chart height */
+  skeletonChartHeight: BASE * 5,        // 40
+
+  // Form Elements
+  /** Text area height */
+  textAreaHeight: BASE * 25,            // 200
+  /** List max height */
+  listMaxHeight: BASE * 25,             // 200
+
+  // Label widths
+  /** Stat minimum width */
+  statMinWidth: BASE * 10,              // 80
+  /** Label column width */
+  labelWidth: BASE * 11,                // 88
+  /** Value column width */
+  valueWidth: BASE * 9,                 // 72
 } as const;
 
 // =============================================================================
@@ -162,10 +293,10 @@ export const SHADOWS = {
 // =============================================================================
 
 /**
- * Calculate spacing based on multiplier of base unit
+ * Calculate spacing based on multiplier of base unit (8pt)
  */
 export function space(multiplier: number): number {
-  return BASE_UNIT * multiplier;
+  return BASE * multiplier;
 }
 
 /**

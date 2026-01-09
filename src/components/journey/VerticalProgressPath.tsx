@@ -8,9 +8,9 @@
 import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SPACING, SIZES, COMPONENT_RADIUS } from '../../constants/spacing';
+import { SPACING, SIZES, COMPONENT_RADIUS, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { JOURNEY_COLORS } from '../../data/themes';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import {
   JourneyCertTier,
   JourneyCertProgress,
@@ -227,8 +227,7 @@ export function VerticalProgressPath({
 // Styles
 // =============================================================================
 
-const NODE_COLUMN_WIDTH = 40;
-const LINE_LEFT_OFFSET = NODE_COLUMN_WIDTH / 2 - SIZES.pathLineWidth / 2;
+const LINE_LEFT_OFFSET = COMPONENT_SIZES.nodeColumnWidth / 2 - SIZES.pathLineWidth / 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -264,7 +263,7 @@ const styles = StyleSheet.create({
 
   // Node wrapper
   nodeWrapper: {
-    width: NODE_COLUMN_WIDTH,
+    width: COMPONENT_SIZES.nodeColumnWidth,
     alignItems: 'center',
     marginRight: SPACING.md,
   },
@@ -284,14 +283,14 @@ const styles = StyleSheet.create({
     borderColor: JOURNEY_COLORS.accent,
   },
   nodeFuture: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
     borderWidth: 2,
   },
   nodeIcon: {
-    fontSize: 14,
+    fontSize: TYPOGRAPHY.sectionTitle.fontSize,
   },
   nodeCheckmark: {
-    fontSize: 12,
+    fontSize: TYPOGRAPHY.caption.fontSize,
     color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.bold,
   },
@@ -299,10 +298,10 @@ const styles = StyleSheet.create({
   // Milestone info
   milestoneInfo: {
     flex: 1,
-    paddingTop: 2,
+    paddingTop: SPACING.xs,
   },
   milestoneName: {
-    fontSize: 18,
+    fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
     marginBottom: SPACING.xs,
   },
@@ -333,7 +332,7 @@ const styles = StyleSheet.create({
     color: JOURNEY_COLORS.textSecondary,
   },
   progressBarTrack: {
-    height: 6,
+    height: SIZES.progressBarHeight,
     backgroundColor: JOURNEY_COLORS.surfaceLight,
     borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',

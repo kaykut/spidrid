@@ -1004,7 +1004,6 @@ describe('journeyStore', () => {
 
     it('migrates recentCompletions to sessions', () => {
       const { result } = renderHook(() => useJourneyStore());
-      const { result: learningResult } = renderHook(() => useLearningStore());
 
       // Set up learning store with completions
       act(() => {

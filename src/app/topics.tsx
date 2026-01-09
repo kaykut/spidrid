@@ -11,7 +11,7 @@ import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { EdgeFadeScrollView } from '../components/common/EdgeFadeScrollView';
 import { useTheme } from '../components/common/ThemeProvider';
-import { SPACING, RADIUS, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY } from '../constants/typography';
 import { TOPICS } from '../data/curriculum';
 import { getCurriculumTopicsForInterests } from '../data/interests';
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...TYPOGRAPHY.pageTitle,
-    fontSize: 20,
   },
   content: {
     paddingHorizontal: SPACING.xl,
@@ -126,13 +125,13 @@ const styles = StyleSheet.create({
   topicIcon: {
     width: SIZES.touchTarget + 4,
     height: SIZES.touchTarget + 4,
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.md,
   },
   topicEmoji: {
-    fontSize: 24,
+    fontSize: SIZES.iconLg,
   },
   topicName: {
     ...TYPOGRAPHY.cardSubtitle,

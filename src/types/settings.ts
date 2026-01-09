@@ -1,3 +1,5 @@
+import { RSVP_DISPLAY } from '../constants/typography';
+
 export interface Theme {
   id: string;
   name: string;
@@ -40,7 +42,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   defaultWPM: 250,
   showCrosshairs: true,
   crosshairOpacity: 0.5,
-  fontSize: 48,
+  fontSize: RSVP_DISPLAY.fontSize ?? 48,
   hapticFeedback: true,
   userName: '',
   readingLanguage: 'en',

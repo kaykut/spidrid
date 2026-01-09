@@ -363,10 +363,8 @@ describe('contentStore', () => {
     it('handles unknown ID gracefully (no-op)', () => {
       const { result } = renderHook(() => useContentStore());
 
-      let content: { id: string };
-
       act(() => {
-        content = result.current.addContent({
+        result.current.addContent({
           title: 'Test',
           content: 'Content',
           wordCount: 1,

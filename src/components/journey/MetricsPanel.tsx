@@ -17,9 +17,9 @@ import {
   Platform,
   UIManager,
 } from 'react-native';
-import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
-import { JOURNEY_COLORS } from '../../data/themes';
+import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   containerEmbedded: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.transparent,
     borderRadius: 0,
     padding: 0,
     paddingTop: SPACING.md,
@@ -176,13 +176,13 @@ const styles = StyleSheet.create({
   },
 
   metricIcon: {
-    fontSize: 16,
+    fontSize: TYPOGRAPHY.button.fontSize,
     marginRight: SPACING.xs,
   },
 
   metricValue: {
     ...TYPOGRAPHY.metric,
-    fontSize: 20,
+    fontSize: TYPOGRAPHY.metric.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
     fontVariant: ['tabular-nums'],
     color: JOURNEY_COLORS.textPrimary,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   metricUnit: {
     ...TYPOGRAPHY.labelSmall,
     color: JOURNEY_COLORS.textSecondary,
-    marginLeft: 2,
+    marginLeft: SPACING.xs,
   },
 
   metricLabel: {
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 
   divider: {
     width: 1,
-    height: 32,
+    height: SIZES.iconMd,
     backgroundColor: JOURNEY_COLORS.surfaceLight,
   },
 
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
 
   expandIndicatorText: {
-    fontSize: 8,
+    fontSize: TYPOGRAPHY.caption.fontSize,
     color: JOURNEY_COLORS.textTertiary,
   },
 });

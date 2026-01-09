@@ -189,7 +189,7 @@ const defaultJourneyState = {
 };
 
 const defaultLearningState = {
-  articleProgress: {} as Record<string, { completed: boolean }>,
+  articleProgress: {} as Record<string, import('../../src/types/learning').ArticleProgress>,
   currentArticleId: null,
   currentWPM: 250,
   recentCompletions: [],
@@ -211,6 +211,16 @@ function createMockSession(overrides: Partial<JourneySession> = {}): JourneySess
     completedAt: Date.now(),
     vsAfter: 20,
     ...overrides,
+  };
+}
+
+function createArticleProgress(articleId: string, completed: boolean): import('../../src/types/learning').ArticleProgress {
+  return {
+    articleId,
+    completed,
+    comprehensionScore: completed ? 75 : 0,
+    highestWPM: completed ? 300 : 0,
+    lastReadAt: Date.now(),
   };
 }
 
@@ -262,7 +272,7 @@ describe('recommendationService', () => {
       // Complete first article in topic-1
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -278,8 +288,8 @@ describe('recommendationService', () => {
       // Complete all practice articles in topic-1
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-1-2': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-1-2': createArticleProgress('article-1-2', true),
         },
       });
 
@@ -297,8 +307,8 @@ describe('recommendationService', () => {
       // Complete all practice articles in topic-1
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-1-2': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-1-2': createArticleProgress('article-1-2', true),
         },
       });
 
@@ -367,7 +377,7 @@ describe('recommendationService', () => {
     it('includes correct topic metadata in recommendation', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-2-1': { completed: true },
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -458,8 +468,8 @@ describe('recommendationService', () => {
       // Complete first article in two topics
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -476,7 +486,7 @@ describe('recommendationService', () => {
       // Complete only one article
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -506,7 +516,7 @@ describe('recommendationService', () => {
         // Mark some progress
         useLearningStore.setState({
           articleProgress: {
-            'article-1-1': { completed: true },
+            'article-1-1': createArticleProgress('article-1-1', true),
           },
         });
 
@@ -522,7 +532,7 @@ describe('recommendationService', () => {
         // That's 50% progress, should get bonus
         useLearningStore.setState({
           articleProgress: {
-            'article-3-1': { completed: true },
+            'article-3-1': createArticleProgress('article-3-1', true),
           },
         });
 
@@ -536,8 +546,8 @@ describe('recommendationService', () => {
       it('gives recent engagement bonus to in-progress topics', () => {
         useLearningStore.setState({
           articleProgress: {
-            'article-1-1': { completed: true },
-            'article-2-1': { completed: true },
+            'article-1-1': createArticleProgress('article-1-1', true),
+            'article-2-1': createArticleProgress('article-2-1', true),
           },
         });
 
@@ -600,12 +610,12 @@ describe('recommendationService', () => {
       it('handles all articles completed in all topics', () => {
         useLearningStore.setState({
           articleProgress: {
-            'article-1-1': { completed: true },
-            'article-1-2': { completed: true },
-            'article-2-1': { completed: true },
-            'article-2-2': { completed: true },
-            'article-3-1': { completed: true },
-            'article-3-2': { completed: true },
+            'article-1-1': createArticleProgress('article-1-1', true),
+            'article-1-2': createArticleProgress('article-1-2', true),
+            'article-2-1': createArticleProgress('article-2-1', true),
+            'article-2-2': createArticleProgress('article-2-2', true),
+            'article-3-1': createArticleProgress('article-3-1', true),
+            'article-3-2': createArticleProgress('article-3-2', true),
           },
         });
 
@@ -619,8 +629,8 @@ describe('recommendationService', () => {
         // Complete all practice articles in topic-1, leaving only certification
         useLearningStore.setState({
           articleProgress: {
-            'article-1-1': { completed: true },
-            'article-1-2': { completed: true },
+            'article-1-1': createArticleProgress('article-1-1', true),
+            'article-1-2': createArticleProgress('article-1-2', true),
           },
         });
 
@@ -636,7 +646,7 @@ describe('recommendationService', () => {
         // Only topic-1 has any progress, and it's the primary
         useLearningStore.setState({
           articleProgress: {
-            'article-1-1': { completed: true },
+            'article-1-1': createArticleProgress('article-1-1', true),
           },
         });
 
@@ -695,8 +705,8 @@ describe('recommendationService', () => {
     it('continueTopic recommendation has different topicId than primary', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -716,7 +726,7 @@ describe('recommendationService', () => {
     it('skips completed articles when finding next recommendation', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -738,7 +748,7 @@ describe('recommendationService', () => {
     it('recommends next article by orderIndex after completion', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true }, // orderIndex: 1
+          'article-1-1': createArticleProgress('article-1-1', true), // orderIndex: 1
         },
       });
 
@@ -757,7 +767,7 @@ describe('recommendationService', () => {
     it('assigns continue_topic when resuming in-progress topic', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -780,7 +790,7 @@ describe('recommendationService', () => {
       // and continueTopic goes to a new topic (no in-progress topics except primary's)
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -813,8 +823,8 @@ describe('recommendationService', () => {
       // Complete articles in both topics
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -835,8 +845,8 @@ describe('recommendationService', () => {
       // Complete first article in topic-1
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -949,11 +959,11 @@ describe('recommendationService', () => {
       // Complete all articles in topics 2 and 3, leave topic 1 incomplete
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
-          'article-2-2': { completed: true },
-          'article-3-1': { completed: true },
-          'article-3-2': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
+          'article-2-2': createArticleProgress('article-2-2', true),
+          'article-3-1': createArticleProgress('article-3-1', true),
+          'article-3-2': createArticleProgress('article-3-2', true),
         },
       });
 
@@ -982,10 +992,10 @@ describe('recommendationService', () => {
       // Set up multiple topics with different completion levels
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true }, // 50% of topic-1
-          'article-2-1': { completed: true },
-          'article-2-2': { completed: true }, // 100% of topic-2 practice
-          'article-3-1': { completed: true }, // 50% of topic-3
+          'article-1-1': createArticleProgress('article-1-1', true), // 50% of topic-1
+          'article-2-1': createArticleProgress('article-2-1', true),
+          'article-2-2': createArticleProgress('article-2-2', true), // 100% of topic-2 practice
+          'article-3-1': createArticleProgress('article-3-1', true), // 50% of topic-3
         },
       });
 
@@ -999,7 +1009,7 @@ describe('recommendationService', () => {
     it('word count is correctly passed to recommendation', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
         },
       });
 
@@ -1050,8 +1060,8 @@ describe('recommendationService', () => {
       // Set up a scenario that should trigger topic scoring
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -1085,7 +1095,7 @@ describe('recommendationService', () => {
     it('returns correct topic name in recommendation', () => {
       useLearningStore.setState({
         articleProgress: {
-          'article-2-1': { completed: true },
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 
@@ -1099,8 +1109,8 @@ describe('recommendationService', () => {
       // Set up two topics with different progress levels
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true }, // topic-1: 50%
-          'article-3-1': { completed: true }, // topic-3: 50%
+          'article-1-1': createArticleProgress('article-1-1', true), // topic-1: 50%
+          'article-3-1': createArticleProgress('article-3-1', true), // topic-3: 50%
         },
       });
 
@@ -1125,10 +1135,10 @@ describe('recommendationService', () => {
       // Complete all practice articles in topics 1 and 2
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-1-2': { completed: true },
-          'article-2-1': { completed: true },
-          'article-2-2': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-1-2': createArticleProgress('article-1-2', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
+          'article-2-2': createArticleProgress('article-2-2', true),
           // topic-3 is untouched - but main loop will find it
         },
       });
@@ -1146,12 +1156,12 @@ describe('recommendationService', () => {
       // Complete ALL practice articles in ALL topics
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-1-2': { completed: true },
-          'article-2-1': { completed: true },
-          'article-2-2': { completed: true },
-          'article-3-1': { completed: true },
-          'article-3-2': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-1-2': createArticleProgress('article-1-2', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
+          'article-2-2': createArticleProgress('article-2-2', true),
+          'article-3-1': createArticleProgress('article-3-1', true),
+          'article-3-2': createArticleProgress('article-3-2', true),
         },
       });
 
@@ -1203,7 +1213,7 @@ describe('recommendationService', () => {
       // This should NOT get the bonus (needs >50%, not >=50%)
       useLearningStore.setState({
         articleProgress: {
-          'article-3-1': { completed: true }, // topic-3: 50%
+          'article-3-1': createArticleProgress('article-3-1', true), // topic-3: 50%
         },
       });
 
@@ -1218,8 +1228,8 @@ describe('recommendationService', () => {
       // topic-1: 1/2 = 50%, topic-2: 1/2 = 50%
       useLearningStore.setState({
         articleProgress: {
-          'article-1-1': { completed: true },
-          'article-2-1': { completed: true },
+          'article-1-1': createArticleProgress('article-1-1', true),
+          'article-2-1': createArticleProgress('article-2-1', true),
         },
       });
 

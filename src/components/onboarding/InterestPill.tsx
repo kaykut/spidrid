@@ -1,6 +1,7 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { SPACING, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
 interface InterestPillProps {
@@ -28,7 +29,7 @@ export function InterestPill({ label, emoji, selected, onPress }: InterestPillPr
       <Text
         style={[
           styles.label,
-          { color: selected ? '#ffffff' : theme.textColor },
+          { color: selected ? JOURNEY_COLORS.textPrimary : theme.textColor },
         ]}
       >
         {label}
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
-    borderRadius: RADIUS.xxl,
+    borderRadius: COMPONENT_RADIUS.chip,
     gap: SPACING.sm,
   },
   emoji: {

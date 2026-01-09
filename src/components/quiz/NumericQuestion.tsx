@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder, Dimensions } from 'react-native';
-import { SPACING, RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 import type { NumericQuestion as NumericQuestionType } from '../../types/learning';
 
@@ -61,7 +62,7 @@ export function NumericQuestion({
 
   const getResultColor = () => {
     if (!showResult) {return theme.accentColor;}
-    return isCorrect ? '#69db7c' : '#ff6b6b';
+    return isCorrect ? JOURNEY_COLORS.success : JOURNEY_COLORS.low;
   };
 
   // Calculate positions for correct range indicator
@@ -81,7 +82,7 @@ export function NumericQuestion({
         {showResult && (
           <Text style={[
             styles.resultText,
-            { color: isCorrect ? '#69db7c' : '#ff6b6b' },
+            { color: isCorrect ? JOURNEY_COLORS.success : JOURNEY_COLORS.low },
           ]}>
             {isCorrect ? '✓ Correct!' : `✗ Answer: ${correctValue}${unit ? ` ${unit}` : ''}`}
           </Text>
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
     marginBottom: SPACING.xxl,
-    lineHeight: SPACING.xxxl,
+    lineHeight: LINE_HEIGHTS.xxxl,
   },
   valueDisplay: {
     alignItems: 'center',
@@ -180,18 +181,18 @@ const styles = StyleSheet.create({
   },
   track: {
     height: SIZES.progressBarHeight,
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
     marginTop: SPACING.md,
     overflow: 'hidden',
   },
   trackFill: {
     height: '100%',
-    borderRadius: RADIUS.xs,
+    borderRadius: COMPONENT_RADIUS.progressBar,
   },
   correctRange: {
     position: 'absolute',
     height: '100%',
-    backgroundColor: '#69db7c60',
+    backgroundColor: COLOR_OPACITY.successSubtle,
   },
   thumb: {
     position: 'absolute',
@@ -214,11 +215,11 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: SPACING.xxl,
     paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.xl,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     ...TYPOGRAPHY.button,
   },
 });

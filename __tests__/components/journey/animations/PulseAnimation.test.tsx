@@ -397,7 +397,7 @@ describe('usePulseAnimation hook', () => {
     duration?: number;
     onPulse?: boolean;
   }) => {
-    const { scaleAnim, pulse, style } = usePulseAnimation(duration);
+    const { pulse, style } = usePulseAnimation(duration);
 
     React.useEffect(() => {
       if (onPulse) {

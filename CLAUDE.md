@@ -26,8 +26,16 @@ React Native (Expo) RSVP speed reading app with freemium monetization.
 - Use functional components with hooks
 - Prefer named exports over default exports
 - Store files use pattern: use[Name]Store
-- All colors from theme, never hardcoded
 - NEVER use --legacy-peer-deps or --force with npm install; fix dependency conflicts properly
+
+## Design System ("Quiet Velocity")
+ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography values.
+
+- src/data/themes.ts - Colors: `JOURNEY_COLORS` (semantic palette), `themes` (4 variants)
+- src/constants/spacing.ts - `SPACING`, `RADIUS`, `COMPONENT_SPACING`, `COMPONENT_RADIUS`, `SIZES`, `SHADOWS`
+- src/constants/typography.ts - `TYPOGRAPHY`, `FONT_WEIGHTS`, `FONT_FAMILY`
+
+Key tokens: `SPACING.{xs,sm,md,lg,xl,xxl}`, `RADIUS.{xs,sm,md,lg,xl,full}`, `TYPOGRAPHY.{body,label,button,cardTitle,sectionTitle,...}`
 
 ## Project Status: ALL MILESTONES COMPLETE
 - M1: Foundation - Expo, Router, Themes

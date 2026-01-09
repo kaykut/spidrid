@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { SPACING, RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 import type { TrueFalseQuestion as TrueFalseQuestionType } from '../../types/learning';
 
@@ -29,9 +30,9 @@ export function TrueFalseQuestion({
       const isSelected = value === selectedAnswer;
 
       if (isCorrect) {
-        backgroundColor = '#69db7c40';
+        backgroundColor = COLOR_OPACITY.successTint;
       } else if (isSelected) {
-        backgroundColor = '#ff6b6b40';
+        backgroundColor = COLOR_OPACITY.lowTint;
       }
     }
 
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
     marginBottom: SPACING.xxxl,
-    lineHeight: SPACING.xxxl,
+    lineHeight: LINE_HEIGHTS.xxxl,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: SPACING.xxl,
     paddingHorizontal: SPACING.xl,
-    borderRadius: RADIUS.xl,
+    borderRadius: COMPONENT_RADIUS.buttonLarge,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -120,13 +121,13 @@ const styles = StyleSheet.create({
   },
   correctIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#69db7c',
+    color: JOURNEY_COLORS.success,
     fontWeight: FONT_WEIGHTS.bold,
     marginLeft: SPACING.sm,
   },
   incorrectIndicator: {
     ...TYPOGRAPHY.metric,
-    color: '#ff6b6b',
+    color: JOURNEY_COLORS.low,
     fontWeight: FONT_WEIGHTS.bold,
     marginLeft: SPACING.sm,
   },

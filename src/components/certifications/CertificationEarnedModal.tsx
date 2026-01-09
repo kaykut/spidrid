@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { SPACING, RADIUS, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import {
   EarnedCertification,
   getCertificationTierDefinition,
@@ -49,13 +51,13 @@ export function CertificationEarnedModal({
             <View
               style={[
                 styles.iconGlow,
-                { backgroundColor: `${definition.color}30` },
+                { backgroundColor: withOpacity(definition.color, OPACITY.medium) },
               ]}
             />
             <View
               style={[
                 styles.iconContainer,
-                { backgroundColor: `${definition.color}20` },
+                { backgroundColor: withOpacity(definition.color, OPACITY.light) },
               ]}
             >
               <Text style={styles.icon}>{definition.icon}</Text>
@@ -121,7 +123,7 @@ export function CertificationEarnedModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    backgroundColor: OVERLAY_COLORS.modalBackdrop,
     justifyContent: 'center',
     alignItems: 'center',
     padding: SPACING.xl,
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     maxWidth: 340,
-    borderRadius: 28,
+    borderRadius: COMPONENT_RADIUS.modal,
     padding: SPACING.xxxl,
     alignItems: 'center',
   },
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.xl,
     textTransform: 'uppercase',
-    letterSpacing: 3,
+    letterSpacing: LETTER_SPACING.extraWide,
   },
   iconWrapper: {
     position: 'relative',
@@ -146,24 +148,24 @@ const styles = StyleSheet.create({
   },
   iconGlow: {
     position: 'absolute',
-    width: 140,
-    height: 140,
-    borderRadius: RADIUS.full,
+    width: COMPONENT_SIZES.celebrationGlow,
+    height: COMPONENT_SIZES.celebrationGlow,
+    borderRadius: COMPONENT_RADIUS.badge,
     top: -SPACING.xl,
     left: -SPACING.xl,
   },
   iconContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: RADIUS.full,
+    width: COMPONENT_SIZES.celebrationIcon,
+    height: COMPONENT_SIZES.celebrationIcon,
+    borderRadius: COMPONENT_RADIUS.badge,
     alignItems: 'center',
     justifyContent: 'center',
   },
   icon: {
-    fontSize: 52,
+    fontSize: SIZES.iconMassive,
   },
   title: {
-    fontSize: 30,
+    fontSize: TYPOGRAPHY.pageTitle.fontSize,
     fontWeight: FONT_WEIGHTS.bold,
     marginBottom: SPACING.sm,
     textAlign: 'center',
@@ -174,7 +176,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     textAlign: 'center',
     marginBottom: SPACING.xxl,
-    lineHeight: SPACING.xxl,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.caption,
     opacity: 0.6,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: LETTER_SPACING.normal,
   },
   statDivider: {
     width: 1,
@@ -205,12 +206,12 @@ const styles = StyleSheet.create({
   primaryButton: {
     width: '100%',
     paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
     marginBottom: SPACING.md,
   },
   primaryButtonText: {
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
   },

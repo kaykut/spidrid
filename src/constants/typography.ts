@@ -19,6 +19,27 @@ export const FONT_WEIGHTS = {
 };
 
 // =============================================================================
+// Letter Spacing Scale
+// =============================================================================
+
+/**
+ * Letter spacing tokens for consistent typography.
+ * Use these instead of hardcoded letterSpacing values.
+ */
+export const LETTER_SPACING = {
+  /** No letter spacing */
+  none: 0,
+  /** Tight spacing for small labels */
+  tight: 0.5,
+  /** Normal spacing for badges/labels */
+  normal: 1,
+  /** Wide spacing for emphasis */
+  wide: 2,
+  /** Extra wide for celebration text */
+  extraWide: 3,
+} as const;
+
+// =============================================================================
 // Typography Scale
 // =============================================================================
 
@@ -26,7 +47,7 @@ export const FONT_WEIGHTS = {
  * VS Number - The hero metric
  * 56pt Bold, letter-spacing -2%
  */
-export const VS_NUMBER: TextStyle = {
+const VS_NUMBER: TextStyle = {
   fontSize: 56,
   fontWeight: FONT_WEIGHTS.bold,
   letterSpacing: -1.12, // -2% of 56
@@ -37,7 +58,7 @@ export const VS_NUMBER: TextStyle = {
  * Level/Rank Name
  * 18pt Semibold, uppercase, tracking +5%
  */
-export const LEVEL_NAME: TextStyle = {
+const LEVEL_NAME: TextStyle = {
   fontSize: 18,
   fontWeight: FONT_WEIGHTS.semibold,
   letterSpacing: 0.9, // +5% of 18
@@ -48,7 +69,7 @@ export const LEVEL_NAME: TextStyle = {
  * Section Titles
  * 14pt Semibold, ALL CAPS, tracking +10%
  */
-export const SECTION_TITLE: TextStyle = {
+const SECTION_TITLE: TextStyle = {
   fontSize: 14,
   fontWeight: FONT_WEIGHTS.semibold,
   letterSpacing: 1.4, // +10% of 14
@@ -59,7 +80,7 @@ export const SECTION_TITLE: TextStyle = {
  * Card Titles
  * 17pt Semibold
  */
-export const CARD_TITLE: TextStyle = {
+const CARD_TITLE: TextStyle = {
   fontSize: 17,
   fontWeight: FONT_WEIGHTS.semibold,
 };
@@ -68,7 +89,7 @@ export const CARD_TITLE: TextStyle = {
  * Body Text
  * 15pt Regular
  */
-export const BODY: TextStyle = {
+const BODY: TextStyle = {
   fontSize: 15,
   fontWeight: FONT_WEIGHTS.regular,
   lineHeight: 22,
@@ -78,7 +99,7 @@ export const BODY: TextStyle = {
  * Labels
  * 13pt Regular, secondary color
  */
-export const LABEL: TextStyle = {
+const LABEL: TextStyle = {
   fontSize: 13,
   fontWeight: FONT_WEIGHTS.regular,
 };
@@ -87,7 +108,7 @@ export const LABEL: TextStyle = {
  * Small Labels
  * 12pt Regular
  */
-export const LABEL_SMALL: TextStyle = {
+const LABEL_SMALL: TextStyle = {
   fontSize: 12,
   fontWeight: FONT_WEIGHTS.regular,
 };
@@ -96,7 +117,7 @@ export const LABEL_SMALL: TextStyle = {
  * Metrics/Numbers
  * 20pt Medium, tabular figures
  */
-export const METRIC: TextStyle = {
+const METRIC: TextStyle = {
   fontSize: 20,
   fontWeight: FONT_WEIGHTS.medium,
   fontVariant: ['tabular-nums'],
@@ -106,8 +127,18 @@ export const METRIC: TextStyle = {
  * Large Metric
  * 24pt Bold, tabular figures
  */
-export const METRIC_LARGE: TextStyle = {
+const METRIC_LARGE: TextStyle = {
   fontSize: 24,
+  fontWeight: FONT_WEIGHTS.bold,
+  fontVariant: ['tabular-nums'],
+};
+
+/**
+ * Stat Large
+ * 28pt Bold, tabular figures - between metricLarge and pageTitle
+ */
+const STAT_LARGE: TextStyle = {
+  fontSize: 28,
   fontWeight: FONT_WEIGHTS.bold,
   fontVariant: ['tabular-nums'],
 };
@@ -116,7 +147,7 @@ export const METRIC_LARGE: TextStyle = {
  * Button Text
  * 16pt Semibold
  */
-export const BUTTON: TextStyle = {
+const BUTTON: TextStyle = {
   fontSize: 16,
   fontWeight: FONT_WEIGHTS.semibold,
 };
@@ -125,7 +156,7 @@ export const BUTTON: TextStyle = {
  * Button Text Small
  * 14pt Semibold
  */
-export const BUTTON_SMALL: TextStyle = {
+const BUTTON_SMALL: TextStyle = {
   fontSize: 14,
   fontWeight: FONT_WEIGHTS.semibold,
 };
@@ -134,7 +165,7 @@ export const BUTTON_SMALL: TextStyle = {
  * Page Title
  * 32pt Bold - for main screen titles
  */
-export const PAGE_TITLE: TextStyle = {
+const PAGE_TITLE: TextStyle = {
   fontSize: 32,
   fontWeight: FONT_WEIGHTS.bold,
 };
@@ -143,7 +174,7 @@ export const PAGE_TITLE: TextStyle = {
  * Stat Value
  * 32pt Bold with tabular nums - for hero statistics
  */
-export const STAT_VALUE: TextStyle = {
+const STAT_VALUE: TextStyle = {
   fontSize: 32,
   fontWeight: FONT_WEIGHTS.bold,
   fontVariant: ['tabular-nums'],
@@ -153,16 +184,26 @@ export const STAT_VALUE: TextStyle = {
  * Caption
  * 12pt Regular - for small descriptive text
  */
-export const CAPTION: TextStyle = {
+const CAPTION: TextStyle = {
   fontSize: 12,
   fontWeight: FONT_WEIGHTS.regular,
+};
+
+/**
+ * Micro Text
+ * 9-10pt Regular - for very small labels (use sparingly)
+ */
+const MICRO_TEXT: TextStyle = {
+  fontSize: 9,
+  fontWeight: FONT_WEIGHTS.regular,
+  lineHeight: 12,
 };
 
 /**
  * Topic/Card Name
  * 16pt Semibold
  */
-export const CARD_SUBTITLE: TextStyle = {
+const CARD_SUBTITLE: TextStyle = {
   fontSize: 16,
   fontWeight: FONT_WEIGHTS.semibold,
 };
@@ -171,7 +212,7 @@ export const CARD_SUBTITLE: TextStyle = {
  * Section Header (non-caps)
  * 20pt Semibold - for section titles that shouldn't be uppercase
  */
-export const SECTION_HEADER: TextStyle = {
+const SECTION_HEADER: TextStyle = {
   fontSize: 20,
   fontWeight: FONT_WEIGHTS.semibold,
 };
@@ -191,8 +232,10 @@ export const TYPOGRAPHY = {
   label: LABEL,
   labelSmall: LABEL_SMALL,
   caption: CAPTION,
+  microText: MICRO_TEXT,
   metric: METRIC,
   metricLarge: METRIC_LARGE,
+  statLarge: STAT_LARGE,
   statValue: STAT_VALUE,
   pageTitle: PAGE_TITLE,
   button: BUTTON,
@@ -214,3 +257,25 @@ export const FONT_FAMILY = Platform.select({
  * Currently uses system font
  */
 export const DISPLAY_FONT_FAMILY = FONT_FAMILY;
+
+// =============================================================================
+// Additional Typography Styles
+// =============================================================================
+
+/**
+ * Badge Text
+ * 10pt Semibold - for small counters and badges
+ */
+export const BADGE_TEXT: TextStyle = {
+  fontSize: 10,
+  fontWeight: FONT_WEIGHTS.semibold,
+};
+
+/**
+ * RSVP Display
+ * 48pt Bold - for RSVP reader display
+ */
+export const RSVP_DISPLAY: TextStyle = {
+  fontSize: 48,
+  fontWeight: FONT_WEIGHTS.bold,
+};

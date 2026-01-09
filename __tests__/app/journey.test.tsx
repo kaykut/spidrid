@@ -101,7 +101,6 @@ jest.mock('../../src/components/journey/VerticalProgressPath', () => ({
   VerticalProgressPath: ({
     avgWpm,
     avgComp,
-    certProgress,
   }: {
     avgWpm: number;
     avgComp: number;

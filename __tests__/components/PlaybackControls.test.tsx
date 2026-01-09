@@ -99,15 +99,6 @@ describe('PlaybackControls', () => {
       const onToggle = jest.fn();
       renderWithProviders(<PlaybackControls {...defaultProps} onToggle={onToggle} />);
 
-      // Find the play button - it's the larger button in the center
-      const buttons = screen.root.findAllByType('View');
-
-      // We need to find and press the play button
-      // The component structure has a TouchableOpacity for play button
-      const touchables = screen.root.findAll(
-        (node) => node.type === 'View' && node.props.accessibilityRole === 'button'
-      );
-
       // Just verify the callback is set up correctly
       expect(onToggle).not.toHaveBeenCalled();
     });

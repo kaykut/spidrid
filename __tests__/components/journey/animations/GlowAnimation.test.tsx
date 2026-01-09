@@ -334,7 +334,7 @@ describe('useGlowAnimation hook', () => {
     opacityMin?: number;
     opacityMax?: number;
   }) => {
-    const { opacityAnim, glowStyle } = useGlowAnimation(
+    const { glowStyle } = useGlowAnimation(
       active,
       duration,
       opacityMin,

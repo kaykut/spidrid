@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import PlayScreen from '../../src/app/(tabs)/play';
 
 // Mock expo-router
@@ -77,31 +77,12 @@ describe('PlayScreen', () => {
 
   it('displays the empty state title', () => {
     const { getByText } = render(<PlayScreen />);
-    expect(getByText('No Content Playing')).toBeTruthy();
+    expect(getByText('Ready to Read')).toBeTruthy();
   });
 
   it('displays the empty state description', () => {
     const { getByText } = render(<PlayScreen />);
-    expect(getByText(/Add content from Train, Read, or Learn tabs/)).toBeTruthy();
-  });
-
-  it('displays the CTA button', () => {
-    const { getByText } = render(<PlayScreen />);
-    expect(getByText('Browse Content')).toBeTruthy();
-  });
-
-  it('navigates to train screen when CTA button is pressed', () => {
-    const { getByText } = render(<PlayScreen />);
-    const button = getByText('Browse Content');
-
-    fireEvent.press(button);
-
-    expect(mockRouterPush).toHaveBeenCalledWith('/(tabs)/content/train');
-  });
-
-  it('renders the play icon', () => {
-    const { getByTestId } = render(<PlayScreen />);
-    expect(getByTestId('icon-play-circle-outline')).toBeTruthy();
+    expect(getByText(/Add content from Training or Reading to begin/)).toBeTruthy();
   });
 
   it('applies theme background color to container', () => {

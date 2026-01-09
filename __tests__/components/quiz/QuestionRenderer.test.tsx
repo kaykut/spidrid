@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import { QuestionRenderer, QuestionAnswer } from '../../../src/components/quiz';
+import { QuestionRenderer } from '../../../src/components/quiz';
 import type {
   SingleChoiceQuestion,
   MultipleSelectQuestion,

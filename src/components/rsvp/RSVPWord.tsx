@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { space } from '../../constants/spacing';
-import { FONT_WEIGHTS, FONT_FAMILY } from '../../constants/typography';
+import { FONT_WEIGHTS, FONT_FAMILY, RSVP_DISPLAY } from '../../constants/typography';
 import { ProcessedWord } from '../../types/playback';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -24,7 +24,7 @@ const RSVP_SIZES = {
  * The ORP letter is ALWAYS positioned at the exact horizontal center (aligned with crosshair).
  * This eliminates eye movement - the core principle of RSVP speed reading.
  */
-export function RSVPWord({ word, fontSize = 48 }: RSVPWordProps) {
+export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize }: RSVPWordProps) {
   const { theme } = useTheme();
 
   if (!word) {

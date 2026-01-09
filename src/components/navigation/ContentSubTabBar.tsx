@@ -10,8 +10,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
-import { SPACING, RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { OVERLAY_COLORS } from '../../data/themes';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -44,7 +46,7 @@ export function ContentSubTabBar() {
   };
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
-  const inactiveColor = isDarkTheme ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)';
+  const inactiveColor = isDarkTheme ? OVERLAY_COLORS.inactiveDark : OVERLAY_COLORS.inactiveLight;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
@@ -57,14 +59,14 @@ export function ContentSubTabBar() {
               key={tab.name}
               style={[
                 styles.tab,
-                active && [styles.activeTab, { backgroundColor: `${theme.accentColor}20` }],
+                active && [styles.activeTab, { backgroundColor: withOpacity(theme.accentColor, OPACITY.light) }],
               ]}
               onPress={() => handleTabPress(tab.route)}
               activeOpacity={0.7}
             >
               <Ionicons
                 name={active ? tab.icon : tab.iconOutline}
-                size={18}
+                size={SIZES.iconNav}
                 color={tabColor}
               />
               <Text
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    borderRadius: RADIUS.lg,
+    borderRadius: COMPONENT_RADIUS.button,
     padding: SPACING.xs,
   },
   tab: {
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.md,
-    borderRadius: RADIUS.md,
+    borderRadius: COMPONENT_RADIUS.chip,
     gap: SPACING.xs,
   },
   activeTab: {
@@ -112,9 +114,9 @@ const styles = StyleSheet.create({
   },
   tabText: {
     ...TYPOGRAPHY.labelSmall,
-    fontSize: 13,
+    fontSize: TYPOGRAPHY.label.fontSize,
   },
   activeTabText: {
-    fontWeight: '600',
+    fontWeight: FONT_WEIGHTS.semibold,
   },
 });

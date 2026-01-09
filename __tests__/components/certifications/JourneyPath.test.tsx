@@ -38,13 +38,6 @@ describe('JourneyPath', () => {
     examPassed: false,
   };
 
-  const examReadyProgress: CertificationTierProgress = {
-    vsUnlocked: true,
-    speedProofAchieved: true,
-    examUnlocked: true,
-    examPassed: false,
-  };
-
   const earnedTierProgress: CertificationTierProgress = {
     vsUnlocked: true,
     speedProofAchieved: true,

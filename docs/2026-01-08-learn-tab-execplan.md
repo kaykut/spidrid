@@ -9,7 +9,7 @@ After this change, premium users can tap the new "Learn" tab and generate custom
 
 In Phase 2, users can create entire curricula: multi-article learning paths with 3 to 10 articles that progressively build knowledge. Articles unlock linearly as users complete quizzes, and the system pre-generates upcoming articles in the background to minimize wait times.
 
-To see it working after Phase 1: open the app, navigate to the Learn tab, tap "Generate Article," enter a topic like "The history of coffee," select 3 minutes and "Storytelling" tone, tap Generate. After a few seconds, the article appears. Read it with RSVP, complete the quiz, and observe your stats updated on the Journey tab.
+To see it working after Phase 1: open the app, navigate to the Content tab (library icon), then tap the "Learn" subtab. Tap "Generate Article," enter a topic like "The history of coffee," select 3 minutes and "Storytelling" tone, tap Generate. After a few seconds, the article appears. Read it with RSVP, complete the quiz, and observe your stats updated on the Journey tab.
 
 
 ## Progress
@@ -55,6 +55,10 @@ To see it working after Phase 1: open the app, navigate to the Learn tab, tap "G
   Rationale: Ensures pedagogical progression, pre-generation reduces wait times without wasting API calls on unread content.
   Date/Author: 2026-01-08
 
+- Decision: Learn is a subtab within Content tab, not a top-level tab.
+  Rationale: Navigation structure was updated to use a two-level system. Content tab contains Train, Read, and Learn subtabs. The Learn subtab placeholder already exists at `src/app/(tabs)/content/learn.tsx`.
+  Date/Author: 2026-01-08
+
 
 ## Outcomes & Retrospective
 
@@ -65,21 +69,44 @@ To see it working after Phase 1: open the app, navigate to the Learn tab, tap "G
 
 Spidrid is a React Native (Expo SDK 54) speed reading app using RSVP (Rapid Serial Visual Presentation). Users read articles word-by-word at configurable speeds, then take comprehension quizzes. The app tracks reading speed (WPM) and comprehension scores to calculate a "Velocity Score" representing overall reading proficiency.
 
-Key directories:
+### Navigation Structure
 
-- `src/app/` contains Expo Router screens. File-based routing means `src/app/(tabs)/learn.tsx` creates a `/learn` route accessible as a tab.
+The app uses a two-level navigation system:
+
+**Main Navigation (FloatingNavBar)** - 3 tabs:
+- Journey: `/(tabs)/journey` - Progress tracking and stats
+- Play: `/(tabs)/play` - Quick reading sessions
+- Content: `/(tabs)/content` - All content-related features
+
+**Content Sub-Navigation (ContentSubTabBar)** - 3 subtabs within Content:
+- Train: `/(tabs)/content/train` - Curriculum-based training articles
+- Read: `/(tabs)/content/read` - Import custom content (URL, PDF, EPUB)
+- Learn: `/(tabs)/content/learn` - AI-generated content (this feature)
+
+The Learn subtab already exists as a placeholder at `src/app/(tabs)/content/learn.tsx`. This ExecPlan replaces that placeholder with the full LLM-powered learning functionality.
+
+### Key Directories
+
+- `src/app/` contains Expo Router screens. File-based routing means `src/app/(tabs)/content/learn.tsx` creates the Learn subtab.
 - `src/store/` contains Zustand stores. Each store follows the pattern `use[Name]Store.ts` with AsyncStorage persistence via `zustand/middleware/persist`.
 - `src/types/` contains TypeScript type definitions. The existing `learning.ts` defines `Question` types used by quizzes.
 - `src/components/` contains reusable React components organized by feature area.
+- `src/constants/` contains design system constants (`spacing.ts`, `typography.ts`, `animations.ts`).
 
-Key existing files:
+### Key Existing Files
 
 - `src/store/journeyStore.ts`: Tracks all reading sessions via `recordSession({wpm, comprehension, articleId, articleType})`. This is where generated article readings must be recorded.
 - `src/types/journey.ts`: Defines `ArticleType = 'curriculum' | 'certification' | 'imported'`. We will add `'generated'`.
 - `src/types/learning.ts`: Defines the `Question` union type (SingleChoiceQuestion, MultipleSelectQuestion, TrueFalseQuestion, NumericQuestion). Generated articles will use these same types.
 - `src/app/article/[id].tsx`: The existing article reader with RSVP playback and quiz flow. We will adapt this pattern for generated articles.
-- `src/components/navigation/FloatingNavBar.tsx`: The custom tab bar. Currently has 4 items (journey, read, profile, testing). We will add a "Learn" item.
+- `src/app/(tabs)/content/learn.tsx`: **Existing placeholder** for the Learn subtab. Will be replaced with full implementation.
+- `src/app/(tabs)/content/read.tsx`: Reference implementation for a Content subtab screen. Follow this pattern for styling and imports.
+- `src/components/navigation/FloatingNavBar.tsx`: Main navigation bar. **No changes needed** - Content tab already exists.
+- `src/components/navigation/ContentSubTabBar.tsx`: Subtab bar for Content. **No changes needed** - Learn subtab already exists.
 - `src/store/subscriptionStore.ts`: Contains `isPremium` state for gating premium features.
+- `src/components/common/ThemeProvider.tsx`: Theme hook via `useTheme()` returning `{ theme }`.
+- `src/constants/spacing.ts`: Design tokens for spacing (`SPACING`, `RADIUS`, `COMPONENT_RADIUS`, `SIZES`).
+- `src/constants/typography.ts`: Typography styles (`TYPOGRAPHY`).
 
 Terms defined:
 
@@ -688,56 +715,62 @@ Expected response (abbreviated):
 
 ## Milestone 3: Learn Tab UI with Article Generation
 
-This milestone adds the Learn tab to the app navigation and creates the article generation UI. At the end, users can navigate to the Learn tab, see a segmented control for Articles vs Curricula, tap "Generate Article," fill out the form, and trigger generation.
+This milestone replaces the Learn subtab placeholder with the full article generation UI. The Learn subtab already exists within the Content tab at `src/app/(tabs)/content/learn.tsx`. At the end, users can navigate to Content > Learn, see a segmented control for Articles vs Curricula, tap "Generate Article," fill out the form, and trigger generation.
 
-### Files to Modify
+### Navigation Note
 
-In `src/app/(tabs)/_layout.tsx`, add the Learn tab screen. Find the Tabs component and add:
+No navigation changes are needed. The Learn subtab already exists:
+- Main tab: Content (FloatingNavBar)
+- Subtab: Learn (ContentSubTabBar)
+- Route: `/(tabs)/content/learn`
 
-    <Tabs.Screen name="learn" />
+### Theme Usage Note
 
-Place it before or after other screens as desired. The tab order in the UI is controlled by FloatingNavBar, not this file.
+This codebase uses a custom theme system. Access the theme via:
 
-In `src/components/navigation/FloatingNavBar.tsx`, add the Learn item to NAV_ITEMS. Find the array definition and add:
+    const { theme } = useTheme();  // from '../../../components/common/ThemeProvider'
 
-    {
-      name: 'Learn',
-      route: '/(tabs)/learn',
-      activeIcon: 'sparkles',
-      inactiveIcon: 'sparkles-outline',
-    },
+Theme properties (NOT `theme.colors.*`):
+- `theme.backgroundColor` - Main background color
+- `theme.secondaryBackground` - Card/surface background
+- `theme.textColor` - Primary text color
+- `theme.accentColor` - Primary/accent color (teal)
 
-Also update the NavItem route type union to include the new route:
+Use design tokens from constants:
+- `SPACING` from `'../../../constants/spacing'` - spacing values (xs, sm, md, lg, xl, xxl, xxxl)
+- `RADIUS` from `'../../../constants/spacing'` - border radius values
+- `TYPOGRAPHY` from `'../../../constants/typography'` - text styles (pageTitle, sectionHeader, body, button, etc.)
 
-    route: '/(tabs)/journey' | '/(tabs)/read' | '/(tabs)/profile' | '/(tabs)/testing' | '/(tabs)/learn';
+The code samples below use these patterns. Reference `src/app/(tabs)/content/read.tsx` for a complete example.
 
-### Files to Create
+### Files to Replace
 
-Create `src/app/(tabs)/learn.tsx`:
+Replace `src/app/(tabs)/content/learn.tsx` (currently a placeholder):
 
     import React, { useState } from 'react';
     import {
       View,
       Text,
       StyleSheet,
-      SafeAreaView,
       TouchableOpacity,
       FlatList,
       ActivityIndicator,
     } from 'react-native';
     import { useRouter } from 'expo-router';
-    import { useTheme } from '../../data/themes';
-    import { useGeneratedStore } from '../../store/generatedStore';
-    import { useSubscriptionStore } from '../../store/subscriptionStore';
-    import { useJourneyStore } from '../../store/journeyStore';
-    import { GenerateArticleModal } from '../../components/learn/GenerateArticleModal';
-    import { GeneratedArticleCard } from '../../components/learn/GeneratedArticleCard';
-    import { Paywall } from '../../components/paywall/Paywall';
+    import { useTheme } from '../../../components/common/ThemeProvider';
+    import { useGeneratedStore } from '../../../store/generatedStore';
+    import { useSubscriptionStore } from '../../../store/subscriptionStore';
+    import { useJourneyStore } from '../../../store/journeyStore';
+    import { GenerateArticleModal } from '../../../components/learn/GenerateArticleModal';
+    import { GeneratedArticleCard } from '../../../components/learn/GeneratedArticleCard';
+    import { Paywall } from '../../../components/paywall/Paywall';
+    import { SPACING, RADIUS } from '../../../constants/spacing';
+    import { TYPOGRAPHY } from '../../../constants/typography';
 
     type Segment = 'articles' | 'curricula';
 
     export default function LearnScreen() {
-      const theme = useTheme();
+      const { theme } = useTheme();
       const router = useRouter();
       const [segment, setSegment] = useState<Segment>('articles');
       const [showGenerateModal, setShowGenerateModal] = useState(false);
@@ -764,83 +797,83 @@ Create `src/app/(tabs)/learn.tsx`:
       const styles = StyleSheet.create({
         container: {
           flex: 1,
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.backgroundColor,
         },
         header: {
-          paddingHorizontal: 20,
-          paddingTop: 20,
-          paddingBottom: 10,
+          paddingHorizontal: SPACING.xl,
+          paddingTop: SPACING.lg,
+          paddingBottom: SPACING.md,
         },
         title: {
-          fontSize: 28,
-          fontWeight: 'bold',
-          color: theme.colors.text,
-          marginBottom: 16,
+          ...TYPOGRAPHY.pageTitle,
+          color: theme.textColor,
+          marginBottom: SPACING.lg,
         },
         segmentContainer: {
           flexDirection: 'row',
-          backgroundColor: theme.colors.surface,
-          borderRadius: 12,
-          padding: 4,
+          backgroundColor: theme.secondaryBackground,
+          borderRadius: RADIUS.lg,
+          padding: SPACING.xs,
         },
         segmentButton: {
           flex: 1,
-          paddingVertical: 10,
+          paddingVertical: SPACING.sm,
           alignItems: 'center',
-          borderRadius: 10,
+          borderRadius: RADIUS.md,
         },
         segmentButtonActive: {
-          backgroundColor: theme.colors.primary,
+          backgroundColor: theme.accentColor,
         },
         segmentText: {
-          fontSize: 14,
-          fontWeight: '600',
-          color: theme.colors.textSecondary,
+          ...TYPOGRAPHY.labelSmall,
+          color: theme.textColor,
+          opacity: 0.6,
         },
         segmentTextActive: {
-          color: theme.colors.background,
+          color: '#ffffff',
+          opacity: 1,
         },
         content: {
           flex: 1,
-          paddingHorizontal: 20,
+          paddingHorizontal: SPACING.xl,
         },
         generateButton: {
-          backgroundColor: theme.colors.primary,
-          borderRadius: 12,
-          paddingVertical: 14,
+          backgroundColor: theme.accentColor,
+          borderRadius: RADIUS.lg,
+          paddingVertical: SPACING.md,
           alignItems: 'center',
-          marginVertical: 16,
+          marginVertical: SPACING.lg,
         },
         generateButtonDisabled: {
           opacity: 0.6,
         },
         generateButtonText: {
-          fontSize: 16,
-          fontWeight: '600',
-          color: theme.colors.background,
+          ...TYPOGRAPHY.button,
+          color: '#ffffff',
         },
         sectionTitle: {
-          fontSize: 18,
-          fontWeight: '600',
-          color: theme.colors.text,
-          marginBottom: 12,
+          ...TYPOGRAPHY.sectionHeader,
+          color: theme.textColor,
+          marginBottom: SPACING.md,
         },
         emptyText: {
-          fontSize: 14,
-          color: theme.colors.textSecondary,
+          ...TYPOGRAPHY.body,
+          color: theme.textColor,
+          opacity: 0.6,
           textAlign: 'center',
-          marginTop: 40,
+          marginTop: SPACING.xxxl,
         },
         comingSoon: {
-          fontSize: 16,
-          color: theme.colors.textSecondary,
+          ...TYPOGRAPHY.body,
+          color: theme.textColor,
+          opacity: 0.6,
           textAlign: 'center',
-          marginTop: 60,
+          marginTop: SPACING.xxxl,
         },
       });
 
       return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>Learn</Text>
             <View style={styles.segmentContainer}>
@@ -876,7 +909,7 @@ Create `src/app/(tabs)/learn.tsx`:
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
-                    <ActivityIndicator color={theme.colors.background} />
+                    <ActivityIndicator color="#ffffff" />
                   ) : (
                     <Text style={styles.generateButtonText}>+ Generate Article</Text>
                   )}
@@ -936,7 +969,7 @@ Create `src/components/learn/GenerateArticleModal.tsx`:
     } from 'react-native';
     import { useRouter } from 'expo-router';
     import { Ionicons } from '@expo/vector-icons';
-    import { useTheme } from '../../data/themes';
+    import { useTheme } from '../common/ThemeProvider';
     import { useGeneratedStore } from '../../store/generatedStore';
     import {
       ArticleTone,
@@ -945,6 +978,8 @@ Create `src/components/learn/GenerateArticleModal.tsx`:
     } from '../../types/generated';
     import { TonePill } from './TonePill';
     import { DurationPill } from './DurationPill';
+    import { SPACING, RADIUS } from '../../constants/spacing';
+    import { TYPOGRAPHY } from '../../constants/typography';
 
     interface Props {
       visible: boolean;
@@ -953,7 +988,7 @@ Create `src/components/learn/GenerateArticleModal.tsx`:
     }
 
     export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
-      const theme = useTheme();
+      const { theme } = useTheme();
       const router = useRouter();
       const { generateArticle, isGenerating } = useGeneratedStore();
 
@@ -988,55 +1023,55 @@ Create `src/components/learn/GenerateArticleModal.tsx`:
           justifyContent: 'flex-end',
         },
         container: {
-          backgroundColor: theme.colors.background,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          paddingBottom: 40,
+          backgroundColor: theme.backgroundColor,
+          borderTopLeftRadius: RADIUS.xxl,
+          borderTopRightRadius: RADIUS.xxl,
+          paddingBottom: SPACING.xxxl,
           maxHeight: '90%',
         },
         header: {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: 20,
+          padding: SPACING.xl,
           borderBottomWidth: 1,
-          borderBottomColor: theme.colors.surface,
+          borderBottomColor: theme.secondaryBackground,
         },
         headerTitle: {
-          fontSize: 20,
-          fontWeight: '600',
-          color: theme.colors.text,
+          ...TYPOGRAPHY.sectionHeader,
+          color: theme.textColor,
         },
         closeButton: {
-          padding: 4,
+          padding: SPACING.xs,
         },
         content: {
-          padding: 20,
+          padding: SPACING.xl,
         },
         label: {
-          fontSize: 14,
+          ...TYPOGRAPHY.labelSmall,
           fontWeight: '600',
-          color: theme.colors.text,
-          marginBottom: 8,
-          marginTop: 16,
+          color: theme.textColor,
+          marginBottom: SPACING.sm,
+          marginTop: SPACING.lg,
         },
         topicInput: {
-          backgroundColor: theme.colors.surface,
-          borderRadius: 12,
-          padding: 16,
+          backgroundColor: theme.secondaryBackground,
+          borderRadius: RADIUS.lg,
+          padding: SPACING.lg,
           fontSize: 16,
-          color: theme.colors.text,
+          color: theme.textColor,
           minHeight: 80,
           textAlignVertical: 'top',
         },
         durationRow: {
           flexDirection: 'row',
-          gap: 8,
+          gap: SPACING.sm,
         },
         estimatedWords: {
-          fontSize: 12,
-          color: theme.colors.textSecondary,
-          marginTop: 8,
+          ...TYPOGRAPHY.caption,
+          color: theme.textColor,
+          opacity: 0.6,
+          marginTop: SPACING.sm,
         },
         toneGrid: {
           flexDirection: 'row',
@@ -1361,7 +1396,7 @@ Start the development server:
 
     npx expo start
 
-Open the app in Expo Go or simulator. Navigate using the floating nav bar. You should see a new "Learn" icon (sparkles). Tap it. The Learn screen should appear with:
+Open the app in Expo Go or simulator. Navigate to the Content tab using the floating nav bar (library icon). Then tap the "Learn" subtab in the ContentSubTabBar at the top. The Learn screen should appear with:
 
 - A segmented control showing "Articles" and "Curricula"
 - A "Generate Article" button
@@ -2743,21 +2778,21 @@ Consider adding a "draft" state to preserve partial progress, but this is a futu
 
 A user can:
 
-1. Navigate to the Learn tab and see two segments: Articles and Curricula
+1. Navigate to Content tab > Learn subtab and see two segments: Articles and Curricula
 2. In Articles segment, tap "Generate Article"
 3. Enter a topic, select duration and tone
 4. Tap Generate and wait for the article to be created
 5. Read the article using RSVP
 6. Complete the quiz
 7. See their stats (WPM, comprehension) on the results screen
-8. Return to Learn tab and see the article listed with completion status
+8. Return to Learn subtab and see the article listed with completion status
 9. Navigate to Journey tab and see updated Velocity Score reflecting the new session
 
 ### Phase 2 Complete Acceptance
 
 A user can:
 
-1. In Curricula segment, tap "Create Curriculum"
+1. In Content > Learn > Curricula segment, tap "Create Curriculum"
 2. Complete the 4-step wizard (goal, count, tone, duration)
 3. Wait for outline and initial articles to generate
 4. See the new curriculum in the list
