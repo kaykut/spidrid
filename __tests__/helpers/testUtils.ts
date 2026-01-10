@@ -17,6 +17,7 @@ export function createMockWord(
     orpIndex: Math.floor(word.length / 3),
     pauseMultiplier: 1.0,
     sentenceEnd: false,
+    paragraphEnd: false,
     ...options,
   };
 }

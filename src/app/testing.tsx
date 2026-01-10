@@ -115,6 +115,7 @@ const MOCK_PROCESSED_WORD: ProcessedWord = {
   orpIndex: 2, // 'a' is the ORP
   pauseMultiplier: 1,
   sentenceEnd: false,
+  paragraphEnd: false,
 };
 
 const MOCK_SINGLE_CHOICE: SingleChoiceQuestionType = {

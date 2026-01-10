@@ -188,16 +188,7 @@ export default function PlayScreen() {
           <>
             {/* RSVP Display Area */}
             <View style={styles.rsvpContainer}>
-              {hasContent ? (
-                engine.chapterPaused ? (
-                  <ChapterPauseOverlay
-                    chapter={engine.chapterPaused}
-                    onContinue={engine.resumeFromChapter}
-                  />
-                ) : (
-                  <RSVPWord word={engine.currentWord} />
-                )
-              ) : (
+              {!hasContent && (
                 <View style={styles.emptyState}>
                   <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
                     Ready to Read
@@ -206,6 +197,15 @@ export default function PlayScreen() {
                     Add content from Training or Reading to begin
                   </Text>
                 </View>
+              )}
+              {hasContent && engine.chapterPaused && (
+                <ChapterPauseOverlay
+                  chapter={engine.chapterPaused}
+                  onContinue={engine.resumeFromChapter}
+                />
+              )}
+              {hasContent && !engine.chapterPaused && (
+                <RSVPWord word={engine.currentWord} />
               )}
             </View>
 

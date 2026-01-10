@@ -18,7 +18,7 @@ import {
   ArticleGenerationStatus,
   durationToWordCount,
 } from '../types/curriculum';
-import { TONE_DEFINITIONS, ArticleTone } from '../types/generated';
+import { TONE_DEFINITIONS } from '../types/generated';
 import { Question } from '../types/learning';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
@@ -58,6 +58,10 @@ interface CurriculumActions {
   markArticleCompleted: (curriculumId: string, articleIndex: number, score: number, wpm: number) => void;
   generateArticle: (curriculumId: string, articleIndex: number) => Promise<void>;
   clearError: () => void;
+  // Testing and recovery
+  addCurriculum: (curriculum: Curriculum) => void;
+  clearAllCurricula: () => void;
+  recoverStaleGenerations: () => void;
 }
 
 type CurriculumStore = CurriculumState & CurriculumActions;
@@ -170,7 +174,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
           // Update curriculum with outline
           set((state) => {
             const curr = state.curricula[curriculumId];
-            if (!curr) return state;
+            if (!curr) {return state;}
 
             return {
               curricula: {
@@ -198,7 +202,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
           // Step 2: Generate first two articles
           const articlesToGenerate = Math.min(2, articleCount);
           for (let i = 0; i < articlesToGenerate; i++) {
-            set((state) => ({
+            set(() => ({
               generationProgress: {
                 current: i + 2,
                 total: articleCount + 1,
@@ -264,7 +268,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
       markArticleCompleted: (curriculumId, articleIndex, score, wpm) => {
         set((state) => {
           const curriculum = state.curricula[curriculumId];
-          if (!curriculum) return state;
+          if (!curriculum) {return state;}
 
           const updatedArticles = curriculum.articles.map((a, i) => {
             if (i === articleIndex) {
@@ -321,18 +325,18 @@ export const useCurriculumStore = create<CurriculumStore>()(
       // =======================================================================
       generateArticle: async (curriculumId, articleIndex) => {
         const curriculum = get().curricula[curriculumId];
-        if (!curriculum || !curriculum.outline) return;
+        if (!curriculum || !curriculum.outline) {return;}
 
         const articleOutline = curriculum.outline.articles[articleIndex];
-        if (!articleOutline) return;
+        if (!articleOutline) {return;}
 
         const article = curriculum.articles[articleIndex];
-        if (!article || article.generationStatus === 'generating') return;
+        if (!article || article.generationStatus === 'generating') {return;}
 
-        // Mark as generating
+        // Mark as generating with timestamp
         set((state) => {
           const curr = state.curricula[curriculumId];
-          if (!curr) return state;
+          if (!curr) {return state;}
 
           return {
             curricula: {
@@ -340,7 +344,9 @@ export const useCurriculumStore = create<CurriculumStore>()(
               [curriculumId]: {
                 ...curr,
                 articles: curr.articles.map((a, i) =>
-                  i === articleIndex ? { ...a, generationStatus: 'generating' as const } : a
+                  i === articleIndex
+                    ? { ...a, generationStatus: 'generating' as const, generationStartedAt: Date.now() }
+                    : a
                 ),
               },
             },
@@ -384,7 +390,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
           // Update article with generated content
           set((state) => {
             const curr = state.curricula[curriculumId];
-            if (!curr) return state;
+            if (!curr) {return state;}
 
             return {
               curricula: {
@@ -415,7 +421,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
           // Mark as failed
           set((state) => {
             const curr = state.curricula[curriculumId];
-            if (!curr) return state;
+            if (!curr) {return state;}
 
             return {
               curricula: {
@@ -443,6 +449,64 @@ export const useCurriculumStore = create<CurriculumStore>()(
       // =======================================================================
       clearError: () => {
         set({ generationError: null });
+      },
+
+      // =======================================================================
+      // Add Curriculum (for testing and direct import)
+      // =======================================================================
+      addCurriculum: (curriculum) => {
+        set((state) => ({
+          curricula: { ...state.curricula, [curriculum.id]: curriculum },
+        }));
+      },
+
+      // =======================================================================
+      // Clear All Curricula (for testing)
+      // =======================================================================
+      clearAllCurricula: () => {
+        set({ curricula: {} });
+      },
+
+      // =======================================================================
+      // Recover Stale Generations
+      // =======================================================================
+      // Reset articles stuck in 'generating' for >10 minutes to 'pending'
+      recoverStaleGenerations: () => {
+        const TEN_MINUTES = 10 * 60 * 1000;
+        const now = Date.now();
+
+        set((state) => {
+          const updatedCurricula = { ...state.curricula };
+          let hasChanges = false;
+
+          for (const curriculumId of Object.keys(updatedCurricula)) {
+            const curriculum = updatedCurricula[curriculumId];
+            const updatedArticles = curriculum.articles.map((article) => {
+              if (
+                article.generationStatus === 'generating' &&
+                article.generationStartedAt &&
+                now - article.generationStartedAt > TEN_MINUTES
+              ) {
+                hasChanges = true;
+                return {
+                  ...article,
+                  generationStatus: 'pending' as const,
+                  generationStartedAt: undefined,
+                };
+              }
+              return article;
+            });
+
+            if (hasChanges) {
+              updatedCurricula[curriculumId] = {
+                ...curriculum,
+                articles: updatedArticles,
+              };
+            }
+          }
+
+          return hasChanges ? { curricula: updatedCurricula } : state;
+        });
       },
     }),
     {

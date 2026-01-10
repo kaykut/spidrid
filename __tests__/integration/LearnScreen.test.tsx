@@ -237,8 +237,8 @@ describe('LearnScreen Integration', () => {
       const curriculaTab = screen.getByText('Curricula');
       fireEvent.press(curriculaTab);
 
-      // Curricula view shows "Coming Soon"
-      expect(screen.getByText('Coming Soon')).toBeTruthy();
+      // Curricula view shows "Create Curriculum" button
+      expect(screen.getByText('+ Create Curriculum')).toBeTruthy();
     });
 
     it('hides generate button in curricula view', () => {
@@ -255,7 +255,7 @@ describe('LearnScreen Integration', () => {
 
       // Go to curricula
       fireEvent.press(screen.getByText('Curricula'));
-      expect(screen.getByText('Coming Soon')).toBeTruthy();
+      expect(screen.getByText('+ Create Curriculum')).toBeTruthy();
 
       // Go back to articles
       fireEvent.press(screen.getByText('Articles'));

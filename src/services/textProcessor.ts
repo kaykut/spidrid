@@ -141,7 +141,6 @@ export function mapChapterOffsetsToWordIndices(
   const charToWordIndex: Map<number, number> = new Map();
   let wordIndex = 0;
   let inWord = false;
-  let wordStartPos = 0;
 
   for (let i = 0; i <= text.length; i++) {
     const char = text[i];
@@ -150,7 +149,6 @@ export function mapChapterOffsetsToWordIndices(
     if (!isWhitespace && !inWord) {
       // Starting a new word
       inWord = true;
-      wordStartPos = i;
       charToWordIndex.set(i, wordIndex);
     } else if (isWhitespace && inWord) {
       // Ending a word
@@ -160,7 +158,7 @@ export function mapChapterOffsetsToWordIndices(
   }
 
   // Map each chapter's character offset to the nearest word index
-  return chapters.map((chapter, index) => {
+  return chapters.map((chapter) => {
     // Find the first word that starts at or after the chapter offset
     let closestWordIndex = 0;
     for (const [charPos, wIndex] of charToWordIndex) {

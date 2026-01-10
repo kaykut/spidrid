@@ -26,6 +26,7 @@ const createWord = (
   orpIndex,
   pauseMultiplier: 1,
   sentenceEnd: false,
+  paragraphEnd: false,
   ...overrides,
 });
 

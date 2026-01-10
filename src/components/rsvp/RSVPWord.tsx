@@ -28,7 +28,7 @@ const RSVP_SIZES = {
  * - Short headers (≤3 words): Display as snapshot (entire header at once) in ALL CAPS
  * - Long headers: Display word-by-word in ALL CAPS with meta color
  */
-export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize }: RSVPWordProps) {
+export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize ?? 48 }: RSVPWordProps) {
   const { theme } = useTheme();
 
   if (!word) {
@@ -133,5 +133,11 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     opacity: 0.5,
+  },
+  headerSnapshot: {
+    fontFamily: FONT_FAMILY,
+    fontWeight: FONT_WEIGHTS.semibold,
+    textAlign: 'center',
+    letterSpacing: 1,
   },
 });

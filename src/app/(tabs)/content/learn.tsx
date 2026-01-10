@@ -12,10 +12,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useTheme } from '../../../components/common/ThemeProvider';
 import { GenerateArticleModal, GeneratedArticleCard } from '../../../components/learn';
+import { CurriculumAccordion, CurriculumCreationWizard } from '../../../components/learn/curriculum';
 import { Paywall } from '../../../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../../constants/spacing';
 import { TYPOGRAPHY } from '../../../constants/typography';
 import { JOURNEY_COLORS } from '../../../data/themes';
+import { useCurriculumStore } from '../../../store/curriculumStore';
 import { useGeneratedStore } from '../../../store/generatedStore';
 import { useJourneyStore } from '../../../store/journeyStore';
 import { useSubscriptionStore } from '../../../store/subscriptionStore';
@@ -26,11 +28,14 @@ export default function LearnScreen() {
   const { theme } = useTheme();
   const [segment, setSegment] = useState<Segment>('articles');
   const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [showCurriculumWizard, setShowCurriculumWizard] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
 
   const { articles, isGenerating } = useGeneratedStore();
   const { isPremium } = useSubscriptionStore();
   const { avgWpmLast3 } = useJourneyStore();
+  const { getAllCurricula, isGenerating: isCurriculumGenerating } = useCurriculumStore();
+  const curricula = getAllCurricula();
 
   // Only show completed articles
   const completedArticles = articles.filter((a) => a.status === 'complete');
@@ -50,6 +55,18 @@ export default function LearnScreen() {
     router.push(`/generated/${articleId}`);
   };
 
+  const handleCreateCurriculumPress = () => {
+    if (!isPremium) {
+      setShowPaywall(true);
+      return;
+    }
+    setShowCurriculumWizard(true);
+  };
+
+  const handleCurriculumArticlePress = (curriculumId: string, articleIndex: number) => {
+    router.push(`/curriculum/${curriculumId}/article/${articleIndex}`);
+  };
+
   return (
     <>
       <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} />
@@ -57,6 +74,12 @@ export default function LearnScreen() {
       <GenerateArticleModal
         visible={showGenerateModal}
         onClose={() => setShowGenerateModal(false)}
+        avgWpm={avgWpm}
+      />
+
+      <CurriculumCreationWizard
+        visible={showCurriculumWizard}
+        onClose={() => setShowCurriculumWizard(false)}
         avgWpm={avgWpm}
       />
 
@@ -158,17 +181,60 @@ export default function LearnScreen() {
               )}
             </>
           ) : (
-            /* Curricula Coming Soon */
-            <View style={styles.emptyState}>
-              <View style={[styles.emptyIconCircle, { backgroundColor: theme.secondaryBackground }]}>
-                <Ionicons name="library-outline" size={SIZES.iconHuge} color={theme.accentColor} />
-              </View>
-              <Text style={[styles.emptyTitle, { color: theme.textColor }]}>Coming Soon</Text>
-              <Text style={[styles.emptyText, { color: JOURNEY_COLORS.textSecondary }]}>
-                Create multi-article learning paths with 3-10 articles that progressively build your
-                knowledge on a topic.
-              </Text>
-            </View>
+            /* Curricula Segment */
+            <>
+              {/* Create Curriculum Button */}
+              <TouchableOpacity
+                style={[
+                  styles.generateButton,
+                  { backgroundColor: theme.accentColor },
+                  isCurriculumGenerating && styles.generateButtonDisabled,
+                ]}
+                onPress={handleCreateCurriculumPress}
+                disabled={isCurriculumGenerating}
+                activeOpacity={0.8}
+              >
+                {isCurriculumGenerating ? (
+                  <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
+                ) : (
+                  <Text style={styles.generateButtonText}>+ Create Curriculum</Text>
+                )}
+              </TouchableOpacity>
+
+              {/* Curricula List or Empty State */}
+              {curricula.length > 0 ? (
+                <>
+                  <Text style={[styles.sectionTitle, { color: theme.textColor }]}>My Curricula</Text>
+                  <FlatList
+                    data={curricula}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <CurriculumAccordion
+                        curriculum={item}
+                        onArticlePress={(articleIndex) =>
+                          handleCurriculumArticlePress(item.id, articleIndex)
+                        }
+                      />
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.listContent}
+                  />
+                </>
+              ) : (
+                <View style={styles.emptyState}>
+                  <View style={[styles.emptyIconCircle, { backgroundColor: theme.secondaryBackground }]}>
+                    <Ionicons name="library-outline" size={SIZES.iconHuge} color={theme.accentColor} />
+                  </View>
+                  <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
+                    No curricula yet
+                  </Text>
+                  <Text style={[styles.emptyText, { color: JOURNEY_COLORS.textSecondary }]}>
+                    Create a multi-article learning path with 3-10 articles that progressively build
+                    your knowledge on a topic.
+                  </Text>
+                </View>
+              )}
+            </>
           )}
         </View>
       </View>

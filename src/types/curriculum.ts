@@ -88,6 +88,9 @@ export interface CurriculumArticle {
   /** Timestamp when content was generated */
   generatedAt?: number;
 
+  /** Timestamp when generation started (for stale detection) */
+  generationStartedAt?: number;
+
   /** Timestamp when user completed the article */
   completedAt?: number;
 
