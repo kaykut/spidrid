@@ -13,8 +13,8 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { NowPlayingBar, PlaylistBottomSheet } from '../../components/playlist';
 import { QuestionRenderer, QuestionAnswer } from '../../components/quiz';
-import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { ChapterPauseOverlay } from '../../components/rsvp/ChapterPauseOverlay';
+import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -178,7 +178,7 @@ export default function PlayScreen() {
     >
       <View style={styles.content}>
         {/* Header */}
-        <Text style={[styles.title, { color: theme.textColor }]}>Player</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
 
         {/* Now Playing Info */}
         <NowPlayingBar item={nowPlaying?.item ?? null} progress={engine.progress} />

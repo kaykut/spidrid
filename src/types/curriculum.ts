@@ -5,8 +5,8 @@
  * Curricula contain 3-10 articles that progressively build knowledge on a topic.
  */
 
-import { Question } from './learning';
 import { ArticleTone } from './generated';
+import { Question } from './learning';
 
 // =============================================================================
 // Constants

@@ -24,20 +24,20 @@ const NAV_ITEMS: NavItem[] = [
   {
     name: 'Journey',
     route: '/(tabs)/journey',
-    activeIcon: 'rocket',
-    inactiveIcon: 'rocket-outline',
+    activeIcon: 'stats-chart',
+    inactiveIcon: 'stats-chart-outline',
   },
   {
-    name: 'Play',
+    name: 'Read',
     route: '/(tabs)/play',
-    activeIcon: 'play-circle',
-    inactiveIcon: 'play-circle-outline',
+    activeIcon: 'book',
+    inactiveIcon: 'book-outline',
   },
   {
-    name: 'Content',
+    name: 'Library',
     route: '/(tabs)/content',
-    activeIcon: 'library',
-    inactiveIcon: 'library-outline',
+    activeIcon: 'file-tray-stacked',
+    inactiveIcon: 'file-tray-stacked-outline',
   },
 ];
 

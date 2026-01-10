@@ -34,7 +34,7 @@ export default function TrainScreen() {
 
   return (
     <EdgeFadeScrollView contentContainerStyle={styles.content}>
-      <Text style={[styles.title, { color: theme.textColor }]}>Train</Text>
+      <Text style={[styles.title, { color: theme.textColor }]}>Library</Text>
 
       {/* Metrics Panel - WPM and Comprehension only */}
       <MetricsPanel
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...TYPOGRAPHY.pageTitle,
+    marginTop: SPACING.lg,
     marginBottom: SPACING.lg,
   },
   demoButton: {

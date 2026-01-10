@@ -1,5 +1,5 @@
-import { ProcessedWord } from '../types/playback';
 import { ChapterMetadata } from '../types/content';
+import { ProcessedWord } from '../types/playback';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
 
 /**

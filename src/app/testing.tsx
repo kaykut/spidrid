@@ -63,6 +63,175 @@ import type { ProcessedWord } from '../types/playback';
 // Mock Data
 // ============================================================
 
+// ============================================================
+// Icon Library - Tab Navigation Brainstorming
+// ============================================================
+
+interface IconOption {
+  name: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  label: string;
+}
+
+const JOURNEY_ICONS: IconOption[] = [
+  // Current
+  { name: 'rocket-outline', label: 'rocket' },
+  // Charts & Stats
+  { name: 'trending-up-outline', label: 'trending-up' },
+  { name: 'analytics-outline', label: 'analytics' },
+  { name: 'stats-chart-outline', label: 'stats-chart' },
+  { name: 'bar-chart-outline', label: 'bar-chart' },
+  { name: 'speedometer-outline', label: 'speedometer' },
+  { name: 'pulse-outline', label: 'pulse' },
+  { name: 'fitness-outline', label: 'fitness' },
+  // Achievement
+  { name: 'trophy-outline', label: 'trophy' },
+  { name: 'ribbon-outline', label: 'ribbon' },
+  { name: 'medal-outline', label: 'medal' },
+  { name: 'star-outline', label: 'star' },
+  { name: 'flag-outline', label: 'flag' },
+  // Journey/Path
+  { name: 'compass-outline', label: 'compass' },
+  { name: 'navigate-outline', label: 'navigate' },
+  { name: 'map-outline', label: 'map' },
+  { name: 'footsteps-outline', label: 'footsteps' },
+  { name: 'trail-sign-outline', label: 'trail-sign' },
+  { name: 'flame-outline', label: 'flame' },
+  { name: 'flash-outline', label: 'flash' },
+  // Progress
+  { name: 'podium-outline', label: 'podium' },
+  { name: 'globe-outline', label: 'globe' },
+  { name: 'planet-outline', label: 'planet' },
+  { name: 'infinite-outline', label: 'infinite' },
+  { name: 'arrow-up-circle-outline', label: 'arrow-up-circle' },
+  { name: 'chevron-up-circle-outline', label: 'chevron-up-circle' },
+  { name: 'cellular-outline', label: 'cellular' },
+  { name: 'barbell-outline', label: 'barbell' },
+  { name: 'airplane-outline', label: 'airplane' },
+  { name: 'paper-plane-outline', label: 'paper-plane' },
+];
+
+const PLAYER_ICONS: IconOption[] = [
+  // Current
+  { name: 'play-circle-outline', label: 'play-circle' },
+
+  // === VISION & FOCUS (Mindfulness/meditation-inspired) ===
+  // These convey the focused, present-moment attention of speed reading
+  { name: 'eye-outline', label: 'eye' },
+  { name: 'scan-outline', label: 'scan' },
+  { name: 'aperture-outline', label: 'aperture' },
+  { name: 'locate-outline', label: 'locate' },
+  { name: 'radio-button-on-outline', label: 'radio-button-on' },
+  { name: 'ellipse-outline', label: 'ellipse' },
+  { name: 'contrast-outline', label: 'contrast' },
+  { name: 'sunny-outline', label: 'sunny' },
+  { name: 'glasses-outline', label: 'glasses' },
+
+  // === SPEED & ENERGY ===
+  // Convey velocity, power, momentum
+  { name: 'flash-outline', label: 'flash' },
+  { name: 'speedometer-outline', label: 'speedometer' },
+  { name: 'pulse-outline', label: 'pulse' },
+  { name: 'fitness-outline', label: 'fitness' },
+  { name: 'flame-outline', label: 'flame' },
+  { name: 'thunderstorm-outline', label: 'thunderstorm' },
+  { name: 'car-sport-outline', label: 'car-sport' },
+
+  // === FLOW & RHYTHM ===
+  // The continuous, rhythmic nature of RSVP
+  { name: 'water-outline', label: 'water' },
+  { name: 'infinite-outline', label: 'infinite' },
+  { name: 'sync-outline', label: 'sync' },
+  { name: 'refresh-outline', label: 'refresh' },
+  { name: 'repeat-outline', label: 'repeat' },
+
+  // === PLAYBACK/MEDIA ===
+  // Traditional player metaphors
+  { name: 'play-outline', label: 'play' },
+  { name: 'caret-forward-circle-outline', label: 'caret-forward-circle' },
+  { name: 'radio-outline', label: 'radio' },
+  { name: 'disc-outline', label: 'disc' },
+  { name: 'volume-high-outline', label: 'volume-high' },
+
+  // === TIME/PACING ===
+  { name: 'timer-outline', label: 'timer' },
+  { name: 'stopwatch-outline', label: 'stopwatch' },
+  { name: 'time-outline', label: 'time' },
+  { name: 'hourglass-outline', label: 'hourglass' },
+
+  // === MIND/COGNITION ===
+  // Mental processing, flow state
+  { name: 'bulb-outline', label: 'bulb' },
+  { name: 'extension-puzzle-outline', label: 'extension-puzzle' },
+  { name: 'prism-outline', label: 'prism' },
+  { name: 'cafe-outline', label: 'cafe' },
+
+  // === READING/TEXT ===
+  { name: 'reader-outline', label: 'reader' },
+  { name: 'text-outline', label: 'text' },
+  { name: 'reorder-three-outline', label: 'reorder-three' },
+];
+
+const LIBRARY_ICONS: IconOption[] = [
+  // Current
+  { name: 'library-outline', label: 'library' },
+
+  // === BOOKS & READING MATERIAL ===
+  { name: 'book-outline', label: 'book' },
+  { name: 'bookmarks-outline', label: 'bookmarks' },
+  { name: 'bookmark-outline', label: 'bookmark' },
+  { name: 'reader-outline', label: 'reader' },
+  { name: 'newspaper-outline', label: 'newspaper' },
+  { name: 'document-text-outline', label: 'document-text' },
+  { name: 'documents-outline', label: 'documents' },
+  { name: 'journal-outline', label: 'journal' },
+
+  // === COLLECTIONS & STACKS ===
+  // Convey "many items organized together"
+  { name: 'albums-outline', label: 'albums' },
+  { name: 'layers-outline', label: 'layers' },
+  { name: 'copy-outline', label: 'copy' },
+  { name: 'duplicate-outline', label: 'duplicate' },
+  { name: 'file-tray-stacked-outline', label: 'file-tray-stacked' },
+  { name: 'file-tray-full-outline', label: 'file-tray-full' },
+  { name: 'server-outline', label: 'server' },
+  { name: 'archive-outline', label: 'archive' },
+
+  // === ORGANIZATION & BROWSE ===
+  { name: 'folder-outline', label: 'folder' },
+  { name: 'folder-open-outline', label: 'folder-open' },
+  { name: 'grid-outline', label: 'grid' },
+  { name: 'apps-outline', label: 'apps' },
+  { name: 'list-outline', label: 'list' },
+  { name: 'menu-outline', label: 'menu' },
+  { name: 'reorder-four-outline', label: 'reorder-four' },
+
+  // === AI GENERATION & CREATION ===
+  // Modern apps use sparkles for AI-generated content
+  { name: 'sparkles-outline', label: 'sparkles' },
+  { name: 'color-wand-outline', label: 'color-wand' },
+  { name: 'create-outline', label: 'create' },
+  { name: 'add-circle-outline', label: 'add-circle' },
+  { name: 'bulb-outline', label: 'bulb' },
+  { name: 'flash-outline', label: 'flash' },
+
+  // === DISCOVERY & EXPLORATION ===
+  // Content browsing, finding new things to read
+  { name: 'search-outline', label: 'search' },
+  { name: 'telescope-outline', label: 'telescope' },
+  { name: 'planet-outline', label: 'planet' },
+  { name: 'compass-outline', label: 'compass' },
+  { name: 'map-outline', label: 'map' },
+  { name: 'globe-outline', label: 'globe' },
+
+  // === ABSTRACT/CREATIVE ===
+  { name: 'diamond-outline', label: 'diamond' },
+  { name: 'shapes-outline', label: 'shapes' },
+  { name: 'cube-outline', label: 'cube' },
+  { name: 'prism-outline', label: 'prism' },
+  { name: 'extension-puzzle-outline', label: 'extension-puzzle' },
+  { name: 'aperture-outline', label: 'aperture' },
+];
+
 const MOCK_CERTIFICATE: Certificate = {
   id: 'cert_speed_reader_123',
   type: 'speed_reader',
@@ -230,6 +399,118 @@ interface ModalToggleProps {
   onPress: () => void;
 }
 
+// ============================================================
+// Icon Grid Component
+// ============================================================
+
+interface IconGridProps {
+  title: string;
+  icons: IconOption[];
+  currentIcon?: string;
+}
+
+function IconGrid({ title, icons, currentIcon }: IconGridProps) {
+  const { theme } = useTheme();
+  const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
+
+  return (
+    <View style={iconGridStyles.container}>
+      <Text style={[iconGridStyles.title, { color: theme.accentColor }]}>{title}</Text>
+      <View style={iconGridStyles.grid}>
+        {icons.map((icon) => {
+          const isCurrent = icon.label === currentIcon;
+          return (
+            <View
+              key={icon.name}
+              style={[
+                iconGridStyles.iconItem,
+                {
+                  backgroundColor: isCurrent
+                    ? `${theme.accentColor}20`
+                    : isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                  borderColor: isCurrent ? theme.accentColor : 'transparent',
+                  borderWidth: isCurrent ? 2 : 0,
+                },
+              ]}
+            >
+              <View style={iconGridStyles.iconWrapper}>
+                <Ionicons
+                  name={icon.name}
+                  size={SIZES.iconLg}
+                  color={isCurrent ? theme.accentColor : theme.textColor}
+                />
+              </View>
+              <Text
+                style={[
+                  iconGridStyles.iconLabel,
+                  { color: isCurrent ? theme.accentColor : theme.textColor },
+                ]}
+                numberOfLines={1}
+              >
+                {icon.label}
+              </Text>
+              {isCurrent && (
+                <View style={[iconGridStyles.currentBadge, { backgroundColor: theme.accentColor }]}>
+                  <Text style={iconGridStyles.currentBadgeText}>current</Text>
+                </View>
+              )}
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+const iconGridStyles = StyleSheet.create({
+  container: {
+    marginBottom: SPACING.lg,
+  },
+  title: {
+    fontSize: TYPOGRAPHY.cardTitle.fontSize,
+    fontWeight: FONT_WEIGHTS.semibold,
+    marginBottom: SPACING.md,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.sm,
+  },
+  iconItem: {
+    width: 72,
+    alignItems: 'center',
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.xs,
+    borderRadius: COMPONENT_RADIUS.chip,
+    position: 'relative',
+  },
+  iconWrapper: {
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconLabel: {
+    fontSize: 9,
+    textAlign: 'center',
+    marginTop: SPACING.xxs,
+    opacity: 0.7,
+  },
+  currentBadge: {
+    position: 'absolute',
+    top: -SPACING.xs,
+    right: -SPACING.xs,
+    paddingHorizontal: SPACING.xs,
+    paddingVertical: 1,
+    borderRadius: SPACING.xs,
+  },
+  currentBadgeText: {
+    fontSize: 7,
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.bold,
+  },
+});
+
 function ModalToggle({ label, onPress }: ModalToggleProps) {
   const { theme } = useTheme();
 
@@ -362,6 +643,22 @@ export default function TestingScreen() {
             </Text>
           )}
         </View>
+
+        {/* ============================================================ */}
+        {/* ICON LIBRARY - TAB NAVIGATION BRAINSTORMING */}
+        {/* ============================================================ */}
+
+        <ComponentSection
+          filename="src/components/navigation/FloatingNavBar.tsx"
+          componentName="Icon Library - Tab Navigation Options"
+        >
+          <Text style={[styles.iconLibraryDescription, { color: theme.textColor }]}>
+            Icons shown at navbar size (24px). Current icons are highlighted.
+          </Text>
+          <IconGrid title="Journey (Stats)" icons={JOURNEY_ICONS} currentIcon="rocket" />
+          <IconGrid title="Player (Reading)" icons={PLAYER_ICONS} currentIcon="play-circle" />
+          <IconGrid title="Library (Content)" icons={LIBRARY_ICONS} currentIcon="library" />
+        </ComponentSection>
 
         {/* ============================================================ */}
         {/* CERTIFICATES */}
@@ -833,6 +1130,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 120,
+  },
+  iconLibraryDescription: {
+    fontSize: TYPOGRAPHY.body.fontSize,
+    opacity: 0.7,
+    marginBottom: SPACING.lg,
   },
   // Persona switcher styles
   personaCard: {

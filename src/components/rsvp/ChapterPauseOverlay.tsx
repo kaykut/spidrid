@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTheme } from '../common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { ChapterPauseInfo } from '../../types/playback';
+import { useTheme } from '../common/ThemeProvider';
 
 interface ChapterPauseOverlayProps {
   chapter: ChapterPauseInfo;

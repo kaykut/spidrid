@@ -25,7 +25,7 @@ interface SubTab {
 }
 
 const SUB_TABS: SubTab[] = [
-  { name: 'Train', route: 'train', icon: 'barbell', iconOutline: 'barbell-outline' },
+  { name: 'Library', route: 'train', icon: 'file-tray-stacked', iconOutline: 'file-tray-stacked-outline' },
   { name: 'Read', route: 'read', icon: 'document-text', iconOutline: 'document-text-outline' },
   { name: 'Learn', route: 'learn', icon: 'book', iconOutline: 'book-outline' },
 ];
