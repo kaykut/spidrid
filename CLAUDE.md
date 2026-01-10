@@ -28,14 +28,18 @@ React Native (Expo) RSVP speed reading app with freemium monetization.
 - Store files use pattern: use[Name]Store
 - NEVER use --legacy-peer-deps or --force with npm install; fix dependency conflicts properly
 
-## Design System ("Quiet Velocity")
+## Design System ("Quiet Velocity") - 8pt Grid
 ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography values.
 
-- src/data/themes.ts - Colors: `JOURNEY_COLORS` (semantic palette), `themes` (4 variants)
-- src/constants/spacing.ts - `SPACING`, `RADIUS`, `COMPONENT_SPACING`, `COMPONENT_RADIUS`, `SIZES`, `SHADOWS`
-- src/constants/typography.ts - `TYPOGRAPHY`, `FONT_WEIGHTS`, `FONT_FAMILY`
+**Files:** src/constants/spacing.ts, src/constants/typography.ts, src/data/themes.ts, src/utils/colorUtils.ts
 
-Key tokens: `SPACING.{xs,sm,md,lg,xl,xxl}`, `RADIUS.{xs,sm,md,lg,xl,full}`, `TYPOGRAPHY.{body,label,button,cardTitle,sectionTitle,...}`
+**Spacing:** `SPACING.{xxs=2,xs=4,sm=8,md=16,lg=24,xl=32,xxl=40,xxxl=48,huge=56,massive=64}`
+**Component Spacing:** `COMPONENT_SPACING.{cardPadding=20,screenPadding=16,sectionGap=24,listItemGap=12,inlineGap=8}`
+**Radius:** `COMPONENT_RADIUS.{button=12,card=16,modal=20,chip=8,input=12,progressBar=6,node=full}`
+**Sizes:** `SIZES.{touchTarget=44,iconSm=16,iconMd=24,iconLg=24,iconXl=32,iconHuge=48}`
+**Typography:** `TYPOGRAPHY.{vsNumber,pageTitle,sectionTitle,cardTitle,body,label,caption,metric,button}`
+**Colors:** `JOURNEY_COLORS.{accent,success,warning,low,textPrimary,textSecondary}`, `COLOR_OPACITY.{successTint,lowTint}`, `themes.{dark,midnight,sepia,light}`
+**Shadows:** `SHADOWS.{sm,md,lg,glow(color)}`
 
 ## Project Status: ALL MILESTONES COMPLETE
 - M1: Foundation - Expo, Router, Themes
