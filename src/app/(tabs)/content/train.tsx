@@ -2,64 +2,29 @@
  * Train Sub-Tab Screen
  *
  * Shows pre-generated curriculum articles for RSVP skill training.
- * Displays MetricsPanel (WPM + Comprehension) at top, followed by topics grid.
+ * Displays topics grid for selecting training content.
  */
 
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Text } from 'react-native';
 import { router } from 'expo-router';
-import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../../components/common/ThemeProvider';
-import { MetricsPanel } from '../../../components/journey/MetricsPanel';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../../constants/spacing';
 import { TYPOGRAPHY } from '../../../constants/typography';
 import { TOPICS } from '../../../data/curriculum';
-import { getCurriculumTopicsForInterests } from '../../../data/interests';
 import { useLearningStore } from '../../../store/learningStore';
-import { useOnboardingStore } from '../../../store/onboardingStore';
 
 export default function TrainScreen() {
   const { theme } = useTheme();
-  const { getTopicProgress, getRecentPerformance, getHighestWPM } = useLearningStore();
-  const { selectedInterests } = useOnboardingStore();
-
-  // Get recent performance for MetricsPanel
-  const recentPerf = getRecentPerformance(5);
-  const bestWpm = getHighestWPM();
-
-  // Filter topics based on selected interests
-  const allowedTopicIds = getCurriculumTopicsForInterests(selectedInterests);
-  const filteredTopics = selectedInterests.length > 0
-    ? TOPICS.filter((t) => allowedTopicIds.includes(t.id))
-    : TOPICS;
+  const { getTopicProgress } = useLearningStore();
 
   return (
-    <EdgeFadeScrollView contentContainerStyle={styles.content}>
-      <Text style={[styles.title, { color: theme.textColor }]}>Library</Text>
-
-      {/* Metrics Panel - WPM and Comprehension only */}
-      <MetricsPanel
-        avgWpm={recentPerf.averageWPM}
-        avgComprehension={recentPerf.averageAccuracy}
-        streakDays={0}
-        bestWpmAt80={bestWpm}
-        hideStreak
-      />
-
-      {/* Demo Button */}
-      <TouchableOpacity
-        style={[styles.demoButton, { borderColor: theme.accentColor }]}
-        onPress={() => router.push('/reader/demo')}
-      >
-        <Text style={[styles.demoButtonText, { color: theme.accentColor }]}>
-          Try RSVP Demo
-        </Text>
-      </TouchableOpacity>
-
-      {/* Topics Section */}
-      <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Topics</Text>
-
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.topicsGrid}>
-        {filteredTopics.map((topic) => {
+        {TOPICS.map((topic) => {
           const progress = getTopicProgress(topic.id);
           const progressPercent = Math.round(
             (progress.articlesCompleted / progress.totalArticles) * 100
@@ -95,33 +60,18 @@ export default function TrainScreen() {
           );
         })}
       </View>
-    </EdgeFadeScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   content: {
     paddingHorizontal: SPACING.xl,
-  },
-  title: {
-    ...TYPOGRAPHY.pageTitle,
-    marginTop: SPACING.lg,
-    marginBottom: SPACING.lg,
-  },
-  demoButton: {
-    borderWidth: 1,
-    borderRadius: COMPONENT_RADIUS.button,
-    paddingVertical: SPACING.md,
-    alignItems: 'center',
-    marginTop: SPACING.xl,
-    marginBottom: SPACING.xxl,
-  },
-  demoButtonText: {
-    ...TYPOGRAPHY.button,
-  },
-  sectionTitle: {
-    ...TYPOGRAPHY.sectionHeader,
-    marginBottom: SPACING.lg,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.xxxl,
   },
   topicsGrid: {
     flexDirection: 'row',
