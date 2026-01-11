@@ -2,49 +2,27 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { MilestoneBadge } from '../../components/certifications';
 import { EdgeFadeScrollView } from '../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { Paywall } from '../../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../../data/themes';
-import { useContentStore } from '../../store/contentStore';
-import { useJourneyStore } from '../../store/journeyStore';
-import { useLearningStore } from '../../store/learningStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { CertificationTier, CERTIFICATION_TIER_DEFINITIONS } from '../../types/certificates';
 import { READING_LANGUAGES } from '../../types/settings';
 import { FREE_TIER_LIMITS } from '../../types/subscription';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
 
 export default function ProfileScreen() {
   const { theme, setTheme } = useTheme();
-  const { getTotalArticlesCompleted, getHighestWPM } = useLearningStore();
-  const { importedContent } = useContentStore();
-  const { certProgress } = useJourneyStore();
   const { userName, readingLanguage, paragraphPauseEnabled, setUserName, setReadingLanguage, setParagraphPauseEnabled } = useSettingsStore();
   const { isPremium, setPremium, contentAccessCount, resetContentCount, getMaxWPM } = useSubscriptionStore();
-
-  // Get earned certifications
-  const earnedCerts = CERTIFICATION_TIER_DEFINITIONS.filter(def => certProgress[def.tier]?.examPassed);
 
   const [showPaywall, setShowPaywall] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
 
-  const articlesCompleted = getTotalArticlesCompleted();
-  const contentCompleted = importedContent.filter(c => c.readProgress >= 1).length;
-  const totalCompleted = articlesCompleted + contentCompleted;
-  const highestWPM = getHighestWPM();
-
   const currentLanguage = READING_LANGUAGES.find(l => l.code === readingLanguage)?.label || 'English';
-
-  const getJourneyStatusText = (count: number) => {
-    if (count === 0) {return 'Start earning certification tiers!';}
-    if (count === 3) {return 'All tiers earned! ';}
-    return `${count}/3 tiers earned`;
-  };
 
   return (
     <>
@@ -55,28 +33,6 @@ export default function ProfileScreen() {
       />
       <EdgeFadeScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.title, { color: theme.textColor }]}>Profile</Text>
-
-          {/* Stats */}
-          <View style={[styles.statsCard, { backgroundColor: theme.secondaryBackground }]}>
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: theme.accentColor }]}>{totalCompleted}</Text>
-              <Text style={[styles.statLabel, { color: theme.textColor }]}>Completed</Text>
-            </View>
-            <View style={[styles.statDivider, { backgroundColor: theme.crosshairColor }]} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: theme.accentColor }]}>
-                {highestWPM || '—'}
-              </Text>
-              <Text style={[styles.statLabel, { color: theme.textColor }]}>Best WPM</Text>
-            </View>
-            <View style={[styles.statDivider, { backgroundColor: theme.crosshairColor }]} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: theme.accentColor }]}>
-                {earnedCerts.length}
-              </Text>
-              <Text style={[styles.statLabel, { color: theme.textColor }]}>Certificates</Text>
-            </View>
-          </View>
 
           {/* User Profile Section */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Your Info</Text>
@@ -144,33 +100,6 @@ export default function ProfileScreen() {
               </View>
             )}
           </View>
-
-          {/* Certification Journey Section */}
-          <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Certification Journey</Text>
-            <TouchableOpacity onPress={() => router.navigate('/(tabs)/journey')}>
-              <Text style={[styles.updateLink, { color: theme.accentColor }]}>View All</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            style={[styles.journeyCard, { backgroundColor: theme.secondaryBackground }]}
-            onPress={() => router.navigate('/(tabs)/journey')}
-            activeOpacity={0.8}
-          >
-            <View style={styles.journeyBadges}>
-              {(['speed_reader', 'velocity_master', 'transcendent'] as CertificationTier[]).map((tier) => (
-                <MilestoneBadge
-                  key={tier}
-                  tier={tier}
-                  progress={certProgress[tier]}
-                  size="medium"
-                />
-              ))}
-            </View>
-            <Text style={[styles.journeyText, { color: theme.textColor }]}>
-              {getJourneyStatusText(earnedCerts.length)}
-            </Text>
-          </TouchableOpacity>
 
           {/* Subscription Section */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Subscription</Text>

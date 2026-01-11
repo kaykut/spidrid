@@ -131,13 +131,13 @@ describe('JourneyScreen', () => {
   });
 
   it('renders without crashing', () => {
-    const { getByText } = render(<JourneyScreen />);
-    expect(getByText('Journey')).toBeTruthy();
+    const { getByTestId } = render(<JourneyScreen />);
+    expect(getByTestId('safe-area-view')).toBeTruthy();
   });
 
-  it('displays the page title', () => {
+  it('displays the info card title as primary heading', () => {
     const { getByText } = render(<JourneyScreen />);
-    expect(getByText('Journey')).toBeTruthy();
+    expect(getByText('How Certification Works')).toBeTruthy();
   });
 
   it('renders the StatsSummary component', () => {

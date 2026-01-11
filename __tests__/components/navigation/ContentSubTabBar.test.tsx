@@ -59,7 +59,7 @@ describe('ContentSubTabBar', () => {
       renderWithProviders(<ContentSubTabBar />);
 
       // Check tab labels are rendered
-      expect(screen.getByText('Train')).toBeTruthy();
+      expect(screen.getByText('Practice')).toBeTruthy();
       expect(screen.getByText('Read')).toBeTruthy();
       expect(screen.getByText('Learn')).toBeTruthy();
     });
@@ -67,21 +67,23 @@ describe('ContentSubTabBar', () => {
     it('renders icons for all tabs', () => {
       renderWithProviders(<ContentSubTabBar />);
 
-      // Icons render via mock - there should be 3 icons (one per tab)
-      const icons = screen.getAllByTestId('icon-Ionicons');
-      expect(icons).toHaveLength(3);
+      // Icons render via mock - 2 Ionicons (Practice, Read) + 1 MaterialCommunityIcon (Learn)
+      const ionicons = screen.getAllByTestId('icon-Ionicons');
+      const materialIcons = screen.getAllByTestId('icon-MaterialCommunityIcons');
+      expect(ionicons).toHaveLength(2);
+      expect(materialIcons).toHaveLength(1);
     });
   });
 
   describe('active state', () => {
-    it('identifies Train tab as active when pathname includes /content/train', () => {
+    it('identifies Practice tab as active when pathname includes /content/train', () => {
       setMockPathname('/content/train');
       renderWithProviders(<ContentSubTabBar />);
 
-      // The Train tab should be active (we verify by icon name in mock)
+      // The Practice tab should be active (we verify by icon name in mock)
       const icons = screen.getAllByTestId('icon-Ionicons');
-      // Active tabs show filled icon (barbell), inactive show outline
-      expect(icons[0]).toHaveTextContent('barbell');
+      // Active tabs show filled icon (stopwatch), inactive show outline
+      expect(icons[0]).toHaveTextContent('stopwatch');
     });
 
     it('identifies Read tab as active when pathname includes /content/read', () => {
@@ -90,35 +92,39 @@ describe('ContentSubTabBar', () => {
 
       const icons = screen.getAllByTestId('icon-Ionicons');
       // Read tab (index 1) should show filled icon
-      expect(icons[1]).toHaveTextContent('document-text');
+      expect(icons[1]).toHaveTextContent('book');
     });
 
     it('identifies Learn tab as active when pathname includes /content/learn', () => {
       setMockPathname('/content/learn');
       renderWithProviders(<ContentSubTabBar />);
 
-      const icons = screen.getAllByTestId('icon-Ionicons');
-      // Learn tab (index 2) should show filled icon
-      expect(icons[2]).toHaveTextContent('book');
+      // Learn tab uses MaterialCommunityIcons
+      const materialIcons = screen.getAllByTestId('icon-MaterialCommunityIcons');
+      // Learn tab should show brain icon (same for both active and inactive)
+      expect(materialIcons[0]).toHaveTextContent('brain');
     });
 
     it('shows outline icons for inactive tabs', () => {
       setMockPathname('/content/train');
       renderWithProviders(<ContentSubTabBar />);
 
-      const icons = screen.getAllByTestId('icon-Ionicons');
-      // Train is active (filled), Read and Learn should be outline
-      expect(icons[1]).toHaveTextContent('document-text-outline');
-      expect(icons[2]).toHaveTextContent('book-outline');
+      const ionicons = screen.getAllByTestId('icon-Ionicons');
+      const materialIcons = screen.getAllByTestId('icon-MaterialCommunityIcons');
+      // Practice is active (stopwatch filled), Read should be outline
+      expect(ionicons[0]).toHaveTextContent('stopwatch');
+      expect(ionicons[1]).toHaveTextContent('book-outline');
+      // Learn uses MaterialCommunityIcons brain (same icon for both states)
+      expect(materialIcons[0]).toHaveTextContent('brain');
     });
   });
 
   describe('navigation', () => {
-    it('navigates to train when Train tab is pressed', () => {
+    it('navigates to train when Practice tab is pressed', () => {
       renderWithProviders(<ContentSubTabBar />);
 
-      const trainTab = screen.getByText('Train');
-      fireEvent.press(trainTab);
+      const practiceTab = screen.getByText('Practice');
+      fireEvent.press(practiceTab);
 
       expect(mockReplace).toHaveBeenCalledWith('/(tabs)/content/train');
     });
@@ -221,9 +227,9 @@ describe('ContentSubTabBar', () => {
       setMockPathname('/content/train/session/123');
       renderWithProviders(<ContentSubTabBar />);
 
-      // Train should still be identified as active
+      // Practice should still be identified as active
       const icons = screen.getAllByTestId('icon-Ionicons');
-      expect(icons[0]).toHaveTextContent('barbell');
+      expect(icons[0]).toHaveTextContent('stopwatch');
     });
   });
 });
@@ -233,13 +239,13 @@ describe('ContentSubTabBar tab icons', () => {
     jest.clearAllMocks();
   });
 
-  it('uses correct icon names for Train tab', () => {
+  it('uses correct icon names for Practice tab', () => {
     setMockPathname('/content/train');
     renderWithProviders(<ContentSubTabBar />);
 
     const icons = screen.getAllByTestId('icon-Ionicons');
-    // Train active: barbell, Read inactive: document-text-outline, Learn inactive: book-outline
-    expect(icons[0]).toHaveTextContent('barbell');
+    // Practice active: stopwatch, Read inactive: book-outline
+    expect(icons[0]).toHaveTextContent('stopwatch');
   });
 
   it('uses correct icon names for Read tab', () => {
@@ -247,14 +253,16 @@ describe('ContentSubTabBar tab icons', () => {
     renderWithProviders(<ContentSubTabBar />);
 
     const icons = screen.getAllByTestId('icon-Ionicons');
-    expect(icons[1]).toHaveTextContent('document-text');
+    // Read active: book
+    expect(icons[1]).toHaveTextContent('book');
   });
 
   it('uses correct icon names for Learn tab', () => {
     setMockPathname('/content/learn');
     renderWithProviders(<ContentSubTabBar />);
 
-    const icons = screen.getAllByTestId('icon-Ionicons');
-    expect(icons[2]).toHaveTextContent('book');
+    // Learn uses MaterialCommunityIcons
+    const materialIcons = screen.getAllByTestId('icon-MaterialCommunityIcons');
+    expect(materialIcons[0]).toHaveTextContent('brain');
   });
 });

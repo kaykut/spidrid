@@ -1,7 +1,7 @@
 /**
  * Integration Tests for Profile Screen.
  *
- * Tests stats display, certificates, and user settings.
+ * Tests user settings, subscription, and theme sections.
  * Uses real Zustand stores instead of mocks for proper integration testing.
  */
 
@@ -9,9 +9,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import ProfileScreen from '../../src/app/(tabs)/profile';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
-import { useLearningStore } from '../../src/store/learningStore';
-import { useContentStore } from '../../src/store/contentStore';
-import { useJourneyStore } from '../../src/store/journeyStore';
 import { useSettingsStore } from '../../src/store/settingsStore';
 import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 
@@ -58,60 +55,6 @@ describe('ProfileScreen Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Reset learning store with article progress
-    useLearningStore.setState({
-      articleProgress: {
-        'article-1': {
-          articleId: 'article-1',
-          completed: true,
-          comprehensionScore: 85,
-          highestWPM: 450,
-          lastReadAt: Date.now(),
-          attemptCount: 1,
-        },
-        'article-2': {
-          articleId: 'article-2',
-          completed: true,
-          comprehensionScore: 90,
-          highestWPM: 400,
-          lastReadAt: Date.now(),
-          attemptCount: 1,
-        },
-        // 6 more completed articles to get to 8 total
-        'article-3': { articleId: 'article-3', completed: true, comprehensionScore: 80, highestWPM: 350, lastReadAt: Date.now(), attemptCount: 1 },
-        'article-4': { articleId: 'article-4', completed: true, comprehensionScore: 85, highestWPM: 360, lastReadAt: Date.now(), attemptCount: 1 },
-        'article-5': { articleId: 'article-5', completed: true, comprehensionScore: 75, highestWPM: 320, lastReadAt: Date.now(), attemptCount: 1 },
-        'article-6': { articleId: 'article-6', completed: true, comprehensionScore: 88, highestWPM: 380, lastReadAt: Date.now(), attemptCount: 1 },
-        'article-7': { articleId: 'article-7', completed: true, comprehensionScore: 82, highestWPM: 340, lastReadAt: Date.now(), attemptCount: 1 },
-        'article-8': { articleId: 'article-8', completed: true, comprehensionScore: 87, highestWPM: 370, lastReadAt: Date.now(), attemptCount: 1 },
-      },
-      currentArticleId: null,
-      currentWPM: 250,
-      recentCompletions: [],
-    });
-
-    // Reset content store with one fully read content
-    useContentStore.setState({
-      importedContent: [
-        { id: '1', title: 'Test', content: 'test', wordCount: 100, readProgress: 1, source: 'text', sourceUrl: '', createdAt: Date.now() },
-        { id: '2', title: 'Test2', content: 'test2', wordCount: 200, readProgress: 0.5, source: 'url', sourceUrl: 'http://test.com', createdAt: Date.now() },
-      ],
-      currentContentId: null,
-    });
-
-    // Reset journey store with no certifications earned
-    useJourneyStore.setState({
-      velocityScore: 0,
-      level: 'novice',
-      sessions: [],
-      certProgress: {
-        speed_reader: { vsUnlocked: false, speedProofAchieved: false, examUnlocked: false, examPassed: false },
-        velocity_master: { vsUnlocked: false, speedProofAchieved: false, examUnlocked: false, examPassed: false },
-        transcendent: { vsUnlocked: false, speedProofAchieved: false, examUnlocked: false, examPassed: false },
-      },
-      speedProofs: [],
-    });
-
     // Reset settings store
     useSettingsStore.setState({
       userName: 'Test User',
@@ -132,63 +75,6 @@ describe('ProfileScreen Integration', () => {
       renderWithProviders(<ProfileScreen />);
 
       expect(screen.getByText('Profile')).toBeTruthy();
-    });
-
-    it('displays total completed count from real stores', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      // 8 articles + 1 fully read content = 9
-      expect(screen.getByText('9')).toBeTruthy();
-      expect(screen.getByText('Completed')).toBeTruthy();
-    });
-
-    it('displays highest WPM from real learning store', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      // Highest WPM from article progress is 450
-      expect(screen.getAllByText('450').length).toBeGreaterThan(0);
-      expect(screen.getByText('Best WPM')).toBeTruthy();
-    });
-
-    it('displays certificates count from real journey store', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      expect(screen.getByText('0')).toBeTruthy(); // No certs earned
-      expect(screen.getByText('Certificates')).toBeTruthy();
-    });
-  });
-
-  describe('certification journey section', () => {
-    it('shows Certification Journey section', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      expect(screen.getByText('Certification Journey')).toBeTruthy();
-    });
-
-    it('shows View All link for certification journey', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      expect(screen.getByText('View All')).toBeTruthy();
-    });
-
-    it('shows journey status text for no certifications', () => {
-      renderWithProviders(<ProfileScreen />);
-
-      expect(screen.getByText('Start earning certification tiers!')).toBeTruthy();
-    });
-
-    it('shows earned status when certification is earned', () => {
-      useJourneyStore.setState({
-        certProgress: {
-          speed_reader: { vsUnlocked: true, speedProofAchieved: true, examUnlocked: true, examPassed: true },
-          velocity_master: { vsUnlocked: false, speedProofAchieved: false, examUnlocked: false, examPassed: false },
-          transcendent: { vsUnlocked: false, speedProofAchieved: false, examUnlocked: false, examPassed: false },
-        },
-      });
-
-      renderWithProviders(<ProfileScreen />);
-
-      expect(screen.getByText('1/3 tiers earned')).toBeTruthy();
     });
   });
 

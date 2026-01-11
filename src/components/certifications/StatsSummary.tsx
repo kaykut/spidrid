@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SPACING, COMPONENT_RADIUS, COMPONENT_SPACING, COMPONENT_SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, COMPONENT_SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
@@ -91,7 +91,7 @@ function StatItem({ value, label, color }: StatItemProps) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: COMPONENT_RADIUS.card,
-    padding: COMPONENT_SPACING.cardPadding,
+    padding: COMPONENT_RADIUS.card / 2,
   },
   row: {
     flexDirection: 'row',

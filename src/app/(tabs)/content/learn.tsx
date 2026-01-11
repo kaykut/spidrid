@@ -85,8 +85,6 @@ export default function LearnScreen() {
 
       <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.textColor }]}>Learn</Text>
-
           {/* Segmented Control */}
           <View style={[styles.segmentContainer, { backgroundColor: theme.secondaryBackground }]}>
             <TouchableOpacity
@@ -248,12 +246,8 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.lg,
+    paddingTop: SPACING.md,
     paddingBottom: SPACING.md,
-  },
-  title: {
-    ...TYPOGRAPHY.pageTitle,
-    marginBottom: SPACING.lg,
   },
   segmentContainer: {
     flexDirection: 'row',

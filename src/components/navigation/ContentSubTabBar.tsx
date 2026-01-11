@@ -2,32 +2,35 @@
  * ContentSubTabBar
  *
  * Horizontal sub-tab bar for the Content tab.
- * Shows Train, Read, Learn sub-tabs with icon + text.
+ * Shows Train, Read, Learn sub-tabs with icon + description.
+ * iOS 26 Liquid Glass style: pill-shaped container with pill-shaped selection.
  * Positioned at top of Content screen, below safe area.
  */
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { FONT_WEIGHTS } from '../../constants/typography';
 import { OVERLAY_COLORS } from '../../data/themes';
 import { useSettingsStore } from '../../store/settingsStore';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 
 interface SubTab {
-  name: string;
+  description: string;
   route: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  iconOutline: keyof typeof Ionicons.glyphMap;
+  icon: keyof typeof Ionicons.glyphMap | keyof typeof MaterialCommunityIcons.glyphMap;
+  iconOutline: keyof typeof Ionicons.glyphMap | keyof typeof MaterialCommunityIcons.glyphMap;
+  iconLibrary?: 'ionicons' | 'material';
 }
 
 const SUB_TABS: SubTab[] = [
-  { name: 'Library', route: 'train', icon: 'file-tray-stacked', iconOutline: 'file-tray-stacked-outline' },
-  { name: 'Read', route: 'read', icon: 'document-text', iconOutline: 'document-text-outline' },
-  { name: 'Learn', route: 'learn', icon: 'book', iconOutline: 'book-outline' },
+  { description: 'Practice', route: 'train', icon: 'stopwatch', iconOutline: 'stopwatch-outline' },
+  { description: 'Read', route: 'read', icon: 'book', iconOutline: 'book-outline' },
+  { description: 'Learn', route: 'learn', icon: 'brain', iconOutline: 'brain', iconLibrary: 'material' },
 ];
 
 export function ContentSubTabBar() {
@@ -50,13 +53,16 @@ export function ContentSubTabBar() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-      <View style={[styles.tabBar, { backgroundColor: theme.secondaryBackground }]}>
+      <GlassView
+        appearance={isDarkTheme ? 'dark' : 'light'}
+        style={styles.tabBar}
+      >
         {SUB_TABS.map((tab) => {
           const active = isActive(tab.route);
           const tabColor = active ? theme.accentColor : inactiveColor;
           return (
             <TouchableOpacity
-              key={tab.name}
+              key={tab.route}
               style={[
                 styles.tab,
                 active && [styles.activeTab, { backgroundColor: withOpacity(theme.accentColor, OPACITY.light) }],
@@ -64,24 +70,33 @@ export function ContentSubTabBar() {
               onPress={() => handleTabPress(tab.route)}
               activeOpacity={0.7}
             >
-              <Ionicons
-                name={active ? tab.icon : tab.iconOutline}
-                size={SIZES.iconNav}
-                color={tabColor}
-              />
+              {tab.iconLibrary === 'material' ? (
+                <MaterialCommunityIcons
+                  name={active ? tab.icon as keyof typeof MaterialCommunityIcons.glyphMap : tab.iconOutline as keyof typeof MaterialCommunityIcons.glyphMap}
+                  size={SIZES.iconSm}
+                  color={tabColor}
+                />
+              ) : (
+                <Ionicons
+                  name={active ? tab.icon as keyof typeof Ionicons.glyphMap : tab.iconOutline as keyof typeof Ionicons.glyphMap}
+                  size={SIZES.iconSm}
+                  color={tabColor}
+                />
+              )}
               <Text
                 style={[
                   styles.tabText,
                   { color: tabColor },
                   active && styles.activeTabText,
                 ]}
+                numberOfLines={1}
               >
-                {tab.name}
+                {tab.description}
               </Text>
             </TouchableOpacity>
           );
         })}
-      </View>
+      </GlassView>
     </View>
   );
 }
@@ -89,15 +104,14 @@ export function ContentSubTabBar() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.sm,
+    paddingTop: SPACING.xs,
     paddingBottom: SPACING.md,
-    // Leave space on right for profile button
-    paddingRight: SPACING.xxxl + SPACING.xl,
   },
   tabBar: {
     flexDirection: 'row',
-    borderRadius: COMPONENT_RADIUS.button,
+    borderRadius: COMPONENT_RADIUS.badge,
     padding: SPACING.xs,
+    overflow: 'hidden',
   },
   tab: {
     flex: 1,
@@ -105,16 +119,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: SPACING.sm,
-    paddingHorizontal: SPACING.md,
-    borderRadius: COMPONENT_RADIUS.chip,
+    paddingHorizontal: SPACING.sm,
+    borderRadius: COMPONENT_RADIUS.badge,
     gap: SPACING.xs,
   },
   activeTab: {
     // backgroundColor set dynamically
   },
   tabText: {
-    ...TYPOGRAPHY.labelSmall,
-    fontSize: TYPOGRAPHY.label.fontSize,
+    fontSize: 12,
+    letterSpacing: 0.2,
   },
   activeTabText: {
     fontWeight: FONT_WEIGHTS.semibold,

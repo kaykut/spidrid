@@ -49,8 +49,6 @@ export default function JourneyScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={[styles.title, { color: theme.textColor }]}>Journey</Text>
-
         {/* Stats Summary */}
         <StatsSummary
           articlesRead={articlesRead}
@@ -106,13 +104,10 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     paddingBottom: SPACING.xxxl,
   },
-  title: {
-    ...TYPOGRAPHY.pageTitle,
-    marginBottom: SPACING.xl,
-  },
   progressContainer: {
     borderRadius: COMPONENT_RADIUS.card,
     marginTop: SPACING.xl,
+    padding: COMPONENT_RADIUS.card / 2,
     overflow: 'hidden',
   },
   infoCard: {

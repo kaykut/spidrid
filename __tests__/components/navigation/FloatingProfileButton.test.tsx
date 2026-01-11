@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { FloatingProfileButton } from '../../../src/components/navigation/FloatingProfileButton';
 import { ThemeProvider } from '../../../src/components/common/ThemeProvider';
@@ -78,20 +79,22 @@ describe('FloatingProfileButton', () => {
 
   describe('navigation', () => {
     it('navigates to profile when pressed', () => {
-      const { root } = renderWithProviders(<FloatingProfileButton />);
+      const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+      const touchable = UNSAFE_getByType(TouchableOpacity);
 
-      fireEvent.press(root);
+      fireEvent.press(touchable);
 
       expect(mockPush).toHaveBeenCalledTimes(1);
       expect(mockPush).toHaveBeenCalledWith('/(tabs)/profile');
     });
 
     it('calls navigation on each press', () => {
-      const { root } = renderWithProviders(<FloatingProfileButton />);
+      const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+      const touchable = UNSAFE_getByType(TouchableOpacity);
 
-      fireEvent.press(root);
-      fireEvent.press(root);
-      fireEvent.press(root);
+      fireEvent.press(touchable);
+      fireEvent.press(touchable);
+      fireEvent.press(touchable);
 
       expect(mockPush).toHaveBeenCalledTimes(3);
     });
@@ -99,25 +102,28 @@ describe('FloatingProfileButton', () => {
 
   describe('press interactions', () => {
     it('handles pressIn event without error', () => {
-      const { root } = renderWithProviders(<FloatingProfileButton />);
+      const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+      const touchable = UNSAFE_getByType(TouchableOpacity);
 
       // pressIn should trigger scale animation
-      expect(() => fireEvent(root, 'pressIn')).not.toThrow();
+      expect(() => fireEvent(touchable, 'pressIn')).not.toThrow();
     });
 
     it('handles pressOut event without error', () => {
-      const { root } = renderWithProviders(<FloatingProfileButton />);
+      const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+      const touchable = UNSAFE_getByType(TouchableOpacity);
 
       // pressOut should restore scale
-      expect(() => fireEvent(root, 'pressOut')).not.toThrow();
+      expect(() => fireEvent(touchable, 'pressOut')).not.toThrow();
     });
 
     it('handles full press cycle (pressIn, pressOut, press)', () => {
-      const { root } = renderWithProviders(<FloatingProfileButton />);
+      const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+      const touchable = UNSAFE_getByType(TouchableOpacity);
 
-      fireEvent(root, 'pressIn');
-      fireEvent(root, 'pressOut');
-      fireEvent.press(root);
+      fireEvent(touchable, 'pressIn');
+      fireEvent(touchable, 'pressOut');
+      fireEvent.press(touchable);
 
       expect(mockPush).toHaveBeenCalledWith('/(tabs)/profile');
     });
@@ -264,7 +270,7 @@ describe('FloatingProfileButton styling', () => {
   it('applies circular shape via border radius', () => {
     const { root } = renderWithProviders(<FloatingProfileButton />);
 
-    // Circular buttons use RADIUS.full
+    // Circular buttons use COMPONENT_RADIUS.badge
     expect(root).toBeTruthy();
   });
 
@@ -289,29 +295,31 @@ describe('FloatingProfileButton animation', () => {
   });
 
   it('does not crash during rapid press interactions', () => {
-    const { root } = renderWithProviders(<FloatingProfileButton />);
+    const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+    const touchable = UNSAFE_getByType(TouchableOpacity);
 
     // Rapid interactions should not cause errors
     for (let i = 0; i < 10; i++) {
-      fireEvent(root, 'pressIn');
-      fireEvent(root, 'pressOut');
-      fireEvent.press(root);
+      fireEvent(touchable, 'pressIn');
+      fireEvent(touchable, 'pressOut');
+      fireEvent.press(touchable);
     }
 
     expect(mockPush).toHaveBeenCalledTimes(10);
   });
 
   it('handles interrupted press sequences', () => {
-    const { root } = renderWithProviders(<FloatingProfileButton />);
+    const { UNSAFE_getByType } = renderWithProviders(<FloatingProfileButton />);
+    const touchable = UNSAFE_getByType(TouchableOpacity);
 
     // Press in but never out
-    fireEvent(root, 'pressIn');
-    fireEvent(root, 'pressIn');
-    fireEvent(root, 'pressIn');
+    fireEvent(touchable, 'pressIn');
+    fireEvent(touchable, 'pressIn');
+    fireEvent(touchable, 'pressIn');
 
     // Then out
-    fireEvent(root, 'pressOut');
+    fireEvent(touchable, 'pressOut');
 
-    expect(root).toBeTruthy();
+    expect(touchable).toBeTruthy();
   });
 });

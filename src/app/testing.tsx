@@ -419,15 +419,14 @@ function IconGrid({ title, icons, currentIcon }: IconGridProps) {
       <View style={iconGridStyles.grid}>
         {icons.map((icon) => {
           const isCurrent = icon.label === currentIcon;
+          const inactiveBackground = isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)';
           return (
             <View
               key={icon.name}
               style={[
                 iconGridStyles.iconItem,
                 {
-                  backgroundColor: isCurrent
-                    ? `${theme.accentColor}20`
-                    : isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                  backgroundColor: isCurrent ? `${theme.accentColor}20` : inactiveBackground,
                   borderColor: isCurrent ? theme.accentColor : 'transparent',
                   borderWidth: isCurrent ? 2 : 0,
                 },

@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DURATION } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
 import { OVERLAY_COLORS } from '../../data/themes';
+import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 
 export function FloatingProfileButton() {
@@ -26,12 +27,6 @@ export function FloatingProfileButton() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
-  const glassBackground = isDarkTheme
-    ? OVERLAY_COLORS.glassDark
-    : OVERLAY_COLORS.glassLight;
-  const borderColor = isDarkTheme
-    ? OVERLAY_COLORS.glassBorderDark
-    : OVERLAY_COLORS.glassBorderLight;
   const iconColor = isDarkTheme ? OVERLAY_COLORS.iconDark : OVERLAY_COLORS.iconLight;
 
   const handlePressIn = () => {
@@ -55,28 +50,31 @@ export function FloatingProfileButton() {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      activeOpacity={1}
+    <GlassView
+      appearance={isDarkTheme ? 'dark' : 'light'}
       style={[
         styles.container,
         {
           top: Math.max(insets.top, SPACING.xl) + SPACING.sm,
-          backgroundColor: glassBackground,
-          borderColor: borderColor,
         },
       ]}
     >
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-        <Ionicons
-          name="person-outline"
-          size={SIZES.iconMd}
-          color={iconColor}
-        />
-      </Animated.View>
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handlePress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        activeOpacity={1}
+        style={styles.touchable}
+      >
+        <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+          <Ionicons
+            name="person-outline"
+            size={SIZES.iconMd}
+            color={iconColor}
+          />
+        </Animated.View>
+      </TouchableOpacity>
+    </GlassView>
   );
 }
 
@@ -87,9 +85,12 @@ const styles = StyleSheet.create({
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     borderRadius: COMPONENT_RADIUS.badge,
-    borderWidth: 1,
+    overflow: 'hidden',
+    ...SHADOWS.sm,
+  },
+  touchable: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    ...SHADOWS.sm,
   },
 });

@@ -150,12 +150,6 @@ describe('LearnScreen Integration', () => {
   });
 
   describe('initial rendering', () => {
-    it('renders the screen title', () => {
-      renderWithProviders(<LearnScreen />);
-
-      expect(screen.getByText('Learn')).toBeTruthy();
-    });
-
     it('displays Articles tab', () => {
       renderWithProviders(<LearnScreen />);
 

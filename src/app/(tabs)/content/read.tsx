@@ -8,11 +8,11 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import { router } from 'expo-router';
-import { EdgeFadeScrollView } from '../../../components/common/EdgeFadeScrollView';
 import { useTheme } from '../../../components/common/ThemeProvider';
 import { Paywall } from '../../../components/paywall/Paywall';
 import { usePdfExtractor } from '../../../components/PdfExtractorProvider';
@@ -278,9 +278,11 @@ export default function ReadScreen() {
         </View>
       </Modal>
 
-      <EdgeFadeScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
-
+      <ScrollView
+        style={[styles.scrollContainer, { backgroundColor: theme.backgroundColor }]}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
           {/* Import Buttons */}
           <View style={styles.importButtons}>
             <TouchableOpacity
@@ -392,7 +394,7 @@ export default function ReadScreen() {
               </Text>
             </View>
         )}
-      </EdgeFadeScrollView>
+      </ScrollView>
     </>
   );
 }
@@ -401,12 +403,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  scrollContainer: {
+    flex: 1,
+  },
   content: {
     paddingHorizontal: SPACING.xl,
-  },
-  title: {
-    ...TYPOGRAPHY.pageTitle,
-    marginBottom: SPACING.xl,
+    paddingTop: SPACING.md,
+    paddingBottom: SPACING.xxxl,
   },
   importButtons: {
     flexDirection: 'row',

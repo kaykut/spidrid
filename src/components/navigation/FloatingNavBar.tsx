@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import {
-  View,
   TouchableOpacity,
   StyleSheet,
   Animated,
@@ -11,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DURATION } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
 import { OVERLAY_COLORS, COLOR_OPACITY } from '../../data/themes';
+import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 
 interface NavItem {
@@ -30,8 +30,8 @@ const NAV_ITEMS: NavItem[] = [
   {
     name: 'Read',
     route: '/(tabs)/play',
-    activeIcon: 'book',
-    inactiveIcon: 'book-outline',
+    activeIcon: 'glasses',
+    inactiveIcon: 'glasses-outline',
   },
   {
     name: 'Library',
@@ -53,21 +53,14 @@ export function FloatingNavBar() {
   };
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
-  const glassBackground = isDarkTheme
-    ? OVERLAY_COLORS.glassDark
-    : OVERLAY_COLORS.glassLight;
-  const borderColor = isDarkTheme
-    ? OVERLAY_COLORS.glassBorderDark
-    : OVERLAY_COLORS.glassBorderLight;
 
   return (
-    <View
+    <GlassView
+      appearance={isDarkTheme ? 'dark' : 'light'}
       style={[
         styles.container,
         {
           bottom: Math.max(insets.bottom, SPACING.xl) + SPACING.md,
-          backgroundColor: glassBackground,
-          borderColor: borderColor,
         },
       ]}
     >
@@ -84,7 +77,7 @@ export function FloatingNavBar() {
           />
         );
       })}
-    </View>
+    </GlassView>
   );
 }
 
@@ -132,7 +125,7 @@ function NavButton({ item, active, activeColor, inactiveColor, onPress }: NavBut
       >
         <Ionicons
           name={active ? item.activeIcon : item.inactiveIcon}
-          size={SIZES.iconLg}
+          size={SIZES.iconMd}
           color={active ? activeColor : inactiveColor}
         />
       </Animated.View>
@@ -149,19 +142,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.sm,
     borderRadius: COMPONENT_RADIUS.badge,
-    borderWidth: 1,
+    overflow: 'hidden',
     gap: SPACING.xs,
     ...SHADOWS.lg,
   },
   navButton: {
-    width: SIZES.touchTarget,
-    height: SIZES.touchTarget,
+    width: SPACING.xl,
+    height: SPACING.xl,
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconContainer: {
-    width: SPACING.huge,
-    height: SPACING.huge,
+    width: SPACING.xl,
+    height: SPACING.xl,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: COMPONENT_RADIUS.modal,

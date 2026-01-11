@@ -60,40 +60,11 @@ export const COMPONENT_SPACING = {
 } as const;
 
 // =============================================================================
-// Border Radius (Base Scale)
-// =============================================================================
-
-/**
- * Base radius scale. Prefer COMPONENT_RADIUS for component styling.
- * These are building blocks - use semantic COMPONENT_RADIUS tokens in components.
- * Exported for edge cases that need direct access to base values.
- */
-export const RADIUS = {
-  /** 2pt - Hairline borders, fine dividers */
-  xs: 2,
-  /** 4pt - Small elements */
-  sm: 4,
-  /** 6pt - Progress bars (full round feel) */
-  md: 6,
-  /** 8pt - Small cards, chips */
-  lg: 8,
-  /** 12pt - Buttons (prefer COMPONENT_RADIUS.button) */
-  xl: 12,
-  /** 16pt - Cards (prefer COMPONENT_RADIUS.card) */
-  xxl: 16,
-  /** 20pt - Large cards, modals (prefer COMPONENT_RADIUS.modal) */
-  xxxl: 20,
-  /** Full round - circular elements */
-  full: 9999,
-} as const;
-
-// =============================================================================
-// Component-Specific Radius (Primary Public API)
+// Component-Specific Radius
 // =============================================================================
 
 /**
  * Semantic border radius tokens for UI components.
- * ALWAYS prefer these over base RADIUS tokens for consistency.
  */
 export const COMPONENT_RADIUS = {
   // Interactive Elements (touch targets)
@@ -114,13 +85,13 @@ export const COMPONENT_RADIUS = {
   /** Small labels, tags, difficulty badges: 8pt */
   chip: 8,
   /** Circular badges, avatars: full round */
-  badge: RADIUS.full,
+  badge: 9999,
 
   // Functional Elements
   /** Progress bar tracks: 6pt (visually full round) */
   progressBar: 6,
   /** Journey path nodes: full round */
-  node: RADIUS.full,
+  node: 9999,
 } as const;
 
 // =============================================================================
@@ -185,7 +156,7 @@ export const SIZES = {
   /** Navigation icons - tab bars */
   iconNav: BASE * 3,                // 24 (was 20)
   /** Medium icons */
-  iconMd: BASE * 3,                 // 24 (was 20)
+  iconMd: 20,                       // 20 (off-grid exception for nav)
   /** Large icons */
   iconLg: BASE * 3,                 // 24
   /** Extra large icons */

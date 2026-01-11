@@ -141,7 +141,7 @@ describe('spacing constants', () => {
 
     it('has icon sizes (8pt grid)', () => {
       expect(SIZES.iconSm).toBe(16);
-      expect(SIZES.iconMd).toBe(24);
+      expect(SIZES.iconMd).toBe(20);  // Off-grid exception for nav icons
       expect(SIZES.iconLg).toBe(24);
       expect(SIZES.iconXl).toBe(32);
     });

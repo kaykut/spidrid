@@ -144,12 +144,6 @@ describe('ReadScreen Integration', () => {
   });
 
   describe('initial rendering', () => {
-    it('renders the screen title', () => {
-      renderWithProviders(<ReadScreen />);
-
-      expect(screen.getByText('Read')).toBeTruthy();
-    });
-
     it('shows import options', () => {
       renderWithProviders(<ReadScreen />);
 
