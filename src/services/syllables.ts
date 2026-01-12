@@ -12,8 +12,8 @@
  * any rendering delays during RSVP playback.
  */
 
-// @ts-expect-error - hyphen package doesn't have type definitions
-import hyphenEn from 'hyphen/en';
+import { getCurrentAdapter } from './language';
+import { LanguageAdapter } from './language/types';
 
 // Maximum characters per word chunk (Spritz uses 13)
 const MAX_WORD_LENGTH = 13;
@@ -21,42 +21,31 @@ const MAX_WORD_LENGTH = 13;
 // Minimum remainder length after prefix split (avoid tiny trailing chunks)
 const MIN_REMAINDER_LENGTH = 4;
 
-// Soft hyphen character used by the hyphen library
-const SOFT_HYPHEN = '\u00AD';
-
-// Use synchronous hyphenation for text processing
-const hyphenate = hyphenEn.hyphenateSync;
-
 /**
- * Common compound word prefixes (Greek/Latin roots).
- * Sorted by length (longest first) to match most specific prefix.
- * These prefixes are largely universal across European languages.
+ * Build a regex pattern that matches: leading non-letters, letters, trailing non-letters.
+ * Uses the adapter's letterPattern to determine what counts as a letter.
  */
-const COMPOUND_PREFIXES = [
-  // 7+ chars
-  'electro', 'counter',
-  // 6 chars
-  'pseudo', 'thermo', 'chrono',
-  // 5 chars
-  'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra',
-  // 4 chars
-  'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele',
-  // 3 chars
-  'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri',
-];
+function buildPunctuationPattern(adapter: LanguageAdapter): RegExp {
+  // Extract the character class content from letterPattern (e.g., "a-zA-Z" from /[a-zA-Z]/)
+  const letterSource = adapter.letterPattern.source;
+  // Build pattern: ^([^letters]*)(letters+)([^letters]*)$
+  return new RegExp(`^([^${letterSource}]*)([${letterSource}]+)([^${letterSource}]*)$`);
+}
 
 /**
  * Extract syllables from a word using hyphenation patterns.
  *
  * @param word - The word to split into syllables
+ * @param adapter - Language adapter to use (defaults to current language setting)
  * @returns Array of syllables
  *
  * @example
  * getSyllables('photosynthesis') // ['pho', 'to', 'syn', 'the', 'sis']
  */
-export function getSyllables(word: string): string[] {
+export function getSyllables(word: string, adapter: LanguageAdapter = getCurrentAdapter()): string[] {
   // Strip punctuation for hyphenation, we'll handle it separately
-  const punctuationMatch = word.match(/^([^a-zA-Z]*)([a-zA-Z]+)([^a-zA-Z]*)$/);
+  const punctuationPattern = buildPunctuationPattern(adapter);
+  const punctuationMatch = word.match(punctuationPattern);
 
   if (!punctuationMatch) {
     // Word has no letters, return as-is
@@ -65,9 +54,9 @@ export function getSyllables(word: string): string[] {
 
   const [, leadingPunct, letters, trailingPunct] = punctuationMatch;
 
-  // Hyphenate the letter portion
-  const hyphenated = hyphenate(letters);
-  const syllables = hyphenated.split(SOFT_HYPHEN);
+  // Hyphenate the letter portion using the adapter
+  const result = adapter.hyphenateSync(letters);
+  const syllables = result.syllables;
 
   // Reattach punctuation to first and last syllables
   if (syllables.length > 0) {
@@ -83,6 +72,7 @@ export function getSyllables(word: string): string[] {
  *
  * @param word - The word to potentially split
  * @param maxLength - Maximum characters per chunk
+ * @param adapter - Language adapter for prefixes
  * @returns Array of chunks if prefix found, null otherwise
  *
  * @example
@@ -90,10 +80,14 @@ export function getSyllables(word: string): string[] {
  * tryPrefixSplit('electrocardiogram', 13) // ['Electro-', 'cardiogram']
  * tryPrefixSplit('running', 13) // null (no prefix match)
  */
-function tryPrefixSplit(word: string, maxLength: number): string[] | null {
+function tryPrefixSplit(
+  word: string,
+  maxLength: number,
+  adapter: LanguageAdapter
+): string[] | null {
   const lowerWord = word.toLowerCase();
 
-  for (const prefix of COMPOUND_PREFIXES) {
+  for (const prefix of adapter.compoundPrefixes) {
     if (lowerWord.startsWith(prefix)) {
       const remainder = word.slice(prefix.length);
 
@@ -106,7 +100,7 @@ function tryPrefixSplit(word: string, maxLength: number): string[] | null {
 
         // Recursively split remainder if still too long
         if (remainder.length > maxLength) {
-          return [prefixChunk, ...splitLongWord(remainder, maxLength)];
+          return [prefixChunk, ...splitLongWord(remainder, maxLength, adapter)];
         }
         return [prefixChunk, remainder];
       }
@@ -174,6 +168,7 @@ function balancedSyllableSplit(word: string, syllables: string[], maxLength: num
  *
  * @param word - The word to potentially split
  * @param maxLength - Maximum characters per chunk (default: 13)
+ * @param adapter - Language adapter to use (defaults to current language setting)
  * @returns Array of word chunks (may be single element if word is short)
  *
  * @example
@@ -182,20 +177,24 @@ function balancedSyllableSplit(word: string, syllables: string[], maxLength: num
  * splitLongWord('electrocardiogram') // ['Electro-', 'cardiogram']
  * splitLongWord('incomprehensibilities') // ['Incom-', 'prehen-', 'sibilities']
  */
-export function splitLongWord(word: string, maxLength: number = MAX_WORD_LENGTH): string[] {
+export function splitLongWord(
+  word: string,
+  maxLength: number = MAX_WORD_LENGTH,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): string[] {
   // Short words don't need splitting
   if (word.length <= maxLength) {
     return [word];
   }
 
   // 1. First try compound prefix detection
-  const prefixSplit = tryPrefixSplit(word, maxLength);
+  const prefixSplit = tryPrefixSplit(word, maxLength, adapter);
   if (prefixSplit) {
     return prefixSplit;
   }
 
   // 2. Get syllables for balanced splitting
-  const syllables = getSyllables(word);
+  const syllables = getSyllables(word, adapter);
 
   // If we couldn't get syllables (rare), fall back to character-based split
   if (syllables.length <= 1) {

@@ -5,6 +5,8 @@ import { Readability } from '@mozilla/readability';
 import { parseHTML } from 'linkedom';
 import { ContentImportResult } from '../types/content';
 import { parseEpub } from './epubParser';
+import { getCurrentAdapter } from './language';
+import { LanguageAdapter } from './language/types';
 import { parsePdf, PdfExtractFunction } from './pdfParser';
 
 // Result from Readability extraction
@@ -66,23 +68,50 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
   }
 }
 
-// Filter out image captions, photo credits, and similar non-article text
-// These are jarring during RSVP speed reading
-export function filterCaptions(text: string): string {
-  const captionPatterns = [
+/**
+ * Build caption patterns from adapter keywords.
+ */
+function buildCaptionPatterns(adapter: LanguageAdapter): RegExp[] {
+  // Escape special regex characters in keywords
+  const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Build caption keywords pattern: "Photo: ...", "Image by ..."
+  const captionKeywordsPattern = adapter.captionKeywords.map(escapeRegex).join('|');
+
+  // Build attribution keywords pattern: "Credit:", "Source:"
+  const attributionKeywordsPattern = adapter.attributionKeywords.map(escapeRegex).join('|');
+
+  // Build stock agencies pattern
+  const stockAgenciesPattern = adapter.stockAgencies.map(escapeRegex).join('|');
+
+  return [
     // Photo/image credits: "Photo: John Smith", "Image by Reuters"
-    /^(Photo|Image|Picture|Figure|Chart|Graph|Illustration)(\s*:|\s+by|\s+credit|\s+courtesy|\s+source|\s+via|\s+©)/i,
+    new RegExp(`^(${captionKeywordsPattern})(\\s*:|\\s+by|\\s+credit|\\s+courtesy|\\s+source|\\s+via|\\s+©)`, 'i'),
     // Source attributions: "Credit:", "Source:", "©"
-    /^(Credit|Source|©|Caption)(\s*:)/i,
+    new RegExp(`^(${attributionKeywordsPattern})(\\s*:)`, 'i'),
     // Stock photo agencies at line start
-    /^\(?(Getty|Reuters|AP Photo|AFP|Bloomberg|Shutterstock|Unsplash|iStock|Alamy|PA Images|EPA)/i,
-    // Numbered image refs: "Image 2 of 5"
+    new RegExp(`^\\(?(${stockAgenciesPattern})`, 'i'),
+    // Numbered image refs: "Image 2 of 5" (universal pattern)
     /^Image \d+ of \d+/i,
     // Bracketed placeholders: "[Photo removed]", "[Image]" (not nested brackets like [[HEADER]])
     /^\[[^\[\]]*\]$/,
     // Copyright lines: "© 2024 Company Name"
     /^©\s*\d{4}/,
   ];
+}
+
+/**
+ * Filter out image captions, photo credits, and similar non-article text.
+ * These are jarring during RSVP speed reading.
+ *
+ * @param text - Text to filter
+ * @param adapter - Language adapter for caption keywords (defaults to current language)
+ */
+export function filterCaptions(
+  text: string,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): string {
+  const captionPatterns = buildCaptionPatterns(adapter);
 
   return text
     .split('\n')

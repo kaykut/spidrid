@@ -16,6 +16,8 @@ import { useJourneyStore } from '../store/journeyStore';
 import { useLearningStore } from '../store/learningStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
+import { calculateEffectiveWpm } from '../utils/journeyCalculations';
+import { ARTICLES } from './curriculum';
 import type { ImportedContent } from '../types/content';
 import type {
   JourneySession,
@@ -27,8 +29,6 @@ import type {
   ArticleType,
 } from '../types/journey';
 import type { ArticleProgress, ArticleAttempt } from '../types/learning';
-import { calculateEffectiveWpm } from '../utils/journeyCalculations';
-import { ARTICLES } from './curriculum';
 
 // =============================================================================
 // Types

@@ -27,19 +27,20 @@ export interface UserSettings {
   moveFinishedToHistory: boolean;
 }
 
+/**
+ * Supported reading languages.
+ * Auto-detect uses stop-word frequency analysis to identify the language.
+ * Only Latin-script languages are currently supported; CJK languages require
+ * word segmentation and RTL languages require bidirectional text handling.
+ */
 export const READING_LANGUAGES = [
+  { code: 'auto', label: 'Auto-detect' },
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Spanish' },
   { code: 'fr', label: 'French' },
   { code: 'de', label: 'German' },
   { code: 'it', label: 'Italian' },
   { code: 'pt', label: 'Portuguese' },
-  { code: 'zh', label: 'Chinese' },
-  { code: 'ja', label: 'Japanese' },
-  { code: 'ko', label: 'Korean' },
-  { code: 'ar', label: 'Arabic' },
-  { code: 'hi', label: 'Hindi' },
-  { code: 'ru', label: 'Russian' },
 ] as const;
 
 export const DEFAULT_SETTINGS: UserSettings = {

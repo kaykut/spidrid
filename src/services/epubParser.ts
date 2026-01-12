@@ -5,6 +5,8 @@ import * as FileSystem from 'expo-file-system';
 import JSZip from 'jszip';
 import { EbookParseResult, ChapterMetadata } from '../types/content';
 import { filterCaptions } from './contentExtractor';
+import { getCurrentAdapter } from './language';
+import { LanguageAdapter } from './language/types';
 
 // Internal chapter info from NCX/nav parsing
 interface ChapterInfo {
@@ -12,9 +14,14 @@ interface ChapterInfo {
   href: string;
 }
 
-// Strip HTML tags and convert to plain text
-// Preserves header elements with [[HEADER]]...[[/HEADER]] markers for RSVP treatment
-function stripHtml(html: string): string {
+/**
+ * Strip HTML tags and convert to plain text.
+ * Preserves header elements with [[HEADER]]...[[/HEADER]] markers for RSVP treatment.
+ *
+ * @param html - HTML content to strip
+ * @param adapter - Language adapter for entity decoding (defaults to current language)
+ */
+function stripHtml(html: string, adapter: LanguageAdapter = getCurrentAdapter()): string {
   if (!html) {return '';}
 
   let text = html;
@@ -34,20 +41,15 @@ function stripHtml(html: string): string {
   // Remove remaining HTML tags (but our [[HEADER]] markers are safe)
   text = text.replace(/<[^>]+>/g, ' ');
 
-  // Decode common HTML entities
-  text = text.replace(/&nbsp;/g, ' ');
-  text = text.replace(/&amp;/g, '&');
-  text = text.replace(/&lt;/g, '<');
-  text = text.replace(/&gt;/g, '>');
-  text = text.replace(/&quot;/g, '"');
-  text = text.replace(/&#39;/g, "'");
-  text = text.replace(/&mdash;/g, '—');
-  text = text.replace(/&ndash;/g, '–');
-  text = text.replace(/&hellip;/g, '...');
-  text = text.replace(/&rsquo;/g, "'");
-  text = text.replace(/&lsquo;/g, "'");
-  text = text.replace(/&rdquo;/g, '"');
-  text = text.replace(/&ldquo;/g, '"');
+  // Decode HTML entities using adapter's entity map
+  for (const [entity, replacement] of Object.entries(adapter.htmlEntityMap)) {
+    text = text.replace(new RegExp(entity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement);
+  }
+
+  // Decode quotation entities using adapter's quotation map
+  for (const [entity, replacement] of Object.entries(adapter.quotationEntities)) {
+    text = text.replace(new RegExp(entity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement);
+  }
 
   // Handle numeric entities
   text = text.replace(/&#(\d+);/g, (_, num) =>

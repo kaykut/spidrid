@@ -225,7 +225,7 @@ describe('pdfParser', () => {
     });
 
     describe('content handling', () => {
-      it('preserves text content exactly as returned by extractor', async () => {
+      it('normalizes whitespace for RSVP reading', async () => {
         const originalText = '  Text with   multiple   spaces  \n\nand newlines\n';
         const mockExtractor: PdfExtractFunction = jest.fn().mockResolvedValue({
           text: originalText,
@@ -234,7 +234,8 @@ describe('pdfParser', () => {
 
         const result = await parsePdf('file:///test.pdf', mockExtractor);
 
-        expect(result.content).toBe(originalText);
+        // PDF content is cleaned: multiple spaces collapsed to single space, outer whitespace trimmed
+        expect(result.content).toBe('Text with multiple spaces \n\nand newlines');
       });
 
       it('handles very long text content', async () => {
@@ -246,8 +247,9 @@ describe('pdfParser', () => {
 
         const result = await parsePdf('file:///long.pdf', mockExtractor);
 
-        expect(result.content).toBe(longText);
-        expect(result.content.length).toBe(longText.length);
+        // Content is normalized (trailing space trimmed, multiple spaces collapsed)
+        const expectedText = 'word '.repeat(99999) + 'word';
+        expect(result.content).toBe(expectedText);
       });
 
       it('handles unicode content', async () => {

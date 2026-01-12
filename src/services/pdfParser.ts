@@ -4,6 +4,8 @@
 
 import { EbookParseResult } from '../types/content';
 import { filterCaptions } from './contentExtractor';
+import { getCurrentAdapter } from './language';
+import { LanguageAdapter } from './language/types';
 
 export interface PdfExtractFunction {
   (fileUri: string): Promise<{
@@ -14,47 +16,54 @@ export interface PdfExtractFunction {
   }>;
 }
 
-// Clean PDF-specific artifacts and normalize content for RSVP reading
-function cleanPdfContent(text: string): string {
-  // PDF-specific artifact patterns
-  const pdfArtifactPatterns = [
-    /^(Page\s*)?\d+(\s*(of|\/)\s*\d+)?$/i, // "1", "Page 1", "1 of 10"
-    /^-\s*\d+\s*-$/, // "- 1 -"
-    /^\[\d+\]$/, // "[1]" standalone footnote refs
-    /^(Figure|Fig\.|Table|Tab\.)\s*\d+(\.\d+)?\.?$/i, // "Figure 1" standalone
-  ];
-
+/**
+ * Clean PDF-specific artifacts and normalize content for RSVP reading.
+ *
+ * @param text - Raw PDF text
+ * @param adapter - Language adapter for artifact patterns (defaults to current language)
+ */
+function cleanPdfContent(
+  text: string,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): string {
   let cleaned = text
     // Fix hyphenation at line breaks: "infor-\nmation" → "information"
-    .replace(/(\w)-\n(\w)/g, '$1$2')
+    .replace(adapter.wordBoundaryHyphenPattern, '$1$2')
     // Normalize whitespace
     .replace(/[ \t]+/g, ' ')
     .replace(/\n\s*\n/g, '\n\n')
     .trim();
 
-  // Remove PDF-specific artifacts (line-based)
+  // Remove PDF-specific artifacts (line-based) using adapter's patterns
   cleaned = cleaned
     .split('\n')
     .filter(line => {
       const trimmed = line.trim();
-      if (!trimmed) return true;
-      return !pdfArtifactPatterns.some(p => p.test(trimmed));
+      if (!trimmed) {return true;}
+      return !adapter.pdfArtifactPatterns.some(p => p.test(trimmed));
     })
     .join('\n');
 
   // Apply shared caption filtering
-  return filterCaptions(cleaned);
+  return filterCaptions(cleaned, adapter);
 }
 
-// Parse PDF using the provided extractor function (from context)
+/**
+ * Parse PDF using the provided extractor function (from context).
+ *
+ * @param fileUri - URI of the PDF file
+ * @param extractPdf - PDF extraction function
+ * @param adapter - Language adapter (defaults to current language)
+ */
 export async function parsePdf(
   fileUri: string,
-  extractPdf: PdfExtractFunction
+  extractPdf: PdfExtractFunction,
+  adapter: LanguageAdapter = getCurrentAdapter()
 ): Promise<EbookParseResult> {
   const result = await extractPdf(fileUri);
 
   return {
     title: result.title || 'Untitled PDF',
-    content: cleanPdfContent(result.text),
+    content: cleanPdfContent(result.text, adapter),
   };
 }

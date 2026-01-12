@@ -1,5 +1,7 @@
 import { ChapterMetadata } from '../types/content';
 import { ProcessedWord } from '../types/playback';
+import { getCurrentAdapter } from './language';
+import { LanguageAdapter } from './language/types';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
 import { splitLongWord, needsSplitting } from './syllables';
 
@@ -8,10 +10,16 @@ import { splitLongWord, needsSplitting } from './syllables';
  *
  * Preserves punctuation attached to words (e.g., "Hello," stays as one token).
  * Filters out empty strings and whitespace-only tokens.
+ *
+ * @param text - Text to tokenize
+ * @param adapter - Language adapter for word split pattern (defaults to current language)
  */
-export function tokenize(text: string): string[] {
+export function tokenize(
+  text: string,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): string[] {
   return text
-    .split(/\s+/)
+    .split(adapter.wordSplitPattern)
     .map(word => word.trim())
     .filter(word => word.length > 0);
 }
@@ -28,13 +36,19 @@ interface HeaderInfo {
  * Splits on double newlines to detect paragraph breaks.
  * Detects [[HEADER]]...[[/HEADER]] markers for header treatment.
  * Returns tokens plus sets of indices for paragraph ends and header info.
+ *
+ * @param text - Text to tokenize
+ * @param adapter - Language adapter for patterns (defaults to current language)
  */
-export function tokenizeWithParagraphs(text: string): {
+export function tokenizeWithParagraphs(
+  text: string,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): {
   tokens: string[];
   paragraphEndIndices: Set<number>;
   headerInfoMap: Map<number, HeaderInfo>;
 } {
-  const paragraphs = text.split(/\n\s*\n/);
+  const paragraphs = text.split(adapter.paragraphPattern);
   const tokens: string[] = [];
   const paragraphEndIndices = new Set<number>();
   const headerInfoMap = new Map<number, HeaderInfo>();
@@ -57,13 +71,13 @@ export function tokenizeWithParagraphs(text: string): {
 
         // Process text before the header
         const beforeHeader = paragraph.slice(lastEnd, matchStart);
-        const beforeWords = beforeHeader.split(/\s+/).filter(w => w.trim().length > 0);
+        const beforeWords = beforeHeader.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
         if (beforeWords.length > 0) {
           tokens.push(...beforeWords.map(w => w.trim()));
         }
 
         // Process the header content
-        const headerWords = headerContent.split(/\s+/).filter(w => w.trim().length > 0);
+        const headerWords = headerContent.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
         if (headerWords.length > 0) {
           const isShortHeader = headerWords.length <= 3 && headerContent.length <= 25;
 
@@ -91,13 +105,13 @@ export function tokenizeWithParagraphs(text: string): {
 
       // Process text after the last header
       const afterHeader = paragraph.slice(lastEnd);
-      const afterWords = afterHeader.split(/\s+/).filter(w => w.trim().length > 0);
+      const afterWords = afterHeader.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
       if (afterWords.length > 0) {
         tokens.push(...afterWords.map(w => w.trim()));
       }
     } else {
       // No headers in this paragraph - simple tokenization
-      const words = paragraph.split(/\s+/).filter(w => w.trim().length > 0);
+      const words = paragraph.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
       if (words.length > 0) {
         tokens.push(...words.map(w => w.trim()));
       }
@@ -114,14 +128,22 @@ export function tokenizeWithParagraphs(text: string): {
 
 /**
  * Process a single word into a ProcessedWord with ORP data.
+ *
+ * @param word - Word to process
+ * @param paragraphEnd - Whether this word ends a paragraph
+ * @param adapter - Language adapter (defaults to current language)
  */
-export function processWord(word: string, paragraphEnd: boolean = false): ProcessedWord {
+export function processWord(
+  word: string,
+  paragraphEnd: boolean = false,
+  adapter: LanguageAdapter = getCurrentAdapter()
+): ProcessedWord {
   return {
     original: word,
     display: word,
     orpIndex: calculateORP(word),
-    pauseMultiplier: calculatePauseMultiplier(word),
-    sentenceEnd: isSentenceEnd(word),
+    pauseMultiplier: calculatePauseMultiplier(word, adapter),
+    sentenceEnd: isSentenceEnd(word, adapter),
     paragraphEnd,
   };
 }
@@ -182,9 +204,17 @@ export function mapChapterOffsetsToWordIndices(
  * Uses paragraph-aware tokenization to mark paragraph ends.
  * Optionally marks chapter starts and detects headers.
  * Splits long words at syllable boundaries for RSVP display.
+ *
+ * @param text - Text to process
+ * @param chapters - Optional chapter metadata
+ * @param adapter - Language adapter (defaults to current language)
  */
-export function processText(text: string, chapters?: ChapterMetadata[]): ProcessedWord[] {
-  const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text);
+export function processText(
+  text: string,
+  chapters?: ChapterMetadata[],
+  adapter: LanguageAdapter = getCurrentAdapter()
+): ProcessedWord[] {
+  const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
 
   // Map chapter offsets to word indices if chapters are provided
   const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
@@ -211,7 +241,7 @@ export function processText(text: string, chapters?: ChapterMetadata[]): Process
 
     // Check if this word needs splitting (skip headers - they're handled differently)
     if (needsSplitting(word) && !headerInfo?.headerText) {
-      const chunks = splitLongWord(word);
+      const chunks = splitLongWord(word, undefined, adapter);
 
       chunks.forEach((chunk, chunkIndex) => {
         const isFirstChunk = chunkIndex === 0;
@@ -221,8 +251,8 @@ export function processText(text: string, chapters?: ChapterMetadata[]): Process
           original: word,
           display: chunk,
           orpIndex: calculateORP(chunk),
-          pauseMultiplier: calculatePauseMultiplier(chunk),
-          sentenceEnd: isLastChunk && isSentenceEnd(word),
+          pauseMultiplier: calculatePauseMultiplier(chunk, adapter),
+          sentenceEnd: isLastChunk && isSentenceEnd(word, adapter),
           paragraphEnd: isLastChunk && isParagraphEnd,
           fullWord: word,
           isContinuation: !isFirstChunk,
@@ -242,7 +272,7 @@ export function processText(text: string, chapters?: ChapterMetadata[]): Process
       });
     } else {
       // Normal word processing (no splitting needed)
-      const baseWord = processWord(word, isParagraphEnd);
+      const baseWord = processWord(word, isParagraphEnd, adapter);
 
       // Apply chapter start if present
       if (chapterStart) {
