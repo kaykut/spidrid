@@ -20,7 +20,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ReadContent, LearnContent, MiniTopicCard } from '../components/addContent';
+import { ExpandableReadCard, ExpandableLearnCard, MiniTopicCard } from '../components/addContent';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { animateLayout } from '../constants/animations';
@@ -29,34 +29,6 @@ import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { TOPICS, getPracticeArticles } from '../data/curriculum';
 import { JOURNEY_COLORS } from '../data/themes';
 import { useLearningStore } from '../store/learningStore';
-
-type ContentLevel = 'menu' | 'read' | 'learn';
-
-interface MenuOption {
-  id: ContentLevel;
-  title: string;
-  description: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  iconColor: string;
-}
-
-// Read and Learn cards remain as navigation options
-const MENU_OPTIONS: MenuOption[] = [
-  {
-    id: 'read',
-    title: 'Read',
-    description: 'Speed read your own articles or books from PDFs, EPUBs, or links',
-    icon: 'book-outline',
-    iconColor: JOURNEY_COLORS.accent,
-  },
-  {
-    id: 'learn',
-    title: 'Learn',
-    description: 'Generate articles or curricula on topics you want to master',
-    icon: 'sparkles-outline',
-    iconColor: JOURNEY_COLORS.success,
-  },
-];
 
 // Calculate topic card width for 3-per-row grid inside Practice card
 const getTopicCardWidth = () => {
@@ -69,8 +41,9 @@ export default function AddContentModal() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { getTopicProgress, getArticleProgress, startArticle } = useLearningStore();
-  const [level, setLevel] = useState<ContentLevel>('menu');
   const [isPracticeExpanded, setIsPracticeExpanded] = useState(false);
+  const [isReadExpanded, setIsReadExpanded] = useState(false);
+  const [isLearnExpanded, setIsLearnExpanded] = useState(false);
 
   // Chevron rotation animation
   const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -92,22 +65,41 @@ export default function AddContentModal() {
     router.back();
   };
 
-  const handleBack = () => {
-    setLevel('menu');
-  };
-
   const togglePracticeExpanded = () => {
+    if (isReadExpanded) {
+      animateLayout();
+      setIsReadExpanded(false);
+    }
+    if (isLearnExpanded) {
+      animateLayout();
+      setIsLearnExpanded(false);
+    }
     animateLayout();
     setIsPracticeExpanded((prev) => !prev);
   };
 
-  const handleOptionPress = (optionId: ContentLevel) => {
-    // Collapse practice when navigating to other levels
-    if (isPracticeExpanded) {
+  const handleReadExpandChange = (expanded: boolean) => {
+    if (expanded && isPracticeExpanded) {
       animateLayout();
       setIsPracticeExpanded(false);
     }
-    setLevel(optionId);
+    if (expanded && isLearnExpanded) {
+      animateLayout();
+      setIsLearnExpanded(false);
+    }
+    setIsReadExpanded(expanded);
+  };
+
+  const handleLearnExpandChange = (expanded: boolean) => {
+    if (expanded && isPracticeExpanded) {
+      animateLayout();
+      setIsPracticeExpanded(false);
+    }
+    if (expanded && isReadExpanded) {
+      animateLayout();
+      setIsReadExpanded(false);
+    }
+    setIsLearnExpanded(expanded);
   };
 
   const handleTopicPress = (topicId: string) => {
@@ -146,16 +138,13 @@ export default function AddContentModal() {
       animateLayout();
       setIsPracticeExpanded(false);
     }
-  };
-
-  const getTitle = () => {
-    switch (level) {
-      case 'read':
-        return 'Read';
-      case 'learn':
-        return 'Learn';
-      default:
-        return 'New Content';
+    if (isReadExpanded) {
+      animateLayout();
+      setIsReadExpanded(false);
+    }
+    if (isLearnExpanded) {
+      animateLayout();
+      setIsLearnExpanded(false);
     }
   };
 
@@ -163,114 +152,92 @@ export default function AddContentModal() {
   const topicCardWidth = getTopicCardWidth();
 
   const renderContent = () => {
-    switch (level) {
-      case 'read':
-        return <ReadContent onClose={handleClose} />;
-      case 'learn':
-        return <LearnContent onClose={handleClose} />;
-      default:
-        return (
-          <TouchableWithoutFeedback onPress={handleOutsidePress}>
-            <ScrollView
-              style={styles.menuContainer}
-              contentContainerStyle={styles.menuContent}
-              showsVerticalScrollIndicator={false}
+    return (
+      <TouchableWithoutFeedback onPress={handleOutsidePress}>
+        <ScrollView
+          style={styles.menuContainer}
+          contentContainerStyle={styles.menuContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Expandable Read Card */}
+          <ExpandableReadCard
+            isExpanded={isReadExpanded}
+            onExpandChange={handleReadExpandChange}
+            onClose={handleClose}
+          />
+
+          {/* Expandable Learn Card */}
+          <ExpandableLearnCard
+            isExpanded={isLearnExpanded}
+            onExpandChange={handleLearnExpandChange}
+            onClose={handleClose}
+          />
+
+          {/* Expandable Practice Card */}
+          <View
+            style={[
+              styles.practiceCardWrapper,
+              { backgroundColor: theme.secondaryBackground },
+              isPracticeExpanded && styles.practiceCardExpanded,
+            ]}
+          >
+            {/* Header row */}
+            <TouchableOpacity
+              style={styles.practiceCardHeader}
+              onPress={togglePracticeExpanded}
+              activeOpacity={0.7}
             >
-              {/* Expandable Practice Card */}
               <View
                 style={[
-                  styles.practiceCardWrapper,
-                  { backgroundColor: theme.secondaryBackground },
-                  isPracticeExpanded && styles.practiceCardExpanded,
+                  styles.menuIconContainer,
+                  { backgroundColor: `${JOURNEY_COLORS.warmAccent}20` },
                 ]}
               >
-                {/* Header row */}
-                <TouchableOpacity
-                  style={styles.practiceCardHeader}
-                  onPress={togglePracticeExpanded}
-                  activeOpacity={0.7}
-                >
-                  <View
-                    style={[
-                      styles.menuIconContainer,
-                      { backgroundColor: `${JOURNEY_COLORS.warmAccent}20` },
-                    ]}
-                  >
-                    <Ionicons
-                      name="stopwatch-outline"
-                      size={SIZES.iconLg}
-                      color={JOURNEY_COLORS.warmAccent}
-                    />
-                  </View>
-                  <View style={styles.menuTextContainer}>
-                    <Text style={[styles.menuTitle, { color: theme.textColor }]}>Practice</Text>
-                    <Text style={[styles.menuDescription, { color: theme.textColor }]}>
-                      Choose from pre-generated content to practice speed reading
-                    </Text>
-                  </View>
-                  <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
-                    <Ionicons
-                      name="chevron-forward"
-                      size={SIZES.iconMd}
-                      color={theme.textColor}
-                      style={styles.chevron}
-                    />
-                  </Animated.View>
-                </TouchableOpacity>
-
-                {/* Topic Grid - shown when expanded, inside the card */}
-                {isPracticeExpanded && (
-                  <View style={styles.topicGrid}>
-                    {TOPICS.map((topic) => {
-                      const progress = getTopicProgress(topic.id);
-                      return (
-                        <MiniTopicCard
-                          key={topic.id}
-                          topic={topic}
-                          progress={progress}
-                          cardWidth={topicCardWidth}
-                          backgroundColor={theme.backgroundColor}
-                          onPress={() => handleTopicPress(topic.id)}
-                        />
-                      );
-                    })}
-                  </View>
-                )}
+                <Ionicons
+                  name="stopwatch-outline"
+                  size={SIZES.iconLg}
+                  color={JOURNEY_COLORS.warmAccent}
+                />
               </View>
+              <View style={styles.menuTextContainer}>
+                <Text style={[styles.menuTitle, { color: theme.textColor }]}>Practice</Text>
+                <Text style={[styles.menuDescription, { color: theme.textColor }]}>
+                  Choose from pre-generated content to practice speed reading
+                </Text>
+              </View>
+              <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
+                <Ionicons
+                  name="chevron-forward"
+                  size={SIZES.iconMd}
+                  color={theme.textColor}
+                  style={styles.chevron}
+                />
+              </Animated.View>
+            </TouchableOpacity>
 
-              {/* Read and Learn cards */}
-              {MENU_OPTIONS.map((option) => (
-                <TouchableOpacity
-                  key={option.id}
-                  style={[styles.menuCard, { backgroundColor: theme.secondaryBackground }]}
-                  onPress={() => handleOptionPress(option.id)}
-                  activeOpacity={0.7}
-                >
-                  <View
-                    style={[styles.menuIconContainer, { backgroundColor: `${option.iconColor}20` }]}
-                  >
-                    <Ionicons name={option.icon} size={SIZES.iconLg} color={option.iconColor} />
-                  </View>
-                  <View style={styles.menuTextContainer}>
-                    <Text style={[styles.menuTitle, { color: theme.textColor }]}>
-                      {option.title}
-                    </Text>
-                    <Text style={[styles.menuDescription, { color: theme.textColor }]}>
-                      {option.description}
-                    </Text>
-                  </View>
-                  <Ionicons
-                    name="chevron-forward"
-                    size={SIZES.iconMd}
-                    color={theme.textColor}
-                    style={styles.chevron}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </TouchableWithoutFeedback>
-        );
-    }
+            {/* Topic Grid - shown when expanded, inside the card */}
+            {isPracticeExpanded && (
+              <View style={styles.topicGrid}>
+                {TOPICS.map((topic) => {
+                  const progress = getTopicProgress(topic.id);
+                  return (
+                    <MiniTopicCard
+                      key={topic.id}
+                      topic={topic}
+                      progress={progress}
+                      cardWidth={topicCardWidth}
+                      backgroundColor={theme.backgroundColor}
+                      onPress={() => handleTopicPress(topic.id)}
+                    />
+                  );
+                })}
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    );
   };
 
   return (
@@ -282,12 +249,12 @@ export default function AddContentModal() {
           style={styles.navButtonGlass}
         >
           <TouchableOpacity
-            onPress={level === 'menu' ? handleClose : handleBack}
+            onPress={handleClose}
             style={styles.navButtonTouchable}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <Ionicons
-              name={level === 'menu' ? 'close' : 'chevron-back'}
+              name="close"
               size={SIZES.iconMd}
               color={theme.textColor}
             />
@@ -298,18 +265,18 @@ export default function AddContentModal() {
       {/* Title - absolute positioned, centered */}
       <Text
         style={[
-          level === 'menu' ? styles.pageTitle : styles.headerTitle,
+          styles.pageTitle,
           { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
         ]}
       >
-        {getTitle()}
+        New Content
       </Text>
 
       {/* Content */}
       <View
         style={[
           styles.contentContainer,
-          { paddingTop: insets.top + SIZES.touchTarget + (level === 'menu' ? SPACING.lg : 0), paddingBottom: insets.bottom },
+          { paddingTop: insets.top + SIZES.touchTarget + SPACING.lg, paddingBottom: insets.bottom },
         ]}
       >
         {renderContent()}
@@ -348,14 +315,6 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.sectionHeader,
     textAlign: 'center',
   },
-  headerTitle: {
-    position: 'absolute',
-    zIndex: 10,
-    left: SIZES.touchTarget + SPACING.xl,
-    right: SIZES.touchTarget + SPACING.xl,
-    ...TYPOGRAPHY.cardTitle,
-    textAlign: 'center',
-  },
   contentContainer: {
     flex: 1,
     paddingHorizontal: SPACING.lg,
@@ -366,12 +325,6 @@ const styles = StyleSheet.create({
   menuContent: {
     gap: SPACING.md,
     paddingBottom: SPACING.xxxl,
-  },
-  menuCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.lg,
-    borderRadius: COMPONENT_RADIUS.card,
   },
   practiceCardWrapper: {
     borderRadius: COMPONENT_RADIUS.card,

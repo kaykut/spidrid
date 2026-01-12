@@ -267,8 +267,20 @@ export function createFromText(text: string, title?: string): ContentImportResul
 
   const wordCount = countWords(trimmedText);
 
-  // Generate title from first line or words if not provided
-  const generatedTitle = title || trimmedText.split('\n')[0].substring(0, 50) || 'Pasted Text';
+  // Generate title from first line if not provided
+  let generatedTitle = title;
+  if (!generatedTitle) {
+    const firstLine = trimmedText.split('\n')[0].trim();
+    if (firstLine.length > 50) {
+      const truncated = firstLine.substring(0, 50);
+      const lastSpace = truncated.lastIndexOf(' ');
+      generatedTitle = lastSpace > 30 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+    } else if (firstLine.length > 0) {
+      generatedTitle = firstLine;
+    } else {
+      generatedTitle = 'Pasted Text';
+    }
+  }
 
   return {
     success: true,

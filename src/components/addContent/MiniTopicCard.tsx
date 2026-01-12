@@ -6,10 +6,10 @@
  */
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '../common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { Topic, TopicProgress } from '../../types/learning';
+import { useTheme } from '../common/ThemeProvider';
 
 interface MiniTopicCardProps {
   topic: Topic;

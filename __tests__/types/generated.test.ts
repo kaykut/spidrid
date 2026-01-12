@@ -16,31 +16,15 @@ import {
 } from '../../src/types/generated';
 
 describe('ArticleTone', () => {
-  const validTones: ArticleTone[] = [
-    'robotic',
-    'explanatory',
-    'sarcastic',
-    'storytelling',
-    'analogical',
-  ];
+  const validTones: ArticleTone[] = ['explanatory', 'storytelling', 'analogical'];
 
-  it('has exactly 5 valid tone values', () => {
-    expect(validTones.length).toBe(5);
-  });
-
-  it('includes robotic tone', () => {
-    const tone: ArticleTone = 'robotic';
-    expect(tone).toBe('robotic');
+  it('has exactly 3 valid tone values', () => {
+    expect(validTones.length).toBe(3);
   });
 
   it('includes explanatory tone', () => {
     const tone: ArticleTone = 'explanatory';
     expect(tone).toBe('explanatory');
-  });
-
-  it('includes sarcastic tone', () => {
-    const tone: ArticleTone = 'sarcastic';
-    expect(tone).toBe('sarcastic');
   });
 
   it('includes storytelling tone', () => {
@@ -55,8 +39,8 @@ describe('ArticleTone', () => {
 });
 
 describe('TONE_DEFINITIONS', () => {
-  it('has 5 tone definitions', () => {
-    expect(TONE_DEFINITIONS.length).toBe(5);
+  it('has 3 tone definitions', () => {
+    expect(TONE_DEFINITIONS.length).toBe(3);
   });
 
   it('each definition has required fields', () => {
@@ -80,9 +64,7 @@ describe('TONE_DEFINITIONS', () => {
 
   it('contains all valid ArticleTone values', () => {
     const ids = TONE_DEFINITIONS.map((t) => t.id);
-    expect(ids).toContain('robotic');
     expect(ids).toContain('explanatory');
-    expect(ids).toContain('sarcastic');
     expect(ids).toContain('storytelling');
     expect(ids).toContain('analogical');
   });
@@ -93,27 +75,11 @@ describe('TONE_DEFINITIONS', () => {
     expect(uniqueIds.size).toBe(ids.length);
   });
 
-  describe('robotic tone', () => {
-    const robotic = TONE_DEFINITIONS.find((t) => t.id === 'robotic')!;
-
-    it('has label "Robotic"', () => {
-      expect(robotic.label).toBe('Robotic');
-    });
-
-    it('has robot emoji', () => {
-      expect(robotic.emoji).toBe('🤖');
-    });
-
-    it('promptModifier mentions technical style', () => {
-      expect(robotic.promptModifier.toLowerCase()).toContain('technical');
-    });
-  });
-
-  describe('explanatory tone', () => {
+  describe('explanatory tone (Facts)', () => {
     const explanatory = TONE_DEFINITIONS.find((t) => t.id === 'explanatory')!;
 
-    it('has label "Explanatory"', () => {
-      expect(explanatory.label).toBe('Explanatory');
+    it('has label "Facts"', () => {
+      expect(explanatory.label).toBe('Facts');
     });
 
     it('has book emoji', () => {
@@ -125,28 +91,11 @@ describe('TONE_DEFINITIONS', () => {
     });
   });
 
-  describe('sarcastic tone', () => {
-    const sarcastic = TONE_DEFINITIONS.find((t) => t.id === 'sarcastic')!;
-
-    it('has label "Sarcastic"', () => {
-      expect(sarcastic.label).toBe('Sarcastic');
-    });
-
-    it('has smirk emoji', () => {
-      expect(sarcastic.emoji).toBe('😏');
-    });
-
-    it('promptModifier mentions wit or humor', () => {
-      const modifier = sarcastic.promptModifier.toLowerCase();
-      expect(modifier.includes('wit') || modifier.includes('humor')).toBe(true);
-    });
-  });
-
-  describe('storytelling tone', () => {
+  describe('storytelling tone (Story)', () => {
     const storytelling = TONE_DEFINITIONS.find((t) => t.id === 'storytelling')!;
 
-    it('has label "Storytelling"', () => {
-      expect(storytelling.label).toBe('Storytelling');
+    it('has label "Story"', () => {
+      expect(storytelling.label).toBe('Story');
     });
 
     it('has book emoji', () => {
@@ -158,11 +107,11 @@ describe('TONE_DEFINITIONS', () => {
     });
   });
 
-  describe('analogical tone', () => {
+  describe('analogical tone (Analogy)', () => {
     const analogical = TONE_DEFINITIONS.find((t) => t.id === 'analogical')!;
 
-    it('has label "Analogical"', () => {
-      expect(analogical.label).toBe('Analogical');
+    it('has label "Analogy"', () => {
+      expect(analogical.label).toBe('Analogy');
     });
 
     it('has link emoji', () => {
@@ -290,7 +239,7 @@ describe('GeneratedArticle interface', () => {
       id: 'gen_456',
       topic: 'Machine Learning',
       targetDuration: 3,
-      tone: 'sarcastic',
+      tone: 'storytelling',
       title: 'ML for Skeptics',
       content: 'So you want to learn ML...',
       wordCount: 900,
@@ -315,7 +264,7 @@ describe('GeneratedArticle interface', () => {
       id: 'gen_789',
       topic: 'Failed Topic',
       targetDuration: 1,
-      tone: 'robotic',
+      tone: 'explanatory',
       title: '',
       content: '',
       wordCount: 0,

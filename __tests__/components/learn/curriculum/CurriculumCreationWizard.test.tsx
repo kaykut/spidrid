@@ -170,20 +170,16 @@ describe('CurriculumCreationWizard', () => {
       fireEvent.press(screen.getByText('Next')); // Step 2 -> 3
     };
 
-    it('renders all 5 tone options', () => {
+    it('renders all 3 style options', () => {
       goToStep3();
-      expect(screen.getByText('Robotic')).toBeTruthy();
-      expect(screen.getByText('Explanatory')).toBeTruthy();
-      expect(screen.getByText('Sarcastic')).toBeTruthy();
-      expect(screen.getByText('Storytelling')).toBeTruthy();
-      expect(screen.getByText('Analogical')).toBeTruthy();
+      expect(screen.getByText('Facts')).toBeTruthy();
+      expect(screen.getByText('Story')).toBeTruthy();
+      expect(screen.getByText('Analogy')).toBeTruthy();
     });
 
     it('shows tone emojis', () => {
       goToStep3();
-      expect(screen.getByText('🤖')).toBeTruthy();
       expect(screen.getByText('📚')).toBeTruthy();
-      expect(screen.getByText('😏')).toBeTruthy();
       expect(screen.getByText('📖')).toBeTruthy();
       expect(screen.getByText('🔗')).toBeTruthy();
     });

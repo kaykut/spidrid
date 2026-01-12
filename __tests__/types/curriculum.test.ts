@@ -250,7 +250,7 @@ describe('curriculum types', () => {
     });
 
     it('accepts all valid tones', () => {
-      const tones: ArticleTone[] = ['robotic', 'explanatory', 'sarcastic', 'storytelling', 'analogical'];
+      const tones: ArticleTone[] = ['explanatory', 'explanatory', 'storytelling', 'storytelling', 'analogical'];
       tones.forEach((tone) => {
         const input = { ...createValidInput(), tone };
         expect(input.tone).toBe(tone);

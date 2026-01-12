@@ -16,7 +16,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -39,7 +39,7 @@ function getIconName(source: ContentSource, category: ContentCategory): keyof ty
     case 'training':
       return 'stopwatch-outline';
     case 'generated':
-      return 'sparkles-outline';
+      return 'sparkles-outline'; // Handled specially with MaterialCommunityIcons brain
     case 'curriculum':
       return 'school-outline';
     case 'imported':
@@ -149,7 +149,11 @@ export function ContentListItemCard({
     >
       {/* Left: Small icon */}
       <View style={styles.iconContainer}>
-        <Ionicons name={iconName} size={SIZES.iconMd} color={theme.accentColor} />
+        {item.source === 'generated' ? (
+          <MaterialCommunityIcons name="brain" size={SIZES.iconMd} color={theme.accentColor} />
+        ) : (
+          <Ionicons name={iconName} size={SIZES.iconMd} color={theme.accentColor} />
+        )}
       </View>
 
       {/* Center: Title and metadata */}

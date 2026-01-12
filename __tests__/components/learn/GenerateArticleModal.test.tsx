@@ -159,9 +159,9 @@ describe('GenerateArticleModal', () => {
         fireEvent.press(screen.getByText('5 min'));
       });
 
-      // Select sarcastic tone
+      // Select Story style
       await act(async () => {
-        fireEvent.press(screen.getByText('Sarcastic'));
+        fireEvent.press(screen.getByText('Story'));
       });
 
       // Press generate
@@ -173,7 +173,7 @@ describe('GenerateArticleModal', () => {
         expect(mockGenerateArticle).toHaveBeenCalledWith({
           topic: 'Machine Learning Basics',
           durationMinutes: 5,
-          tone: 'sarcastic',
+          tone: 'storytelling',
           avgWpm: 300,
           userId: 'current-user',
         });
@@ -304,14 +304,12 @@ describe('GenerateArticleModal', () => {
       expect(screen.getByText('10 min')).toBeTruthy();
     });
 
-    it('renders all tone options', () => {
+    it('renders all 3 style options', () => {
       renderWithProviders(<GenerateArticleModal visible onClose={jest.fn()} avgWpm={250} />);
 
-      expect(screen.getByText('Robotic')).toBeTruthy();
-      expect(screen.getByText('Explanatory')).toBeTruthy();
-      expect(screen.getByText('Sarcastic')).toBeTruthy();
-      expect(screen.getByText('Storytelling')).toBeTruthy();
-      expect(screen.getByText('Analogical')).toBeTruthy();
+      expect(screen.getByText('Facts')).toBeTruthy();
+      expect(screen.getByText('Story')).toBeTruthy();
+      expect(screen.getByText('Analogy')).toBeTruthy();
     });
   });
 

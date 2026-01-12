@@ -400,7 +400,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -422,7 +422,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -446,7 +446,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -468,7 +468,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -491,7 +491,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -513,7 +513,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -557,7 +557,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'First',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -567,7 +567,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Second',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -594,7 +594,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -637,7 +637,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -678,7 +678,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'First',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -724,7 +724,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -761,7 +761,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Delete',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -794,7 +794,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -830,7 +830,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -857,7 +857,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -882,7 +882,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });
@@ -903,7 +903,7 @@ describe('generatedStore', () => {
         await result.current.generateArticle({
           topic: 'Test',
           durationMinutes: 2,
-          tone: 'robotic',
+          tone: 'explanatory',
           avgWpm: 250,
           userId: 'user_1',
         });

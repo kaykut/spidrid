@@ -65,40 +65,26 @@ describe('GeneratedArticleCard', () => {
     });
   });
 
-  describe('tone display', () => {
-    it('displays explanatory tone with emoji', () => {
+  describe('style display', () => {
+    it('displays Facts style with emoji', () => {
       renderWithProviders(createArticle({ tone: 'explanatory' }));
 
       expect(screen.getByText('📚')).toBeTruthy();
-      expect(screen.getByText('Explanatory')).toBeTruthy();
+      expect(screen.getByText('Facts')).toBeTruthy();
     });
 
-    it('displays robotic tone with emoji', () => {
-      renderWithProviders(createArticle({ tone: 'robotic' }));
-
-      expect(screen.getByText('🤖')).toBeTruthy();
-      expect(screen.getByText('Robotic')).toBeTruthy();
-    });
-
-    it('displays sarcastic tone with emoji', () => {
-      renderWithProviders(createArticle({ tone: 'sarcastic' }));
-
-      expect(screen.getByText('😏')).toBeTruthy();
-      expect(screen.getByText('Sarcastic')).toBeTruthy();
-    });
-
-    it('displays storytelling tone with emoji', () => {
+    it('displays Story style with emoji', () => {
       renderWithProviders(createArticle({ tone: 'storytelling' }));
 
       expect(screen.getByText('📖')).toBeTruthy();
-      expect(screen.getByText('Storytelling')).toBeTruthy();
+      expect(screen.getByText('Story')).toBeTruthy();
     });
 
-    it('displays analogical tone with emoji', () => {
+    it('displays Analogy style with emoji', () => {
       renderWithProviders(createArticle({ tone: 'analogical' }));
 
       expect(screen.getByText('🔗')).toBeTruthy();
-      expect(screen.getByText('Analogical')).toBeTruthy();
+      expect(screen.getByText('Analogy')).toBeTruthy();
     });
   });
 
@@ -198,14 +184,14 @@ describe('GeneratedArticleCard', () => {
         createArticle({
           title: 'Article One',
           topic: 'Topic One',
-          tone: 'robotic',
+          tone: 'explanatory',
           wordCount: 500,
         })
       );
 
       expect(screen.getByText('Article One')).toBeTruthy();
       expect(screen.getByText('"Topic One"')).toBeTruthy();
-      expect(screen.getByText('Robotic')).toBeTruthy();
+      expect(screen.getByText('Facts')).toBeTruthy();
       expect(screen.getByText('500 words')).toBeTruthy();
     });
 
@@ -221,7 +207,7 @@ describe('GeneratedArticleCard', () => {
 
       expect(screen.getByText('Article Two')).toBeTruthy();
       expect(screen.getByText('"Topic Two"')).toBeTruthy();
-      expect(screen.getByText('Storytelling')).toBeTruthy();
+      expect(screen.getByText('Story')).toBeTruthy();
       expect(screen.getByText('1000 words')).toBeTruthy();
     });
   });

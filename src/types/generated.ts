@@ -11,12 +11,7 @@ import { Question } from './learning';
 // Article Tone Definitions
 // =============================================================================
 
-export type ArticleTone =
-  | 'robotic'
-  | 'explanatory'
-  | 'sarcastic'
-  | 'storytelling'
-  | 'analogical';
+export type ArticleTone = 'explanatory' | 'storytelling' | 'analogical';
 
 export interface ToneDefinition {
   id: ArticleTone;
@@ -28,32 +23,16 @@ export interface ToneDefinition {
 
 export const TONE_DEFINITIONS: ToneDefinition[] = [
   {
-    id: 'robotic',
-    label: 'Robotic',
-    description: 'Clinical and technical',
-    emoji: '🤖',
-    promptModifier:
-      'Write in a clinical, technical, matter-of-fact style. Be precise and avoid emotional language. Present information systematically.',
-  },
-  {
     id: 'explanatory',
-    label: 'Explanatory',
+    label: 'Facts',
     description: 'Clear and educational',
     emoji: '📚',
     promptModifier:
       'Write in a clear, educational style. Break down concepts step-by-step. Anticipate reader questions and address them. Use examples liberally.',
   },
   {
-    id: 'sarcastic',
-    label: 'Sarcastic',
-    description: 'Witty and irreverent',
-    emoji: '😏',
-    promptModifier:
-      'Write with dry wit and occasional sarcasm. Be irreverent but still informative. Use humor to make points memorable. Do not be mean-spirited.',
-  },
-  {
     id: 'storytelling',
-    label: 'Storytelling',
+    label: 'Story',
     description: 'Narrative and engaging',
     emoji: '📖',
     promptModifier:
@@ -61,7 +40,7 @@ export const TONE_DEFINITIONS: ToneDefinition[] = [
   },
   {
     id: 'analogical',
-    label: 'Analogical',
+    label: 'Analogy',
     description: 'Rich in comparisons',
     emoji: '🔗',
     promptModifier:
