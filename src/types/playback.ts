@@ -11,6 +11,9 @@ export interface ProcessedWord {
   // Phase 3: Header treatment
   isHeader?: boolean;
   headerText?: string; // Full header for snapshot display (≤3 words)
+  // Long word splitting
+  isContinuation?: boolean; // True for 2nd+ parts of a split word
+  fullWord?: string; // Original word before splitting (for context)
 }
 
 export interface PlaybackState {

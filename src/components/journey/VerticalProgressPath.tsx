@@ -80,9 +80,10 @@ interface MilestoneRowProps {
   avgWpm: number;
   avgComp: number;
   certProgress: Record<JourneyCertTier, JourneyCertProgress>;
+  isLast: boolean;
 }
 
-function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProps) {
+function MilestoneRow({ state, avgWpm, avgComp, certProgress, isLast }: MilestoneRowProps) {
   const { theme } = useTheme();
   const { milestone, status, isNext, index } = state;
 
@@ -111,7 +112,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
   const isCompleted = status === 'completed' || status === 'current';
 
   return (
-    <View style={styles.milestoneRow}>
+    <View style={[styles.milestoneRow, isLast && styles.milestoneRowLast]}>
       {/* Node circle */}
       <View style={styles.nodeWrapper}>
         <GlowAnimation active={isNext} color={JOURNEY_COLORS.accent} glowSize={6}>
@@ -125,7 +126,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress }: MilestoneRowProp
               },
               isCompleted && styles.nodeCompleted,
               isNext && styles.nodeNext,
-              !isCompleted && !isNext && styles.nodeFuture,
+              !isCompleted && !isNext && [styles.nodeFuture, { backgroundColor: theme.secondaryBackground }],
             ]}
           >
             {getNodeContent()}
@@ -228,13 +229,14 @@ export function VerticalProgressPath({
       </View>
 
       {/* Milestone rows */}
-      {milestoneStates.map((state) => (
+      {milestoneStates.map((state, idx) => (
         <MilestoneRow
           key={`milestone-${state.index}`}
           state={state}
           avgWpm={avgWpm}
           avgComp={avgComp}
           certProgress={certProgress}
+          isLast={idx === milestoneStates.length - 1}
         />
       ))}
     </View>
@@ -249,17 +251,17 @@ const LINE_LEFT_OFFSET = COMPONENT_SIZES.nodeColumnWidth / 2 - SIZES.pathLineWid
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: SPACING.lg,
+    paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.lg,
     position: 'relative',
   },
 
-  // Vertical line
+  // Vertical line - positioned to align with node centers
   lineContainer: {
     position: 'absolute',
     left: SPACING.lg + LINE_LEFT_OFFSET,
-    top: SPACING.lg + SIZES.currentNodeSize / 2,
-    bottom: SPACING.lg + SIZES.nodeSize / 2,
+    top: SPACING.sm + SIZES.currentNodeSize / 2,
+    bottom: SPACING.sm + SIZES.nodeSize,
     width: SIZES.pathLineWidth,
   },
   lineBackground: {
@@ -277,6 +279,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: SPACING.xl,
+  },
+  milestoneRowLast: {
+    marginBottom: 0,
   },
 
   // Node wrapper

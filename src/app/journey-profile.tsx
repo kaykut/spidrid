@@ -19,6 +19,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
 import { Paywall } from '../components/paywall/Paywall';
@@ -48,9 +49,11 @@ export default function JourneyProfileModal() {
     userName,
     readingLanguage,
     paragraphPauseEnabled,
+    moveFinishedToHistory,
     setUserName,
     setReadingLanguage,
     setParagraphPauseEnabled,
+    setMoveFinishedToHistory,
   } = useSettingsStore();
   const {
     isPremium,
@@ -66,6 +69,8 @@ export default function JourneyProfileModal() {
   const currentLanguage =
     READING_LANGUAGES.find((l) => l.code === readingLanguage)?.label || 'English';
 
+  const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
+
   const handleClose = () => {
     router.back();
   };
@@ -78,14 +83,39 @@ export default function JourneyProfileModal() {
         reason="content_limit"
       />
       <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        {/* Close button - absolute positioned in safe area */}
-        <TouchableOpacity
-          onPress={handleClose}
-          style={[styles.closeButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        >
-          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-        </TouchableOpacity>
+        {/* Fixed close button with glass background */}
+        <View style={[styles.closeButtonContainer, { top: insets.top + SPACING.sm }]}>
+          <GlassView
+            appearance={isDarkTheme ? 'dark' : 'light'}
+            style={styles.closeButtonGlass}
+          >
+            <TouchableOpacity
+              onPress={handleClose}
+              style={styles.closeButtonTouchable}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+            </TouchableOpacity>
+          </GlassView>
+        </View>
+
+        {/* History button (top-right) - only show when setting is enabled */}
+        {moveFinishedToHistory && (
+          <View style={[styles.historyButtonContainer, { top: insets.top + SPACING.sm }]}>
+            <GlassView
+              appearance={isDarkTheme ? 'dark' : 'light'}
+              style={styles.historyButtonGlass}
+            >
+              <TouchableOpacity
+                onPress={() => router.push('/history')}
+                style={styles.historyButtonTouchable}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Ionicons name="time-outline" size={SIZES.iconLg} color={theme.textColor} />
+              </TouchableOpacity>
+            </GlassView>
+          </View>
+        )}
 
         <ScrollView
           style={styles.scrollView}
@@ -95,8 +125,9 @@ export default function JourneyProfileModal() {
           ]}
           showsVerticalScrollIndicator={false}
         >
-          {/* Page title - now part of scroll content */}
-          <Text style={[styles.pageTitle, { color: theme.textColor }]}>Journey & Profile</Text>
+          {/* Page title */}
+          <Text style={[styles.pageTitle, { color: theme.textColor }]}>Journey & Settings</Text>
+
           {/* ====== JOURNEY SECTION ====== */}
 
           {/* Vertical Progress Path */}
@@ -280,6 +311,22 @@ export default function JourneyProfileModal() {
                 thumbColor={theme.textColor}
               />
             </View>
+            <View style={[styles.settingRow, { marginTop: SPACING.md }]}>
+              <View style={styles.settingInfo}>
+                <Text style={[styles.settingLabel, { color: theme.textColor }]}>
+                  Move to History
+                </Text>
+                <Text style={[styles.settingDesc, { color: theme.textColor }]}>
+                  Completed items move to History
+                </Text>
+              </View>
+              <Switch
+                value={moveFinishedToHistory}
+                onValueChange={setMoveFinishedToHistory}
+                trackColor={{ false: theme.trackColor, true: theme.accentColor }}
+                thumbColor={theme.textColor}
+              />
+            </View>
           </View>
 
           {/* Dev controls */}
@@ -336,11 +383,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  closeButton: {
+  closeButtonContainer: {
     position: 'absolute',
+    left: SPACING.md,
     zIndex: 10,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
+  },
+  closeButtonGlass: {
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+    borderRadius: SIZES.touchTarget / 2,
+    overflow: 'hidden',
+  },
+  closeButtonTouchable: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  historyButtonContainer: {
+    position: 'absolute',
+    right: SPACING.md,
+    zIndex: 10,
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+  },
+  historyButtonGlass: {
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+    borderRadius: SIZES.touchTarget / 2,
+    overflow: 'hidden',
+  },
+  historyButtonTouchable: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -352,41 +427,41 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     ...TYPOGRAPHY.pageTitle,
-    marginBottom: SPACING.xl,
+    marginBottom: SPACING.md,
   },
   progressContainer: {
     borderRadius: COMPONENT_RADIUS.card,
-    marginTop: SPACING.xl,
     padding: COMPONENT_RADIUS.card / 2,
+    marginBottom: SPACING.sm,
     overflow: 'hidden',
   },
   sectionTitle: {
     fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
-    marginBottom: SPACING.md,
-    marginTop: SPACING.xl,
+    marginBottom: SPACING.sm,
+    marginTop: SPACING.sm,
   },
   themeGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: SPACING.md,
+    gap: SPACING.sm,
     marginBottom: SPACING.sm,
   },
   themeButton: {
-    width: '47%',
-    padding: SPACING.lg,
+    flex: 1,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.xs,
     borderRadius: COMPONENT_RADIUS.button,
     borderWidth: 2,
     alignItems: 'center',
   },
   themeName: {
-    ...TYPOGRAPHY.cardSubtitle,
-    marginBottom: SPACING.sm,
+    ...TYPOGRAPHY.caption,
   },
   orpPreview: {
-    width: SIZES.iconLg,
-    height: SIZES.iconLg,
+    width: SIZES.iconSm,
+    height: SIZES.iconSm,
     borderRadius: COMPONENT_RADIUS.badge,
+    marginTop: SPACING.xs,
   },
   card: {
     padding: SPACING.lg,

@@ -48,8 +48,9 @@ export function GlassView({ appearance, style, children }: GlassViewProps) {
     );
   }
 
-  // Fallback: Use expo-blur BlurView
+  // Fallback: Use expo-blur BlurView with semi-transparent overlay for visibility
   const tint = appearance === 'dark' ? 'dark' : 'light';
+  const overlayColor = appearance === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
 
   return (
     <View style={style}>
@@ -59,6 +60,7 @@ export function GlassView({ appearance, style, children }: GlassViewProps) {
         experimentalBlurMethod={Platform.OS === 'android' ? 'dimezisBlurView' : undefined}
         style={StyleSheet.absoluteFill}
       />
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: overlayColor }]} />
       {children}
     </View>
   );

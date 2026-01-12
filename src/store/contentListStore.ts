@@ -17,12 +17,20 @@ import {
   ContentCategory,
   ContentListItem,
   ContentItemState,
+  ContentSection,
   BOOK_PAGE_THRESHOLD,
 } from '../types/contentList';
+import {
+  DateBucket,
+  DATE_BUCKET_LABELS,
+  DATE_BUCKET_ORDER,
+  getDateBucket,
+} from '../utils/dateGrouping';
 import { useContentStore } from './contentStore';
 import { useCurriculumStore } from './curriculumStore';
 import { useGeneratedStore } from './generatedStore';
 import { useLearningStore } from './learningStore';
+import { useSettingsStore } from './settingsStore';
 
 // =============================================================================
 // Store Interface
@@ -37,6 +45,15 @@ interface ContentListState {
 
   /** Get the unified content list (computed from source stores) */
   getContentList: () => ContentListItem[];
+
+  /** Get content list grouped by date sections */
+  getGroupedContentList: () => ContentSection[];
+
+  /** Get only completed items for History view */
+  getHistoryList: () => ContentListItem[];
+
+  /** Get history list grouped by date sections */
+  getGroupedHistoryList: () => ContentSection[];
 
   /** Check if there is any content at all (ignores filter) */
   hasAnyContent: () => boolean;
@@ -271,6 +288,10 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
           const progressPercent = completed ? 100 : 0;
           const state = getContentState(progressPercent, completed);
 
+          // Use first attempt timestamp as "added" date, fall back to lastReadAt
+          const firstAttemptAt = progress.attempts?.[0]?.timestamp;
+          const addedAt = firstAttemptAt || progress.lastReadAt || 0;
+
           items.push({
             id: `training-${article.id}`,
             sourceId: article.id,
@@ -283,7 +304,7 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
             quizScore: progress?.comprehensionScore,
             hasQuiz: article.questions.length > 0,
             quizPending: false, // Training articles don't have pending quiz state
-            addedAt: 0, // Training articles are always available (sort to end)
+            addedAt,
             lastPlayedAt: progress?.lastReadAt,
           });
         }
@@ -306,7 +327,257 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
       return b.addedAt - a.addedAt;
     });
 
+    // =========================================================================
+    // Filter out completed items if "Move to History" setting is enabled
+    // =========================================================================
+    const { moveFinishedToHistory } = useSettingsStore.getState();
+    if (moveFinishedToHistory) {
+      return items.filter((item) => item.state !== 'completed');
+    }
+
     return items;
+  },
+
+  getGroupedContentList: () => {
+    const items = get().getContentList();
+
+    // Group items by date bucket
+    const bucketMap = new Map<DateBucket, ContentListItem[]>();
+
+    for (const item of items) {
+      const bucket = getDateBucket(item.addedAt);
+      if (!bucketMap.has(bucket)) {
+        bucketMap.set(bucket, []);
+      }
+      bucketMap.get(bucket)!.push(item);
+    }
+
+    // Build sections in order, omitting empty buckets
+    const sections: ContentSection[] = [];
+    for (const bucket of DATE_BUCKET_ORDER) {
+      const data = bucketMap.get(bucket);
+      if (data && data.length > 0) {
+        sections.push({
+          bucket,
+          title: DATE_BUCKET_LABELS[bucket],
+          data,
+        });
+      }
+    }
+
+    return sections;
+  },
+
+  getHistoryList: () => {
+    const items: ContentListItem[] = [];
+
+    // Get source stores
+    const { importedContent } = useContentStore.getState();
+    const { articles: generatedArticles } = useGeneratedStore.getState();
+    const { curricula } = useCurriculumStore.getState();
+    const { articleProgress } = useLearningStore.getState();
+
+    // =========================================================================
+    // 1. Imported Content (completed only)
+    // =========================================================================
+    for (const content of importedContent) {
+      if (content.readProgress < 1) {
+        continue; // Skip incomplete
+      }
+
+      const pageCount = estimatePageCount(content.wordCount);
+      const isBook =
+        content.source === 'epub' ||
+        (content.source === 'pdf' && pageCount > BOOK_PAGE_THRESHOLD);
+      const category: ContentCategory = isBook ? 'books' : 'articles';
+
+      items.push({
+        id: `imported-${content.id}`,
+        sourceId: content.id,
+        source: 'imported',
+        category,
+        title: content.title,
+        wordCount: content.wordCount,
+        pageCount: isBook ? pageCount : undefined,
+        state: 'completed',
+        progress: 100,
+        hasQuiz: false,
+        quizPending: false,
+        addedAt: content.createdAt,
+        lastPlayedAt: content.lastReadAt,
+      });
+    }
+
+    // =========================================================================
+    // 2. Generated Articles (completed only)
+    // =========================================================================
+    for (const article of generatedArticles) {
+      if (article.status !== 'complete' || !article.completed) {
+        continue;
+      }
+
+      items.push({
+        id: `generated-${article.id}`,
+        sourceId: article.id,
+        source: 'generated',
+        category: 'learning',
+        title: article.title,
+        wordCount: article.wordCount,
+        state: 'completed',
+        progress: 100,
+        quizScore: article.comprehensionScore,
+        hasQuiz: article.questions.length > 0,
+        quizPending: false,
+        addedAt: article.generatedAt,
+        lastPlayedAt: article.lastReadAt,
+      });
+    }
+
+    // =========================================================================
+    // 3. Curricula (completed only)
+    // =========================================================================
+    for (const curriculum of Object.values(curricula)) {
+      if (!curriculum.isCompleted) {
+        continue; // Skip incomplete curricula
+      }
+
+      // Build nested article items (all completed)
+      const curriculumArticles: ContentListItem[] = [];
+      for (const article of curriculum.articles) {
+        if (article.generationStatus !== 'generated') {
+          continue;
+        }
+
+        curriculumArticles.push({
+          id: `curriculum-article-${article.id}`,
+          sourceId: article.id,
+          source: 'curriculum',
+          category: 'learning',
+          title: article.title,
+          wordCount: article.wordCount,
+          state: article.completionStatus === 'completed' ? 'completed' : 'in_progress',
+          progress: article.completionStatus === 'completed' ? 100 : 0,
+          quizScore: article.comprehensionScore,
+          hasQuiz: article.questions.length > 0,
+          quizPending: false,
+          addedAt: article.generatedAt || curriculum.createdAt,
+          lastPlayedAt: article.completedAt,
+          curriculumId: curriculum.id,
+        });
+      }
+
+      if (curriculumArticles.length === 0) {
+        continue;
+      }
+
+      const totalWords = curriculum.articles.reduce(
+        (sum, a) => sum + (a.wordCount || 0),
+        0
+      );
+
+      items.push({
+        id: `curriculum-${curriculum.id}`,
+        sourceId: curriculum.id,
+        source: 'curriculum',
+        category: 'learning',
+        title: curriculum.title,
+        wordCount: totalWords,
+        state: 'completed',
+        progress: 100,
+        hasQuiz: true,
+        quizPending: false,
+        addedAt: curriculum.createdAt,
+        lastPlayedAt: curriculum.updatedAt,
+        isCurriculum: true,
+        curriculumProgress: {
+          completed: curriculum.articleCount,
+          total: curriculum.articleCount,
+        },
+        curriculumArticles,
+      });
+    }
+
+    // =========================================================================
+    // 4. Training Articles (completed only)
+    // =========================================================================
+    for (const topic of TOPICS) {
+      const topicArticles = ARTICLES.filter((a) => a.topicId === topic.id);
+
+      for (const article of topicArticles) {
+        const progress = articleProgress[article.id];
+        if (!progress?.completed) {
+          continue; // Skip incomplete
+        }
+
+        // Use first attempt timestamp as "added" date, fall back to lastReadAt
+        const firstAttemptAt = progress.attempts?.[0]?.timestamp;
+        const addedAt = firstAttemptAt || progress.lastReadAt || 0;
+
+        items.push({
+          id: `training-${article.id}`,
+          sourceId: article.id,
+          source: 'training',
+          category: 'training',
+          title: article.title,
+          wordCount: article.wordCount,
+          state: 'completed',
+          progress: 100,
+          quizScore: progress.comprehensionScore,
+          hasQuiz: article.questions.length > 0,
+          quizPending: false,
+          addedAt,
+          lastPlayedAt: progress.lastReadAt,
+        });
+      }
+    }
+
+    // Sort by lastPlayedAt descending (most recently completed first)
+    // Fall back to addedAt if no lastPlayedAt
+    items.sort((a, b) => {
+      const aTime = a.lastPlayedAt || a.addedAt;
+      const bTime = b.lastPlayedAt || b.addedAt;
+      // Training articles (addedAt = 0) go to the end
+      if (aTime === 0 && bTime !== 0) {
+        return 1;
+      }
+      if (bTime === 0 && aTime !== 0) {
+        return -1;
+      }
+      return bTime - aTime;
+    });
+
+    return items;
+  },
+
+  getGroupedHistoryList: () => {
+    const items = get().getHistoryList();
+
+    // Group items by date bucket (using lastPlayedAt for history)
+    const bucketMap = new Map<DateBucket, ContentListItem[]>();
+
+    for (const item of items) {
+      const timestamp = item.lastPlayedAt || item.addedAt;
+      const bucket = getDateBucket(timestamp);
+      if (!bucketMap.has(bucket)) {
+        bucketMap.set(bucket, []);
+      }
+      bucketMap.get(bucket)!.push(item);
+    }
+
+    // Build sections in order, omitting empty buckets
+    const sections: ContentSection[] = [];
+    for (const bucket of DATE_BUCKET_ORDER) {
+      const data = bucketMap.get(bucket);
+      if (data && data.length > 0) {
+        sections.push({
+          bucket,
+          title: DATE_BUCKET_LABELS[bucket],
+          data,
+        });
+      }
+    }
+
+    return sections;
   },
 
   hasAnyContent: () => {

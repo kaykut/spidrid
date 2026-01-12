@@ -9,24 +9,34 @@
  * - Empty state when no content
  */
 
-import React, { useCallback, useMemo } from 'react';
-import { View, FlatList, StyleSheet, ListRenderItem, RefreshControl } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import {
+  View,
+  SectionList,
+  StyleSheet,
+  SectionListRenderItem,
+  RefreshControl,
+  SectionListData,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SPACING, SIZES } from '../../constants/spacing';
+import { SPACING } from '../../constants/spacing';
 import { useStats } from '../../hooks/useStats';
 import { useContentListStore } from '../../store/contentListStore';
 import { useContentStore } from '../../store/contentStore';
 import { useCurriculumStore } from '../../store/curriculumStore';
 import { useGeneratedStore } from '../../store/generatedStore';
 import { useLearningStore } from '../../store/learningStore';
-import { ContentListItem } from '../../types/contentList';
+import { useSettingsStore } from '../../store/settingsStore';
+import { ContentListItem, ContentSection } from '../../types/contentList';
 import { StatsSummary } from '../certifications';
+import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
-import { FABButton } from '../navigation/FABButton';
+import { FloatingActionBar } from '../navigation/FloatingActionBar';
 import { ContentListItemCard } from './ContentListItemCard';
 import { CurriculumAccordionItem } from './CurriculumAccordionItem';
+import { DateSectionHeader } from './DateSectionHeader';
 import { EmptyState } from './EmptyState';
 import { FilterPills } from './FilterPills';
 
@@ -43,10 +53,12 @@ export function ContentListScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const stats = useStats();
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
   const activeFilter = useContentListStore((state) => state.activeFilter);
   const setFilter = useContentListStore((state) => state.setFilter);
-  const getContentList = useContentListStore((state) => state.getContentList);
+  const getGroupedContentList = useContentListStore((state) => state.getGroupedContentList);
   const hasAnyContent = useContentListStore((state) => state.hasAnyContent);
   const deleteItem = useContentListStore((state) => state.deleteItem);
 
@@ -55,16 +67,18 @@ export function ContentListScreen() {
   const generatedArticles = useGeneratedStore((state) => state.articles);
   const curricula = useCurriculumStore((state) => state.curricula);
   const articleProgress = useLearningStore((state) => state.articleProgress);
+  const moveFinishedToHistory = useSettingsStore((state) => state.moveFinishedToHistory);
 
-  // Get the computed content list - recomputes when source stores change
+  // Get the computed grouped content list - recomputes when source stores change
   // eslint-disable-next-line react-hooks/exhaustive-deps -- Dependencies trigger recomputation when stores change
-  const contentList = useMemo(() => getContentList(), [
-    getContentList,
+  const sections = useMemo(() => getGroupedContentList(), [
+    getGroupedContentList,
     activeFilter,
     importedContent,
     generatedArticles,
     curricula,
     articleProgress,
+    moveFinishedToHistory,
   ]);
 
   // Check if list is truly empty (no content at all, ignoring filter)
@@ -111,7 +125,7 @@ export function ContentListScreen() {
   );
 
   // Render individual list items
-  const renderItem: ListRenderItem<ContentListItem> = useCallback(
+  const renderItem: SectionListRenderItem<ContentListItem, ContentSection> = useCallback(
     ({ item }) => {
       // Render curriculum with accordion
       if (item.isCurriculum) {
@@ -138,30 +152,21 @@ export function ContentListScreen() {
     [handleItemPress, handleDeleteItem, handleQuizPress]
   );
 
-  // Key extractor for FlatList
+  // Key extractor for SectionList
   const keyExtractor = useCallback((item: ContentListItem) => item.id, []);
 
-  // Calculate top margin for stats panel to clear the FAB
-  const FAB_SIZE = SIZES.touchTarget + SPACING.sm; // 52pt (matches FABButton)
-  const statsTopMargin = FAB_SIZE + SPACING.sm; // Space below FAB
-
-  // List header with stats panel and filter pills
-  const ListHeader = useMemo(
-    () => (
-      <View>
-        <View style={[styles.statsContainer, { marginTop: statsTopMargin }]}>
-          <StatsSummary
-            articlesRead={stats.articlesRead}
-            totalWords={stats.totalWords}
-            averageComprehension={stats.averageComprehension}
-            bestWPM={stats.bestWPM}
-          />
-        </View>
-        <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
-      </View>
+  // Render section headers
+  const renderSectionHeader = useCallback(
+    ({ section }: { section: SectionListData<ContentListItem, ContentSection> }) => (
+      <DateSectionHeader title={section.title} />
     ),
-    [activeFilter, setFilter, stats, statsTopMargin]
+    []
   );
+
+  // Handle header layout to get its height for SectionList padding
+  const handleHeaderLayout = useCallback((event: { nativeEvent: { layout: { height: number } } }) => {
+    setHeaderHeight(event.nativeEvent.layout.height);
+  }, []);
 
   // Empty state component
   const ListEmptyComponent = useMemo(
@@ -179,16 +184,17 @@ export function ContentListScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-      <FlatList
-        data={contentList}
+      <SectionList
+        sections={sections}
         renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
         keyExtractor={keyExtractor}
-        ListHeaderComponent={ListHeader}
         ListEmptyComponent={ListEmptyComponent}
+        stickySectionHeadersEnabled={false}
         contentContainerStyle={[
           styles.listContent,
-          { paddingTop: insets.top },
-          contentList.length === 0 && styles.emptyListContent,
+          { paddingTop: headerHeight },
+          sections.length === 0 && styles.emptyListContent,
         ]}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -205,27 +211,34 @@ export function ContentListScreen() {
         }
       />
 
-      {/* Profile FAB (top-right) */}
-      <FABButton
-        position="top-right"
-        icon="person"
-        onPress={handleJourneyPress}
-        testID="fab-profile"
-      />
+      {/* Sticky glass header with stats and filter pills */}
+      <View
+        style={styles.stickyHeader}
+        onLayout={handleHeaderLayout}
+      >
+        <GlassView
+          appearance={isDarkTheme ? 'dark' : 'light'}
+          style={[styles.glassContainer, { paddingTop: insets.top }]}
+        >
+          <View style={styles.statsContainer}>
+            <StatsSummary
+              articlesRead={stats.articlesRead}
+              totalWords={stats.totalWords}
+              averageComprehension={stats.averageComprehension}
+              bestWPM={stats.bestWPM}
+              transparent
+            />
+          </View>
+          <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
+        </GlassView>
+      </View>
 
-      {/* Add Content FAB (bottom-right) */}
-      <FABButton
-        position="bottom-right"
-        icon="add"
-        onPress={handleAddContentPress}
-        testID="fab-add-content"
-      />
-
-      {/* Top gradient overlay */}
-      <LinearGradient
-        colors={[theme.backgroundColor, hexToRGBA(theme.backgroundColor, 0)]}
-        style={[styles.gradientTop, { height: insets.top + SPACING.xxxl }]}
-        pointerEvents="none"
+      {/* Floating Action Bar (bottom-right) */}
+      <FloatingActionBar
+        actions={[
+          { icon: 'person', onPress: handleJourneyPress, testID: 'fab-profile' },
+          { icon: 'add', onPress: handleAddContentPress, testID: 'fab-add-content' },
+        ]}
       />
 
       {/* Bottom gradient overlay */}
@@ -252,15 +265,20 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: SPACING.xxxl,
   },
-  statsContainer: {
-    marginHorizontal: SPACING.md,
-    marginBottom: SPACING.md,
-  },
-  gradientTop: {
+  stickyHeader: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
+    zIndex: 10,
+  },
+  glassContainer: {
+    overflow: 'hidden',
+  },
+  statsContainer: {
+    marginHorizontal: SPACING.md,
+    marginTop: SPACING.xs,
+    marginBottom: SPACING.xs,
   },
   gradientBottom: {
     position: 'absolute',

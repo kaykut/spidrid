@@ -11,7 +11,8 @@ interface StatsSummaryProps {
   totalWords: number;
   averageComprehension: number;
   bestWPM: number;
-
+  /** When true, renders without gradient background (for use inside GlassView) */
+  transparent?: boolean;
 }
 
 export function StatsSummary({
@@ -19,7 +20,7 @@ export function StatsSummary({
   totalWords,
   averageComprehension,
   bestWPM,
-
+  transparent = false,
 }: StatsSummaryProps) {
   const { theme } = useTheme();
 
@@ -33,33 +34,41 @@ export function StatsSummary({
     return num.toString();
   };
 
+  const content = (
+    <View style={styles.row}>
+      <StatItem
+        value={articlesRead}
+        label="Articles"
+        color={theme.accentColor}
+      />
+      <StatItem
+        value={formatNumber(totalWords)}
+        label="Words"
+        color={theme.accentColor}
+      />
+      <StatItem
+        value={`${averageComprehension}%`}
+        label="Comprehension"
+        color={JOURNEY_COLORS.success}
+      />
+      <StatItem
+        value={bestWPM}
+        label="Best WPM"
+        color={JOURNEY_COLORS.warmAccent}
+      />
+    </View>
+  );
+
+  if (transparent) {
+    return <View style={styles.container}>{content}</View>;
+  }
+
   return (
     <LinearGradient
       colors={[theme.secondaryBackground, theme.secondaryBackgroundGradient]}
       style={styles.container}
     >
-      <View style={styles.row}>
-        <StatItem
-          value={articlesRead}
-          label="Articles"
-          color={theme.accentColor}
-        />
-        <StatItem
-          value={formatNumber(totalWords)}
-          label="Words"
-          color={theme.accentColor}
-        />
-        <StatItem
-          value={`${averageComprehension}%`}
-          label="Comprehension"
-          color={JOURNEY_COLORS.success}
-        />
-        <StatItem
-          value={bestWPM}
-          label="Best WPM"
-          color={JOURNEY_COLORS.warmAccent}
-        />
-      </View>
+      {content}
     </LinearGradient>
   );
 }
@@ -90,13 +99,12 @@ function StatItem({ value, label, color }: StatItemProps) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: COMPONENT_RADIUS.card,
-    padding: COMPONENT_RADIUS.card / 2,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: SPACING.xs,
-    marginVertical: SPACING.sm,
+    marginVertical: SPACING.md,
   },
   statItem: {
     flex: 1,

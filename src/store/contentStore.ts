@@ -16,6 +16,7 @@ interface ContentStore {
   getContentById: (id: string) => ImportedContent | undefined;
   setCurrentContent: (id: string | null) => void;
   clearAllContent: () => void;
+  hydrateForTesting: (data: { importedContent: ImportedContent[] }) => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -71,6 +72,10 @@ export const useContentStore = create<ContentStore>()(
 
       clearAllContent: () => {
         set({ importedContent: [], currentContentId: null });
+      },
+
+      hydrateForTesting: (data) => {
+        set({ importedContent: data.importedContent, currentContentId: null });
       },
     }),
     {

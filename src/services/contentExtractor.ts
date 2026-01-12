@@ -42,14 +42,17 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
       .replace(/\n\s*\n/g, '\n\n')
       .trim();
 
+    // Filter out captions and photo credits
+    const filteredContent = filterCaptions(cleanContent);
+
     // Require minimum content length
-    if (cleanContent.length < 100) {
+    if (filteredContent.length < 100) {
       return null;
     }
 
     return {
       title: article.title || '',
-      content: cleanContent,
+      content: filteredContent,
       author: article.byline || undefined,
       excerpt: article.excerpt || undefined,
       siteName: article.siteName || undefined,
@@ -61,6 +64,36 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
     }
     return null;
   }
+}
+
+// Filter out image captions, photo credits, and similar non-article text
+// These are jarring during RSVP speed reading
+export function filterCaptions(text: string): string {
+  const captionPatterns = [
+    // Photo/image credits: "Photo: John Smith", "Image by Reuters"
+    /^(Photo|Image|Picture|Figure|Chart|Graph|Illustration)(\s*:|\s+by|\s+credit|\s+courtesy|\s+source|\s+via|\s+©)/i,
+    // Source attributions: "Credit:", "Source:", "©"
+    /^(Credit|Source|©|Caption)(\s*:)/i,
+    // Stock photo agencies at line start
+    /^\(?(Getty|Reuters|AP Photo|AFP|Bloomberg|Shutterstock|Unsplash|iStock|Alamy|PA Images|EPA)/i,
+    // Numbered image refs: "Image 2 of 5"
+    /^Image \d+ of \d+/i,
+    // Bracketed placeholders: "[Photo removed]", "[Image]" (not nested brackets like [[HEADER]])
+    /^\[[^\[\]]*\]$/,
+    // Copyright lines: "© 2024 Company Name"
+    /^©\s*\d{4}/,
+  ];
+
+  return text
+    .split('\n')
+    .filter(line => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        return true; // Keep empty lines for paragraph structure
+      }
+      return !captionPatterns.some(pattern => pattern.test(trimmed));
+    })
+    .join('\n');
 }
 
 // Basic HTML tag stripping
@@ -163,7 +196,8 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
 
     // Fallback to basic regex extraction
     const title = extractTitle(html, url);
-    const content = stripHtml(html);
+    const rawContent = stripHtml(html);
+    const content = filterCaptions(rawContent);
 
     if (content.length < 100) {
       throw new Error('Not enough readable content found');

@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   pill: {
     paddingHorizontal: SPACING.md,
     paddingVertical: 6, // Reduced from SPACING.sm (8)
-    borderRadius: COMPONENT_RADIUS.chip,
+    borderRadius: COMPONENT_RADIUS.badge, // Fully rounded pill shape
     minWidth: 40, // Reduced touch target min width
     overflow: 'hidden',
   },

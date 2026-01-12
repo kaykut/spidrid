@@ -5,6 +5,8 @@
  * into a single view. This replaces the old playlist concept.
  */
 
+import { DateBucket } from '../utils/dateGrouping';
+
 /**
  * Source of the content - which store it originates from
  * - training: Pre-seeded training articles from static curriculum
@@ -99,3 +101,17 @@ export interface ContentListItem {
  * PDFs and EPUBs with more than 50 pages are considered books
  */
 export const BOOK_PAGE_THRESHOLD = 50;
+
+/**
+ * Section for SectionList grouping content by date
+ */
+export interface ContentSection {
+  /** Date bucket identifier */
+  bucket: DateBucket;
+
+  /** Display title for the section header */
+  title: string;
+
+  /** Content items in this section */
+  data: ContentListItem[];
+}

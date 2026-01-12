@@ -8,6 +8,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { extractFromUrl, extractFromEbook } from '../services/contentExtractor';
 import { useContentStore } from '../store/contentStore';
 import { useCurriculumStore } from '../store/curriculumStore';
 import { useGeneratedStore } from '../store/generatedStore';
@@ -15,8 +16,7 @@ import { useJourneyStore } from '../store/journeyStore';
 import { useLearningStore } from '../store/learningStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
-import { calculateEffectiveWpm } from '../utils/journeyCalculations';
-import { ARTICLES } from './curriculum';
+import type { ImportedContent } from '../types/content';
 import type {
   JourneySession,
   SpeedProof,
@@ -27,10 +27,29 @@ import type {
   ArticleType,
 } from '../types/journey';
 import type { ArticleProgress, ArticleAttempt } from '../types/learning';
+import { calculateEffectiveWpm } from '../utils/journeyCalculations';
+import { ARTICLES } from './curriculum';
 
 // =============================================================================
 // Types
 // =============================================================================
+
+/**
+ * Test content item specification for generating imported content
+ */
+export interface TestContentSpec {
+  title: string;
+  source: 'url' | 'epub' | 'pdf';
+  sourceUrl?: string;
+  fileName?: string;
+  wordCount: number;
+  readProgress: number; // 0-1
+  author?: string;
+  siteName?: string;
+  excerpt?: string;
+  /** Days ago this was added (for realistic timestamps) */
+  daysAgo: number;
+}
 
 export interface TestPersona {
   id: string;
@@ -43,6 +62,8 @@ export interface TestPersona {
   speedProofSpecs: Array<{ wpm: number; comprehension: number }>;
   streakDays: number;
   isPremium: boolean;
+  /** Test content items to add to contentStore */
+  testContent?: TestContentSpec[];
 }
 
 // =============================================================================
@@ -55,6 +76,92 @@ const DEFAULT_CERT_PROGRESS: JourneyCertProgress = {
   examUnlocked: false,
   examPassed: false,
 };
+
+/**
+ * Test content items for populating contentStore
+ * Mix of URLs, PDFs, and EPUBs at different read progress states
+ */
+const TEST_CONTENT: TestContentSpec[] = [
+  // URL articles
+  {
+    title: 'Why The Culture Wins: An Appreciation of Iain M. Banks',
+    source: 'url',
+    sourceUrl: 'https://www.sciphijournal.org/index.php/2017/11/12/why-the-culture-wins-an-appreciation-of-iain-m-banks/',
+    wordCount: 3200,
+    readProgress: 0.65,
+    author: 'Sci Phi Journal',
+    siteName: 'Sci Phi Journal',
+    excerpt: 'An exploration of the philosophical themes in Banks\' Culture novels',
+    daysAgo: 2,
+  },
+  {
+    title: 'What Fields Are Undervalued',
+    source: 'url',
+    sourceUrl: 'https://paulgraham.com/field.html',
+    wordCount: 1850,
+    readProgress: 0,
+    author: 'Paul Graham',
+    siteName: 'paulgraham.com',
+    excerpt: 'Some fields are overvalued and some undervalued',
+    daysAgo: 5,
+  },
+  {
+    title: 'Woke',
+    source: 'url',
+    sourceUrl: 'https://paulgraham.com/woke.html',
+    wordCount: 2100,
+    readProgress: 1,
+    author: 'Paul Graham',
+    siteName: 'paulgraham.com',
+    excerpt: 'What does woke mean and where did it come from?',
+    daysAgo: 10,
+  },
+  // PDF documents (articles - short)
+  {
+    title: 'App Discovery System Technical Guide',
+    source: 'pdf',
+    fileName: 'App Discovery System Technical Guide.pdf',
+    wordCount: 4500,
+    readProgress: 0.3,
+    daysAgo: 3,
+  },
+  {
+    title: 'Apptronik BYOGP Closing Documents',
+    source: 'pdf',
+    fileName: 'Apptronik BYOGP Closing Documents.pdf',
+    wordCount: 2800,
+    readProgress: 0,
+    daysAgo: 7,
+  },
+  // EPUB books (long content - classified as books)
+  {
+    title: 'The Time Machine',
+    source: 'epub',
+    fileName: 'pg77673-images-3.epub',
+    wordCount: 35000,
+    readProgress: 0.15,
+    author: 'H.G. Wells',
+    daysAgo: 1,
+  },
+  {
+    title: 'A Tale of Two Cities',
+    source: 'epub',
+    fileName: 'pg77668-images.epub',
+    wordCount: 135000,
+    readProgress: 0,
+    author: 'Charles Dickens',
+    daysAgo: 4,
+  },
+  {
+    title: 'The War of the Worlds',
+    source: 'epub',
+    fileName: 'pg77675-images-3.epub',
+    wordCount: 62000,
+    readProgress: 1,
+    author: 'H.G. Wells',
+    daysAgo: 14,
+  },
+];
 
 export const TEST_PERSONAS: TestPersona[] = [
   // At-Milestone Personas
@@ -73,6 +180,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     speedProofSpecs: [],
     streakDays: 5,
     isPremium: true,
+    testContent: TEST_CONTENT, // All test content types
   },
   {
     id: 'speed-reader-fresh',
@@ -95,6 +203,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     speedProofSpecs: [{ wpm: 620, comprehension: 82 }],
     streakDays: 12,
     isPremium: true,
+    testContent: TEST_CONTENT,
   },
   {
     id: 'velocity-master-pro',
@@ -131,6 +240,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     ],
     streakDays: 21,
     isPremium: true,
+    testContent: TEST_CONTENT,
   },
 
   // Mid-Journey Personas
@@ -149,6 +259,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     speedProofSpecs: [],
     streakDays: 3,
     isPremium: true,
+    testContent: TEST_CONTENT,
   },
   {
     id: 'mid-velocity-bound',
@@ -176,6 +287,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     speedProofSpecs: [{ wpm: 630, comprehension: 80 }],
     streakDays: 8,
     isPremium: true,
+    testContent: TEST_CONTENT,
   },
   {
     id: 'mid-transcendent-path',
@@ -212,6 +324,7 @@ export const TEST_PERSONAS: TestPersona[] = [
     ],
     streakDays: 15,
     isPremium: true,
+    testContent: TEST_CONTENT,
   },
 ];
 
@@ -417,6 +530,107 @@ export function generateArticleProgress(
 }
 
 /**
+ * Generate imported content from test content specs
+ * Fetches real content from URLs, uses placeholder for local files
+ */
+export async function generateImportedContent(
+  specs: TestContentSpec[]
+): Promise<ImportedContent[]> {
+  const now = Date.now();
+  const DAY_MS = 86400000;
+
+  const results: ImportedContent[] = [];
+
+  for (let index = 0; index < specs.length; index++) {
+    const spec = specs[index];
+    const createdAt = now - spec.daysAgo * DAY_MS;
+    const lastReadAt = spec.readProgress > 0 ? now - randomInRange(1, spec.daysAgo) * DAY_MS : undefined;
+
+    let content = `[Placeholder content for ${spec.title}]`;
+    let wordCount = spec.wordCount;
+    let title = spec.title;
+    let author = spec.author;
+    let excerpt = spec.excerpt;
+    let siteName = spec.siteName;
+
+    // For URLs, actually fetch the content
+    if (spec.source === 'url' && spec.sourceUrl) {
+      try {
+        const result = await extractFromUrl(spec.sourceUrl);
+        if (result.success && result.content) {
+          content = result.content.content;
+          wordCount = result.content.wordCount;
+          title = result.content.title || spec.title;
+          author = result.content.author || spec.author;
+          excerpt = result.content.excerpt || spec.excerpt;
+          siteName = result.content.siteName || spec.siteName;
+        }
+      } catch (error) {
+        console.warn(`Failed to fetch URL content for ${spec.title}:`, error);
+      }
+    }
+
+    results.push({
+      id: `test_content_${index}_${Math.random().toString(36).substring(2, 9)}`,
+      title,
+      content,
+      wordCount,
+      source: spec.source,
+      sourceUrl: spec.sourceUrl,
+      fileName: spec.fileName,
+      createdAt,
+      lastReadAt,
+      readProgress: spec.readProgress,
+      author,
+      excerpt,
+      siteName,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Load a local test file (PDF/EPUB) and add it to the content store
+ * Call this with a file URI from document picker
+ */
+export async function loadTestFile(
+  fileUri: string,
+  fileName: string,
+  readProgress: number = 0
+): Promise<ImportedContent | null> {
+  try {
+    const result = await extractFromEbook(fileUri, fileName);
+    if (result.success && result.content) {
+      const now = Date.now();
+      const content: ImportedContent = {
+        id: `test_file_${Math.random().toString(36).substring(2, 9)}`,
+        title: result.content.title,
+        content: result.content.content,
+        wordCount: result.content.wordCount,
+        source: result.content.source,
+        fileName,
+        createdAt: now,
+        readProgress,
+      };
+
+      // Add to content store
+      const contentStore = useContentStore.getState();
+      const existingContent = contentStore.importedContent;
+      contentStore.hydrateForTesting({
+        importedContent: [...existingContent, content],
+      });
+
+      return content;
+    }
+    return null;
+  } catch (error) {
+    console.error(`Failed to load test file ${fileName}:`, error);
+    return null;
+  }
+}
+
+/**
  * Generate recent completions array for learningStore
  */
 export function generateRecentCompletions(
@@ -491,6 +705,13 @@ export async function applyPersona(personaId: string): Promise<boolean> {
     defaultWPM: persona.targetWpm,
     userName: persona.name,
   });
+
+  // Apply test content to contentStore (if persona has test content)
+  if (persona.testContent && persona.testContent.length > 0) {
+    const importedContent = await generateImportedContent(persona.testContent);
+    const contentStore = useContentStore.getState();
+    contentStore.hydrateForTesting({ importedContent });
+  }
 
   return true;
 }

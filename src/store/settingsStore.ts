@@ -18,6 +18,7 @@ interface SettingsState extends UserSettings {
   setUserName: (name: string) => void;
   setReadingLanguage: (language: string) => void;
   setParagraphPauseEnabled: (enabled: boolean) => void;
+  setMoveFinishedToHistory: (enabled: boolean) => void;
   setActiveContentTab: (tab: ContentTab) => void;
   resetSettings: () => void;
 
@@ -48,6 +49,7 @@ export const useSettingsStore = create<SettingsState>()(
       setUserName: (userName) => set({ userName }),
       setReadingLanguage: (readingLanguage) => set({ readingLanguage }),
       setParagraphPauseEnabled: (paragraphPauseEnabled) => set({ paragraphPauseEnabled }),
+      setMoveFinishedToHistory: (moveFinishedToHistory) => set({ moveFinishedToHistory }),
       setActiveContentTab: (activeContentTab) => set({ activeContentTab }),
 
       resetSettings: () => set({
@@ -74,6 +76,7 @@ export const useSettingsStore = create<SettingsState>()(
         userName: state.userName,
         readingLanguage: state.readingLanguage,
         paragraphPauseEnabled: state.paragraphPauseEnabled,
+        moveFinishedToHistory: state.moveFinishedToHistory,
         activeContentTab: state.activeContentTab,
       }),
       onRehydrateStorage: () => (state) => {

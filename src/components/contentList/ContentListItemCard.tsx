@@ -20,7 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
-import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { ContentListItem, ContentSource, ContentCategory } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -104,7 +104,7 @@ export function ContentListItemCard({
     );
   };
 
-  const renderProgressSection = () => {
+  const renderRightSection = () => {
     // Show quiz score if completed
     if (item.state === 'completed' && item.quizScore !== undefined) {
       return (
@@ -130,31 +130,11 @@ export function ContentListItemCard({
       );
     }
 
-    // Show progress bar for in-progress items
-    if (item.progress > 0 || item.state === 'in_progress') {
-      return (
-        <View style={styles.progressContainer}>
-          <View style={[styles.progressTrack, { backgroundColor: theme.trackColor }]}>
-            <View
-              style={[
-                styles.progressFill,
-                {
-                  width: `${item.progress}%`,
-                  backgroundColor: theme.accentColor,
-                },
-              ]}
-            />
-          </View>
-          <Text style={[styles.progressText, { color: theme.metaColor }]}>
-            {item.progress}%
-          </Text>
-        </View>
-      );
-    }
-
-    // No progress indicator for not started items
     return null;
   };
+
+  // Show progress bar for non-completed items (empty for not_started, filled for in_progress)
+  const showProgressBar = item.state !== 'completed';
 
   const cardContent = (
     <TouchableOpacity
@@ -167,14 +147,9 @@ export function ContentListItemCard({
         },
       ]}
     >
-      {/* Left: Icon */}
-      <View
-        style={[
-          styles.iconContainer,
-          { backgroundColor: isDarkTheme ? COLOR_OPACITY.accentTint : `${theme.accentColor}20` },
-        ]}
-      >
-        <Ionicons name={iconName} size={SIZES.iconLg} color={theme.accentColor} />
+      {/* Left: Small icon */}
+      <View style={styles.iconContainer}>
+        <Ionicons name={iconName} size={SIZES.iconMd} color={theme.accentColor} />
       </View>
 
       {/* Center: Title and metadata */}
@@ -187,22 +162,34 @@ export function ContentListItemCard({
           {item.title}
         </Text>
         <View style={styles.metadata}>
-          <Text style={[styles.metaText, { color: theme.metaColor }]}>
+          <Text style={[styles.wordCount, { color: theme.metaColor }]}>
             {formatWordCount(item.wordCount)}
           </Text>
-          {item.pageCount && (
-            <>
-              <Text style={[styles.metaDot, { color: theme.metaColor }]}> · </Text>
-              <Text style={[styles.metaText, { color: theme.metaColor }]}>
-                {item.pageCount} pages
-              </Text>
-            </>
+          {showProgressBar && (
+            <View
+              style={[
+                styles.progressTrack,
+                { backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' },
+              ]}
+            >
+              {item.progress > 0 && (
+                <View
+                  style={[
+                    styles.progressFill,
+                    {
+                      width: `${item.progress}%`,
+                      backgroundColor: theme.accentColor,
+                    },
+                  ]}
+                />
+              )}
+            </View>
           )}
         </View>
       </View>
 
-      {/* Right: Progress/Score/Quiz */}
-      <View style={styles.progressSection}>{renderProgressSection()}</View>
+      {/* Right: Score/Quiz */}
+      {renderRightSection()}
     </TouchableOpacity>
   );
 
@@ -233,12 +220,10 @@ const styles = StyleSheet.create({
     ...SHADOWS.sm,
   },
   iconContainer: {
-    width: SIZES.touchTarget,
-    height: SIZES.touchTarget,
-    borderRadius: COMPONENT_RADIUS.button,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: SPACING.sm,
+    marginLeft: SPACING.xs,
+    marginRight: SPACING.md,
+    justifyContent: 'flex-start',
+    paddingTop: SPACING.xxs,
   },
   content: {
     flex: 1,
@@ -246,45 +231,33 @@ const styles = StyleSheet.create({
   },
   title: {
     ...TYPOGRAPHY.cardTitle,
-    marginBottom: SPACING.xxs,
+    marginBottom: SPACING.xs,
   },
   metadata: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  metaText: {
+  wordCount: {
     ...TYPOGRAPHY.caption,
-  },
-  metaDot: {
-    ...TYPOGRAPHY.caption,
-  },
-  progressSection: {
-    minWidth: SPACING.xxxl,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  progressContainer: {
-    alignItems: 'flex-end',
+    width: 96, // Fixed width to align all progress bars
+    marginRight: SPACING.sm,
   },
   progressTrack: {
-    width: SPACING.xxxl,
+    flex: 1,
     height: SPACING.xs,
     borderRadius: COMPONENT_RADIUS.progressBar,
     overflow: 'hidden',
+    marginRight: SPACING.sm,
   },
   progressFill: {
     height: '100%',
     borderRadius: COMPONENT_RADIUS.progressBar,
   },
-  progressText: {
-    ...TYPOGRAPHY.caption,
-    marginTop: SPACING.xxs,
-  },
   scoreContainer: {
     alignItems: 'center',
   },
   scoreText: {
-    ...TYPOGRAPHY.metric,
+    ...TYPOGRAPHY.label,
   },
   quizButton: {
     paddingHorizontal: SPACING.sm,

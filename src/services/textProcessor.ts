@@ -1,6 +1,7 @@
 import { ChapterMetadata } from '../types/content';
 import { ProcessedWord } from '../types/playback';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
+import { splitLongWord, needsSplitting } from './syllables';
 
 /**
  * Tokenize text into words.
@@ -180,6 +181,7 @@ export function mapChapterOffsetsToWordIndices(
  * Process full text into array of ProcessedWords.
  * Uses paragraph-aware tokenization to mark paragraph ends.
  * Optionally marks chapter starts and detects headers.
+ * Splits long words at syllable boundaries for RSVP display.
  */
 export function processText(text: string, chapters?: ChapterMetadata[]): ProcessedWord[] {
   const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text);
@@ -198,26 +200,68 @@ export function processText(text: string, chapters?: ChapterMetadata[]): Process
     }
   });
 
-  return tokens.map((word, index) => {
-    const baseWord = processWord(word, paragraphEndIndices.has(index));
+  // Process tokens, potentially splitting long words into multiple ProcessedWords
+  const result: ProcessedWord[] = [];
+
+  for (let index = 0; index < tokens.length; index++) {
+    const word = tokens[index];
+    const isParagraphEnd = paragraphEndIndices.has(index);
     const chapterStart = chapterStartMap.get(index);
     const headerInfo = headerInfoMap.get(index);
 
-    // Apply chapter start if present
-    if (chapterStart) {
-      baseWord.chapterStart = chapterStart;
-    }
+    // Check if this word needs splitting (skip headers - they're handled differently)
+    if (needsSplitting(word) && !headerInfo?.headerText) {
+      const chunks = splitLongWord(word);
 
-    // Apply header info if present
-    if (headerInfo) {
-      baseWord.isHeader = true;
-      if (headerInfo.headerText) {
-        baseWord.headerText = headerInfo.headerText;
+      chunks.forEach((chunk, chunkIndex) => {
+        const isFirstChunk = chunkIndex === 0;
+        const isLastChunk = chunkIndex === chunks.length - 1;
+
+        const processedChunk: ProcessedWord = {
+          original: word,
+          display: chunk,
+          orpIndex: calculateORP(chunk),
+          pauseMultiplier: calculatePauseMultiplier(chunk),
+          sentenceEnd: isLastChunk && isSentenceEnd(word),
+          paragraphEnd: isLastChunk && isParagraphEnd,
+          fullWord: word,
+          isContinuation: !isFirstChunk,
+        };
+
+        // Only apply chapter start and header info to first chunk
+        if (isFirstChunk) {
+          if (chapterStart) {
+            processedChunk.chapterStart = chapterStart;
+          }
+          if (headerInfo) {
+            processedChunk.isHeader = true;
+          }
+        }
+
+        result.push(processedChunk);
+      });
+    } else {
+      // Normal word processing (no splitting needed)
+      const baseWord = processWord(word, isParagraphEnd);
+
+      // Apply chapter start if present
+      if (chapterStart) {
+        baseWord.chapterStart = chapterStart;
       }
-    }
 
-    return baseWord;
-  });
+      // Apply header info if present
+      if (headerInfo) {
+        baseWord.isHeader = true;
+        if (headerInfo.headerText) {
+          baseWord.headerText = headerInfo.headerText;
+        }
+      }
+
+      result.push(baseWord);
+    }
+  }
+
+  return result;
 }
 
 /**

@@ -4,6 +4,7 @@
 import * as FileSystem from 'expo-file-system';
 import JSZip from 'jszip';
 import { EbookParseResult, ChapterMetadata } from '../types/content';
+import { filterCaptions } from './contentExtractor';
 
 // Internal chapter info from NCX/nav parsing
 interface ChapterInfo {
@@ -282,7 +283,8 @@ export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
       }
     }
 
-    const fullContent = contentParts.join('\n\n');
+    const rawContent = contentParts.join('\n\n');
+    const fullContent = filterCaptions(rawContent);
 
     if (fullContent.length < 100) {
       throw new Error('Not enough readable content found in this EPUB');

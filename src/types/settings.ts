@@ -24,6 +24,7 @@ export interface UserSettings {
   userName: string;
   readingLanguage: string;
   paragraphPauseEnabled: boolean;
+  moveFinishedToHistory: boolean;
 }
 
 export const READING_LANGUAGES = [
@@ -51,4 +52,5 @@ export const DEFAULT_SETTINGS: UserSettings = {
   userName: '',
   readingLanguage: 'en',
   paragraphPauseEnabled: true,
+  moveFinishedToHistory: false,
 };
