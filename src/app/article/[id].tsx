@@ -1,7 +1,7 @@
 /**
  * Article Deep Link Screen
  *
- * Adds the article to the training queue and redirects to the Player.
+ * Redirects to the playback modal for training articles.
  * This enables deep linking to articles from external sources.
  */
 
@@ -13,14 +13,10 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { getArticleById } from '../../data/curriculum';
-import { usePlaylistStore } from '../../store/playlistStore';
-import { useSubscriptionStore } from '../../store/subscriptionStore';
 
 export default function ArticleDeepLinkScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
-  const { loadContent } = usePlaylistStore();
-  const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
 
   const article = getArticleById(id);
 
@@ -33,21 +29,12 @@ export default function ArticleDeepLinkScreen() {
       return () => clearTimeout(timer);
     }
 
-    // Check content limit for non-premium users
-    if (!isPremium && !canAccessContent()) {
-      router.replace('/paywall?reason=content_limit');
-      return;
-    }
-
-    // Increment content count for non-premium users
-    if (!isPremium) {
-      incrementContentCount();
-    }
-
-    // Load content into playlist and navigate to player
-    loadContent(id, 'training');
-    router.replace('/(tabs)/play');
-  }, [article, id, isPremium, canAccessContent, incrementContentCount, loadContent]);
+    // Navigate to playback modal
+    router.replace({
+      pathname: '/playback',
+      params: { sourceId: id, source: 'training' },
+    });
+  }, [article, id]);
 
   if (!article) {
     return (

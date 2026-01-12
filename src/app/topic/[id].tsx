@@ -9,7 +9,6 @@ import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
 import { JOURNEY_COLORS, OVERLAY_COLORS, COLOR_OPACITY, DIFFICULTY_COLORS } from '../../data/themes';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
-import { usePlaylistStore } from '../../store/playlistStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { Article } from '../../types/learning';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
@@ -20,7 +19,6 @@ export default function TopicScreen() {
   const { getArticleProgress, getTopicProgress } = useLearningStore();
   const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
   const { getCertificationProgress } = useCertificateStore();
-  const { loadContent } = usePlaylistStore();
 
   const topic = getTopicById(id);
   const articles = getArticlesByTopic(id);
@@ -65,9 +63,13 @@ export default function TopicScreen() {
   };
 
   const handlePlayPress = (articleId: string) => {
-    if (!checkArticleAccess(articleId)) {return;}
-    loadContent(articleId, 'training');
-    router.push('/(tabs)/play');
+    if (!checkArticleAccess(articleId)) {
+      return;
+    }
+    router.push({
+      pathname: '/playback',
+      params: { sourceId: articleId, source: 'training' },
+    });
   };
 
   const difficultyColor = (difficulty: string) => {

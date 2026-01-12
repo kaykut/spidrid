@@ -1,16 +1,12 @@
-import { Redirect } from 'expo-router';
-import { useOnboardingStore } from '../store/onboardingStore';
+/**
+ * Index - Main App Entry Point
+ *
+ * Renders the ContentListScreen as the main app view.
+ * All navigation happens via FABs and modals.
+ */
+
+import { ContentListScreen } from '../components/contentList/ContentListScreen';
 
 export default function Index() {
-  const { hasCompletedOnboarding, usageMode } = useOnboardingStore();
-
-  if (!hasCompletedOnboarding) {
-    return <Redirect href="/onboarding/purpose" />;
-  }
-
-  if (usageMode === 'import-only') {
-    return <Redirect href="/(tabs)/content/read" />;
-  }
-
-  return <Redirect href="/(tabs)/content/train" />;
+  return <ContentListScreen />;
 }

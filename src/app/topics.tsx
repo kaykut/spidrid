@@ -14,20 +14,14 @@ import { useTheme } from '../components/common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY } from '../constants/typography';
 import { TOPICS } from '../data/curriculum';
-import { getCurriculumTopicsForInterests } from '../data/interests';
 import { useLearningStore } from '../store/learningStore';
-import { useOnboardingStore } from '../store/onboardingStore';
 
 export default function TopicsScreen() {
   const { theme } = useTheme();
   const { getTopicProgress } = useLearningStore();
-  const { selectedInterests } = useOnboardingStore();
 
-  // Filter topics based on selected interests
-  const allowedTopicIds = getCurriculumTopicsForInterests(selectedInterests);
-  const filteredTopics = selectedInterests.length > 0
-    ? TOPICS.filter((t) => allowedTopicIds.includes(t.id))
-    : TOPICS;
+  // Show all topics (onboarding interest filtering removed)
+  const filteredTopics = TOPICS;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]} edges={['top']}>

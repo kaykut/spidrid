@@ -1,7 +1,7 @@
 /**
  * Content Deep Link Screen
  *
- * Adds the imported content to the reading queue and redirects to the Player.
+ * Redirects to the playback modal for imported content.
  * This enables deep linking to imported content from external sources.
  */
 
@@ -13,13 +13,11 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { useContentStore } from '../../store/contentStore';
-import { usePlaylistStore } from '../../store/playlistStore';
 
 export default function ContentDeepLinkScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
   const { getContentById } = useContentStore();
-  const { loadContent } = usePlaylistStore();
 
   const content = getContentById(id);
 
@@ -32,10 +30,12 @@ export default function ContentDeepLinkScreen() {
       return () => clearTimeout(timer);
     }
 
-    // Load content into playlist and navigate to player
-    loadContent(id, 'reading');
-    router.replace('/(tabs)/play');
-  }, [content, id, loadContent]);
+    // Navigate to playback modal
+    router.replace({
+      pathname: '/playback',
+      params: { sourceId: id, source: 'imported' },
+    });
+  }, [content, id]);
 
   if (!content) {
     return (

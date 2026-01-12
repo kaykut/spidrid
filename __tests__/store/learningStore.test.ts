@@ -560,140 +560,17 @@ describe('learningStore', () => {
   });
 
   describe('isArticleUnlocked()', () => {
-    it('returns false for nonexistent article', () => {
+    // Linear progression removed - all articles are now always unlocked
+    it('returns true for any article (linear progression removed)', () => {
       const { result } = renderHook(() => useLearningStore());
 
-      expect(result.current.isArticleUnlocked('nonexistent-article')).toBe(false);
-    });
-
-    it('returns true for first article in topic (orderIndex 1)', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      // First article (p01) should always be unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p01');
-      expect(unlocked).toBe(true);
-    });
-
-    it('returns false for second article when first is not completed', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-      });
-
-      // Second article should be locked if first is not completed
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p02');
-      expect(unlocked).toBe(false);
-    });
-
-    it('returns true for second article when first is completed', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-        result.current.completeArticle('science-discovery-p01', 80, 200); // Complete first article
-      });
-
-      // Second article should now be unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p02');
-      expect(unlocked).toBe(true);
-    });
-
-    it('returns true for third article when second is completed', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-        result.current.completeArticle('science-discovery-p01', 80, 200);
-        result.current.completeArticle('science-discovery-p02', 85, 220);
-      });
-
-      // Third article should now be unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p03');
-      expect(unlocked).toBe(true);
-    });
-
-    it('checks certification articles independently from practice articles', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-      });
-
-      // First certification article (c1) should be unlocked regardless of practice progress
-      const unlocked = result.current.isArticleUnlocked('science-discovery-c1');
-      expect(unlocked).toBe(true);
-    });
-
-    it('returns false for second certification when first cert is not completed', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-        // Complete all practice articles but not certification
-        result.current.completeArticle('science-discovery-p01', 80, 200);
-        result.current.completeArticle('science-discovery-p02', 80, 200);
-      });
-
-      // Second certification article should be locked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-c2');
-      expect(unlocked).toBe(false);
-    });
-
-    it('returns true for second certification when first cert is completed', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-        result.current.completeArticle('science-discovery-c1', 80, 200, true);
-      });
-
-      // Second certification should now be unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-c2');
-      expect(unlocked).toBe(true);
-    });
-
-    it('handles articles without explicit articleType (defaults to practice)', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-      });
-
-      // Practice articles without articleType should be treated as practice
-      // First article is always unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p01');
-      expect(unlocked).toBe(true);
-    });
-
-    it('handles orderIndex defaulting to 1 when undefined', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-      });
-
-      // The function uses article.orderIndex ?? 1, so articles without orderIndex
-      // are treated as having orderIndex 1
-      // First article in any topic should be unlocked
-      const unlocked = result.current.isArticleUnlocked('science-discovery-p01');
-      expect(unlocked).toBe(true);
-    });
-
-    it('correctly filters same article type when checking unlock status', () => {
-      const { result } = renderHook(() => useLearningStore());
-
-      act(() => {
-        result.current.resetProgress();
-        // Complete first practice
-        result.current.completeArticle('science-discovery-p01', 80, 200);
-      });
-
-      // Second practice should be unlocked
+      // All articles are now unlocked regardless of completion status
+      expect(result.current.isArticleUnlocked('science-discovery-p01')).toBe(true);
       expect(result.current.isArticleUnlocked('science-discovery-p02')).toBe(true);
-
-      // First certification should still be unlocked (independent)
+      expect(result.current.isArticleUnlocked('science-discovery-p03')).toBe(true);
       expect(result.current.isArticleUnlocked('science-discovery-c1')).toBe(true);
+      expect(result.current.isArticleUnlocked('science-discovery-c2')).toBe(true);
+      expect(result.current.isArticleUnlocked('nonexistent-article')).toBe(true);
     });
   });
 

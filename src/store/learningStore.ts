@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { getArticlesByTopic, getArticleById } from '../data/curriculum';
+import { getArticlesByTopic } from '../data/curriculum';
 import {
   ArticleProgress,
   TopicProgress,
@@ -236,30 +236,8 @@ export const useLearningStore = create<LearningStore>()(
         };
       },
 
-      isArticleUnlocked: (articleId) => {
-        const article = getArticleById(articleId);
-        if (!article) {return false;}
-
-        // First article in topic is always unlocked
-        const orderIndex = article.orderIndex ?? 1;
-        if (orderIndex === 1) {return true;}
-
-        // Check if previous article in same type is completed
-        const topicArticles = getArticlesByTopic(article.topicId);
-        const sameTypeArticles = topicArticles.filter(
-          a => (a.articleType || 'practice') === (article.articleType || 'practice')
-        );
-
-        // Find previous article by orderIndex
-        const previousArticle = sameTypeArticles.find(
-          a => (a.orderIndex ?? 1) === orderIndex - 1
-        );
-
-        if (!previousArticle) {return true;} // No previous = unlocked
-
-        const progress = get().articleProgress[previousArticle.id];
-        return progress?.completed === true;
-      },
+      // All articles are now unlocked - linear progression removed
+      isArticleUnlocked: () => true,
 
       resetProgress: () => {
         set({

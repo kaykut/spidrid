@@ -112,7 +112,7 @@ export function UnifiedProgressPath({
   );
 
   const handleCertPress = useCallback((_certTier: JourneyCertTier) => {
-    router.push('/(tabs)/journey');
+    router.push('/journey-profile');
   }, []);
 
   const dismissTooltip = useCallback(() => {

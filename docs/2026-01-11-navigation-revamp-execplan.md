@@ -14,8 +14,21 @@ The user can: (1) see all their content at a glance with filter pills, (2) tap a
 
 ## Progress
 
-- [ ] M1: Create unified content store and types
-- [ ] M2: Build content list screen with filter pills
+- [x] (2026-01-11) M1: Create unified content store and types
+  - Created `src/types/contentList.ts` with ContentSource, ContentCategory, ContentItemState, ContentListItem
+  - Created `src/store/contentListStore.ts` with getContentList(), setFilter(), deleteItem()
+  - Created `src/__tests__/store/contentListStore.test.ts` with 30 comprehensive tests
+  - All tests pass (2094 total), typecheck and lint clean
+- [x] (2026-01-11) M2: Build content list screen with filter pills
+  - Created `src/components/navigation/FABButton.tsx` - floating action button with glass effect
+  - Created `src/components/contentList/FilterPills.tsx` - horizontal category filter pills
+  - Created `src/components/contentList/ContentListItemCard.tsx` - content item card with swipe-to-delete
+  - Created `src/components/contentList/CurriculumAccordionItem.tsx` - expandable curriculum card
+  - Created `src/components/contentList/EmptyState.tsx` - empty state with CTA
+  - Created `src/components/contentList/ContentListScreen.tsx` - main screen with FlatList
+  - Updated `src/app/index.tsx` to render ContentListScreen directly (removed onboarding redirect)
+  - Updated `__tests__/app/index.test.tsx` for new behavior
+  - All tests pass (2093 total), typecheck and lint clean
 - [ ] M3: Create Journey+Profile full-screen modal
 - [ ] M4: Create Add Content tiered modal (Practice/Read/Learn)
 - [ ] M5: Convert play.tsx to Playback modal with separate Quiz modal
@@ -27,7 +40,11 @@ The user can: (1) see all their content at a glance with filter pills, (2) tap a
 
 ## Surprises & Discoveries
 
-(To be updated during implementation)
+- Observation: contentStore.addContent() returns the created content with generated id, so tests need to capture return value rather than use pre-created mocks with ids
+  Evidence: Test failures when using factory-created mocks led to using addContent return value
+
+- Observation: ContentListScreen requires ThemeProvider context for useTheme hook; existing index.test.tsx was testing old redirect behavior
+  Evidence: Tests failed with "useTheme must be used within a ThemeProvider" until wrapped properly
 
 ## Decision Log
 

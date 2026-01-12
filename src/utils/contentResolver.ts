@@ -1,14 +1,29 @@
 import { getArticleById } from '../data/curriculum/index';
 import { useContentStore } from '../store/contentStore';
+import { useCurriculumStore } from '../store/curriculumStore';
+import { useGeneratedStore } from '../store/generatedStore';
+import { ContentSource } from '../types/contentList';
 import { Question, normalizeQuestion } from '../types/learning';
-import { PlaylistItem, ResolvedContent } from '../types/playlist';
+
+/**
+ * Resolved content ready for playback.
+ */
+export interface ResolvedContent {
+  title: string;
+  content: string;
+  wordCount: number;
+  hasQuiz: boolean;
+  questions?: Question[];
+}
 
 /**
  * Resolve training content from curriculum article
  */
 function resolveTrainingContent(contentId: string): ResolvedContent | null {
   const article = getArticleById(contentId);
-  if (!article) { return null; }
+  if (!article) {
+    return null;
+  }
 
   const normalizedQuestions: Question[] = article.questions.map(normalizeQuestion);
 
@@ -22,11 +37,13 @@ function resolveTrainingContent(contentId: string): ResolvedContent | null {
 }
 
 /**
- * Resolve reading content from imported content store
+ * Resolve imported content from content store
  */
-function resolveReadingContent(contentId: string): ResolvedContent | null {
+function resolveImportedContent(contentId: string): ResolvedContent | null {
   const content = useContentStore.getState().getContentById(contentId);
-  if (!content) { return null; }
+  if (!content) {
+    return null;
+  }
 
   return {
     title: content.title,
@@ -37,24 +54,70 @@ function resolveReadingContent(contentId: string): ResolvedContent | null {
 }
 
 /**
- * Resolve a PlaylistItem to its full content for playback
+ * Resolve generated article from generated store
  */
-export function resolveContent(item: PlaylistItem): ResolvedContent | null {
-  return resolveContentById(item.contentId, item.source as 'training' | 'reading');
+function resolveGeneratedContent(contentId: string): ResolvedContent | null {
+  const article = useGeneratedStore.getState().getArticleById(contentId);
+  if (!article || article.status !== 'complete') {
+    return null;
+  }
+
+  return {
+    title: article.title,
+    content: article.content,
+    wordCount: article.wordCount,
+    hasQuiz: article.questions.length > 0,
+    questions: article.questions,
+  };
 }
 
 /**
- * Get content directly by ID and source (for loading without playlist item)
+ * Resolve curriculum article from curriculum store
+ * contentId format: "curriculumId:articleIndex"
  */
-export function resolveContentById(
+function resolveCurriculumContent(contentId: string): ResolvedContent | null {
+  const [curriculumId, articleIndexStr] = contentId.split(':');
+  const articleIndex = parseInt(articleIndexStr, 10);
+
+  if (!curriculumId || isNaN(articleIndex)) {
+    return null;
+  }
+
+  const curriculum = useCurriculumStore.getState().getCurriculum(curriculumId);
+  if (!curriculum) {
+    return null;
+  }
+
+  const article = curriculum.articles[articleIndex];
+  if (!article || article.generationStatus !== 'generated') {
+    return null;
+  }
+
+  return {
+    title: article.title,
+    content: article.content,
+    wordCount: article.wordCount,
+    hasQuiz: article.questions.length > 0,
+    questions: article.questions,
+  };
+}
+
+/**
+ * Get content by ID and ContentSource type
+ */
+export function resolveContentBySource(
   contentId: string,
-  source: 'training' | 'reading'
+  source: ContentSource
 ): ResolvedContent | null {
   switch (source) {
     case 'training':
       return resolveTrainingContent(contentId);
-    case 'reading':
-      return resolveReadingContent(contentId);
+    case 'imported':
+      return resolveImportedContent(contentId);
+    case 'generated':
+      return resolveGeneratedContent(contentId);
+    case 'curriculum':
+      return resolveCurriculumContent(contentId);
     default:
       return null;
   }

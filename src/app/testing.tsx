@@ -648,8 +648,8 @@ export default function TestingScreen() {
         {/* ============================================================ */}
 
         <ComponentSection
-          filename="src/components/navigation/FloatingNavBar.tsx"
-          componentName="Icon Library - Tab Navigation Options"
+          filename="@expo/vector-icons/Ionicons"
+          componentName="Icon Library - Reference"
         >
           <Text style={[styles.iconLibraryDescription, { color: theme.textColor }]}>
             Icons shown at navbar size (24px). Current icons are highlighted.
