@@ -18,8 +18,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatsSummary } from '../components/certifications';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
 import { Paywall } from '../components/paywall/Paywall';
@@ -27,18 +26,16 @@ import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
 import { useJourneyStore } from '../store/journeyStore';
-import { useLearningStore } from '../store/learningStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
-import { CERTIFICATION_TIER_DEFINITIONS } from '../types/certificates';
 import { READING_LANGUAGES } from '../types/settings';
 import { FREE_TIER_LIMITS } from '../types/subscription';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
 export default function JourneyProfileModal() {
   const { theme, setTheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const { certProgress, avgWpmLast3, avgCompLast5 } = useJourneyStore();
-  const { articleProgress, getHighestWPM } = useLearningStore();
   const {
     userName,
     readingLanguage,
@@ -58,24 +55,6 @@ export default function JourneyProfileModal() {
   const [showPaywall, setShowPaywall] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
 
-  // Calculate stats
-  const articlesRead = Object.values(articleProgress).filter((p) => p.completed).length;
-  const totalWords = Object.values(articleProgress).reduce((sum, p) => {
-    return sum + (p.completed ? 1000 : 0);
-  }, 0);
-  const accuracyScores = Object.values(articleProgress)
-    .filter((p) => p.completed && p.comprehensionScore > 0)
-    .map((p) => p.comprehensionScore);
-  const averageAccuracy =
-    accuracyScores.length > 0
-      ? Math.round(accuracyScores.reduce((a, b) => a + b, 0) / accuracyScores.length)
-      : 0;
-  const bestWPM = getHighestWPM();
-
-  const tiersEarned = CERTIFICATION_TIER_DEFINITIONS.filter(
-    (def) => certProgress[def.tier]?.examPassed
-  ).length;
-
   const currentLanguage =
     READING_LANGUAGES.find((l) => l.code === readingLanguage)?.label || 'English';
 
@@ -90,40 +69,27 @@ export default function JourneyProfileModal() {
         onClose={() => setShowPaywall(false)}
         reason="content_limit"
       />
-      <SafeAreaView
-        style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-        edges={['top', 'bottom']}
-      >
-        {/* Header with close button */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={handleClose}
-            style={styles.closeButton}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-          </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Journey & Profile
-          </Text>
-          <View style={styles.headerSpacer} />
-        </View>
+      <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+        {/* Close button - absolute positioned in safe area */}
+        <TouchableOpacity
+          onPress={handleClose}
+          style={[styles.closeButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+        </TouchableOpacity>
 
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingTop: insets.top + SIZES.touchTarget + SPACING.md, paddingBottom: insets.bottom + SPACING.xxxl },
+          ]}
           showsVerticalScrollIndicator={false}
         >
+          {/* Page title - now part of scroll content */}
+          <Text style={[styles.pageTitle, { color: theme.textColor }]}>Journey & Profile</Text>
           {/* ====== JOURNEY SECTION ====== */}
-
-          {/* Stats Summary */}
-          <StatsSummary
-            articlesRead={articlesRead}
-            totalWords={totalWords}
-            averageAccuracy={averageAccuracy}
-            bestWPM={bestWPM}
-            tiersEarned={tiersEarned}
-          />
 
           {/* Vertical Progress Path */}
           <LinearGradient
@@ -339,7 +305,21 @@ export default function JourneyProfileModal() {
             </Text>
           </TouchableOpacity>
         </ScrollView>
-      </SafeAreaView>
+
+        {/* Top gradient overlay */}
+        <LinearGradient
+          colors={[theme.backgroundColor, 'transparent']}
+          style={[styles.gradientTop, { height: insets.top + SPACING.xxxl }]}
+          pointerEvents="none"
+        />
+
+        {/* Bottom gradient overlay */}
+        <LinearGradient
+          colors={['transparent', theme.backgroundColor]}
+          style={[styles.gradientBottom, { height: insets.bottom + SPACING.xxxl }]}
+          pointerEvents="none"
+        />
+      </View>
     </>
   );
 }
@@ -348,33 +328,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
   closeButton: {
+    position: 'absolute',
+    zIndex: 10,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerTitle: {
-    ...TYPOGRAPHY.cardTitle,
-  },
-  headerSpacer: {
-    width: SIZES.touchTarget,
-  },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: SPACING.lg,
-    paddingBottom: SPACING.xxxl,
+    paddingHorizontal: SPACING.lg,
+  },
+  pageTitle: {
+    ...TYPOGRAPHY.pageTitle,
+    marginBottom: SPACING.xl,
   },
   progressContainer: {
     borderRadius: COMPONENT_RADIUS.card,
@@ -529,5 +499,17 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.5,
+  },
+  gradientTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  gradientBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });

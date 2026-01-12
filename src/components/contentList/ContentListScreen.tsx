@@ -11,11 +11,18 @@
 
 import React, { useCallback, useMemo } from 'react';
 import { View, FlatList, StyleSheet, ListRenderItem, RefreshControl } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { SPACING } from '../../constants/spacing';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SPACING, SIZES } from '../../constants/spacing';
+import { useStats } from '../../hooks/useStats';
 import { useContentListStore } from '../../store/contentListStore';
+import { useContentStore } from '../../store/contentStore';
+import { useCurriculumStore } from '../../store/curriculumStore';
+import { useGeneratedStore } from '../../store/generatedStore';
+import { useLearningStore } from '../../store/learningStore';
 import { ContentListItem } from '../../types/contentList';
+import { StatsSummary } from '../certifications';
 import { useTheme } from '../common/ThemeProvider';
 import { FABButton } from '../navigation/FABButton';
 import { ContentListItemCard } from './ContentListItemCard';
@@ -25,7 +32,9 @@ import { FilterPills } from './FilterPills';
 
 export function ContentListScreen() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
+  const stats = useStats();
 
   const activeFilter = useContentListStore((state) => state.activeFilter);
   const setFilter = useContentListStore((state) => state.setFilter);
@@ -111,12 +120,27 @@ export function ContentListScreen() {
   // Key extractor for FlatList
   const keyExtractor = useCallback((item: ContentListItem) => item.id, []);
 
-  // List header with filter pills
+  // Calculate top margin for stats panel to clear the FAB
+  const FAB_SIZE = SIZES.touchTarget + SPACING.sm; // 52pt (matches FABButton)
+  const statsTopMargin = FAB_SIZE + SPACING.sm; // Space below FAB
+
+  // List header with stats panel and filter pills
   const ListHeader = useMemo(
     () => (
-      <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
+      <View>
+        <View style={[styles.statsContainer, { marginTop: statsTopMargin }]}>
+          <StatsSummary
+            articlesRead={stats.articlesRead}
+            totalWords={stats.totalWords}
+            averageAccuracy={stats.averageAccuracy}
+            bestWPM={stats.bestWPM}
+            tiersEarned={stats.tiersEarned}
+          />
+        </View>
+        <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
+      </View>
     ),
-    [activeFilter, setFilter]
+    [activeFilter, setFilter, stats, statsTopMargin]
   );
 
   // Empty state component
@@ -134,10 +158,7 @@ export function ContentListScreen() {
   );
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-      edges={['top']}
-    >
+    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <FlatList
         data={contentList}
         renderItem={renderItem}
@@ -146,6 +167,7 @@ export function ContentListScreen() {
         ListEmptyComponent={ListEmptyComponent}
         contentContainerStyle={[
           styles.listContent,
+          { paddingTop: insets.top },
           contentList.length === 0 && styles.emptyListContent,
         ]}
         showsVerticalScrollIndicator={false}
@@ -163,12 +185,12 @@ export function ContentListScreen() {
         }
       />
 
-      {/* Journey+Profile FAB (top-right) */}
+      {/* Profile FAB (top-right) */}
       <FABButton
         position="top-right"
-        icon="stats-chart"
+        icon="person"
         onPress={handleJourneyPress}
-        testID="fab-journey"
+        testID="fab-profile"
       />
 
       {/* Add Content FAB (bottom-right) */}
@@ -178,7 +200,21 @@ export function ContentListScreen() {
         onPress={handleAddContentPress}
         testID="fab-add-content"
       />
-    </SafeAreaView>
+
+      {/* Top gradient overlay */}
+      <LinearGradient
+        colors={[theme.backgroundColor, 'transparent']}
+        style={[styles.gradientTop, { height: insets.top + SPACING.xxxl }]}
+        pointerEvents="none"
+      />
+
+      {/* Bottom gradient overlay */}
+      <LinearGradient
+        colors={['transparent', theme.backgroundColor]}
+        style={[styles.gradientBottom, { height: insets.bottom + SPACING.xxxl }]}
+        pointerEvents="none"
+      />
+    </View>
   );
 }
 
@@ -195,5 +231,21 @@ const styles = StyleSheet.create({
   filteredEmpty: {
     flex: 1,
     paddingTop: SPACING.xxxl,
+  },
+  statsContainer: {
+    marginHorizontal: SPACING.md,
+    marginBottom: SPACING.md,
+  },
+  gradientTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  gradientBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
