@@ -7,3 +7,4 @@
 export { TrainContent } from './TrainContent';
 export { ReadContent } from './ReadContent';
 export { LearnContent } from './LearnContent';
+export { MiniTopicCard } from './MiniTopicCard';
