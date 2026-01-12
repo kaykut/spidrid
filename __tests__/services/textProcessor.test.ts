@@ -6,13 +6,16 @@
 
 import {
   tokenize,
+  tokenizeWithParagraphs,
   processWord,
   processText,
+  mapChapterOffsetsToWordIndices,
   findSentenceStarts,
   findPreviousSentenceStart,
   findNextSentenceStart,
 } from '../../src/services/textProcessor';
 import { ProcessedWord } from '../../src/types/playback';
+import { ChapterMetadata } from '../../src/types/content';
 
 describe('tokenize', () => {
   describe('basic word splitting', () => {
@@ -338,5 +341,338 @@ describe('findNextSentenceStart', () => {
       index = findNextSentenceStart(starts, index, totalWords);
       expect(index).toBe(11); // end
     });
+  });
+});
+
+describe('tokenizeWithParagraphs', () => {
+  describe('paragraph detection', () => {
+    it('splits text on double newlines', () => {
+      const text = 'First paragraph.\n\nSecond paragraph.';
+      const { tokens } = tokenizeWithParagraphs(text);
+
+      expect(tokens).toEqual(['First', 'paragraph.', 'Second', 'paragraph.']);
+    });
+
+    it('marks last word of each paragraph in paragraphEndIndices', () => {
+      const text = 'First paragraph.\n\nSecond paragraph.';
+      const { paragraphEndIndices } = tokenizeWithParagraphs(text);
+
+      // 'paragraph.' at index 1 is end of first paragraph
+      // 'paragraph.' at index 3 is end of second paragraph
+      expect(paragraphEndIndices.has(1)).toBe(true);
+      expect(paragraphEndIndices.has(3)).toBe(true);
+      expect(paragraphEndIndices.size).toBe(2);
+    });
+
+    it('handles single paragraph (no double newlines)', () => {
+      const text = 'Just one paragraph here.';
+      const { tokens, paragraphEndIndices } = tokenizeWithParagraphs(text);
+
+      expect(tokens).toEqual(['Just', 'one', 'paragraph', 'here.']);
+      expect(paragraphEndIndices.has(3)).toBe(true);
+      expect(paragraphEndIndices.size).toBe(1);
+    });
+
+    it('handles empty paragraphs gracefully', () => {
+      const text = 'First.\n\n\n\nSecond.';
+      const { tokens } = tokenizeWithParagraphs(text);
+
+      // Empty paragraphs between should not add tokens
+      expect(tokens).toEqual(['First.', 'Second.']);
+    });
+
+    it('handles Windows line endings', () => {
+      const text = 'First paragraph.\r\n\r\nSecond paragraph.';
+      const { tokens, paragraphEndIndices } = tokenizeWithParagraphs(text);
+
+      expect(tokens.length).toBeGreaterThan(0);
+      expect(paragraphEndIndices.size).toBeGreaterThan(0);
+    });
+
+    it('handles three paragraphs', () => {
+      const text = 'One.\n\nTwo.\n\nThree.';
+      const { tokens, paragraphEndIndices } = tokenizeWithParagraphs(text);
+
+      expect(tokens).toEqual(['One.', 'Two.', 'Three.']);
+      expect(paragraphEndIndices.has(0)).toBe(true); // 'One.'
+      expect(paragraphEndIndices.has(1)).toBe(true); // 'Two.'
+      expect(paragraphEndIndices.has(2)).toBe(true); // 'Three.'
+    });
+  });
+
+  describe('header detection', () => {
+    it('detects [[HEADER]]...[[/HEADER]] markers', () => {
+      const text = '[[HEADER]]Chapter 1[[/HEADER]]\n\nSome content.';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      expect(tokens[0]).toBe('Chapter 1');
+      expect(headerInfoMap.has(0)).toBe(true);
+      expect(headerInfoMap.get(0)?.isHeader).toBe(true);
+    });
+
+    it('marks short headers (<=3 words, <=25 chars) as single token with headerText', () => {
+      const text = '[[HEADER]]Short Title[[/HEADER]]\n\nContent here.';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      expect(tokens[0]).toBe('Short Title');
+      expect(headerInfoMap.get(0)?.isHeader).toBe(true);
+      expect(headerInfoMap.get(0)?.headerText).toBe('Short Title');
+    });
+
+    it('marks long headers word-by-word with isHeader flag', () => {
+      const text = '[[HEADER]]This is a very long header with many words[[/HEADER]]\n\nContent.';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      // Long header should be split into words
+      expect(tokens[0]).toBe('This');
+      expect(headerInfoMap.get(0)?.isHeader).toBe(true);
+      expect(headerInfoMap.get(0)?.headerText).toBeUndefined(); // No headerText for long headers
+
+      // All header words should be marked
+      for (let i = 0; i < 9; i++) {
+        expect(headerInfoMap.has(i)).toBe(true);
+        expect(headerInfoMap.get(i)?.isHeader).toBe(true);
+      }
+    });
+
+    it('handles multiple headers in one text', () => {
+      const text = '[[HEADER]]Chapter 1[[/HEADER]]\n\nContent one.\n\n[[HEADER]]Chapter 2[[/HEADER]]\n\nContent two.';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      // First header
+      expect(tokens[0]).toBe('Chapter 1');
+      expect(headerInfoMap.get(0)?.isHeader).toBe(true);
+
+      // Find second header
+      const chapter2Index = tokens.indexOf('Chapter 2');
+      expect(chapter2Index).toBeGreaterThan(0);
+      expect(headerInfoMap.get(chapter2Index)?.isHeader).toBe(true);
+    });
+
+    it('processes text before and after headers correctly', () => {
+      const text = 'Before text. [[HEADER]]Title[[/HEADER]] After text.';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      expect(tokens[0]).toBe('Before');
+      expect(tokens[1]).toBe('text.');
+      expect(tokens[2]).toBe('Title');
+      expect(tokens[3]).toBe('After');
+      expect(tokens[4]).toBe('text.');
+
+      // Only the header word should be marked
+      expect(headerInfoMap.has(0)).toBe(false);
+      expect(headerInfoMap.has(1)).toBe(false);
+      expect(headerInfoMap.get(2)?.isHeader).toBe(true);
+      expect(headerInfoMap.has(3)).toBe(false);
+    });
+
+    it('handles header at exactly 3 words and 25 chars', () => {
+      const text = '[[HEADER]]One Two Three[[/HEADER]]'; // 13 chars, 3 words - short
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      expect(tokens[0]).toBe('One Two Three');
+      expect(headerInfoMap.get(0)?.headerText).toBe('One Two Three');
+    });
+
+    it('handles header with 4 words as long header', () => {
+      const text = '[[HEADER]]One Two Three Four[[/HEADER]]';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      // 4 words should be treated as long header (word-by-word)
+      expect(tokens[0]).toBe('One');
+      expect(headerInfoMap.get(0)?.headerText).toBeUndefined();
+    });
+  });
+
+  describe('edge cases', () => {
+    it('returns empty tokens for empty text', () => {
+      const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs('');
+
+      expect(tokens).toEqual([]);
+      expect(paragraphEndIndices.size).toBe(0);
+      expect(headerInfoMap.size).toBe(0);
+    });
+
+    it('handles text with only headers', () => {
+      const text = '[[HEADER]]Title[[/HEADER]]';
+      const { tokens, headerInfoMap } = tokenizeWithParagraphs(text);
+
+      expect(tokens).toEqual(['Title']);
+      expect(headerInfoMap.get(0)?.isHeader).toBe(true);
+    });
+
+    it('handles whitespace-only text', () => {
+      const { tokens } = tokenizeWithParagraphs('   \n\n   ');
+      expect(tokens).toEqual([]);
+    });
+
+    it('handles nested whitespace in headers', () => {
+      const text = '[[HEADER]]  Spaced   Title  [[/HEADER]]';
+      const { tokens } = tokenizeWithParagraphs(text);
+
+      // Should trim the header content
+      expect(tokens[0]).toBe('Spaced   Title');
+    });
+  });
+});
+
+describe('mapChapterOffsetsToWordIndices', () => {
+  it('returns empty array for empty chapters', () => {
+    const result = mapChapterOffsetsToWordIndices('Some text here', []);
+    expect(result).toEqual([]);
+  });
+
+  it('maps character offset 0 to word index 0', () => {
+    const text = 'First word here.';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 0 },
+    ];
+
+    const result = mapChapterOffsetsToWordIndices(text, chapters);
+
+    expect(result[0].startWordIndex).toBe(0);
+    expect(result[0].title).toBe('Chapter 1');
+  });
+
+  it('maps mid-text offset to correct word index', () => {
+    const text = 'First Second Third Fourth';
+    // 'First ' = 6 chars, 'Second ' = 7 chars, so 'Third' starts at char 13
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 13 },
+    ];
+
+    const result = mapChapterOffsetsToWordIndices(text, chapters);
+
+    expect(result[0].startWordIndex).toBe(2); // 'Third' is word index 2
+  });
+
+  it('handles chapter starting at word boundary', () => {
+    const text = 'Word1 Word2 Word3';
+    // 'Word1 Word2 ' = 12 chars, 'Word3' starts at char 12
+    const chapters: ChapterMetadata[] = [
+      { title: 'Ch', startCharOffset: 12 },
+    ];
+
+    const result = mapChapterOffsetsToWordIndices(text, chapters);
+
+    expect(result[0].startWordIndex).toBe(2);
+  });
+
+  it('handles multiple chapters in sequence', () => {
+    const text = 'One Two Three Four Five';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 0 },
+      { title: 'Chapter 2', startCharOffset: 8 }, // 'Three' starts at 8
+      { title: 'Chapter 3', startCharOffset: 20 }, // 'Five' starts at 20
+    ];
+
+    const result = mapChapterOffsetsToWordIndices(text, chapters);
+
+    expect(result[0].startWordIndex).toBe(0);
+    expect(result[1].startWordIndex).toBe(2);
+    expect(result[2].startWordIndex).toBe(4);
+  });
+
+  it('handles text with irregular whitespace', () => {
+    const text = 'First   Second\t\tThird';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Ch', startCharOffset: 0 },
+    ];
+
+    const result = mapChapterOffsetsToWordIndices(text, chapters);
+
+    expect(result[0].startWordIndex).toBe(0);
+  });
+
+  it('preserves original chapter properties', () => {
+    const chapters: ChapterMetadata[] = [
+      { title: 'My Chapter', startCharOffset: 0 },
+    ];
+
+    const result = mapChapterOffsetsToWordIndices('Some text', chapters);
+
+    expect(result[0].title).toBe('My Chapter');
+    expect(result[0].startCharOffset).toBe(0);
+    expect(result[0].startWordIndex).toBeDefined();
+  });
+});
+
+describe('processText with chapters', () => {
+  it('applies chapterStart info to correct word indices', () => {
+    const text = 'First Second Third';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 0 },
+    ];
+
+    const result = processText(text, chapters);
+
+    expect(result[0].chapterStart).toBeDefined();
+    expect(result[0].chapterStart?.title).toBe('Chapter 1');
+    expect(result[0].chapterStart?.index).toBe(1); // 1-based
+  });
+
+  it('handles multiple chapters', () => {
+    const text = 'One Two Three Four';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Part 1', startCharOffset: 0 },
+      { title: 'Part 2', startCharOffset: 8 }, // 'Three' starts at char 8
+    ];
+
+    const result = processText(text, chapters);
+
+    expect(result[0].chapterStart?.title).toBe('Part 1');
+    expect(result[0].chapterStart?.index).toBe(1);
+    expect(result[2].chapterStart?.title).toBe('Part 2');
+    expect(result[2].chapterStart?.index).toBe(2);
+  });
+
+  it('handles chapter at first word', () => {
+    const text = 'Beginning of text.';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Intro', startCharOffset: 0 },
+    ];
+
+    const result = processText(text, chapters);
+
+    expect(result[0].chapterStart?.title).toBe('Intro');
+  });
+
+  it('words without chapters have no chapterStart', () => {
+    const text = 'First Second Third';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 0 },
+    ];
+
+    const result = processText(text, chapters);
+
+    // Only first word has chapter start
+    expect(result[0].chapterStart).toBeDefined();
+    expect(result[1].chapterStart).toBeUndefined();
+    expect(result[2].chapterStart).toBeUndefined();
+  });
+
+  it('combines chapters with paragraph boundaries', () => {
+    const text = 'First.\n\nSecond.';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Ch1', startCharOffset: 0 },
+    ];
+
+    const result = processText(text, chapters);
+
+    expect(result[0].chapterStart?.title).toBe('Ch1');
+    expect(result[0].paragraphEnd).toBe(true); // 'First.' ends paragraph
+  });
+
+  it('combines chapters with headers', () => {
+    const text = '[[HEADER]]Title[[/HEADER]]\n\nContent here.';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter', startCharOffset: 0 },
+    ];
+
+    const result = processText(text, chapters);
+
+    // First token is the header
+    expect(result[0].isHeader).toBe(true);
+    expect(result[0].chapterStart?.title).toBe('Chapter');
   });
 });
