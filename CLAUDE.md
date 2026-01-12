@@ -51,12 +51,12 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 
 ## Key Files
 ### Navigation & Layout
-- src/app/_layout.tsx - Root layout with providers
-- src/app/(tabs)/_layout.tsx - Tab navigation (Learn, Read, Profile, Settings)
-- src/app/(tabs)/learn.tsx - Topics grid with progress
-- src/app/(tabs)/read.tsx - Import content UI
-- src/app/(tabs)/profile.tsx - Stats and certificates
-- src/app/(tabs)/settings.tsx - Subscription and themes
+- src/app/_layout.tsx - Root layout with providers and modal routes
+- src/app/index.tsx - Main ContentListScreen (unified content list with FABs)
+- src/app/journey-profile.tsx - Journey stats + profile settings modal
+- src/app/add-content.tsx - Tiered add content modal (Practice/Read/Learn)
+- src/app/playback.tsx - RSVP playback modal
+- src/app/playback-quiz.tsx - Quiz modal after reading
 
 ### RSVP Engine
 - src/services/orp.ts - ORP calculation algorithm

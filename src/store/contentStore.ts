@@ -15,6 +15,7 @@ interface ContentStore {
   deleteContent: (id: string) => void;
   getContentById: (id: string) => ImportedContent | undefined;
   setCurrentContent: (id: string | null) => void;
+  clearAllContent: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -66,6 +67,10 @@ export const useContentStore = create<ContentStore>()(
 
       setCurrentContent: (id) => {
         set({ currentContentId: id });
+      },
+
+      clearAllContent: () => {
+        set({ importedContent: [], currentContentId: null });
       },
     }),
     {

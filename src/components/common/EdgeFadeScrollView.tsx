@@ -5,6 +5,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SPACING } from '../../constants/spacing';
 import { useTheme } from './ThemeProvider';
 
+// Helper to convert hex to rgba with alpha
+function hexToRGBA(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 // Default fade heights using design system constants
 const DEFAULT_TOP_FADE_HEIGHT = SPACING.huge; // 40
 const DEFAULT_BOTTOM_FADE_HEIGHT = SPACING.huge + SPACING.xl; // 60
@@ -51,14 +59,14 @@ export function EdgeFadeScrollView({
 
       {/* Top gradient fade - extends from screen edge */}
       <LinearGradient
-        colors={[theme.backgroundColor, `${theme.backgroundColor}00`]}
+        colors={[theme.backgroundColor, hexToRGBA(theme.backgroundColor, 0)]}
         style={[styles.topFade, { height: topGradientHeight }]}
         pointerEvents="none"
       />
 
       {/* Bottom gradient fade - extends to screen edge */}
       <LinearGradient
-        colors={[`${theme.backgroundColor}00`, theme.backgroundColor]}
+        colors={[hexToRGBA(theme.backgroundColor, 0), theme.backgroundColor]}
         style={[styles.bottomFade, { height: bottomGradientHeight }]}
         pointerEvents="none"
       />

@@ -30,6 +30,14 @@ import { CurriculumAccordionItem } from './CurriculumAccordionItem';
 import { EmptyState } from './EmptyState';
 import { FilterPills } from './FilterPills';
 
+// Helper to convert hex to rgba with alpha
+function hexToRGBA(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 export function ContentListScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
@@ -42,9 +50,22 @@ export function ContentListScreen() {
   const hasAnyContent = useContentListStore((state) => state.hasAnyContent);
   const deleteItem = useContentListStore((state) => state.deleteItem);
 
-  // Get the computed content list - recomputes when activeFilter changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const contentList = useMemo(() => getContentList(), [getContentList, activeFilter]);
+  // Subscribe to source stores to trigger re-render when content changes
+  const importedContent = useContentStore((state) => state.importedContent);
+  const generatedArticles = useGeneratedStore((state) => state.articles);
+  const curricula = useCurriculumStore((state) => state.curricula);
+  const articleProgress = useLearningStore((state) => state.articleProgress);
+
+  // Get the computed content list - recomputes when source stores change
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Dependencies trigger recomputation when stores change
+  const contentList = useMemo(() => getContentList(), [
+    getContentList,
+    activeFilter,
+    importedContent,
+    generatedArticles,
+    curricula,
+    articleProgress,
+  ]);
 
   // Check if list is truly empty (no content at all, ignoring filter)
   const isEmptyWithoutFilter = useMemo(() => {
@@ -132,9 +153,8 @@ export function ContentListScreen() {
           <StatsSummary
             articlesRead={stats.articlesRead}
             totalWords={stats.totalWords}
-            averageAccuracy={stats.averageAccuracy}
+            averageComprehension={stats.averageComprehension}
             bestWPM={stats.bestWPM}
-            tiersEarned={stats.tiersEarned}
           />
         </View>
         <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
@@ -203,14 +223,14 @@ export function ContentListScreen() {
 
       {/* Top gradient overlay */}
       <LinearGradient
-        colors={[theme.backgroundColor, 'transparent']}
+        colors={[theme.backgroundColor, hexToRGBA(theme.backgroundColor, 0)]}
         style={[styles.gradientTop, { height: insets.top + SPACING.xxxl }]}
         pointerEvents="none"
       />
 
       {/* Bottom gradient overlay */}
       <LinearGradient
-        colors={['transparent', theme.backgroundColor]}
+        colors={[hexToRGBA(theme.backgroundColor, 0), theme.backgroundColor]}
         style={[styles.gradientBottom, { height: insets.bottom + SPACING.xxxl }]}
         pointerEvents="none"
       />

@@ -47,12 +47,12 @@ describe('Index', () => {
     );
 
     // The FAB buttons should be present
-    expect(getByTestId('fab-journey')).toBeTruthy();
+    expect(getByTestId('fab-profile')).toBeTruthy();
     expect(getByTestId('fab-add-content')).toBeTruthy();
   });
 
   it('shows filter pills', () => {
-    const { getByText } = render(
+    const { getByText, getAllByText } = render(
       <TestWrapper>
         <Index />
       </TestWrapper>
@@ -61,7 +61,8 @@ describe('Index', () => {
     // Filter pills should be visible
     expect(getByText('All')).toBeTruthy();
     expect(getByText('Books')).toBeTruthy();
-    expect(getByText('Articles')).toBeTruthy();
+    // "Articles" appears in both filter pills and stats panel
+    expect(getAllByText('Articles').length).toBeGreaterThanOrEqual(1);
     expect(getByText('Learning')).toBeTruthy();
     expect(getByText('Training')).toBeTruthy();
   });

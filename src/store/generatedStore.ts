@@ -37,6 +37,7 @@ interface GeneratedActions {
   getArticleById: (id: string) => GeneratedArticle | undefined;
   deleteArticle: (id: string) => void;
   clearError: () => void;
+  clearAllArticles: () => void;
 }
 
 type GeneratedStore = GeneratedState & GeneratedActions;
@@ -140,6 +141,10 @@ export const useGeneratedStore = create<GeneratedStore>()(
 
       clearError: () => {
         set({ generationError: null });
+      },
+
+      clearAllArticles: () => {
+        set({ articles: [], isGenerating: false, generationError: null });
       },
     }),
     {

@@ -7,7 +7,7 @@
 
 import React, { useRef } from 'react';
 import { TouchableOpacity, StyleSheet, Animated, ViewStyle } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DURATION } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
@@ -49,13 +49,13 @@ export function FABButton({ position, icon, onPress, testID }: FABButtonProps) {
   const positionStyle: ViewStyle =
     position === 'top-right'
       ? {
-          top: insets.top + SPACING.sm,
-          right: SPACING.md,
-        }
+        top: insets.top + SPACING.sm,
+        right: SPACING.md,
+      }
       : {
-          bottom: Math.max(insets.bottom, SPACING.lg) + SPACING.md,
-          right: SPACING.md,
-        };
+        bottom: Math.max(insets.bottom, SPACING.lg) + SPACING.md,
+        right: SPACING.md,
+      };
 
   return (
     <Animated.View
@@ -74,18 +74,26 @@ export function FABButton({ position, icon, onPress, testID }: FABButtonProps) {
           style={styles.touchable}
           testID={testID}
         >
-          <Ionicons
-            name={icon}
-            size={SIZES.iconLg}
-            color={theme.accentColor}
-          />
+          {icon === 'add' ? (
+            <Entypo
+              name="plus"
+              size={SIZES.iconLg}
+              color={theme.accentColor}
+            />
+          ) : (
+            <Ionicons
+              name={icon}
+              size={SIZES.iconLg}
+              color={theme.accentColor}
+            />
+          )}
         </TouchableOpacity>
       </GlassView>
     </Animated.View>
   );
 }
 
-const FAB_SIZE = SIZES.touchTarget + SPACING.sm; // 52pt
+const FAB_SIZE = SIZES.touchTarget; // 44pt
 
 const styles = StyleSheet.create({
   container: {

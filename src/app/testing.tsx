@@ -31,7 +31,6 @@ import { MetricsPanel } from '../components/journey/MetricsPanel';
 import { SmartQueue } from '../components/journey/SmartQueue';
 import { UnifiedProgressPath } from '../components/journey/UnifiedProgressPath';
 import { UpNextCard } from '../components/journey/UpNextCard';
-import { InterestPill } from '../components/onboarding/InterestPill';
 import { Paywall } from '../components/paywall/Paywall';
 import { MultipleSelectQuestion } from '../components/quiz/MultipleSelectQuestion';
 import { NumericQuestion } from '../components/quiz/NumericQuestion';
@@ -564,7 +563,6 @@ export default function TestingScreen() {
   // Interactive states
   const [isPlaying, setIsPlaying] = useState(false);
   const [wpm, setWpm] = useState(300);
-  const [selectedPill, setSelectedPill] = useState(false);
   const [smartQueueExpanded, setSmartQueueExpanded] = useState(false);
   const [singleChoiceAnswer, setSingleChoiceAnswer] = useState<number | null>(null);
   const [multiSelectAnswer, setMultiSelectAnswer] = useState<number[] | null>(null);
@@ -774,9 +772,8 @@ export default function TestingScreen() {
           <StatsSummary
             articlesRead={42}
             totalWords={125000}
-            averageAccuracy={82}
+            averageComprehension={82}
             bestWPM={650}
-            tiersEarned={1}
           />
         </ComponentSection>
 
@@ -930,30 +927,6 @@ export default function TestingScreen() {
             suggestedWpm={350}
             onStart={(id, wpmVal) => console.log('Start:', id, wpmVal)}
           />
-        </ComponentSection>
-
-        {/* ============================================================ */}
-        {/* ONBOARDING */}
-        {/* ============================================================ */}
-
-        <ComponentSection
-          filename="src/components/onboarding/InterestPill.tsx"
-          componentName="InterestPill"
-        >
-          <View style={styles.row}>
-            <InterestPill
-              label="Science"
-              emoji="🔬"
-              selected={selectedPill}
-              onPress={() => setSelectedPill(!selectedPill)}
-            />
-            <InterestPill
-              label="Technology"
-              emoji="💻"
-              selected={!selectedPill}
-              onPress={() => setSelectedPill(!selectedPill)}
-            />
-          </View>
         </ComponentSection>
 
         {/* ============================================================ */}

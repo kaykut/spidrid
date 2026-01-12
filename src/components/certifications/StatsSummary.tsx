@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SPACING, COMPONENT_RADIUS, COMPONENT_SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
@@ -9,17 +9,17 @@ import { useTheme } from '../common/ThemeProvider';
 interface StatsSummaryProps {
   articlesRead: number;
   totalWords: number;
-  averageAccuracy: number;
+  averageComprehension: number;
   bestWPM: number;
-  tiersEarned: number;
+
 }
 
 export function StatsSummary({
   articlesRead,
   totalWords,
-  averageAccuracy,
+  averageComprehension,
   bestWPM,
-  tiersEarned,
+
 }: StatsSummaryProps) {
   const { theme } = useTheme();
 
@@ -46,25 +46,18 @@ export function StatsSummary({
         />
         <StatItem
           value={formatNumber(totalWords)}
-          label="Words Read"
+          label="Words"
           color={theme.accentColor}
         />
-      </View>
-      <View style={styles.row}>
         <StatItem
-          value={`${averageAccuracy}%`}
-          label="Avg. Accuracy"
+          value={`${averageComprehension}%`}
+          label="Comprehension"
           color={JOURNEY_COLORS.success}
         />
         <StatItem
           value={bestWPM}
           label="Best WPM"
           color={JOURNEY_COLORS.warmAccent}
-        />
-        <StatItem
-          value={`${tiersEarned}/3`}
-          label="Tiers"
-          color={JOURNEY_COLORS.certificationAccent}
         />
       </View>
     </LinearGradient>
@@ -83,7 +76,13 @@ function StatItem({ value, label, color }: StatItemProps) {
   return (
     <View style={styles.statItem}>
       <Text style={[styles.statValue, { color }]}>{value}</Text>
-      <Text style={[styles.statLabel, { color: theme.textColor }]}>{label}</Text>
+      <Text
+        style={[styles.statLabel, { color: theme.textColor }]}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+      >
+        {label}
+      </Text>
     </View>
   );
 }
@@ -95,12 +94,14 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.xs,
     marginVertical: SPACING.sm,
   },
   statItem: {
+    flex: 1,
     alignItems: 'center',
-    minWidth: COMPONENT_SIZES.statMinWidth,
+    paddingHorizontal: 2,
   },
   statValue: {
     ...TYPOGRAPHY.metricLarge,
@@ -108,6 +109,8 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     ...TYPOGRAPHY.caption,
+    fontSize: 10,
+    textAlign: 'center',
     opacity: 0.7,
     textTransform: 'uppercase',
     letterSpacing: LETTER_SPACING.tight,

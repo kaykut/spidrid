@@ -7,6 +7,10 @@
  * Usage: Import applyPersona() and call with persona ID to set all stores.
  */
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContentStore } from '../store/contentStore';
+import { useCurriculumStore } from '../store/curriculumStore';
+import { useGeneratedStore } from '../store/generatedStore';
 import { useJourneyStore } from '../store/journeyStore';
 import { useLearningStore } from '../store/learningStore';
 import { useSettingsStore } from '../store/settingsStore';
@@ -495,6 +499,9 @@ export async function applyPersona(personaId: string): Promise<boolean> {
  * Reset all stores to clean slate (new user state)
  */
 export async function resetToCleanSlate(): Promise<void> {
+  // Nuclear option: clear ALL AsyncStorage
+  await AsyncStorage.clear();
+
   // Reset journeyStore
   useJourneyStore.getState().resetJourneyData();
 
@@ -509,6 +516,11 @@ export async function resetToCleanSlate(): Promise<void> {
 
   // Reset settingsStore to defaults
   useSettingsStore.getState().resetSettings();
+
+  // Reset content stores
+  useContentStore.getState().clearAllContent();
+  useGeneratedStore.getState().clearAllArticles();
+  useCurriculumStore.getState().clearAllCurricula();
 }
 
 /**

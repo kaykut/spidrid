@@ -131,7 +131,8 @@ export function PlaybackControls({
 
 const styles = StyleSheet.create({
   container: {
-    padding: SPACING.xl,
+    paddingTop: SPACING.xl,
+    paddingHorizontal: SPACING.xl,
     gap: SPACING.lg,
   },
   progressBar: {

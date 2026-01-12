@@ -1,0 +1,44 @@
+# Spidrid Project Rules & Context
+
+## Project Overview
+React Native (Expo) RSVP speed reading app with freemium monetization.
+
+## Tech Stack
+- **Framework**: Expo SDK 54 with Expo Router
+- **State**: Zustand with AsyncStorage persistence (MMKV in production)
+- **Language**: TypeScript (strict mode)
+
+## Core Conventions
+- **Components**: Functional components with hooks.
+- **Exports**: Prefer named exports over default exports.
+- **Stores**: Use pattern `use[Name]Store`.
+- **Dependencies**: NEVER use `--legacy-peer-deps` or `--force`. Fix conflicts properly.
+
+## Design System ("Quiet Velocity") - 8pt Grid
+**CRITICAL**: ALWAYS use design tokens. NEVER hardcode colors, spacing, radii, or typography.
+
+- **Files**: `src/constants/spacing.ts`, `src/constants/typography.ts`, `src/data/themes.ts`, `src/utils/colorUtils.ts`
+- **Spacing**: `SPACING.{xxs=2,xs=4,sm=8,md=16,lg=24,xl=32,xxl=40,xxxl=48,huge=56,massive=64}`
+- **Radius**: `COMPONENT_RADIUS.{button=12,card=16,modal=20,chip=8,input=12,progressBar=6,node=full}`
+- **Typography**: `TYPOGRAPHY.{vsNumber,pageTitle,sectionTitle,cardTitle,body,label,caption,metric,button}`
+- **Colors**: `JOURNEY_COLORS`, `COLOR_OPACITY`, `themes.{dark,midnight,sepia,light}`
+- **Shadows**: `SHADOWS`
+
+WPM Range: 50-1500 (Free cap: 450).
+ORP Highlight Color: Coral red (#ff6b6b in dark theme).
+
+## ExecPlan & Workflow Rules
+When creating or executing plans ("ExecPlans"), strict adherence to `PLANS.md` is REQUIRED.
+
+1. **Self-Contained**: Every ExecPlan must be fully self-contained. A novice must be able to execute it without external context.
+2. **Living Documents**: Update the ExecPlan *as you work*. Maintain `Progress`, `Decision Log`, and `Surprises` sections.
+3. **Idempotence**: Steps must be safe to re-run.
+4. **Validation**: Every step must have explicit validation commands (tests, CLI outputs).
+5. **Drift Analysis**: Regularly check for drift between the plan and implementation.
+
+## Key Files Map
+- **Navigation**: `src/app/_layout.tsx`, `src/app/index.tsx`
+- **RSVP Engine**: `src/services/orp.ts`, `src/hooks/useRSVPEngine.ts`
+- **Learning**: `src/data/curriculum.ts`, `src/app/topic/[id].tsx`
+- **Subscription**: `src/store/subscriptionStore.ts`
+- **Certificates**: `src/store/certificateStore.ts`

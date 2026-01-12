@@ -14,7 +14,7 @@ import {
  */
 export interface RecentPerformance {
   averageWPM: number;
-  averageAccuracy: number;
+  averageComprehension: number;
   articleCount: number;
 }
 
@@ -43,6 +43,7 @@ interface LearningStore {
    * @param wpm Reading speed
    * @param isCertificationText Whether this is a certification text (first attempt tracked specially)
    */
+  startArticle: (articleId: string) => void;
   completeArticle: (
     articleId: string,
     score: number,
@@ -106,6 +107,31 @@ export const useLearningStore = create<LearningStore>()(
 
       setCurrentWPM: (wpm) => {
         set({ currentWPM: wpm });
+      },
+
+      startArticle: (articleId) => {
+        set((state) => {
+          // If progress already exists, do nothing
+          if (state.articleProgress[articleId]) {
+            return state;
+          }
+
+          // Initialize progress with "started" state (0% completion)
+          return {
+            articleProgress: {
+              ...state.articleProgress,
+              [articleId]: {
+                articleId,
+                completed: false,
+                comprehensionScore: 0,
+                highestWPM: 0,
+                lastReadAt: Date.now(),
+                attemptCount: 0,
+                attempts: [],
+              },
+            },
+          };
+        });
       },
 
       completeArticle: (articleId, score, wpm, isCertificationText = false) => {
@@ -223,7 +249,7 @@ export const useLearningStore = create<LearningStore>()(
           .slice(-count);
 
         if (practiceCompletions.length === 0) {
-          return { averageWPM: 0, averageAccuracy: 0, articleCount: 0 };
+          return { averageWPM: 0, averageComprehension: 0, articleCount: 0 };
         }
 
         const totalWPM = practiceCompletions.reduce((sum, c) => sum + c.wpm, 0);
@@ -231,7 +257,7 @@ export const useLearningStore = create<LearningStore>()(
 
         return {
           averageWPM: Math.round(totalWPM / practiceCompletions.length),
-          averageAccuracy: Math.round(totalScore / practiceCompletions.length),
+          averageComprehension: Math.round(totalScore / practiceCompletions.length),
           articleCount: practiceCompletions.length,
         };
       },

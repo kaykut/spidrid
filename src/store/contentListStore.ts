@@ -262,6 +262,11 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
 
         for (const article of topicArticles) {
           const progress = articleProgress[article.id];
+          if (!progress) {
+            // Skip articles that haven't been started
+            continue;
+          }
+
           const completed = progress?.completed ?? false;
           const progressPercent = completed ? 100 : 0;
           const state = getContentState(progressPercent, completed);

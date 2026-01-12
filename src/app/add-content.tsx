@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TrainContent, ReadContent, LearnContent } from '../components/addContent';
 import { useTheme } from '../components/common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
@@ -53,6 +53,7 @@ const MENU_OPTIONS: MenuOption[] = [
 
 export default function AddContentModal() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const [level, setLevel] = useState<ContentLevel>('menu');
 
   const handleClose = () => {
@@ -125,36 +126,46 @@ export default function AddContentModal() {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-      edges={['top', 'bottom']}
-    >
-      {/* Header */}
-      <View style={styles.header}>
-        {level === 'menu' ? (
-          <TouchableOpacity
-            onPress={handleClose}
-            style={styles.headerButton}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={handleBack}
-            style={styles.headerButton}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Ionicons name="chevron-back" size={SIZES.iconLg} color={theme.textColor} />
-          </TouchableOpacity>
-        )}
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{getTitle()}</Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      {/* Navigation button - absolute positioned in safe area */}
+      {level === 'menu' ? (
+        <TouchableOpacity
+          onPress={handleClose}
+          style={[styles.navButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={handleBack}
+          style={[styles.navButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons name="chevron-back" size={SIZES.iconLg} color={theme.textColor} />
+        </TouchableOpacity>
+      )}
+
+      {/* Title - absolute positioned, centered */}
+      <Text
+        style={[
+          styles.headerTitle,
+          { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
+        ]}
+      >
+        {getTitle()}
+      </Text>
 
       {/* Content */}
-      <View style={styles.contentContainer}>{renderContent()}</View>
-    </SafeAreaView>
+      <View
+        style={[
+          styles.contentContainer,
+          { paddingTop: insets.top + SIZES.touchTarget, paddingBottom: insets.bottom },
+        ]}
+      >
+        {renderContent()}
+      </View>
+    </View>
   );
 }
 
@@ -162,31 +173,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
-  headerButton: {
+  navButton: {
+    position: 'absolute',
+    zIndex: 10,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerTitle: {
+    position: 'absolute',
+    zIndex: 10,
+    left: SIZES.touchTarget + SPACING.xl,
+    right: SIZES.touchTarget + SPACING.xl,
     ...TYPOGRAPHY.cardTitle,
-  },
-  headerSpacer: {
-    width: SIZES.touchTarget,
+    textAlign: 'center',
   },
   contentContainer: {
     flex: 1,
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.lg,
   },
   menuContainer: {
     flex: 1,

@@ -494,7 +494,7 @@ describe('learningStore', () => {
 
       const performance = result.current.getRecentPerformance();
       expect(performance.averageWPM).toBe(0);
-      expect(performance.averageAccuracy).toBe(0);
+      expect(performance.averageComprehension).toBe(0);
       expect(performance.articleCount).toBe(0);
     });
 
@@ -523,7 +523,7 @@ describe('learningStore', () => {
       });
 
       const performance = result.current.getRecentPerformance();
-      expect(performance.averageAccuracy).toBe(80); // (70 + 90 + 80) / 3
+      expect(performance.averageComprehension).toBe(80); // (70 + 90 + 80) / 3
     });
 
     it('excludes certification texts from calculation', () => {

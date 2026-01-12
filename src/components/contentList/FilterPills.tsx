@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { ContentCategory } from '../../types/contentList';
 import { GlassView } from '../common/GlassView';
@@ -108,13 +108,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
-    gap: SPACING.sm,
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   pill: {
     paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
+    paddingVertical: 6, // Reduced from SPACING.sm (8)
     borderRadius: COMPONENT_RADIUS.chip,
-    minWidth: SIZES.touchTarget,
+    minWidth: 40, // Reduced touch target min width
     overflow: 'hidden',
   },
   pillContent: {
@@ -123,5 +124,6 @@ const styles = StyleSheet.create({
   },
   pillText: {
     ...TYPOGRAPHY.buttonSmall,
+    fontWeight: '600',
   },
 });

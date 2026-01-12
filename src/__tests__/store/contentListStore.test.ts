@@ -425,11 +425,14 @@ describe('contentListStore', () => {
   // ===========================================================================
 
   describe('getContentList - training articles', () => {
-    it('should include training articles', () => {
+    it('should include training articles that have been started', () => {
+      // Training articles only appear after being started
+      useLearningStore.getState().startArticle('science-discovery-p01');
+
       const list = useContentListStore.getState().getContentList();
       const trainingItems = list.filter((i) => i.source === 'training');
 
-      // Should have training articles from static curriculum
+      // Should have the started training article
       expect(trainingItems.length).toBeGreaterThan(0);
       expect(trainingItems[0].category).toBe('training');
     });
@@ -630,6 +633,9 @@ describe('contentListStore', () => {
 
     it('should not delete training articles (static content)', () => {
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+      // Training articles only appear after being started
+      useLearningStore.getState().startArticle('science-discovery-p01');
 
       const list = useContentListStore.getState().getContentList();
       const trainingItem = list.find((i) => i.source === 'training');

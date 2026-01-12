@@ -10,7 +10,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../components/common/ThemeProvider';
 import { QuestionRenderer, QuestionAnswer } from '../components/quiz';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
@@ -26,6 +26,7 @@ import { resolveContentBySource } from '../utils/contentResolver';
 
 export default function PlaybackQuizModal() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ sourceId: string; source: string; wpm: string }>();
   const sourceId = params.sourceId ?? '';
   const source = (params.source ?? 'training') as ContentSource;
@@ -149,22 +150,27 @@ export default function PlaybackQuizModal() {
   // No questions available
   if (!currentQuestion && !isComplete) {
     return (
-      <SafeAreaView
-        style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-        edges={['top', 'bottom']}
-      >
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.closeButton}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-          </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>Quiz</Text>
-          <View style={styles.headerSpacer} />
-        </View>
-        <View style={styles.emptyState}>
+      <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+        {/* Close button - absolute positioned in safe area */}
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={[styles.closeButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+        </TouchableOpacity>
+
+        {/* Title - absolute positioned, centered */}
+        <Text
+          style={[
+            styles.headerTitle,
+            { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
+          ]}
+        >
+          Quiz
+        </Text>
+
+        <View style={[styles.emptyState, { paddingTop: insets.top + SIZES.touchTarget }]}>
           <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
             No Quiz Available
           </Text>
@@ -172,31 +178,32 @@ export default function PlaybackQuizModal() {
             This content does not have quiz questions.
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-      edges={['top', 'bottom']}
-    >
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.closeButton}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        >
-          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-        </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {isComplete ? 'Results' : 'Comprehension Quiz'}
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      {/* Close button - absolute positioned in safe area */}
+      <TouchableOpacity
+        onPress={() => router.back()}
+        style={[styles.closeButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      >
+        <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+      </TouchableOpacity>
 
-      <View style={styles.content}>
+      {/* Title - absolute positioned, centered */}
+      <Text
+        style={[
+          styles.headerTitle,
+          { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
+        ]}
+      >
+        {isComplete ? 'Results' : 'Comprehension Quiz'}
+      </Text>
+
+      <View style={[styles.content, { paddingTop: insets.top + SIZES.touchTarget, paddingBottom: insets.bottom }]}>
         {/* Results View */}
         {isComplete ? (
           <View style={styles.resultsContainer}>
@@ -270,7 +277,7 @@ export default function PlaybackQuizModal() {
           </View>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -278,29 +285,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
   closeButton: {
+    position: 'absolute',
+    zIndex: 10,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerTitle: {
+    position: 'absolute',
+    zIndex: 10,
+    left: SIZES.touchTarget + SPACING.xl,
+    right: SIZES.touchTarget + SPACING.xl,
     ...TYPOGRAPHY.cardTitle,
-    flex: 1,
     textAlign: 'center',
-    marginHorizontal: SPACING.sm,
-  },
-  headerSpacer: {
-    width: SIZES.touchTarget,
   },
   content: {
     flex: 1,

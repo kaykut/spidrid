@@ -76,6 +76,11 @@ export const useSettingsStore = create<SettingsState>()(
         paragraphPauseEnabled: state.paragraphPauseEnabled,
         activeContentTab: state.activeContentTab,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state && state.themeId && themes[state.themeId]) {
+          state.theme = themes[state.themeId];
+        }
+      },
     }
   )
 );

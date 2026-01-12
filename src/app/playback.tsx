@@ -10,7 +10,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../components/common/ThemeProvider';
 import { PlaybackControls } from '../components/controls/PlaybackControls';
 import { ChapterPauseOverlay } from '../components/rsvp/ChapterPauseOverlay';
@@ -28,11 +28,12 @@ import { resolveContentBySource } from '../utils/contentResolver';
 
 export default function PlaybackModal() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ sourceId: string; source: string }>();
   const sourceId = params.sourceId ?? '';
   const source = (params.source ?? 'imported') as ContentSource;
 
-  const { currentWPM, setCurrentWPM } = useLearningStore();
+  const { currentWPM, setCurrentWPM, startArticle } = useLearningStore();
   const { updateProgress } = useContentStore();
   const { updateArticleProgress: updateGeneratedProgress } = useGeneratedStore();
 
@@ -55,6 +56,13 @@ export default function PlaybackModal() {
     }
     return processText(resolvedContent.content);
   }, [resolvedContent?.content]);
+
+  // Mark article as started when content is loaded
+  useEffect(() => {
+    if (sourceId && (source === 'training' || source === 'generated' || source === 'curriculum')) {
+      startArticle(sourceId);
+    }
+  }, [sourceId, source, startArticle]);
 
   // RSVP engine - starts paused (default behavior)
   const engine = useRSVPEngine(processedWords, currentWPM);
@@ -137,29 +145,28 @@ export default function PlaybackModal() {
   const hasContent = sourceId && resolvedContent;
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-      edges={['top', 'bottom']}
-    >
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={handleClose}
-          style={styles.closeButton}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        >
-          <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
-        </TouchableOpacity>
-        <Text
-          style={[styles.headerTitle, { color: theme.textColor }]}
-          numberOfLines={1}
-        >
-          {resolvedContent?.title ?? 'Reading'}
-        </Text>
-        <View style={styles.headerSpacer} />
-      </View>
+    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      {/* Close button - absolute positioned in safe area */}
+      <TouchableOpacity
+        onPress={handleClose}
+        style={[styles.closeButton, { top: insets.top + SPACING.sm, left: SPACING.md }]}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      >
+        <Ionicons name="close" size={SIZES.iconLg} color={theme.textColor} />
+      </TouchableOpacity>
 
-      <View style={styles.content}>
+      {/* Title - absolute positioned, centered */}
+      <Text
+        style={[
+          styles.headerTitle,
+          { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
+        ]}
+        numberOfLines={1}
+      >
+        {resolvedContent?.title ?? 'Reading'}
+      </Text>
+
+      <View style={[styles.content, { paddingTop: insets.top + SIZES.touchTarget, paddingBottom: insets.bottom }]}>
         {/* Results View */}
         {isComplete && !resolvedContent?.hasQuiz ? (
           <View style={styles.resultsContainer}>
@@ -246,7 +253,7 @@ export default function PlaybackModal() {
           </>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -254,29 +261,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-  },
   closeButton: {
+    position: 'absolute',
+    zIndex: 10,
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerTitle: {
+    position: 'absolute',
+    zIndex: 10,
+    left: SIZES.touchTarget + SPACING.xl,
+    right: SIZES.touchTarget + SPACING.xl,
     ...TYPOGRAPHY.cardTitle,
-    flex: 1,
     textAlign: 'center',
-    marginHorizontal: SPACING.sm,
-  },
-  headerSpacer: {
-    width: SIZES.touchTarget,
   },
   content: {
     flex: 1,

@@ -1,7 +1,7 @@
 /**
  * Tests for StatsSummary component - Milestone 8
  *
- * Tests stats display (articles, words, accuracy, WPM, tiers).
+ * Tests stats display (articles, words, comprehension, WPM).
  */
 
 import React from 'react';
@@ -15,6 +15,7 @@ jest.mock('../../../src/components/common/ThemeProvider', () => ({
       backgroundColor: '#1a1a1a',
       textColor: '#ffffff',
       secondaryBackground: '#2a2a2a',
+      secondaryBackgroundGradient: '#3a3a3a',
       accentColor: '#4dabf7',
     },
   }),
@@ -24,9 +25,8 @@ describe('StatsSummary', () => {
   const defaultStats = {
     articlesRead: 25,
     totalWords: 50000,
-    averageAccuracy: 85,
+    averageComprehension: 85,
     bestWPM: 750,
-    tiersEarned: 1,
   };
 
   describe('rendering stats', () => {
@@ -42,14 +42,14 @@ describe('StatsSummary', () => {
 
       // 50000 should be formatted as 50.0K
       expect(getByText('50.0K')).toBeTruthy();
-      expect(getByText('Words Read')).toBeTruthy();
+      expect(getByText('Words')).toBeTruthy();
     });
 
-    it('displays average accuracy', () => {
+    it('displays average comprehension', () => {
       const { getByText } = render(<StatsSummary {...defaultStats} />);
 
       expect(getByText('85%')).toBeTruthy();
-      expect(getByText('Avg. Accuracy')).toBeTruthy();
+      expect(getByText('Comprehension')).toBeTruthy();
     });
 
     it('displays best WPM', () => {
@@ -57,13 +57,6 @@ describe('StatsSummary', () => {
 
       expect(getByText('750')).toBeTruthy();
       expect(getByText('Best WPM')).toBeTruthy();
-    });
-
-    it('displays tiers earned as fraction', () => {
-      const { getByText } = render(<StatsSummary {...defaultStats} />);
-
-      expect(getByText('1/3')).toBeTruthy();
-      expect(getByText('Tiers')).toBeTruthy();
     });
   });
 
@@ -97,24 +90,12 @@ describe('StatsSummary', () => {
         <StatsSummary
           articlesRead={0}
           totalWords={0}
-          averageAccuracy={0}
+          averageComprehension={0}
           bestWPM={0}
-          tiersEarned={0}
         />
       );
 
       expect(getByText('0%')).toBeTruthy();
-      expect(getByText('0/3')).toBeTruthy();
-    });
-  });
-
-  describe('edge cases', () => {
-    it('handles maximum tiers earned', () => {
-      const { getByText } = render(
-        <StatsSummary {...defaultStats} tiersEarned={3} />
-      );
-
-      expect(getByText('3/3')).toBeTruthy();
     });
   });
 });
