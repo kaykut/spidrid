@@ -101,6 +101,18 @@ jest.mock('expo-audio', () => ({
   setAudioModeAsync: jest.fn().mockResolvedValue(undefined),
 }));
 
+// Mock PurchasesService for subscription store tests
+jest.mock('./src/services/purchases', () => ({
+  configurePurchases: jest.fn().mockResolvedValue(false), // Default to SDK not available
+  checkPremiumStatus: jest.fn().mockResolvedValue(false),
+  loginUser: jest.fn().mockResolvedValue(null),
+  logoutUser: jest.fn().mockResolvedValue(undefined),
+  restorePurchases: jest.fn().mockResolvedValue(null),
+  getOfferings: jest.fn().mockResolvedValue([]),
+  purchasePackage: jest.fn().mockResolvedValue(null),
+  isAvailable: jest.fn().mockReturnValue(false),
+  getPremiumEntitlement: jest.fn().mockReturnValue('premium'),
+}));
 
 // Silence console warnings in tests
 const originalWarn = console.warn;

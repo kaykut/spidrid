@@ -91,7 +91,10 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 - 4 themes: dark (default), midnight, sepia, light
 - ORP highlight color: coral red (#ff6b6b in dark theme)
 - WPM range: 50-1500 (free tier capped at 450)
-- Simulated purchases in Expo Go (real RevenueCat for production)
+- RevenueCat SDK with graceful degradation (defaults to free tier in Expo Go)
+
+## Anti-Patterns
+- **NO Expo Go simulation layers**: Never create fake SDK methods (simulatePurchase, etc.) for Expo Go. Use real SDK calls with try/catch graceful degradation instead.
 
 ## ExecPlan Reference
 Full implementation plan: docs/2026-01-06-spidrid-execplan.md

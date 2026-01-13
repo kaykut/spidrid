@@ -11,15 +11,32 @@ import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../src/types/subscription';
 
 // Mock the subscription store
-const mockSimulatePurchase = jest.fn();
-const mockSimulateRestore = jest.fn();
+const mockPurchaseProduct = jest.fn();
+const mockRestorePurchases = jest.fn();
 
 jest.mock('../../src/store/subscriptionStore', () => ({
   useSubscriptionStore: () => ({
-    simulatePurchase: mockSimulatePurchase,
-    simulateRestore: mockSimulateRestore,
+    purchaseProduct: mockPurchaseProduct,
+    restorePurchases: mockRestorePurchases,
     isLoading: false,
+    isRestoring: false,
   }),
+}));
+
+// Mock PurchasesService for price fetching
+jest.mock('../../src/services/purchases', () => ({
+  getOfferings: jest.fn().mockResolvedValue([
+    {
+      identifier: 'test-package',
+      product: {
+        identifier: 'test-product',
+        title: 'Premium',
+        description: 'Premium subscription',
+        priceString: '$4.99/month',
+        price: 4.99,
+      },
+    },
+  ]),
 }));
 
 // Helper to render with providers
@@ -30,8 +47,8 @@ const renderWithProviders = (ui: React.ReactElement) => {
 describe('Paywall', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockSimulatePurchase.mockResolvedValue(true);
-    mockSimulateRestore.mockResolvedValue(false);
+    mockPurchaseProduct.mockResolvedValue(true);
+    mockRestorePurchases.mockResolvedValue({ success: false, message: 'No purchases to restore' });
   });
 
   describe('visibility', () => {
@@ -136,27 +153,37 @@ describe('Paywall', () => {
       expect(screen.getByText('Subscribe Now')).toBeTruthy();
     });
 
-    it('calls simulatePurchase when pressed', async () => {
+    it('calls purchaseProduct when pressed', async () => {
       const onClose = jest.fn();
       renderWithProviders(
         <Paywall visible={true} onClose={onClose} />
       );
+
+      // Wait for price to load (button becomes enabled)
+      await waitFor(() => {
+        expect(screen.getByText('$4.99/month')).toBeTruthy();
+      });
 
       const purchaseButton = screen.getByText('Subscribe Now');
       fireEvent.press(purchaseButton);
 
       await waitFor(() => {
-        expect(mockSimulatePurchase).toHaveBeenCalled();
+        expect(mockPurchaseProduct).toHaveBeenCalled();
       });
     });
 
     it('calls onClose after successful purchase', async () => {
       const onClose = jest.fn();
-      mockSimulatePurchase.mockResolvedValue(true);
+      mockPurchaseProduct.mockResolvedValue(true);
 
       renderWithProviders(
         <Paywall visible={true} onClose={onClose} />
       );
+
+      // Wait for price to load
+      await waitFor(() => {
+        expect(screen.getByText('$4.99/month')).toBeTruthy();
+      });
 
       const purchaseButton = screen.getByText('Subscribe Now');
       fireEvent.press(purchaseButton);
@@ -167,11 +194,16 @@ describe('Paywall', () => {
     });
 
     it('shows error message on failed purchase', async () => {
-      mockSimulatePurchase.mockResolvedValue(false);
+      mockPurchaseProduct.mockResolvedValue(false);
 
       renderWithProviders(
         <Paywall visible={true} onClose={jest.fn()} />
       );
+
+      // Wait for price to load
+      await waitFor(() => {
+        expect(screen.getByText('$4.99/month')).toBeTruthy();
+      });
 
       const purchaseButton = screen.getByText('Subscribe Now');
       fireEvent.press(purchaseButton);
@@ -191,7 +223,7 @@ describe('Paywall', () => {
       expect(screen.getByText('Restore Purchases')).toBeTruthy();
     });
 
-    it('calls simulateRestore when pressed', async () => {
+    it('calls restorePurchases when pressed', async () => {
       renderWithProviders(
         <Paywall visible={true} onClose={jest.fn()} />
       );
@@ -200,13 +232,13 @@ describe('Paywall', () => {
       fireEvent.press(restoreButton);
 
       await waitFor(() => {
-        expect(mockSimulateRestore).toHaveBeenCalled();
+        expect(mockRestorePurchases).toHaveBeenCalled();
       });
     });
 
     it('calls onClose after successful restore', async () => {
       const onClose = jest.fn();
-      mockSimulateRestore.mockResolvedValue(true);
+      mockRestorePurchases.mockResolvedValue({ success: true });
 
       renderWithProviders(
         <Paywall visible={true} onClose={onClose} />
@@ -221,7 +253,7 @@ describe('Paywall', () => {
     });
 
     it('shows error message when no purchases to restore', async () => {
-      mockSimulateRestore.mockResolvedValue(false);
+      mockRestorePurchases.mockResolvedValue({ success: false, message: 'No previous purchases found.' });
 
       renderWithProviders(
         <Paywall visible={true} onClose={jest.fn()} />
@@ -238,15 +270,6 @@ describe('Paywall', () => {
 
   describe('loading state', () => {
     it('disables purchase button during loading', () => {
-      // Update mock to return loading state
-      jest.doMock('../../src/store/subscriptionStore', () => ({
-        useSubscriptionStore: () => ({
-          simulatePurchase: mockSimulatePurchase,
-          simulateRestore: mockSimulateRestore,
-          isLoading: true,
-        }),
-      }));
-
       // Note: This test would need the component to re-render with new mock
       // For now, just verify the structure exists
       renderWithProviders(
@@ -254,16 +277,6 @@ describe('Paywall', () => {
       );
 
       expect(screen.getByText('Subscribe Now')).toBeTruthy();
-    });
-  });
-
-  describe('dev note', () => {
-    it('shows dev mode note', () => {
-      renderWithProviders(
-        <Paywall visible={true} onClose={jest.fn()} />
-      );
-
-      expect(screen.getByText(/Dev mode/)).toBeTruthy();
     });
   });
 });

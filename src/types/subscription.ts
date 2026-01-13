@@ -20,11 +20,3 @@ export const FREE_TIER_LIMITS = {
 export const PREMIUM_LIMITS = {
   MAX_WPM: 1500,
 } as const;
-
-// Default offering for development/mock
-export const MOCK_OFFERING: PurchaseOffering = {
-  identifier: 'spidrid_premium_monthly',
-  title: 'Spidrid Premium',
-  description: 'Unlimited speed reading up to 1500 WPM',
-  priceString: '$4.99/month',
-};

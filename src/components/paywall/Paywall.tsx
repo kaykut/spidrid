@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,8 +10,9 @@ import {
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
+import * as PurchasesService from '../../services/purchases';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { MOCK_OFFERING, FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../types/subscription';
+import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../types/subscription';
 import { useTheme } from '../common/ThemeProvider';
 
 interface PaywallProps {
@@ -22,12 +23,26 @@ interface PaywallProps {
 
 export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallProps) {
   const { theme } = useTheme();
-  const { simulatePurchase, simulateRestore, isLoading } = useSubscriptionStore();
+  const { purchaseProduct, restorePurchases, isLoading, isRestoring } = useSubscriptionStore();
   const [error, setError] = useState<string | null>(null);
+  const [priceString, setPriceString] = useState<string>('Loading...');
+
+  // Fetch real price from RevenueCat when modal opens
+  useEffect(() => {
+    if (visible) {
+      PurchasesService.getOfferings().then(offerings => {
+        if (offerings.length > 0) {
+          setPriceString(offerings[0].product.priceString);
+        } else {
+          setPriceString('Not available');
+        }
+      });
+    }
+  }, [visible]);
 
   const handlePurchase = async () => {
     setError(null);
-    const success = await simulatePurchase();
+    const success = await purchaseProduct();
     if (success) {
       onClose();
     } else {
@@ -37,11 +52,13 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
 
   const handleRestore = async () => {
     setError(null);
-    const restored = await simulateRestore();
-    if (restored) {
+    const result = await restorePurchases();
+    if (result.success) {
       onClose();
+    } else if (result.error) {
+      setError(result.error);
     } else {
-      setError('No previous purchases found.');
+      setError(result.message || 'No previous purchases found.');
     }
   };
 
@@ -95,7 +112,7 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
 
           {/* Price */}
           <Text style={[styles.price, { color: theme.accentColor }]}>
-            {MOCK_OFFERING.priceString}
+            {priceString}
           </Text>
 
           {/* Error */}
@@ -109,7 +126,7 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
           <TouchableOpacity
             style={[styles.purchaseButton, { backgroundColor: theme.accentColor }]}
             onPress={handlePurchase}
-            disabled={isLoading}
+            disabled={isLoading || priceString === 'Loading...' || priceString === 'Not available'}
           >
             {isLoading ? (
               <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
@@ -122,17 +139,16 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
           <TouchableOpacity
             style={styles.restoreButton}
             onPress={handleRestore}
-            disabled={isLoading}
+            disabled={isLoading || isRestoring}
           >
-            <Text style={[styles.restoreText, { color: theme.textColor }]}>
-              Restore Purchases
-            </Text>
+            {isRestoring ? (
+              <ActivityIndicator size="small" color={theme.textColor} />
+            ) : (
+              <Text style={[styles.restoreText, { color: theme.textColor }]}>
+                Restore Purchases
+              </Text>
+            )}
           </TouchableOpacity>
-
-          {/* Dev note */}
-          <Text style={[styles.devNote, { color: theme.textColor }]}>
-            (Dev mode: Simulated purchase)
-          </Text>
         </View>
       </View>
     </Modal>
@@ -230,11 +246,5 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
-  },
-  devNote: {
-    ...TYPOGRAPHY.caption,
-    textAlign: 'center',
-    opacity: 0.5,
-    marginTop: SPACING.sm,
   },
 });

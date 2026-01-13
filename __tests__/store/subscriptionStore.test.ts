@@ -7,15 +7,24 @@
 import { renderHook, act } from '@testing-library/react-native';
 import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../src/types/subscription';
+import * as PurchasesService from '../../src/services/purchases';
+
+// Get the mocked purchases service
+const mockPurchasesService = PurchasesService as jest.Mocked<typeof PurchasesService>;
 
 describe('subscriptionStore', () => {
   beforeEach(() => {
     // Reset store state before each test
-    const { result } = renderHook(() => useSubscriptionStore());
-    act(() => {
-      result.current.setPremium(false);
-      result.current.resetContentCount();
+    useSubscriptionStore.setState({
+      isPremium: false,
+      isLoading: false,
+      isInitialized: false,
+      isRestoring: false,
+      restoreError: null,
+      contentAccessCount: 0,
+      linkedUserId: null,
     });
+    jest.clearAllMocks();
   });
 
   describe('initial state', () => {
@@ -26,18 +35,17 @@ describe('subscriptionStore', () => {
 
     it('starts with contentAccessCount as 0', () => {
       const { result } = renderHook(() => useSubscriptionStore());
-      // Reset to ensure clean state
-      act(() => {
-        result.current.resetContentCount();
-      });
       expect(result.current.contentAccessCount).toBe(0);
     });
 
     it('starts with isLoading as false', () => {
       const { result } = renderHook(() => useSubscriptionStore());
-      // Note: isLoading may be true during initialization
-      // After initialization, it should be false
-      expect(typeof result.current.isLoading).toBe('boolean');
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    it('starts with linkedUserId as null', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+      expect(result.current.linkedUserId).toBeNull();
     });
   });
 
@@ -77,6 +85,34 @@ describe('subscriptionStore', () => {
 
       // Should still be initialized
       expect(result.current.isInitialized).toBe(firstInitTime);
+      // configurePurchases should only be called once
+      expect(mockPurchasesService.configurePurchases).toHaveBeenCalledTimes(1);
+    });
+
+    it('sets isPremium based on RevenueCat when SDK is available', async () => {
+      mockPurchasesService.configurePurchases.mockResolvedValueOnce(true);
+      mockPurchasesService.checkPremiumStatus.mockResolvedValueOnce(true);
+
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.initialize();
+      });
+
+      expect(result.current.isPremium).toBe(true);
+    });
+
+    it('defaults to free tier when SDK is not available', async () => {
+      mockPurchasesService.configurePurchases.mockResolvedValueOnce(false);
+
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.initialize();
+      });
+
+      expect(result.current.isPremium).toBe(false);
+      expect(mockPurchasesService.checkPremiumStatus).not.toHaveBeenCalled();
     });
   });
 
@@ -111,10 +147,6 @@ describe('subscriptionStore', () => {
       const { result } = renderHook(() => useSubscriptionStore());
 
       act(() => {
-        result.current.resetContentCount();
-      });
-
-      act(() => {
         result.current.incrementContentCount();
       });
 
@@ -123,10 +155,6 @@ describe('subscriptionStore', () => {
 
     it('increments multiple times correctly', () => {
       const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.resetContentCount();
-      });
 
       act(() => {
         result.current.incrementContentCount();
@@ -322,224 +350,127 @@ describe('subscriptionStore', () => {
     });
   });
 
-  describe('simulatePurchase()', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
+  describe('purchaseProduct()', () => {
+    it('returns false when no offerings available', async () => {
+      mockPurchasesService.getOfferings.mockResolvedValueOnce([]);
+
+      const { result } = renderHook(() => useSubscriptionStore());
+      let purchaseResult: boolean = true;
+
+      await act(async () => {
+        purchaseResult = await result.current.purchaseProduct();
+      });
+
+      expect(purchaseResult).toBe(false);
+      expect(result.current.isLoading).toBe(false);
     });
 
-    afterEach(() => {
-      jest.useRealTimers();
-    });
+    it('sets isPremium to true after successful purchase', async () => {
+      mockPurchasesService.getOfferings.mockResolvedValueOnce([
+        { identifier: 'premium', packageType: 'MONTHLY', product: { identifier: 'monthly', title: 'Premium', description: 'Monthly', priceString: '$4.99', price: 4.99 } },
+      ]);
+      mockPurchasesService.purchasePackage.mockResolvedValueOnce({
+        entitlements: { active: { premium: { isActive: true } } },
+      });
 
-    it('sets isPremium to true after completion', async () => {
       const { result } = renderHook(() => useSubscriptionStore());
 
-      act(() => {
-        result.current.setPremium(false);
-      });
-
-      let purchasePromise: Promise<boolean>;
-
-      act(() => {
-        purchasePromise = result.current.simulatePurchase();
-      });
-
-      // Should be loading
-      expect(result.current.isLoading).toBe(true);
-
-      // Advance timers
       await act(async () => {
-        jest.advanceTimersByTime(1000);
-        await purchasePromise;
+        await result.current.purchaseProduct();
       });
 
       expect(result.current.isPremium).toBe(true);
+    });
+
+    it('returns false when purchase fails', async () => {
+      mockPurchasesService.getOfferings.mockResolvedValueOnce([
+        { identifier: 'premium', packageType: 'MONTHLY', product: { identifier: 'monthly', title: 'Premium', description: 'Monthly', priceString: '$4.99', price: 4.99 } },
+      ]);
+      mockPurchasesService.purchasePackage.mockRejectedValueOnce(new Error('Purchase cancelled'));
+
+      const { result } = renderHook(() => useSubscriptionStore());
+      let purchaseResult: boolean = true;
+
+      await act(async () => {
+        purchaseResult = await result.current.purchaseProduct();
+      });
+
+      expect(purchaseResult).toBe(false);
       expect(result.current.isLoading).toBe(false);
-    });
-
-    it('returns true on successful purchase', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      let purchaseResult: boolean = false;
-
-      await act(async () => {
-        const promise = result.current.simulatePurchase();
-        jest.advanceTimersByTime(1000);
-        purchaseResult = await promise;
-      });
-
-      expect(purchaseResult).toBe(true);
-    });
-  });
-
-  describe('simulateRestore()', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
-    it('returns current premium status', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
-      });
-
-      let restoreResult: boolean = true;
-
-      await act(async () => {
-        const promise = result.current.simulateRestore();
-        jest.advanceTimersByTime(500);
-        restoreResult = await promise;
-      });
-
-      expect(restoreResult).toBe(false);
-    });
-
-    it('returns true if user was already premium', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(true);
-      });
-
-      let restoreResult: boolean = false;
-
-      await act(async () => {
-        const promise = result.current.simulateRestore();
-        jest.advanceTimersByTime(500);
-        restoreResult = await promise;
-      });
-
-      expect(restoreResult).toBe(true);
-    });
-
-    it('sets isLoading during restore', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      let restorePromise: Promise<boolean>;
-
-      act(() => {
-        restorePromise = result.current.simulateRestore();
-      });
-
-      expect(result.current.isLoading).toBe(true);
-
-      await act(async () => {
-        jest.advanceTimersByTime(500);
-        await restorePromise;
-      });
-
-      expect(result.current.isLoading).toBe(false);
-    });
-  });
-
-  describe('constants validation', () => {
-    it('FREE_TIER_LIMITS.MAX_CONTENT is 5', () => {
-      expect(FREE_TIER_LIMITS.MAX_CONTENT).toBe(5);
-    });
-
-    it('FREE_TIER_LIMITS.MAX_WPM is 450', () => {
-      expect(FREE_TIER_LIMITS.MAX_WPM).toBe(450);
-    });
-
-    it('PREMIUM_LIMITS.MAX_WPM is 1500', () => {
-      expect(PREMIUM_LIMITS.MAX_WPM).toBe(1500);
     });
   });
 
   describe('linkRevenueCatUser()', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
     it('sets linkedUserId after linking', async () => {
+      mockPurchasesService.loginUser.mockResolvedValueOnce(null);
+
       const { result } = renderHook(() => useSubscriptionStore());
 
-      let linkPromise: Promise<void>;
-
-      act(() => {
-        linkPromise = result.current.linkRevenueCatUser('user-123');
-      });
-
-      expect(result.current.isLoading).toBe(true);
-
-      await act(async () => {
-        jest.advanceTimersByTime(200);
-        await linkPromise;
-      });
-
-      expect(result.current.linkedUserId).toBe('user-123');
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    it('skips linking if already linked to same user', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      // First link
-      await act(async () => {
-        const promise = result.current.linkRevenueCatUser('user-123');
-        jest.advanceTimersByTime(200);
-        await promise;
-      });
-
-      expect(result.current.linkedUserId).toBe('user-123');
-
-      // Try to link again - should not set loading
       await act(async () => {
         await result.current.linkRevenueCatUser('user-123');
       });
 
-      // Should not have triggered loading since already linked
+      expect(result.current.linkedUserId).toBe('user-123');
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('allows relinking to different user', async () => {
+    it('updates premium status from RevenueCat response', async () => {
+      mockPurchasesService.loginUser.mockResolvedValueOnce({
+        entitlements: { active: { premium: { isActive: true } } },
+      });
+
       const { result } = renderHook(() => useSubscriptionStore());
 
-      // First link
       await act(async () => {
-        const promise = result.current.linkRevenueCatUser('user-123');
-        jest.advanceTimersByTime(200);
-        await promise;
+        await result.current.linkRevenueCatUser('user-123');
+      });
+
+      expect(result.current.linkedUserId).toBe('user-123');
+      expect(result.current.isPremium).toBe(true);
+    });
+
+    it('skips linking if already linked to same user', async () => {
+      mockPurchasesService.loginUser.mockResolvedValueOnce(null);
+
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.linkRevenueCatUser('user-123');
       });
 
       expect(result.current.linkedUserId).toBe('user-123');
 
-      // Link to different user
+      // Try to link again - should not call SDK
       await act(async () => {
-        const promise = result.current.linkRevenueCatUser('user-456');
-        jest.advanceTimersByTime(200);
-        await promise;
+        await result.current.linkRevenueCatUser('user-123');
+      });
+
+      expect(mockPurchasesService.loginUser).toHaveBeenCalledTimes(1);
+    });
+
+    it('allows relinking to different user', async () => {
+      mockPurchasesService.loginUser.mockResolvedValue(null);
+
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.linkRevenueCatUser('user-123');
+      });
+
+      expect(result.current.linkedUserId).toBe('user-123');
+
+      await act(async () => {
+        await result.current.linkRevenueCatUser('user-456');
       });
 
       expect(result.current.linkedUserId).toBe('user-456');
-    });
-
-    it('starts with linkedUserId as null', () => {
-      // Reset to check initial state
-      useSubscriptionStore.setState({ linkedUserId: null });
-      const { result } = renderHook(() => useSubscriptionStore());
-      expect(result.current.linkedUserId).toBeNull();
+      expect(mockPurchasesService.loginUser).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('unlinkRevenueCatUser()', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
-      // Reset linkedUserId for each test
       useSubscriptionStore.setState({ linkedUserId: 'user-123' });
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
     });
 
     it('clears linkedUserId after unlinking', async () => {
@@ -552,6 +483,7 @@ describe('subscriptionStore', () => {
       });
 
       expect(result.current.linkedUserId).toBeNull();
+      expect(mockPurchasesService.logoutUser).toHaveBeenCalled();
     });
 
     it('handles unlinking when linkedUserId is already null', async () => {
@@ -585,16 +517,12 @@ describe('subscriptionStore', () => {
 
   describe('restorePurchases()', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
-      // Reset state for each test
       useSubscriptionStore.setState({ isPremium: false, isRestoring: false, restoreError: null });
     });
 
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
     it('sets isRestoring to true while restoring', async () => {
+      mockPurchasesService.restorePurchases.mockResolvedValueOnce(null);
+
       const { result } = renderHook(() => useSubscriptionStore());
 
       let restorePromise: ReturnType<typeof result.current.restorePurchases>;
@@ -606,26 +534,22 @@ describe('subscriptionStore', () => {
       expect(result.current.isRestoring).toBe(true);
 
       await act(async () => {
-        jest.advanceTimersByTime(500);
         await restorePromise;
       });
 
       expect(result.current.isRestoring).toBe(false);
     });
 
-    it('returns success: true when user was premium', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(true);
+    it('returns success: true when premium entitlement found', async () => {
+      mockPurchasesService.restorePurchases.mockResolvedValueOnce({
+        entitlements: { active: { premium: { isActive: true } } },
       });
 
+      const { result } = renderHook(() => useSubscriptionStore());
       let restoreResult: { success: boolean; message?: string };
 
       await act(async () => {
-        const promise = result.current.restorePurchases();
-        jest.advanceTimersByTime(500);
-        restoreResult = await promise;
+        restoreResult = await result.current.restorePurchases();
       });
 
       expect(restoreResult!.success).toBe(true);
@@ -633,60 +557,78 @@ describe('subscriptionStore', () => {
     });
 
     it('returns success: false with message when no purchases to restore', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
+      mockPurchasesService.restorePurchases.mockResolvedValueOnce({
+        entitlements: { active: {} },
       });
 
+      const { result } = renderHook(() => useSubscriptionStore());
       let restoreResult: { success: boolean; message?: string };
 
       await act(async () => {
-        const promise = result.current.restorePurchases();
-        jest.advanceTimersByTime(500);
-        restoreResult = await promise;
+        restoreResult = await result.current.restorePurchases();
       });
 
       expect(restoreResult!.success).toBe(false);
       expect(restoreResult!.message).toBe('No purchases to restore');
     });
 
-    it('can be called multiple times safely', async () => {
+    it('returns not available message when SDK is not configured', async () => {
+      mockPurchasesService.restorePurchases.mockResolvedValueOnce(null);
+
       const { result } = renderHook(() => useSubscriptionStore());
+      let restoreResult: { success: boolean; message?: string };
 
       await act(async () => {
-        const promise = result.current.restorePurchases();
-        jest.advanceTimersByTime(500);
-        await promise;
+        restoreResult = await result.current.restorePurchases();
       });
 
-      // Should not throw when called again
+      expect(restoreResult!.success).toBe(false);
+      expect(restoreResult!.message).toBe('Purchase restoration not available');
+    });
+
+    it('handles errors from restorePurchases', async () => {
+      mockPurchasesService.restorePurchases.mockRejectedValueOnce(new Error('Network error'));
+
+      const { result } = renderHook(() => useSubscriptionStore());
+      let restoreResult: { success: boolean; error?: string };
+
       await act(async () => {
-        const promise = result.current.restorePurchases();
-        jest.advanceTimersByTime(500);
-        await promise;
+        restoreResult = await result.current.restorePurchases();
       });
 
-      expect(result.current.isRestoring).toBe(false);
+      expect(restoreResult!.success).toBe(false);
+      expect(restoreResult!.error).toBe('Network error');
+      expect(result.current.restoreError).toBe('Network error');
     });
 
     it('clears restoreError on successful restore', async () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      // Set a previous error
       useSubscriptionStore.setState({ restoreError: 'Previous error' });
 
-      act(() => {
-        result.current.setPremium(true);
+      mockPurchasesService.restorePurchases.mockResolvedValueOnce({
+        entitlements: { active: { premium: { isActive: true } } },
       });
 
+      const { result } = renderHook(() => useSubscriptionStore());
+
       await act(async () => {
-        const promise = result.current.restorePurchases();
-        jest.advanceTimersByTime(500);
-        await promise;
+        await result.current.restorePurchases();
       });
 
       expect(result.current.restoreError).toBeNull();
+    });
+  });
+
+  describe('constants validation', () => {
+    it('FREE_TIER_LIMITS.MAX_CONTENT is 5', () => {
+      expect(FREE_TIER_LIMITS.MAX_CONTENT).toBe(5);
+    });
+
+    it('FREE_TIER_LIMITS.MAX_WPM is 450', () => {
+      expect(FREE_TIER_LIMITS.MAX_WPM).toBe(450);
+    });
+
+    it('PREMIUM_LIMITS.MAX_WPM is 1500', () => {
+      expect(PREMIUM_LIMITS.MAX_WPM).toBe(1500);
     });
   });
 });
