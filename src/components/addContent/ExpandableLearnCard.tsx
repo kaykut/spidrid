@@ -1,8 +1,10 @@
 /**
  * ExpandableLearnCard
  *
- * Expandable card for AI article/curriculum generation.
- * Unified form for single articles (count=1) or curricula (count>1).
+ * Expandable card for AI article/curriculum generation with progressive disclosure.
+ * - Default: Topic input + summary + "Additional options"
+ * - Layer 1: Preset selector + "Design the curriculum" toggle
+ * - Layer 2: Total duration + style (only when Design mode is ON)
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -15,10 +17,12 @@ import {
   ActivityIndicator,
   Keyboard,
   Animated,
+  Switch,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useTheme } from '../common/ThemeProvider';
+import { useWhisperRecording } from '../../hooks/useWhisperRecording';
 import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -27,10 +31,15 @@ import { useGeneratedStore } from '../../store/generatedStore';
 import { useCurriculumStore } from '../../store/curriculumStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
-import { ArticleTone, TONE_DEFINITIONS, DURATION_OPTIONS } from '../../types/generated';
+import {
+  ArticleTone,
+  TONE_DEFINITIONS,
+  PRESET_OPTIONS,
+  TOTAL_DURATION_OPTIONS,
+  getMaxWordsForWpm,
+  PresetId,
+} from '../../types/generated';
 import { Paywall } from '../paywall/Paywall';
-
-const ARTICLE_COUNT_OPTIONS = [1, 3, 5, 7, 10];
 
 interface ExpandableLearnCardProps {
   isExpanded: boolean;
@@ -47,19 +56,66 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
 
   // Form state
   const [topic, setTopic] = useState('');
-  const [duration, setDuration] = useState(3);
-  const [style, setStyle] = useState<ArticleTone>('explanatory');
-  const [articleCount, setArticleCount] = useState(1);
+  const [showOptions, setShowOptions] = useState(false); // Layer 1
+  const [designMode, setDesignMode] = useState(false); // Layer 2 toggle
+  const [preset, setPreset] = useState<PresetId>('nugget');
+  const [totalDuration, setTotalDuration] = useState(15); // Layer 2
+  const [style, setStyle] = useState<ArticleTone | null>(null); // Layer 2, null = auto
   const [showPaywall, setShowPaywall] = useState(false);
 
+  // Recording hook for speech-to-text
+  const {
+    isRecording,
+    isTranscribing,
+    error: recordingError,
+    startRecording: startWhisperRecording,
+    stopAndTranscribe,
+  } = useWhisperRecording();
+
   const rotateAnim = useRef(new Animated.Value(0)).current;
+  const optionsRotateAnim = useRef(new Animated.Value(0)).current;
+  const recordingPulseAnim = useRef(new Animated.Value(1)).current;
+  const recordingPulseRef = useRef<Animated.CompositeAnimation | null>(null);
   const isGenerating = isGeneratingArticle || isGeneratingCurriculum;
   const avgWpm = avgWpmLast3 || 250;
 
-  // Calculated values
-  const estimatedWords = Math.round(duration * avgWpm);
-  const totalWords = estimatedWords * articleCount;
-  const totalMinutes = duration * articleCount;
+  // Get current preset config
+  const currentPreset = PRESET_OPTIONS.find((p) => p.id === preset) || PRESET_OPTIONS[0];
+
+  // Calculate values based on mode
+  const maxWordsPerArticle = getMaxWordsForWpm(avgWpm);
+
+  // Calculate article count and words based on mode
+  const getCalculatedValues = () => {
+    if (designMode) {
+      // Design mode: calculate from total duration
+      const durationPerArticle = maxWordsPerArticle / avgWpm;
+      const articleCount = Math.max(1, Math.round(totalDuration / durationPerArticle));
+      const cappedArticleCount = Math.min(articleCount, 15); // Max 15 articles
+      const targetWords = maxWordsPerArticle;
+      const actualTotalMinutes = cappedArticleCount * durationPerArticle;
+      return {
+        articleCount: cappedArticleCount,
+        targetWords,
+        totalMinutes: Math.round(actualTotalMinutes),
+        totalWords: cappedArticleCount * targetWords,
+      };
+    } else {
+      // Preset mode: use preset values, capped by WPM
+      const presetWords = currentPreset.durationMinutes * avgWpm;
+      const targetWords = Math.min(presetWords, maxWordsPerArticle);
+      const durationPerArticle = targetWords / avgWpm;
+      const totalMinutes = Math.round(currentPreset.articles * durationPerArticle);
+      return {
+        articleCount: currentPreset.articles,
+        targetWords,
+        totalMinutes,
+        totalWords: currentPreset.articles * targetWords,
+      };
+    }
+  };
+
+  const { articleCount, targetWords, totalMinutes, totalWords } = getCalculatedValues();
 
   useEffect(() => {
     Animated.timing(rotateAnim, {
@@ -69,7 +125,49 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     }).start();
   }, [isExpanded, rotateAnim]);
 
+  useEffect(() => {
+    Animated.timing(optionsRotateAnim, {
+      toValue: showOptions ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [showOptions, optionsRotateAnim]);
+
+  // Recording pulse animation
+  useEffect(() => {
+    if (isRecording) {
+      // Start gentle pulsing
+      recordingPulseRef.current = Animated.loop(
+        Animated.sequence([
+          Animated.timing(recordingPulseAnim, {
+            toValue: 0.7,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(recordingPulseAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      );
+      recordingPulseRef.current.start();
+    } else {
+      // Stop and reset
+      recordingPulseRef.current?.stop();
+      recordingPulseAnim.setValue(1);
+    }
+    return () => {
+      recordingPulseRef.current?.stop();
+    };
+  }, [isRecording, recordingPulseAnim]);
+
   const chevronRotation = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '90deg'],
+  });
+
+  const optionsChevronRotation = optionsRotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '90deg'],
   });
@@ -84,11 +182,41 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     }
   };
 
+  const handleOptionsToggle = () => {
+    animateLayout();
+    setShowOptions((prev) => !prev);
+  };
+
+  const handleDesignModeToggle = (value: boolean) => {
+    animateLayout();
+    setDesignMode(value);
+    if (!value) {
+      // Reset Layer 2 values when turning off
+      setStyle(null);
+    }
+  };
+
   const resetForm = () => {
     setTopic('');
-    setDuration(3);
-    setStyle('explanatory');
-    setArticleCount(1);
+    setShowOptions(false);
+    setDesignMode(false);
+    setPreset('nugget');
+    setTotalDuration(15);
+    setStyle(null);
+  };
+
+  const handleMicPress = async () => {
+    if (isRecording) {
+      // Stop recording and transcribe
+      const text = await stopAndTranscribe();
+      if (text) {
+        // Append transcribed text to existing topic (or set if empty)
+        setTopic((prev) => (prev ? `${prev} ${text}` : text));
+      }
+    } else {
+      // Start recording
+      await startWhisperRecording();
+    }
   };
 
   const handleGenerate = async () => {
@@ -99,12 +227,14 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
 
     if (!topic.trim() || isGenerating) return;
 
+    const toneToUse = designMode && style ? style : 'auto';
+
     if (articleCount === 1) {
       // Single article generation
       const article = await generateArticle({
         topic: topic.trim(),
-        durationMinutes: duration,
-        tone: style,
+        durationMinutes: Math.round(targetWords / avgWpm),
+        tone: toneToUse === 'auto' ? 'explanatory' : toneToUse, // Fallback for now until backend supports auto
         avgWpm,
         userId: 'current-user',
       });
@@ -121,8 +251,8 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         {
           goal: topic.trim(),
           articleCount,
-          tone: style,
-          durationMinutes: duration,
+          tone: toneToUse === 'auto' ? 'explanatory' : toneToUse, // Fallback for now
+          durationMinutes: Math.round(targetWords / avgWpm),
         },
         avgWpm
       );
@@ -136,7 +266,13 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     }
   };
 
-  const canGenerate = topic.trim().length >= (articleCount === 1 ? 1 : 10) && !isGenerating;
+  const canGenerate = topic.trim().length >= 1 && !isGenerating;
+
+  // Build summary text
+  const summaryText =
+    articleCount === 1
+      ? `1 article, ~${Math.round(targetWords).toLocaleString()} words, ${totalMinutes} min read`
+      : `${articleCount} articles, ~${Math.round(totalWords).toLocaleString()} total words, ${totalMinutes} min total`;
 
   return (
     <>
@@ -156,7 +292,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
           <View style={styles.textContainer}>
             <Text style={[styles.title, { color: theme.textColor }]}>Learn</Text>
             <Text style={[styles.description, { color: theme.textColor }]}>
-              Generate articles or curricula on topics you want to master
+              Generate articles on topics you want to master
             </Text>
           </View>
           <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
@@ -167,112 +303,193 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         {/* Expanded Form */}
         {isExpanded && (
           <View style={styles.expandedContent}>
-            {/* Topic Input */}
-            <Text style={[styles.label, { color: theme.textColor }]}>Topic</Text>
-            <TextInput
-              style={[styles.topicInput, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
-              placeholder="What do you want to learn about?"
-              placeholderTextColor={`${theme.textColor}60`}
-              value={topic}
-              onChangeText={setTopic}
-              multiline
-              maxLength={500}
-              editable={!isGenerating}
-            />
-
-            {/* Duration Pills */}
-            <Text style={[styles.label, { color: theme.textColor }]}>Duration</Text>
-            <View style={styles.pillRow}>
-              {DURATION_OPTIONS.map((opt) => (
+            {/* Topic Input with Mic Button */}
+            <View style={styles.topicInputContainer}>
+              <TextInput
+                style={[styles.topicInput, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
+                placeholder="What do you want to learn about?"
+                placeholderTextColor={`${theme.textColor}60`}
+                value={topic}
+                onChangeText={setTopic}
+                multiline
+                maxLength={500}
+                editable={!isGenerating && !isRecording && !isTranscribing}
+              />
+              <Animated.View style={isRecording ? { opacity: recordingPulseAnim } : undefined}>
                 <TouchableOpacity
-                  key={opt.minutes}
                   style={[
-                    styles.pill,
+                    styles.micButton,
                     { backgroundColor: theme.backgroundColor },
-                    duration === opt.minutes && styles.pillSelected,
-                    duration === opt.minutes && { backgroundColor: JOURNEY_COLORS.success },
+                    isRecording && styles.micButtonRecording,
                   ]}
-                  onPress={() => !isGenerating && setDuration(opt.minutes)}
-                  disabled={isGenerating}
+                  onPress={handleMicPress}
+                  disabled={isGenerating || isTranscribing}
                 >
-                  <Text
-                    style={[
-                      styles.pillText,
-                      { color: theme.textColor },
-                      duration === opt.minutes && styles.pillTextSelected,
-                    ]}
-                  >
-                    {opt.label}
-                  </Text>
+                  {isTranscribing ? (
+                    <ActivityIndicator size="small" color={JOURNEY_COLORS.success} />
+                  ) : (
+                    <Ionicons
+                      name={isRecording ? 'stop' : 'mic'}
+                      size={SIZES.iconMd}
+                      color={isRecording ? JOURNEY_COLORS.warning : theme.textColor}
+                    />
+                  )}
                 </TouchableOpacity>
-              ))}
+              </Animated.View>
             </View>
 
-            {/* Style Pills */}
-            <Text style={[styles.label, { color: theme.textColor }]}>Style</Text>
-            <View style={styles.pillRow}>
-              {TONE_DEFINITIONS.map((t) => (
-                <TouchableOpacity
-                  key={t.id}
-                  style={[
-                    styles.pill,
-                    styles.stylePill,
-                    { backgroundColor: theme.backgroundColor },
-                    style === t.id && styles.pillSelected,
-                    style === t.id && { backgroundColor: JOURNEY_COLORS.success },
-                  ]}
-                  onPress={() => !isGenerating && setStyle(t.id)}
-                  disabled={isGenerating}
-                >
-                  <Text
-                    style={[
-                      styles.pillText,
-                      { color: theme.textColor },
-                      style === t.id && styles.pillTextSelected,
-                    ]}
-                  >
-                    {t.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Article Count Pills */}
-            <Text style={[styles.label, { color: theme.textColor }]}># of Articles</Text>
-            <View style={styles.pillRow}>
-              {ARTICLE_COUNT_OPTIONS.map((count) => (
-                <TouchableOpacity
-                  key={count}
-                  style={[
-                    styles.pill,
-                    { backgroundColor: theme.backgroundColor },
-                    articleCount === count && styles.pillSelected,
-                    articleCount === count && { backgroundColor: JOURNEY_COLORS.success },
-                  ]}
-                  onPress={() => !isGenerating && setArticleCount(count)}
-                  disabled={isGenerating}
-                >
-                  <Text
-                    style={[
-                      styles.pillText,
-                      { color: theme.textColor },
-                      articleCount === count && styles.pillTextSelected,
-                    ]}
-                  >
-                    {count}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Summary Section */}
-            <View style={[styles.summarySection, { backgroundColor: theme.backgroundColor }]}>
-              <Text style={[styles.summaryText, { color: theme.textColor }]}>
-                {articleCount === 1
-                  ? `1 article, ~${estimatedWords.toLocaleString()} words, ${duration} min read`
-                  : `${articleCount} articles, ~${totalWords.toLocaleString()} total words, ${totalMinutes} min total`}
+            {/* Recording Status / Error */}
+            {(isRecording || isTranscribing || recordingError) && (
+              <Text
+                style={[
+                  styles.recordingStatus,
+                  { color: recordingError ? JOURNEY_COLORS.warning : JOURNEY_COLORS.success },
+                ]}
+              >
+                {recordingError || (isRecording ? 'Listening...' : 'Transcribing...')}
               </Text>
-            </View>
+            )}
+
+            {/* Summary */}
+            <Text style={[styles.summaryText, { color: theme.textColor }]}>{summaryText}</Text>
+
+            {/* Additional Options Toggle */}
+            <TouchableOpacity style={styles.optionsToggle} onPress={handleOptionsToggle} disabled={isGenerating}>
+              <Text style={[styles.optionsToggleText, { color: JOURNEY_COLORS.success }]}>Additional options</Text>
+              <Animated.View style={{ transform: [{ rotate: optionsChevronRotation }] }}>
+                <Ionicons name="chevron-forward" size={SIZES.iconSm} color={JOURNEY_COLORS.success} />
+              </Animated.View>
+            </TouchableOpacity>
+
+            {/* Layer 1: Preset + Design Toggle */}
+            {showOptions && (
+              <View style={styles.layer1}>
+                {/* Preset Pills */}
+                <Text style={[styles.label, { color: theme.textColor }]}>Preset</Text>
+                <View style={styles.pillRow}>
+                  {PRESET_OPTIONS.map((p) => (
+                    <TouchableOpacity
+                      key={p.id}
+                      style={[
+                        styles.pill,
+                        styles.presetPill,
+                        { backgroundColor: theme.backgroundColor },
+                        preset === p.id && styles.pillSelected,
+                        preset === p.id && { backgroundColor: JOURNEY_COLORS.success },
+                      ]}
+                      onPress={() => !isGenerating && !designMode && setPreset(p.id)}
+                      disabled={isGenerating || designMode}
+                    >
+                      <Text
+                        style={[
+                          styles.pillText,
+                          { color: theme.textColor },
+                          preset === p.id && styles.pillTextSelected,
+                          designMode && styles.pillTextDisabled,
+                        ]}
+                      >
+                        {p.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                {/* Design Mode Toggle */}
+                <View style={styles.designToggleRow}>
+                  <Text style={[styles.designToggleLabel, { color: theme.textColor }]}>Design the curriculum</Text>
+                  <Switch
+                    value={designMode}
+                    onValueChange={handleDesignModeToggle}
+                    trackColor={{ false: theme.backgroundColor, true: JOURNEY_COLORS.success }}
+                    thumbColor={theme.textColor}
+                    disabled={isGenerating}
+                  />
+                </View>
+
+                {/* Layer 2: Duration + Style (only when Design mode is ON) */}
+                {designMode && (
+                  <View style={styles.layer2}>
+                    {/* Total Duration Pills */}
+                    <Text style={[styles.label, { color: theme.textColor }]}>Total duration</Text>
+                    <View style={styles.pillRow}>
+                      {TOTAL_DURATION_OPTIONS.map((dur) => (
+                        <TouchableOpacity
+                          key={dur}
+                          style={[
+                            styles.pill,
+                            { backgroundColor: theme.backgroundColor },
+                            totalDuration === dur && styles.pillSelected,
+                            totalDuration === dur && { backgroundColor: JOURNEY_COLORS.success },
+                          ]}
+                          onPress={() => !isGenerating && setTotalDuration(dur)}
+                          disabled={isGenerating}
+                        >
+                          <Text
+                            style={[
+                              styles.pillText,
+                              { color: theme.textColor },
+                              totalDuration === dur && styles.pillTextSelected,
+                            ]}
+                          >
+                            {dur}m
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+
+                    {/* Style Pills */}
+                    <Text style={[styles.label, { color: theme.textColor }]}>Style</Text>
+                    <View style={styles.pillRow}>
+                      <TouchableOpacity
+                        style={[
+                          styles.pill,
+                          styles.stylePill,
+                          { backgroundColor: theme.backgroundColor },
+                          style === null && styles.pillSelected,
+                          style === null && { backgroundColor: JOURNEY_COLORS.success },
+                        ]}
+                        onPress={() => !isGenerating && setStyle(null)}
+                        disabled={isGenerating}
+                      >
+                        <Text
+                          style={[
+                            styles.pillText,
+                            { color: theme.textColor },
+                            style === null && styles.pillTextSelected,
+                          ]}
+                        >
+                          Auto
+                        </Text>
+                      </TouchableOpacity>
+                      {TONE_DEFINITIONS.map((t) => (
+                        <TouchableOpacity
+                          key={t.id}
+                          style={[
+                            styles.pill,
+                            styles.stylePill,
+                            { backgroundColor: theme.backgroundColor },
+                            style === t.id && styles.pillSelected,
+                            style === t.id && { backgroundColor: JOURNEY_COLORS.success },
+                          ]}
+                          onPress={() => !isGenerating && setStyle(t.id)}
+                          disabled={isGenerating}
+                        >
+                          <Text
+                            style={[
+                              styles.pillText,
+                              { color: theme.textColor },
+                              style === t.id && styles.pillTextSelected,
+                            ]}
+                          >
+                            {t.label}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                )}
+              </View>
+            )}
 
             {/* Generate Button */}
             <TouchableOpacity
@@ -339,17 +556,60 @@ const styles = StyleSheet.create({
   expandedContent: {
     paddingHorizontal: SPACING.md,
   },
-  label: {
-    ...TYPOGRAPHY.label,
-    marginBottom: SPACING.xs,
-    marginTop: SPACING.sm,
+  topicInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: SPACING.sm,
   },
   topicInput: {
+    flex: 1,
     padding: SPACING.md,
     borderRadius: COMPONENT_RADIUS.input,
     ...TYPOGRAPHY.body,
     minHeight: 60,
     textAlignVertical: 'top',
+  },
+  micButton: {
+    width: SIZES.touchTarget,
+    height: SIZES.touchTarget,
+    borderRadius: COMPONENT_RADIUS.button,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  micButtonRecording: {
+    backgroundColor: `${JOURNEY_COLORS.warning}20`,
+  },
+  recordingStatus: {
+    ...TYPOGRAPHY.caption,
+    marginTop: SPACING.xs,
+    textAlign: 'center',
+  },
+  summaryText: {
+    ...TYPOGRAPHY.caption,
+    opacity: 0.7,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.xs,
+  },
+  optionsToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.sm,
+    gap: SPACING.xs,
+  },
+  optionsToggleText: {
+    ...TYPOGRAPHY.caption,
+    fontWeight: '600',
+  },
+  layer1: {
+    marginTop: SPACING.sm,
+  },
+  layer2: {
+    marginTop: SPACING.sm,
+  },
+  label: {
+    ...TYPOGRAPHY.label,
+    marginBottom: SPACING.xs,
+    marginTop: SPACING.sm,
   },
   pillRow: {
     flexDirection: 'row',
@@ -360,6 +620,11 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.md,
     borderRadius: COMPONENT_RADIUS.chip,
+  },
+  presetPill: {
+    flex: 1,
+    alignItems: 'center',
+    minWidth: 70,
   },
   stylePill: {
     flex: 1,
@@ -375,15 +640,18 @@ const styles = StyleSheet.create({
     color: JOURNEY_COLORS.textPrimary,
     fontWeight: '600',
   },
-  summarySection: {
-    marginTop: SPACING.md,
-    padding: SPACING.md,
-    borderRadius: COMPONENT_RADIUS.chip,
+  pillTextDisabled: {
+    opacity: 0.5,
   },
-  summaryText: {
-    ...TYPOGRAPHY.caption,
-    textAlign: 'center',
-    opacity: 0.8,
+  designToggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: SPACING.md,
+    paddingVertical: SPACING.sm,
+  },
+  designToggleLabel: {
+    ...TYPOGRAPHY.body,
   },
   generateButton: {
     marginTop: SPACING.md,

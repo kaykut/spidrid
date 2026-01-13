@@ -66,6 +66,45 @@ export const DURATION_OPTIONS: DurationOption[] = [
 ];
 
 // =============================================================================
+// WPM-Based Article Length Caps
+// =============================================================================
+
+/**
+ * Returns the maximum words per article based on user's reading speed.
+ * Faster readers can handle longer articles (up to ~3 min read time).
+ */
+export function getMaxWordsForWpm(wpm: number): number {
+  if (wpm < 200) return 500;
+  if (wpm < 350) return 900;
+  if (wpm < 500) return 1300;
+  if (wpm < 700) return 1800;
+  return 2100;
+}
+
+// =============================================================================
+// Preset Options for Learn Card
+// =============================================================================
+
+export type PresetId = 'nugget' | 'primer' | 'topic' | 'deep-dive';
+
+export interface PresetOption {
+  id: PresetId;
+  label: string;
+  articles: number;
+  durationMinutes: number;
+}
+
+export const PRESET_OPTIONS: readonly PresetOption[] = [
+  { id: 'nugget', label: 'Nugget', articles: 1, durationMinutes: 2 },
+  { id: 'primer', label: 'Primer', articles: 3, durationMinutes: 3 },
+  { id: 'topic', label: 'Topic', articles: 5, durationMinutes: 3 },
+  { id: 'deep-dive', label: 'Deep Dive', articles: 10, durationMinutes: 3 },
+] as const;
+
+// Total duration options for Design mode (Layer 2)
+export const TOTAL_DURATION_OPTIONS = [5, 10, 15, 20, 30] as const;
+
+// =============================================================================
 // Generation Status
 // =============================================================================
 
@@ -101,9 +140,10 @@ export interface GeneratedArticle {
 export interface GenerateArticleRequest {
   topic: string;
   targetWordCount: number;
-  tone: ArticleTone;
-  tonePrompt: string;
+  tone: ArticleTone | 'auto';
+  tonePrompt?: string; // Optional when tone is 'auto'
   userId: string;
+  articleCount?: number; // For curriculum generation
 }
 
 export interface GenerateArticleResponse {

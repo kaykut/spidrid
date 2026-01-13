@@ -64,6 +64,9 @@ jest.mock('@expo/vector-icons', () => {
     Entypo: ({ name, testID }: { name: string; testID?: string }) => (
       <View testID={testID || `icon-${name}`} />
     ),
+    MaterialCommunityIcons: ({ name, testID }: { name: string; testID?: string }) => (
+      <View testID={testID || `icon-${name}`} />
+    ),
   };
 });
 

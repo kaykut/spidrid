@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useRef, useCallback, ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 
 // HTML content for PDF extraction (inlined to avoid asset bundling issues)
@@ -244,9 +244,8 @@ export function PdfExtractorProvider({ children }: Props) {
     }
 
     // Read file as base64
-    const base64 = await FileSystem.readAsStringAsync(fileUri, {
-      encoding: 'base64',
-    });
+    const pdfFile = new File(fileUri);
+    const base64 = await pdfFile.base64();
 
     setIsExtracting(true);
 

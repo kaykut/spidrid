@@ -13,12 +13,15 @@
 
 import { parseEpub } from '../../src/services/epubParser';
 
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import JSZip from 'jszip';
 
-// Mock expo-file-system
+// Mock expo-file-system with new File API
+const mockBase64 = jest.fn();
 jest.mock('expo-file-system', () => ({
-  readAsStringAsync: jest.fn(),
+  File: jest.fn().mockImplementation(() => ({
+    base64: mockBase64,
+  })),
 }));
 
 // Mock jszip
@@ -28,7 +31,6 @@ jest.mock('jszip', () => {
   };
 });
 
-const mockReadAsStringAsync = FileSystem.readAsStringAsync as jest.Mock;
 const mockLoadAsync = JSZip.loadAsync as jest.Mock;
 
 // Helper to create a mock JSZip instance
@@ -93,7 +95,7 @@ describe('epubParser', () => {
         const chapter1Text = 'This is chapter one with sufficient content for testing. '.repeat(5);
         const chapter2Text = 'This is chapter two with more content for the reader. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64encodedcontent');
+        mockBase64.mockResolvedValue('base64encodedcontent');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -114,7 +116,7 @@ describe('epubParser', () => {
       it('reads file with base64 encoding', async () => {
         const chapterText = 'Enough content for a valid EPUB file test. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64content');
+        mockBase64.mockResolvedValue('base64content');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -126,9 +128,8 @@ describe('epubParser', () => {
 
         await parseEpub('file://test.epub');
 
-        expect(mockReadAsStringAsync).toHaveBeenCalledWith('file://test.epub', {
-          encoding: 'base64',
-        });
+        expect(File).toHaveBeenCalledWith('file://test.epub');
+        expect(mockBase64).toHaveBeenCalled();
         expect(mockLoadAsync).toHaveBeenCalledWith('base64content', { base64: true });
       });
 
@@ -147,7 +148,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Sufficient content for testing the EPUB parser functionality. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -177,7 +178,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content with no author metadata present in the file. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -213,7 +214,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content from a book with OPF file at root level. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': containerXmlRootOpf,
@@ -245,7 +246,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content with alternate manifest attribute ordering. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -276,7 +277,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content that exists in manifest while other items do not. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -293,7 +294,7 @@ describe('epubParser', () => {
       it('handles spine files that do not exist in ZIP', async () => {
         const chapterText = 'Only this chapter file actually exists in the archive. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -324,7 +325,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'Additional content to meet minimum length requirements for parsing. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -357,7 +358,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'Additional visible content to meet the minimum requirements for parsing. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -388,7 +389,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'Extra content to ensure we meet the minimum length. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -416,7 +417,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'Additional content for the minimum requirement to be met. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -442,7 +443,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'More content to meet the minimum length requirement here. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -471,7 +472,7 @@ describe('epubParser', () => {
 </body>
 </html>`;
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -501,7 +502,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'Additional content for minimum length. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -529,7 +530,7 @@ describe('epubParser', () => {
 </html>`;
         const moreContent = 'More content to meet minimum length for the parser. '.repeat(3);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -550,7 +551,7 @@ describe('epubParser', () => {
         const emptyChapter = '';
         const validChapter = 'This chapter has actual content that meets the minimum. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -570,7 +571,7 @@ describe('epubParser', () => {
 <html><body><script>var x = 1;</script></body></html>`;
         const validChapter = 'This is a valid chapter with readable content. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -588,7 +589,7 @@ describe('epubParser', () => {
 
     describe('DRM detection', () => {
       it('throws error for EPUB with encryption.xml (Adobe DRM)', async () => {
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -601,7 +602,7 @@ describe('epubParser', () => {
       });
 
       it('throws error for EPUB with rights.xml', async () => {
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -616,7 +617,7 @@ describe('epubParser', () => {
       it('processes EPUB without DRM markers normally', async () => {
         const chapterText = 'Content from a DRM-free EPUB book file. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -634,7 +635,7 @@ describe('epubParser', () => {
 
     describe('error handling', () => {
       it('throws error for missing container.xml', async () => {
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             // No META-INF/container.xml
@@ -653,7 +654,7 @@ describe('epubParser', () => {
   </rootfiles>
 </container>`;
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': invalidContainerXml,
@@ -664,7 +665,7 @@ describe('epubParser', () => {
       });
 
       it('throws error when OPF file is missing from ZIP', async () => {
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -678,7 +679,7 @@ describe('epubParser', () => {
       it('throws error when not enough readable content (less than 100 chars)', async () => {
         const shortContent = 'Too short.';
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -692,7 +693,7 @@ describe('epubParser', () => {
       });
 
       it('throws error when all chapters are empty', async () => {
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -707,19 +708,19 @@ describe('epubParser', () => {
 
       it('re-throws Error instances as-is', async () => {
         const customError = new Error('Custom error message');
-        mockReadAsStringAsync.mockRejectedValue(customError);
+        mockBase64.mockRejectedValue(customError);
 
         await expect(parseEpub('file://error.epub')).rejects.toThrow('Custom error message');
       });
 
       it('wraps non-Error exceptions with generic message', async () => {
-        mockReadAsStringAsync.mockRejectedValue('string error');
+        mockBase64.mockRejectedValue('string error');
 
         await expect(parseEpub('file://error.epub')).rejects.toThrow('Failed to parse EPUB file');
       });
 
       it('wraps null rejection with generic message', async () => {
-        mockReadAsStringAsync.mockRejectedValue(null);
+        mockBase64.mockRejectedValue(null);
 
         await expect(parseEpub('file://error.epub')).rejects.toThrow('Failed to parse EPUB file');
       });
@@ -729,7 +730,7 @@ describe('epubParser', () => {
       it('extracts OPF path from standard container.xml', async () => {
         const chapterText = 'Content for testing OPF path extraction. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -765,7 +766,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content from book with alternate container format. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': containerAltOrder,
@@ -803,7 +804,7 @@ describe('epubParser', () => {
   </spine>
 </package>`;
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -847,7 +848,7 @@ describe('epubParser', () => {
   </spine>
 </package>`;
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': sampleContainerXml,
@@ -892,7 +893,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content from a book with leading slashes in paths. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': containerWithSlash,
@@ -933,7 +934,7 @@ describe('epubParser', () => {
 </package>`;
         const chapterText = 'Content from deeply nested directory structure. '.repeat(5);
 
-        mockReadAsStringAsync.mockResolvedValue('base64');
+        mockBase64.mockResolvedValue('base64');
         mockLoadAsync.mockResolvedValue(
           createMockZip({
             'META-INF/container.xml': containerNested,

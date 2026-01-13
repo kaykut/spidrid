@@ -13,11 +13,39 @@ interface CurriculumContext {
 interface RequestBody {
   topic: string;
   targetWordCount: number;
-  tone: string;
-  tonePrompt: string;
+  tone: 'explanatory' | 'storytelling' | 'analogical' | 'auto';
+  tonePrompt?: string;
   userId: string;
   curriculumContext?: CurriculumContext;
 }
+
+// Tone prompts for explicit tone selection
+const TONE_PROMPTS: Record<string, string> = {
+  explanatory:
+    'Write in a clear, educational style. Break down concepts step-by-step. Anticipate reader questions and address them. Use examples liberally.',
+  storytelling:
+    'Write as if telling a story. Use narrative techniques: set scenes, introduce characters or personas, create tension, deliver payoffs. Make dry facts come alive through narrative.',
+  analogical:
+    'Explain every concept using analogies and metaphors. Relate abstract ideas to everyday experiences. Help the reader see familiar patterns in new material.',
+};
+
+// Auto-tone prompt: LLM decides the appropriate mix of styles
+const AUTO_TONE_PROMPT = `WRITING STYLE SELECTION:
+You have three writing style options to blend as appropriate for this topic:
+
+1. EXPLANATORY (Facts): Clear, educational, step-by-step. Break down concepts, anticipate questions, use examples liberally.
+
+2. STORYTELLING (Story): Narrative-driven. Set scenes, introduce characters/personas, create tension, deliver payoffs. Make facts come alive through story.
+
+3. ANALOGICAL (Analogy): Rich in metaphors and comparisons. Relate abstract ideas to everyday experiences. Help readers see familiar patterns in new material.
+
+Choose the appropriate mix of these styles for the topic. This can be a "corner solution" (100% one style) or a blend. For example:
+- "How photosynthesis works" → mostly Explanatory
+- "The fall of Rome" → mostly Storytelling
+- "Understanding quantum mechanics" → blend of Analogical + Explanatory
+- "The life of Einstein" → blend of Storytelling + Explanatory
+
+Apply your chosen style mix consistently throughout the article.`;
 
 const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY') || '';
 const MODEL = 'gemini-3-flash-preview';
@@ -110,7 +138,18 @@ serve(async (req) => {
 
   try {
     const body: RequestBody = await req.json();
-    const { topic, targetWordCount, tonePrompt } = body;
+    const { topic, targetWordCount, tone, tonePrompt } = body;
+
+    // Determine the writing style prompt
+    let effectiveTonePrompt: string;
+    if (tone === 'auto') {
+      // Let the LLM decide the appropriate mix of styles
+      effectiveTonePrompt = AUTO_TONE_PROMPT;
+    } else if (tonePrompt) {
+      effectiveTonePrompt = tonePrompt;
+    } else {
+      effectiveTonePrompt = TONE_PROMPTS[tone] || TONE_PROMPTS.explanatory;
+    }
 
     // Input validation
     if (!topic || topic.length < 3 || topic.length > 500) {

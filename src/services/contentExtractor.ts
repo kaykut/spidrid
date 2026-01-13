@@ -5,9 +5,11 @@ import { Readability } from '@mozilla/readability';
 import { parseHTML } from 'linkedom';
 import { ContentImportResult } from '../types/content';
 import { parseEpub } from './epubParser';
-import { getCurrentAdapter } from './language';
-import { LanguageAdapter } from './language/types';
 import { parsePdf, PdfExtractFunction } from './pdfParser';
+import { filterCaptions } from './textUtils';
+
+// Re-export filterCaptions for backward compatibility
+export { filterCaptions } from './textUtils';
 
 // Result from Readability extraction
 interface ReadabilityResult {
@@ -66,63 +68,6 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
     }
     return null;
   }
-}
-
-/**
- * Build caption patterns from adapter keywords.
- */
-function buildCaptionPatterns(adapter: LanguageAdapter): RegExp[] {
-  // Escape special regex characters in keywords
-  const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-  // Build caption keywords pattern: "Photo: ...", "Image by ..."
-  const captionKeywordsPattern = adapter.captionKeywords.map(escapeRegex).join('|');
-
-  // Build attribution keywords pattern: "Credit:", "Source:"
-  const attributionKeywordsPattern = adapter.attributionKeywords.map(escapeRegex).join('|');
-
-  // Build stock agencies pattern
-  const stockAgenciesPattern = adapter.stockAgencies.map(escapeRegex).join('|');
-
-  return [
-    // Photo/image credits: "Photo: John Smith", "Image by Reuters"
-    new RegExp(`^(${captionKeywordsPattern})(\\s*:|\\s+by|\\s+credit|\\s+courtesy|\\s+source|\\s+via|\\s+©)`, 'i'),
-    // Source attributions: "Credit:", "Source:", "©"
-    new RegExp(`^(${attributionKeywordsPattern})(\\s*:)`, 'i'),
-    // Stock photo agencies at line start
-    new RegExp(`^\\(?(${stockAgenciesPattern})`, 'i'),
-    // Numbered image refs: "Image 2 of 5" (universal pattern)
-    /^Image \d+ of \d+/i,
-    // Bracketed placeholders: "[Photo removed]", "[Image]" (not nested brackets like [[HEADER]])
-    /^\[[^\[\]]*\]$/,
-    // Copyright lines: "© 2024 Company Name"
-    /^©\s*\d{4}/,
-  ];
-}
-
-/**
- * Filter out image captions, photo credits, and similar non-article text.
- * These are jarring during RSVP speed reading.
- *
- * @param text - Text to filter
- * @param adapter - Language adapter for caption keywords (defaults to current language)
- */
-export function filterCaptions(
-  text: string,
-  adapter: LanguageAdapter = getCurrentAdapter()
-): string {
-  const captionPatterns = buildCaptionPatterns(adapter);
-
-  return text
-    .split('\n')
-    .filter(line => {
-      const trimmed = line.trim();
-      if (!trimmed) {
-        return true; // Keep empty lines for paragraph structure
-      }
-      return !captionPatterns.some(pattern => pattern.test(trimmed));
-    })
-    .join('\n');
 }
 
 // Basic HTML tag stripping
@@ -272,7 +217,8 @@ export function createFromText(text: string, title?: string): ContentImportResul
   if (!generatedTitle) {
     const firstLine = trimmedText.split('\n')[0].trim();
     if (firstLine.length > 50) {
-      const truncated = firstLine.substring(0, 50);
+      // Truncate to 47 chars to leave room for '...' (total max 50)
+      const truncated = firstLine.substring(0, 47);
       const lastSpace = truncated.lastIndexOf(' ');
       generatedTitle = lastSpace > 30 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
     } else if (firstLine.length > 0) {

@@ -20,10 +20,12 @@ import {
 } from '../../src/components/PdfExtractorProvider';
 import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 
-// Mock expo-file-system
-const mockReadAsStringAsync = jest.fn();
+// Mock expo-file-system with new File API
+const mockBase64 = jest.fn();
 jest.mock('expo-file-system', () => ({
-  readAsStringAsync: (...args: unknown[]) => mockReadAsStringAsync(...args),
+  File: jest.fn().mockImplementation(() => ({
+    base64: mockBase64,
+  })),
 }));
 
 // Store WebView component props so we can simulate messages (prefixed with mock for jest hoisting)
@@ -125,7 +127,7 @@ describe('PdfExtractorProvider', () => {
     mockCapturedWebViewProps.onMessage = undefined;
     mockCapturedWebViewProps.onError = undefined;
     mockPostMessageCalls.length = 0;
-    mockReadAsStringAsync.mockResolvedValue('base64encodedpdfdata');
+    mockBase64.mockResolvedValue('base64encodedpdfdata');
   });
 
   describe('rendering', () => {
@@ -252,9 +254,9 @@ describe('PdfExtractorProvider', () => {
 
       await extractionPromise!;
 
-      expect(mockReadAsStringAsync).toHaveBeenCalledWith('file://test.pdf', {
-        encoding: 'base64',
-      });
+      const { File } = require('expo-file-system');
+      expect(File).toHaveBeenCalledWith('file://test.pdf');
+      expect(mockBase64).toHaveBeenCalled();
     });
 
     it('sends extraction request to WebView', async () => {
@@ -985,7 +987,7 @@ describe('PdfExtractorProvider', () => {
 
   describe('file reading errors', () => {
     it('throws error when file reading fails', async () => {
-      mockReadAsStringAsync.mockRejectedValue(new Error('File not found'));
+      mockBase64.mockRejectedValue(new Error('File not found'));
 
       let extractPdfFn: ((uri: string) => Promise<PdfExtractionResult>) | null = null;
 

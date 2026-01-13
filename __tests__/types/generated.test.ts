@@ -13,6 +13,9 @@ import {
   GeneratedArticle,
   GenerateArticleRequest,
   GenerateArticleResponse,
+  getMaxWordsForWpm,
+  PRESET_OPTIONS,
+  TOTAL_DURATION_OPTIONS,
 } from '../../src/types/generated';
 
 describe('ArticleTone', () => {
@@ -380,5 +383,161 @@ describe('GenerateArticleResponse interface', () => {
     };
 
     expect(response.errorCode).toBe('INVALID_REQUEST');
+  });
+});
+
+describe('getMaxWordsForWpm', () => {
+  it('returns 500 for very slow readers (< 200 WPM)', () => {
+    expect(getMaxWordsForWpm(100)).toBe(500);
+    expect(getMaxWordsForWpm(150)).toBe(500);
+    expect(getMaxWordsForWpm(199)).toBe(500);
+  });
+
+  it('returns 900 for slow readers (200-349 WPM)', () => {
+    expect(getMaxWordsForWpm(200)).toBe(900);
+    expect(getMaxWordsForWpm(250)).toBe(900);
+    expect(getMaxWordsForWpm(349)).toBe(900);
+  });
+
+  it('returns 1300 for average readers (350-499 WPM)', () => {
+    expect(getMaxWordsForWpm(350)).toBe(1300);
+    expect(getMaxWordsForWpm(400)).toBe(1300);
+    expect(getMaxWordsForWpm(499)).toBe(1300);
+  });
+
+  it('returns 1800 for fast readers (500-699 WPM)', () => {
+    expect(getMaxWordsForWpm(500)).toBe(1800);
+    expect(getMaxWordsForWpm(600)).toBe(1800);
+    expect(getMaxWordsForWpm(699)).toBe(1800);
+  });
+
+  it('returns 2100 for very fast readers (>= 700 WPM)', () => {
+    expect(getMaxWordsForWpm(700)).toBe(2100);
+    expect(getMaxWordsForWpm(1000)).toBe(2100);
+    expect(getMaxWordsForWpm(1500)).toBe(2100);
+  });
+
+  it('ensures max read time of ~3 minutes at each tier', () => {
+    // For each tier, max words / WPM should be <= 3 min
+    expect(500 / 150).toBeLessThanOrEqual(3.5); // Slow: 3.3 min
+    expect(900 / 250).toBeLessThanOrEqual(3.6); // Slow-med: 3.6 min
+    expect(1300 / 400).toBeLessThanOrEqual(3.3); // Average: 3.25 min
+    expect(1800 / 600).toBeLessThanOrEqual(3); // Fast: 3 min
+    expect(2100 / 700).toBeLessThanOrEqual(3); // Very fast: 3 min
+  });
+});
+
+describe('PRESET_OPTIONS', () => {
+  it('has 4 preset options', () => {
+    expect(PRESET_OPTIONS.length).toBe(4);
+  });
+
+  it('each preset has required fields', () => {
+    PRESET_OPTIONS.forEach((preset) => {
+      expect(preset.id).toBeDefined();
+      expect(preset.label).toBeDefined();
+      expect(typeof preset.articles).toBe('number');
+      expect(typeof preset.durationMinutes).toBe('number');
+    });
+  });
+
+  describe('nugget preset', () => {
+    const nugget = PRESET_OPTIONS.find((p) => p.id === 'nugget')!;
+
+    it('has 1 article', () => {
+      expect(nugget.articles).toBe(1);
+    });
+
+    it('has 2 minute duration', () => {
+      expect(nugget.durationMinutes).toBe(2);
+    });
+
+    it('has label "Nugget"', () => {
+      expect(nugget.label).toBe('Nugget');
+    });
+  });
+
+  describe('primer preset', () => {
+    const primer = PRESET_OPTIONS.find((p) => p.id === 'primer')!;
+
+    it('has 3 articles', () => {
+      expect(primer.articles).toBe(3);
+    });
+
+    it('has 3 minute duration per article', () => {
+      expect(primer.durationMinutes).toBe(3);
+    });
+
+    it('has label "Primer"', () => {
+      expect(primer.label).toBe('Primer');
+    });
+  });
+
+  describe('topic preset', () => {
+    const topic = PRESET_OPTIONS.find((p) => p.id === 'topic')!;
+
+    it('has 5 articles', () => {
+      expect(topic.articles).toBe(5);
+    });
+
+    it('has 3 minute duration per article', () => {
+      expect(topic.durationMinutes).toBe(3);
+    });
+
+    it('has label "Topic"', () => {
+      expect(topic.label).toBe('Topic');
+    });
+  });
+
+  describe('deep-dive preset', () => {
+    const deepDive = PRESET_OPTIONS.find((p) => p.id === 'deep-dive')!;
+
+    it('has 10 articles', () => {
+      expect(deepDive.articles).toBe(10);
+    });
+
+    it('has 3 minute duration per article', () => {
+      expect(deepDive.durationMinutes).toBe(3);
+    });
+
+    it('has label "Deep Dive"', () => {
+      expect(deepDive.label).toBe('Deep Dive');
+    });
+  });
+
+  it('presets are in ascending article count order', () => {
+    for (let i = 1; i < PRESET_OPTIONS.length; i++) {
+      expect(PRESET_OPTIONS[i].articles).toBeGreaterThan(
+        PRESET_OPTIONS[i - 1].articles
+      );
+    }
+  });
+});
+
+describe('TOTAL_DURATION_OPTIONS', () => {
+  it('has 5 duration options', () => {
+    expect(TOTAL_DURATION_OPTIONS.length).toBe(5);
+  });
+
+  it('contains expected values', () => {
+    expect(TOTAL_DURATION_OPTIONS).toContain(5);
+    expect(TOTAL_DURATION_OPTIONS).toContain(10);
+    expect(TOTAL_DURATION_OPTIONS).toContain(15);
+    expect(TOTAL_DURATION_OPTIONS).toContain(20);
+    expect(TOTAL_DURATION_OPTIONS).toContain(30);
+  });
+
+  it('is in ascending order', () => {
+    for (let i = 1; i < TOTAL_DURATION_OPTIONS.length; i++) {
+      expect(TOTAL_DURATION_OPTIONS[i]).toBeGreaterThan(
+        TOTAL_DURATION_OPTIONS[i - 1]
+      );
+    }
+  });
+
+  it('all values are positive', () => {
+    TOTAL_DURATION_OPTIONS.forEach((duration) => {
+      expect(duration).toBeGreaterThan(0);
+    });
   });
 });

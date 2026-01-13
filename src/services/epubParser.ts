@@ -1,10 +1,10 @@
 // EPUB Parser - Extracts plain text from EPUB files for RSVP reading
 // EPUB is a ZIP archive containing XHTML content files
 
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import JSZip from 'jszip';
 import { EbookParseResult, ChapterMetadata } from '../types/content';
-import { filterCaptions } from './contentExtractor';
+import { filterCaptions } from './textUtils';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 
@@ -203,9 +203,8 @@ function findNavPath(opfContent: string, opfDir: string): string | null {
 export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
   try {
     // Read file as base64
-    const base64 = await FileSystem.readAsStringAsync(fileUri, {
-      encoding: 'base64',
-    });
+    const epubFile = new File(fileUri);
+    const base64 = await epubFile.base64();
 
     // Load ZIP archive
     const zip = await JSZip.loadAsync(base64, { base64: true });

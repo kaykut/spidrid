@@ -3,7 +3,7 @@
 // This module exports a type and utility functions
 
 import { EbookParseResult } from '../types/content';
-import { filterCaptions } from './contentExtractor';
+import { filterCaptions } from './textUtils';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 
