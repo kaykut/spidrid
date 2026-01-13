@@ -83,11 +83,13 @@ export function PlaybackControls({
         <TouchableOpacity
           style={[styles.wpmButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={decreaseWPM}
+          testID="playback.controls.wpm-decrease-btn"
+          accessible={true}
         >
           <Text style={[styles.wpmButtonText, { color: theme.textColor }]}>-</Text>
         </TouchableOpacity>
 
-        <View style={styles.wpmDisplay}>
+        <View style={styles.wpmDisplay} testID="playback.controls.wpm-display">
           <Text style={[styles.wpmValue, { color: theme.accentColor }]}>{wpm}</Text>
           <Text style={[styles.wpmLabel, { color: theme.textColor }]}>
             WPM{!isPremium && ` (max ${maxWPM})`}
@@ -97,6 +99,8 @@ export function PlaybackControls({
         <TouchableOpacity
           style={[styles.wpmButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={increaseWPM}
+          testID="playback.controls.wpm-increase-btn"
+          accessible={true}
         >
           <Text style={[styles.wpmButtonText, { color: theme.textColor }]}>+</Text>
         </TouchableOpacity>
@@ -107,6 +111,8 @@ export function PlaybackControls({
         <TouchableOpacity
           style={[styles.controlButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={onRewind}
+          testID="playback.controls.skip-back-btn"
+          accessible={true}
         >
           <Ionicons name="play-skip-back" size={SIZES.iconLg} color={theme.textColor} />
         </TouchableOpacity>
@@ -114,6 +120,8 @@ export function PlaybackControls({
         <TouchableOpacity
           style={[styles.playButton, { backgroundColor: theme.accentColor }]}
           onPress={onToggle}
+          testID="playback.controls.play-pause-btn"
+          accessible={true}
         >
           <Ionicons name={isPlaying ? 'pause' : 'play'} size={CONTROL_SIZES.playIconSize} color={JOURNEY_COLORS.textPrimary} />
         </TouchableOpacity>
@@ -121,6 +129,8 @@ export function PlaybackControls({
         <TouchableOpacity
           style={[styles.controlButton, { backgroundColor: theme.secondaryBackground }]}
           onPress={onSkip}
+          testID="playback.controls.skip-forward-btn"
+          accessible={true}
         >
           <Ionicons name="play-skip-forward" size={SIZES.iconLg} color={theme.textColor} />
         </TouchableOpacity>

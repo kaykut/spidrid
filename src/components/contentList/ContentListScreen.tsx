@@ -236,8 +236,8 @@ export function ContentListScreen() {
       {/* Floating Action Bar (bottom-right) */}
       <FloatingActionBar
         actions={[
-          { icon: 'person', onPress: handleJourneyPress, testID: 'fab-profile' },
-          { icon: 'add', onPress: handleAddContentPress, testID: 'fab-add-content' },
+          { icon: 'person', onPress: handleJourneyPress, testID: 'content-list.fab-profile' },
+          { icon: 'add', onPress: handleAddContentPress, testID: 'content-list.fab-add' },
         ]}
       />
 

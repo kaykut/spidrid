@@ -17,6 +17,7 @@ interface MiniTopicCardProps {
   cardWidth: number;
   backgroundColor?: string;
   onPress: () => void;
+  testID?: string;
 }
 
 const ICON_CONTAINER_SIZE = 28;
@@ -28,6 +29,7 @@ export function MiniTopicCard({
   cardWidth,
   backgroundColor,
   onPress,
+  testID,
 }: MiniTopicCardProps) {
   const { theme } = useTheme();
 
@@ -47,6 +49,8 @@ export function MiniTopicCard({
       ]}
       onPress={onPress}
       activeOpacity={0.7}
+      testID={testID}
+      accessible={true}
     >
       {/* Icon */}
       <View style={[styles.iconContainer, { backgroundColor: `${topic.color}20` }]}>

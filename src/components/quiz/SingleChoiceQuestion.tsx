@@ -48,6 +48,8 @@ export function SingleChoiceQuestion({
               style={[styles.optionButton, { backgroundColor }]}
               onPress={() => onSelect(index)}
               disabled={disabled}
+              testID={`quiz.options.choice-${index}`}
+              accessible={true}
               accessibilityRole="radio"
               accessibilityState={{
                 selected: isSelected,

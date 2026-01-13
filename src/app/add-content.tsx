@@ -219,7 +219,7 @@ export default function AddContentModal() {
             {/* Topic Grid - shown when expanded, inside the card */}
             {isPracticeExpanded && (
               <View style={styles.topicGrid}>
-                {TOPICS.map((topic) => {
+                {TOPICS.map((topic, index) => {
                   const progress = getTopicProgress(topic.id);
                   return (
                     <MiniTopicCard
@@ -229,6 +229,7 @@ export default function AddContentModal() {
                       cardWidth={topicCardWidth}
                       backgroundColor={theme.backgroundColor}
                       onPress={() => handleTopicPress(topic.id)}
+                      testID={`add-content.practice.topic-${index}`}
                     />
                   );
                 })}
