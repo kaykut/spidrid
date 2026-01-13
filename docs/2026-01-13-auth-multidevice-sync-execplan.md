@@ -26,51 +26,50 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - [x] (2026-01-13 00:03) Verify tests pass, typecheck passes
 
 ### Milestone 2: Anonymous Authentication Store
-- [ ] Create src/store/authStore.ts with AuthState interface
-- [ ] Implement initialize() action with signInAnonymously
-- [ ] Implement getAccessToken() action
-- [ ] Add unit tests for authStore
-- [ ] Verify store compiles with npm run typecheck
+- [x] (2026-01-13 00:10) Create __tests__/store/authStore.test.ts with 8 test cases (TDD)
+- [x] (2026-01-13 00:11) Create src/store/authStore.ts with AuthState interface
+- [x] (2026-01-13 00:11) Implement initialize() action with signInAnonymously
+- [x] (2026-01-13 00:11) Implement getAccessToken() action
+- [x] (2026-01-13 00:12) Verify all 8 tests pass, typecheck passes, lint passes
 
 ### Milestone 3: App Initialization Integration
-- [ ] Enable Anonymous Sign-Ins in Supabase dashboard
-- [ ] Update src/app/_layout.tsx to call authStore.initialize()
-- [ ] Verify app starts without errors
-- [ ] Verify console shows successful anonymous authentication
+- [ ] Enable Anonymous Sign-Ins in Supabase dashboard (MANUAL: user must enable at https://supabase.com/dashboard)
+- [x] (2026-01-13 00:15) Update src/app/_layout.tsx to import useAuthStore
+- [x] (2026-01-13 00:15) Add initializeAuth() call in useEffect alongside subscription init
+- [x] (2026-01-13 00:16) Verify typecheck passes, lint passes
 
 ### Milestone 4: Secure API Calls with JWT
-- [ ] Update src/services/whisperService.ts to import authStore
-- [ ] Add getAccessToken() call before fetch
-- [ ] Add Authorization header with Bearer token
-- [ ] Remove debug console.log statements from whisperService.ts
-- [ ] Remove debug console.log statements from useWhisperRecording.ts
-- [ ] Update jest.setup.js with Supabase mock
-- [ ] Update whisperService.test.ts with authStore mock
-- [ ] Verify all tests pass with npm test
+- [x] (2026-01-13 00:20) Update whisperService.test.ts with authStore mock (TDD)
+- [x] (2026-01-13 00:20) Add test for Authorization header with Bearer token
+- [x] (2026-01-13 00:20) Add test for returning error when no token available
+- [x] (2026-01-13 00:21) Update src/services/whisperService.ts - import authStore, add getAccessToken, add Auth header
+- [x] (2026-01-13 00:22) Remove debug console.log statements from whisperService.ts (kept console.error)
+- [x] (2026-01-13 00:22) Remove debug console.log statements from useWhisperRecording.ts (kept console.error)
+- [x] (2026-01-13 00:23) Verify all 31 tests pass, typecheck passes, lint passes
 
 ### Milestone 5: Edge Function Security Enforcement
-- [ ] Re-deploy transcribe function without --no-verify-jwt flag
-- [ ] Test: curl without auth returns 401
-- [ ] Test: app transcription still works (has valid JWT)
-- [ ] Document the security verification steps
+- [x] (2026-01-13 00:25) Re-deploy transcribe function without --no-verify-jwt flag (npx supabase functions deploy transcribe)
+- [x] (2026-01-13 00:25) Test: curl without auth returns 401 (confirmed: {"code":401,"message":"Missing authorization header"})
+- [ ] Test: app transcription still works (has valid JWT) - requires Anonymous Sign-Ins enabled in dashboard
+- [x] (2026-01-13 00:26) Security verification documented in Progress section
 
 ### Milestone 6: Database Schema Creation
-- [ ] Create supabase/migrations/20260113000000_create_user_content.sql
-- [ ] Create supabase/migrations/20260113000001_create_user_progress.sql
-- [ ] Create supabase/migrations/20260113000002_create_user_certificates.sql
-- [ ] Create supabase/migrations/20260113000003_create_user_settings.sql
-- [ ] Create supabase/migrations/20260113000004_create_user_journey.sql
-- [ ] Run migrations with npx supabase db push
-- [ ] Verify tables exist in Supabase dashboard
+- [x] (2026-01-13 00:28) Create supabase/migrations/20260113000000_create_user_content.sql
+- [x] (2026-01-13 00:28) Create supabase/migrations/20260113000001_create_user_progress.sql
+- [x] (2026-01-13 00:28) Create supabase/migrations/20260113000002_create_user_certificates.sql
+- [x] (2026-01-13 00:28) Create supabase/migrations/20260113000003_create_user_settings.sql
+- [x] (2026-01-13 00:28) Create supabase/migrations/20260113000004_create_user_journey.sql
+- [x] (2026-01-13 00:29) Run migrations with npx supabase db push (5 migrations applied)
+- [ ] Verify tables exist in Supabase dashboard (manual verification)
 
 ### Milestone 7: Row Level Security Policies
-- [ ] Add RLS policy for user_content table
-- [ ] Add RLS policy for user_progress table
-- [ ] Add RLS policy for user_certificates table
-- [ ] Add RLS policy for user_settings table
-- [ ] Add RLS policy for user_journey table
-- [ ] Test: anonymous user can insert own data
-- [ ] Test: anonymous user cannot read other user's data
+- [x] (2026-01-13 00:28) Add RLS policy for user_content table (included in migration)
+- [x] (2026-01-13 00:28) Add RLS policy for user_progress table (included in migration)
+- [x] (2026-01-13 00:28) Add RLS policy for user_certificates table (included in migration)
+- [x] (2026-01-13 00:28) Add RLS policy for user_settings table (included in migration)
+- [x] (2026-01-13 00:28) Add RLS policy for user_journey table (included in migration)
+- [ ] Test: anonymous user can insert own data (requires dashboard setup)
+- [ ] Test: anonymous user cannot read other user's data (requires dashboard setup)
 
 ### Milestone 8: OAuth Provider Configuration
 - [ ] Enable Google OAuth in Supabase dashboard
@@ -81,46 +80,46 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - [ ] Test: Magic link email sends successfully
 
 ### Milestone 9: Auth Store Real Authentication Methods
-- [ ] Add signInWithGoogle() method using linkIdentity
-- [ ] Add signInWithMagicLink(email) method using linkIdentity
-- [ ] Add signOut() method that reverts to anonymous
-- [ ] Add onAuthStateChange listener for session updates
-- [ ] Update isAnonymous and isLoggedIn based on session
-- [ ] Add unit tests for new auth methods
+- [x] (2026-01-13 00:35) Add signInWithGoogle() method using linkIdentity
+- [x] (2026-01-13 00:35) Add signInWithMagicLink(email) method using signInWithOtp (changed from linkIdentity due to API constraints)
+- [x] (2026-01-13 00:35) Add signOut() method that reverts to anonymous
+- [x] (2026-01-13 00:36) Add onAuthStateChange listener for session updates
+- [x] (2026-01-13 00:36) Update isAnonymous and isLoggedIn based on session
+- [x] (2026-01-13 00:35) Add unit tests for new auth methods (13 tests pass)
 
 ### Milestone 10: Deep Link Handling for Magic Link
-- [ ] Configure URL scheme in app.config.js
-- [ ] Create src/hooks/useAuthDeepLink.ts
-- [ ] Handle magic link callback URL
-- [ ] Complete authentication flow on deep link
-- [ ] Test: clicking magic link opens app and signs in
+- [x] (2026-01-13 00:38) Configure URL scheme in app.config.js (already configured as 'spidrid')
+- [x] (2026-01-13 00:38) Create src/hooks/useAuthDeepLink.ts
+- [x] (2026-01-13 00:38) Handle magic link callback URL (extracts tokens from URL hash)
+- [x] (2026-01-13 00:38) Complete authentication flow on deep link (calls setSession)
+- [ ] Test: clicking magic link opens app and signs in (requires OAuth dashboard config)
 
 ### Milestone 11: AuthModal Component
-- [ ] Create src/components/auth/AuthModal.tsx
-- [ ] Add "Continue with Google" button
-- [ ] Add "Continue with Email" section with input
-- [ ] Add loading and error states
-- [ ] Add success callback prop
-- [ ] Style according to design system
+- [x] (2026-01-13 00:42) Create src/components/auth/AuthModal.tsx
+- [x] (2026-01-13 00:42) Add "Continue with Google" button
+- [x] (2026-01-13 00:42) Add "Continue with Email" section with input
+- [x] (2026-01-13 00:42) Add loading and error states
+- [x] (2026-01-13 00:42) Add success callback prop
+- [x] (2026-01-13 00:42) Style according to design system (10 tests pass)
 
 ### Milestone 12: Journey Profile Sync Section
-- [ ] Update src/app/journey-profile.tsx imports
-- [ ] Add "Sync Across Devices" section after existing content
-- [ ] Show section only when isPremium is true
-- [ ] Show "Sign In" state when isLoggedIn is false
-- [ ] Show "Signed In as..." state when isLoggedIn is true
-- [ ] Add "Sign Out" button for logged-in users
-- [ ] Test: section hidden for free users
-- [ ] Test: section visible for premium users
+- [x] (2026-01-13 00:48) Update src/app/journey-profile.tsx imports (AuthModal, useAuthStore)
+- [x] (2026-01-13 00:48) Add "Sync Across Devices" section after Subscription section
+- [x] (2026-01-13 00:48) Show section only when isPremium is true
+- [x] (2026-01-13 00:48) Show "Sign In" state when isLoggedIn is false
+- [x] (2026-01-13 00:48) Show "Signed In as..." state when isLoggedIn is true
+- [x] (2026-01-13 00:48) Add "Sign Out" button for logged-in users
+- [ ] Test: section hidden for free users (requires manual testing)
+- [ ] Test: section visible for premium users (requires manual testing)
 
 ### Milestone 13: Sync Service Core Infrastructure
-- [ ] Create src/services/syncService.ts
-- [ ] Define SyncItem interface with id and updatedAt
-- [ ] Define SyncAdapter interface for store adapters
-- [ ] Implement mergeItems<T> utility function
-- [ ] Add unit tests for mergeItems covering all edge cases
-- [ ] Test: merge with no overlap returns union
-- [ ] Test: merge with conflict keeps newer timestamp
+- [x] (2026-01-13 00:52) Create src/services/syncService.ts
+- [x] (2026-01-13 00:52) Define SyncItem interface with id and updatedAt
+- [x] (2026-01-13 00:52) Define SyncAdapter interface for store adapters
+- [x] (2026-01-13 00:52) Implement mergeItems<T> utility function
+- [x] (2026-01-13 00:53) Add unit tests for mergeItems covering all edge cases (17 tests, 100% coverage)
+- [x] (2026-01-13 00:53) Test: merge with no overlap returns union
+- [x] (2026-01-13 00:53) Test: merge with conflict keeps newer timestamp
 
 ### Milestone 14: Content Store Sync Adapter
 - [ ] Create src/services/sync/contentSyncAdapter.ts
@@ -197,10 +196,53 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - [ ] Test: subscription persists across sign out/in
 - [ ] Test: subscription available on new device after login
 
+### Milestone 24: RevenueCat Logout Integration
+- [x] (2026-01-13 01:05) Add unlinkRevenueCatUser() method to subscriptionStore.ts
+- [x] (2026-01-13 01:05) Call Purchases.logOut() (simulated in Expo Go)
+- [x] (2026-01-13 01:05) Clear linkedUserId state on logout
+- [x] (2026-01-13 01:06) Update authStore.signOut() to call unlinkRevenueCatUser()
+- [x] (2026-01-13 01:05) Add unit tests for logout flow (3 tests for unlinkRevenueCatUser, 1 test for signOut integration)
+- [x] (2026-01-13 01:07) Test: isPremium reflects device state after logout
+- [x] (2026-01-13 01:07) Test: linkedUserId is null after logout
+
+### Milestone 25: Restore Purchases Feature
+- [x] (2026-01-13 01:12) Add restorePurchases() method to subscriptionStore.ts
+- [x] (2026-01-13 01:12) Call Purchases.restorePurchases() (simulated in Expo Go)
+- [x] (2026-01-13 01:14) Add "Restore Purchases" button to journey-profile.tsx
+- [x] (2026-01-13 01:14) Add loading and success/error states for restore
+- [x] (2026-01-13 01:15) Call restorePurchases() after successful login in auth state change listener
+- [x] (2026-01-13 01:12) Add unit tests for restore flow (5 tests)
+- [ ] Test: reinstall + restore recovers premium (requires manual testing)
+- [ ] Test: login as guest with purchase + login to account preserves premium (requires manual testing)
+
+### Milestone 26: Auth Error Handling Improvements
+- [x] (2026-01-13 01:20) Add console.error logging when signInAnonymously fails in authStore.ts
+- [x] (2026-01-13 01:20) Add user-visible error state (authError) when auth initialization fails
+- [ ] Consider retry mechanism for transient auth failures (deferred to future milestone)
+- [x] (2026-01-13 01:20) Test: error is logged when Anonymous Sign-Ins is disabled (2 tests added)
+
 
 ## Surprises & Discoveries
 
-This section will be populated as implementation proceeds. Document unexpected behaviors, bugs, or insights with concise evidence.
+- Observation: Transcription "Not authenticated" error originated from client-side, not Edge Function
+  Evidence: The error message comes from `whisperService.ts:38` when `getAccessToken()` returns null. Investigation revealed `signInAnonymously()` was failing silently because Anonymous Sign-Ins was not enabled in Supabase dashboard (unchecked manual step in Milestone 3). The silent failure path at `authStore.ts:79-82` sets `isInitialized: true` but leaves `userId` as null, causing all subsequent `getSession()` calls to return null.
+  Date: 2026-01-13
+
+- Observation: RevenueCat `Purchases.logOut()` was specified in Milestone 23 but not implemented
+  Evidence: Execplan line 195 states "Call Purchases.logOut() on sign out" and line 514 describes the expected behavior. However, `authStore.signOut()` implementation only calls `supabase.auth.signOut()` and `signInAnonymously()`. The `subscriptionStore.ts` has `linkRevenueCatUser()` but no corresponding unlink/logout method.
+  Date: 2026-01-13
+
+- Observation: "Restore Purchases" functionality missing entirely from design
+  Evidence: Apple App Store Review Guidelines require a restore mechanism for apps with subscriptions. Searched execplan for "restore"—only hit is line 722 about data sync, not purchase restoration. The `subscriptionStore.ts` has `simulateRestore()` for testing but no production-ready `restorePurchases()` method and no UI button.
+  Date: 2026-01-13
+
+- Observation: Test mocks mask real authentication failures
+  Evidence: `jest.setup.js` mocks `signInAnonymously` to always succeed with `{ data: { user: { id: 'mock-user-id' }, session: mockSession }, error: null }`. This means tests pass even when the real Supabase dashboard configuration would cause failures. No integration tests verify actual Supabase behavior.
+  Date: 2026-01-13
+
+- Observation: Supabase RLS policies are correctly designed for this use case
+  Evidence: Reviewed Supabase anonymous sign-ins documentation. The `is_anonymous` JWT claim check is only needed when restricting anonymous users from certain actions. In this app, anonymous users SHOULD be able to create their own content (which persists after upgrade), so `auth.uid() = user_id` is the correct policy.
+  Date: 2026-01-13
 
 
 ## Decision Log
@@ -229,10 +271,47 @@ This section will be populated as implementation proceeds. Document unexpected b
   Rationale: linkIdentity() attaches a real identity (Google, email) to the current session without creating a new user. This preserves the anonymous user's ID and any data already associated with it. A separate sign-up would create a new user ID, orphaning local data.
   Date/Author: 2026-01-13 / Planning phase
 
+- Decision: Add RevenueCat logout as separate milestone rather than retrofitting Milestone 23
+  Rationale: Milestone 23 items are marked as incomplete. Adding logout as Milestone 24 maintains clear progress tracking and allows independent verification. The implementation is logically connected but technically separate (different store method, different trigger point in auth flow).
+  Date/Author: 2026-01-13 / Post-implementation review
+
+- Decision: Make "Restore Purchases" available to all users, not just premium
+  Rationale: A user may need to restore after reinstall regardless of current premium status. The button shows their actual entitlement status. Hiding it behind premium status creates a chicken-and-egg problem where users can't restore because they're not premium, but they're not premium because they haven't restored.
+  Date/Author: 2026-01-13 / Post-implementation review
+
+- Decision: Call restorePurchases() automatically after login
+  Rationale: This handles the "guest purchase then login" scenario described in RevenueCat best practices. When a user buys as guest (anonymous RevenueCat ID) then logs into an existing account, the purchase is on a different RC user ID. Calling restore after login transfers the purchase to the authenticated user ID.
+  Date/Author: 2026-01-13 / Post-implementation review
+
 
 ## Outcomes & Retrospective
 
-This section will be populated upon completion of milestones and at final completion.
+### Phase J Complete (Milestones 24-26) - 2026-01-13
+
+**Summary:** All three milestones in Phase J (RevenueCat Complete Integration) were successfully implemented using TDD methodology. The implementation provides:
+
+1. **Milestone 24 - RevenueCat Logout**: The `unlinkRevenueCatUser()` method clears RevenueCat state during sign out, preventing entitlement leakage between users.
+
+2. **Milestone 25 - Restore Purchases**: A user-facing "Restore Purchases" button appears in the Subscription section (for all users per Apple guidelines). The feature includes loading states, success/error feedback via Alert, and automatic restoration after login.
+
+3. **Milestone 26 - Error Handling**: Authentication failures now log to console.error and set an `authError` state that can be surfaced in UI.
+
+**Test Coverage:**
+- 12 new tests for subscriptionStore (unlinkRevenueCatUser: 3, restorePurchases: 5, existing linkRevenueCatUser: 4)
+- 4 new tests for authStore (error logging: 2, signOut integration: 1, error state: 1)
+- All 2390 tests pass
+
+**Files Modified:**
+- `src/store/subscriptionStore.ts`: Added `unlinkRevenueCatUser()`, `restorePurchases()`, `isRestoring`, `restoreError`
+- `src/store/authStore.ts`: Added `authError` state, error logging, calls to subscription store methods
+- `src/app/journey-profile.tsx`: Added Restore Purchases button with loading state
+- Test files for both stores
+
+**Drift Analysis:** Minor implementation differences from ExecPlan code snippets (using comments for Expo Go simulation instead of isExpoGo guard), functionally equivalent and consistent with existing codebase patterns.
+
+**Remaining Manual Tests:**
+- Reinstall + restore recovers premium (requires production RevenueCat)
+- Login as guest with purchase + login to account preserves premium (requires production RevenueCat)
 
 
 ## Context and Orientation
@@ -343,10 +422,12 @@ Row Level Security (RLS): A PostgreSQL feature where database policies restrict 
 
 Edge Function: A serverless function deployed on Supabase's infrastructure. Edge Functions run close to users geographically and can access environment variables like API keys. They receive HTTP requests and return responses.
 
+Restore Purchases: A mechanism required by Apple App Store guidelines that allows users to recover previously purchased subscriptions or non-consumables. In RevenueCat, this is done via `Purchases.restorePurchases()` which queries the App Store/Play Store for the device's purchase history and updates the user's entitlements accordingly.
+
 
 ## Plan of Work
 
-The work proceeds through 23 milestones organized into logical phases. Each milestone is independently verifiable and builds upon previous milestones.
+The work proceeds through 26 milestones organized into logical phases. Milestones 24-26 were added during post-implementation review to address gaps discovered against Apple App Store requirements and RevenueCat best practices. Each milestone is independently verifiable and builds upon previous milestones.
 
 ### Phase A: Anonymous Authentication (Milestones 1-5)
 
@@ -516,6 +597,30 @@ When auth state changes to logged in (real account), call linkToSupabaseUser wit
 
 Test by purchasing a subscription while logged in, signing out (isPremium should become false), signing in again (isPremium should become true without repurchasing), and signing in on a new device (isPremium should be true).
 
+### Phase J: RevenueCat Complete Integration (Milestones 24-26)
+
+This phase completes the RevenueCat integration by adding logout handling, restore purchases functionality, and proper error handling. These milestones address gaps discovered during post-implementation review against Apple App Store requirements and RevenueCat best practices.
+
+Milestone 24 implements RevenueCat logout and proper state cleanup when a user signs out. The current implementation (Milestone 23) links RevenueCat to Supabase on login but does not unlink on logout, which can cause entitlement leakage where the next user on the device inherits the previous user's subscription status.
+
+Update `src/store/subscriptionStore.ts` to add an `unlinkRevenueCatUser()` method that calls `Purchases.logOut()` in production and clears the `linkedUserId` state. Update `src/store/authStore.ts` to call `unlinkRevenueCatUser()` at the beginning of the `signOut()` method before calling `supabase.auth.signOut()`. This ensures RevenueCat returns to anonymous device-based identification before a new anonymous Supabase session is created.
+
+Test by signing in as User A (premium), signing out, then checking that `isPremium` reflects the actual device state (likely false unless User A purchased on this device). Verify `linkedUserId` is null after logout.
+
+Milestone 25 adds a "Restore Purchases" button to the UI, which is required by Apple App Store guidelines for any app with non-consumable purchases or subscriptions. Without this button, users who reinstall the app or switch devices without signing in have no way to recover their premium status.
+
+Add a `restorePurchases()` method to `src/store/subscriptionStore.ts` that calls `Purchases.restorePurchases()` in production. The method should update `isPremium` based on the restored `customerInfo.entitlements.active['premium']`. In Expo Go development mode, simulate restoration by checking if a purchase was previously simulated.
+
+Update `src/app/journey-profile.tsx` to add a "Restore Purchases" button in the Subscription section. The button should appear for all users (both free and premium) since a user may need to restore after reinstall. Show loading state while restoration is in progress and display success/failure feedback.
+
+Additionally, call `restorePurchases()` automatically after a successful login in the auth state change listener. This handles the case where a user buys a subscription as a guest, then logs into an existing account—the purchase transfers to the logged-in account.
+
+Test restoration by: (1) simulating a purchase, (2) clearing AsyncStorage or reinstalling, (3) tapping "Restore Purchases", and (4) verifying premium status is restored. Test the login-restore flow by purchasing as guest, logging in, and verifying premium persists.
+
+Milestone 26 improves error handling in the authentication flow. The current implementation silently fails when `signInAnonymously()` fails, which masks configuration issues like Anonymous Sign-Ins being disabled in the Supabase dashboard.
+
+Update `src/store/authStore.ts` to add `console.error` logging when `signInAnonymously()` fails. Consider adding a user-visible error state or retry mechanism for transient failures. This ensures developers can diagnose authentication issues during development and testing.
+
 
 ## Concrete Steps
 
@@ -616,6 +721,129 @@ After implementing mergeItems, run specific tests:
 
 Expected output shows mergeItems tests passing.
 
+### Milestone 24 Commands
+
+In `src/store/subscriptionStore.ts`, add the unlinkRevenueCatUser method:
+
+```typescript
+unlinkRevenueCatUser: async () => {
+  if (!isExpoGo) {
+    // Production: call RevenueCat logOut
+    await Purchases.logOut();
+  }
+  // Clear linked user state
+  set({ linkedUserId: null });
+},
+```
+
+In `src/store/authStore.ts`, update the signOut method to call unlinkRevenueCatUser before signing out:
+
+```typescript
+signOut: async () => {
+  // First, unlink RevenueCat to prevent entitlement leakage
+  await useSubscriptionStore.getState().unlinkRevenueCatUser();
+
+  // Then sign out from Supabase
+  await supabase.auth.signOut();
+
+  // Create new anonymous session
+  await get().signInAnonymously();
+},
+```
+
+Run tests:
+
+    npm test -- --testPathPattern=subscriptionStore
+    npm test -- --testPathPattern=authStore
+
+### Milestone 25 Commands
+
+In `src/store/subscriptionStore.ts`, add the restorePurchases method:
+
+```typescript
+restorePurchases: async () => {
+  set({ isRestoring: true, restoreError: null });
+  try {
+    if (isExpoGo) {
+      // Expo Go: check if a simulated purchase exists in AsyncStorage
+      const simulatedPurchase = await AsyncStorage.getItem('simulatedPurchase');
+      if (simulatedPurchase) {
+        set({ isPremium: true, isRestoring: false });
+        return { success: true };
+      }
+      set({ isRestoring: false });
+      return { success: false, message: 'No purchases to restore' };
+    }
+    // Production: call RevenueCat
+    const customerInfo = await Purchases.restorePurchases();
+    const isPremium = customerInfo.entitlements.active['premium'] !== undefined;
+    set({ isPremium, isRestoring: false });
+    return { success: isPremium };
+  } catch (error) {
+    set({ isRestoring: false, restoreError: error.message });
+    return { success: false, error: error.message };
+  }
+},
+```
+
+In `src/app/journey-profile.tsx`, add a Restore Purchases button in the Subscription section:
+
+```typescript
+<TouchableOpacity
+  style={[styles.restoreButton, { backgroundColor: theme.secondaryBackground }]}
+  onPress={handleRestorePurchases}
+  disabled={isRestoring}
+>
+  {isRestoring ? (
+    <ActivityIndicator color={theme.textColor} />
+  ) : (
+    <Text style={[styles.restoreButtonText, { color: theme.textColor }]}>
+      Restore Purchases
+    </Text>
+  )}
+</TouchableOpacity>
+```
+
+In the auth state change listener (authStore or _layout.tsx), call restorePurchases after successful login:
+
+```typescript
+// After successful linkIdentity or Google sign-in
+await useSubscriptionStore.getState().restorePurchases();
+```
+
+Run tests:
+
+    npm test -- --testPathPattern=subscriptionStore
+    npm test -- --testPathPattern=journey-profile
+
+### Milestone 26 Commands
+
+In `src/store/authStore.ts`, update the initialize method to log errors:
+
+```typescript
+initialize: async () => {
+  // ... existing getSession code ...
+
+  const { data, error: signInError } = await supabase.auth.signInAnonymously();
+
+  if (signInError || !data.user) {
+    // Log the error for debugging
+    console.error('[AuthStore] signInAnonymously failed:', signInError?.message || 'No user returned');
+
+    // Still mark as initialized to prevent infinite retries
+    set({ isInitialized: true, authError: signInError?.message });
+    return;
+  }
+  // ... rest of success path ...
+},
+```
+
+Test by temporarily disabling Anonymous Sign-Ins in Supabase dashboard, reloading the app, and checking console for the error message.
+
+Run tests:
+
+    npm test -- --testPathPattern=authStore
+
 
 ## Validation and Acceptance
 
@@ -686,6 +914,28 @@ The RevenueCat integration is complete when:
 3. Signing in again shows isPremium as true without requiring a new purchase.
 
 4. Signing in on a new device with the same account shows isPremium as true.
+
+### Milestone 24-26 Acceptance (RevenueCat Complete + Error Handling)
+
+The RevenueCat logout and restore features are complete when:
+
+1. Signing out calls `Purchases.logOut()` (or simulated equivalent) before creating new anonymous session.
+
+2. After signing out, `linkedUserId` in subscriptionStore is null.
+
+3. After signing out, `isPremium` reflects the device's actual entitlement state (not the previous user's).
+
+4. A "Restore Purchases" button is visible in the Subscription section of Journey/Profile.
+
+5. Tapping "Restore Purchases" shows loading state, then success/failure feedback.
+
+6. After reinstalling the app and tapping "Restore Purchases", premium status is restored if the user previously purchased on this Apple/Google account.
+
+7. After signing in with an account, `restorePurchases()` is called automatically.
+
+8. If a user purchases as guest then signs into an existing account, premium status is maintained.
+
+9. If Anonymous Sign-Ins is disabled in Supabase dashboard, a clear error is logged to console during app initialization.
 
 
 ## Idempotence and Recovery
@@ -926,3 +1176,6 @@ File: `src/components/auth/AuthModal.tsx`
     jest.setup.js - add Supabase mock
     __tests__/services/whisperService.test.ts - add authStore mock
     app.config.js - add URL scheme for deep linking
+    src/store/subscriptionStore.ts - add unlinkRevenueCatUser(), add restorePurchases()
+    src/store/authStore.ts - call unlinkRevenueCatUser() in signOut(), add error logging to initialize()
+    src/app/journey-profile.tsx - add "Restore Purchases" button

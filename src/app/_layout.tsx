@@ -4,14 +4,21 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../components/common/ThemeProvider';
 import { PdfExtractorProvider } from '../components/PdfExtractorProvider';
+import { useAuthDeepLink } from '../hooks/useAuthDeepLink';
+import { useAuthStore } from '../store/authStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
 
 export default function RootLayout() {
-  const initialize = useSubscriptionStore(state => state.initialize);
+  const initializeAuth = useAuthStore(state => state.initialize);
+  const initializeSubscription = useSubscriptionStore(state => state.initialize);
+
+  // Handle deep links for magic link authentication
+  useAuthDeepLink();
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
+    initializeAuth();
+    initializeSubscription();
+  }, [initializeAuth, initializeSubscription]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

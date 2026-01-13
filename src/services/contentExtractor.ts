@@ -220,7 +220,7 @@ export function createFromText(text: string, title?: string): ContentImportResul
       // Truncate to 47 chars to leave room for '...' (total max 50)
       const truncated = firstLine.substring(0, 47);
       const lastSpace = truncated.lastIndexOf(' ');
-      generatedTitle = lastSpace > 30 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+      generatedTitle = lastSpace > 30 ? `${truncated.substring(0, lastSpace)  }...` : `${truncated  }...`;
     } else if (firstLine.length > 0) {
       generatedTitle = firstLine;
     } else {

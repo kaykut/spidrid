@@ -3,9 +3,9 @@
 // This module exports a type and utility functions
 
 import { EbookParseResult } from '../types/content';
-import { filterCaptions } from './textUtils';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
+import { filterCaptions } from './textUtils';
 
 export interface PdfExtractFunction {
   (fileUri: string): Promise<{

@@ -21,14 +21,13 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useTheme } from '../common/ThemeProvider';
-import { useWhisperRecording } from '../../hooks/useWhisperRecording';
 import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
-import { useGeneratedStore } from '../../store/generatedStore';
+import { useWhisperRecording } from '../../hooks/useWhisperRecording';
 import { useCurriculumStore } from '../../store/curriculumStore';
+import { useGeneratedStore } from '../../store/generatedStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import {
@@ -39,6 +38,7 @@ import {
   getMaxWordsForWpm,
   PresetId,
 } from '../../types/generated';
+import { useTheme } from '../common/ThemeProvider';
 import { Paywall } from '../paywall/Paywall';
 
 interface ExpandableLearnCardProps {
@@ -100,7 +100,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         totalMinutes: Math.round(actualTotalMinutes),
         totalWords: cappedArticleCount * targetWords,
       };
-    } else {
+    } 
       // Preset mode: use preset values, capped by WPM
       const presetWords = currentPreset.durationMinutes * avgWpm;
       const targetWords = Math.min(presetWords, maxWordsPerArticle);
@@ -112,7 +112,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         totalMinutes,
         totalWords: currentPreset.articles * targetWords,
       };
-    }
+    
   };
 
   const { articleCount, targetWords, totalMinutes, totalWords } = getCalculatedValues();
@@ -225,7 +225,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       return;
     }
 
-    if (!topic.trim() || isGenerating) return;
+    if (!topic.trim() || isGenerating) {return;}
 
     const toneToUse = designMode && style ? style : 'auto';
 

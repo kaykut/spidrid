@@ -5,8 +5,9 @@
  * Audio recording is handled by useWhisperRecording hook (uses expo-audio).
  */
 
-import { File } from 'expo-file-system';
 import Constants from 'expo-constants';
+import { File } from 'expo-file-system';
+import { useAuthStore } from '../store/authStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 
@@ -28,29 +29,31 @@ export interface TranscribeResult {
  * Transcribe audio file using OpenAI Whisper via Supabase Edge Function
  */
 export async function transcribeAudio(audioUri: string): Promise<TranscribeResult> {
-  console.log('[whisperService] transcribeAudio called with URI:', audioUri);
-  console.log('[whisperService] SUPABASE_URL:', SUPABASE_URL);
-
   try {
+    // Get access token for authenticated API call
+    const token = await useAuthStore.getState().getAccessToken();
+    if (!token) {
+      return {
+        success: false,
+        error: 'Not authenticated',
+      };
+    }
+
     // Read the audio file as base64
-    console.log('[whisperService] Creating File object...');
     const audioFile = new File(audioUri);
-    console.log('[whisperService] File object created, calling base64()...');
     const base64Audio = await audioFile.base64();
-    console.log('[whisperService] base64 length:', base64Audio?.length || 'null/undefined');
 
     // Determine file type from URI (default to m4a for iOS)
     const fileType = audioUri.endsWith('.wav') ? 'wav' : 'm4a';
-    console.log('[whisperService] File type:', fileType);
 
-    // Call Supabase Edge Function
+    // Call Supabase Edge Function with JWT auth
     const url = `${SUPABASE_URL}/functions/v1/transcribe`;
-    console.log('[whisperService] Fetching:', url);
 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
         audio: base64Audio,
@@ -58,12 +61,9 @@ export async function transcribeAudio(audioUri: string): Promise<TranscribeResul
       }),
     });
 
-    console.log('[whisperService] Response status:', response.status);
     const data = await response.json();
-    console.log('[whisperService] Response data:', JSON.stringify(data).substring(0, 200));
 
     if (!response.ok) {
-      console.log('[whisperService] Response not OK, returning error');
       return {
         success: false,
         error: data.error || 'Transcription failed',
@@ -71,14 +71,12 @@ export async function transcribeAudio(audioUri: string): Promise<TranscribeResul
     }
 
     if (!data?.text) {
-      console.log('[whisperService] No text in response');
       return {
         success: false,
         error: 'No transcription returned',
       };
     }
 
-    console.log('[whisperService] Success! Text:', data.text.substring(0, 50));
     return {
       success: true,
       text: data.text,

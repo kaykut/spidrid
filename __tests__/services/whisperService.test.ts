@@ -36,6 +36,16 @@ jest.mock('expo-constants', () => ({
   },
 }));
 
+// Mock authStore
+const mockGetAccessToken = jest.fn();
+jest.mock('../../src/store/authStore', () => ({
+  useAuthStore: {
+    getState: () => ({
+      getAccessToken: mockGetAccessToken,
+    }),
+  },
+}));
+
 // Global fetch mock
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
@@ -48,6 +58,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockExistsValue = true;
   mockBase64.mockResolvedValue('base64audiodata');
+  mockGetAccessToken.mockResolvedValue('test-access-token');
 });
 
 // =============================================================================
@@ -67,17 +78,31 @@ describe('transcribeAudio', () => {
     expect(result.text).toBe('Hello world');
     expect(File).toHaveBeenCalledWith('file://audio.m4a');
     expect(mockBase64).toHaveBeenCalled();
+    expect(mockGetAccessToken).toHaveBeenCalled();
     expect(mockFetch).toHaveBeenCalledWith(
       'https://test.supabase.co/functions/v1/transcribe',
       expect.objectContaining({
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer test-access-token',
+        },
         body: JSON.stringify({
           audio: 'base64audiodata',
           fileType: 'm4a',
         }),
       })
     );
+  });
+
+  it('returns error when no auth token is available', async () => {
+    mockGetAccessToken.mockResolvedValue(null);
+
+    const result = await transcribeAudio('file://audio.m4a');
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('Not authenticated');
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it('detects wav file type from URI', async () => {

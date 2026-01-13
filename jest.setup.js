@@ -65,6 +65,8 @@ jest.mock('@supabase/supabase-js', () => ({
       onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
       signOut: jest.fn().mockResolvedValue({ error: null }),
       linkIdentity: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      signInWithOtp: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      setSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
     },
     from: jest.fn(() => ({
       select: jest.fn().mockReturnThis(),
@@ -75,6 +77,12 @@ jest.mock('@supabase/supabase-js', () => ({
       single: jest.fn().mockResolvedValue({ data: null, error: null }),
     })),
   })),
+}));
+
+// Mock expo-linking for deep link handling
+jest.mock('expo-linking', () => ({
+  getInitialURL: jest.fn().mockResolvedValue(null),
+  addEventListener: jest.fn().mockReturnValue({ remove: jest.fn() }),
 }));
 
 // Mock expo-audio for audio recording

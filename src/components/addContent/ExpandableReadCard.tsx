@@ -12,9 +12,8 @@ import {
   Animated,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
-import { useTheme } from '../common/ThemeProvider';
+import { router } from 'expo-router';
 import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -22,6 +21,7 @@ import { JOURNEY_COLORS } from '../../data/themes';
 import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
+import { useTheme } from '../common/ThemeProvider';
 import { Paywall } from '../paywall/Paywall';
 import { usePdfExtractor } from '../PdfExtractorProvider';
 
@@ -98,7 +98,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   const checkImportLimit = (): boolean => {
-    if (isPremium) return true;
+    if (isPremium) {return true;}
     if (!canAccessContent()) {
       setShowPaywall(true);
       return false;
@@ -118,7 +118,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   const handleImportUrl = async () => {
-    if (!inputValue.trim() || !checkImportLimit()) return;
+    if (!inputValue.trim() || !checkImportLimit()) {return;}
     setIsLoading(true);
     const result = await extractFromUrl(inputValue.trim());
     setIsLoading(false);
@@ -131,7 +131,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   const handleImportText = () => {
-    if (!inputValue.trim() || !checkImportLimit()) return;
+    if (!inputValue.trim() || !checkImportLimit()) {return;}
     const result = createFromText(inputValue.trim());
     if (result.success && result.content) {
       const saved = addContent(result.content);
@@ -147,7 +147,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
         type: ['application/epub+zip', 'application/pdf', 'application/x-mobipocket-ebook'],
         copyToCacheDirectory: true,
       });
-      if (result.canceled || !checkImportLimit()) return;
+      if (result.canceled || !checkImportLimit()) {return;}
       const asset = result.assets[0];
       setIsLoading(true);
       const importResult = await extractFromEbook(asset.uri, asset.name, { pdfExtractor: extractPdf });

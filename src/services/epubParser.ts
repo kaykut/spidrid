@@ -4,9 +4,9 @@
 import { File } from 'expo-file-system';
 import JSZip from 'jszip';
 import { EbookParseResult, ChapterMetadata } from '../types/content';
-import { filterCaptions } from './textUtils';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
+import { filterCaptions } from './textUtils';
 
 // Internal chapter info from NCX/nav parsing
 interface ChapterInfo {

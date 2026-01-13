@@ -5,7 +5,7 @@
  * Accessed via the top-right FAB from the content list.
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,11 +14,14 @@ import {
   TextInput,
   Switch,
   ScrollView,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AuthModal } from '../components/auth/AuthModal';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
@@ -26,6 +29,7 @@ import { Paywall } from '../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
+import { useAuthStore } from '../store/authStore';
 import { useJourneyStore } from '../store/journeyStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
@@ -61,10 +65,14 @@ export default function JourneyProfileModal() {
     contentAccessCount,
     resetContentCount,
     getMaxWPM,
+    isRestoring,
+    restorePurchases,
   } = useSubscriptionStore();
+  const { isLoggedIn, userId, signOut } = useAuthStore();
 
   const [showPaywall, setShowPaywall] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const currentLanguage =
     READING_LANGUAGES.find((l) => l.code === readingLanguage)?.label || 'English';
@@ -75,12 +83,30 @@ export default function JourneyProfileModal() {
     router.back();
   };
 
+  const handleRestorePurchases = useCallback(async () => {
+    const result = await restorePurchases();
+    if (result.success) {
+      Alert.alert('Restored', 'Your purchases have been restored successfully.');
+    } else if (result.error) {
+      Alert.alert('Error', result.error);
+    } else {
+      Alert.alert('No Purchases', result.message || 'No purchases found to restore.');
+    }
+  }, [restorePurchases]);
+
   return (
     <>
       <Paywall
         visible={showPaywall}
         onClose={() => setShowPaywall(false)}
         reason="content_limit"
+      />
+      <AuthModal
+        visible={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          // Could trigger sync here in future
+        }}
       />
       <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         {/* Fixed close button with glass background */}
@@ -290,7 +316,80 @@ export default function JourneyProfileModal() {
                 </Text>
               </TouchableOpacity>
             )}
+            {/* Restore Purchases - available for all users per Apple guidelines */}
+            <TouchableOpacity
+              style={[styles.restoreButton, { borderColor: theme.crosshairColor }]}
+              onPress={handleRestorePurchases}
+              disabled={isRestoring}
+            >
+              {isRestoring ? (
+                <ActivityIndicator size="small" color={theme.textColor} />
+              ) : (
+                <Text style={[styles.restoreButtonText, { color: theme.textColor }]}>
+                  Restore Purchases
+                </Text>
+              )}
+            </TouchableOpacity>
           </View>
+
+          {/* Sync Section - Only for Premium users */}
+          {isPremium && (
+            <>
+              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+                Sync Across Devices
+              </Text>
+              <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+                {isLoggedIn ? (
+                  <>
+                    <View style={styles.syncStatusRow}>
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={SIZES.iconMd}
+                        color={JOURNEY_COLORS.success}
+                      />
+                      <View style={styles.syncStatusInfo}>
+                        <Text style={[styles.syncStatusLabel, { color: theme.textColor }]}>
+                          Signed In
+                        </Text>
+                        <Text
+                          style={[styles.syncStatusDesc, { color: JOURNEY_COLORS.textSecondary }]}
+                          numberOfLines={1}
+                        >
+                          {userId ? `User ID: ${userId.slice(0, 8)}...` : 'Syncing enabled'}
+                        </Text>
+                      </View>
+                    </View>
+                    <TouchableOpacity
+                      style={[styles.signOutButton, { borderColor: theme.crosshairColor }]}
+                      onPress={signOut}
+                    >
+                      <Text style={[styles.signOutText, { color: theme.textColor }]}>
+                        Sign Out
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <Text style={[styles.syncDescription, { color: JOURNEY_COLORS.textSecondary }]}>
+                      Sign in to sync your reading progress, certificates, and settings across all
+                      your devices.
+                    </Text>
+                    <TouchableOpacity
+                      style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
+                      onPress={() => setShowAuthModal(true)}
+                    >
+                      <Ionicons
+                        name="sync-outline"
+                        size={SIZES.iconSm}
+                        color={JOURNEY_COLORS.textPrimary}
+                      />
+                      <Text style={styles.signInText}>Sign In to Sync</Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+              </View>
+            </>
+          )}
 
           {/* Reading Settings */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Reading</Text>
@@ -537,6 +636,18 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
   },
+  restoreButton: {
+    paddingVertical: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
+    alignItems: 'center',
+    marginTop: SPACING.sm,
+    borderWidth: 1,
+  },
+  restoreButtonText: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
+    opacity: 0.7,
+  },
   settingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -582,6 +693,50 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.5,
+  },
+  syncDescription: {
+    ...TYPOGRAPHY.body,
+    marginBottom: SPACING.lg,
+  },
+  signInButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
+    gap: SPACING.sm,
+  },
+  signInText: {
+    color: JOURNEY_COLORS.textPrimary,
+    ...TYPOGRAPHY.button,
+  },
+  syncStatusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: SPACING.lg,
+    gap: SPACING.md,
+  },
+  syncStatusInfo: {
+    flex: 1,
+  },
+  syncStatusLabel: {
+    ...TYPOGRAPHY.body,
+    fontSize: TYPOGRAPHY.button.fontSize,
+  },
+  syncStatusDesc: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
+    marginTop: SPACING.xs,
+  },
+  signOutButton: {
+    paddingVertical: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  signOutText: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.regular,
   },
   gradientTop: {
     position: 'absolute',

@@ -74,10 +74,10 @@ export const DURATION_OPTIONS: DurationOption[] = [
  * Faster readers can handle longer articles (up to ~3 min read time).
  */
 export function getMaxWordsForWpm(wpm: number): number {
-  if (wpm < 200) return 500;
-  if (wpm < 350) return 900;
-  if (wpm < 500) return 1300;
-  if (wpm < 700) return 1800;
+  if (wpm < 200) {return 500;}
+  if (wpm < 350) {return 900;}
+  if (wpm < 500) {return 1300;}
+  if (wpm < 700) {return 1800;}
   return 2100;
 }
 

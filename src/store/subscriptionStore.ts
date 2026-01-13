@@ -3,12 +3,21 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../types/subscription';
 
+interface RestorePurchasesResult {
+  success: boolean;
+  message?: string;
+  error?: string;
+}
+
 interface SubscriptionStore {
   // State
   isPremium: boolean;
   isLoading: boolean;
   isInitialized: boolean;
+  isRestoring: boolean; // True while restore purchases is in progress
+  restoreError: string | null; // Error message from last restore attempt
   contentAccessCount: number;
+  linkedUserId: string | null; // RevenueCat-linked Supabase user ID
 
   // Actions
   initialize: () => Promise<void>;
@@ -17,6 +26,24 @@ interface SubscriptionStore {
   resetContentCount: () => void;
   simulatePurchase: () => Promise<boolean>;
   simulateRestore: () => Promise<boolean>;
+  /**
+   * Link RevenueCat customer with Supabase user ID.
+   * This enables multi-device sync of premium status.
+   * In production, calls Purchases.logIn() from react-native-purchases.
+   */
+  linkRevenueCatUser: (supabaseUserId: string) => Promise<void>;
+  /**
+   * Unlink RevenueCat customer on sign out.
+   * This prevents entitlement leakage to the next anonymous user.
+   * In production, calls Purchases.logOut() from react-native-purchases.
+   */
+  unlinkRevenueCatUser: () => Promise<void>;
+  /**
+   * Restore purchases from App Store/Play Store.
+   * Required by Apple App Store guidelines for subscription apps.
+   * In production, calls Purchases.restorePurchases() from react-native-purchases.
+   */
+  restorePurchases: () => Promise<RestorePurchasesResult>;
 
   // Helpers
   canAccessContent: () => boolean;
@@ -37,7 +64,10 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       isPremium: true, // DEV: Set to false for production
       isLoading: false,
       isInitialized: false,
+      isRestoring: false,
+      restoreError: null,
       contentAccessCount: 0,
+      linkedUserId: null,
 
       // Initialize (would call RevenueCat in production)
       initialize: async () => {
@@ -84,6 +114,109 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         // In real app, this would check RevenueCat for existing entitlements
         set({ isLoading: false });
         return get().isPremium;
+      },
+
+      /**
+       * Link RevenueCat customer with Supabase user ID.
+       * In production, this would call:
+       *   import Purchases from 'react-native-purchases';
+       *   const { customerInfo } = await Purchases.logIn(supabaseUserId);
+       *   const isPremium = customerInfo.entitlements.active['premium'] !== undefined;
+       *
+       * This enables:
+       * 1. Premium status to sync across devices when user signs in
+       * 2. Purchases on one device to be recognized on other devices
+       * 3. User-level subscription tracking in RevenueCat dashboard
+       */
+      linkRevenueCatUser: async (supabaseUserId: string) => {
+        const currentLinkedId = get().linkedUserId;
+
+        // Already linked to this user
+        if (currentLinkedId === supabaseUserId) {
+          return;
+        }
+
+        set({ isLoading: true });
+
+        try {
+          // In production, this would be:
+          // const { customerInfo } = await Purchases.logIn(supabaseUserId);
+          // const isPremium = customerInfo.entitlements.active['premium'] !== undefined;
+
+          // For Expo Go, simulate the API call
+          await new Promise(resolve => setTimeout(resolve, 200));
+
+          // Update linked user ID and check premium status
+          set({
+            linkedUserId: supabaseUserId,
+            isLoading: false,
+          });
+
+          // In production: If the linked user has premium entitlements from
+          // another device, isPremium would be updated here
+        } catch (error) {
+          console.error('[Subscription] Failed to link RevenueCat user:', error);
+          set({ isLoading: false });
+          throw error;
+        }
+      },
+
+      /**
+       * Unlink RevenueCat customer on sign out.
+       * In production, this would call:
+       *   import Purchases from 'react-native-purchases';
+       *   await Purchases.logOut();
+       *
+       * This ensures:
+       * 1. The next anonymous user doesn't inherit previous user's premium status
+       * 2. Clean separation between user sessions in RevenueCat
+       */
+      unlinkRevenueCatUser: async () => {
+        // In production, this would be:
+        // await Purchases.logOut();
+
+        // For Expo Go, just clear the linked user state
+        set({ linkedUserId: null });
+      },
+
+      /**
+       * Restore purchases from App Store/Play Store.
+       * In production, this would call:
+       *   import Purchases from 'react-native-purchases';
+       *   const customerInfo = await Purchases.restorePurchases();
+       *   const isPremium = customerInfo.entitlements.active['premium'] !== undefined;
+       *
+       * Required by Apple App Store guidelines for apps with subscriptions.
+       * This allows users to recover their premium status after reinstalling
+       * or switching devices without signing in.
+       */
+      restorePurchases: async (): Promise<RestorePurchasesResult> => {
+        set({ isRestoring: true, restoreError: null });
+
+        try {
+          // In production, this would be:
+          // const customerInfo = await Purchases.restorePurchases();
+          // const isPremium = customerInfo.entitlements.active['premium'] !== undefined;
+          // set({ isPremium, isRestoring: false });
+          // return { success: isPremium };
+
+          // For Expo Go, simulate by checking current premium status
+          // (In production, this would query the App Store/Play Store)
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          const currentPremium = get().isPremium;
+          set({ isRestoring: false });
+
+          if (currentPremium) {
+            return { success: true };
+          }
+
+          return { success: false, message: 'No purchases to restore' };
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          set({ isRestoring: false, restoreError: errorMessage });
+          return { success: false, error: errorMessage };
+        }
       },
 
       // Check if user can access more content

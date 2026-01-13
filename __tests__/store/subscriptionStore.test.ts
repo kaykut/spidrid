@@ -450,4 +450,243 @@ describe('subscriptionStore', () => {
       expect(PREMIUM_LIMITS.MAX_WPM).toBe(1500);
     });
   });
+
+  describe('linkRevenueCatUser()', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('sets linkedUserId after linking', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      let linkPromise: Promise<void>;
+
+      act(() => {
+        linkPromise = result.current.linkRevenueCatUser('user-123');
+      });
+
+      expect(result.current.isLoading).toBe(true);
+
+      await act(async () => {
+        jest.advanceTimersByTime(200);
+        await linkPromise;
+      });
+
+      expect(result.current.linkedUserId).toBe('user-123');
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    it('skips linking if already linked to same user', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      // First link
+      await act(async () => {
+        const promise = result.current.linkRevenueCatUser('user-123');
+        jest.advanceTimersByTime(200);
+        await promise;
+      });
+
+      expect(result.current.linkedUserId).toBe('user-123');
+
+      // Try to link again - should not set loading
+      await act(async () => {
+        await result.current.linkRevenueCatUser('user-123');
+      });
+
+      // Should not have triggered loading since already linked
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    it('allows relinking to different user', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      // First link
+      await act(async () => {
+        const promise = result.current.linkRevenueCatUser('user-123');
+        jest.advanceTimersByTime(200);
+        await promise;
+      });
+
+      expect(result.current.linkedUserId).toBe('user-123');
+
+      // Link to different user
+      await act(async () => {
+        const promise = result.current.linkRevenueCatUser('user-456');
+        jest.advanceTimersByTime(200);
+        await promise;
+      });
+
+      expect(result.current.linkedUserId).toBe('user-456');
+    });
+
+    it('starts with linkedUserId as null', () => {
+      // Reset to check initial state
+      useSubscriptionStore.setState({ linkedUserId: null });
+      const { result } = renderHook(() => useSubscriptionStore());
+      expect(result.current.linkedUserId).toBeNull();
+    });
+  });
+
+  describe('unlinkRevenueCatUser()', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      // Reset linkedUserId for each test
+      useSubscriptionStore.setState({ linkedUserId: 'user-123' });
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('clears linkedUserId after unlinking', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      expect(result.current.linkedUserId).toBe('user-123');
+
+      await act(async () => {
+        await result.current.unlinkRevenueCatUser();
+      });
+
+      expect(result.current.linkedUserId).toBeNull();
+    });
+
+    it('handles unlinking when linkedUserId is already null', async () => {
+      useSubscriptionStore.setState({ linkedUserId: null });
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.unlinkRevenueCatUser();
+      });
+
+      expect(result.current.linkedUserId).toBeNull();
+    });
+
+    it('can be called multiple times safely', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        await result.current.unlinkRevenueCatUser();
+      });
+
+      expect(result.current.linkedUserId).toBeNull();
+
+      // Calling again should not throw
+      await act(async () => {
+        await result.current.unlinkRevenueCatUser();
+      });
+
+      expect(result.current.linkedUserId).toBeNull();
+    });
+  });
+
+  describe('restorePurchases()', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      // Reset state for each test
+      useSubscriptionStore.setState({ isPremium: false, isRestoring: false, restoreError: null });
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('sets isRestoring to true while restoring', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      let restorePromise: ReturnType<typeof result.current.restorePurchases>;
+
+      act(() => {
+        restorePromise = result.current.restorePurchases();
+      });
+
+      expect(result.current.isRestoring).toBe(true);
+
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+        await restorePromise;
+      });
+
+      expect(result.current.isRestoring).toBe(false);
+    });
+
+    it('returns success: true when user was premium', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        result.current.setPremium(true);
+      });
+
+      let restoreResult: { success: boolean; message?: string };
+
+      await act(async () => {
+        const promise = result.current.restorePurchases();
+        jest.advanceTimersByTime(500);
+        restoreResult = await promise;
+      });
+
+      expect(restoreResult!.success).toBe(true);
+      expect(result.current.isPremium).toBe(true);
+    });
+
+    it('returns success: false with message when no purchases to restore', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        result.current.setPremium(false);
+      });
+
+      let restoreResult: { success: boolean; message?: string };
+
+      await act(async () => {
+        const promise = result.current.restorePurchases();
+        jest.advanceTimersByTime(500);
+        restoreResult = await promise;
+      });
+
+      expect(restoreResult!.success).toBe(false);
+      expect(restoreResult!.message).toBe('No purchases to restore');
+    });
+
+    it('can be called multiple times safely', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      await act(async () => {
+        const promise = result.current.restorePurchases();
+        jest.advanceTimersByTime(500);
+        await promise;
+      });
+
+      // Should not throw when called again
+      await act(async () => {
+        const promise = result.current.restorePurchases();
+        jest.advanceTimersByTime(500);
+        await promise;
+      });
+
+      expect(result.current.isRestoring).toBe(false);
+    });
+
+    it('clears restoreError on successful restore', async () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      // Set a previous error
+      useSubscriptionStore.setState({ restoreError: 'Previous error' });
+
+      act(() => {
+        result.current.setPremium(true);
+      });
+
+      await act(async () => {
+        const promise = result.current.restorePurchases();
+        jest.advanceTimersByTime(500);
+        await promise;
+      });
+
+      expect(result.current.restoreError).toBeNull();
+    });
+  });
 });
