@@ -41,8 +41,13 @@ This strict sequential gating ensures the test suite remains green at all times 
 - [x] (2026-01-13 20:07) M1: Add testIDs to add-content.tsx - MiniTopicCard with index
 - [x] (2026-01-14 22:37) M2: Created smoke-test.yaml - validates testIDs and basic navigation (PASSING)
 - [x] (2026-01-14 22:37) M2: Discovered Expo Go + Maestro limitations (see Surprises & Discoveries)
-- [ ] M2-M9: BLOCKED - Complex E2E flows not feasible with Expo Go (see Decision Log)
-- [ ] M2-M9: Requires expo-dev-client or production builds for full E2E testing
+- [ ] M3: NEW MILESTONE - Adopt expo-dev-client for reliable E2E testing
+- [ ] M3: Install expo-dev-client package
+- [ ] M3: Configure app.config.js for dev client
+- [ ] M3: Run prebuild to generate native projects
+- [ ] M3: Build and install dev client on E2E simulator
+- [ ] M3: Verify smoke-test.yaml passes with dev client
+- [ ] M4-M10: Implement remaining E2E tests (originally M3-M9, renumbered after M3 addition)
 
 
 ## Surprises & Discoveries
@@ -121,6 +126,20 @@ This strict sequential gating ensures the test suite remains green at all times 
   **Next steps**: Adopt expo-dev-client (development builds) to enable reliable E2E testing, OR defer E2E testing until production native builds are ready. The current smoke test validates testID infrastructure and can catch basic regressions.
   Date/Author: 2026-01-14 / Claude
 
+- **Decision: Adopt expo-dev-client to unblock M3-M9 E2E test implementation.**
+  Rationale: User chose Option A. expo-dev-client provides a native app environment without Expo Go's limitations while maintaining fast development iteration. The package adds ~1MB to the app and requires running `npx expo prebuild` to generate native iOS/Android projects, but these are gitignored and don't affect the main codebase. Dev client builds can be installed on the E2E simulator and work seamlessly with Maestro. This approach preserves all the infrastructure work (testIDs, npm scripts, simulator setup) while removing the barriers discovered in M2.
+
+  Implementation plan for M3:
+  1. Install expo-dev-client: `npm install expo-dev-client`
+  2. No app.config.js changes needed (expo-dev-client auto-configures)
+  3. Run `npx expo prebuild --clean` to generate ios/ and android/ folders
+  4. Build for simulator: `npx expo run:ios --device "Spidrid-E2E-Test"`
+  5. Update smoke-test.yaml appId from `host.exp.Exponent` to `com.kaya.spidrid`
+  6. Verify smoke test passes with dev client
+  7. Proceed to implement M4-M10 (original M3-M9 E2E tests)
+
+  Date/Author: 2026-01-14 / Claude
+
 
 ## Outcomes & Retrospective
 
@@ -156,10 +175,15 @@ This strict sequential gating ensures the test suite remains green at all times 
 
 ### Recommendation
 
-**Option A (Recommended)**: Adopt expo-dev-client
+**✅ DECISION: Pursuing Option A - Adopt expo-dev-client** (2026-01-14)
+
+This enables full E2E testing without Expo Go limitations while keeping the existing Maestro infrastructure intact.
+
+**Option A (SELECTED)**: Adopt expo-dev-client
 - Enables full E2E testing without Expo Go limitations
 - Requires running `npx expo prebuild` and native builds
 - Compatible with existing Maestro infrastructure
+- Provides native app environment for reliable testing
 
 **Option B**: Defer E2E testing until production builds
 - Keep smoke test for basic regression checking
