@@ -1,0 +1,30 @@
+appId: host.exp.Exponent
+---
+# SMOKE TEST: Verifies app loads in Expo Go and testIDs are accessible
+#
+# PREREQUISITE: App must be loaded in Expo Go before running
+# 1. Start Expo dev server: npm start
+# 2. Load app: xcrun simctl openurl <UDID> "exp://localhost:8081"
+# 3. Dismiss Expo developer menu
+# 4. Run this test
+
+# Verify content list screen loads
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 10000
+
+# Verify profile FAB is also present
+- assertVisible:
+    id: "content-list.fab-profile"
+
+# Open add-content modal to verify navigation
+- tapOn:
+    id: "content-list.fab-add"
+
+# Verify modal loads
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Success - basic navigation and testIDs work

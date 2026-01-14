@@ -67,6 +67,28 @@ This strict sequential gating ensures the test suite remains green at all times 
   Evidence: playback-quiz.tsx line 73 shows `setTimeout` auto-advancing after answer selection.
   Impact: `quiz.submit-btn` testID not needed; quiz flows should use `optional: true` for submit assertions.
 
+- Observation: Expo Go requires the app to be loaded via dev server before Maestro can interact with it.
+  Evidence: `launchApp` with Expo Go bundle ID opens Expo Go home screen, not the Spidrid app.
+  Resolution: Start Expo dev server and load app before running E2E tests; or use expo-dev-client for standalone builds.
+
+- **CRITICAL**: Maestro + Expo Go has severe limitations for E2E testing.
+  Evidence:
+  1. `launchApp` restarts Expo Go completely, losing the loaded app connection
+  2. Text matching (`tapOn: "Practice"`) doesn't work - Maestro can't see React Native Text components unless they have explicit accessibilityLabel props
+  3. TestIDs work only when combined with `accessible={true}` and `accessibilityRole` props
+  4. The Expo Go developer menu appears on every app load, requiring manual dismissal before tests can run
+  5. UI hierarchy is nested under "Expo Go" root, making element queries unreliable
+
+  **Recommendation**: For production E2E testing, use expo-dev-client (development builds) or full native builds instead of Expo Go. The current setup is suitable for:
+  - Smoke tests that verify basic app loading
+  - TestID verification
+  - Manual testing with Maestro Studio
+
+  But NOT suitable for:
+  - Complex user flows requiring text/image matching
+  - Automated CI/CD E2E testing
+  - Tests requiring app restarts or clean state
+
 
 ## Decision Log
 

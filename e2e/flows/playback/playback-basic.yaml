@@ -1,0 +1,67 @@
+appId: host.exp.Exponent
+---
+# PREREQUISITE: The Spidrid app must already be loaded in Expo Go.
+# 1. Start the Expo dev server: npm start (in spidrid-e2e-maestro worktree)
+# 2. Open the app on E2E simulator: xcrun simctl openurl <UDID> "exp://localhost:8081"
+# 3. Dismiss any developer menu dialogs
+# 4. Ensure app is at the content list screen before running this test
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 10000
+
+# Open add-content modal and select first practice topic
+- tapOn:
+    id: "content-list.fab-add"
+
+# Wait for add-content modal to appear
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Tap Practice card to expand it
+- tapOn: "Practice"
+
+# Wait for Practice section to expand and show topics
+- extendedWaitUntil:
+    visible:
+      id: "add-content.practice.topic-0"
+    timeout: 8000
+- tapOn:
+    id: "add-content.practice.topic-0"
+
+# Verify playback screen loaded and word container visible
+- extendedWaitUntil:
+    visible:
+      id: "playback.rsvp.word-container"
+    timeout: 5000
+
+# Start playback
+- tapOn:
+    id: "playback.controls.play-pause-btn"
+
+# Wait for words to start displaying
+- extendedWaitUntil:
+    visible:
+      id: "playback.rsvp.word-container"
+    timeout: 5000
+
+# Pause playback
+- tapOn:
+    id: "playback.controls.play-pause-btn"
+
+# Skip to end using forward button repeatedly
+- repeat:
+    times: 30
+    commands:
+      - tapOn:
+          id: "playback.controls.skip-forward-btn"
+
+# Short wait for any transitions
+- scroll
+
+# Test completed successfully if we get here (navigation and controls worked)
+- assertVisible:
+    id: "playback.controls.play-pause-btn"
