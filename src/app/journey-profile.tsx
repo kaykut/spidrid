@@ -17,6 +17,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -27,13 +28,14 @@ import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
 import { Paywall } from '../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS, getRSVPFontFamily } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
+import { calculateORP } from '../services/orp';
 import { useAuthStore } from '../store/authStore';
 import { useJourneyStore } from '../store/journeyStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
-import { READING_LANGUAGES } from '../types/settings';
+import { READING_LANGUAGES, type FontFamily, type Theme } from '../types/settings';
 import { FREE_TIER_LIMITS } from '../types/subscription';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
@@ -45,6 +47,50 @@ function hexToRGBA(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+// Font Preview Component
+interface FontPreviewProps {
+  fontFamily: FontFamily;
+  theme: Theme;
+}
+
+function FontPreview({ fontFamily, theme }: FontPreviewProps) {
+  const word = 'choreography';
+  const fontSize = 32; // Smaller size to fit in preview container
+  const orpIndex = calculateORP(word); // Returns 4 for 12-char word
+
+  const before = word.slice(0, orpIndex);
+  const orpChar = word[orpIndex];
+  const after = word.slice(orpIndex + 1);
+
+  const rsvpFontFamily = getRSVPFontFamily(fontFamily);
+
+  return (
+    <View style={styles.previewWordContainer}>
+      {/* Crosshair */}
+      <View style={[styles.previewCrosshair, { backgroundColor: theme.crosshairColor }]} />
+
+      {/* Word row */}
+      <View style={styles.previewWordRow}>
+        <View style={styles.previewBeforeContainer}>
+          <Text style={[styles.previewWord, { color: theme.textColor, fontSize, fontFamily: rsvpFontFamily }]}>
+            {before}
+          </Text>
+        </View>
+
+        <Text style={[styles.previewWord, styles.previewOrpChar, { color: theme.orpColor, fontSize, fontFamily: rsvpFontFamily }]}>
+          {orpChar}
+        </Text>
+
+        <View style={styles.previewAfterContainer}>
+          <Text style={[styles.previewWord, { color: theme.textColor, fontSize, fontFamily: rsvpFontFamily }]}>
+            {after}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 export default function JourneyProfileModal() {
   const { theme, setTheme } = useTheme();
   const insets = useSafeAreaInsets();
@@ -52,10 +98,12 @@ export default function JourneyProfileModal() {
   const {
     userName,
     readingLanguage,
+    fontFamily,
     paragraphPauseEnabled,
     moveFinishedToHistory,
     setUserName,
     setReadingLanguage,
+    setFontFamily,
     setParagraphPauseEnabled,
     setMoveFinishedToHistory,
   } = useSettingsStore();
@@ -79,6 +127,13 @@ export default function JourneyProfileModal() {
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
+  const fontOptions: Array<{ id: FontFamily; label: string }> = [
+    { id: 'system', label: 'System' },
+    { id: 'lora', label: 'Serif' },
+    { id: 'inter', label: 'Round' },
+    { id: 'reddit-sans-condensed', label: 'Condensed' },
+  ];
+
   const handleClose = () => {
     router.back();
   };
@@ -93,6 +148,31 @@ export default function JourneyProfileModal() {
       Alert.alert('No Purchases', result.message || 'No purchases found to restore.');
     }
   }, [restorePurchases]);
+
+  const handleClearAuthToken = useCallback(async () => {
+    Alert.alert(
+      'Clear Auth Token',
+      'This will clear the Supabase auth token and force a new anonymous sign-in. Continue?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Clear',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem('supabase.auth.token');
+              Alert.alert(
+                'Cleared',
+                'Auth token cleared. Restart the app to get a fresh anonymous session.'
+              );
+            } catch (error) {
+              Alert.alert('Error', 'Failed to clear auth token');
+            }
+          },
+        },
+      ]
+    );
+  }, []);
 
   return (
     <>
@@ -393,6 +473,46 @@ export default function JourneyProfileModal() {
 
           {/* Reading Settings */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Reading</Text>
+
+          {/* Font Selector */}
+          <View style={styles.fontGrid}>
+            {fontOptions.map((option) => {
+              const isActive = fontFamily === option.id;
+              const displayFontFamily = getRSVPFontFamily(option.id);
+
+              return (
+                <TouchableOpacity
+                  key={option.id}
+                  style={[
+                    styles.fontButton,
+                    { backgroundColor: theme.secondaryBackground, borderColor: theme.crosshairColor },
+                    isActive && { borderColor: theme.accentColor, borderWidth: 3 },
+                  ]}
+                  onPress={() => setFontFamily(option.id)}
+                >
+                  <Text
+                    style={[
+                      styles.fontLabel,
+                      {
+                        color: theme.textColor,
+                        fontFamily: displayFontFamily
+                      }
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {/* Font Preview */}
+          <View style={[styles.fontPreviewContainer, { backgroundColor: theme.secondaryBackground }]}>
+            <Text style={[styles.fontPreviewTitle, { color: theme.textColor }]}>Preview</Text>
+            <FontPreview fontFamily={fontFamily} theme={theme} />
+          </View>
+
+          {/* Existing Reading settings card */}
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <View style={styles.settingRow}>
               <View style={styles.settingInfo}>
@@ -429,19 +549,44 @@ export default function JourneyProfileModal() {
           </View>
 
           {/* Dev controls */}
-          {!isPremium && contentAccessCount > 0 && (
-            <>
-              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Developer</Text>
-              <TouchableOpacity
-                style={[styles.devButton, { borderColor: theme.crosshairColor }]}
-                onPress={resetContentCount}
-              >
-                <Text style={[styles.devButtonText, { color: theme.textColor }]}>
-                  Reset Article Count
-                </Text>
-              </TouchableOpacity>
-            </>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Developer</Text>
+          {!isPremium ? (
+            <TouchableOpacity
+              style={[styles.devButton, { borderColor: theme.accentColor }]}
+              onPress={() => setPremium(true)}
+            >
+              <Text style={[styles.devButtonText, { color: theme.accentColor }]}>
+                Set Premium (Dev)
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={[styles.devButton, { borderColor: theme.orpColor }]}
+              onPress={() => setPremium(false)}
+            >
+              <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
+                Reset to Free (Dev)
+              </Text>
+            </TouchableOpacity>
           )}
+          {!isPremium && contentAccessCount > 0 && (
+            <TouchableOpacity
+              style={[styles.devButton, { borderColor: theme.crosshairColor }]}
+              onPress={resetContentCount}
+            >
+              <Text style={[styles.devButtonText, { color: theme.textColor }]}>
+                Reset Article Count
+              </Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={[styles.devButton, { borderColor: theme.orpColor }]}
+            onPress={handleClearAuthToken}
+          >
+            <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
+              Clear Auth Token (Debug)
+            </Text>
+          </TouchableOpacity>
 
           {/* Component Gallery (Dev) */}
           <TouchableOpacity
@@ -749,5 +894,73 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  // Font selector styles
+  fontGrid: {
+    flexDirection: 'row',
+    gap: SPACING.sm,
+    marginBottom: SPACING.sm,
+  },
+  fontButton: {
+    flex: 1,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.xs,
+    borderRadius: COMPONENT_RADIUS.button,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fontLabel: {
+    fontSize: 14,
+    fontWeight: FONT_WEIGHTS.medium,
+    textAlign: 'center',
+  },
+  fontPreviewContainer: {
+    padding: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.card,
+    marginBottom: SPACING.sm,
+    alignItems: 'center',
+  },
+  fontPreviewTitle: {
+    ...TYPOGRAPHY.caption,
+    marginBottom: SPACING.md,
+    opacity: 0.6,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  // Font preview component styles
+  previewWordContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+    width: '100%',
+  },
+  previewCrosshair: {
+    position: 'absolute',
+    width: 2,
+    height: 70,
+    opacity: 0.3,
+  },
+  previewWordRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    flexWrap: 'nowrap',
+  },
+  previewBeforeContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    flexShrink: 1,
+  },
+  previewAfterContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    flexShrink: 1,
+  },
+  previewWord: {
+    fontWeight: FONT_WEIGHTS.regular,
+  },
+  previewOrpChar: {
+    fontWeight: FONT_WEIGHTS.semibold,
   },
 });

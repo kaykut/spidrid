@@ -3,7 +3,9 @@ import { ProcessedWord } from '../types/playback';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
-import { splitLongWord, needsSplitting } from './syllables';
+import { splitLongWord, needsSplitting, needsSplittingDynamic } from './syllables';
+import { RSVP_DISPLAY } from '../constants/typography';
+import { Dimensions } from 'react-native';
 
 /**
  * Tokenize text into words.
@@ -208,13 +210,22 @@ export function mapChapterOffsetsToWordIndices(
  * @param text - Text to process
  * @param chapters - Optional chapter metadata
  * @param adapter - Language adapter (defaults to current language)
+ * @param fontSize - Font size in points (for dynamic splitting)
+ * @param fontFamily - Font family name (for dynamic splitting)
+ * @param screenWidth - Screen width in pixels (for dynamic splitting)
  */
 export function processText(
   text: string,
   chapters?: ChapterMetadata[],
-  adapter: LanguageAdapter = getCurrentAdapter()
+  adapter: LanguageAdapter = getCurrentAdapter(),
+  fontSize: number = RSVP_DISPLAY.fontSize ?? 48,
+  fontFamily: string = 'System',
+  screenWidth?: number
 ): ProcessedWord[] {
   const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
+
+  // Get effective screen width for dynamic splitting
+  const effectiveScreenWidth = screenWidth ?? Dimensions.get('window').width;
 
   // Map chapter offsets to word indices if chapters are provided
   const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
@@ -239,9 +250,47 @@ export function processText(
     const chapterStart = chapterStartMap.get(index);
     const headerInfo = headerInfoMap.get(index);
 
-    // Check if this word needs splitting (skip headers - they're handled differently)
-    if (needsSplitting(word) && !headerInfo?.headerText) {
-      const chunks = splitLongWord(word, undefined, adapter);
+    // Skip dynamic splitting for header snapshots (they're handled differently)
+    if (headerInfo?.headerText) {
+      // Header snapshot processing (unchanged)
+      const baseWord = processWord(word, isParagraphEnd, adapter);
+
+      if (chapterStart) {
+        baseWord.chapterStart = chapterStart;
+      }
+      if (headerInfo) {
+        baseWord.isHeader = true;
+        if (headerInfo.headerText) {
+          baseWord.headerText = headerInfo.headerText;
+        }
+      }
+
+      result.push(baseWord);
+      continue;
+    }
+
+    // NEW: Calculate ORP first on the full word
+    const orpIndex = calculateORP(word);
+
+    // NEW: Check if splitting needed based on ORP position and width
+    const shouldSplit = needsSplittingDynamic(
+      word,
+      orpIndex,
+      fontSize,
+      fontFamily,
+      effectiveScreenWidth
+    );
+
+    if (shouldSplit) {
+      // Use width-aware splitting logic
+      const chunks = splitLongWord(
+        word,
+        undefined, // maxLength (uses default)
+        adapter,
+        fontSize,
+        fontFamily,
+        effectiveScreenWidth
+      );
 
       chunks.forEach((chunk, chunkIndex) => {
         const isFirstChunk = chunkIndex === 0;

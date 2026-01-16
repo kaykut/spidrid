@@ -9,6 +9,7 @@ import {
   GenerateArticleResponse,
   TONE_DEFINITIONS,
 } from '../types/generated';
+import { useAuthStore } from './authStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 
@@ -73,10 +74,17 @@ export const useGeneratedStore = create<GeneratedStore>()(
         set((state) => ({ articles: [placeholderArticle, ...state.articles] }));
 
         try {
+          // Get access token for authenticated API call
+          const token = await useAuthStore.getState().getAccessToken();
+          if (!token) {
+            throw new Error('Not authenticated');
+          }
+
           const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-article`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
               topic,

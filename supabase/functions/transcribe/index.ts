@@ -3,11 +3,17 @@
  *
  * Proxies audio transcription requests to OpenAI Whisper API.
  * Accepts base64-encoded audio and returns transcribed text.
+ *
+ * Note: With new sb_publishable_ keys, Edge Functions no longer automatically
+ * verify JWTs. We must manually verify using supabase.auth.getUser().
  */
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
+const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 
 interface TranscribeRequest {
   audio: string; // base64-encoded audio
@@ -31,7 +37,72 @@ serve(async (req: Request) => {
   }
 
   try {
-    // Validate API key
+    // Manual JWT verification required with new sb_publishable_ keys
+    // Platform no longer automatically verifies JWTs with publishable key format
+    const authHeader = req.headers.get('Authorization');
+    console.log('[transcribe] Auth header present:', !!authHeader);
+    console.log('[transcribe] Auth header prefix:', authHeader?.substring(0, 20));
+
+    if (!authHeader) {
+      console.error('[transcribe] Missing authorization header');
+      return new Response(
+        JSON.stringify({ error: 'Missing authorization header' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Create Supabase client to verify JWT
+    console.log('[transcribe] Creating Supabase client...');
+    console.log('[transcribe] SUPABASE_URL:', SUPABASE_URL);
+    console.log('[transcribe] SUPABASE_ANON_KEY prefix:', SUPABASE_ANON_KEY.substring(0, 20));
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Extract JWT from Authorization header and pass it directly to getUser()
+    const jwt = authHeader.replace('Bearer ', '');
+    console.log('[transcribe] Calling supabase.auth.getUser() with JWT...');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(jwt);
+
+    console.log('[transcribe] getUser() result:', {
+      hasUser: !!user,
+      userId: user?.id,
+      userRole: user?.role,
+      isAnonymous: user?.is_anonymous,
+      hasError: !!authError,
+      errorMessage: authError?.message,
+      errorStatus: authError?.status,
+      errorName: authError?.name,
+    });
+
+    if (authError || !user) {
+      console.error('[transcribe] Authentication failed:', {
+        error: authError,
+        hasUser: !!user,
+      });
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid JWT',
+          details: authError?.message,
+          debugInfo: {
+            hasUser: !!user,
+            errorStatus: authError?.status,
+            errorName: authError?.name,
+          }
+        }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    console.log('[transcribe] User authenticated successfully:', user.id);
+    // User authenticated - proceed with transcription
+
+    // Validate OpenAI API key
     if (!OPENAI_API_KEY) {
       return new Response(
         JSON.stringify({ error: 'OpenAI API key not configured' }),

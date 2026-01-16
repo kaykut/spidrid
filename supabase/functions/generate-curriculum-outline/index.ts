@@ -6,6 +6,7 @@
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 interface RequestBody {
   goal: string;
@@ -15,6 +16,8 @@ interface RequestBody {
 }
 
 const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY') || '';
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
+const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const MODEL = 'gemini-3-flash-preview';
 
 // JSON Schema for Structured Output - guarantees response format
@@ -28,6 +31,8 @@ const OUTLINE_SCHEMA = {
     articles: {
       type: 'array',
       description: 'Array of article outlines in progressive learning order',
+      minItems: 3,
+      maxItems: 10,
       items: {
         type: 'object',
         properties: {
@@ -90,6 +95,64 @@ serve(async (req) => {
   }
 
   try {
+    // Manual JWT verification required with new sb_publishable_ keys
+    const authHeader = req.headers.get('Authorization');
+    console.log('[generate-curriculum] Auth header present:', !!authHeader);
+
+    if (!authHeader) {
+      console.error('[generate-curriculum] Missing authorization header');
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Missing authorization header',
+          errorCode: 'UNAUTHORIZED',
+        }),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    // Verify JWT by calling Supabase Auth service
+    console.log('[generate-curriculum] Creating Supabase client and verifying JWT...');
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Extract JWT from Authorization header and pass it directly to getUser()
+    const jwt = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(jwt);
+
+    console.log('[generate-curriculum] getUser() result:', {
+      hasUser: !!user,
+      userId: user?.id,
+      hasError: !!authError,
+      errorMessage: authError?.message,
+    });
+
+    if (authError || !user) {
+      console.error('[generate-curriculum] Authentication failed:', authError);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Invalid authentication',
+          errorCode: 'UNAUTHORIZED',
+          debugInfo: { errorMessage: authError?.message },
+        }),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    console.log('[generate-curriculum] User authenticated:', user.id);
+    // User authenticated - proceed with curriculum generation
     const body: RequestBody = await req.json();
     const { goal, articleCount, tonePrompt } = body;
 
@@ -178,6 +241,25 @@ IMPORTANT:
     outline.articles.sort(
       (a: { orderIndex: number }, b: { orderIndex: number }) => a.orderIndex - b.orderIndex
     );
+
+    // Validate article count matches request
+    if (outline.articles.length !== articleCount) {
+      console.error(`Article count mismatch: expected ${articleCount}, got ${outline.articles.length}`);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: `Generated ${outline.articles.length} articles instead of requested ${articleCount}. Please try again.`,
+          errorCode: 'ARTICLE_COUNT_MISMATCH',
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
 
     return new Response(
       JSON.stringify({

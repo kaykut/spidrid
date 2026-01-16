@@ -94,8 +94,8 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress, isLast }: Mileston
   // Get previous milestone WPM for progress bar floor
   const prevMilestoneWpm = index > 0 ? SIMPLE_MILESTONES[index - 1].wpm : 0;
 
-  // Node sizing
-  const nodeSize = status === 'current' || isNext ? SIZES.currentNodeSize : SIZES.nodeSize;
+  // Node sizing - all nodes are the same size for visual consistency
+  const nodeSize = SIZES.nodeSize;
 
   // Get the icon to display in completed nodes
   const getNodeContent = () => {
@@ -248,6 +248,8 @@ export function VerticalProgressPath({
 // =============================================================================
 
 const LINE_LEFT_OFFSET = COMPONENT_SIZES.nodeColumnWidth / 2 - SIZES.pathLineWidth / 2;
+const ROW_PADDING_VERTICAL = SPACING.sm; // Consistent vertical padding for each row (8px)
+const LINE_PADDING = SPACING.sm + ROW_PADDING_VERTICAL + SIZES.nodeSize / 2; // Distance from container edge to first/last node center
 
 const styles = StyleSheet.create({
   container: {
@@ -260,8 +262,8 @@ const styles = StyleSheet.create({
   lineContainer: {
     position: 'absolute',
     left: SPACING.lg + LINE_LEFT_OFFSET,
-    top: SPACING.sm + SIZES.currentNodeSize / 2,
-    bottom: SPACING.sm + SIZES.nodeSize,
+    top: LINE_PADDING,
+    bottom: LINE_PADDING,
     width: SIZES.pathLineWidth,
   },
   lineBackground: {
@@ -277,8 +279,9 @@ const styles = StyleSheet.create({
   // Milestone row
   milestoneRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.xl,
+    alignItems: 'flex-start',
+    paddingVertical: ROW_PADDING_VERTICAL, // Consistent padding keeps nodes aligned
+    marginBottom: SPACING.sm,
   },
   milestoneRowLast: {
     marginBottom: 0,
@@ -287,7 +290,9 @@ const styles = StyleSheet.create({
   // Node wrapper
   nodeWrapper: {
     width: COMPONENT_SIZES.nodeColumnWidth,
+    height: SIZES.nodeSize,
     alignItems: 'center',
+    justifyContent: 'center',
     marginRight: SPACING.md,
   },
 
@@ -309,10 +314,12 @@ const styles = StyleSheet.create({
     borderColor: JOURNEY_COLORS.textTertiary,
   },
   nodeIcon: {
-    fontSize: TYPOGRAPHY.sectionTitle.fontSize,
+    fontSize: 12, // Cert emoji - 1px smaller, balanced padding in both 22px and 26px nodes
+    lineHeight: 13,
   },
   nodeCheckmark: {
-    fontSize: TYPOGRAPHY.caption.fontSize,
+    fontSize: 11, // Checkmark - proportionally adjusted for new node sizes
+    lineHeight: 12,
     color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.bold,
   },

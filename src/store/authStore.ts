@@ -26,12 +26,23 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
   // Initialize authentication - check for existing session or create anonymous
   initialize: async () => {
+    console.log('[AuthStore] === initialize() called ===');
+    console.log('[AuthStore] isInitialized:', get().isInitialized);
+
     if (get().isInitialized) {
+      console.log('[AuthStore] Already initialized, returning');
       return;
     }
 
+    console.log('[AuthStore] Setting up auth state change listener');
     // Set up auth state change listener to handle session updates
     supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('[AuthStore] onAuthStateChange event:', _event);
+      console.log('[AuthStore] session:', session ? {
+        userId: session.user?.id,
+        isAnonymous: session.user?.is_anonymous
+      } : 'null');
+
       if (session) {
         const isAnonymous = session.user?.is_anonymous ?? false;
         const userId = session.user?.id ?? null;
@@ -58,6 +69,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           });
         }
       } else {
+        console.log('[AuthStore] No session in onAuthStateChange');
         set({
           isAnonymous: false,
           isLoggedIn: false,
@@ -66,10 +78,19 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       }
     });
 
+    console.log('[AuthStore] Checking for existing session...');
     // Check for existing session
     const { data: { session }, error } = await supabase.auth.getSession();
 
+    console.log('[AuthStore] getSession result:', {
+      hasSession: !!session,
+      error: error?.message,
+      userId: session?.user?.id,
+      isAnonymous: session?.user?.is_anonymous
+    });
+
     if (session && !error) {
+      console.log('[AuthStore] Using existing session');
       // Use existing session
       const isAnonymous = session.user?.is_anonymous ?? false;
       set({
@@ -81,14 +102,23 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
 
+    console.log('[AuthStore] No existing session - calling signInAnonymously()');
     // No session - sign in anonymously
     const { data, error: signInError } = await supabase.auth.signInAnonymously();
+
+    console.log('[AuthStore] signInAnonymously result:', {
+      hasUser: !!data?.user,
+      userId: data?.user?.id,
+      error: signInError?.message,
+      errorDetails: signInError
+    });
 
     if (signInError || !data.user) {
       // Log the error for debugging
       console.error(
         '[AuthStore] signInAnonymously failed:',
-        signInError?.message || 'No user returned'
+        signInError?.message || 'No user returned',
+        signInError
       );
 
       // Even on error, mark as initialized to prevent infinite retries
@@ -99,6 +129,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
 
+    console.log('[AuthStore] signInAnonymously SUCCESS - user created:', data.user.id);
     set({
       isInitialized: true,
       isAnonymous: true,
@@ -108,11 +139,17 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   // Get access token for API calls
+  // Refreshes session to ensure token is valid with server
   getAccessToken: async () => {
-    const { data: { session }, error } = await supabase.auth.getSession();
+    // Refresh session to get a fresh, server-validated token
+    // getSession() returns cached tokens that may be stale
+    const { data: { session }, error } = await supabase.auth.refreshSession();
 
     if (error || !session) {
-      return null;
+      console.warn('[AuthStore] Failed to refresh session:', error?.message);
+      // Fall back to cached session
+      const { data: cached } = await supabase.auth.getSession();
+      return cached.session?.access_token ?? null;
     }
 
     return session.access_token;

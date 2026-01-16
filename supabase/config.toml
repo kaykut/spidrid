@@ -1,0 +1,12 @@
+# Edge Functions Configuration
+# Using new sb_publishable_ API keys requires manual JWT verification
+# Platform no longer automatically verifies JWTs with the new key format
+
+[functions.transcribe]
+verify_jwt = false
+
+[functions."generate-article"]
+verify_jwt = false
+
+[functions."generate-curriculum-outline"]
+verify_jwt = false

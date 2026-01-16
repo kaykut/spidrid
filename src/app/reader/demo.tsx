@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useMemo, useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
@@ -7,17 +7,43 @@ import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { Paywall } from '../../components/paywall/Paywall';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_SPACING, space, LINE_HEIGHTS } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS, RSVP_DISPLAY } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
+import { useSettingsStore } from '../../store/settingsStore';
 
 const DEMO_TEXT = `The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet. Speed reading is a collection of methods for increasing reading speed without unacceptable reductions in comprehension or retention. RSVP, or Rapid Serial Visual Presentation, displays words one at a time in a fixed position on the screen. The red letter you see is called the Optimal Recognition Point, or ORP. By fixing your eye on this point, you eliminate the need for saccadic eye movements, which normally consume about 80% of reading time. With practice, you can reach speeds of 500 to 1000 words per minute while maintaining good comprehension.`;
 
 export default function DemoReaderScreen() {
   const { theme } = useTheme();
-  const words = useMemo(() => processText(DEMO_TEXT), []);
-  const engine = useRSVPEngine(words, 250);
+  const fontFamily = useSettingsStore(state => state.fontFamily);
   const [showPaywall, setShowPaywall] = useState(false);
+
+  // ✅ Bug 4 Fix: Track screen dimensions for rotation handling
+  const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
+
+  const words = useMemo(() => {
+    const fontSize = RSVP_DISPLAY.fontSize ?? 48;
+    return processText(
+      DEMO_TEXT,
+      undefined, // chapters
+      undefined, // adapter
+      fontSize,
+      fontFamily,
+      screenDimensions.width
+    );
+  }, [fontFamily, screenDimensions.width]);
+
+  const engine = useRSVPEngine(words, 250);
+
+  // ✅ Bug 4 Fix: Listen for screen rotation/dimension changes
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreenDimensions(window);
+    });
+
+    return () => subscription?.remove();
+  }, []);
 
   return (
     <>

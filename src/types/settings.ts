@@ -1,5 +1,7 @@
 import { RSVP_DISPLAY } from '../constants/typography';
 
+export type FontFamily = 'system' | 'lora' | 'inter' | 'reddit-sans-condensed';
+
 export interface Theme {
   id: string;
   name: string;
@@ -20,6 +22,7 @@ export interface UserSettings {
   showCrosshairs: boolean;
   crosshairOpacity: number;
   fontSize: number;
+  fontFamily: FontFamily;
   hapticFeedback: boolean;
   userName: string;
   readingLanguage: string;
@@ -49,6 +52,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   showCrosshairs: true,
   crosshairOpacity: 0.5,
   fontSize: RSVP_DISPLAY.fontSize ?? 48,
+  fontFamily: 'system',
   hapticFeedback: true,
   userName: '',
   readingLanguage: 'en',

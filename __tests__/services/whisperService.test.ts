@@ -32,6 +32,7 @@ jest.mock('expo-constants', () => ({
   expoConfig: {
     extra: {
       supabaseUrl: 'https://test.supabase.co',
+      supabaseAnonKey: 'test-anon-key',
     },
   },
 }));

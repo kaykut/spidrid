@@ -9,7 +9,7 @@
  * - Empty state when no content
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import {
   View,
   SectionList,
@@ -17,6 +17,8 @@ import {
   SectionListRenderItem,
   RefreshControl,
   SectionListData,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -34,6 +36,7 @@ import { StatsSummary } from '../certifications';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 import { FloatingActionBar } from '../navigation/FloatingActionBar';
+import { AnimatedListItem } from './AnimatedListItem';
 import { ContentListItemCard } from './ContentListItemCard';
 import { CurriculumAccordionItem } from './CurriculumAccordionItem';
 import { DateSectionHeader } from './DateSectionHeader';
@@ -86,6 +89,36 @@ export function ContentListScreen() {
     return !hasAnyContent();
   }, [hasAnyContent]);
 
+  // Filter change detection for list animations
+  const prevFilterRef = useRef(activeFilter);
+  const [animationKey, setAnimationKey] = useState(0);
+
+  useEffect(() => {
+    // Skip animation on initial mount
+    if (prevFilterRef.current === undefined) {
+      prevFilterRef.current = activeFilter;
+      return;
+    }
+
+    // Trigger animation when filter changes
+    if (prevFilterRef.current !== activeFilter) {
+      setAnimationKey((prev) => prev + 1);
+      prevFilterRef.current = activeFilter;
+    }
+  }, [activeFilter]);
+
+  // Helper to calculate global index across sections for stagger
+  const getGlobalIndex = useCallback(
+    (sectionIndex: number, itemIndex: number): number => {
+      let globalIndex = 0;
+      for (let i = 0; i < sectionIndex; i++) {
+        globalIndex += sections[i].data.length;
+      }
+      return globalIndex + itemIndex;
+    },
+    [sections]
+  );
+
   // Navigation handlers
   const handleJourneyPress = useCallback(() => {
     router.push('/journey-profile');
@@ -113,43 +146,39 @@ export function ContentListScreen() {
     [deleteItem]
   );
 
-  const handleQuizPress = useCallback(
-    (item: ContentListItem) => {
-      // Navigate to quiz modal
-      router.push({
-        pathname: '/playback-quiz',
-        params: { sourceId: item.sourceId, source: item.source },
-      });
-    },
-    [router]
-  );
-
   // Render individual list items
   const renderItem: SectionListRenderItem<ContentListItem, ContentSection> = useCallback(
-    ({ item }) => {
+    ({ item, section, index: itemIndex }) => {
+      // Calculate global index for stagger animation
+      const sectionIndex = sections.indexOf(section);
+      const globalIndex = getGlobalIndex(sectionIndex, itemIndex);
+
       // Render curriculum with accordion
       if (item.isCurriculum) {
         return (
-          <CurriculumAccordionItem
-            item={item}
-            onPress={() => handleItemPress(item)}
-            onDelete={() => handleDeleteItem(item)}
-            onArticlePress={handleItemPress}
-          />
+          <AnimatedListItem index={globalIndex} animationKey={animationKey}>
+            <CurriculumAccordionItem
+              item={item}
+              onPress={() => {}} // Curriculum itself is not playable - only expands/collapses
+              onDelete={() => handleDeleteItem(item)}
+              onArticlePress={handleItemPress}
+            />
+          </AnimatedListItem>
         );
       }
 
       // Render regular content item
       return (
-        <ContentListItemCard
-          item={item}
-          onPress={() => handleItemPress(item)}
-          onDelete={item.source !== 'training' ? () => handleDeleteItem(item) : undefined}
-          onQuizPress={item.quizPending ? () => handleQuizPress(item) : undefined}
-        />
+        <AnimatedListItem index={globalIndex} animationKey={animationKey}>
+          <ContentListItemCard
+            item={item}
+            onPress={() => handleItemPress(item)}
+            onDelete={item.source !== 'training' ? () => handleDeleteItem(item) : undefined}
+          />
+        </AnimatedListItem>
       );
     },
-    [handleItemPress, handleDeleteItem, handleQuizPress]
+    [handleItemPress, handleDeleteItem, sections, getGlobalIndex, animationKey]
   );
 
   // Key extractor for SectionList
@@ -233,11 +262,21 @@ export function ContentListScreen() {
         </GlassView>
       </View>
 
+      {/* DEV ONLY: Quick access to long words test */}
+      {__DEV__ && (
+        <TouchableOpacity
+          style={[styles.devButton, { backgroundColor: theme.accentColor }]}
+          onPress={() => router.push('/reader/long-words')}
+        >
+          <Text style={styles.devButtonText}>🧪 Test Long Words</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Floating Action Bar (bottom-right) */}
       <FloatingActionBar
         actions={[
-          { icon: 'person', onPress: handleJourneyPress, testID: 'fab-profile' },
-          { icon: 'add', onPress: handleAddContentPress, testID: 'fab-add-content' },
+          { icon: 'person', onPress: handleJourneyPress, testID: 'content-list.fab-profile' },
+          { icon: 'add', onPress: handleAddContentPress, testID: 'content-list.fab-add' },
         ]}
       />
 
@@ -285,5 +324,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  devButton: {
+    position: 'absolute',
+    bottom: SPACING.xxxl,
+    left: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderRadius: 20,
+    zIndex: 100,
+  },
+  devButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

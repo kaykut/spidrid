@@ -36,7 +36,7 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 **Spacing:** `SPACING.{xxs=2,xs=4,sm=8,md=16,lg=24,xl=32,xxl=40,xxxl=48,huge=56,massive=64}`
 **Component Spacing:** `COMPONENT_SPACING.{cardPadding=20,screenPadding=16,sectionGap=24,listItemGap=12,inlineGap=8}`
 **Radius:** `COMPONENT_RADIUS.{button=12,card=16,modal=20,chip=8,input=12,progressBar=6,node=full}`
-**Sizes:** `SIZES.{touchTarget=44,iconSm=16,iconMd=24,iconLg=24,iconXl=32,iconHuge=48}`
+**Sizes:** `SIZES.{touchTarget=44}`
 **Typography:** `TYPOGRAPHY.{vsNumber,pageTitle,sectionTitle,cardTitle,body,label,caption,metric,button}`
 **Colors:** `JOURNEY_COLORS.{accent,success,warning,low,textPrimary,textSecondary}`, `COLOR_OPACITY.{successTint,lowTint}`, `themes.{dark,midnight,sepia,light}`
 **Shadows:** `SHADOWS.{sm,md,lg,glow(color)}`

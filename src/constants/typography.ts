@@ -258,6 +258,35 @@ export const FONT_FAMILY = Platform.select({
  */
 export const DISPLAY_FONT_FAMILY = FONT_FAMILY;
 
+/**
+ * Get the font family for RSVP display based on user selection.
+ * UI elements always use FONT_FAMILY (system font).
+ * Only RSVP words use the selected font.
+ */
+export function getRSVPFontFamily(fontFamily: string): string {
+  switch (fontFamily) {
+    case 'lora':
+      return 'Lora';
+    case 'inter':
+      return 'Inter';
+    case 'reddit-sans-condensed':
+      return 'RedditSansCondensed';
+    case 'system':
+    default:
+      return FONT_FAMILY;
+  }
+}
+
+/**
+ * Font display names for UI
+ */
+export const FONT_DISPLAY_NAMES: Record<string, string> = {
+  system: 'System',
+  lora: 'Lora',
+  inter: 'Inter',
+  'reddit-sans-condensed': 'Reddit Sans Condensed',
+};
+
 // =============================================================================
 // Additional Typography Styles
 // =============================================================================

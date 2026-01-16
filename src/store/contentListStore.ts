@@ -186,7 +186,7 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
           state,
           progress,
           quizScore: article.comprehensionScore,
-          hasQuiz: article.questions.length > 0,
+          hasQuiz: article.questions.length > 0, // Generated articles don't have hasQuiz field
           quizPending: !article.completed && article.questions.length > 0,
           addedAt: article.generatedAt,
           lastPlayedAt: article.lastReadAt,
@@ -203,11 +203,7 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
         const curriculumArticles: ContentListItem[] = [];
 
         for (const article of curriculum.articles) {
-          // Only show generated articles
-          if (article.generationStatus !== 'generated') {
-            continue;
-          }
-
+          // Show all articles - ArticleRow handles locked/pending states
           const articleState = getContentState(
             article.completionStatus === 'completed' ? 100 : 0,
             article.completionStatus === 'completed'
@@ -215,7 +211,7 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
 
           curriculumArticles.push({
             id: `curriculum-article-${article.id}`,
-            sourceId: article.id,
+            sourceId: `${article.curriculumId}:${article.orderIndex}`,
             source: 'curriculum',
             category: 'learning',
             title: article.title,
@@ -223,9 +219,10 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
             state: articleState,
             progress: article.completionStatus === 'completed' ? 100 : 0,
             quizScore: article.comprehensionScore,
-            hasQuiz: article.questions.length > 0,
+            hasQuiz: article.hasQuiz && article.questions.length > 0,
             quizPending:
               article.completionStatus !== 'completed' &&
+              article.hasQuiz &&
               article.questions.length > 0,
             addedAt: article.generatedAt || curriculum.createdAt,
             lastPlayedAt: article.completedAt,
@@ -444,13 +441,10 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
       // Build nested article items (all completed)
       const curriculumArticles: ContentListItem[] = [];
       for (const article of curriculum.articles) {
-        if (article.generationStatus !== 'generated') {
-          continue;
-        }
-
+        // Show all articles in history
         curriculumArticles.push({
           id: `curriculum-article-${article.id}`,
-          sourceId: article.id,
+          sourceId: `${article.curriculumId}:${article.orderIndex}`,
           source: 'curriculum',
           category: 'learning',
           title: article.title,

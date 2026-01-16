@@ -21,6 +21,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Switch,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -55,6 +56,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
   const [articleCount, setArticleCount] = useState(5);
   const [tone, setTone] = useState<ArticleTone>('explanatory');
   const [durationMinutes, setDurationMinutes] = useState(3);
+  const [hasQuizzes, setHasQuizzes] = useState(true); // Default enabled
   const [currentStep, setCurrentStep] = useState<WizardStep>('goal');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -95,6 +97,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
     setArticleCount(5);
     setTone('explanatory');
     setDurationMinutes(3);
+    setHasQuizzes(true); // Reset to default
     setCurrentStep('goal');
     setIsSubmitting(false);
   };
@@ -118,6 +121,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
       articleCount,
       tone,
       durationMinutes,
+      hasQuizzes, // NEW: Quiz generation toggle
     };
 
     const curriculumId = await createCurriculum(input, avgWpm);
@@ -316,6 +320,22 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                       {durationMinutes} min per article (~{totalMinutes} min total)
                     </Text>
                   </View>
+                  <View style={[styles.summaryRow, { marginTop: SPACING.md }]}>
+                    <View style={styles.quizToggleInfo}>
+                      <Text style={[styles.summaryLabel, { color: theme.textColor }]}>
+                        Test comprehension
+                      </Text>
+                      <Text style={[styles.summaryHint, { color: JOURNEY_COLORS.textSecondary }]}>
+                        Include 5 quiz questions per article
+                      </Text>
+                    </View>
+                    <Switch
+                      value={hasQuizzes}
+                      onValueChange={setHasQuizzes}
+                      trackColor={{ false: theme.backgroundColor, true: JOURNEY_COLORS.success }}
+                      thumbColor={theme.textColor}
+                    />
+                  </View>
                 </View>
 
                 {generationError && (
@@ -462,6 +482,14 @@ const styles = StyleSheet.create({
   },
   summaryValue: {
     ...TYPOGRAPHY.body,
+  },
+  quizToggleInfo: {
+    flex: 1,
+    marginRight: SPACING.md,
+  },
+  summaryHint: {
+    ...TYPOGRAPHY.caption,
+    marginTop: SPACING.xxs,
   },
   errorContainer: {
     marginTop: SPACING.lg,

@@ -19,12 +19,15 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
-import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { SPACING, COMPONENT_SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
-import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { ContentListItem } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
 import { ContentListItemCard } from './ContentListItemCard';
+import { useCurriculumStore } from '../../store/curriculumStore';
+import { cardBaseStyles, CARD_LAYOUT } from './cardLayout';
+import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -47,11 +50,14 @@ export function CurriculumAccordionItem({
   defaultExpanded = true,
 }: CurriculumAccordionItemProps) {
   const { theme } = useTheme();
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const rotateAnim = useRef(new Animated.Value(defaultExpanded ? 1 : 0)).current;
+  const toggleExpandedInStore = useCurriculumStore((state) => state.toggleExpanded);
+  const isExpandedInStore = useCurriculumStore((state) => state.isExpanded(item.sourceId));
   const swipeableRef = useRef<Swipeable>(null);
+  const { titleStyle, onTextLayout } = useDynamicCardTitle(item.title);
 
-  const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
+  // Use store state, falling back to defaultExpanded for initialization
+  const isExpanded = isExpandedInStore !== undefined ? isExpandedInStore : defaultExpanded;
+  const rotateAnim = useRef(new Animated.Value(isExpanded ? 1 : 0)).current;
 
   useEffect(() => {
     Animated.timing(rotateAnim, {
@@ -63,7 +69,7 @@ export function CurriculumAccordionItem({
 
   const toggleExpanded = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setIsExpanded(!isExpanded);
+    toggleExpandedInStore(item.sourceId);
   };
 
   const handleDelete = () => {
@@ -96,91 +102,87 @@ export function CurriculumAccordionItem({
     );
   };
 
-  const progressText = item.curriculumProgress
-    ? `${item.curriculumProgress.completed}/${item.curriculumProgress.total} articles`
-    : '';
+  const totalArticles = item.curriculumProgress?.total || 0;
+  const completedArticles = item.curriculumProgress?.completed || 0;
+
+  // Render dot indicators for article completion
+  const renderDotIndicators = () => {
+    if (!item.curriculumProgress) return null;
+
+    const dots = [];
+    for (let i = 0; i < totalArticles; i++) {
+      const isCompleted = i < completedArticles;
+      dots.push(
+        <View
+          key={i}
+          style={[
+            styles.dot,
+            {
+              borderColor: theme.accentColor,
+              backgroundColor: isCompleted ? theme.accentColor : 'transparent',
+            },
+          ]}
+        >
+          {isCompleted && (
+            <Ionicons name="checkmark" size={6} color={theme.background} />
+          )}
+        </View>
+      );
+    }
+    return <View style={styles.dotContainer}>{dots}</View>;
+  };
 
   const cardContent = (
     <View style={styles.container}>
       {/* Curriculum Header */}
       <TouchableOpacity
-        onPress={onPress}
-        onLongPress={toggleExpanded}
+        onPress={toggleExpanded}
         activeOpacity={0.7}
         style={[
-          styles.card,
+          cardBaseStyles.card,
           { backgroundColor: theme.secondaryBackground },
         ]}
       >
-        {/* Left: Icon */}
-        <View
-          style={[
-            styles.iconContainer,
-            { backgroundColor: isDarkTheme ? COLOR_OPACITY.accentTint : `${theme.accentColor}20` },
-          ]}
-        >
-          <Ionicons name="school-outline" size={SIZES.iconLg} color={theme.accentColor} />
+        {/* Left: Icon (no background) - matching article card spacing */}
+        <View style={cardBaseStyles.iconContainer}>
+          <Ionicons name="school-outline" size={SIZES.iconMd} color={theme.accentColor} />
         </View>
 
-        {/* Center: Title and progress */}
-        <View style={styles.content}>
+        {/* Center: Title and metadata */}
+        <View style={cardBaseStyles.titleContainer}>
           <Text
-            style={[styles.title, { color: theme.textColor }]}
+            style={[cardBaseStyles.title, styles.title, titleStyle, { color: theme.textColor }]}
             numberOfLines={2}
             ellipsizeMode="tail"
+            onTextLayout={onTextLayout}
           >
             {item.title}
           </Text>
           <View style={styles.metadata}>
             <Text style={[styles.metaText, { color: theme.metaColor }]}>
-              {progressText}
+              {totalArticles} {totalArticles === 1 ? 'article' : 'articles'}
             </Text>
-            {item.state === 'completed' && (
-              <>
-                <Text style={[styles.metaDot, { color: theme.metaColor }]}> · </Text>
-                <Text style={[styles.metaText, { color: JOURNEY_COLORS.success }]}>
-                  Complete
-                </Text>
-              </>
-            )}
+            {renderDotIndicators()}
           </View>
         </View>
 
-        {/* Right: Progress bar and expand chevron */}
-        <View style={styles.rightSection}>
-          {/* Progress bar */}
-          <View style={styles.progressContainer}>
-            <View style={[styles.progressTrack, { backgroundColor: theme.trackColor }]}>
-              <View
-                style={[
-                  styles.progressFill,
-                  {
-                    width: `${item.progress}%`,
-                    backgroundColor: theme.accentColor,
-                  },
-                ]}
-              />
-            </View>
-          </View>
-
-          {/* Expand/collapse button */}
-          <TouchableOpacity onPress={toggleExpanded} style={styles.chevronButton}>
-            <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-              <Ionicons
-                name="chevron-forward"
-                size={SIZES.iconMd}
-                color={theme.metaColor}
-              />
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
+        {/* Right: Expand/collapse chevron */}
+        <TouchableOpacity onPress={toggleExpanded} style={cardBaseStyles.chevronButton}>
+          <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+            <Ionicons
+              name="chevron-forward"
+              size={SIZES.iconMd}
+              color={theme.metaColor}
+            />
+          </Animated.View>
+        </TouchableOpacity>
       </TouchableOpacity>
 
       {/* Nested Articles */}
       {isExpanded && item.curriculumArticles && item.curriculumArticles.length > 0 && (
         <View style={styles.nestedContainer}>
           {item.curriculumArticles.map((article) => (
-            <View key={article.id} style={styles.nestedArticle}>
+            <View key={article.id} style={styles.nestedArticleWrapper}>
               <ContentListItemCard
                 item={article}
                 onPress={() => onArticlePress(article)}
@@ -212,66 +214,38 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: SPACING.xs,
   },
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.md,
-    marginHorizontal: SPACING.md,
-    borderRadius: COMPONENT_RADIUS.card,
-    ...SHADOWS.sm,
-  },
-  iconContainer: {
-    width: SIZES.touchTarget,
-    height: SIZES.touchTarget,
-    borderRadius: COMPONENT_RADIUS.button,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: SPACING.sm,
-  },
-  content: {
-    flex: 1,
-    marginRight: SPACING.sm,
-  },
   title: {
-    ...TYPOGRAPHY.cardTitle,
-    marginBottom: SPACING.xxs,
+    fontSize: TYPOGRAPHY.cardTitle.fontSize,
   },
   metadata: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: SPACING.sm,
   },
   metaText: {
     ...TYPOGRAPHY.caption,
   },
-  metaDot: {
-    ...TYPOGRAPHY.caption,
+  dotContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
   },
-  rightSection: {
-    alignItems: 'flex-end',
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-  },
-  progressContainer: {
-    marginBottom: SPACING.xs,
-  },
-  progressTrack: {
-    width: SPACING.xxxl,
-    height: SPACING.xs,
-    borderRadius: COMPONENT_RADIUS.progressBar,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    borderRadius: COMPONENT_RADIUS.progressBar,
-  },
-  chevronButton: {
-    padding: SPACING.xs,
   },
   nestedContainer: {
     marginLeft: SPACING.lg,
-    marginTop: SPACING.xs,
+    marginTop: COMPONENT_SPACING.listItemGap,
+    marginBottom: SPACING.md, // Extra space before next item
+    gap: COMPONENT_SPACING.listItemGap,
   },
-  nestedArticle: {
-    marginVertical: -SPACING.xs, // Tighter spacing for nested items
+  nestedArticleWrapper: {
+    marginVertical: -SPACING.xs, // Neutralize card's built-in margins
   },
   deleteAction: {
     backgroundColor: JOURNEY_COLORS.low,

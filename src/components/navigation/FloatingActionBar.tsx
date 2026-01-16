@@ -103,6 +103,8 @@ function ActionButton({ icon, onPress, testID, accentColor, isLast }: ActionButt
         activeOpacity={1}
         style={styles.touchable}
         testID={testID}
+        accessible={true}
+        accessibilityRole="button"
       >
         {icon === 'add' ? (
           <Entypo name="plus" size={SIZES.iconLg} color={accentColor} />
