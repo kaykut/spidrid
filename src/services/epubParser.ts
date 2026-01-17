@@ -199,6 +199,30 @@ function findNavPath(opfContent: string, opfDir: string): string | null {
   return null;
 }
 
+// Inject chapter markers into content before filtering
+function injectChapterMarkers(
+  content: string,
+  chapters: ChapterMetadata[]
+): string {
+  if (chapters.length === 0) {return content;}
+
+  // Sort chapters by offset descending (inject from end to avoid offset drift)
+  const sorted = [...chapters].sort((a, b) => b.startCharOffset - a.startCharOffset);
+
+  let result = content;
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const chapter = sorted[i];
+    const marker = `\n[SPIDRID_CH:${sorted.length - i}:${chapter.title}]\n`;
+
+    // Insert marker at chapter start position (in rawContent before filtering)
+    result = result.slice(0, chapter.startCharOffset) +
+             marker +
+             result.slice(chapter.startCharOffset);
+  }
+
+  return result;
+}
+
 // Main EPUB parsing function
 export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
   try {
@@ -285,35 +309,41 @@ export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
     }
 
     const rawContent = contentParts.join('\n\n');
-    const fullContent = filterCaptions(rawContent);
 
-    if (fullContent.length < 100) {
-      throw new Error('Not enough readable content found in this EPUB');
-    }
-
-    // Map chapter hrefs to character offsets
-    const chapters: ChapterMetadata[] = [];
+    // Map chapter hrefs to character offsets (before filtering)
+    const tempChapters: ChapterMetadata[] = [];
     for (const chapter of chapterInfos) {
       // Try to find the offset for this chapter's href
       const normalizedHref = chapter.href.split('/').pop() || chapter.href;
       const offset = spineOffsets.get(normalizedHref) ?? spineOffsets.get(chapter.href);
 
       if (offset !== undefined) {
-        chapters.push({
+        tempChapters.push({
           title: chapter.title,
           startCharOffset: offset,
         });
       }
     }
 
-    // Sort chapters by offset and remove duplicates
-    chapters.sort((a, b) => a.startCharOffset - b.startCharOffset);
+    // Sort chapters by offset
+    tempChapters.sort((a, b) => a.startCharOffset - b.startCharOffset);
 
+    // Inject chapter markers into raw content (before filtering)
+    const contentWithMarkers = injectChapterMarkers(rawContent, tempChapters);
+
+    // Filter captions (markers survive filtering)
+    const fullContent = filterCaptions(contentWithMarkers);
+
+    if (fullContent.length < 100) {
+      throw new Error('Not enough readable content found in this EPUB');
+    }
+
+    // Chapter info is now embedded in content as markers, no need to return separately
     return {
       title: metadata.title || 'Untitled',
       content: fullContent,
       author: metadata.author,
-      chapters: chapters.length > 0 ? chapters : undefined,
+      chapters: undefined, // Chapter info embedded as markers in content
     };
   } catch (error) {
     if (error instanceof Error) {

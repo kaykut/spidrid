@@ -56,9 +56,9 @@ export function useRSVPEngine(
       interval = baseInterval * 4;
     }
 
-    // Add paragraph pause (3 words worth of time)
+    // Paragraph end: major context shift (5.0× base interval)
     if (paragraphPauseEnabled && currentWord.paragraphEnd) {
-      interval += baseInterval * 3;
+      interval = baseInterval * 5.0;
     }
 
     timerRef.current = setTimeout(() => {

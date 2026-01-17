@@ -33,16 +33,16 @@ export function calculatePauseMultiplier(
   word: string,
   adapter: LanguageAdapter = getCurrentAdapter()
 ): number {
-  // Sentence end - longest pause
-  if (adapter.sentenceEndPattern.test(word)) {return 1.8;}
+  // Sentence end - longest pause (3.0× for "wrap-up effect")
+  if (adapter.sentenceEndPattern.test(word)) {return 3.0;}
 
-  // Clause break - medium pause
-  if (adapter.clauseBreakPattern.test(word)) {return 1.3;}
+  // Clause break - medium pause (comma, semicolon: 1.5× for clause integration)
+  if (adapter.clauseBreakPattern.test(word)) {return 1.5;}
 
-  // Long word - slightly longer
+  // Long word - slightly longer for processing
   if (word.length > 12) {return 1.2;}
 
-  // Normal
+  // Standard word
   return 1.0;
 }
 

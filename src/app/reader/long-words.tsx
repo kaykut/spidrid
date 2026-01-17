@@ -164,11 +164,7 @@ export default function LongWordsTestScreen() {
 
   // Process test content using production logic (WITH hyphenation for 22+ chars)
   const processedWords = useMemo(() => {
-    return processText(
-      LONG_WORD_TEST,
-      undefined, // chapters
-      undefined  // adapter
-    );
+    return processText(LONG_WORD_TEST);
   }, []);
 
   const engine = useRSVPEngine(processedWords, currentWPM);

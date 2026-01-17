@@ -1,4 +1,3 @@
-import { ChapterMetadata } from '../types/content';
 import { ProcessedWord } from '../types/playback';
 import { RSVP_FONT_SIZES } from '../constants/typography';
 import { getCurrentAdapter } from './language';
@@ -41,6 +40,12 @@ interface HeaderInfo {
  * @param text - Text to tokenize
  * @param adapter - Language adapter for patterns (defaults to current language)
  */
+// Chapter info for a word
+interface ChapterInfo {
+  title: string;
+  index: number;
+}
+
 export function tokenizeWithParagraphs(
   text: string,
   adapter: LanguageAdapter = getCurrentAdapter()
@@ -48,16 +53,38 @@ export function tokenizeWithParagraphs(
   tokens: string[];
   paragraphEndIndices: Set<number>;
   headerInfoMap: Map<number, HeaderInfo>;
+  chapterInfoMap: Map<number, ChapterInfo>;
 } {
   const paragraphs = text.split(adapter.paragraphPattern);
   const tokens: string[] = [];
   const paragraphEndIndices = new Set<number>();
   const headerInfoMap = new Map<number, HeaderInfo>();
+  const chapterInfoMap = new Map<number, ChapterInfo>();
 
   // Regex to match [[HEADER]]...[[/HEADER]] markers
   const headerRegex = /\[\[HEADER\]\]([\s\S]*?)\[\[\/HEADER\]\]/g;
 
+  // Regex to match [SPIDRID_CH:index:title] markers
+  const chapterRegex = /^\[SPIDRID_CH:(\d+):(.+)\]$/;
+
+  // Track pending chapter info to attach to next word
+  let pendingChapterInfo: ChapterInfo | null = null;
+
   for (const paragraph of paragraphs) {
+    // Check if this paragraph is a chapter marker
+    const chapterMatch = paragraph.trim().match(chapterRegex);
+    if (chapterMatch) {
+      // Store chapter info to attach to next word
+      pendingChapterInfo = {
+        index: parseInt(chapterMatch[1], 10),
+        title: chapterMatch[2].trim()
+      };
+      continue; // Skip tokenizing this paragraph
+    }
+
+    // Remember the token count before adding new words
+    const tokenCountBeforeParagraph = tokens.length;
+
     // Check if this paragraph contains header markers
     const headerMatches = [...paragraph.matchAll(headerRegex)];
 
@@ -74,7 +101,14 @@ export function tokenizeWithParagraphs(
         const beforeHeader = paragraph.slice(lastEnd, matchStart);
         const beforeWords = beforeHeader.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
         if (beforeWords.length > 0) {
+          const firstWordIndexInBatch = tokens.length;
           tokens.push(...beforeWords.map(w => w.trim()));
+
+          // Attach pending chapter info to first word if this is the first paragraph after marker
+          if (pendingChapterInfo && tokenCountBeforeParagraph === firstWordIndexInBatch) {
+            chapterInfoMap.set(firstWordIndexInBatch, pendingChapterInfo);
+            pendingChapterInfo = null;
+          }
         }
 
         // Process the header content
@@ -91,12 +125,24 @@ export function tokenizeWithParagraphs(
               isHeader: true,
               headerText: headerContent,
             });
+
+            // Attach pending chapter info to header if this is the first paragraph after marker
+            if (pendingChapterInfo && tokenCountBeforeParagraph === startIndex) {
+              chapterInfoMap.set(startIndex, pendingChapterInfo);
+              pendingChapterInfo = null;
+            }
           } else {
             // Long header: word-by-word with isHeader flag
             const startIndex = tokens.length;
             tokens.push(...headerWords.map(w => w.trim()));
             for (let i = startIndex; i < tokens.length; i++) {
               headerInfoMap.set(i, { isHeader: true });
+            }
+
+            // Attach pending chapter info to first header word if this is the first paragraph after marker
+            if (pendingChapterInfo && tokenCountBeforeParagraph === startIndex) {
+              chapterInfoMap.set(startIndex, pendingChapterInfo);
+              pendingChapterInfo = null;
             }
           }
         }
@@ -108,13 +154,27 @@ export function tokenizeWithParagraphs(
       const afterHeader = paragraph.slice(lastEnd);
       const afterWords = afterHeader.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
       if (afterWords.length > 0) {
+        const firstWordIndexInBatch = tokens.length;
         tokens.push(...afterWords.map(w => w.trim()));
+
+        // Attach pending chapter info to first word if this is the first paragraph after marker
+        if (pendingChapterInfo && tokenCountBeforeParagraph === firstWordIndexInBatch) {
+          chapterInfoMap.set(firstWordIndexInBatch, pendingChapterInfo);
+          pendingChapterInfo = null;
+        }
       }
     } else {
       // No headers in this paragraph - simple tokenization
       const words = paragraph.split(adapter.wordSplitPattern).filter(w => w.trim().length > 0);
       if (words.length > 0) {
+        const firstWordIndexInBatch = tokens.length;
         tokens.push(...words.map(w => w.trim()));
+
+        // Attach pending chapter info to first word if this is the first paragraph after marker
+        if (pendingChapterInfo && tokenCountBeforeParagraph === firstWordIndexInBatch) {
+          chapterInfoMap.set(firstWordIndexInBatch, pendingChapterInfo);
+          pendingChapterInfo = null;
+        }
       }
     }
 
@@ -124,7 +184,7 @@ export function tokenizeWithParagraphs(
     }
   }
 
-  return { tokens, paragraphEndIndices, headerInfoMap };
+  return { tokens, paragraphEndIndices, headerInfoMap, chapterInfoMap };
 }
 
 /**
@@ -150,86 +210,22 @@ export function processWord(
 }
 
 /**
- * Map character offsets to word indices.
- * Given the original text and chapter metadata with character offsets,
- * computes the word index where each chapter starts.
- */
-export function mapChapterOffsetsToWordIndices(
-  text: string,
-  chapters: ChapterMetadata[]
-): ChapterMetadata[] {
-  if (chapters.length === 0) {return [];}
-
-  // Build a map of character position -> word index
-  // We scan through the text, tracking current character position and word count
-  const charToWordIndex: Map<number, number> = new Map();
-  let wordIndex = 0;
-  let inWord = false;
-
-  for (let i = 0; i <= text.length; i++) {
-    const char = text[i];
-    const isWhitespace = !char || /\s/.test(char);
-
-    if (!isWhitespace && !inWord) {
-      // Starting a new word
-      inWord = true;
-      charToWordIndex.set(i, wordIndex);
-    } else if (isWhitespace && inWord) {
-      // Ending a word
-      inWord = false;
-      wordIndex++;
-    }
-  }
-
-  // Map each chapter's character offset to the nearest word index
-  return chapters.map((chapter) => {
-    // Find the first word that starts at or after the chapter offset
-    let closestWordIndex = 0;
-    for (const [charPos, wIndex] of charToWordIndex) {
-      if (charPos >= chapter.startCharOffset) {
-        closestWordIndex = wIndex;
-        break;
-      }
-      closestWordIndex = wIndex;
-    }
-
-    return {
-      ...chapter,
-      startWordIndex: closestWordIndex,
-    };
-  });
-}
-
-/**
  * Process full text into array of ProcessedWords.
  * Uses paragraph-aware tokenization to mark paragraph ends.
- * Optionally marks chapter starts and detects headers.
+ * Detects chapter starts from embedded markers and headers.
  * Splits long words at syllable boundaries for RSVP display.
  *
  * @param text - Text to process
- * @param chapters - Optional chapter metadata
  * @param adapter - Language adapter (defaults to current language)
  */
 export function processText(
   text: string,
-  chapters?: ChapterMetadata[],
   adapter: LanguageAdapter = getCurrentAdapter()
 ): ProcessedWord[] {
-  const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
+  const { tokens, paragraphEndIndices, headerInfoMap, chapterInfoMap } = tokenizeWithParagraphs(text, adapter);
 
-  // Map chapter offsets to word indices if chapters are provided
-  const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
-
-  // Build a map of word index -> chapter info
-  const chapterStartMap = new Map<number, { title: string; index: number }>();
-  mappedChapters.forEach((chapter, index) => {
-    if (chapter.startWordIndex !== undefined) {
-      chapterStartMap.set(chapter.startWordIndex, {
-        title: chapter.title,
-        index: index + 1, // 1-based chapter number
-      });
-    }
-  });
+  // Use chapter info from embedded markers
+  const chapterStartMap = chapterInfoMap;
 
   // Process tokens, potentially splitting long words into multiple ProcessedWords
   const result: ProcessedWord[] = [];
@@ -390,29 +386,16 @@ export function getAdaptiveFontSize(wordLength: number): number {
  * Used to test whether adaptive font sizing alone can prevent wrapping.
  *
  * @param text - Text to process
- * @param chapters - Optional chapter metadata
  * @param adapter - Language adapter (defaults to current language)
  */
 export function processTextNoSplit(
   text: string,
-  chapters?: ChapterMetadata[],
   adapter: LanguageAdapter = getCurrentAdapter()
 ): ProcessedWord[] {
-  const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
+  const { tokens, paragraphEndIndices, headerInfoMap, chapterInfoMap } = tokenizeWithParagraphs(text, adapter);
 
-  // Map chapter offsets to word indices if chapters are provided
-  const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
-
-  // Build a map of word index -> chapter info
-  const chapterStartMap = new Map<number, { title: string; index: number }>();
-  mappedChapters.forEach((chapter, index) => {
-    if (chapter.startWordIndex !== undefined) {
-      chapterStartMap.set(chapter.startWordIndex, {
-        title: chapter.title,
-        index: index + 1, // 1-based chapter number
-      });
-    }
-  });
+  // Use chapter info from embedded markers
+  const chapterStartMap = chapterInfoMap;
 
   const result: ProcessedWord[] = [];
 

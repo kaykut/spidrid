@@ -18,11 +18,7 @@ export default function DemoReaderScreen() {
   const [showPaywall, setShowPaywall] = useState(false);
 
   const words = useMemo(() => {
-    return processText(
-      DEMO_TEXT,
-      undefined, // chapters
-      undefined  // adapter
-    );
+    return processText(DEMO_TEXT);
   }, []);
 
   const engine = useRSVPEngine(words, 250);

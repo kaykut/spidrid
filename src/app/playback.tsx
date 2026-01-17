@@ -54,11 +54,7 @@ export default function PlaybackModal() {
       return [];
     }
 
-    return processText(
-      resolvedContent.content,
-      undefined, // chapters
-      undefined  // adapter (uses default)
-    );
+    return processText(resolvedContent.content);
   }, [resolvedContent?.content]);
 
   // Mark article as started when content is loaded

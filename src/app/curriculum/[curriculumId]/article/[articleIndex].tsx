@@ -56,11 +56,7 @@ export default function CurriculumArticleScreen() {
   const processedWords = useMemo(() => {
     if (!article?.content) {return [];}
 
-    return processText(
-      article.content,
-      undefined, // chapters
-      undefined  // adapter
-    );
+    return processText(article.content);
   }, [article?.content]);
 
   // RSVP engine

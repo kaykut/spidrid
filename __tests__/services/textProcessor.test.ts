@@ -10,14 +10,12 @@ import {
   processWord,
   processText,
   processTextNoSplit,
-  mapChapterOffsetsToWordIndices,
   findSentenceStarts,
   findPreviousSentenceStart,
   findNextSentenceStart,
   getAdaptiveFontSize,
 } from '../../src/services/textProcessor';
 import { ProcessedWord } from '../../src/types/playback';
-import { ChapterMetadata } from '../../src/types/content';
 
 describe('tokenize', () => {
   describe('basic word splitting', () => {
@@ -518,109 +516,19 @@ describe('tokenizeWithParagraphs', () => {
   });
 });
 
-describe('mapChapterOffsetsToWordIndices', () => {
-  it('returns empty array for empty chapters', () => {
-    const result = mapChapterOffsetsToWordIndices('Some text here', []);
-    expect(result).toEqual([]);
-  });
-
-  it('maps character offset 0 to word index 0', () => {
-    const text = 'First word here.';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 0 },
-    ];
-
-    const result = mapChapterOffsetsToWordIndices(text, chapters);
-
-    expect(result[0].startWordIndex).toBe(0);
-    expect(result[0].title).toBe('Chapter 1');
-  });
-
-  it('maps mid-text offset to correct word index', () => {
-    const text = 'First Second Third Fourth';
-    // 'First ' = 6 chars, 'Second ' = 7 chars, so 'Third' starts at char 13
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 13 },
-    ];
-
-    const result = mapChapterOffsetsToWordIndices(text, chapters);
-
-    expect(result[0].startWordIndex).toBe(2); // 'Third' is word index 2
-  });
-
-  it('handles chapter starting at word boundary', () => {
-    const text = 'Word1 Word2 Word3';
-    // 'Word1 Word2 ' = 12 chars, 'Word3' starts at char 12
-    const chapters: ChapterMetadata[] = [
-      { title: 'Ch', startCharOffset: 12 },
-    ];
-
-    const result = mapChapterOffsetsToWordIndices(text, chapters);
-
-    expect(result[0].startWordIndex).toBe(2);
-  });
-
-  it('handles multiple chapters in sequence', () => {
-    const text = 'One Two Three Four Five';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 0 },
-      { title: 'Chapter 2', startCharOffset: 8 }, // 'Three' starts at 8
-      { title: 'Chapter 3', startCharOffset: 20 }, // 'Five' starts at 20
-    ];
-
-    const result = mapChapterOffsetsToWordIndices(text, chapters);
-
-    expect(result[0].startWordIndex).toBe(0);
-    expect(result[1].startWordIndex).toBe(2);
-    expect(result[2].startWordIndex).toBe(4);
-  });
-
-  it('handles text with irregular whitespace', () => {
-    const text = 'First   Second\t\tThird';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Ch', startCharOffset: 0 },
-    ];
-
-    const result = mapChapterOffsetsToWordIndices(text, chapters);
-
-    expect(result[0].startWordIndex).toBe(0);
-  });
-
-  it('preserves original chapter properties', () => {
-    const chapters: ChapterMetadata[] = [
-      { title: 'My Chapter', startCharOffset: 0 },
-    ];
-
-    const result = mapChapterOffsetsToWordIndices('Some text', chapters);
-
-    expect(result[0].title).toBe('My Chapter');
-    expect(result[0].startCharOffset).toBe(0);
-    expect(result[0].startWordIndex).toBeDefined();
-  });
-});
-
-describe('processText with chapters', () => {
-  it('applies chapterStart info to correct word indices', () => {
-    const text = 'First Second Third';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 0 },
-    ];
-
-    const result = processText(text, chapters);
+describe('processText with chapter markers', () => {
+  it('detects chapter markers and applies chapterStart', () => {
+    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst Second Third';
+    const result = processText(text);
 
     expect(result[0].chapterStart).toBeDefined();
     expect(result[0].chapterStart?.title).toBe('Chapter 1');
-    expect(result[0].chapterStart?.index).toBe(1); // 1-based
+    expect(result[0].chapterStart?.index).toBe(1);
   });
 
-  it('handles multiple chapters', () => {
-    const text = 'One Two Three Four';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Part 1', startCharOffset: 0 },
-      { title: 'Part 2', startCharOffset: 8 }, // 'Three' starts at char 8
-    ];
-
-    const result = processText(text, chapters);
+  it('handles multiple chapter markers', () => {
+    const text = '[SPIDRID_CH:1:Part 1]\n\nOne Two\n\n[SPIDRID_CH:2:Part 2]\n\nThree Four';
+    const result = processText(text);
 
     expect(result[0].chapterStart?.title).toBe('Part 1');
     expect(result[0].chapterStart?.index).toBe(1);
@@ -628,24 +536,9 @@ describe('processText with chapters', () => {
     expect(result[2].chapterStart?.index).toBe(2);
   });
 
-  it('handles chapter at first word', () => {
-    const text = 'Beginning of text.';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Intro', startCharOffset: 0 },
-    ];
-
-    const result = processText(text, chapters);
-
-    expect(result[0].chapterStart?.title).toBe('Intro');
-  });
-
   it('words without chapters have no chapterStart', () => {
-    const text = 'First Second Third';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 0 },
-    ];
-
-    const result = processText(text, chapters);
+    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst Second Third';
+    const result = processText(text);
 
     // Only first word has chapter start
     expect(result[0].chapterStart).toBeDefined();
@@ -653,25 +546,9 @@ describe('processText with chapters', () => {
     expect(result[2].chapterStart).toBeUndefined();
   });
 
-  it('combines chapters with paragraph boundaries', () => {
-    const text = 'First.\n\nSecond.';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Ch1', startCharOffset: 0 },
-    ];
-
-    const result = processText(text, chapters);
-
-    expect(result[0].chapterStart?.title).toBe('Ch1');
-    expect(result[0].paragraphEnd).toBe(true); // 'First.' ends paragraph
-  });
-
-  it('combines chapters with headers', () => {
-    const text = '[[HEADER]]Title[[/HEADER]]\n\nContent here.';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter', startCharOffset: 0 },
-    ];
-
-    const result = processText(text, chapters);
+  it('combines chapter markers with headers', () => {
+    const text = '[SPIDRID_CH:1:Chapter]\n\n[[HEADER]]Title[[/HEADER]]\n\nContent here.';
+    const result = processText(text);
 
     // First token is the header
     expect(result[0].isHeader).toBe(true);
@@ -768,12 +645,9 @@ describe('processTextNoSplit', () => {
   });
 
   it('preserves chapter start markers', () => {
-    const text = 'First word. Second word.';
-    const chapters: ChapterMetadata[] = [
-      { title: 'Chapter 1', startCharOffset: 0 },
-    ];
+    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst word. Second word.';
 
-    const result = processTextNoSplit(text, chapters);
+    const result = processTextNoSplit(text);
 
     // First word should have chapter start
     expect(result[0].chapterStart).toBeDefined();
