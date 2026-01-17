@@ -48,10 +48,10 @@ This strict sequential gating ensures the test suite remains green at all times 
 - [x] (2026-01-14 23:12) M3: Copied .env.local to e2e worktree (Supabase config required for app to load)
 - [x] (2026-01-14 23:12) M3: Updated smoke-test.yaml to connect to Metro and dismiss developer dialogs
 - [x] (2026-01-14 23:12) M3: Verified smoke-test.yaml PASSES CONSISTENTLY with dev client (testIDs found, modals open)
-- [~] (2026-01-14 23:32) M4: Implement playback-basic.yaml E2E test (BLOCKED - see Surprises & Discoveries)
-- [~] (2026-01-14 23:32) M4: Updated playback-basic.yaml for expo-dev-client (Metro connection, appId)
-- [~] (2026-01-14 23:32) M4: Added testID to Practice card TouchableOpacity (add-content.practice-card)
-- [~] (2026-01-14 23:32) M4: BLOCKED - Practice accordion won't expand due to useWhisperRecording.ts error in Learn card
+- [x] (2026-01-14 23:32) M4: Updated playback-basic.yaml for expo-dev-client (Metro connection, appId)
+- [x] (2026-01-14 23:32) M4: Added testID to Practice card TouchableOpacity (add-content.practice-card)
+- [x] (2026-01-17 19:50) M4: UNBLOCKED - Merged develop, re-ran prebuild with expo-audio, dev client rebuilt successfully
+- [ ] (2026-01-17 19:50) M4: Verify playback-basic.yaml passes
 - [ ] M5-M10: Implement remaining E2E tests (originally M3-M9, renumbered after M3 addition)
 
 
@@ -113,6 +113,11 @@ This strict sequential gating ensures the test suite remains green at all times 
   Attempted solutions: (1) testID tap - testID not recognized, (2) text matching - doesn't work with dev client, (3) coordinate tapping center and chevron - tap registers but accordion doesn't expand.
   Root cause: The `useAudioRecorder` hook from expo-audio expects native audio modules not configured in expo-dev-client. The error in Learn card affects entire modal's touch handling.
   Impact: M4 (playback-basic.yaml) is blocked until audio hook is fixed or disabled for E2E environment. Tests that don't use add-content modal should work fine.
+
+- **M4 Resolution (2026-01-17)**: expo-audio blocker resolved by re-running prebuild after merge.
+  Evidence: Merged develop branch (commit 298e60a) which included expo-audio in app.config.js plugins array (added in commit 67e2462 on 2026-01-09). The ios/ folder was originally generated on 2026-01-14 before this merge, so it lacked expo-audio native modules. Re-ran `npx expo prebuild --clean` followed by `npx expo run:ios --device "Spidrid-E2E-Test"`. Build succeeded with expo-audio compiled (`libExpoAudio.a` packaged successfully). Runtime logs show no useWhisperRecording errors - only expected react-native-purchases warning.
+  Resolution: No code changes needed. The issue was a stale ios/ folder that pre-dated the expo-audio configuration. Re-running prebuild with the current app.config.js fixed it.
+  Impact: M4 unblocked. Practice accordion should now expand properly in E2E tests.
 
 
 ## Decision Log
