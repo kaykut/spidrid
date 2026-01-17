@@ -1,4 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 interface CurriculumContext {
   curriculumTitle: string;
@@ -17,6 +18,7 @@ interface RequestBody {
   tonePrompt?: string;
   userId: string;
   curriculumContext?: CurriculumContext;
+  includeQuiz?: boolean; // Optional, defaults to true for backward compatibility
 }
 
 // Tone prompts for explicit tone selection
@@ -48,6 +50,8 @@ Choose the appropriate mix of these styles for the topic. This can be a "corner 
 Apply your chosen style mix consistently throughout the article.`;
 
 const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY') || '';
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
+const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const MODEL = 'gemini-3-flash-preview';
 
 // JSON Schema for Structured Output - guarantees response format
@@ -103,10 +107,12 @@ const RESPONSE_SCHEMA = {
       },
     },
   },
-  required: ['title', 'content', 'questions'],
+  required: ['title', 'content'], // questions now optional
 };
 
-const SYSTEM_PROMPT = `You are an expert educational content writer creating articles for a speed reading practice app.
+// Function to generate system prompt conditionally based on includeQuiz flag
+function getSystemPrompt(includeQuiz: boolean): string {
+  const basePrompt = `You are an expert educational content writer creating articles for a speed reading practice app.
 
 ARTICLE REQUIREMENTS:
 1. Write approximately the requested word count (within 10% tolerance)
@@ -115,7 +121,13 @@ ARTICLE REQUIREMENTS:
 4. AVOID bullet points and lists - use flowing prose paragraphs only
 5. Each paragraph should be 3-5 sentences
 6. Make the content educational and substantive, not fluff
-7. Separate paragraphs with blank lines
+7. Separate paragraphs with blank lines`;
+
+  if (!includeQuiz) {
+    return basePrompt; // No quiz requirements
+  }
+
+  return `${basePrompt}
 
 QUESTION REQUIREMENTS:
 1. Generate exactly 5 comprehension questions
@@ -123,6 +135,7 @@ QUESTION REQUIREMENTS:
 3. Questions should test genuine comprehension, not trivia
 4. For single_choice: MUST include options (4 choices) AND correctIndex (0, 1, 2, or 3)
 5. For true_false: MUST include correctAnswer (true or false)`;
+}
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -137,8 +150,69 @@ serve(async (req) => {
   }
 
   try {
+    // Manual JWT verification required with new sb_publishable_ keys
+    const authHeader = req.headers.get('Authorization');
+    console.log('[generate-article] Auth header present:', !!authHeader);
+
+    if (!authHeader) {
+      console.error('[generate-article] Missing authorization header');
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Missing authorization header',
+          errorCode: 'UNAUTHORIZED',
+        }),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    // Verify JWT by calling Supabase Auth service
+    console.log('[generate-article] Creating Supabase client and verifying JWT...');
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Extract JWT from Authorization header and pass it directly to getUser()
+    const jwt = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(jwt);
+
+    console.log('[generate-article] getUser() result:', {
+      hasUser: !!user,
+      userId: user?.id,
+      hasError: !!authError,
+      errorMessage: authError?.message,
+    });
+
+    if (authError || !user) {
+      console.error('[generate-article] Authentication failed:', authError);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Invalid authentication',
+          errorCode: 'UNAUTHORIZED',
+          debugInfo: { errorMessage: authError?.message },
+        }),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    console.log('[generate-article] User authenticated:', user.id);
+    // User authenticated - proceed with article generation
     const body: RequestBody = await req.json();
     const { topic, targetWordCount, tone, tonePrompt } = body;
+
+    // Extract includeQuiz flag (defaults to true for backward compatibility)
+    const includeQuiz = body.includeQuiz ?? true;
 
     // Determine the writing style prompt
     let effectiveTonePrompt: string;
@@ -177,6 +251,11 @@ serve(async (req) => {
     // Build prompt based on whether this is a curriculum article or standalone
     let userPrompt: string;
 
+    // Conditional quiz instruction
+    const quizInstruction = includeQuiz
+      ? 'Then generate exactly 5 comprehension questions.'
+      : 'Do not generate quiz questions (return empty questions array).';
+
     if (body.curriculumContext) {
       const ctx = body.curriculumContext;
       userPrompt = `You are writing article ${ctx.position} in a curriculum titled "${ctx.curriculumTitle}".
@@ -190,20 +269,26 @@ ${ctx.previousArticleSummary ? `- Previous article summary (for continuity): ${c
 
 Target word count: ${targetWordCount} words (stay within 10% of this target)
 
-Writing style: ${tonePrompt}
+Writing style: ${effectiveTonePrompt}
 
-Write the complete article content maintaining continuity with previous material if applicable. Focus on the key concepts listed above. Then generate exactly 5 comprehension questions.`;
+Write the complete article content maintaining continuity with previous material if applicable. Focus on the key concepts listed above. ${quizInstruction}`;
     } else {
+      const quizPart = includeQuiz
+        ? 'and exactly 5 comprehension questions'
+        : '(no quiz questions needed)';
+
       userPrompt = `Write an educational article about: "${topic}"
 
 Target word count: ${targetWordCount} words (stay within 10% of this target)
 
-Writing style: ${tonePrompt}
+Writing style: ${effectiveTonePrompt}
 
-Generate the article with title, content, and exactly 5 comprehension questions.`;
+Generate the article with title, content${includeQuiz ? ', ' + quizPart : ' ' + quizPart}.`;
     }
 
     // Call Gemini API with Structured Output
+    const systemPrompt = getSystemPrompt(includeQuiz);
+
     const geminiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GOOGLE_API_KEY}`,
       {
@@ -213,7 +298,7 @@ Generate the article with title, content, and exactly 5 comprehension questions.
         },
         body: JSON.stringify({
           systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT }],
+            parts: [{ text: systemPrompt }],
           },
           contents: [
             {
@@ -248,6 +333,10 @@ Generate the article with title, content, and exactly 5 comprehension questions.
     const parsed = JSON.parse(responseText);
     const wordCount = parsed.content.split(/\s+/).filter(Boolean).length;
 
+    // Defensive: Ensure questions array respects includeQuiz flag
+    // (in case LLM generates questions despite being told not to)
+    const questions = includeQuiz ? (parsed.questions || []) : [];
+
     return new Response(
       JSON.stringify({
         success: true,
@@ -255,7 +344,7 @@ Generate the article with title, content, and exactly 5 comprehension questions.
           title: parsed.title,
           content: parsed.content,
           wordCount,
-          questions: parsed.questions,
+          questions, // Use normalized questions array
         },
       }),
       {

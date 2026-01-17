@@ -19,7 +19,7 @@ import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../constants/typography';
 import { JOURNEY_COLORS } from '../data/themes';
 import { useRSVPEngine } from '../hooks/useRSVPEngine';
-import { processText } from '../services/textProcessor';
+import { processText, getAdaptiveFontSize } from '../services/textProcessor';
 import { useContentStore } from '../store/contentStore';
 import { useGeneratedStore } from '../store/generatedStore';
 import { useLearningStore } from '../store/learningStore';
@@ -36,7 +36,6 @@ export default function PlaybackModal() {
   const { currentWPM, setCurrentWPM, startArticle } = useLearningStore();
   const { updateProgress } = useContentStore();
   const { updateArticleProgress: updateGeneratedProgress } = useGeneratedStore();
-
   // Track reading WPM for results
   const [readingWPM, setReadingWPM] = useState(currentWPM);
   const [isComplete, setIsComplete] = useState(false);
@@ -54,7 +53,12 @@ export default function PlaybackModal() {
     if (!resolvedContent?.content) {
       return [];
     }
-    return processText(resolvedContent.content);
+
+    return processText(
+      resolvedContent.content,
+      undefined, // chapters
+      undefined  // adapter (uses default)
+    );
   }, [resolvedContent?.content]);
 
   // Mark article as started when content is loaded
@@ -66,6 +70,11 @@ export default function PlaybackModal() {
 
   // RSVP engine - starts paused (default behavior)
   const engine = useRSVPEngine(processedWords, currentWPM);
+
+  // Calculate adaptive font size based on current word length
+  const adaptiveFontSize = engine.currentWord
+    ? getAdaptiveFontSize(engine.currentWord.display.length)
+    : 42;
 
   // Handle playback completion
   const handlePlaybackComplete = useCallback(() => {
@@ -231,7 +240,7 @@ export default function PlaybackModal() {
                 />
               )}
               {hasContent && !engine.chapterPaused && (
-                <RSVPWord word={engine.currentWord} />
+                <RSVPWord word={engine.currentWord} fontSize={adaptiveFontSize} />
               )}
             </View>
 

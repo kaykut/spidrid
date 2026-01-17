@@ -18,17 +18,18 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
-import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 import { ContentListItem, ContentSource, ContentCategory } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
+import { cardBaseStyles } from './cardLayout';
 
 interface ContentListItemCardProps {
   item: ContentListItem;
   onPress: () => void;
   onDelete?: () => void;
-  onQuizPress?: () => void;
 }
 
 /**
@@ -66,10 +67,10 @@ export function ContentListItemCard({
   item,
   onPress,
   onDelete,
-  onQuizPress,
 }: ContentListItemCardProps) {
   const { theme } = useTheme();
   const swipeableRef = useRef<Swipeable>(null);
+  const { titleStyle, onTextLayout } = useDynamicCardTitle(item.title);
 
   const iconName = getIconName(item.source, item.category);
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
@@ -108,25 +109,11 @@ export function ContentListItemCard({
     // Show quiz score if completed
     if (item.state === 'completed' && item.quizScore !== undefined) {
       return (
-        <View style={styles.scoreContainer}>
-          <Text style={[styles.scoreText, { color: JOURNEY_COLORS.success }]}>
+        <View style={cardBaseStyles.scoreContainer}>
+          <Text style={[cardBaseStyles.scoreText, { color: JOURNEY_COLORS.success }]}>
             {item.quizScore}%
           </Text>
         </View>
-      );
-    }
-
-    // Show "Take Quiz" button if quiz pending
-    if (item.quizPending && onQuizPress) {
-      return (
-        <TouchableOpacity
-          onPress={onQuizPress}
-          style={[styles.quizButton, { backgroundColor: theme.accentColor }]}
-        >
-          <Text style={[styles.quizButtonText, { color: isDarkTheme ? '#000' : '#fff' }]}>
-            Quiz
-          </Text>
-        </TouchableOpacity>
       );
     }
 
@@ -141,15 +128,22 @@ export function ContentListItemCard({
       onPress={onPress}
       activeOpacity={0.7}
       style={[
-        styles.card,
+        cardBaseStyles.card,
         {
           backgroundColor: theme.secondaryBackground,
         },
       ]}
     >
+      {/* Quiz Badge - top right corner */}
+      {item.hasQuiz && (
+        <View style={[styles.quizBadge, { backgroundColor: theme.secondaryBackground }]}>
+          <Ionicons name="clipboard-outline" size={16} color={JOURNEY_COLORS.success} />
+        </View>
+      )}
+
       {/* Left: Small icon */}
-      <View style={styles.iconContainer}>
-        {item.source === 'generated' ? (
+      <View style={cardBaseStyles.iconContainer}>
+        {(item.source === 'generated' || item.source === 'curriculum') ? (
           <MaterialCommunityIcons name="brain" size={SIZES.iconMd} color={theme.accentColor} />
         ) : (
           <Ionicons name={iconName} size={SIZES.iconMd} color={theme.accentColor} />
@@ -157,11 +151,12 @@ export function ContentListItemCard({
       </View>
 
       {/* Center: Title and metadata */}
-      <View style={styles.content}>
+      <View style={cardBaseStyles.titleContainer}>
         <Text
-          style={[styles.title, { color: theme.textColor }]}
+          style={[cardBaseStyles.title, styles.title, titleStyle, { color: theme.textColor }]}
           numberOfLines={2}
           ellipsizeMode="tail"
+          onTextLayout={onTextLayout}
         >
           {item.title}
         </Text>
@@ -214,28 +209,8 @@ export function ContentListItemCard({
 }
 
 const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: SPACING.md,
-    marginHorizontal: SPACING.md,
-    marginVertical: SPACING.xs,
-    borderRadius: COMPONENT_RADIUS.card,
-    ...SHADOWS.sm,
-  },
-  iconContainer: {
-    marginLeft: SPACING.xs,
-    marginRight: SPACING.md,
-    justifyContent: 'flex-start',
-    paddingTop: SPACING.xxs,
-  },
-  content: {
-    flex: 1,
-    marginRight: SPACING.sm,
-  },
   title: {
-    ...TYPOGRAPHY.cardTitle,
-    marginBottom: SPACING.xs,
+    fontSize: TYPOGRAPHY.cardTitle.fontSize,
   },
   metadata: {
     flexDirection: 'row',
@@ -257,20 +232,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: COMPONENT_RADIUS.progressBar,
   },
-  scoreContainer: {
-    alignItems: 'center',
-  },
-  scoreText: {
-    ...TYPOGRAPHY.label,
-  },
-  quizButton: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: SPACING.xs,
-    borderRadius: COMPONENT_RADIUS.chip,
-  },
-  quizButtonText: {
-    ...TYPOGRAPHY.buttonSmall,
-  },
   deleteAction: {
     backgroundColor: JOURNEY_COLORS.low,
     justifyContent: 'center',
@@ -288,5 +249,16 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.caption,
     color: '#ffffff',
     marginTop: SPACING.xxs,
+  },
+  quizBadge: {
+    position: 'absolute',
+    top: SPACING.xs, // 4pt
+    right: SPACING.xs, // 4pt
+    width: 20,
+    height: 20,
+    borderRadius: 10, // Full circle
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
   },
 });

@@ -841,7 +841,7 @@ describe('getCertDefinition', () => {
   it('includes correct thresholds', () => {
     const speedReader = getCertDefinition('speed_reader');
     expect(speedReader?.vsThreshold).toBe(40);
-    expect(speedReader?.speedProofWpm).toBe(600);
+    expect(speedReader?.speedProofWpm).toBe(900);
     expect(speedReader?.speedProofMinComp).toBe(70);
   });
 });
@@ -853,7 +853,7 @@ describe('hasSpeedProofForTier', () => {
 
   it('returns true when matching proof exists', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 600, comprehension: 70, achievedAt: Date.now() },
+      { wpm: 1500, comprehension: 70, achievedAt: Date.now() },
     ];
     expect(hasSpeedProofForTier(proofs, 'speed_reader')).toBe(true);
   });
@@ -874,12 +874,12 @@ describe('hasSpeedProofForTier', () => {
 
   it('checks correct tier requirements', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 600, comprehension: 70, achievedAt: Date.now() },
+      { wpm: 1500, comprehension: 70, achievedAt: Date.now() },
     ];
-    // Speed reader (600 WPM, 70% comp) - should pass
+    // Speed reader (900 WPM, 70% comp) - should pass
     expect(hasSpeedProofForTier(proofs, 'speed_reader')).toBe(true);
-    // Velocity master (900 WPM) - should fail
-    expect(hasSpeedProofForTier(proofs, 'velocity_master')).toBe(false);
+    // Velocity master (1200 WPM) - should pass
+    expect(hasSpeedProofForTier(proofs, 'velocity_master')).toBe(true);
   });
 
   it('returns false for invalid tier', () => {
@@ -893,7 +893,7 @@ describe('hasSpeedProofForTier', () => {
 describe('checkCertUnlockStatus', () => {
   it('returns canUnlock: true when both VS and speed proof achieved', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 600, comprehension: 75, achievedAt: Date.now() },
+      { wpm: 900, comprehension: 75, achievedAt: Date.now() },
     ];
     const status = checkCertUnlockStatus(45, proofs, 'speed_reader');
     expect(status.canUnlock).toBe(true);
@@ -907,12 +907,12 @@ describe('checkCertUnlockStatus', () => {
     expect(status.vsUnlocked).toBe(true);
     expect(status.speedProofAchieved).toBe(false);
     expect(status.reason).toBe('speed');
-    expect(status.speedNeeded).toBe(600);
+    expect(status.speedNeeded).toBe(900);
   });
 
   it('returns canUnlock: false when only speed proof achieved', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 600, comprehension: 75, achievedAt: Date.now() },
+      { wpm: 900, comprehension: 75, achievedAt: Date.now() },
     ];
     const status = checkCertUnlockStatus(30, proofs, 'speed_reader');
     expect(status.canUnlock).toBe(false);
@@ -927,7 +927,7 @@ describe('checkCertUnlockStatus', () => {
     expect(status.canUnlock).toBe(false);
     expect(status.reason).toBe('both');
     expect(status.vsNeeded).toBe(40);
-    expect(status.speedNeeded).toBe(600);
+    expect(status.speedNeeded).toBe(900);
   });
 
   it('handles invalid tier', () => {
@@ -938,7 +938,7 @@ describe('checkCertUnlockStatus', () => {
 
   it('checks velocity_master tier correctly', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 900, comprehension: 70, achievedAt: Date.now() },
+      { wpm: 1500, comprehension: 70, achievedAt: Date.now() },
     ];
     const status = checkCertUnlockStatus(60, proofs, 'velocity_master');
     expect(status.canUnlock).toBe(true);
@@ -946,7 +946,7 @@ describe('checkCertUnlockStatus', () => {
 
   it('checks transcendent tier correctly', () => {
     const proofs: SpeedProof[] = [
-      { wpm: 1200, comprehension: 70, achievedAt: Date.now() },
+      { wpm: 1500, comprehension: 70, achievedAt: Date.now() },
     ];
     const status = checkCertUnlockStatus(95, proofs, 'transcendent');
     expect(status.canUnlock).toBe(true);
@@ -955,14 +955,14 @@ describe('checkCertUnlockStatus', () => {
 
 describe('isSpeedProof', () => {
   it('returns true when WPM and comprehension meet tier requirements', () => {
-    expect(isSpeedProof(600, 70, 'speed_reader')).toBe(true);
-    expect(isSpeedProof(900, 70, 'velocity_master')).toBe(true);
-    expect(isSpeedProof(1200, 70, 'transcendent')).toBe(true);
+    expect(isSpeedProof(900, 70, 'speed_reader')).toBe(true);
+    expect(isSpeedProof(1200, 70, 'velocity_master')).toBe(true);
+    expect(isSpeedProof(1500, 70, 'transcendent')).toBe(true);
   });
 
   it('returns false when WPM is too low', () => {
-    expect(isSpeedProof(599, 80, 'speed_reader')).toBe(false);
-    expect(isSpeedProof(899, 80, 'velocity_master')).toBe(false);
+    expect(isSpeedProof(899, 80, 'speed_reader')).toBe(false);
+    expect(isSpeedProof(1199, 80, 'velocity_master')).toBe(false);
   });
 
   it('returns false when comprehension is too low', () => {
@@ -982,9 +982,9 @@ describe('extractSpeedProofs', () => {
 
   it('returns proof when speed_reader requirements met', () => {
     const timestamp = Date.now();
-    const proofs = extractSpeedProofs(600, 70, timestamp);
+    const proofs = extractSpeedProofs(900, 70, timestamp);
     expect(proofs).toHaveLength(1);
-    expect(proofs[0].wpm).toBe(600);
+    expect(proofs[0].wpm).toBe(900);
     expect(proofs[0].comprehension).toBe(70);
     expect(proofs[0].achievedAt).toBe(timestamp);
   });

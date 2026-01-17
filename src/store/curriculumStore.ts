@@ -20,6 +20,7 @@ import {
 } from '../types/curriculum';
 import { TONE_DEFINITIONS } from '../types/generated';
 import { Question } from '../types/learning';
+import { useAuthStore } from './authStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 
@@ -45,6 +46,7 @@ interface GenerationProgress {
 
 interface CurriculumState {
   curricula: Record<string, Curriculum>;
+  expandedCurricula: Record<string, boolean>; // Track expanded/collapsed state by curriculum ID
   isGenerating: boolean;
   generationProgress: GenerationProgress | null;
   generationError: string | null;
@@ -58,6 +60,9 @@ interface CurriculumActions {
   markArticleCompleted: (curriculumId: string, articleIndex: number, score: number, wpm: number) => void;
   generateArticle: (curriculumId: string, articleIndex: number) => Promise<void>;
   clearError: () => void;
+  // Expanded/collapsed state management
+  toggleExpanded: (curriculumId: string) => void;
+  isExpanded: (curriculumId: string) => boolean;
   // Testing and recovery
   addCurriculum: (curriculum: Curriculum) => void;
   clearAllCurricula: () => void;
@@ -96,6 +101,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
     (set, get) => ({
       // Initial state
       curricula: {},
+      expandedCurricula: {}, // All curricula start collapsed by default
       isGenerating: false,
       generationProgress: null,
       generationError: null,
@@ -104,7 +110,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
       // Create Curriculum
       // =======================================================================
       createCurriculum: async (input, avgWpm) => {
-        const { goal, articleCount, tone, durationMinutes } = input;
+        const { goal, articleCount, tone, durationMinutes, hasQuizzes } = input;
         const targetWordCount = durationToWordCount(durationMinutes, avgWpm);
         const toneDefinition = TONE_DEFINITIONS.find((t) => t.id === tone);
 
@@ -121,6 +127,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
             summary: '',
             content: '',
             wordCount: targetWordCount,
+            hasQuiz: hasQuizzes ?? true, // Inherit from curriculum, default true
             questions: [],
             generationStatus: 'pending' as ArticleGenerationStatus,
             completionStatus: i === 0 ? 'unlocked' : 'locked',
@@ -134,6 +141,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
           articleCount,
           tone,
           targetWordCount,
+          hasQuizzes: hasQuizzes ?? true, // Default to true for backward compatibility
           createdAt: Date.now(),
           updatedAt: Date.now(),
           currentArticleIndex: 0,
@@ -151,10 +159,19 @@ export const useCurriculumStore = create<CurriculumStore>()(
         });
 
         try {
+          // Get access token for authenticated API calls
+          const token = await useAuthStore.getState().getAccessToken();
+          if (!token) {
+            throw new Error('Not authenticated');
+          }
+
           // Step 1: Generate outline
           const outlineResponse = await fetch(`${SUPABASE_URL}/functions/v1/generate-curriculum-outline`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
             body: JSON.stringify({
               goal,
               articleCount,
@@ -170,6 +187,13 @@ export const useCurriculumStore = create<CurriculumStore>()(
           }
 
           const outline = outlineResult.outline;
+
+          // Validate article count matches request
+          if (outline.articles.length !== articleCount) {
+            throw new Error(
+              `Article count mismatch: expected ${articleCount} articles, but received ${outline.articles.length}. Please try again.`
+            );
+          }
 
           // Update curriculum with outline
           set((state) => {
@@ -368,9 +392,18 @@ export const useCurriculumStore = create<CurriculumStore>()(
             position: `${articleIndex + 1} of ${curriculum.articleCount}`,
           };
 
+          // Get fresh token for each article generation
+          const token = await useAuthStore.getState().getAccessToken();
+          if (!token) {
+            throw new Error('Not authenticated');
+          }
+
           const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-article`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
             body: JSON.stringify({
               topic: `${curriculum.goal} - ${articleOutline.title}`,
               targetWordCount: curriculum.targetWordCount,
@@ -378,6 +411,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
               tonePrompt: toneDefinition?.promptModifier || '',
               userId: 'curriculum-gen',
               curriculumContext,
+              includeQuiz: article.hasQuiz, // Pass article's quiz flag
             }),
           });
 
@@ -452,6 +486,25 @@ export const useCurriculumStore = create<CurriculumStore>()(
       },
 
       // =======================================================================
+      // Toggle Expanded State
+      // =======================================================================
+      toggleExpanded: (curriculumId) => {
+        set((state) => ({
+          expandedCurricula: {
+            ...state.expandedCurricula,
+            [curriculumId]: !state.expandedCurricula[curriculumId],
+          },
+        }));
+      },
+
+      // =======================================================================
+      // Check if Expanded
+      // =======================================================================
+      isExpanded: (curriculumId) => {
+        return get().expandedCurricula[curriculumId] || false;
+      },
+
+      // =======================================================================
       // Add Curriculum (for testing and direct import)
       // =======================================================================
       addCurriculum: (curriculum) => {
@@ -513,9 +566,43 @@ export const useCurriculumStore = create<CurriculumStore>()(
       name: 'spidrid-curriculum',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
-        // Only persist curricula, not UI state
+        // Persist curricula and expanded state
         curricula: state.curricula,
+        expandedCurricula: state.expandedCurricula,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          // Migrate existing curricula without hasQuizzes/hasQuiz fields
+          let needsMigration = false;
+          const migratedCurricula = { ...state.curricula };
+
+          Object.keys(migratedCurricula).forEach((id) => {
+            const curriculum = migratedCurricula[id];
+
+            // Migrate curriculum if missing hasQuizzes
+            if (curriculum.hasQuizzes === undefined) {
+              needsMigration = true;
+              curriculum.hasQuizzes = true; // Default to enabled for existing
+            }
+
+            // Migrate articles if missing hasQuiz
+            curriculum.articles = curriculum.articles.map((article) => {
+              if (article.hasQuiz === undefined) {
+                needsMigration = true;
+                return {
+                  ...article,
+                  hasQuiz: true, // Default to enabled for existing
+                };
+              }
+              return article;
+            });
+          });
+
+          if (needsMigration) {
+            return { curricula: migratedCurricula };
+          }
+        }
+      },
     }
   )
 );

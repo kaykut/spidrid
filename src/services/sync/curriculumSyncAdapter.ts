@@ -24,6 +24,7 @@ export interface SyncableCurriculum extends SyncItem {
   articleCount: number;
   tone: Curriculum['tone'];
   targetWordCount: number;
+  hasQuizzes: boolean;
   createdAt: number;
   currentArticleIndex: number;
   completedArticleCount: number;

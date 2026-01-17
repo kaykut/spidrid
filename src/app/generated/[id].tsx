@@ -49,7 +49,12 @@ export default function GeneratedArticleScreen() {
   // Process article content for RSVP
   const processedWords = useMemo(() => {
     if (!article?.content) {return [];}
-    return processText(article.content);
+
+    return processText(
+      article.content,
+      undefined, // chapters
+      undefined  // adapter
+    );
   }, [article?.content]);
 
   // RSVP engine

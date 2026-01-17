@@ -143,8 +143,8 @@ describe('JourneyPath', () => {
 
       // All tier icons should be visible
       expect(getByText('⚡')).toBeTruthy();
-      expect(getByText('🚀')).toBeTruthy();
-      expect(getByText('🏆')).toBeTruthy();
+      expect(getByText('🔥')).toBeTruthy();
+      expect(getByText('👑')).toBeTruthy();
     });
   });
 
@@ -155,7 +155,7 @@ describe('JourneyPath', () => {
       );
 
       // Speed Reader requirements
-      expect(getByText('VS 40 • 600 WPM')).toBeTruthy();
+      expect(getByText('VS 40 • 900 WPM')).toBeTruthy();
     });
   });
 });

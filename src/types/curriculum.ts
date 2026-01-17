@@ -76,6 +76,9 @@ export interface CurriculumArticle {
   /** Word count of the content */
   wordCount: number;
 
+  /** Whether this article should include a quiz (inherited from curriculum) */
+  hasQuiz: boolean;
+
   /** Comprehension questions for the article */
   questions: Question[];
 
@@ -167,6 +170,9 @@ export interface Curriculum {
   /** Target word count per article */
   targetWordCount: number;
 
+  /** Whether articles in this curriculum include comprehension quizzes */
+  hasQuizzes: boolean;
+
   /** Timestamp when curriculum was created */
   createdAt: number;
 
@@ -208,6 +214,9 @@ export interface CurriculumCreationInput {
 
   /** Target reading duration per article (in minutes) */
   durationMinutes: number;
+
+  /** Whether to generate quiz questions for articles (optional, defaults to true) */
+  hasQuizzes?: boolean;
 }
 
 // =============================================================================
@@ -270,4 +279,30 @@ export function isValidArticleCount(count: number): boolean {
 export function durationToWordCount(durationMinutes: number, avgWpm: number = 250): number {
   const targetWords = Math.round(durationMinutes * avgWpm);
   return Math.max(WORD_COUNT_MIN, Math.min(WORD_COUNT_MAX, targetWords));
+}
+
+/**
+ * Determines if a quiz icon should be shown for an article.
+ * Returns true only if the article is configured to have a quiz AND has questions.
+ *
+ * @param article - The curriculum article to check
+ * @returns True if quiz icon should be displayed
+ */
+export function shouldShowQuizIcon(article: CurriculumArticle): boolean {
+  return article.hasQuiz && article.questions.length > 0;
+}
+
+/**
+ * Determines if quiz generation failed for an article.
+ * Returns true if quiz was expected but generation failed.
+ *
+ * @param article - The curriculum article to check
+ * @returns True if quiz generation failed
+ */
+export function hasQuizGenerationFailed(article: CurriculumArticle): boolean {
+  return (
+    article.hasQuiz &&
+    article.generationStatus === 'failed' &&
+    article.questions.length === 0
+  );
 }

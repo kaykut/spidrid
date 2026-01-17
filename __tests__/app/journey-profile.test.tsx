@@ -358,15 +358,15 @@ describe('JourneyProfileModal', () => {
     });
 
     it('shows Reset to Free dev button', () => {
-      const { getByText } = renderWithProviders(<JourneyProfileModal />);
+      const { getAllByText } = renderWithProviders(<JourneyProfileModal />);
 
-      expect(getByText('Reset to Free (Dev)')).toBeTruthy();
+      expect(getAllByText('Reset to Free (Dev)').length).toBeGreaterThan(0);
     });
 
     it('resets to free when dev button pressed', () => {
-      const { getByText } = renderWithProviders(<JourneyProfileModal />);
+      const { getAllByText } = renderWithProviders(<JourneyProfileModal />);
 
-      fireEvent.press(getByText('Reset to Free (Dev)'));
+      fireEvent.press(getAllByText('Reset to Free (Dev)')[0]);
 
       expect(useSubscriptionStore.getState().isPremium).toBe(false);
     });
@@ -462,18 +462,23 @@ describe('JourneyProfileModal', () => {
       expect(getByText('Reset Article Count')).toBeTruthy();
     });
 
-    it('hides Developer section when premium', () => {
+    it('shows Developer section even when premium', () => {
       useSubscriptionStore.setState({ isPremium: true });
-      const { queryByText } = renderWithProviders(<JourneyProfileModal />);
+      const { getByText, getAllByText } = renderWithProviders(<JourneyProfileModal />);
 
-      expect(queryByText('Developer')).toBeNull();
+      // Developer section is always visible, but shows different controls
+      expect(getByText('Developer')).toBeTruthy();
+      expect(getAllByText('Reset to Free (Dev)').length).toBeGreaterThan(0);
     });
 
-    it('hides Developer section when no content used', () => {
+    it('shows Developer section even when no content used', () => {
       useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 0 });
-      const { queryByText } = renderWithProviders(<JourneyProfileModal />);
+      const { getByText, queryByText } = renderWithProviders(<JourneyProfileModal />);
 
-      expect(queryByText('Developer')).toBeNull();
+      // Developer section is always visible
+      expect(getByText('Developer')).toBeTruthy();
+      // But Reset Article Count button should not be visible
+      expect(queryByText('Reset Article Count')).toBeNull();
     });
 
     it('resets content count when button pressed', () => {

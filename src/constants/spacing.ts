@@ -128,9 +128,9 @@ export const SIZES = {
   /** Progress bar height */
   progressBarHeight: BASE,          // 8
   /** Journey path node size */
-  nodeSize: BASE * 2,               // 16
+  nodeSize: 22,                     // 22 (between old 20 and 24, 2pt exception for icon balance)
   /** Journey path current node size */
-  currentNodeSize: BASE * 3,        // 24
+  currentNodeSize: 26,              // 26 (closer to regular, 2pt exception for icon balance)
   /** Journey path line stroke (fine exception) */
   pathLineWidth: 3,
   /** Touch target minimum (Apple HIG) */

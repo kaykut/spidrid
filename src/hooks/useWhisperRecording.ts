@@ -38,10 +38,14 @@ export function useWhisperRecording(): UseWhisperRecordingResult {
   // Cleanup on unmount - stop recording if active
   useEffect(() => {
     return () => {
-      if (audioRecorder.isRecording) {
-        audioRecorder.stop().catch(() => {
-          // Ignore cleanup errors
-        });
+      try {
+        if (audioRecorder.isRecording) {
+          audioRecorder.stop().catch(() => {
+            // Ignore cleanup errors
+          });
+        }
+      } catch (_error) {
+        // Native object may already be destroyed - ignore
       }
     };
   }, [audioRecorder]);

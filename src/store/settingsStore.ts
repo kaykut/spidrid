@@ -14,6 +14,7 @@ interface SettingsState extends UserSettings {
   setShowCrosshairs: (show: boolean) => void;
   setCrosshairOpacity: (opacity: number) => void;
   setFontSize: (size: number) => void;
+  setFontFamily: (family: import('../types/settings').FontFamily) => void;
   setHapticFeedback: (enabled: boolean) => void;
   setUserName: (name: string) => void;
   setReadingLanguage: (language: string) => void;
@@ -45,6 +46,7 @@ export const useSettingsStore = create<SettingsState>()(
       setShowCrosshairs: (showCrosshairs) => set({ showCrosshairs }),
       setCrosshairOpacity: (crosshairOpacity) => set({ crosshairOpacity }),
       setFontSize: (fontSize) => set({ fontSize }),
+      setFontFamily: (fontFamily) => set({ fontFamily }),
       setHapticFeedback: (hapticFeedback) => set({ hapticFeedback }),
       setUserName: (userName) => set({ userName }),
       setReadingLanguage: (readingLanguage) => set({ readingLanguage }),
@@ -72,6 +74,7 @@ export const useSettingsStore = create<SettingsState>()(
         showCrosshairs: state.showCrosshairs,
         crosshairOpacity: state.crosshairOpacity,
         fontSize: state.fontSize,
+        fontFamily: state.fontFamily,
         hapticFeedback: state.hapticFeedback,
         userName: state.userName,
         readingLanguage: state.readingLanguage,

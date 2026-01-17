@@ -17,11 +17,14 @@ import {
   SectionListRenderItem,
   RefreshControl,
   SectionListData,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SPACING } from '../../constants/spacing';
+import { useItemChangeTracking } from '../../hooks/useItemChangeTracking';
 import { useStats } from '../../hooks/useStats';
 import { useContentListStore } from '../../store/contentListStore';
 import { useContentStore } from '../../store/contentStore';
@@ -34,6 +37,7 @@ import { StatsSummary } from '../certifications';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 import { FloatingActionBar } from '../navigation/FloatingActionBar';
+import { AnimatedListItem } from './AnimatedListItem';
 import { ContentListItemCard } from './ContentListItemCard';
 import { CurriculumAccordionItem } from './CurriculumAccordionItem';
 import { DateSectionHeader } from './DateSectionHeader';
@@ -70,8 +74,10 @@ export function ContentListScreen() {
   const moveFinishedToHistory = useSettingsStore((state) => state.moveFinishedToHistory);
 
   // Get the computed grouped content list - recomputes when source stores change
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- Dependencies trigger recomputation when stores change
-  const sections = useMemo(() => getGroupedContentList(), [
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sections = useMemo(() => {
+    return getGroupedContentList();
+  }, [
     getGroupedContentList,
     activeFilter,
     importedContent,
@@ -85,6 +91,26 @@ export function ContentListScreen() {
   const isEmptyWithoutFilter = useMemo(() => {
     return !hasAnyContent();
   }, [hasAnyContent]);
+
+  // Extract current item IDs for change tracking
+  const currentItemIds = useMemo(() => {
+    return sections.flatMap((section) => section.data.map((item) => item.id));
+  }, [sections]);
+
+  // Track item changes (new, existing, removed) for animations
+  const { changeMap } = useItemChangeTracking(currentItemIds);
+
+  // Helper to calculate global index across sections for stagger
+  const getGlobalIndex = useCallback(
+    (sectionIndex: number, itemIndex: number): number => {
+      let globalIndex = 0;
+      for (let i = 0; i < sectionIndex; i++) {
+        globalIndex += sections[i].data.length;
+      }
+      return globalIndex + itemIndex;
+    },
+    [sections]
+  );
 
   // Navigation handlers
   const handleJourneyPress = useCallback(() => {
@@ -113,43 +139,42 @@ export function ContentListScreen() {
     [deleteItem]
   );
 
-  const handleQuizPress = useCallback(
-    (item: ContentListItem) => {
-      // Navigate to quiz modal
-      router.push({
-        pathname: '/playback-quiz',
-        params: { sourceId: item.sourceId, source: item.source },
-      });
-    },
-    [router]
-  );
-
   // Render individual list items
   const renderItem: SectionListRenderItem<ContentListItem, ContentSection> = useCallback(
-    ({ item }) => {
+    ({ item, section, index: itemIndex }) => {
+      // Calculate global index for stagger animation
+      const sectionIndex = sections.indexOf(section);
+      const globalIndex = getGlobalIndex(sectionIndex, itemIndex);
+
+      // Get change type for this item (default to 'existing' if not found)
+      const changeType = changeMap.get(item.id) || 'existing';
+
       // Render curriculum with accordion
       if (item.isCurriculum) {
         return (
-          <CurriculumAccordionItem
-            item={item}
-            onPress={() => handleItemPress(item)}
-            onDelete={() => handleDeleteItem(item)}
-            onArticlePress={handleItemPress}
-          />
+          <AnimatedListItem index={globalIndex} changeType={changeType}>
+            <CurriculumAccordionItem
+              item={item}
+              onPress={() => undefined} // Curriculum itself is not playable - only expands/collapses
+              onDelete={() => handleDeleteItem(item)}
+              onArticlePress={handleItemPress}
+            />
+          </AnimatedListItem>
         );
       }
 
       // Render regular content item
       return (
-        <ContentListItemCard
-          item={item}
-          onPress={() => handleItemPress(item)}
-          onDelete={item.source !== 'training' ? () => handleDeleteItem(item) : undefined}
-          onQuizPress={item.quizPending ? () => handleQuizPress(item) : undefined}
-        />
+        <AnimatedListItem index={globalIndex} changeType={changeType}>
+          <ContentListItemCard
+            item={item}
+            onPress={() => handleItemPress(item)}
+            onDelete={item.source !== 'training' ? () => handleDeleteItem(item) : undefined}
+          />
+        </AnimatedListItem>
       );
     },
-    [handleItemPress, handleDeleteItem, handleQuizPress]
+    [handleItemPress, handleDeleteItem, sections, getGlobalIndex, changeMap]
   );
 
   // Key extractor for SectionList
@@ -233,6 +258,16 @@ export function ContentListScreen() {
         </GlassView>
       </View>
 
+      {/* DEV ONLY: Quick access to long words test */}
+      {__DEV__ && (
+        <TouchableOpacity
+          style={[styles.devButton, { backgroundColor: theme.accentColor }]}
+          onPress={() => router.push('/reader/long-words')}
+        >
+          <Text style={styles.devButtonText}>🧪 Test Long Words</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Floating Action Bar (bottom-right) */}
       <FloatingActionBar
         actions={[
@@ -285,5 +320,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  devButton: {
+    position: 'absolute',
+    bottom: SPACING.xxxl,
+    left: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderRadius: 20,
+    zIndex: 100,
+  },
+  devButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

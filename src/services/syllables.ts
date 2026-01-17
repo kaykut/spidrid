@@ -15,8 +15,8 @@
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 
-// Maximum characters per word chunk (Spritz uses 13)
-const MAX_WORD_LENGTH = 13;
+// Maximum characters per word chunk before hyphenation (updated from 13 to 22)
+const MAX_WORD_LENGTH = 22;
 
 // Minimum remainder length after prefix split (avoid tiny trailing chunks)
 const MIN_REMAINDER_LENGTH = 4;
@@ -160,14 +160,71 @@ function balancedSyllableSplit(word: string, syllables: string[], maxLength: num
 }
 
 /**
+ * Split word into chunks at syllable boundary closest to middle.
+ *
+ * After prefix removal, this finds the syllable break closest to the
+ * midpoint of the remaining portion for optimal balance.
+ *
+ * Enforces minimum chunk size of 3 chars (non-greedy requirement).
+ *
+ * @param word - Original word (for length calculations)
+ * @param syllables - Pre-computed syllables
+ * @param maxLength - Maximum characters per chunk
+ * @returns Array of balanced chunks
+ */
+function middleSyllableSplit(
+  word: string,
+  syllables: string[],
+  maxLength: number
+): string[] {
+  const midpoint = word.length / 2;
+  let closestToMidIndex = 0;
+  let closestToMidDist = Infinity;
+
+  // Find syllable boundary closest to midpoint
+  for (let i = 0; i < syllables.length - 1; i++) {
+    const lengthUpToHere = syllables.slice(0, i + 1).join('').length;
+    const distanceToMid = Math.abs(lengthUpToHere - midpoint);
+
+    // Only consider if it creates valid chunks (>= 3 chars each)
+    const firstPartLength = lengthUpToHere;
+    const secondPartLength = word.length - lengthUpToHere;
+
+    if (firstPartLength >= 3 && secondPartLength >= 3 && distanceToMid < closestToMidDist) {
+      closestToMidIndex = i;
+      closestToMidDist = distanceToMid;
+    }
+  }
+
+  // Split at the optimal point
+  if (closestToMidIndex > 0) {
+    const firstPart = syllables.slice(0, closestToMidIndex + 1).join('');
+    const secondPart = syllables.slice(closestToMidIndex + 1).join('');
+
+    // Check if second part needs further splitting
+    if (secondPart.length > maxLength) {
+      return [
+        `${firstPart}-`,
+        ...splitLongWord(secondPart, maxLength, getCurrentAdapter())
+      ];
+    }
+
+    return [`${firstPart}-`, secondPart];
+  }
+
+  // Fallback to balanced split if middle split fails
+  return balancedSyllableSplit(word, syllables, maxLength);
+}
+
+/**
  * Split a long word into display-friendly chunks.
  *
  * Uses a hybrid approach:
  * 1. First tries compound prefix detection (photo-, bio-, electro-, etc.)
- * 2. Falls back to balanced syllable splitting
+ * 2. Falls back to middle syllable splitting (splits post-prefix near midpoint)
  *
  * @param word - The word to potentially split
- * @param maxLength - Maximum characters per chunk (default: 13)
+ * @param maxLength - Maximum characters per chunk (default: 22)
  * @param adapter - Language adapter to use (defaults to current language setting)
  * @returns Array of word chunks (may be single element if word is short)
  *
@@ -175,7 +232,7 @@ function balancedSyllableSplit(word: string, syllables: string[], maxLength: num
  * splitLongWord('the') // ['the']
  * splitLongWord('photosynthesis') // ['Photo-', 'synthesis']
  * splitLongWord('electrocardiogram') // ['Electro-', 'cardiogram']
- * splitLongWord('incomprehensibilities') // ['Incom-', 'prehen-', 'sibilities']
+ * splitLongWord('counterrevolutionaries') // ['Counter-', 'revolutionaries'] or similar
  */
 export function splitLongWord(
   word: string,
@@ -193,7 +250,7 @@ export function splitLongWord(
     return prefixSplit;
   }
 
-  // 2. Get syllables for balanced splitting
+  // 2. Get syllables for middle splitting
   const syllables = getSyllables(word, adapter);
 
   // If we couldn't get syllables (rare), fall back to character-based split
@@ -201,8 +258,8 @@ export function splitLongWord(
     return fallbackSplit(word, maxLength);
   }
 
-  // 3. Use balanced syllable splitting
-  return balancedSyllableSplit(word, syllables, maxLength);
+  // 3. Use middle syllable splitting (NEW)
+  return middleSyllableSplit(word, syllables, maxLength);
 }
 
 /**

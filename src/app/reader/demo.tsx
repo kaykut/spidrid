@@ -15,9 +15,17 @@ const DEMO_TEXT = `The quick brown fox jumps over the lazy dog. This sentence co
 
 export default function DemoReaderScreen() {
   const { theme } = useTheme();
-  const words = useMemo(() => processText(DEMO_TEXT), []);
-  const engine = useRSVPEngine(words, 250);
   const [showPaywall, setShowPaywall] = useState(false);
+
+  const words = useMemo(() => {
+    return processText(
+      DEMO_TEXT,
+      undefined, // chapters
+      undefined  // adapter
+    );
+  }, []);
+
+  const engine = useRSVPEngine(words, 250);
 
   return (
     <>

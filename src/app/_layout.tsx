@@ -1,24 +1,62 @@
 import { useEffect } from 'react';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../components/common/ThemeProvider';
 import { PdfExtractorProvider } from '../components/PdfExtractorProvider';
 import { useAuthDeepLink } from '../hooks/useAuthDeepLink';
+import { initializeAutoSync, cleanupAutoSync } from '../hooks/useSyncManager';
 import { useAuthStore } from '../store/authStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
+
+// Prevent splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const initializeAuth = useAuthStore(state => state.initialize);
   const initializeSubscription = useSubscriptionStore(state => state.initialize);
 
+  // Load custom fonts
+  const [fontsLoaded, fontError] = useFonts({
+    'Lora': require('../../fonts/Lora/Lora-VariableFont_wght.ttf'),
+    'Inter': require('../../fonts/Inter/Inter-VariableFont_opsz,wght.ttf'),
+    'RedditSansCondensed': require('../../fonts/Reddit_Sans_Condensed/RedditSansCondensed-VariableFont_wght.ttf'),
+  });
+
   // Handle deep links for magic link authentication
   useAuthDeepLink();
 
+  // Hide splash screen when fonts are loaded
   useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+      if (fontError) {
+        console.error('[_layout] Font loading error:', fontError);
+      }
+    }
+  }, [fontsLoaded, fontError]);
+
+  useEffect(() => {
+    console.warn('[_layout] === useEffect triggered ===');
+    console.warn('[_layout] Calling initializeAuth()');
     initializeAuth();
+    console.warn('[_layout] Calling initializeSubscription()');
     initializeSubscription();
+    console.warn('[_layout] Calling initializeAutoSync()');
+    initializeAutoSync();
+
+    return () => {
+      console.warn('[_layout] Cleanup: calling cleanupAutoSync()');
+      cleanupAutoSync();
+    };
   }, [initializeAuth, initializeSubscription]);
+
+  // Return null while fonts are loading
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

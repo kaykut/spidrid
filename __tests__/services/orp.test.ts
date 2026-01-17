@@ -2,7 +2,7 @@
  * Tests for ORP (Optimal Recognition Point) calculation service.
  *
  * The ORP is the letter where the eye naturally focuses for fastest word recognition.
- * Research shows this is approximately 30% into the word, slightly left of center.
+ * Using standard calculation: floor((len - 1) / 3).
  */
 
 import {
@@ -20,75 +20,79 @@ describe('calculateORP', () => {
     });
   });
 
-  describe('2-5 character words (floor(len/3))', () => {
+  describe('2-3 character words (floor((len-1)/3) = 0)', () => {
     it('returns correct ORP for 2-char words', () => {
-      expect(calculateORP('an')).toBe(0);
+      expect(calculateORP('an')).toBe(0); // floor((2-1)/3) = 0
       expect(calculateORP('is')).toBe(0);
     });
 
     it('returns correct ORP for 3-char words', () => {
-      expect(calculateORP('the')).toBe(1);
-      expect(calculateORP('and')).toBe(1);
+      expect(calculateORP('the')).toBe(0); // floor((3-1)/3) = 0
+      expect(calculateORP('and')).toBe(0);
     });
+  });
 
+  describe('4-6 character words (floor((len-1)/3) = 1)', () => {
     it('returns correct ORP for 4-char words', () => {
-      expect(calculateORP('word')).toBe(1);
+      expect(calculateORP('word')).toBe(1); // floor((4-1)/3) = 1
       expect(calculateORP('test')).toBe(1);
     });
 
     it('returns correct ORP for 5-char words', () => {
-      expect(calculateORP('hello')).toBe(1);
+      expect(calculateORP('hello')).toBe(1); // floor((5-1)/3) = 1
       expect(calculateORP('world')).toBe(1);
+    });
+
+    it('returns correct ORP for 6-char words', () => {
+      expect(calculateORP('simple')).toBe(1); // floor((6-1)/3) = 1
     });
   });
 
-  describe('6-9 character words (floor(len*0.3))', () => {
-    it('returns correct ORP for 6-char words', () => {
-      expect(calculateORP('simple')).toBe(1); // floor(6 * 0.3) = 1
-    });
-
+  describe('7-9 character words (floor((len-1)/3) = 2)', () => {
     it('returns correct ORP for 7-char words', () => {
-      expect(calculateORP('reading')).toBe(2); // floor(7 * 0.3) = 2
+      expect(calculateORP('reading')).toBe(2); // floor((7-1)/3) = 2
     });
 
     it('returns correct ORP for 8-char words', () => {
-      expect(calculateORP('thinking')).toBe(2); // floor(8 * 0.3) = 2
+      expect(calculateORP('thinking')).toBe(2); // floor((8-1)/3) = 2
     });
 
     it('returns correct ORP for 9-char words', () => {
-      expect(calculateORP('beautiful')).toBe(2); // floor(9 * 0.3) = 2
+      expect(calculateORP('beautiful')).toBe(2); // floor((9-1)/3) = 2
     });
   });
 
-  describe('10-13 character words (floor(len*0.25)+1)', () => {
+  describe('10-12 character words (floor((len-1)/3) = 3)', () => {
     it('returns correct ORP for 10-char words', () => {
-      expect(calculateORP('understand')).toBe(3); // floor(10 * 0.25) + 1 = 3
+      expect(calculateORP('understand')).toBe(3); // floor((10-1)/3) = 3
     });
 
     it('returns correct ORP for 11-char words', () => {
-      expect(calculateORP('information')).toBe(3); // floor(11 * 0.25) + 1 = 3
+      expect(calculateORP('information')).toBe(3); // floor((11-1)/3) = 3
     });
 
     it('returns correct ORP for 12-char words', () => {
-      expect(calculateORP('relationship')).toBe(4); // floor(12 * 0.25) + 1 = 4
-    });
-
-    it('returns correct ORP for 13-char words', () => {
-      expect(calculateORP('understanding')).toBe(4); // floor(13 * 0.25) + 1 = 4
+      expect(calculateORP('relationship')).toBe(3); // floor((12-1)/3) = 3
     });
   });
 
-  describe('14+ character words (floor(len*0.25)+2)', () => {
+  describe('13-15 character words (floor((len-1)/3) = 4)', () => {
+    it('returns correct ORP for 13-char words', () => {
+      expect(calculateORP('understanding')).toBe(4); // floor((13-1)/3) = 4
+    });
+
     it('returns correct ORP for 14-char words', () => {
-      expect(calculateORP('recommendation')).toBe(5); // floor(14 * 0.25) + 2 = 5
+      expect(calculateORP('recommendation')).toBe(4); // floor((14-1)/3) = 4
     });
 
     it('returns correct ORP for 15-char words', () => {
-      expect(calculateORP('experimentation')).toBe(5); // floor(15 * 0.25) + 2 = 5
+      expect(calculateORP('experimentation')).toBe(4); // floor((15-1)/3) = 4
     });
+  });
 
+  describe('16+ character words', () => {
     it('returns correct ORP for very long words', () => {
-      expect(calculateORP('internationalization')).toBe(7); // floor(20 * 0.25) + 2 = 7
+      expect(calculateORP('internationalization')).toBe(6); // floor((20-1)/3) = 6
     });
   });
 

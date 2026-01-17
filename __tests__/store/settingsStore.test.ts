@@ -46,7 +46,7 @@ describe('settingsStore', () => {
     it('starts with fontSize 48', () => {
       const { result } = renderHook(() => useSettingsStore());
       expect(result.current.fontSize).toBe(DEFAULT_SETTINGS.fontSize);
-      expect(result.current.fontSize).toBe(48);
+      expect(result.current.fontSize).toBe(42);
     });
 
     it('starts with hapticFeedback true', () => {
@@ -358,7 +358,7 @@ describe('settingsStore', () => {
       expect(result.current.defaultWPM).toBe(250);
       expect(result.current.showCrosshairs).toBe(true);
       expect(result.current.crosshairOpacity).toBe(0.5);
-      expect(result.current.fontSize).toBe(48);
+      expect(result.current.fontSize).toBe(42);
       expect(result.current.hapticFeedback).toBe(true);
       expect(result.current.userName).toBe('');
       expect(result.current.readingLanguage).toBe('en');

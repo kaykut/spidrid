@@ -86,6 +86,8 @@ export const themes: Record<string, Theme> = {
     secondaryBackgroundGradient: '#141414',
     trackColor: '#2a2a2a',
     metaColor: '#8E8E93', // Muted gray for headers
+    textSecondaryColor: '#8E8E93',
+    background: '#0a0a0a',
   },
   midnight: {
     id: 'midnight',
@@ -99,6 +101,8 @@ export const themes: Record<string, Theme> = {
     secondaryBackgroundGradient: '#121b33',
     trackColor: '#1e2d4d',
     metaColor: '#7878ab', // Muted purple-gray for headers
+    textSecondaryColor: '#7878ab',
+    background: '#1a1a2e',
   },
   sepia: {
     id: 'sepia',
@@ -112,6 +116,8 @@ export const themes: Record<string, Theme> = {
     secondaryBackgroundGradient: '#cfc4ae',
     trackColor: '#c4b9a3',
     metaColor: '#8b7355', // Muted brown for headers
+    textSecondaryColor: '#8b7355',
+    background: '#f4ecd8',
   },
   light: {
     id: 'light',
@@ -125,6 +131,8 @@ export const themes: Record<string, Theme> = {
     secondaryBackgroundGradient: '#dedede',
     trackColor: '#d0d0d0',
     metaColor: '#636366', // Muted gray for headers
+    textSecondaryColor: '#636366',
+    background: '#ffffff',
   },
 };
 

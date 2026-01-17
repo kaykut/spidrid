@@ -174,6 +174,7 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - [x] (2026-01-13 02:52) Implemented via useSyncManager hook debounced pushes
 - [x] (2026-01-13 02:52) Full sync triggered on login instead of incremental (simpler approach)
 - [x] (2026-01-13 02:52) Auto-push via store subscriptions in initializeAutoSync()
+- [x] (2026-01-13) Wire initializeAutoSync() and cleanupAutoSync() into _layout.tsx
 - [ ] Track lastSyncTimestamp in AsyncStorage (deferred - full sync sufficient for MVP)
 - [ ] Add AppState listener for foreground detection (deferred - auto-push handles changes)
 
@@ -237,6 +238,10 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
   Evidence: `jest.setup.js` mocks `signInAnonymously` to always succeed with `{ data: { user: { id: 'mock-user-id' }, session: mockSession }, error: null }`. This means tests pass even when the real Supabase dashboard configuration would cause failures. No integration tests verify actual Supabase behavior.
   Date: 2026-01-13
 
+- Observation: Sync system was fully implemented but never wired into app lifecycle
+  Evidence: `initializeAutoSync()` and `cleanupAutoSync()` were exported from `useSyncManager.ts` but never called from `_layout.tsx`. The ExecPlan Milestone 21 marked "Auto-push via store subscriptions in initializeAutoSync()" as complete, but this only defined the function—it didn't connect it to the app. Fixed by adding `initializeAutoSync()` call in _layout.tsx useEffect with cleanup.
+  Date: 2026-01-13
+
 - Observation: Supabase RLS policies are correctly designed for this use case
   Evidence: Reviewed Supabase anonymous sign-ins documentation. The `is_anonymous` JWT claim check is only needed when restricting anonymous users from certain actions. In this app, anonymous users SHOULD be able to create their own content (which persists after upgrade), so `auth.uid() = user_id` is the correct policy.
   Date: 2026-01-13
@@ -287,6 +292,10 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - Decision: Use single user_content table for all sync data types
   Rationale: Original ExecPlan specified separate tables (user_content, user_progress, user_certificates, user_settings, user_journey). Simplified to single user_content table with item_type column to differentiate data types. This reduces migration complexity, simplifies RLS policies, and allows all sync adapters to follow the same pattern. The JSONB data column accommodates all data structures.
   Date/Author: 2026-01-13 / Implementation
+
+- Decision: Server-side storage (Supabase) is exclusively for premium logged-in users
+  Rationale: The sync system checks `isLoggedIn && isPremium` before any server operations. Anonymous users have `isLoggedIn = false` (since `isLoggedIn = !isAnonymous`), so they never hit the user_content table even though they have valid JWT tokens. This means: (1) anonymous free users - blocked by isLoggedIn check, (2) logged-in free users - blocked by isPremium check, (3) only logged-in premium users sync to Supabase. All users use local AsyncStorage regardless; sync is an optional overlay for premium.
+  Date/Author: 2026-01-13 / Architecture clarification
 
 
 ## Outcomes & Retrospective

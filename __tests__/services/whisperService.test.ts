@@ -32,6 +32,7 @@ jest.mock('expo-constants', () => ({
   expoConfig: {
     extra: {
       supabaseUrl: 'https://test.supabase.co',
+      supabaseAnonKey: 'test-anon-key',
     },
   },
 }));
@@ -86,6 +87,7 @@ describe('transcribeAudio', () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer test-access-token',
+          'apikey': 'test-anon-key',
         },
         body: JSON.stringify({
           audio: 'base64audiodata',

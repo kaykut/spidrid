@@ -60,7 +60,7 @@ describe('CertificationReadyModal', () => {
       );
 
       expect(getByText('45/40 VS')).toBeTruthy();
-      expect(getByText('650/600 WPM')).toBeTruthy();
+      expect(getByText('650/900 WPM')).toBeTruthy();
     });
 
     it('calls onTakeTest when Take Certification Exam is pressed', () => {
@@ -125,7 +125,7 @@ describe('CertificationReadyModal', () => {
       );
 
       expect(getByText('65/60 VS')).toBeTruthy();
-      expect(getByText('950/900 WPM')).toBeTruthy();
+      expect(getByText('950/1200 WPM')).toBeTruthy();
     });
   });
 
@@ -158,8 +158,8 @@ describe('CertificationReadyModal', () => {
       );
 
       expect(getByText('96/95 VS')).toBeTruthy();
-      // Transcendent tier requires 1200 WPM
-      expect(getByText('1250/1200 WPM')).toBeTruthy();
+      // Transcendent tier requires 1500 WPM
+      expect(getByText('1250/1500 WPM')).toBeTruthy();
     });
   });
 
@@ -194,7 +194,7 @@ describe('CertificationReadyModal', () => {
       );
 
       expect(getByText('Exam Requirements')).toBeTruthy();
-      expect(getByText(/1,000 words at 600 WPM/)).toBeTruthy();
+      expect(getByText(/1,000 words at 900 WPM/)).toBeTruthy();
       expect(getByText(/80%\+ comprehension/)).toBeTruthy();
     });
   });

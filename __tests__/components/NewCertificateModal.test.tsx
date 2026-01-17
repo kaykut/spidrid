@@ -119,7 +119,7 @@ describe('NewCertificateModal', () => {
         />
       );
 
-      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 900 WPM capability')).toBeTruthy();
     });
 
     it('shows certificate icon', () => {
@@ -181,7 +181,7 @@ describe('NewCertificateModal', () => {
         />
       );
 
-      expect(screen.getByText('🚀')).toBeTruthy();
+      expect(screen.getByText('🔥')).toBeTruthy();
     });
 
     it('shows velocity master certificate WPM', () => {
@@ -219,7 +219,7 @@ describe('NewCertificateModal', () => {
         />
       );
 
-      expect(screen.getByText('🏆')).toBeTruthy();
+      expect(screen.getByText('👑')).toBeTruthy();
     });
 
     it('shows transcendent certificate WPM', () => {

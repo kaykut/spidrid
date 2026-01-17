@@ -1,9 +1,8 @@
 /**
- * ORP (Optimal Recognition Point) calculation.
+ * ORP (Optimal Recognition Point) calculation - Standard Formula.
  *
  * The ORP is the letter where the eye naturally focuses for fastest word recognition.
- * Research shows this is approximately 30% into the word, slightly left of center.
- * This algorithm is based on the Spritz speed reading research.
+ * Using standard calculation: approximately 1/3 into the word from the start.
  *
  * Examples:
  * - "a" (1 char) -> ORP at index 0 -> "a"
@@ -17,12 +16,8 @@ import { LanguageAdapter } from './language/types';
 
 export function calculateORP(word: string): number {
   const len = word.length;
-
-  if (len <= 1) {return 0;}
-  if (len <= 5) {return Math.floor(len / 3);}
-  if (len <= 9) {return Math.floor(len * 0.3);}
-  if (len <= 13) {return Math.floor(len * 0.25) + 1;}
-  return Math.floor(len * 0.25) + 2;
+  if (len <= 1) return 0;
+  return Math.floor((len - 1) / 3);
 }
 
 /**

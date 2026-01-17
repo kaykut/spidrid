@@ -8,5 +8,5 @@
 import { ContentListScreen } from '../components/contentList/ContentListScreen';
 
 export default function Index() {
-  return <ContentListScreen />;
+    return <ContentListScreen />;
 }

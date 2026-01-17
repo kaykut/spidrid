@@ -7,6 +7,7 @@ jest.mock('../../src/services/supabase', () => ({
   supabase: {
     auth: {
       getSession: jest.fn(),
+      refreshSession: jest.fn(),
       signInAnonymously: jest.fn(),
       signOut: jest.fn(),
       linkIdentity: jest.fn(),
@@ -104,7 +105,8 @@ describe('authStore', () => {
       // Should have logged an error
       expect(consoleSpy).toHaveBeenCalledWith(
         '[AuthStore] signInAnonymously failed:',
-        'Anonymous sign-ins are not enabled'
+        'Anonymous sign-ins are not enabled',
+        { message: 'Anonymous sign-ins are not enabled' }
       );
 
       // Should still mark as initialized to prevent infinite retries
@@ -164,11 +166,11 @@ describe('authStore', () => {
   });
 
   describe('getAccessToken', () => {
-    it('should return access token from current session', async () => {
+    it('should return access token from refreshed session', async () => {
       const mockSession = {
         access_token: 'test-access-token',
       };
-      (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+      (mockSupabase.auth.refreshSession as jest.Mock).mockResolvedValue({
         data: { session: mockSession },
         error: null,
       });
@@ -176,28 +178,47 @@ describe('authStore', () => {
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBe('test-access-token');
+      expect(mockSupabase.auth.refreshSession).toHaveBeenCalled();
+    });
+
+    it('should fall back to cached session when refresh fails', async () => {
+      // Refresh fails
+      (mockSupabase.auth.refreshSession as jest.Mock).mockResolvedValue({
+        data: { session: null },
+        error: { message: 'Refresh failed' },
+      });
+      // But cached session exists
+      (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+        data: { session: { access_token: 'cached-token' } },
+        error: null,
+      });
+
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const token = await useAuthStore.getState().getAccessToken();
+
+      expect(token).toBe('cached-token');
+      expect(consoleSpy).toHaveBeenCalledWith(
+        '[AuthStore] Failed to refresh session:',
+        'Refresh failed'
+      );
+      consoleSpy.mockRestore();
     });
 
     it('should return null when no session exists', async () => {
+      (mockSupabase.auth.refreshSession as jest.Mock).mockResolvedValue({
+        data: { session: null },
+        error: null,
+      });
       (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
         data: { session: null },
         error: null,
       });
 
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBeNull();
-    });
-
-    it('should return null when getSession fails', async () => {
-      (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
-        data: { session: null },
-        error: new Error('Session error'),
-      });
-
-      const token = await useAuthStore.getState().getAccessToken();
-
-      expect(token).toBeNull();
+      consoleSpy.mockRestore();
     });
   });
 

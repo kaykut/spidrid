@@ -273,9 +273,26 @@ export const BADGE_TEXT: TextStyle = {
 
 /**
  * RSVP Display
- * 48pt Bold - for RSVP reader display
+ * 42pt Bold - for RSVP reader display
  */
 export const RSVP_DISPLAY: TextStyle = {
-  fontSize: 48,
+  fontSize: 42,
   fontWeight: FONT_WEIGHTS.bold,
+};
+
+/**
+ * RSVP Font Sizes - Adaptive sizing for long words
+ *
+ * Prevents wrapping on narrow screens (iPhone SE 375px) by reducing font size
+ * for longer words. Words 22+ chars use improved hyphenation in production.
+ */
+export const RSVP_FONT_SIZES = {
+  size42: 42,  // ≤13 chars
+  size38: 38,  // 14 chars
+  size34: 34,  // 15 chars
+  size32: 32,  // 16 chars
+  size30: 30,  // 17 chars
+  size28: 28,  // 18-19 chars
+  size26: 26,  // 20 chars
+  size24: 24,  // 21 chars (22+ uses hyphenation)
 };
