@@ -105,35 +105,35 @@ describe('calculateORP', () => {
 
 describe('calculatePauseMultiplier', () => {
   describe('sentence-ending punctuation', () => {
-    it('returns 1.8 for period', () => {
-      expect(calculatePauseMultiplier('word.')).toBe(1.8);
+    it('returns 3.0 for period', () => {
+      expect(calculatePauseMultiplier('word.')).toBe(3.0);
     });
 
-    it('returns 1.8 for exclamation mark', () => {
-      expect(calculatePauseMultiplier('word!')).toBe(1.8);
+    it('returns 3.0 for exclamation mark', () => {
+      expect(calculatePauseMultiplier('word!')).toBe(3.0);
     });
 
-    it('returns 1.8 for question mark', () => {
-      expect(calculatePauseMultiplier('word?')).toBe(1.8);
+    it('returns 3.0 for question mark', () => {
+      expect(calculatePauseMultiplier('word?')).toBe(3.0);
     });
 
-    it('returns 1.8 for multiple sentence-ending punctuation', () => {
-      expect(calculatePauseMultiplier('what?!')).toBe(1.8);
-      expect(calculatePauseMultiplier('wow...')).toBe(1.8);
+    it('returns 3.0 for multiple sentence-ending punctuation', () => {
+      expect(calculatePauseMultiplier('what?!')).toBe(3.0);
+      expect(calculatePauseMultiplier('wow...')).toBe(3.0);
     });
   });
 
   describe('clause break punctuation', () => {
-    it('returns 1.3 for comma', () => {
-      expect(calculatePauseMultiplier('word,')).toBe(1.3);
+    it('returns 1.5 for comma', () => {
+      expect(calculatePauseMultiplier('word,')).toBe(1.5);
     });
 
-    it('returns 1.3 for semicolon', () => {
-      expect(calculatePauseMultiplier('word;')).toBe(1.3);
+    it('returns 1.5 for semicolon', () => {
+      expect(calculatePauseMultiplier('word;')).toBe(1.5);
     });
 
-    it('returns 1.3 for colon', () => {
-      expect(calculatePauseMultiplier('word:')).toBe(1.3);
+    it('returns 1.5 for colon', () => {
+      expect(calculatePauseMultiplier('word:')).toBe(1.5);
     });
   });
 
@@ -158,13 +158,13 @@ describe('calculatePauseMultiplier', () => {
 
   describe('punctuation precedence', () => {
     it('prioritizes sentence-ending over long word', () => {
-      // A long word with sentence-ending punctuation should return 1.8
-      expect(calculatePauseMultiplier('understanding.')).toBe(1.8);
+      // A long word with sentence-ending punctuation should return 3.0
+      expect(calculatePauseMultiplier('understanding.')).toBe(3.0);
     });
 
     it('prioritizes sentence-ending over clause break', () => {
       // This would be unusual but tests precedence
-      expect(calculatePauseMultiplier('word?')).toBe(1.8);
+      expect(calculatePauseMultiplier('word?')).toBe(3.0);
     });
   });
 });

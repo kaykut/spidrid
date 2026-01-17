@@ -14,7 +14,7 @@ import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_SPACING } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS, RSVP_DISPLAY } from '../../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText, getAdaptiveFontSize } from '../../services/textProcessor';
 

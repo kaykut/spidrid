@@ -1,5 +1,5 @@
-import { ProcessedWord } from '../types/playback';
 import { RSVP_FONT_SIZES } from '../constants/typography';
+import { ProcessedWord } from '../types/playback';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
@@ -369,13 +369,27 @@ export function findNextSentenceStart(
  * getAdaptiveFontSize(21)  // 24 - last size before hyphenation
  */
 export function getAdaptiveFontSize(wordLength: number): number {
-  if (wordLength <= 13) return RSVP_FONT_SIZES.size42;
-  if (wordLength === 14) return RSVP_FONT_SIZES.size38;
-  if (wordLength === 15) return RSVP_FONT_SIZES.size34;
-  if (wordLength === 16) return RSVP_FONT_SIZES.size32;
-  if (wordLength === 17) return RSVP_FONT_SIZES.size30;
-  if (wordLength <= 19) return RSVP_FONT_SIZES.size28;  // 18-19
-  if (wordLength === 20) return RSVP_FONT_SIZES.size26;
+  if (wordLength <= 13) {
+    return RSVP_FONT_SIZES.size42;
+  }
+  if (wordLength === 14) {
+    return RSVP_FONT_SIZES.size38;
+  }
+  if (wordLength === 15) {
+    return RSVP_FONT_SIZES.size34;
+  }
+  if (wordLength === 16) {
+    return RSVP_FONT_SIZES.size32;
+  }
+  if (wordLength === 17) {
+    return RSVP_FONT_SIZES.size30;
+  }
+  if (wordLength <= 19) {
+    return RSVP_FONT_SIZES.size28;  // 18-19
+  }
+  if (wordLength === 20) {
+    return RSVP_FONT_SIZES.size26;
+  }
   return RSVP_FONT_SIZES.size24;  // 21+ chars (but 22+ should be hyphenated)
 }
 

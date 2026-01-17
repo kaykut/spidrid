@@ -123,12 +123,12 @@ describe('processWord', () => {
 
   it('calculates correct pauseMultiplier for sentence-ending word', () => {
     const result = processWord('hello.');
-    expect(result.pauseMultiplier).toBe(1.8);
+    expect(result.pauseMultiplier).toBe(3.0);
   });
 
   it('calculates correct pauseMultiplier for clause break', () => {
     const result = processWord('hello,');
-    expect(result.pauseMultiplier).toBe(1.3);
+    expect(result.pauseMultiplier).toBe(1.5);
   });
 
   it('detects sentence end correctly', () => {

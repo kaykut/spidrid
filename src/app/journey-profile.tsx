@@ -28,7 +28,7 @@ import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
 import { Paywall } from '../components/paywall/Paywall';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS, getRSVPFontFamily } from '../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
 import { calculateORP } from '../services/orp';
 import { useAuthStore } from '../store/authStore';
@@ -62,7 +62,14 @@ function FontPreview({ fontFamily, theme }: FontPreviewProps) {
   const orpChar = word[orpIndex];
   const after = word.slice(orpIndex + 1);
 
-  const rsvpFontFamily = getRSVPFontFamily(fontFamily);
+  let rsvpFontFamily = FONT_FAMILY;
+  if (fontFamily === 'lora') {
+    rsvpFontFamily = 'Lora';
+  } else if (fontFamily === 'inter') {
+    rsvpFontFamily = 'Inter';
+  } else if (fontFamily === 'reddit-sans-condensed') {
+    rsvpFontFamily = 'RedditSansCondensed';
+  }
 
   return (
     <View style={styles.previewWordContainer}>
@@ -478,7 +485,14 @@ export default function JourneyProfileModal() {
           <View style={styles.fontGrid}>
             {fontOptions.map((option) => {
               const isActive = fontFamily === option.id;
-              const displayFontFamily = getRSVPFontFamily(option.id);
+              let displayFontFamily = FONT_FAMILY;
+              if (option.id === 'lora') {
+                displayFontFamily = 'Lora';
+              } else if (option.id === 'inter') {
+                displayFontFamily = 'Inter';
+              } else if (option.id === 'reddit-sans-condensed') {
+                displayFontFamily = 'RedditSansCondensed';
+              }
 
               return (
                 <TouchableOpacity

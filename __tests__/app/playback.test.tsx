@@ -116,6 +116,7 @@ jest.mock('../../src/services/textProcessor', () => ({
     { display: 'Test', orpIndex: 1 },
     { display: 'content', orpIndex: 2 },
   ]),
+  getAdaptiveFontSize: jest.fn((_length: number) => 42), // Default RSVP font size
 }));
 
 // Mock PlaybackControls

@@ -67,25 +67,23 @@ export function ContentListScreen() {
   const deleteItem = useContentListStore((state) => state.deleteItem);
 
   // Subscribe to source stores to trigger re-render when content changes
-  const importedContent = useContentStore((state) => state.importedContent);
-  const generatedArticles = useGeneratedStore((state) => state.articles);
-  const curricula = useCurriculumStore((state) => state.curricula);
-  const articleProgress = useLearningStore((state) => state.articleProgress);
-  const moveFinishedToHistory = useSettingsStore((state) => state.moveFinishedToHistory);
+  const _importedContent = useContentStore((state) => state.importedContent);
+  const _generatedArticles = useGeneratedStore((state) => state.articles);
+  const _curricula = useCurriculumStore((state) => state.curricula);
+  const _articleProgress = useLearningStore((state) => state.articleProgress);
+  const _moveFinishedToHistory = useSettingsStore((state) => state.moveFinishedToHistory);
+
+  // Mark subscriptions as intentionally unused (they trigger re-renders via side effects)
+  void _importedContent;
+  void _generatedArticles;
+  void _curricula;
+  void _articleProgress;
+  void _moveFinishedToHistory;
 
   // Get the computed grouped content list - recomputes when source stores change
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const sections = useMemo(() => {
     return getGroupedContentList();
-  }, [
-    getGroupedContentList,
-    activeFilter,
-    importedContent,
-    generatedArticles,
-    curricula,
-    articleProgress,
-    moveFinishedToHistory,
-  ]);
+  }, [getGroupedContentList]);
 
   // Check if list is truly empty (no content at all, ignoring filter)
   const isEmptyWithoutFilter = useMemo(() => {

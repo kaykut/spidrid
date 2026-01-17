@@ -16,7 +16,9 @@ import { LanguageAdapter } from './language/types';
 
 export function calculateORP(word: string): number {
   const len = word.length;
-  if (len <= 1) return 0;
+  if (len <= 1) {
+    return 0;
+  }
   return Math.floor((len - 1) / 3);
 }
 
