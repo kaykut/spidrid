@@ -187,6 +187,8 @@ export default function AddContentModal() {
               style={styles.practiceCardHeader}
               onPress={togglePracticeExpanded}
               activeOpacity={0.7}
+              testID="add-content.practice-card"
+              accessible={true}
             >
               <View
                 style={[

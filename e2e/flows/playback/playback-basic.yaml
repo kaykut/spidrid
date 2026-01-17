@@ -1,16 +1,42 @@
-appId: host.exp.Exponent
+appId: com.spidrid.app
 ---
-# PREREQUISITE: The Spidrid app must already be loaded in Expo Go.
-# 1. Start the Expo dev server: npm start (in spidrid-e2e-maestro worktree)
-# 2. Open the app on E2E simulator: xcrun simctl openurl <UDID> "exp://localhost:8081"
-# 3. Dismiss any developer menu dialogs
-# 4. Ensure app is at the content list screen before running this test
+# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+#
+# PREREQUISITE: Metro bundler must be running
+# 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
+# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
+# 3. Run this test
+
+- launchApp
+
+# If dev client home screen shows, connect to Metro
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
 
 # Wait for content list screen to be ready
 - extendedWaitUntil:
     visible:
       id: "content-list.fab-add"
-    timeout: 10000
+    timeout: 30000
 
 # Open add-content modal and select first practice topic
 - tapOn:
@@ -21,14 +47,22 @@ appId: host.exp.Exponent
     visible: "New Content"
     timeout: 5000
 
-# Tap Practice card to expand it
-- tapOn: "Practice"
+# Scroll down to ensure Practice card is fully visible
+- scroll
+
+# Tap the chevron icon on the right side of the Practice card to expand it
+- tapOn:
+    point: "85%,78%"
+
+# Give expansion animation time to complete
+- scroll
+- scroll
 
 # Wait for Practice section to expand and show topics
 - extendedWaitUntil:
     visible:
       id: "add-content.practice.topic-0"
-    timeout: 8000
+    timeout: 10000
 - tapOn:
     id: "add-content.practice.topic-0"
 

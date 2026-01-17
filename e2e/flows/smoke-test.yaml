@@ -1,18 +1,44 @@
-appId: host.exp.Exponent
+appId: com.spidrid.app
 ---
-# SMOKE TEST: Verifies app loads in Expo Go and testIDs are accessible
+# SMOKE TEST: Verifies app loads with expo-dev-client and testIDs are accessible
 #
-# PREREQUISITE: App must be loaded in Expo Go before running
-# 1. Start Expo dev server: npm start
-# 2. Load app: xcrun simctl openurl <UDID> "exp://localhost:8081"
-# 3. Dismiss Expo developer menu
-# 4. Run this test
+# PREREQUISITE: Metro bundler must be running
+# 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
+# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
+# 3. Run this test
+#
+# This test handles connecting to Metro automatically
+
+- launchApp
+
+# If dev client home screen shows, connect to Metro
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened (tap X button in top right)
+- tapOn:
+    point: "95%,8%"
+    optional: true
 
 # Verify content list screen loads
 - extendedWaitUntil:
     visible:
       id: "content-list.fab-add"
-    timeout: 10000
+    timeout: 30000
 
 # Verify profile FAB is also present
 - assertVisible:
