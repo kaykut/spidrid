@@ -5,7 +5,7 @@
  * Uses mocked fetch to simulate API responses. Follows TDD approach.
  */
 
-import { renderHook, act } from '@testing-library/react-native';
+import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { useCurriculumStore } from '../../src/store/curriculumStore';
 import { CurriculumOutline } from '../../src/types/curriculum';
 
@@ -668,7 +668,9 @@ describe('curriculumStore', () => {
       });
 
       // Should have triggered generation for article at index 2 (0 + 2)
-      expect(mockFetch).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(mockFetch).toHaveBeenCalled();
+      });
     });
 
     it('marks curriculum complete when all articles done', async () => {

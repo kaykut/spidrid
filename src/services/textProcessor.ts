@@ -1,11 +1,10 @@
 import { ChapterMetadata } from '../types/content';
 import { ProcessedWord } from '../types/playback';
+import { RSVP_FONT_SIZES } from '../constants/typography';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
 import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
-import { splitLongWord, needsSplitting, needsSplittingDynamic } from './syllables';
-import { RSVP_DISPLAY } from '../constants/typography';
-import { Dimensions } from 'react-native';
+import { splitLongWord, needsSplitting } from './syllables';
 
 /**
  * Tokenize text into words.
@@ -210,22 +209,13 @@ export function mapChapterOffsetsToWordIndices(
  * @param text - Text to process
  * @param chapters - Optional chapter metadata
  * @param adapter - Language adapter (defaults to current language)
- * @param fontSize - Font size in points (for dynamic splitting)
- * @param fontFamily - Font family name (for dynamic splitting)
- * @param screenWidth - Screen width in pixels (for dynamic splitting)
  */
 export function processText(
   text: string,
   chapters?: ChapterMetadata[],
-  adapter: LanguageAdapter = getCurrentAdapter(),
-  fontSize: number = RSVP_DISPLAY.fontSize ?? 48,
-  fontFamily: string = 'System',
-  screenWidth?: number
+  adapter: LanguageAdapter = getCurrentAdapter()
 ): ProcessedWord[] {
   const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
-
-  // Get effective screen width for dynamic splitting
-  const effectiveScreenWidth = screenWidth ?? Dimensions.get('window').width;
 
   // Map chapter offsets to word indices if chapters are provided
   const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
@@ -250,47 +240,9 @@ export function processText(
     const chapterStart = chapterStartMap.get(index);
     const headerInfo = headerInfoMap.get(index);
 
-    // Skip dynamic splitting for header snapshots (they're handled differently)
-    if (headerInfo?.headerText) {
-      // Header snapshot processing (unchanged)
-      const baseWord = processWord(word, isParagraphEnd, adapter);
-
-      if (chapterStart) {
-        baseWord.chapterStart = chapterStart;
-      }
-      if (headerInfo) {
-        baseWord.isHeader = true;
-        if (headerInfo.headerText) {
-          baseWord.headerText = headerInfo.headerText;
-        }
-      }
-
-      result.push(baseWord);
-      continue;
-    }
-
-    // NEW: Calculate ORP first on the full word
-    const orpIndex = calculateORP(word);
-
-    // NEW: Check if splitting needed based on ORP position and width
-    const shouldSplit = needsSplittingDynamic(
-      word,
-      orpIndex,
-      fontSize,
-      fontFamily,
-      effectiveScreenWidth
-    );
-
-    if (shouldSplit) {
-      // Use width-aware splitting logic
-      const chunks = splitLongWord(
-        word,
-        undefined, // maxLength (uses default)
-        adapter,
-        fontSize,
-        fontFamily,
-        effectiveScreenWidth
-      );
+    // Check if this word needs splitting (skip headers - they're handled differently)
+    if (needsSplitting(word) && !headerInfo?.headerText) {
+      const chunks = splitLongWord(word, undefined, adapter);
 
       chunks.forEach((chunk, chunkIndex) => {
         const isFirstChunk = chunkIndex === 0;
@@ -389,4 +341,105 @@ export function findNextSentenceStart(
     }
   }
   return totalWords - 1; // Stay at end if no next sentence
+}
+
+/**
+ * Calculate adaptive font size based on word length.
+ *
+ * Ensures long words don't wrap on narrow screens (375px iPhone SE) by
+ * reducing font size for longer words. Words 22+ chars trigger hyphenation
+ * in processText().
+ *
+ * Font size mappings:
+ * - ≤13 chars: 42pt (majority of words, full size)
+ * - 14 chars: 38pt
+ * - 15 chars: 34pt
+ * - 16 chars: 32pt
+ * - 17 chars: 30pt
+ * - 18-19 chars: 28pt
+ * - 20 chars: 26pt
+ * - 21 chars: 24pt
+ * - 22+ chars: Will be hyphenated by processText, chunks use appropriate size
+ *
+ * @param wordLength - The length of the word to display
+ * @returns Appropriate font size in points
+ *
+ * @example
+ * getAdaptiveFontSize(10)  // 42 - short word, full size
+ * getAdaptiveFontSize(13)  // 42 - still full size
+ * getAdaptiveFontSize(14)  // 38 - first reduction
+ * getAdaptiveFontSize(17)  // 30
+ * getAdaptiveFontSize(19)  // 28
+ * getAdaptiveFontSize(21)  // 24 - last size before hyphenation
+ */
+export function getAdaptiveFontSize(wordLength: number): number {
+  if (wordLength <= 13) return RSVP_FONT_SIZES.size42;
+  if (wordLength === 14) return RSVP_FONT_SIZES.size38;
+  if (wordLength === 15) return RSVP_FONT_SIZES.size34;
+  if (wordLength === 16) return RSVP_FONT_SIZES.size32;
+  if (wordLength === 17) return RSVP_FONT_SIZES.size30;
+  if (wordLength <= 19) return RSVP_FONT_SIZES.size28;  // 18-19
+  if (wordLength === 20) return RSVP_FONT_SIZES.size26;
+  return RSVP_FONT_SIZES.size24;  // 21+ chars (but 22+ should be hyphenated)
+}
+
+/**
+ * Process text WITHOUT word splitting for testing adaptive font sizing.
+ *
+ * DIFFERENCE FROM processText(): Skips splitLongWord() call entirely.
+ * Used to test whether adaptive font sizing alone can prevent wrapping.
+ *
+ * @param text - Text to process
+ * @param chapters - Optional chapter metadata
+ * @param adapter - Language adapter (defaults to current language)
+ */
+export function processTextNoSplit(
+  text: string,
+  chapters?: ChapterMetadata[],
+  adapter: LanguageAdapter = getCurrentAdapter()
+): ProcessedWord[] {
+  const { tokens, paragraphEndIndices, headerInfoMap } = tokenizeWithParagraphs(text, adapter);
+
+  // Map chapter offsets to word indices if chapters are provided
+  const mappedChapters = chapters ? mapChapterOffsetsToWordIndices(text, chapters) : [];
+
+  // Build a map of word index -> chapter info
+  const chapterStartMap = new Map<number, { title: string; index: number }>();
+  mappedChapters.forEach((chapter, index) => {
+    if (chapter.startWordIndex !== undefined) {
+      chapterStartMap.set(chapter.startWordIndex, {
+        title: chapter.title,
+        index: index + 1, // 1-based chapter number
+      });
+    }
+  });
+
+  const result: ProcessedWord[] = [];
+
+  for (let index = 0; index < tokens.length; index++) {
+    const word = tokens[index];
+    const isParagraphEnd = paragraphEndIndices.has(index);
+    const chapterStart = chapterStartMap.get(index);
+    const headerInfo = headerInfoMap.get(index);
+
+    // NO SPLITTING - process all words as-is
+    const baseWord = processWord(word, isParagraphEnd, adapter);
+
+    // Apply chapter start if present
+    if (chapterStart) {
+      baseWord.chapterStart = chapterStart;
+    }
+
+    // Apply header info if present
+    if (headerInfo) {
+      baseWord.isHeader = true;
+      if (headerInfo.headerText) {
+        baseWord.headerText = headerInfo.headerText;
+      }
+    }
+
+    result.push(baseWord);
+  }
+
+  return result;
 }

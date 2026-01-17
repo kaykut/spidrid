@@ -145,12 +145,12 @@ describe('CERTIFICATION_TIER_DEFINITIONS', () => {
       expect(tier.vsThreshold).toBe(40);
     });
 
-    it('has speed proof of 600 WPM', () => {
-      expect(tier.speedProofWpm).toBe(600);
+    it('has speed proof of 900 WPM', () => {
+      expect(tier.speedProofWpm).toBe(900);
     });
 
-    it('has exam WPM of 600', () => {
-      expect(tier.examWpm).toBe(600);
+    it('has exam WPM of 900', () => {
+      expect(tier.examWpm).toBe(900);
     });
 
     it('has icon ⚡', () => {
@@ -165,12 +165,12 @@ describe('CERTIFICATION_TIER_DEFINITIONS', () => {
       expect(tier.vsThreshold).toBe(60);
     });
 
-    it('has speed proof of 900 WPM', () => {
-      expect(tier.speedProofWpm).toBe(900);
+    it('has speed proof of 1200 WPM', () => {
+      expect(tier.speedProofWpm).toBe(1200);
     });
 
-    it('has icon 🚀', () => {
-      expect(tier.icon).toBe('🚀');
+    it('has icon 🔥', () => {
+      expect(tier.icon).toBe('🔥');
     });
   });
 
@@ -181,12 +181,12 @@ describe('CERTIFICATION_TIER_DEFINITIONS', () => {
       expect(tier.vsThreshold).toBe(95);
     });
 
-    it('has speed proof of 1200 WPM', () => {
-      expect(tier.speedProofWpm).toBe(1200);
+    it('has speed proof of 1500 WPM', () => {
+      expect(tier.speedProofWpm).toBe(1500);
     });
 
-    it('has icon 🏆', () => {
-      expect(tier.icon).toBe('🏆');
+    it('has icon 👑', () => {
+      expect(tier.icon).toBe('👑');
     });
   });
 });

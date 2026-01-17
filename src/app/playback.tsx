@@ -7,7 +7,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,14 +16,13 @@ import { PlaybackControls } from '../components/controls/PlaybackControls';
 import { ChapterPauseOverlay } from '../components/rsvp/ChapterPauseOverlay';
 import { RSVPWord } from '../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING, RSVP_DISPLAY } from '../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../constants/typography';
 import { JOURNEY_COLORS } from '../data/themes';
 import { useRSVPEngine } from '../hooks/useRSVPEngine';
-import { processText } from '../services/textProcessor';
+import { processText, getAdaptiveFontSize } from '../services/textProcessor';
 import { useContentStore } from '../store/contentStore';
 import { useGeneratedStore } from '../store/generatedStore';
 import { useLearningStore } from '../store/learningStore';
-import { useSettingsStore } from '../store/settingsStore';
 import { ContentSource } from '../types/contentList';
 import { resolveContentBySource } from '../utils/contentResolver';
 
@@ -37,14 +36,9 @@ export default function PlaybackModal() {
   const { currentWPM, setCurrentWPM, startArticle } = useLearningStore();
   const { updateProgress } = useContentStore();
   const { updateArticleProgress: updateGeneratedProgress } = useGeneratedStore();
-  const fontFamily = useSettingsStore(state => state.fontFamily);
-
   // Track reading WPM for results
   const [readingWPM, setReadingWPM] = useState(currentWPM);
   const [isComplete, setIsComplete] = useState(false);
-
-  // ✅ Bug 4 Fix: Track screen dimensions for rotation handling
-  const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
 
   // Resolve content from params
   const resolvedContent = useMemo(() => {
@@ -54,23 +48,18 @@ export default function PlaybackModal() {
     return resolveContentBySource(sourceId, source);
   }, [sourceId, source]);
 
-  // Process text into words for RSVP engine with dynamic splitting
+  // Process text into words for RSVP engine
   const processedWords = useMemo(() => {
     if (!resolvedContent?.content) {
       return [];
     }
 
-    const fontSize = RSVP_DISPLAY.fontSize ?? 48;
-
     return processText(
       resolvedContent.content,
       undefined, // chapters
-      undefined, // adapter (uses default)
-      fontSize,
-      fontFamily,
-      screenDimensions.width
+      undefined  // adapter (uses default)
     );
-  }, [resolvedContent?.content, fontFamily, screenDimensions.width]);
+  }, [resolvedContent?.content]);
 
   // Mark article as started when content is loaded
   useEffect(() => {
@@ -79,18 +68,13 @@ export default function PlaybackModal() {
     }
   }, [sourceId, source, startArticle]);
 
-  // ✅ Bug 4 Fix: Listen for screen rotation/dimension changes
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener('change', ({ window }) => {
-      console.log('[playback] Screen dimensions changed:', window.width, 'x', window.height);
-      setScreenDimensions(window);
-    });
-
-    return () => subscription?.remove();
-  }, []);
-
   // RSVP engine - starts paused (default behavior)
   const engine = useRSVPEngine(processedWords, currentWPM);
+
+  // Calculate adaptive font size based on current word length
+  const adaptiveFontSize = engine.currentWord
+    ? getAdaptiveFontSize(engine.currentWord.display.length)
+    : 42;
 
   // Handle playback completion
   const handlePlaybackComplete = useCallback(() => {
@@ -256,7 +240,7 @@ export default function PlaybackModal() {
                 />
               )}
               {hasContent && !engine.chapterPaused && (
-                <RSVPWord word={engine.currentWord} />
+                <RSVPWord word={engine.currentWord} fontSize={adaptiveFontSize} />
               )}
             </View>
 

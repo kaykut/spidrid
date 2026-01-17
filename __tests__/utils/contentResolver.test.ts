@@ -48,6 +48,7 @@ const createTestCurriculum = (
   articleCount: articles.length,
   tone: 'explanatory',
   targetWordCount: 500,
+  hasQuizzes: true,
   createdAt: Date.now(),
   updatedAt: Date.now(),
   currentArticleIndex: 0,
@@ -61,6 +62,7 @@ const createTestCurriculum = (
     summary: `Summary for article ${index + 1}`,
     content: a.content || `Content for article ${index + 1}`,
     wordCount: a.wordCount || 100,
+    hasQuiz: true,
     questions: [
       {
         id: `q-${index}`,

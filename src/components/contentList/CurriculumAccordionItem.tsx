@@ -6,7 +6,7 @@
  * Starts expanded by default when newly added.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,15 +19,15 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
-import { SPACING, COMPONENT_SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { SPACING, COMPONENT_SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
+import { useCurriculumStore } from '../../store/curriculumStore';
 import { ContentListItem } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
+import { cardBaseStyles } from './cardLayout';
 import { ContentListItemCard } from './ContentListItemCard';
-import { useCurriculumStore } from '../../store/curriculumStore';
-import { cardBaseStyles, CARD_LAYOUT } from './cardLayout';
-import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -44,7 +44,7 @@ interface CurriculumAccordionItemProps {
 
 export function CurriculumAccordionItem({
   item,
-  onPress,
+  onPress: _onPress,
   onDelete,
   onArticlePress,
   defaultExpanded = true,
@@ -107,7 +107,7 @@ export function CurriculumAccordionItem({
 
   // Render dot indicators for article completion
   const renderDotIndicators = () => {
-    if (!item.curriculumProgress) return null;
+    if (!item.curriculumProgress) {return null;}
 
     const dots = [];
     for (let i = 0; i < totalArticles; i++) {

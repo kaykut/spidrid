@@ -18,8 +18,6 @@
 
 import { useState, useCallback } from 'react';
 import { NativeSyntheticEvent, TextLayoutEventData, TextStyle } from 'react-native';
-import { TYPOGRAPHY } from '../constants/typography';
-import { LINE_HEIGHTS } from '../constants/spacing';
 
 const CARD_TITLE_SIZES = {
   default: 17,  // TYPOGRAPHY.cardTitle.fontSize

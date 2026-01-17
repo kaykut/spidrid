@@ -217,7 +217,7 @@ describe('certificateTemplate', () => {
         expect(html).toContain('950 WPM');
         expect(html).toContain('Master Reader');
         expect(html).toContain('Velocity Master');
-        expect(html).toContain('🚀');
+        expect(html).toContain('🔥');
       });
 
       it('handles transcendent certificate type', () => {
@@ -237,7 +237,7 @@ describe('certificateTemplate', () => {
         expect(html).toContain('1250 WPM');
         expect(html).toContain('Elite Reader');
         expect(html).toContain('Transcendent');
-        expect(html).toContain('🏆');
+        expect(html).toContain('👑');
       });
     });
 

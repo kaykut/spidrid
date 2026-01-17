@@ -44,7 +44,7 @@ export function useWhisperRecording(): UseWhisperRecordingResult {
             // Ignore cleanup errors
           });
         }
-      } catch (error) {
+      } catch (_error) {
         // Native object may already be destroyed - ignore
       }
     };

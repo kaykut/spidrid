@@ -105,7 +105,8 @@ describe('authStore', () => {
       // Should have logged an error
       expect(consoleSpy).toHaveBeenCalledWith(
         '[AuthStore] signInAnonymously failed:',
-        'Anonymous sign-ins are not enabled'
+        'Anonymous sign-ins are not enabled',
+        { message: 'Anonymous sign-ins are not enabled' }
       );
 
       // Should still mark as initialized to prevent infinite retries

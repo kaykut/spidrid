@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { space } from '../../constants/spacing';
-import { FONT_WEIGHTS, FONT_FAMILY, RSVP_DISPLAY, getRSVPFontFamily } from '../../constants/typography';
+import { FONT_WEIGHTS, FONT_FAMILY, RSVP_DISPLAY } from '../../constants/typography';
 import { ProcessedWord } from '../../types/playback';
 import { useTheme } from '../common/ThemeProvider';
-import { useSettingsStore } from '../../store/settingsStore';
 
 interface RSVPWordProps {
   word: ProcessedWord | null;
@@ -31,8 +30,6 @@ const RSVP_SIZES = {
  */
 export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize ?? 48 }: RSVPWordProps) {
   const { theme } = useTheme();
-  const fontFamily = useSettingsStore(state => state.fontFamily);
-  const rsvpFontFamily = getRSVPFontFamily(fontFamily);
 
   if (!word) {
     return (
@@ -80,28 +77,19 @@ export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize ?? 48 }: RSVPW
       <View style={styles.wordRow}>
         {/* Before text: right-aligned so it ends at the ORP */}
         <View style={styles.beforeContainer}>
-          <Text
-            style={[styles.word, { color: textColor, fontSize, fontFamily: rsvpFontFamily }]}
-            numberOfLines={1}
-          >
+          <Text style={[styles.word, { color: textColor, fontSize }]}>
             {before}
           </Text>
         </View>
 
         {/* ORP character: fixed at center */}
-        <Text
-          style={[styles.word, styles.orpChar, { color: highlightColor, fontSize, fontFamily: rsvpFontFamily }]}
-          numberOfLines={1}
-        >
+        <Text style={[styles.word, styles.orpChar, { color: highlightColor, fontSize }]}>
           {orpChar}
         </Text>
 
         {/* After text: left-aligned so it starts after the ORP */}
         <View style={styles.afterContainer}>
-          <Text
-            style={[styles.word, { color: textColor, fontSize, fontFamily: rsvpFontFamily }]}
-            numberOfLines={1}
-          >
+          <Text style={[styles.word, { color: textColor, fontSize }]}>
             {after}
           </Text>
         </View>
@@ -129,14 +117,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   beforeContainer: {
-    flex: 0.46,
+    flex: 1,
     alignItems: 'flex-end',
   },
   afterContainer: {
-    flex: 0.54,
+    flex: 1,
     alignItems: 'flex-start',
   },
   word: {
+    fontFamily: FONT_FAMILY,
     fontWeight: FONT_WEIGHTS.regular,
   },
   orpChar: {

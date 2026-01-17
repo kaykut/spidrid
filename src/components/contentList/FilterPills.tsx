@@ -7,12 +7,11 @@
 
 import React, { useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
+import { SPRING_CONFIG } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
 import { ContentCategory } from '../../types/contentList';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
-import { SPRING_CONFIG } from '../../constants/animations';
 
 interface FilterOption {
   id: ContentCategory | null;

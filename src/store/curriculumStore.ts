@@ -18,9 +18,9 @@ import {
   ArticleGenerationStatus,
   durationToWordCount,
 } from '../types/curriculum';
-import { useAuthStore } from './authStore';
 import { TONE_DEFINITIONS } from '../types/generated';
 import { Question } from '../types/learning';
+import { useAuthStore } from './authStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 

@@ -87,6 +87,7 @@ describe('transcribeAudio', () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer test-access-token',
+          'apikey': 'test-anon-key',
         },
         body: JSON.stringify({
           audio: 'base64audiodata',

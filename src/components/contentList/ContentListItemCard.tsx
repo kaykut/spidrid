@@ -18,13 +18,13 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
-import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 import { ContentListItem, ContentSource, ContentCategory } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
 import { cardBaseStyles } from './cardLayout';
-import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 
 interface ContentListItemCardProps {
   item: ContentListItem;

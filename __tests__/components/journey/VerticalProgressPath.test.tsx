@@ -69,7 +69,6 @@ describe('VerticalProgressPath', () => {
 
       expect(screen.getByText(/300 WPM/)).toBeTruthy();
       expect(screen.getByText(/450 WPM/)).toBeTruthy();
-      expect(screen.getByText(/600 WPM/)).toBeTruthy();
       expect(screen.getByText(/900 WPM/)).toBeTruthy();
       expect(screen.getByText(/1200 WPM/)).toBeTruthy();
       expect(screen.getByText(/1500 WPM/)).toBeTruthy();
@@ -110,9 +109,9 @@ describe('VerticalProgressPath', () => {
     });
 
     it('shows comprehension progress bar for cert milestones', () => {
-      renderWithProviders(<VerticalProgressPath {...defaultProps} avgWpm={500} />);
+      renderWithProviders(<VerticalProgressPath {...defaultProps} avgWpm={850} />);
 
-      // At 500 WPM, next is Swift (600) which has cert
+      // At 850 WPM, next is Rapid (900) which has speed_reader cert
       expect(screen.getByText('Comprehension')).toBeTruthy();
     });
   });
@@ -133,7 +132,7 @@ describe('VerticalProgressPath', () => {
 
     it('shows percentage format for comprehension', () => {
       renderWithProviders(
-        <VerticalProgressPath {...defaultProps} avgWpm={500} avgComp={75} />
+        <VerticalProgressPath {...defaultProps} avgWpm={850} avgComp={75} />
       );
 
       // Comprehension shows percentage format

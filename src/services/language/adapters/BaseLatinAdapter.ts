@@ -34,18 +34,19 @@ export abstract class BaseLatinAdapter implements LanguageAdapter {
    * Common compound word prefixes (Greek/Latin roots).
    * These are largely universal across European languages.
    * Sorted by length (longest first) to match most specific prefix.
+   * Total: 46 prefixes (expanded from 32 to handle more long words)
    */
   readonly compoundPrefixes: string[] = [
     // 7+ chars
     'electro', 'counter',
     // 6 chars
-    'pseudo', 'thermo', 'chrono',
+    'pseudo', 'thermo', 'chrono', 'hetero',
     // 5 chars
-    'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra',
+    'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra', 'proto', 'retro',
     // 4 chars
-    'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele',
+    'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele', 'homo', 'omni',
     // 3 chars
-    'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri',
+    'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri', 'iso', 'pan',
   ];
 
   // Punctuation detection - shared across Latin languages

@@ -38,12 +38,12 @@ describe('Certification Tier Definitions', () => {
         expect(tier.vsThreshold).toBe(40);
       });
 
-      it('has speed proof of 600 WPM', () => {
-        expect(tier.speedProofWpm).toBe(600);
+      it('has speed proof of 900 WPM', () => {
+        expect(tier.speedProofWpm).toBe(900);
       });
 
-      it('has exam WPM of 600', () => {
-        expect(tier.examWpm).toBe(600);
+      it('has exam WPM of 900', () => {
+        expect(tier.examWpm).toBe(900);
       });
 
       it('has exam words of 1000', () => {
@@ -78,12 +78,12 @@ describe('Certification Tier Definitions', () => {
         expect(tier.vsThreshold).toBe(60);
       });
 
-      it('has speed proof of 900 WPM', () => {
-        expect(tier.speedProofWpm).toBe(900);
+      it('has speed proof of 1200 WPM', () => {
+        expect(tier.speedProofWpm).toBe(1200);
       });
 
-      it('has exam WPM of 900', () => {
-        expect(tier.examWpm).toBe(900);
+      it('has exam WPM of 1200', () => {
+        expect(tier.examWpm).toBe(1200);
       });
 
       it('has exam words of 2000', () => {
@@ -94,8 +94,8 @@ describe('Certification Tier Definitions', () => {
         expect(tier.name).toBe('Velocity Master');
       });
 
-      it('has icon 🚀', () => {
-        expect(tier.icon).toBe('🚀');
+      it('has icon 🔥', () => {
+        expect(tier.icon).toBe('🔥');
       });
     });
 
@@ -106,12 +106,12 @@ describe('Certification Tier Definitions', () => {
         expect(tier.vsThreshold).toBe(95);
       });
 
-      it('has speed proof of 1200 WPM', () => {
-        expect(tier.speedProofWpm).toBe(1200);
+      it('has speed proof of 1500 WPM', () => {
+        expect(tier.speedProofWpm).toBe(1500);
       });
 
-      it('has exam WPM of 1200', () => {
-        expect(tier.examWpm).toBe(1200);
+      it('has exam WPM of 1500', () => {
+        expect(tier.examWpm).toBe(1500);
       });
 
       it('has exam words of 3000', () => {
@@ -122,8 +122,8 @@ describe('Certification Tier Definitions', () => {
         expect(tier.name).toBe('Transcendent');
       });
 
-      it('has icon 🏆', () => {
-        expect(tier.icon).toBe('🏆');
+      it('has icon 👑', () => {
+        expect(tier.icon).toBe('👑');
       });
     });
   });
@@ -266,19 +266,19 @@ describe('Certificate interface', () => {
     const speedReaderCert: Certificate = {
       id: 'cert_1',
       type: 'speed_reader',
-      wpm: 600,
+      wpm: 900,
       earnedAt: Date.now(),
     };
     const velocityMasterCert: Certificate = {
       id: 'cert_2',
       type: 'velocity_master',
-      wpm: 900,
+      wpm: 1200,
       earnedAt: Date.now(),
     };
     const transcendentCert: Certificate = {
       id: 'cert_3',
       type: 'transcendent',
-      wpm: 1200,
+      wpm: 1500,
       earnedAt: Date.now(),
     };
 

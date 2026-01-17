@@ -203,7 +203,11 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
         const curriculumArticles: ContentListItem[] = [];
 
         for (const article of curriculum.articles) {
-          // Show all articles - ArticleRow handles locked/pending states
+          // Only show generated articles
+          if (article.generationStatus !== 'generated') {
+            continue;
+          }
+
           const articleState = getContentState(
             article.completionStatus === 'completed' ? 100 : 0,
             article.completionStatus === 'completed'

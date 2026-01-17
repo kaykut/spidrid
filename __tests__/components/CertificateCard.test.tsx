@@ -49,7 +49,7 @@ describe('CertificateCard', () => {
     it('renders certificate description', () => {
       renderWithProviders(<CertificateCard certificate={mockCertificate} />);
 
-      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 900 WPM capability')).toBeTruthy();
     });
 
     it('renders certificate icon', () => {
@@ -62,16 +62,16 @@ describe('CertificateCard', () => {
       renderWithProviders(<CertificateCard certificate={mockMasterCertificate} />);
 
       expect(screen.getByText('Velocity Master')).toBeTruthy();
-      expect(screen.getByText('Achieved VS 60 with 900 WPM capability')).toBeTruthy();
-      expect(screen.getByText('🚀')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 60 with 1200 WPM capability')).toBeTruthy();
+      expect(screen.getByText('🔥')).toBeTruthy();
     });
 
     it('renders transcendent certificate correctly', () => {
       renderWithProviders(<CertificateCard certificate={mockTranscendentCertificate} />);
 
       expect(screen.getByText('Transcendent')).toBeTruthy();
-      expect(screen.getByText('Achieved VS 95 with 1200 WPM capability')).toBeTruthy();
-      expect(screen.getByText('🏆')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 95 with 1500 WPM capability')).toBeTruthy();
+      expect(screen.getByText('👑')).toBeTruthy();
     });
   });
 
@@ -169,7 +169,7 @@ describe('LockedCertificateCard', () => {
     it('renders certificate description', () => {
       renderWithProviders(<LockedCertificateCard type="speed_reader" progress={0.5} />);
 
-      expect(screen.getByText('Achieved VS 40 with 600 WPM capability')).toBeTruthy();
+      expect(screen.getByText('Achieved VS 40 with 900 WPM capability')).toBeTruthy();
     });
 
     it('renders velocity master locked card', () => {

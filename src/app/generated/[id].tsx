@@ -9,7 +9,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,14 +18,13 @@ import { PlaybackControls } from '../../components/controls/PlaybackControls';
 import { QuestionRenderer, QuestionAnswer } from '../../components/quiz';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
-import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING, RSVP_DISPLAY } from '../../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
 import { useGeneratedStore } from '../../store/generatedStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
-import { useSettingsStore } from '../../store/settingsStore';
 import { isAnswerCorrect } from '../../utils/calculateQuizScore';
 
 type Phase = 'reading' | 'quiz' | 'results';
@@ -37,7 +36,6 @@ export default function GeneratedArticleScreen() {
   const { getArticleById, updateArticleProgress } = useGeneratedStore();
   const { recordSession } = useJourneyStore();
   const { currentWPM, setCurrentWPM } = useLearningStore();
-  const fontFamily = useSettingsStore(state => state.fontFamily);
 
   const article = getArticleById(id || '');
 
@@ -48,24 +46,16 @@ export default function GeneratedArticleScreen() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [readingWPM, setReadingWPM] = useState(currentWPM);
 
-  // ✅ Bug 4 Fix: Track screen dimensions for rotation handling
-  const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
-
-  // Process article content for RSVP with dynamic splitting
+  // Process article content for RSVP
   const processedWords = useMemo(() => {
     if (!article?.content) {return [];}
-
-    const fontSize = RSVP_DISPLAY.fontSize ?? 48;
 
     return processText(
       article.content,
       undefined, // chapters
-      undefined, // adapter
-      fontSize,
-      fontFamily,
-      screenDimensions.width
+      undefined  // adapter
     );
-  }, [article?.content, fontFamily, screenDimensions.width]);
+  }, [article?.content]);
 
   // RSVP engine
   const engine = useRSVPEngine(processedWords, currentWPM);
@@ -88,15 +78,6 @@ export default function GeneratedArticleScreen() {
       setPhase('results');
     }
   }, [engine.wpm, article?.questions]);
-
-  // ✅ Bug 4 Fix: Listen for screen rotation/dimension changes
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener('change', ({ window }) => {
-      setScreenDimensions(window);
-    });
-
-    return () => subscription?.remove();
-  }, []);
 
   // Detect playback completion
   useEffect(() => {

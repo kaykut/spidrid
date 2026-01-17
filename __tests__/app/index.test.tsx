@@ -122,8 +122,8 @@ describe('Index', () => {
         </TestWrapper>
       );
 
-      expect(getByTestId('fab-profile')).toBeTruthy();
-      expect(getByTestId('fab-add-content')).toBeTruthy();
+      expect(getByTestId('content-list.fab-profile')).toBeTruthy();
+      expect(getByTestId('content-list.fab-add')).toBeTruthy();
     });
 
     it('shows filter pills', () => {
@@ -274,7 +274,7 @@ describe('Index', () => {
         </TestWrapper>
       );
 
-      fireEvent.press(getByTestId('fab-profile'));
+      fireEvent.press(getByTestId('content-list.fab-profile'));
 
       expect(mockRouterPush).toHaveBeenCalledWith('/journey-profile');
     });
@@ -286,7 +286,7 @@ describe('Index', () => {
         </TestWrapper>
       );
 
-      fireEvent.press(getByTestId('fab-add-content'));
+      fireEvent.press(getByTestId('content-list.fab-add'));
 
       expect(mockRouterPush).toHaveBeenCalledWith('/add-content');
     });

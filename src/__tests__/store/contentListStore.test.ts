@@ -74,6 +74,7 @@ function createMockCurriculumArticle(
     summary: 'Test summary',
     content: 'Test content',
     wordCount: 800,
+    hasQuiz: true,
     questions: [
       {
         id: `q-${index}`,
@@ -101,6 +102,7 @@ function createMockCurriculum(
     articleCount: 3,
     tone: 'explanatory',
     targetWordCount: 800,
+    hasQuizzes: true,
     createdAt: Date.now(),
     updatedAt: Date.now(),
     currentArticleIndex: 0,

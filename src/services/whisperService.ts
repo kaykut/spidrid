@@ -33,37 +33,37 @@ export async function transcribeAudio(audioUri: string): Promise<TranscribeResul
   try {
     // Get access token for authenticated API call
     const authState = useAuthStore.getState();
-    console.log('[whisperService] Auth state:', {
+    console.warn('[whisperService] Auth state:', {
       isInitialized: authState.isInitialized,
       isAnonymous: authState.isAnonymous,
       userId: authState.userId,
     });
 
-    console.log('[whisperService] Refreshing session to get fresh token...');
+    console.warn('[whisperService] Refreshing session to get fresh token...');
     const token = await authState.getAccessToken();
     if (!token) {
-      console.log('[whisperService] No token available after refresh');
+      console.warn('[whisperService] No token available after refresh');
       return {
         success: false,
         error: 'Not authenticated',
       };
     }
-    console.log('[whisperService] Got fresh token');
+    console.warn('[whisperService] Got fresh token');
 
     // Decode JWT to check all claims (without verifying signature)
     try {
       const header = JSON.parse(atob(token.split('.')[0]));
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('[whisperService] JWT header:', header);
-      console.log('[whisperService] JWT payload (full):', payload);
-      console.log('[whisperService] JWT expiry check:', {
+      console.warn('[whisperService] JWT header:', header);
+      console.warn('[whisperService] JWT payload (full):', payload);
+      console.warn('[whisperService] JWT expiry check:', {
         exp: payload.exp,
         expDate: new Date(payload.exp * 1000).toISOString(),
         now: new Date().toISOString(),
         isExpired: Date.now() > payload.exp * 1000,
       });
     } catch (e) {
-      console.log('[whisperService] Could not decode JWT:', e);
+      console.warn('[whisperService] Could not decode JWT:', e);
     }
 
     // Read the audio file as base64
@@ -76,10 +76,10 @@ export async function transcribeAudio(audioUri: string): Promise<TranscribeResul
     // Call Supabase Edge Function with JWT auth
     const url = `${SUPABASE_URL}/functions/v1/transcribe`;
 
-    console.log('[whisperService] Request:', {
+    console.warn('[whisperService] Request:', {
       url,
       hasToken: !!token,
-      tokenPrefix: token?.substring(0, 20) + '...',
+      tokenPrefix: `${token?.substring(0, 20)  }...`,
       hasApiKey: !!SUPABASE_ANON_KEY,
       audioLength: base64Audio?.length,
       fileType,
@@ -100,7 +100,7 @@ export async function transcribeAudio(audioUri: string): Promise<TranscribeResul
 
     const data = await response.json();
 
-    console.log('[whisperService] Response:', {
+    console.warn('[whisperService] Response:', {
       status: response.status,
       ok: response.ok,
       data,

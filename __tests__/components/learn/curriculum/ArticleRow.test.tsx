@@ -43,6 +43,7 @@ const createArticle = (overrides: Partial<CurriculumArticle> = {}): CurriculumAr
   summary: 'A brief introduction to ML concepts',
   content: 'Full article content here...',
   wordCount: 750,
+  hasQuiz: true,
   questions: [],
   generationStatus: 'generated',
   completionStatus: 'unlocked',

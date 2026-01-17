@@ -17,8 +17,8 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -165,7 +165,7 @@ export default function JourneyProfileModal() {
                 'Cleared',
                 'Auth token cleared. Restart the app to get a fresh anonymous session.'
               );
-            } catch (error) {
+            } catch (_error) {
               Alert.alert('Error', 'Failed to clear auth token');
             }
           },
@@ -585,6 +585,16 @@ export default function JourneyProfileModal() {
           >
             <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
               Clear Auth Token (Debug)
+            </Text>
+          </TouchableOpacity>
+
+          {/* Debug Storage Button */}
+          <TouchableOpacity
+            style={[styles.devButton, { borderColor: theme.accentColor }]}
+            onPress={() => router.push('/debug-storage')}
+          >
+            <Text style={[styles.devButtonText, { color: theme.accentColor }]}>
+              Debug Storage
             </Text>
           </TouchableOpacity>
 

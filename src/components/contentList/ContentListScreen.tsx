@@ -9,7 +9,7 @@
  * - Empty state when no content
  */
 
-import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   View,
   SectionList,
@@ -24,6 +24,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SPACING } from '../../constants/spacing';
+import { useItemChangeTracking } from '../../hooks/useItemChangeTracking';
 import { useStats } from '../../hooks/useStats';
 import { useContentListStore } from '../../store/contentListStore';
 import { useContentStore } from '../../store/contentStore';
@@ -73,8 +74,10 @@ export function ContentListScreen() {
   const moveFinishedToHistory = useSettingsStore((state) => state.moveFinishedToHistory);
 
   // Get the computed grouped content list - recomputes when source stores change
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- Dependencies trigger recomputation when stores change
-  const sections = useMemo(() => getGroupedContentList(), [
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sections = useMemo(() => {
+    return getGroupedContentList();
+  }, [
     getGroupedContentList,
     activeFilter,
     importedContent,
@@ -89,23 +92,13 @@ export function ContentListScreen() {
     return !hasAnyContent();
   }, [hasAnyContent]);
 
-  // Filter change detection for list animations
-  const prevFilterRef = useRef(activeFilter);
-  const [animationKey, setAnimationKey] = useState(0);
+  // Extract current item IDs for change tracking
+  const currentItemIds = useMemo(() => {
+    return sections.flatMap((section) => section.data.map((item) => item.id));
+  }, [sections]);
 
-  useEffect(() => {
-    // Skip animation on initial mount
-    if (prevFilterRef.current === undefined) {
-      prevFilterRef.current = activeFilter;
-      return;
-    }
-
-    // Trigger animation when filter changes
-    if (prevFilterRef.current !== activeFilter) {
-      setAnimationKey((prev) => prev + 1);
-      prevFilterRef.current = activeFilter;
-    }
-  }, [activeFilter]);
+  // Track item changes (new, existing, removed) for animations
+  const { changeMap } = useItemChangeTracking(currentItemIds);
 
   // Helper to calculate global index across sections for stagger
   const getGlobalIndex = useCallback(
@@ -153,13 +146,16 @@ export function ContentListScreen() {
       const sectionIndex = sections.indexOf(section);
       const globalIndex = getGlobalIndex(sectionIndex, itemIndex);
 
+      // Get change type for this item (default to 'existing' if not found)
+      const changeType = changeMap.get(item.id) || 'existing';
+
       // Render curriculum with accordion
       if (item.isCurriculum) {
         return (
-          <AnimatedListItem index={globalIndex} animationKey={animationKey}>
+          <AnimatedListItem index={globalIndex} changeType={changeType}>
             <CurriculumAccordionItem
               item={item}
-              onPress={() => {}} // Curriculum itself is not playable - only expands/collapses
+              onPress={() => undefined} // Curriculum itself is not playable - only expands/collapses
               onDelete={() => handleDeleteItem(item)}
               onArticlePress={handleItemPress}
             />
@@ -169,7 +165,7 @@ export function ContentListScreen() {
 
       // Render regular content item
       return (
-        <AnimatedListItem index={globalIndex} animationKey={animationKey}>
+        <AnimatedListItem index={globalIndex} changeType={changeType}>
           <ContentListItemCard
             item={item}
             onPress={() => handleItemPress(item)}
@@ -178,7 +174,7 @@ export function ContentListScreen() {
         </AnimatedListItem>
       );
     },
-    [handleItemPress, handleDeleteItem, sections, getGlobalIndex, animationKey]
+    [handleItemPress, handleDeleteItem, sections, getGlobalIndex, changeMap]
   );
 
   // Key extractor for SectionList

@@ -9,10 +9,12 @@ import {
   tokenizeWithParagraphs,
   processWord,
   processText,
+  processTextNoSplit,
   mapChapterOffsetsToWordIndices,
   findSentenceStarts,
   findPreviousSentenceStart,
   findNextSentenceStart,
+  getAdaptiveFontSize,
 } from '../../src/services/textProcessor';
 import { ProcessedWord } from '../../src/types/playback';
 import { ChapterMetadata } from '../../src/types/content';
@@ -674,5 +676,126 @@ describe('processText with chapters', () => {
     // First token is the header
     expect(result[0].isHeader).toBe(true);
     expect(result[0].chapterStart?.title).toBe('Chapter');
+  });
+});
+
+describe('getAdaptiveFontSize', () => {
+  it('returns 42pt for words ≤13 chars', () => {
+    expect(getAdaptiveFontSize(1)).toBe(42);
+    expect(getAdaptiveFontSize(8)).toBe(42);
+    expect(getAdaptiveFontSize(13)).toBe(42);
+  });
+
+  it('returns 38pt for 14 char words', () => {
+    expect(getAdaptiveFontSize(14)).toBe(38);
+  });
+
+  it('returns 34pt for 15 char words', () => {
+    expect(getAdaptiveFontSize(15)).toBe(34);
+  });
+
+  it('returns 32pt for 16 char words', () => {
+    expect(getAdaptiveFontSize(16)).toBe(32);
+  });
+
+  it('returns 30pt for 17 char words', () => {
+    expect(getAdaptiveFontSize(17)).toBe(30);
+  });
+
+  it('returns 28pt for 18-19 char words', () => {
+    expect(getAdaptiveFontSize(18)).toBe(28);
+    expect(getAdaptiveFontSize(19)).toBe(28);
+  });
+
+  it('returns 26pt for 20 char words', () => {
+    expect(getAdaptiveFontSize(20)).toBe(26);
+  });
+
+  it('returns 24pt for 21+ char words', () => {
+    expect(getAdaptiveFontSize(21)).toBe(24);
+    expect(getAdaptiveFontSize(25)).toBe(24);  // 22+ will be hyphenated, but function returns 24
+  });
+});
+
+describe('processTextNoSplit', () => {
+  it('processes text without splitting long words', () => {
+    const text = 'telecommunications photosynthesis';
+    const result = processTextNoSplit(text);
+
+    // Should have exactly 2 words (no splitting)
+    expect(result).toHaveLength(2);
+    expect(result[0].display).toBe('telecommunications');
+    expect(result[1].display).toBe('photosynthesis');
+
+    // Words should NOT have fullWord or isContinuation flags
+    expect(result[0].fullWord).toBeUndefined();
+    expect(result[0].isContinuation).toBeUndefined();
+    expect(result[1].fullWord).toBeUndefined();
+    expect(result[1].isContinuation).toBeUndefined();
+  });
+
+  it('has same behavior as processText for short words', () => {
+    const text = 'hello world test';
+    const withSplit = processText(text);
+    const noSplit = processTextNoSplit(text);
+
+    // Same number of words for short text
+    expect(noSplit).toHaveLength(withSplit.length);
+    expect(noSplit.map(w => w.display)).toEqual(withSplit.map(w => w.display));
+  });
+
+  it('preserves paragraph boundaries', () => {
+    const text = 'First paragraph.\n\nSecond paragraph.';
+    const result = processTextNoSplit(text);
+
+    // Should have 4 words total
+    expect(result).toHaveLength(4);
+
+    // First paragraph ends at second word
+    expect(result[1].paragraphEnd).toBe(true);
+
+    // Second paragraph ends at fourth word
+    expect(result[3].paragraphEnd).toBe(true);
+  });
+
+  it('preserves header markers', () => {
+    const text = '[[HEADER]]Short Title[[/HEADER]]\n\nContent here.';
+    const result = processTextNoSplit(text);
+
+    // First word should be header
+    expect(result[0].isHeader).toBe(true);
+    expect(result[0].headerText).toBe('Short Title');
+  });
+
+  it('preserves chapter start markers', () => {
+    const text = 'First word. Second word.';
+    const chapters: ChapterMetadata[] = [
+      { title: 'Chapter 1', startCharOffset: 0 },
+    ];
+
+    const result = processTextNoSplit(text, chapters);
+
+    // First word should have chapter start
+    expect(result[0].chapterStart).toBeDefined();
+    expect(result[0].chapterStart?.title).toBe('Chapter 1');
+    expect(result[0].chapterStart?.index).toBe(1);
+  });
+
+  it('correctly handles very long words without splitting', () => {
+    const text = 'counterrevolutionaries internationalization';
+    const result = processTextNoSplit(text);
+
+    // Should have exactly 2 words (no splitting even for 20+ char words)
+    expect(result).toHaveLength(2);
+    expect(result[0].display).toBe('counterrevolutionaries');
+    expect(result[0].display.length).toBe(22);
+    expect(result[1].display).toBe('internationalization');
+    expect(result[1].display.length).toBe(20);
+
+    // No splitting metadata
+    expect(result[0].fullWord).toBeUndefined();
+    expect(result[0].isContinuation).toBeUndefined();
+    expect(result[1].fullWord).toBeUndefined();
+    expect(result[1].isContinuation).toBeUndefined();
   });
 });

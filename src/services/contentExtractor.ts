@@ -36,21 +36,93 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
 
     const article = reader.parse();
 
-    if (!article || !article.textContent) {
+    if (!article || !article.content) {
+      if (__DEV__) {
+        console.warn('[Readability] No article or content found');
+      }
       return null;
     }
 
-    // Clean up the text content
-    const cleanContent = article.textContent
-      .replace(/\s+/g, ' ')
-      .replace(/\n\s*\n/g, '\n\n')
+    if (__DEV__) {
+      console.warn('[Readability] Raw extraction:', {
+        title: article.title,
+        excerpt: article.excerpt?.substring(0, 150),
+        byline: article.byline,
+        length: article.length,
+      });
+      console.warn('[Readability] Content field (HTML):', {
+        length: article.content.length,
+        firstParagraph: article.content.substring(0, 1000),
+      });
+      console.warn('[Readability] TextContent field (plain text):', {
+        length: article.textContent?.length,
+        first500chars: article.textContent?.substring(0, 500),
+      });
+
+      // Sanity check: Ensure we have substantial content
+      // Note: We don't validate excerpt against textContent because excerpt
+      // is often a meta description/SEO summary, not the actual first paragraph
+      const wordCount = article.textContent?.split(/\s+/).filter(w => w.length > 0).length || 0;
+      console.warn('[Readability] Content validation:', {
+        textContentLength: article.textContent?.length || 0,
+        wordCount,
+        hasSubstantialContent: wordCount >= 250,
+      });
+
+      // Only reject if we have insufficient content (likely extracted wrong section)
+      // Minimum 250 words to filter out navigation/junk
+      if (!article.textContent || wordCount < 250) {
+        console.warn('[Readability] FAILED: Insufficient content (< 250 words). Readability extracted wrong content (likely navigation). Will use fallback.');
+        return null; // Trigger fallback extraction
+      }
+    }
+
+    // CRITICAL: Use textContent directly instead of stripping HTML from content
+    // textContent is Readability's pre-processed plain text version
+    let cleanContent = article.textContent || '';
+
+    if (__DEV__) {
+      console.warn('[Readability] Using textContent directly:', {
+        length: cleanContent.length,
+        preview: cleanContent.substring(0, 300),
+      });
+    }
+
+    // Normalize whitespace while preserving paragraph structure
+    // First, normalize line breaks and remove excessive whitespace
+    cleanContent = cleanContent
+      .replace(/\r\n/g, '\n')  // Normalize line endings
+      .replace(/\t/g, ' ')      // Convert tabs to spaces
+      .replace(/ +/g, ' ')      // Collapse multiple spaces
+      .replace(/\n +/g, '\n')   // Remove leading spaces on lines
+      .replace(/ +\n/g, '\n')   // Remove trailing spaces on lines
+      .replace(/\n{3,}/g, '\n\n') // Collapse 3+ newlines to 2
       .trim();
+
+    if (__DEV__) {
+      console.warn('[Readability] After whitespace normalization:', {
+        length: cleanContent.length,
+        preview: cleanContent.substring(0, 300),
+      });
+    }
 
     // Filter out captions and photo credits
     const filteredContent = filterCaptions(cleanContent);
+    const finalWordCount = filteredContent.split(/\s+/).filter(w => w.length > 0).length;
 
-    // Require minimum content length
-    if (filteredContent.length < 100) {
+    if (__DEV__) {
+      console.warn('[Readability] After filterCaptions:', {
+        contentLength: filteredContent.length,
+        preview: filteredContent.substring(0, 200),
+        wordCount: finalWordCount,
+      });
+    }
+
+    // Require minimum word count (250 words = ~1-2 paragraphs)
+    if (finalWordCount < 250) {
+      if (__DEV__) {
+        console.warn('[Readability] Content too short after filtering (< 250 words)');
+      }
       return null;
     }
 
@@ -64,7 +136,7 @@ function extractWithReadability(html: string, _url: string): ReadabilityResult |
   } catch (error) {
     // Log in development, fail silently in production
     if (__DEV__) {
-      console.warn('Readability extraction failed:', error);
+      console.warn('[Readability] Extraction failed:', error);
     }
     return null;
   }
@@ -76,19 +148,34 @@ function stripHtml(html: string): string {
   let text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
   text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
 
-  // Remove HTML tags
+  // Convert block-level tags to newlines BEFORE stripping
+  // This preserves paragraph structure
+  text = text.replace(/<\/(p|div|article|section|h[1-6]|li|tr|td|th)>/gi, '\n');
+  text = text.replace(/<br\s*\/?>/gi, '\n');
+
+  // Remove remaining HTML tags
   text = text.replace(/<[^>]+>/g, ' ');
 
-  // Decode HTML entities
+  // Decode HTML entities (common ones)
   text = text.replace(/&nbsp;/g, ' ');
   text = text.replace(/&amp;/g, '&');
   text = text.replace(/&lt;/g, '<');
   text = text.replace(/&gt;/g, '>');
   text = text.replace(/&quot;/g, '"');
   text = text.replace(/&#39;/g, "'");
+  text = text.replace(/&#8217;/g, "'"); // Right single quote
+  text = text.replace(/&#8220;/g, '"'); // Left double quote
+  text = text.replace(/&#8221;/g, '"'); // Right double quote
+  text = text.replace(/&#8211;/g, '–'); // En dash
+  text = text.replace(/&#8212;/g, '—'); // Em dash
 
-  // Clean up whitespace
-  text = text.replace(/\s+/g, ' ').trim();
+  // Clean up whitespace while preserving paragraph breaks
+  text = text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .join('\n\n')
+    .trim();
 
   return text;
 }
@@ -130,6 +217,10 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
 
     new URL(url); // Validate URL format
 
+    if (__DEV__) {
+      console.warn('[URL Extraction] Fetching:', url);
+    }
+
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; SpidridReader/1.0)',
@@ -140,14 +231,96 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
       throw new Error(`Failed to fetch: ${response.status}`);
     }
 
-    const html = await response.text();
+    // CRITICAL: response.text() can return undefined in React Native
+    // This is a known bug especially on iOS and with certain content-types
+    // Try multiple extraction methods as fallback
+    let html: string | undefined;
+
+    try {
+      html = await response.text();
+    } catch (error) {
+      if (__DEV__) {
+        console.warn('[URL Extraction] response.text() failed, trying clone:', error);
+      }
+    }
+
+    // Fallback 1: Try cloning the response (sometimes works when text() fails)
+    if (!html || typeof html !== 'string') {
+      try {
+        const cloned = response.clone();
+        html = await cloned.text();
+        if (__DEV__) {
+          console.warn('[URL Extraction] Clone method succeeded');
+        }
+      } catch (error) {
+        if (__DEV__) {
+          console.warn('[URL Extraction] Clone method also failed:', error);
+        }
+      }
+    }
+
+    // Fallback 2: Try XMLHttpRequest (more reliable in React Native)
+    if (!html || typeof html !== 'string') {
+      if (__DEV__) {
+        console.warn('[URL Extraction] Falling back to XMLHttpRequest');
+      }
+
+      html = await new Promise<string>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(xhr.responseText);
+          } else {
+            reject(new Error(`XMLHttpRequest failed: ${xhr.status}`));
+          }
+        };
+        xhr.onerror = () => reject(new Error('XMLHttpRequest network error'));
+        xhr.ontimeout = () => reject(new Error('XMLHttpRequest timeout'));
+        xhr.open('GET', url);
+        xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (compatible; SpidridReader/1.0)');
+        xhr.timeout = 30000; // 30 second timeout
+        xhr.send();
+      });
+
+      if (__DEV__) {
+        console.warn('[URL Extraction] XMLHttpRequest succeeded');
+      }
+    }
+
+    // Final validation: ensure we actually got HTML content
+    if (!html || typeof html !== 'string' || html.length === 0) {
+      if (__DEV__) {
+        console.error('[URL Extraction] All extraction methods failed:', {
+          html,
+          type: typeof html,
+          responseType: response.type,
+          contentType: response.headers.get('content-type'),
+        });
+      }
+      throw new Error('Server returned empty or invalid response body');
+    }
+
+    if (__DEV__) {
+      console.warn('[URL Extraction] Fetched HTML:', {
+        length: html.length,
+        preview: html.substring(0, 200),
+        contentType: response.headers.get('content-type'),
+      });
+    }
 
     // Try Readability extraction first (intelligent article detection)
     const readabilityResult = extractWithReadability(html, url);
 
-    if (readabilityResult && readabilityResult.content.length >= 100) {
-      // Readability succeeded - use its results with metadata
+    if (readabilityResult) {
+      // Readability succeeded (already validated for 250+ words internally)
       const wordCount = countWords(readabilityResult.content);
+
+      if (__DEV__) {
+        console.warn('[URL Extraction] Using Readability result:', {
+          wordCount,
+          contentLength: readabilityResult.content.length,
+        });
+      }
 
       return {
         success: true,
@@ -168,16 +341,56 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
       };
     }
 
-    // Fallback to basic regex extraction
-    const title = extractTitle(html, url);
-    const rawContent = stripHtml(html);
-    const content = filterCaptions(rawContent);
-
-    if (content.length < 100) {
-      throw new Error('Not enough readable content found');
+    if (__DEV__) {
+      console.warn('[URL Extraction] Readability failed or insufficient content, using fallback');
     }
 
+    // Fallback to basic regex extraction
+    const title = extractTitle(html, url);
+
+    // Try to extract main content area first (common CMS patterns)
+    let contentHtml = html;
+    const contentPatterns = [
+      // WordPress/common CMS patterns
+      /<div[^>]*class=["'][^"']*entry-content[^"']*["'][^>]*>([\s\S]*?)<\/div>/i,
+      /<article[^>]*class=["'][^"']*(?:article-content|post-content|entry-content)[^"']*["'][^>]*>([\s\S]*?)<\/article>/i,
+      /<main[^>]*>([\s\S]*?)<\/main>/i,
+      /<article[^>]*>([\s\S]*?)<\/article>/i,
+      // Generic content containers
+      /<div[^>]*id=["'](?:content|main-content|article|post)["'][^>]*>([\s\S]*?)<\/div>/i,
+    ];
+
+    for (const pattern of contentPatterns) {
+      const match = html.match(pattern);
+      if (match && match[1] && match[1].length > 500) {
+        contentHtml = match[1];
+        if (__DEV__) {
+          console.warn('[URL Extraction] Extracted main content section:', {
+            pattern: pattern.source.substring(0, 50),
+            contentLength: contentHtml.length,
+          });
+        }
+        break;
+      }
+    }
+
+    const rawContent = stripHtml(contentHtml);
+    const content = filterCaptions(rawContent);
     const wordCount = countWords(content);
+
+    if (__DEV__) {
+      console.warn('[URL Extraction] Fallback extraction:', {
+        rawContentLength: rawContent.length,
+        filteredContentLength: content.length,
+        wordCount,
+        preview: content.substring(0, 200),
+      });
+    }
+
+    // Minimum 250 words to ensure we have substantial content
+    if (wordCount < 250) {
+      throw new Error(`Not enough readable content found (${wordCount} words, need 250+)`);
+    }
 
     return {
       success: true,
@@ -193,6 +406,9 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
       },
     };
   } catch (error) {
+    if (__DEV__) {
+      console.error('[URL Extraction] Failed:', error);
+    }
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Failed to extract content',

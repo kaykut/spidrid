@@ -14,6 +14,8 @@ export interface Theme {
   secondaryBackgroundGradient: string;
   trackColor: string;
   metaColor: string; // Color for headers and metadata
+  textSecondaryColor: string;
+  background: string;
 }
 
 export interface UserSettings {

@@ -148,6 +148,7 @@ const createTestArticle = (overrides: Partial<CurriculumArticle> = {}): Curricul
   summary: 'An intro to machine learning',
   content: 'This is the article content with multiple words.',
   wordCount: 8,
+  hasQuiz: true,
   questions: [
     {
       id: 'q1',
@@ -170,6 +171,7 @@ const createTestCurriculum = (articles: CurriculumArticle[] = []): Curriculum =>
   articleCount: articles.length || 5,
   tone: 'explanatory',
   targetWordCount: 750,
+  hasQuizzes: true,
   createdAt: Date.now(),
   updatedAt: Date.now(),
   currentArticleIndex: 0,

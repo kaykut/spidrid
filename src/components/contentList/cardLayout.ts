@@ -100,6 +100,9 @@ export function useCardLayout(options: UseCardLayoutOptions): CardLayoutMetrics 
     case 'none':
       rightSpace = 0;
       break;
+    default:
+      rightSpace = 0;
+      break;
   }
 
   // Calculate available width for title container

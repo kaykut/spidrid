@@ -124,11 +124,11 @@ describe('spacing constants', () => {
     });
 
     it('has nodeSize', () => {
-      expect(SIZES.nodeSize).toBe(16);
+      expect(SIZES.nodeSize).toBe(22);
     });
 
     it('has currentNodeSize', () => {
-      expect(SIZES.currentNodeSize).toBe(24);
+      expect(SIZES.currentNodeSize).toBe(26);
     });
 
     it('has pathLineWidth', () => {

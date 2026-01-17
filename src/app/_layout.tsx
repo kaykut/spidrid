@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import { ThemeProvider } from '../components/common/ThemeProvider';
 import { PdfExtractorProvider } from '../components/PdfExtractorProvider';
 import { useAuthDeepLink } from '../hooks/useAuthDeepLink';
+import { initializeAutoSync, cleanupAutoSync } from '../hooks/useSyncManager';
 import { useAuthStore } from '../store/authStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
-import { initializeAutoSync, cleanupAutoSync } from '../hooks/useSyncManager';
-import { loadOrMeasureFontMetrics, loadMeasuredPadding } from '../services/fontMetrics';
-import { FontMetricsCalibrator } from '../components/fontMetrics/FontMetricsCalibrator';
-import { RSVP_DISPLAY } from '../constants/typography';
-import { useSettingsStore } from '../store/settingsStore';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -21,11 +17,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const initializeAuth = useAuthStore(state => state.initialize);
   const initializeSubscription = useSubscriptionStore(state => state.initialize);
-  const fontFamily = useSettingsStore(state => state.fontFamily);
-
-  // Font metrics calibration state
-  const [needsCalibration, setNeedsCalibration] = useState(false);
-  const fontSize = RSVP_DISPLAY.fontSize ?? 48;
 
   // Load custom fonts
   const [fontsLoaded, fontError] = useFonts({
@@ -48,39 +39,19 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    console.log('[_layout] === useEffect triggered ===');
-    console.log('[_layout] Calling initializeAuth()');
+    console.warn('[_layout] === useEffect triggered ===');
+    console.warn('[_layout] Calling initializeAuth()');
     initializeAuth();
-    console.log('[_layout] Calling initializeSubscription()');
+    console.warn('[_layout] Calling initializeSubscription()');
     initializeSubscription();
-    console.log('[_layout] Calling initializeAutoSync()');
+    console.warn('[_layout] Calling initializeAutoSync()');
     initializeAutoSync();
 
     return () => {
-      console.log('[_layout] Cleanup: calling cleanupAutoSync()');
+      console.warn('[_layout] Cleanup: calling cleanupAutoSync()');
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription]);
-
-  // Pre-load font metrics calibration on app start
-  useEffect(() => {
-    async function initCalibration() {
-      console.log('[_layout] Checking font metrics calibration...');
-
-      // Load container padding from previous session
-      await loadMeasuredPadding();
-
-      // Check if font metrics are already calibrated
-      const metrics = await loadOrMeasureFontMetrics(fontFamily, fontSize);
-      if (!metrics) {
-        console.log('[_layout] Font metrics not found, triggering calibration');
-        setNeedsCalibration(true);
-      } else {
-        console.log('[_layout] Font metrics loaded from cache');
-      }
-    }
-    initCalibration();
-  }, [fontFamily, fontSize]);
 
   // Return null while fonts are loading
   if (!fontsLoaded && !fontError) {
@@ -92,18 +63,6 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <ThemeProvider>
           <PdfExtractorProvider>
-            {/* Hidden calibration component - only renders if needed */}
-            {needsCalibration && (
-              <FontMetricsCalibrator
-                fontFamily={fontFamily}
-                fontSize={fontSize}
-                onComplete={() => {
-                  console.log('[_layout] Font metrics calibration complete');
-                  setNeedsCalibration(false);
-                }}
-              />
-            )}
-
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" options={{ headerShown: false }} />
               <Stack.Screen name="reader" options={{ headerShown: false }} />

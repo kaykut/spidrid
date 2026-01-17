@@ -239,7 +239,7 @@ describe('journeyStore', () => {
 
       act(() => {
         result.current.recordSession({
-          wpm: 600,
+          wpm: 900,
           comprehension: 70,
           articleId: 'test-article',
           articleType: 'curriculum',
@@ -247,7 +247,7 @@ describe('journeyStore', () => {
       });
 
       expect(result.current.speedProofs).toHaveLength(1);
-      expect(result.current.speedProofs[0].wpm).toBe(600);
+      expect(result.current.speedProofs[0].wpm).toBe(900);
     });
 
     it('captures baseline after 3 sessions', () => {
@@ -371,11 +371,11 @@ describe('journeyStore', () => {
       act(() => {
         useJourneyStore.setState({
           sessions: [
-            createMockSession({ wpm: 600, comprehension: 100, effectiveWpm: 600 }),
-            createMockSession({ wpm: 600, comprehension: 100, effectiveWpm: 600 }),
-            createMockSession({ wpm: 600, comprehension: 100, effectiveWpm: 600 }),
-            createMockSession({ wpm: 600, comprehension: 100, effectiveWpm: 600 }),
-            createMockSession({ wpm: 600, comprehension: 100, effectiveWpm: 600 }),
+            createMockSession({ wpm: 900, comprehension: 100, effectiveWpm: 900 }),
+            createMockSession({ wpm: 900, comprehension: 100, effectiveWpm: 900 }),
+            createMockSession({ wpm: 900, comprehension: 100, effectiveWpm: 900 }),
+            createMockSession({ wpm: 900, comprehension: 100, effectiveWpm: 900 }),
+            createMockSession({ wpm: 900, comprehension: 100, effectiveWpm: 900 }),
           ],
         });
       });
@@ -384,10 +384,10 @@ describe('journeyStore', () => {
         result.current.recalculateAll();
       });
 
-      expect(result.current.velocityScore).toBe(50); // 600 / 12
-      expect(result.current.level).toBe('rapid');
-      expect(result.current.avgWpmLast3).toBe(600);
-      expect(result.current.avgWpmLast5).toBe(600);
+      expect(result.current.velocityScore).toBe(75); // 900 / 12
+      expect(result.current.level).toBe('elite');
+      expect(result.current.avgWpmLast3).toBe(900);
+      expect(result.current.avgWpmLast5).toBe(900);
     });
 
     it('updates user state based on recent sessions', () => {
@@ -442,7 +442,7 @@ describe('journeyStore', () => {
           sessions: Array(5).fill(null).map(() =>
             createMockSession({ wpm: 800, comprehension: 100, effectiveWpm: 800 })
           ),
-          speedProofs: [{ wpm: 600, comprehension: 75, achievedAt: Date.now() }],
+          speedProofs: [{ wpm: 900, comprehension: 75, achievedAt: Date.now() }],
         });
       });
 
@@ -477,7 +477,7 @@ describe('journeyStore', () => {
       act(() => {
         useJourneyStore.setState({
           sessions: Array(5).fill(null).map(() =>
-            createMockSession({ wpm: 1200, comprehension: 100, effectiveWpm: 1200 })
+            createMockSession({ wpm: 1500, comprehension: 100, effectiveWpm: 1500 })
           ),
         });
         result.current.recalculateAll();
@@ -736,7 +736,7 @@ describe('journeyStore', () => {
       act(() => {
         useJourneyStore.setState({
           velocityScore: 50,
-          speedProofs: [{ wpm: 600, comprehension: 75, achievedAt: Date.now() }],
+          speedProofs: [{ wpm: 900, comprehension: 75, achievedAt: Date.now() }],
         });
       });
 
@@ -876,7 +876,7 @@ describe('journeyStore', () => {
       act(() => {
         useJourneyStore.setState({
           velocityScore: 50,
-          speedProofs: [{ wpm: 600, comprehension: 75, achievedAt: Date.now() }],
+          speedProofs: [{ wpm: 900, comprehension: 75, achievedAt: Date.now() }],
           certProgress: {
             speed_reader: {
               ...DEFAULT_CERT_PROGRESS,
@@ -1032,8 +1032,8 @@ describe('journeyStore', () => {
       act(() => {
         useLearningStore.setState({
           recentCompletions: [
-            { articleId: 'a1', wpm: 600, score: 75, timestamp: 1000, isCertificationText: false },
-            { articleId: 'a2', wpm: 700, score: 80, timestamp: 2000, isCertificationText: false },
+            { articleId: 'a1', wpm: 900, score: 75, timestamp: 1000, isCertificationText: false },
+            { articleId: 'a2', wpm: 1000, score: 80, timestamp: 2000, isCertificationText: false },
           ],
         });
       });
@@ -1042,7 +1042,7 @@ describe('journeyStore', () => {
         result.current.migrateFromLearningStore();
       });
 
-      // Both sessions qualify as speed proofs (600+ WPM, 70%+ comprehension)
+      // Both sessions qualify as speed proofs (900+ WPM, 70%+ comprehension)
       expect(result.current.speedProofs).toHaveLength(2);
     });
 
@@ -1097,7 +1097,7 @@ describe('journeyStore', () => {
       // Set up some data
       act(() => {
         result.current.recordSession({
-          wpm: 600,
+          wpm: 900,
           comprehension: 100,
           articleId: 'test',
           articleType: 'curriculum',
