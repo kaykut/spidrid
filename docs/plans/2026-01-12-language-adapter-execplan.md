@@ -239,7 +239,7 @@ To validate this milestone, set the language to "Auto-detect" in the journey-pro
 
 ## Concrete Steps
 
-All commands run from working directory `/Users/kaya/Coding/spidrid`.
+All commands run from working directory `/Users/kaya/Coding/devoro`.
 
 To create the directory structure:
 

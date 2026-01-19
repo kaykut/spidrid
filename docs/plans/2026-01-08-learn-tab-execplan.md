@@ -452,7 +452,7 @@ Create `src/store/generatedStore.ts`:
           },
         }),
         {
-          name: 'spidrid-generated',
+          name: 'devoro-generated',
           storage: createJSONStorage(() => AsyncStorage),
           partialize: (state) => ({
             articles: state.articles.filter((a) => a.status === 'complete'),
@@ -1701,7 +1701,7 @@ To verify stats were recorded:
 
 - Navigate to Journey tab
 - Your Velocity Score should reflect the new session
-- Or check AsyncStorage for the `spidrid-journey` key
+- Or check AsyncStorage for the `devoro-journey` key
 
 
 ---
@@ -2111,7 +2111,7 @@ Create `src/store/curriculumStore.ts`:
           },
         }),
         {
-          name: 'spidrid-curriculum',
+          name: 'devoro-curriculum',
           storage: createJSONStorage(() => AsyncStorage),
           partialize: (state) => ({
             curricula: state.curricula,

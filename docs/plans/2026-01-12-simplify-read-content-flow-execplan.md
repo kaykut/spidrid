@@ -98,7 +98,7 @@ Finally, we clean up by deleting `src/components/addContent/ReadContent.tsx` and
 
 ## Concrete Steps
 
-All commands run from the repository root `/Users/kaya/Coding/spidrid`.
+All commands run from the repository root `/Users/kaya/Coding/devoro`.
 
 Step 1: Create `src/components/addContent/ExpandableReadCard.tsx`
 

@@ -339,4 +339,4 @@ All interactive elements include:
 ## Related Documentation
 
 - `CLAUDE.md` - Project overview and conventions
-- `docs/2026-01-06-spidrid-execplan.md` - Original implementation plan
+- `docs/plans/2026-01-06-devoro-execplan.md` - Original implementation plan

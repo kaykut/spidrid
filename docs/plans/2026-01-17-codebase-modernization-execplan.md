@@ -290,7 +290,7 @@ After documentation is complete, review with the team (if applicable) or commit 
 
 ## Concrete Steps
 
-Here are the exact commands to run and where to run them. All commands assume you are in the repository root `/Users/kaya/Coding/spidrid`.
+Here are the exact commands to run and where to run them. All commands assume you are in the repository root `/Users/kaya/Coding/devoro`.
 
 **Milestone 1: State Aggregation Layer Simplification**
 

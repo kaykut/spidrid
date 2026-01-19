@@ -219,7 +219,7 @@ Create `__tests__/components/rsvp/ChapterPauseOverlay.test.tsx`. The component a
 
 ## Concrete Steps
 
-All commands run from repository root `/Users/kaya/Coding/spidrid`.
+All commands run from repository root `/Users/kaya/Coding/devoro`.
 
 **Step 1: Verify current coverage baseline**
 

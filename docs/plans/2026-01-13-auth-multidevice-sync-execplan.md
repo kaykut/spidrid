@@ -88,7 +88,7 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 - [x] (2026-01-13 00:35) Add unit tests for new auth methods (13 tests pass)
 
 ### Milestone 10: Deep Link Handling for Magic Link
-- [x] (2026-01-13 00:38) Configure URL scheme in app.config.js (already configured as 'spidrid')
+- [x] (2026-01-13 00:38) Configure URL scheme in app.config.js (already configured as 'devoro')
 - [x] (2026-01-13 00:38) Create src/hooks/useAuthDeepLink.ts
 - [x] (2026-01-13 00:38) Handle magic link callback URL (extracts tokens from URL hash)
 - [x] (2026-01-13 00:38) Complete authentication flow on deep link (calls setSession)
@@ -548,7 +548,7 @@ Add an auth state change listener by calling supabase.auth.onAuthStateChange dur
 
 Milestone 10 handles the deep link callback when users tap the magic link in their email. The magic link URL contains a token that must be processed to complete authentication.
 
-Configure the URL scheme in app.config.js under the scheme property. This determines the custom URL scheme the app responds to, such as spidrid://auth.
+Configure the URL scheme in app.config.js under the scheme property. This determines the custom URL scheme the app responds to, such as devoro://auth.
 
 Create a hook at `src/hooks/useAuthDeepLink.ts` that uses Expo's Linking API to listen for incoming URLs. When a URL matching the auth callback pattern arrives, extract the token and call supabase.auth.getSessionFromUrl to complete authentication.
 
@@ -669,7 +669,7 @@ Update `src/store/authStore.ts` to add `console.error` logging when `signInAnony
 
 ## Concrete Steps
 
-All commands assume working directory `/Users/kaya/Coding/spidrid`.
+All commands assume working directory `/Users/kaya/Coding/devoro`.
 
 ### Milestone 1 Commands
 

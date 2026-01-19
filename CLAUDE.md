@@ -78,6 +78,7 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 ### Subscription
 - src/store/subscriptionStore.ts - Premium state
 - src/components/paywall/Paywall.tsx - Upgrade modal
+- src/services/purchases.ts - RevenueCat SDK wrapper
 
 ### Certificates
 - src/store/certificateStore.ts - Award logic
@@ -96,5 +97,7 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 ## Anti-Patterns
 - **NO Expo Go simulation layers**: Never create fake SDK methods (simulatePurchase, etc.) for Expo Go. Use real SDK calls with try/catch graceful degradation instead.
 
-## ExecPlan Reference
-Full implementation plan: docs/2026-01-06-spidrid-execplan.md
+## Reference Documentation
+- **ExecPlans:** `docs/plans/`
+- **iOS/Builds/RevenueCat:** `docs/reference/ios-config.md`
+- **iOS 26 Liquid Glass:** `docs/reference/IOS26.md`

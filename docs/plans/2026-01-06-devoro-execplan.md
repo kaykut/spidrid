@@ -128,7 +128,7 @@ After implementation, users can:
 
 **Target File Structure:**
 ```
-/Users/kaya/Coding/spidrid/
+/Users/kaya/Coding/devoro/
 ├── CLAUDE.md                         # Project conventions (created in M1)
 ├── app.json                          # Expo configuration
 ├── App.tsx                           # Entry point
@@ -154,7 +154,7 @@ After implementation, users can:
 
 ```bash
 # Step 1: Initialize Expo in current directory
-cd /Users/kaya/Coding/spidrid
+cd /Users/kaya/Coding/devoro
 npx create-expo-app@latest . --template expo-template-blank-typescript
 
 # Step 2: Install Expo Router for file-based navigation
@@ -313,7 +313,7 @@ import { MMKV } from 'react-native-mmkv';
 import { UserSettings, DEFAULT_SETTINGS } from '../types/settings';
 import { themes, Theme } from '../data/themes';
 
-const storage = new MMKV({ id: 'spidrid-settings' });
+const storage = new MMKV({ id: 'devoro-settings' });
 
 const mmkvStorage = {
   getItem: (name: string) => storage.getString(name) ?? null,
@@ -630,16 +630,16 @@ const styles = StyleSheet.create({
 {
   "expo": {
     "name": "Devoro",
-    "slug": "spidrid",
-    "scheme": "spidrid",
+    "slug": "devoro",
+    "scheme": "devoro",
     "version": "1.0.0",
     "platforms": ["ios", "android"],
     "ios": {
-      "bundleIdentifier": "com.yourname.spidrid",
+      "bundleIdentifier": "com.devoro.app",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.yourname.spidrid",
+      "package": "com.devoro.app",
       "adaptiveIcon": {
         "backgroundColor": "#0a0a0a"
       }
@@ -683,7 +683,7 @@ Add to package.json:
 #### M2 Step-by-Step Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Step 1: Install animation library for smooth transitions
 npx expo install react-native-reanimated
@@ -1656,7 +1656,7 @@ const styles = StyleSheet.create({
 #### M3 Step-by-Step Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Step 1: Install RevenueCat SDK
 npm install react-native-purchases
@@ -1684,7 +1684,7 @@ Before coding, set up RevenueCat:
 
 2. **Configure iOS Product:**
    - In App Store Connect, create subscription product:
-     - Product ID: `spidrid_premium_monthly`
+     - Product ID: `devoro_premium_monthly`
      - Reference Name: "Devoro Premium Monthly"
      - Price: $4.99/month (or your chosen price)
      - Subscription Group: "Devoro Premium"
@@ -1867,7 +1867,7 @@ import {
   restorePurchases as restorePurchasesService,
 } from '../services/purchases';
 
-const storage = new MMKV({ id: 'spidrid-subscription' });
+const storage = new MMKV({ id: 'devoro-subscription' });
 
 const mmkvStorage = {
   getItem: (name: string) => storage.getString(name) ?? null,
@@ -2554,7 +2554,7 @@ const [showPaywall, setShowPaywall] = useState(false);
 #### M4 Step-by-Step Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Step 1: Create curriculum directories
 mkdir -p src/data/curriculum/topics
@@ -2663,7 +2663,7 @@ import { MMKV } from 'react-native-mmkv';
 import { UserProgress, ArticleProgress, INITIAL_PROGRESS } from '../types/progress';
 import { curriculum } from '../data/curriculum';
 
-const storage = new MMKV({ id: 'spidrid-progress' });
+const storage = new MMKV({ id: 'devoro-progress' });
 const mmkvStorage = {
   getItem: (name: string) => storage.getString(name) ?? null,
   setItem: (name: string, value: string) => storage.set(name, value),
@@ -2903,7 +2903,7 @@ main();
 #### M5 Step-by-Step Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Step 1: Install content extraction libraries
 npm install @mozilla/readability linkedom
@@ -3015,7 +3015,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { MMKV } from 'react-native-mmkv';
 import { ImportedContent, Bookmark } from '../types/consumption';
 
-const storage = new MMKV({ id: 'spidrid-bookmarks' });
+const storage = new MMKV({ id: 'devoro-bookmarks' });
 const mmkvStorage = {
   getItem: (name: string) => storage.getString(name) ?? null,
   setItem: (name: string, value: string) => storage.set(name, value),
@@ -3149,7 +3149,7 @@ export async function extractFromPDF(uri: string): Promise<ExtractionResult> {
 #### M6 Step-by-Step Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Step 1: Install PDF generation and sharing
 npm install react-native-pdf-lib
@@ -3247,7 +3247,7 @@ export async function generateCertificate(data: CertificateData): Promise<string
 
   // Save PDF
   const pdfBytes = await pdfDoc.save();
-  const fileName = `spidrid-certificate-${type}-${Date.now()}.pdf`;
+  const fileName = `devoro-certificate-${type}-${Date.now()}.pdf`;
   const filePath = `${FileSystem.documentDirectory}${fileName}`;
 
   await FileSystem.writeAsStringAsync(filePath, pdfBytes, {
@@ -3535,7 +3535,7 @@ src/
 ### Milestone 1 Commands
 
 ```bash
-# Working directory: /Users/kaya/Coding/spidrid
+# Working directory: /Users/kaya/Coding/devoro
 
 # Initialize Expo project (will scaffold into current dir)
 npx create-expo-app@latest . --template expo-template-blank-typescript

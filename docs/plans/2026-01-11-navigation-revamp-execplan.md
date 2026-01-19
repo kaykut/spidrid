@@ -496,7 +496,7 @@ Performance optimization:
 
 ## Concrete Steps
 
-Commands run from project root `/Users/kaya/Coding/spidrid`:
+Commands run from project root `/Users/kaya/Coding/devoro`:
 
 1. Create new type definitions:
 

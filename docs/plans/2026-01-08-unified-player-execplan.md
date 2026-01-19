@@ -171,7 +171,7 @@ Change the default redirect from `/(tabs)/train` to `/(tabs)/content/train` (or 
 
 ## Concrete Steps
 
-All commands run from `/Users/kaya/Coding/spidrid`.
+All commands run from `/Users/kaya/Coding/devoro`.
 
 **1. Create content directory and layout:**
 

@@ -212,7 +212,7 @@ function injectChapterMarkers(
   let result = content;
   for (let i = sorted.length - 1; i >= 0; i--) {
     const chapter = sorted[i];
-    const marker = `\n[SPIDRID_CH:${sorted.length - i}:${chapter.title}]\n`;
+    const marker = `\n[DEVORO_CH:${sorted.length - i}:${chapter.title}]\n`;
 
     // Insert marker at chapter start position (in rawContent before filtering)
     result = result.slice(0, chapter.startCharOffset) +

@@ -2,7 +2,7 @@
 
 This ExecPlan is a living document. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
-This document must be maintained in accordance with PLANS.md (located at `/Users/kaya/Coding/spidrid/PLANS.md`).
+This document must be maintained in accordance with PLANS.md (located at `/Users/kaya/Coding/devoro/PLANS.md`).
 
 ## Purpose / Big Picture
 
@@ -47,8 +47,8 @@ To see this working: import an EPUB file with chapters, start playback, and obse
   **Rationale**: After tracing the complete data flow E2E, marker injection is more robust. Word indices are brittle because they depend on tokenization logic remaining exactly the same forever. If we ever change how "don't" is split (1 word vs 2 words), all stored indices become wrong. Markers are line-based and detected before tokenization, making them immune to tokenization changes. The existing codebase already uses marker injection for headers (`[[HEADER]]...[[/HEADER]]`), proving the pattern works. Markers survive AsyncStorage persistence, Supabase server sync, and cross-device sync because they're embedded in the content string.
   **Date/Author**: 2026-01-17 / Claude
 
-- **Decision**: Use format `[SPIDRID_CH:{index}:{title}]` for chapter markers
-  **Rationale**: Square brackets are unlikely in book content. SPIDRID_CH namespace prevents collisions. Index and title on same line enables detection with single regex. Similar to existing `[[HEADER]]` markers.
+- **Decision**: Use format `[DEVORO_CH:{index}:{title}]` for chapter markers
+  **Rationale**: Square brackets are unlikely in book content. DEVORO_CH namespace prevents collisions. Index and title on same line enables detection with single regex. Similar to existing `[[HEADER]]` markers.
   **Date/Author**: 2026-01-17 / Claude
 
 - **Decision**: Inject markers BEFORE filterCaptions() in EPUB parsing
@@ -138,7 +138,7 @@ const contentWithMarkers = injectChapterMarkers(rawContent, chapters);
 const fullContent = filterCaptions(contentWithMarkers);
 ```
 
-Marker format: `[SPIDRID_CH:{chapterIndex}:{chapterTitle}]` on its own line. The helper function inserts as `\n[SPIDRID_CH:2:Methods]\n` before the first character of each chapter.
+Marker format: `[DEVORO_CH:{chapterIndex}:{chapterTitle}]` on its own line. The helper function inserts as `\n[DEVORO_CH:2:Methods]\n` before the first character of each chapter.
 
 After injecting markers, the `chapters` array is no longer needed because chapter info is embedded in content. Return `chapters: undefined` to save storage space.
 
@@ -148,7 +148,7 @@ In `src/services/textProcessor.ts`, the function `tokenizeWithParagraphs()` (lin
 
 After line 58 (inside the paragraph loop), add regex check:
 ```
-const chapterMatch = paragraph.match(/^\[SPIDRID_CH:(\d+):(.+)\]$/);
+const chapterMatch = paragraph.match(/^\[DEVORO_CH:(\d+):(.+)\]$/);
 ```
 
 If match found:
@@ -169,7 +169,7 @@ Since chapter metadata is now embedded in content strings via markers, remove th
 
 Run the app in dev mode:
 ```
-cd /Users/kaya/Coding/spidrid
+cd /Users/kaya/Coding/devoro
 npm start
 ```
 
@@ -198,8 +198,8 @@ Expected console output during EPUB import:
 ```
 [EPUB Parser] Extracted 12 chapters from NCX
 [EPUB Parser] Injecting chapter markers...
-[EPUB Parser] Marker injected at position 0: [SPIDRID_CH:1:Introduction]
-[EPUB Parser] Marker injected at position 5247: [SPIDRID_CH:2:Background]
+[EPUB Parser] Marker injected at position 0: [DEVORO_CH:1:Introduction]
+[EPUB Parser] Marker injected at position 5247: [DEVORO_CH:2:Background]
 ...
 ```
 
@@ -270,7 +270,7 @@ Given content with marker:
 ```
 ...end of chapter one.
 
-[SPIDRID_CH:2:Methods and Materials]
+[DEVORO_CH:2:Methods and Materials]
 
 The methods used in this study...
 ```
@@ -319,7 +319,7 @@ function injectChapterMarkers(
   let result = content;
   for (let i = sorted.length - 1; i >= 0; i--) {
     const chapter = sorted[i];
-    const marker = `\n[SPIDRID_CH:${sorted.length - i}:${chapter.title}]\n`;
+    const marker = `\n[DEVORO_CH:${sorted.length - i}:${chapter.title}]\n`;
 
     // Insert marker at chapter start position (in rawContent before filtering)
     result = result.slice(0, chapter.startCharOffset) +
@@ -335,7 +335,7 @@ In `src/services/textProcessor.ts`, modify `tokenizeWithParagraphs()`:
 ```typescript
 // Inside paragraph loop (after line 58):
 // Check for chapter marker before header check
-const chapterMatch = paragraph.match(/^\[SPIDRID_CH:(\d+):(.+)\]$/);
+const chapterMatch = paragraph.match(/^\[DEVORO_CH:(\d+):(.+)\]$/);
 if (chapterMatch) {
   const chapterInfo = {
     index: parseInt(chapterMatch[1], 10),

@@ -16,6 +16,9 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.devoro.app',
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       package: 'com.devoro.app',
@@ -33,6 +36,10 @@ export default {
     extra: {
       supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+      revenueCatApiKey: process.env.REVENUECAT_API_KEY,
+      eas: {
+        projectId: 'a7428199-ba1f-420e-b42f-97648b3d0a40',
+      },
     },
   },
 };

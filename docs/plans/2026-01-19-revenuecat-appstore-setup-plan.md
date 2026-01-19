@@ -17,13 +17,14 @@ This plan covers the complete setup of in-app subscriptions for Devoro using Rev
 - [x] API key reference in `app.config.js` via `extra.revenueCatApiKey`
 
 ### What Needs Configuration
-- [ ] Install `react-native-purchases` package
-- [ ] Apple Developer Program enrollment (if not already)
-- [ ] App Store Connect app creation
-- [ ] In-app purchase product configuration
-- [ ] RevenueCat account and project setup
-- [ ] Connect RevenueCat to App Store Connect
-- [ ] Configure API keys in app
+- [x] Install `react-native-purchases` package
+- [x] Apple Developer Program enrollment (if not already)
+- [x] App Store Connect app creation
+- [x] In-app purchase product configuration
+- [x] RevenueCat account and project setup
+- [x] Connect RevenueCat to App Store Connect
+- [x] Configure API keys in app
+- [ ] Build and test on device
 
 ---
 
@@ -444,12 +445,13 @@ When submitting your app:
 | Item | Value |
 |------|-------|
 | Bundle ID | `com.devoro.app` |
-| Apple App ID | |
+| Apple App ID | `6758002830` |
 | Subscription Group ID | |
+| Product ID (Weekly) | `devoro_premium_weekly` |
 | Product ID (Monthly) | `devoro_premium_monthly` |
-| Product ID (Yearly) | |
+| Product ID (Yearly) | `devoro_premium_yearly` |
 | RevenueCat Entitlement | `premium` |
-| RevenueCat API Key | `appl_...` |
+| RevenueCat API Key (iOS) | `appl_EbbSJYX...` (in .env) |
 | Sandbox Tester Email | |
 
 ### Troubleshooting Checklist

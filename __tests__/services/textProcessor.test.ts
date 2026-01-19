@@ -518,7 +518,7 @@ describe('tokenizeWithParagraphs', () => {
 
 describe('processText with chapter markers', () => {
   it('detects chapter markers and applies chapterStart', () => {
-    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst Second Third';
+    const text = '[DEVORO_CH:1:Chapter 1]\n\nFirst Second Third';
     const result = processText(text);
 
     expect(result[0].chapterStart).toBeDefined();
@@ -527,7 +527,7 @@ describe('processText with chapter markers', () => {
   });
 
   it('handles multiple chapter markers', () => {
-    const text = '[SPIDRID_CH:1:Part 1]\n\nOne Two\n\n[SPIDRID_CH:2:Part 2]\n\nThree Four';
+    const text = '[DEVORO_CH:1:Part 1]\n\nOne Two\n\n[DEVORO_CH:2:Part 2]\n\nThree Four';
     const result = processText(text);
 
     expect(result[0].chapterStart?.title).toBe('Part 1');
@@ -537,7 +537,7 @@ describe('processText with chapter markers', () => {
   });
 
   it('words without chapters have no chapterStart', () => {
-    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst Second Third';
+    const text = '[DEVORO_CH:1:Chapter 1]\n\nFirst Second Third';
     const result = processText(text);
 
     // Only first word has chapter start
@@ -547,7 +547,7 @@ describe('processText with chapter markers', () => {
   });
 
   it('combines chapter markers with headers', () => {
-    const text = '[SPIDRID_CH:1:Chapter]\n\n[[HEADER]]Title[[/HEADER]]\n\nContent here.';
+    const text = '[DEVORO_CH:1:Chapter]\n\n[[HEADER]]Title[[/HEADER]]\n\nContent here.';
     const result = processText(text);
 
     // First token is the header
@@ -645,7 +645,7 @@ describe('processTextNoSplit', () => {
   });
 
   it('preserves chapter start markers', () => {
-    const text = '[SPIDRID_CH:1:Chapter 1]\n\nFirst word. Second word.';
+    const text = '[DEVORO_CH:1:Chapter 1]\n\nFirst word. Second word.';
 
     const result = processTextNoSplit(text);
 

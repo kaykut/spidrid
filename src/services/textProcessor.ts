@@ -64,8 +64,8 @@ export function tokenizeWithParagraphs(
   // Regex to match [[HEADER]]...[[/HEADER]] markers
   const headerRegex = /\[\[HEADER\]\]([\s\S]*?)\[\[\/HEADER\]\]/g;
 
-  // Regex to match [SPIDRID_CH:index:title] markers
-  const chapterRegex = /^\[SPIDRID_CH:(\d+):(.+)\]$/;
+  // Regex to match [DEVORO_CH:index:title] markers
+  const chapterRegex = /^\[DEVORO_CH:(\d+):(.+)\]$/;
 
   // Track pending chapter info to attach to next word
   let pendingChapterInfo: ChapterInfo | null = null;

@@ -88,7 +88,7 @@ No outcomes yet. This section will be updated as milestones are completed.
 
 Devoro is a React Native speed reading app built with Expo SDK 54 and Expo Router v6. The app displays text one word at a time using RSVP (Rapid Serial Visual Presentation), a technique where words appear sequentially at a fixed point on screen, eliminating the need for eye movement. The ORP (Optimal Recognition Point) is highlighted in coral red at approximately 30% into each word to help the reader's eye fixate quickly.
 
-The codebase lives at `/Users/kaya/Coding/spidrid`. Key directories are `src/app/` for Expo Router screens, `src/components/` for React components, `src/store/` for Zustand state management, and `src/services/` for business logic. The existing test suite is in `__tests__/` with 98 test files using Jest and React Native Testing Library.
+The codebase lives at `/Users/kaya/Coding/devoro`. Key directories are `src/app/` for Expo Router screens, `src/components/` for React components, `src/store/` for Zustand state management, and `src/services/` for business logic. The existing test suite is in `__tests__/` with 98 test files using Jest and React Native Testing Library.
 
 Terms used in this plan:
 
@@ -102,7 +102,7 @@ Terms used in this plan:
 
 **Expo Go** is a development client app that runs Expo projects without native compilation. It imposes limitations (no custom native modules) but enables fast iteration.
 
-The app's bundle identifier is `com.kaya.spidrid` (defined in `app.config.js`).
+The app's bundle identifier is `com.devoro.app` (defined in `app.config.js`).
 
 
 ## TestID Best Practices (React Native + Maestro)
@@ -171,10 +171,10 @@ This milestone creates the isolated development environment for E2E testing. At 
 
 First, create a git worktree. A worktree is a separate working directory that shares the same git repository, allowing parallel development without branch switching. From the main project directory:
 
-    cd /Users/kaya/Coding/spidrid
-    git worktree add ../spidrid-e2e-maestro test/e2e-maestro
+    cd /Users/kaya/Coding/devoro
+    git worktree add ../devoro-e2e-maestro test/e2e-maestro
 
-This creates directory `../spidrid-e2e-maestro` on branch `test/e2e-maestro`. All E2E work happens there.
+This creates directory `../devoro-e2e-maestro` on branch `test/e2e-maestro`. All E2E work happens there.
 
 Next, install Maestro using Homebrew:
 
@@ -209,12 +209,12 @@ Expected output includes a line like `Devoro-E2E-Test (5B6D77EF-...) (Booted)`.
 
 Create the e2e directory structure in the worktree:
 
-    cd ../spidrid-e2e-maestro
+    cd ../devoro-e2e-maestro
     mkdir -p e2e/flows/playback e2e/flows/quiz e2e/flows/subscription e2e/.maestro
 
 Create `e2e/.maestro/config.yaml` with this content:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
 
 Edit `package.json` to add these scripts in the `"scripts"` section:
 
@@ -260,7 +260,7 @@ This milestone implements the first E2E test: basic playback functionality. The 
 
 Create file `e2e/flows/playback/playback-basic.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -320,7 +320,7 @@ This milestone implements WPM slider control testing. The test navigates to play
 
 Create file `e2e/flows/playback/playback-wpm-control.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -383,7 +383,7 @@ This milestone implements skip forward and skip back navigation testing.
 
 Create file `e2e/flows/playback/playback-navigation.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -442,7 +442,7 @@ This milestone implements quiz completion testing. The test completes an article
 
 Create file `e2e/flows/quiz/quiz-completion.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -517,7 +517,7 @@ This milestone implements quiz retry testing.
 
 Create file `e2e/flows/quiz/quiz-retry.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -584,7 +584,7 @@ This milestone implements WPM limit paywall testing. The test attempts to exceed
 
 Create file `e2e/flows/subscription/paywall-wpm-limit.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -643,7 +643,7 @@ This milestone implements content import limit testing.
 
 Create file `e2e/flows/subscription/paywall-content-limit.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -684,7 +684,7 @@ This is the final E2E test milestone. It implements simulated subscription purch
 
 Create file `e2e/flows/subscription/subscription-simulate.yaml`:
 
-    appId: com.kaya.spidrid
+    appId: com.devoro.app
     ---
     - launchApp:
         clearState: true
@@ -736,13 +736,13 @@ The E2E testing implementation is complete when all 8 tests pass in sequence.
 
 ## Concrete Steps
 
-All commands are run from the worktree directory `/Users/kaya/Coding/spidrid-e2e-maestro` unless otherwise specified.
+All commands are run from the worktree directory `/Users/kaya/Coding/devoro-e2e-maestro` unless otherwise specified.
 
 Step 1 - Create worktree (run from main project):
 
-    cd /Users/kaya/Coding/spidrid
-    git worktree add ../spidrid-e2e-maestro test/e2e-maestro
-    cd ../spidrid-e2e-maestro
+    cd /Users/kaya/Coding/devoro
+    git worktree add ../devoro-e2e-maestro test/e2e-maestro
+    cd ../devoro-e2e-maestro
 
 Step 2 - Install Maestro:
 
@@ -799,8 +799,8 @@ To reset:
 To remove everything:
 
     xcrun simctl delete "Devoro-E2E-Test"
-    cd /Users/kaya/Coding/spidrid
-    git worktree remove ../spidrid-e2e-maestro
+    cd /Users/kaya/Coding/devoro
+    git worktree remove ../devoro-e2e-maestro
     git branch -D test/e2e-maestro
 
 
