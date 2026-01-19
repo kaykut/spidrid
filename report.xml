@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="Spidrid-E2E-Test - iOS 18.6 - C24DD749-4170-498A-B024-3091AA69C4F6" tests="1" failures="1" time="42.0">
+    <testcase id="playback-basic" name="playback-basic" classname="playback-basic" time="42.0" status="ERROR">
+      <failure>Assertion is false: id: content-list.fab-add is visible</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

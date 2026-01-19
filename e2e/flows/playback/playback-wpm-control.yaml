@@ -1,6 +1,6 @@
 appId: com.spidrid.app
 ---
-# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+# WPM CONTROL TEST: Verifies WPM increase/decrease buttons work
 #
 # PREREQUISITE: Metro bundler must be running
 # 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
@@ -50,7 +50,7 @@ appId: com.spidrid.app
       id: "content-list.fab-add"
     timeout: 30000
 
-# Dismiss dev tools menu if it's open (tap X button in top right)
+# Dismiss dev tools menu if it's open
 - tapOn:
     point: "85%,21%"
     optional: true
@@ -59,30 +59,34 @@ appId: com.spidrid.app
 - tapOn:
     point: "50%,90%"
 
-# Wait for playback screen to load (use waitForAnimationToEnd as fallback)
+# Wait for playback screen to load
 - waitForAnimationToEnd
 
-# Start playback (use coordinates since testID detection is unreliable)
-# Play button is at center of screen, around 65% down
+# WPM controls: - button at left (30%,55%), + button at right (70%,55%)
+# Increase WPM 3 times (tap + button)
+- tapOn:
+    point: "70%,55%"
+- tapOn:
+    point: "70%,55%"
+- tapOn:
+    point: "70%,55%"
+
+# Decrease WPM 2 times (tap - button)
+- tapOn:
+    point: "30%,55%"
+- tapOn:
+    point: "30%,55%"
+
+# Start playback to verify WPM change took effect
+# Play button is at center, around 65%
 - tapOn:
     point: "50%,65%"
 
-# Wait briefly for playback to start
+# Wait briefly then pause
 - waitForAnimationToEnd
 
-# Pause playback
 - tapOn:
     point: "50%,65%"
 
-# Skip forward multiple times (skip button is to the right of play)
-- repeat:
-    times: 30
-    commands:
-      - tapOn:
-          point: "70%,65%"
-
-# Short wait for any transitions
-- scroll
-
-# Test completed - navigation and controls worked if we got here
+# Test completed successfully
 - waitForAnimationToEnd

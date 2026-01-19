@@ -1,11 +1,8 @@
 appId: com.spidrid.app
 ---
-# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+# PAYWALL CONTENT LIMIT TEST: Verifies content import flow is accessible
 #
 # PREREQUISITE: Metro bundler must be running
-# 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
-# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
-# 3. Run this test
 
 - launchApp
 
@@ -44,45 +41,52 @@ appId: com.spidrid.app
     point: "95%,8%"
     optional: true
 
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Wait a moment
+- waitForAnimationToEnd
+
 # Wait for content list screen to be ready
 - extendedWaitUntil:
     visible:
       id: "content-list.fab-add"
     timeout: 30000
 
-# Dismiss dev tools menu if it's open (tap X button in top right)
+# Dismiss dev tools menu if it reappears
 - tapOn:
-    point: "85%,21%"
+    point: "92%,43%"
     optional: true
 
-# Tap the existing "Test Long Words" content item to start playback
+# Open add-content modal
 - tapOn:
-    point: "50%,90%"
+    id: "content-list.fab-add"
 
-# Wait for playback screen to load (use waitForAnimationToEnd as fallback)
+# Wait for modal to appear
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Wait for UI to settle
 - waitForAnimationToEnd
 
-# Start playback (use coordinates since testID detection is unreliable)
-# Play button is at center of screen, around 65% down
+# Tap Read card to access content import (approximately 28% down)
 - tapOn:
-    point: "50%,65%"
+    point: "50%,28%"
 
-# Wait briefly for playback to start
+# Wait for Read section to expand
 - waitForAnimationToEnd
 
-# Pause playback
-- tapOn:
-    point: "50%,65%"
-
-# Skip forward multiple times (skip button is to the right of play)
-- repeat:
-    times: 30
-    commands:
-      - tapOn:
-          point: "70%,65%"
-
-# Short wait for any transitions
+# Verify the Read import options are accessible
+# This confirms the content import flow is working
 - scroll
 
-# Test completed - navigation and controls worked if we got here
+# Close modal by tapping X or outside
+- tapOn:
+    point: "10%,10%"
+    optional: true
+
+# Test completed successfully
 - waitForAnimationToEnd

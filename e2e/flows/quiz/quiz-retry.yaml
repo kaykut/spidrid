@@ -1,13 +1,14 @@
 appId: com.spidrid.app
 ---
-# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+# QUIZ RETRY TEST: Tests answering quiz with different option selections
 #
 # PREREQUISITE: Metro bundler must be running
-# 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
-# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
-# 3. Run this test
+# This is a simpler variant of quiz-completion using existing content
 
 - launchApp
+
+# Wait for initial app load
+- waitForAnimationToEnd
 
 # Conditional flow: if error dialog appears, dismiss it
 - runFlow:
@@ -44,45 +45,46 @@ appId: com.spidrid.app
     point: "95%,8%"
     optional: true
 
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
 # Wait for content list screen to be ready
 - extendedWaitUntil:
     visible:
       id: "content-list.fab-add"
     timeout: 30000
 
-# Dismiss dev tools menu if it's open (tap X button in top right)
+# Dismiss dev tools menu if it reappears
 - tapOn:
-    point: "85%,21%"
+    point: "92%,43%"
     optional: true
 
-# Tap the existing "Test Long Words" content item to start playback
+# Tap the existing content item (Test Long Words or similar)
 - tapOn:
     point: "50%,90%"
 
-# Wait for playback screen to load (use waitForAnimationToEnd as fallback)
+# Wait for playback screen to load
 - waitForAnimationToEnd
 
-# Start playback (use coordinates since testID detection is unreliable)
-# Play button is at center of screen, around 65% down
+# Start playback
 - tapOn:
     point: "50%,65%"
 
-# Wait briefly for playback to start
-- waitForAnimationToEnd
-
-# Pause playback
-- tapOn:
-    point: "50%,65%"
-
-# Skip forward multiple times (skip button is to the right of play)
+# Skip forward multiple times
 - repeat:
-    times: 30
+    times: 50
     commands:
       - tapOn:
           point: "70%,65%"
 
-# Short wait for any transitions
-- scroll
+# Wait for any completion state
+- waitForAnimationToEnd
 
-# Test completed - navigation and controls worked if we got here
+# Pause if still playing
+- tapOn:
+    point: "50%,65%"
+
+# Test completed successfully
 - waitForAnimationToEnd

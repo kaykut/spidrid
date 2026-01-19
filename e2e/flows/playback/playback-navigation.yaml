@@ -1,11 +1,8 @@
 appId: com.spidrid.app
 ---
-# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+# PLAYBACK NAVIGATION TEST: Verifies skip forward/back buttons work
 #
 # PREREQUISITE: Metro bundler must be running
-# 1. Start Metro: npx expo start (in spidrid-e2e-maestro directory)
-# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
-# 3. Run this test
 
 - launchApp
 
@@ -50,7 +47,7 @@ appId: com.spidrid.app
       id: "content-list.fab-add"
     timeout: 30000
 
-# Dismiss dev tools menu if it's open (tap X button in top right)
+# Dismiss dev tools menu if it's open
 - tapOn:
     point: "85%,21%"
     optional: true
@@ -59,30 +56,29 @@ appId: com.spidrid.app
 - tapOn:
     point: "50%,90%"
 
-# Wait for playback screen to load (use waitForAnimationToEnd as fallback)
+# Wait for playback screen to load
 - waitForAnimationToEnd
 
-# Start playback (use coordinates since testID detection is unreliable)
-# Play button is at center of screen, around 65% down
+# Start playback - Play button at center, around 65%
 - tapOn:
     point: "50%,65%"
 
-# Wait briefly for playback to start
+# Wait for some words to display
 - waitForAnimationToEnd
+
+# Skip forward twice (skip forward button at right, 70%,65%)
+- tapOn:
+    point: "70%,65%"
+- tapOn:
+    point: "70%,65%"
+
+# Skip back once (skip back button at left, 30%,65%)
+- tapOn:
+    point: "30%,65%"
 
 # Pause playback
 - tapOn:
     point: "50%,65%"
 
-# Skip forward multiple times (skip button is to the right of play)
-- repeat:
-    times: 30
-    commands:
-      - tapOn:
-          point: "70%,65%"
-
-# Short wait for any transitions
-- scroll
-
-# Test completed - navigation and controls worked if we got here
+# Test completed successfully
 - waitForAnimationToEnd

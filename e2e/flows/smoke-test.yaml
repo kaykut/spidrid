@@ -11,12 +11,22 @@ appId: com.spidrid.app
 
 - launchApp
 
-# If dev client home screen shows, connect to Metro
+# Dismiss error dialog if it appears (e.g., "Error loading app")
+- tapOn:
+    text: "OK"
+    optional: true
+
+# If dev client home screen shows, connect to Metro (check both common ports)
 - runFlow:
     when:
       visible: "http://localhost:8081"
     commands:
       - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
 
 # Dismiss any developer menu/error dialogs
 - tapOn:
