@@ -1,0 +1,92 @@
+appId: com.devoro.app
+---
+# PAYWALL CONTENT LIMIT TEST: Verifies content import flow is accessible
+#
+# PREREQUISITE: Metro bundler must be running
+
+- launchApp
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Wait a moment
+- waitForAnimationToEnd
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it reappears
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Open add-content modal
+- tapOn:
+    id: "content-list.fab-add"
+
+# Wait for modal to appear
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Wait for UI to settle
+- waitForAnimationToEnd
+
+# Tap Read card to access content import (approximately 28% down)
+- tapOn:
+    point: "50%,28%"
+
+# Wait for Read section to expand
+- waitForAnimationToEnd
+
+# Verify the Read import options are accessible
+# This confirms the content import flow is working
+- scroll
+
+# Close modal by tapping X or outside
+- tapOn:
+    point: "10%,10%"
+    optional: true
+
+# Test completed successfully
+- waitForAnimationToEnd

@@ -1,0 +1,123 @@
+appId: com.devoro.app
+---
+# QUIZ COMPLETION TEST: Tests completing an article and answering quiz questions
+#
+# PREREQUISITE: Metro bundler must be running
+# This test navigates through Practice card to access content with quizzes
+
+- launchApp
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Dismiss dev tools menu if it's open (X button at top right of dev menu)
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Wait a moment
+- waitForAnimationToEnd
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it reappears
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Open add-content modal
+- tapOn:
+    id: "content-list.fab-add"
+
+# Wait for modal to appear
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Wait for UI to settle
+- waitForAnimationToEnd
+
+# Tap Practice card to expand it (approximately 68% down)
+- tapOn:
+    point: "50%,68%"
+
+# Wait for expansion animation
+- waitForAnimationToEnd
+
+# Tap first topic card (Science & Discovery - top left in grid, around 17%,53%)
+- tapOn:
+    point: "17%,53%"
+
+# Wait for playback screen to load
+- waitForAnimationToEnd
+
+# If we landed on playback, fast-forward through the article to reach quiz
+# Play button at center ~65%
+- tapOn:
+    point: "50%,65%"
+
+# Skip forward repeatedly to complete article and trigger quiz
+# Skip forward button at ~70%,65%
+- repeat:
+    times: 100
+    commands:
+      - tapOn:
+          point: "70%,65%"
+
+# Wait for quiz to appear after article completion
+- waitForAnimationToEnd
+
+# Attempt to answer quiz questions (tap in quiz answer area)
+# Quiz options typically appear in lower portion of screen
+- tapOn:
+    point: "50%,40%"
+    optional: true
+
+# Wait and try another option area
+- waitForAnimationToEnd
+
+- tapOn:
+    point: "50%,50%"
+    optional: true
+
+# Wait for quiz result or next question
+- waitForAnimationToEnd
+
+# Test completed - made it through playback and attempted quiz interaction
+- scroll

@@ -187,6 +187,7 @@ export default function AddContentModal() {
               style={styles.practiceCardHeader}
               onPress={togglePracticeExpanded}
               activeOpacity={0.7}
+              testID="add-content.practice-card"
             >
               <View
                 style={[
@@ -201,7 +202,7 @@ export default function AddContentModal() {
                 />
               </View>
               <View style={styles.menuTextContainer}>
-                <Text style={[styles.menuTitle, { color: theme.textColor }]}>Practice</Text>
+                <Text style={[styles.menuTitle, { color: theme.textColor }]} testID="add-content.practice-text">Practice</Text>
                 <Text style={[styles.menuDescription, { color: theme.textColor }]}>
                   Choose from pre-generated content to practice speed reading
                 </Text>
@@ -219,7 +220,7 @@ export default function AddContentModal() {
             {/* Topic Grid - shown when expanded, inside the card */}
             {isPracticeExpanded && (
               <View style={styles.topicGrid}>
-                {TOPICS.map((topic) => {
+                {TOPICS.map((topic, index) => {
                   const progress = getTopicProgress(topic.id);
                   return (
                     <MiniTopicCard
@@ -229,6 +230,7 @@ export default function AddContentModal() {
                       cardWidth={topicCardWidth}
                       backgroundColor={theme.backgroundColor}
                       onPress={() => handleTopicPress(topic.id)}
+                      testID={`add-content.practice.topic-${index}`}
                     />
                   );
                 })}

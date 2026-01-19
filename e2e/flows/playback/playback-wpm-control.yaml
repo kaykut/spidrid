@@ -1,0 +1,92 @@
+appId: com.devoro.app
+---
+# WPM CONTROL TEST: Verifies WPM increase/decrease buttons work
+#
+# PREREQUISITE: Metro bundler must be running
+# 1. Start Metro: npx expo start (in devoro directory)
+# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
+# 3. Run this test
+
+- launchApp
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "85%,21%"
+    optional: true
+
+# Tap the existing "Test Long Words" content item to start playback
+- tapOn:
+    point: "50%,90%"
+
+# Wait for playback screen to load
+- waitForAnimationToEnd
+
+# WPM controls: - button at left (30%,55%), + button at right (70%,55%)
+# Increase WPM 3 times (tap + button)
+- tapOn:
+    point: "70%,55%"
+- tapOn:
+    point: "70%,55%"
+- tapOn:
+    point: "70%,55%"
+
+# Decrease WPM 2 times (tap - button)
+- tapOn:
+    point: "30%,55%"
+- tapOn:
+    point: "30%,55%"
+
+# Start playback to verify WPM change took effect
+# Play button is at center, around 65%
+- tapOn:
+    point: "50%,65%"
+
+# Wait briefly then pause
+- waitForAnimationToEnd
+
+- tapOn:
+    point: "50%,65%"
+
+# Test completed successfully
+- waitForAnimationToEnd

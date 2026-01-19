@@ -1,0 +1,90 @@
+appId: com.devoro.app
+---
+# QUIZ RETRY TEST: Tests answering quiz with different option selections
+#
+# PREREQUISITE: Metro bundler must be running
+# This is a simpler variant of quiz-completion using existing content
+
+- launchApp
+
+# Wait for initial app load
+- waitForAnimationToEnd
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it reappears
+- tapOn:
+    point: "92%,43%"
+    optional: true
+
+# Tap the existing content item (Test Long Words or similar)
+- tapOn:
+    point: "50%,90%"
+
+# Wait for playback screen to load
+- waitForAnimationToEnd
+
+# Start playback
+- tapOn:
+    point: "50%,65%"
+
+# Skip forward multiple times
+- repeat:
+    times: 50
+    commands:
+      - tapOn:
+          point: "70%,65%"
+
+# Wait for any completion state
+- waitForAnimationToEnd
+
+# Pause if still playing
+- tapOn:
+    point: "50%,65%"
+
+# Test completed successfully
+- waitForAnimationToEnd

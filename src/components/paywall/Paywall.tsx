@@ -76,7 +76,12 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
       <View style={styles.overlay}>
         <View style={[styles.container, { backgroundColor: theme.secondaryBackground }]}>
           {/* Header */}
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={onClose}
+            testID="paywall.close-btn"
+            accessible={true}
+          >
             <Text style={[styles.closeText, { color: theme.textColor }]}>✕</Text>
           </TouchableOpacity>
 
@@ -127,6 +132,8 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
             style={[styles.purchaseButton, { backgroundColor: theme.accentColor }]}
             onPress={handlePurchase}
             disabled={isLoading || priceString === 'Loading...' || priceString === 'Not available'}
+            testID="paywall.upgrade-btn"
+            accessible={true}
           >
             {isLoading ? (
               <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />

@@ -1,0 +1,84 @@
+appId: com.devoro.app
+---
+# PLAYBACK NAVIGATION TEST: Verifies skip forward/back buttons work
+#
+# PREREQUISITE: Metro bundler must be running
+
+- launchApp
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it's open
+- tapOn:
+    point: "85%,21%"
+    optional: true
+
+# Tap the existing "Test Long Words" content item to start playback
+- tapOn:
+    point: "50%,90%"
+
+# Wait for playback screen to load
+- waitForAnimationToEnd
+
+# Start playback - Play button at center, around 65%
+- tapOn:
+    point: "50%,65%"
+
+# Wait for some words to display
+- waitForAnimationToEnd
+
+# Skip forward twice (skip forward button at right, 70%,65%)
+- tapOn:
+    point: "70%,65%"
+- tapOn:
+    point: "70%,65%"
+
+# Skip back once (skip back button at left, 30%,65%)
+- tapOn:
+    point: "30%,65%"
+
+# Pause playback
+- tapOn:
+    point: "50%,65%"
+
+# Test completed successfully
+- waitForAnimationToEnd

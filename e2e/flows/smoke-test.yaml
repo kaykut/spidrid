@@ -1,0 +1,66 @@
+appId: com.devoro.app
+---
+# SMOKE TEST: Verifies app loads with expo-dev-client and testIDs are accessible
+#
+# PREREQUISITE: Metro bundler must be running
+# 1. Start Metro: npx expo start (in devoro directory)
+# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
+# 3. Run this test
+#
+# This test handles connecting to Metro automatically
+
+- launchApp
+
+# Dismiss error dialog if it appears (e.g., "Error loading app")
+- tapOn:
+    text: "OK"
+    optional: true
+
+# If dev client home screen shows, connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened (tap X button in top right)
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Verify content list screen loads
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Verify profile FAB is also present
+- assertVisible:
+    id: "content-list.fab-profile"
+
+# Open add-content modal to verify navigation
+- tapOn:
+    id: "content-list.fab-add"
+
+# Verify modal loads
+- extendedWaitUntil:
+    visible: "New Content"
+    timeout: 5000
+
+# Success - basic navigation and testIDs work

@@ -69,7 +69,7 @@ export function RSVPWord({ word, fontSize = RSVP_DISPLAY.fontSize ?? 48 }: RSVPW
   const highlightColor = isHeader ? theme.metaColor : theme.orpColor;
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="playback.rsvp.word-container">
       {/* Crosshair indicator - marks the fixed ORP position */}
       <View style={[styles.crosshair, { backgroundColor: theme.crosshairColor }]} />
 

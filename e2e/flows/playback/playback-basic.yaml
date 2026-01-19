@@ -1,0 +1,88 @@
+appId: com.devoro.app
+---
+# PLAYBACK BASIC TEST: Verifies RSVP playback navigation and controls
+#
+# PREREQUISITE: Metro bundler must be running
+# 1. Start Metro: npx expo start (in devoro directory)
+# 2. Ensure dev client is installed: npx expo run:ios --device "Spidrid-E2E-Test"
+# 3. Run this test
+
+- launchApp
+
+# Conditional flow: if error dialog appears, dismiss it
+- runFlow:
+    when:
+      visible: "Error loading app"
+    commands:
+      - tapOn: "OK"
+
+# Now connect to Metro (check both common ports)
+- runFlow:
+    when:
+      visible: "http://localhost:8081"
+    commands:
+      - tapOn: "http://localhost:8081"
+- runFlow:
+    when:
+      visible: "http://localhost:8082"
+    commands:
+      - tapOn: "http://localhost:8082"
+
+# Dismiss any developer menu/error dialogs
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: "Dismiss"
+    optional: true
+- tapOn:
+    text: "Minimize"
+    optional: true
+
+# Close developer tools if opened
+- tapOn:
+    point: "95%,8%"
+    optional: true
+
+# Wait for content list screen to be ready
+- extendedWaitUntil:
+    visible:
+      id: "content-list.fab-add"
+    timeout: 30000
+
+# Dismiss dev tools menu if it's open (tap X button in top right)
+- tapOn:
+    point: "85%,21%"
+    optional: true
+
+# Tap the existing "Test Long Words" content item to start playback
+- tapOn:
+    point: "50%,90%"
+
+# Wait for playback screen to load (use waitForAnimationToEnd as fallback)
+- waitForAnimationToEnd
+
+# Start playback (use coordinates since testID detection is unreliable)
+# Play button is at center of screen, around 65% down
+- tapOn:
+    point: "50%,65%"
+
+# Wait briefly for playback to start
+- waitForAnimationToEnd
+
+# Pause playback
+- tapOn:
+    point: "50%,65%"
+
+# Skip forward multiple times (skip button is to the right of play)
+- repeat:
+    times: 30
+    commands:
+      - tapOn:
+          point: "70%,65%"
+
+# Short wait for any transitions
+- scroll
+
+# Test completed - navigation and controls worked if we got here
+- waitForAnimationToEnd

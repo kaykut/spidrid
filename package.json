@@ -13,7 +13,14 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --runInBand"
+    "test:ci": "jest --ci --coverage --runInBand",
+    "e2e:setup-sim": "xcrun simctl list devices | grep -q 'Devoro-E2E-Test' || xcrun simctl create 'Devoro-E2E-Test' 'iPhone 15'; xcrun simctl boot 'Devoro-E2E-Test' 2>/dev/null || true",
+    "e2e": "maestro --device 'Devoro-E2E-Test' test e2e/flows/",
+    "e2e:playback": "maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/",
+    "e2e:quiz": "maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/",
+    "e2e:monetization": "maestro --device 'Devoro-E2E-Test' test e2e/flows/subscription/",
+    "e2e:studio": "maestro --device 'Devoro-E2E-Test' studio",
+    "e2e:reset": "xcrun simctl shutdown 'Devoro-E2E-Test' 2>/dev/null || true && xcrun simctl erase 'Devoro-E2E-Test'"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
