@@ -8,7 +8,7 @@
 
 ## Overview
 
-Add responsive tablet support to Spidrid with multi-column layouts, adaptive spacing, and tablet-appropriate modal presentation. The app currently has no tablet consideration—all layouts are mobile-first with fixed dimensions.
+Add responsive tablet support to Devoro with multi-column layouts, adaptive spacing, and tablet-appropriate modal presentation. The app currently has no tablet consideration—all layouts are mobile-first with fixed dimensions.
 
 ### Goals
 - Content looks polished on iPad (768-1024pt+ screens)

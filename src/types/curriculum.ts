@@ -193,6 +193,12 @@ export interface Curriculum {
 
   /** All articles in the curriculum */
   articles: CurriculumArticle[];
+
+  /** Optional: Article range used during generation (V2 only) */
+  articleRange?: { min: number; max: number };
+
+  /** Optional: Duration range used during generation (V2 only) */
+  durationRange?: { min: number; max: number };
 }
 
 // =============================================================================
@@ -201,6 +207,7 @@ export interface Curriculum {
 
 /**
  * Input for creating a new curriculum.
+ * @deprecated Use CurriculumCreationInputV2 for new implementations
  */
 export interface CurriculumCreationInput {
   /** Learning goal (what the user wants to learn) */
@@ -214,6 +221,27 @@ export interface CurriculumCreationInput {
 
   /** Target reading duration per article (in minutes) */
   durationMinutes: number;
+
+  /** Whether to generate quiz questions for articles (optional, defaults to true) */
+  hasQuizzes?: boolean;
+}
+
+/**
+ * Input for creating a new curriculum (V2 - Portion-based).
+ * Supports article ranges where LLM decides optimal count within range.
+ */
+export interface CurriculumCreationInputV2 {
+  /** Learning goal (what the user wants to learn) */
+  goal: string;
+
+  /** Article count range (LLM decides within range) */
+  articleRange: { min: number; max: number };
+
+  /** Writing tone for articles or 'auto' for LLM decision */
+  tone: ArticleTone | 'auto';
+
+  /** Duration range in minutes (LLM decides optimal duration within range) */
+  durationRange: { min: number; max: number };
 
   /** Whether to generate quiz questions for articles (optional, defaults to true) */
   hasQuizzes?: boolean;

@@ -1,6 +1,6 @@
 # React Native Component Testing Best Practices
 
-Reference guide for Spidrid test development.
+Reference guide for Devoro test development.
 
 ## Current State Summary
 

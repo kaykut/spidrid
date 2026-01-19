@@ -6,7 +6,7 @@ This document must be maintained in accordance with PLANS.md at the repository r
 
 ## Purpose / Big Picture
 
-Currently, Spidrid uses a 4-tab navigation (Journey, Play, Content, Profile) with the Content tab having 3 sub-tabs (Train, Read, Learn). This creates cognitive overhead and fragments the user's content across multiple screens.
+Currently, Devoro uses a 4-tab navigation (Journey, Play, Content, Profile) with the Content tab having 3 sub-tabs (Train, Read, Learn). This creates cognitive overhead and fragments the user's content across multiple screens.
 
 After this change, users will see a single unified content list showing ALL their content (training articles, imported books/articles, AI-generated content, and curricula) in one place. Two floating action buttons (FABs) provide access to Journey+Profile (top-right) and adding new content (bottom-right). Everything else—playback, content addition, settings—happens in full-screen modals.
 

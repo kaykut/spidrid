@@ -1,4 +1,4 @@
-# Spidrid - Speed Reading App
+# Devoro - Speed Reading App
 
 ## Project Overview
 React Native (Expo) RSVP speed reading app with freemium monetization.

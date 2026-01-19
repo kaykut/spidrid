@@ -282,7 +282,7 @@ export const useLearningStore = create<LearningStore>()(
       },
     }),
     {
-      name: 'spidrid-learning',
+      name: 'devoro-learning',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         articleProgress: state.articleProgress,

@@ -146,14 +146,14 @@ describe('certificateTemplate', () => {
       expect(html).toContain('</body>');
     });
 
-    it('contains Spidrid app name', () => {
+    it('contains Devoro app name', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
         readingLanguage: 'en',
       });
 
-      expect(html).toContain('Spidrid');
+      expect(html).toContain('Devoro');
     });
 
     it('contains Certificate of Achievement text', () => {

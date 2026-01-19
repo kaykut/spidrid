@@ -59,7 +59,7 @@ To see it working: Open the app, navigate to the home screen, tap the floating a
 
 ## Context and Orientation
 
-This is a React Native (Expo) speed reading app called Spidrid. The relevant navigation and component structure is as follows:
+This is a React Native (Expo) speed reading app called Devoro. The relevant navigation and component structure is as follows:
 
 The Add Content modal lives at `src/app/add-content.tsx`. It uses a level-based navigation system where `level` can be `'menu'`, `'read'`, or `'learn'`. The menu shows three cards (Read, Learn, Practice). Read and Learn navigate to sub-views, while Practice is already expandable in-place.
 

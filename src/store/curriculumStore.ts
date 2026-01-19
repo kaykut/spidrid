@@ -13,6 +13,7 @@ import {
   Curriculum,
   CurriculumArticle,
   CurriculumCreationInput,
+  CurriculumCreationInputV2,
   CurriculumOutline,
   CurriculumContext,
   ArticleGenerationStatus,
@@ -54,6 +55,7 @@ interface CurriculumState {
 
 interface CurriculumActions {
   createCurriculum: (input: CurriculumCreationInput, avgWpm: number) => Promise<string | null>;
+  createCurriculumV2: (input: CurriculumCreationInputV2, avgWpm: number) => Promise<string | null>;
   getCurriculum: (id: string) => Curriculum | undefined;
   getAllCurricula: () => Curriculum[];
   deleteCurriculum: (id: string) => void;
@@ -230,6 +232,184 @@ export const useCurriculumStore = create<CurriculumStore>()(
               generationProgress: {
                 current: i + 2,
                 total: articleCount + 1,
+                message: `Generating article ${i + 1}...`,
+              },
+            }));
+
+            await get().generateArticle(curriculumId, i);
+          }
+
+          // Success - clear progress
+          set({
+            isGenerating: false,
+            generationProgress: null,
+          });
+
+          return curriculumId;
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+          // Clean up failed curriculum
+          set((state) => {
+            const { [curriculumId]: _, ...rest } = state.curricula;
+            return {
+              curricula: rest,
+              isGenerating: false,
+              generationProgress: null,
+              generationError: errorMessage,
+            };
+          });
+
+          return null;
+        }
+      },
+
+      // =======================================================================
+      // Create Curriculum V2 (Portion-based with article range)
+      // =======================================================================
+      createCurriculumV2: async (input, avgWpm) => {
+        const { goal, articleRange, tone, durationRange, hasQuizzes } = input;
+
+        // Calculate target per-article duration from duration range midpoint
+        const estimatedDuration = Math.floor((durationRange.min + durationRange.max) / 2);
+        const estimatedCount = Math.ceil((articleRange.min + articleRange.max) / 2);
+        const perArticleDuration = Math.floor(estimatedDuration / estimatedCount);
+        const targetWordCount = durationToWordCount(perArticleDuration, avgWpm);
+
+        // Get tone definition if not 'auto'
+        const toneDefinition = tone !== 'auto' ? TONE_DEFINITIONS.find((t) => t.id === tone) : null;
+
+        const curriculumId = generateCurriculumId();
+
+        // Create placeholder curriculum with max articles in range
+        // (We'll trim to actual count after outline generation)
+        const placeholderArticles: CurriculumArticle[] = Array.from(
+          { length: articleRange.max },
+          (_, i) => ({
+            id: generateArticleId(curriculumId, i),
+            curriculumId,
+            orderIndex: i,
+            title: `Article ${i + 1}`,
+            summary: '',
+            content: '',
+            wordCount: targetWordCount,
+            hasQuiz: hasQuizzes ?? true,
+            questions: [],
+            generationStatus: 'pending' as ArticleGenerationStatus,
+            completionStatus: i === 0 ? 'unlocked' : 'locked',
+          })
+        );
+
+        // Extract tone for storage (Curriculum type doesn't support 'auto')
+        const storageTone: import('../types/generated').ArticleTone = tone === 'auto' ? 'explanatory' : tone;
+
+        const placeholderCurriculum: Curriculum = {
+          id: curriculumId,
+          title: '',
+          goal,
+          articleCount: estimatedCount, // Will be updated after outline
+          tone: storageTone,
+          targetWordCount,
+          hasQuizzes: hasQuizzes ?? true,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          currentArticleIndex: 0,
+          completedArticleCount: 0,
+          isCompleted: false,
+          articles: placeholderArticles,
+          articleRange, // Store the range for reference
+          durationRange, // Store the duration range for reference
+        };
+
+        // Update state with placeholder
+        set({
+          isGenerating: true,
+          generationProgress: { current: 0, total: articleRange.max + 1, message: 'Creating outline...' },
+          generationError: null,
+          curricula: { ...get().curricula, [curriculumId]: placeholderCurriculum },
+        });
+
+        try {
+          // Get access token for authenticated API calls
+          const token = await useAuthStore.getState().getAccessToken();
+          if (!token) {
+            throw new Error('Not authenticated');
+          }
+
+          // Step 1: Generate outline with V2 endpoint
+          const outlineResponse = await fetch(`${SUPABASE_URL}/functions/v1/generate-curriculum-outline-v2`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              goal,
+              articleRange,
+              durationRange,
+              tone, // Can be 'auto'
+              tonePrompt: toneDefinition?.promptModifier || '',
+              targetWordsPerArticle: targetWordCount,
+            }),
+          });
+
+          const outlineResult: OutlineResponse = await outlineResponse.json();
+
+          if (!outlineResult.success || !outlineResult.outline) {
+            throw new Error(outlineResult.error || 'Failed to generate outline');
+          }
+
+          const outline = outlineResult.outline;
+          const actualArticleCount = outline.articles.length;
+
+          // Validate article count is within range
+          if (actualArticleCount < articleRange.min || actualArticleCount > articleRange.max) {
+            throw new Error(
+              `Article count out of range: expected ${articleRange.min}-${articleRange.max} articles, but received ${actualArticleCount}. Please try again.`
+            );
+          }
+
+          // Update curriculum with outline and trim articles to actual count
+          set((state) => {
+            const curr = state.curricula[curriculumId];
+            if (!curr) {
+              return state;
+            }
+
+            // Trim articles to actual count
+            const trimmedArticles = curr.articles.slice(0, actualArticleCount).map((a, i) => ({
+              ...a,
+              title: outline.articles[i]?.title || a.title,
+              summary: outline.articles[i]?.summary || '',
+            }));
+
+            return {
+              curricula: {
+                ...state.curricula,
+                [curriculumId]: {
+                  ...curr,
+                  title: outline.curriculumTitle,
+                  articleCount: actualArticleCount,
+                  outline,
+                  articles: trimmedArticles,
+                  updatedAt: Date.now(),
+                },
+              },
+              generationProgress: {
+                current: 1,
+                total: actualArticleCount + 1,
+                message: 'Generating article 1...',
+              },
+            };
+          });
+
+          // Step 2: Generate first two articles
+          const articlesToGenerate = Math.min(2, actualArticleCount);
+          for (let i = 0; i < articlesToGenerate; i++) {
+            set(() => ({
+              generationProgress: {
+                current: i + 2,
+                total: actualArticleCount + 1,
                 message: `Generating article ${i + 1}...`,
               },
             }));
@@ -563,7 +743,7 @@ export const useCurriculumStore = create<CurriculumStore>()(
       },
     }),
     {
-      name: 'spidrid-curriculum',
+      name: 'devoro-curriculum',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         // Persist curricula and expanded state

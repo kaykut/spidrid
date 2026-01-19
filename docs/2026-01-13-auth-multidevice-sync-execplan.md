@@ -7,7 +7,7 @@ This document must be maintained in accordance with PLANS.md at the repository r
 
 ## Purpose / Big Picture
 
-After this change, the Spidrid speed reading app will have two new capabilities. First, all API calls to Supabase Edge Functions will be secured with JWT authentication, preventing unauthorized access to billable services like OpenAI Whisper transcription. Second, premium subscribers will have the option to sign in with Google or email magic link to synchronize their content, reading progress, certificates, and settings across multiple devices.
+After this change, the Devoro speed reading app will have two new capabilities. First, all API calls to Supabase Edge Functions will be secured with JWT authentication, preventing unauthorized access to billable services like OpenAI Whisper transcription. Second, premium subscribers will have the option to sign in with Google or email magic link to synchronize their content, reading progress, certificates, and settings across multiple devices.
 
 From a user's perspective, the experience is as follows. A new user downloads the app and begins using it immediately without any signup flow. The app silently creates an anonymous Supabase session in the background, which provides JWT tokens for authenticating API requests. The user notices nothing different—transcription works, articles generate, everything functions as before. However, behind the scenes, API endpoints now reject requests without valid tokens, protecting the developer's OpenAI and Google API quotas from abuse.
 
@@ -361,7 +361,7 @@ To verify the security improvement works, attempt to call the transcribe Edge Fu
 
 ## Context and Orientation
 
-The Spidrid application is a React Native speed reading app built with Expo SDK 54 and Expo Router for file-based navigation. It uses Zustand for state management with AsyncStorage persistence. The app has a freemium business model with RevenueCat integration for subscription management, though RevenueCat is currently simulated in Expo Go development builds.
+The Devoro application is a React Native speed reading app built with Expo SDK 54 and Expo Router for file-based navigation. It uses Zustand for state management with AsyncStorage persistence. The app has a freemium business model with RevenueCat integration for subscription management, though RevenueCat is currently simulated in Expo Go development builds.
 
 ### Current Authentication State
 

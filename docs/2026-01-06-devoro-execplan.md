@@ -1,4 +1,4 @@
-# Spidrid: RSVP Speed Reading App
+# Devoro: RSVP Speed Reading App
 
 This ExecPlan is a living document. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
@@ -6,7 +6,7 @@ Reference: This document must be maintained in accordance with `/PLANS.md`.
 
 ## Purpose / Big Picture
 
-Spidrid is a cross-platform speed reading app that uses RSVP (Rapid Serial Visual Presentation) to help users read faster. Words appear one at a time, centered on the screen, with a single letter highlighted in a contrasting color (the "Optimal Recognition Point" or ORP). This anchors the user's eye and eliminates saccadic movement, enabling reading speeds of 300-1500+ words per minute.
+Devoro is a cross-platform speed reading app that uses RSVP (Rapid Serial Visual Presentation) to help users read faster. Words appear one at a time, centered on the screen, with a single letter highlighted in a contrasting color (the "Optimal Recognition Point" or ORP). This anchors the user's eye and eliminates saccadic movement, enabling reading speeds of 300-1500+ words per minute.
 
 After implementation, users can:
 1. **Learn to speed read** through a progressive curriculum of 7-8 topics with comprehension testing
@@ -187,7 +187,7 @@ npx expo start
 Purpose: Project conventions for all future Claude sessions. Must be updated each milestone.
 
 ```markdown
-# Spidrid - Speed Reading App
+# Devoro - Speed Reading App
 
 ## Project Overview
 React Native (Expo) RSVP speed reading app with freemium monetization.
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
 ```json
 {
   "expo": {
-    "name": "Spidrid",
+    "name": "Devoro",
     "slug": "spidrid",
     "scheme": "spidrid",
     "version": "1.0.0",
@@ -1680,14 +1680,14 @@ Before coding, set up RevenueCat:
 
 1. **Create RevenueCat Account:**
    - Go to https://app.revenuecat.com
-   - Create new project "Spidrid"
+   - Create new project "Devoro"
 
 2. **Configure iOS Product:**
    - In App Store Connect, create subscription product:
      - Product ID: `spidrid_premium_monthly`
-     - Reference Name: "Spidrid Premium Monthly"
+     - Reference Name: "Devoro Premium Monthly"
      - Price: $4.99/month (or your chosen price)
-     - Subscription Group: "Spidrid Premium"
+     - Subscription Group: "Devoro Premium"
    - In RevenueCat, add App Store app and connect product
 
 3. **Configure Android Product (if applicable):**
@@ -3239,7 +3239,7 @@ export async function generateCertificate(data: CertificateData): Promise<string
     color: rgb(0.5, 0.5, 0.5),
   });
 
-  page.drawText('Spidrid Speed Reading', {
+  page.drawText('Devoro Speed Reading', {
     x: 200,
     y: 100,
     fontSize: 12,
@@ -3491,7 +3491,7 @@ const styles = StyleSheet.create({
 Create `/CLAUDE.md` at project root in M1, update each milestone:
 
 ```markdown
-# Spidrid - Speed Reading App
+# Devoro - Speed Reading App
 
 ## Quick Reference
 - Start dev: `npx expo start`

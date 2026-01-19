@@ -50,7 +50,7 @@ describe('useAuthDeepLink', () => {
   });
 
   it('should call setSession when initial URL contains tokens', async () => {
-    const authUrl = 'spidrid://auth/callback#access_token=test-access-token&refresh_token=test-refresh-token';
+    const authUrl = 'devoro://auth/callback#access_token=test-access-token&refresh_token=test-refresh-token';
     (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(authUrl);
 
     renderHook(() => useAuthDeepLink());
@@ -65,7 +65,7 @@ describe('useAuthDeepLink', () => {
   });
 
   it('should not call setSession when initial URL has no tokens', async () => {
-    const noTokenUrl = 'spidrid://some-other-path';
+    const noTokenUrl = 'devoro://some-other-path';
     (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(noTokenUrl);
 
     renderHook(() => useAuthDeepLink());
@@ -87,7 +87,7 @@ describe('useAuthDeepLink', () => {
     renderHook(() => useAuthDeepLink());
 
     // Simulate URL event
-    const authUrl = 'spidrid://auth/callback#access_token=event-access-token&refresh_token=event-refresh-token';
+    const authUrl = 'devoro://auth/callback#access_token=event-access-token&refresh_token=event-refresh-token';
     urlEventHandler?.({ url: authUrl });
 
     await new Promise(resolve => setTimeout(resolve, 0));

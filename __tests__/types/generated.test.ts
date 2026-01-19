@@ -78,11 +78,11 @@ describe('TONE_DEFINITIONS', () => {
     expect(uniqueIds.size).toBe(ids.length);
   });
 
-  describe('explanatory tone (Facts)', () => {
+  describe('explanatory tone (Fact)', () => {
     const explanatory = TONE_DEFINITIONS.find((t) => t.id === 'explanatory')!;
 
-    it('has label "Facts"', () => {
-      expect(explanatory.label).toBe('Facts');
+    it('has label "Fact"', () => {
+      expect(explanatory.label).toBe('Fact');
     });
 
     it('has book emoji', () => {

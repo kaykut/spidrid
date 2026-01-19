@@ -34,7 +34,7 @@ describe('StatsSummary', () => {
       const { getByText } = render(<StatsSummary {...defaultStats} />);
 
       expect(getByText('25')).toBeTruthy();
-      expect(getByText('Articles')).toBeTruthy();
+      expect(getByText('Devoured')).toBeTruthy();
     });
 
     it('displays words read count formatted', () => {
@@ -49,7 +49,7 @@ describe('StatsSummary', () => {
       const { getByText } = render(<StatsSummary {...defaultStats} />);
 
       expect(getByText('85%')).toBeTruthy();
-      expect(getByText('Comprehension')).toBeTruthy();
+      expect(getByText('Retention')).toBeTruthy();
     });
 
     it('displays best WPM', () => {

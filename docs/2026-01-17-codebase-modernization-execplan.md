@@ -1,4 +1,4 @@
-# Spidrid Codebase Modernization and Quality Improvement
+# Devoro Codebase Modernization and Quality Improvement
 
 This ExecPlan is a living document. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
@@ -7,7 +7,7 @@ This document must be maintained in accordance with PLANS.md at the repository r
 
 ## Purpose / Big Picture
 
-After this change, the Spidrid codebase will be significantly more maintainable, testable, and scalable. The work addresses technical debt accumulated across 174 TypeScript files, reducing cognitive complexity by 40%, eliminating 60% of code duplication, and establishing consistent patterns that make future development faster and safer.
+After this change, the Devoro codebase will be significantly more maintainable, testable, and scalable. The work addresses technical debt accumulated across 174 TypeScript files, reducing cognitive complexity by 40%, eliminating 60% of code duplication, and establishing consistent patterns that make future development faster and safer.
 
 From a developer's perspective, the experience is transformed. When a developer needs to modify the journey metrics calculation, they will find focused modules averaging 80 lines instead of a sprawling 676-line utility file. When they need to understand how content aggregation works, they will see a clear transformation pipeline instead of 250 lines of duplicated loops. When they need to modify a large component, they will find separated concerns with form logic in custom hooks, not tangled with animation state in a 669-line component.
 
@@ -148,7 +148,7 @@ To verify this improvement works, compare file sizes before and after (largest l
 
 ## Context and Orientation
 
-The Spidrid codebase is a React Native (Expo) speed reading app with 174 TypeScript files organized into feature modules. The current state shows several complexity hotspots:
+The Devoro codebase is a React Native (Expo) speed reading app with 174 TypeScript files organized into feature modules. The current state shows several complexity hotspots:
 
 **State Layer:** The `src/store/contentListStore.ts` file (625 lines) aggregates content from 4 independent stores (contentStore, generatedStore, curriculumStore, learningStore) with 80% duplicated code between `getContentList()` and `getHistoryList()` methods. The `src/store/journeyStore.ts` file (617 lines) recalculates 6 metrics on every session record with no selective optimization. The `src/utils/journeyCalculations.ts` utility file (676 lines) contains 25+ unrelated pure functions spanning velocity scoring, streaks, baselines, certifications, milestones, and trends.
 

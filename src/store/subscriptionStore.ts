@@ -205,7 +205,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       },
     }),
     {
-      name: 'spidrid-subscription',
+      name: 'devoro-subscription',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         isPremium: state.isPremium,

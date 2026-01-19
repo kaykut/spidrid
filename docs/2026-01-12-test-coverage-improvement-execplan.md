@@ -82,7 +82,7 @@ The initial plan underestimated the coverage contribution of the targeted files.
 
 ## Context and Orientation
 
-The Spidrid app is a React Native/Expo speed reading application. It has a Jest test suite configured in `jest.config.js` with coverage thresholds defined in `package.json`. The test setup file at `jest.setup.js` mocks AsyncStorage, expo-print, and expo-sharing.
+The Devoro app is a React Native/Expo speed reading application. It has a Jest test suite configured in `jest.config.js` with coverage thresholds defined in `package.json`. The test setup file at `jest.setup.js` mocks AsyncStorage, expo-print, and expo-sharing.
 
 **Current Coverage Status** (as of 2026-01-12):
 

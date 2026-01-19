@@ -38,7 +38,7 @@ export function StatsSummary({
     <View style={styles.row}>
       <StatItem
         value={articlesRead}
-        label="Articles"
+        label="Devoured"
         color={theme.accentColor}
       />
       <StatItem
@@ -48,7 +48,7 @@ export function StatsSummary({
       />
       <StatItem
         value={`${averageComprehension}%`}
-        label="Comprehension"
+        label="Retention"
         color={JOURNEY_COLORS.success}
       />
       <StatItem

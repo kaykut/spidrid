@@ -248,8 +248,27 @@ export function VerticalProgressPath({
 // =============================================================================
 
 const LINE_LEFT_OFFSET = COMPONENT_SIZES.nodeColumnWidth / 2 - SIZES.pathLineWidth / 2;
-const ROW_PADDING_VERTICAL = SPACING.sm; // Consistent vertical padding for each row (8px)
-const LINE_PADDING = SPACING.sm + ROW_PADDING_VERTICAL + SIZES.nodeSize / 2; // Distance from container edge to first/last node center
+const ROW_PADDING_VERTICAL = SPACING.sm;
+
+// Standard line height multiplier when no explicit lineHeight is set
+const DEFAULT_LINE_HEIGHT_MULTIPLIER = 1.2;
+
+// Calculate milestone info content height for non-isNext rows (name + threshold with margins)
+// Uses actual TYPOGRAPHY values from the styles defined below
+const MILESTONE_INFO_HEIGHT =
+  Math.ceil((TYPOGRAPHY.levelName.fontSize ?? 18) * DEFAULT_LINE_HEIGHT_MULTIPLIER) + SPACING.xs +
+  Math.ceil((TYPOGRAPHY.label.fontSize ?? 13) * DEFAULT_LINE_HEIGHT_MULTIPLIER) + SPACING.xs;
+
+// Row content height is the taller of node or text content
+const ROW_CONTENT_HEIGHT = Math.max(SIZES.nodeSize, MILESTONE_INFO_HEIGHT);
+
+// Top padding: container padding + row paddingTop + node center offset from content top
+const LINE_TOP_PADDING = SPACING.sm + ROW_PADDING_VERTICAL + SIZES.nodeSize / 2;
+
+// Bottom padding: container padding + row paddingBottom + distance from content bottom to node center
+// Since node is at TOP of content (alignItems: flex-start), distance = contentHeight - nodeCenter
+const LINE_BOTTOM_PADDING = SPACING.sm + ROW_PADDING_VERTICAL +
+  (ROW_CONTENT_HEIGHT - SIZES.nodeSize / 2);
 
 const styles = StyleSheet.create({
   container: {
@@ -262,8 +281,8 @@ const styles = StyleSheet.create({
   lineContainer: {
     position: 'absolute',
     left: SPACING.lg + LINE_LEFT_OFFSET,
-    top: LINE_PADDING,
-    bottom: LINE_PADDING,
+    top: LINE_TOP_PADDING,
+    bottom: LINE_BOTTOM_PADDING,
     width: SIZES.pathLineWidth,
   },
   lineBackground: {

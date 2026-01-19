@@ -69,7 +69,7 @@ To see this working: import an EPUB file with chapters, start playback, and obse
 
 ## Context and Orientation
 
-Spidrid is a React Native speed reading app using Expo Router for navigation. The RSVP (Rapid Serial Visual Presentation) engine displays one word at a time with ORP (Optimal Recognition Point) highlighting. The current implementation has basic pause multipliers for punctuation but they're tuned too low for comprehension.
+Devoro is a React Native speed reading app using Expo Router for navigation. The RSVP (Rapid Serial Visual Presentation) engine displays one word at a time with ORP (Optimal Recognition Point) highlighting. The current implementation has basic pause multipliers for punctuation but they're tuned too low for comprehension.
 
 ### Key Files and Their Roles
 

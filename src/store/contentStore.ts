@@ -79,7 +79,7 @@ export const useContentStore = create<ContentStore>()(
       },
     }),
     {
-      name: 'spidrid-content',
+      name: 'devoro-content',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         importedContent: state.importedContent,

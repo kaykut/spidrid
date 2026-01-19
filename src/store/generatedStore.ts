@@ -25,7 +25,7 @@ interface GeneratedActions {
   generateArticle: (params: {
     topic: string;
     durationMinutes: number;
-    tone: ArticleTone;
+    tone: ArticleTone | 'auto';
     avgWpm: number;
     userId: string;
   }) => Promise<GeneratedArticle | null>;
@@ -52,14 +52,14 @@ export const useGeneratedStore = create<GeneratedStore>()(
 
       generateArticle: async ({ topic, durationMinutes, tone, avgWpm, userId }) => {
         const targetWordCount = Math.round(durationMinutes * avgWpm);
-        const toneDefinition = TONE_DEFINITIONS.find((t) => t.id === tone);
+        const toneDefinition = tone !== 'auto' ? TONE_DEFINITIONS.find((t) => t.id === tone) : null;
 
         const placeholderId = generateId();
         const placeholderArticle: GeneratedArticle = {
           id: placeholderId,
           topic,
           targetDuration: durationMinutes,
-          tone,
+          tone: tone === 'auto' ? 'explanatory' : tone, // Fallback for storage
           title: '',
           content: '',
           wordCount: 0,
@@ -89,7 +89,7 @@ export const useGeneratedStore = create<GeneratedStore>()(
             body: JSON.stringify({
               topic,
               targetWordCount,
-              tone,
+              tone, // Can be 'auto'
               tonePrompt: toneDefinition?.promptModifier || '',
               userId,
             }),
@@ -156,7 +156,7 @@ export const useGeneratedStore = create<GeneratedStore>()(
       },
     }),
     {
-      name: 'spidrid-generated',
+      name: 'devoro-generated',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         articles: state.articles.filter((a) => a.status === 'complete'),

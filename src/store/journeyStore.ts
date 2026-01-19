@@ -565,7 +565,7 @@ export const useJourneyStore = create<JourneyState & JourneyActions>()(
       },
     }),
     {
-      name: 'spidrid-journey',
+      name: 'devoro-journey',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         _version: state._version,

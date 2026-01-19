@@ -153,10 +153,10 @@ describe('Index', () => {
         </TestWrapper>
       );
 
-      // Stats labels should be visible (note: "Articles" appears in both stats and filter)
-      expect(getAllByText('Articles').length).toBeGreaterThanOrEqual(1);
+      // Stats labels should be visible
+      expect(getByText('Devoured')).toBeTruthy();
       expect(getByText('Words')).toBeTruthy();
-      expect(getByText('Comprehension')).toBeTruthy();
+      expect(getByText('Retention')).toBeTruthy();
       expect(getByText('Best WPM')).toBeTruthy();
     });
 

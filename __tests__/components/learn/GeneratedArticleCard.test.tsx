@@ -66,11 +66,11 @@ describe('GeneratedArticleCard', () => {
   });
 
   describe('style display', () => {
-    it('displays Facts style with emoji', () => {
+    it('displays Fact style with emoji', () => {
       renderWithProviders(createArticle({ tone: 'explanatory' }));
 
       expect(screen.getByText('📚')).toBeTruthy();
-      expect(screen.getByText('Facts')).toBeTruthy();
+      expect(screen.getByText('Fact')).toBeTruthy();
     });
 
     it('displays Story style with emoji', () => {
@@ -191,7 +191,7 @@ describe('GeneratedArticleCard', () => {
 
       expect(screen.getByText('Article One')).toBeTruthy();
       expect(screen.getByText('"Topic One"')).toBeTruthy();
-      expect(screen.getByText('Facts')).toBeTruthy();
+      expect(screen.getByText('Fact')).toBeTruthy();
       expect(screen.getByText('500 words')).toBeTruthy();
     });
 

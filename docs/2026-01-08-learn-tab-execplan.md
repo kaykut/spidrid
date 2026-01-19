@@ -118,7 +118,7 @@ To see it working after Phase 1: open the app, navigate to the Content tab (libr
 
 ## Context and Orientation
 
-Spidrid is a React Native (Expo SDK 54) speed reading app using RSVP (Rapid Serial Visual Presentation). Users read articles word-by-word at configurable speeds, then take comprehension quizzes. The app tracks reading speed (WPM) and comprehension scores to calculate a "Velocity Score" representing overall reading proficiency.
+Devoro is a React Native (Expo SDK 54) speed reading app using RSVP (Rapid Serial Visual Presentation). Users read articles word-by-word at configurable speeds, then take comprehension quizzes. The app tracks reading speed (WPM) and comprehension scores to calculate a "Velocity Score" representing overall reading proficiency.
 
 ### Navigation Structure
 

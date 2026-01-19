@@ -17,7 +17,6 @@ import {
   ActivityIndicator,
   Keyboard,
   Animated,
-  Switch,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -31,12 +30,10 @@ import { useGeneratedStore } from '../../store/generatedStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import {
-  ArticleTone,
   TONE_DEFINITIONS,
-  PRESET_OPTIONS,
-  TOTAL_DURATION_OPTIONS,
-  getMaxWordsForWpm,
-  PresetId,
+  PORTION_OPTIONS,
+  FlavorOption,
+  PortionId,
 } from '../../types/generated';
 import { useTheme } from '../common/ThemeProvider';
 import { Paywall } from '../paywall/Paywall';
@@ -50,17 +47,15 @@ interface ExpandableLearnCardProps {
 export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: ExpandableLearnCardProps) {
   const { theme } = useTheme();
   const { generateArticle, isGenerating: isGeneratingArticle } = useGeneratedStore();
-  const { createCurriculum, isGenerating: isGeneratingCurriculum } = useCurriculumStore();
+  const { createCurriculumV2, isGenerating: isGeneratingCurriculum } = useCurriculumStore();
   const { avgWpmLast3 } = useJourneyStore();
   const { isPremium } = useSubscriptionStore();
 
   // Form state
   const [topic, setTopic] = useState('');
-  const [showOptions, setShowOptions] = useState(false); // Layer 1
-  const [designMode, setDesignMode] = useState(false); // Layer 2 toggle
-  const [preset, setPreset] = useState<PresetId>('nugget');
-  const [totalDuration, setTotalDuration] = useState(15); // Layer 2
-  const [style, setStyle] = useState<ArticleTone | null>(null); // Layer 2, null = auto
+  const [portion, setPortion] = useState<PortionId>('bite');
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [flavor, setFlavor] = useState<FlavorOption>('auto');
   const [showPaywall, setShowPaywall] = useState(false);
 
   // Recording hook for speech-to-text
@@ -73,49 +68,11 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   } = useWhisperRecording();
 
   const rotateAnim = useRef(new Animated.Value(0)).current;
-  const optionsRotateAnim = useRef(new Animated.Value(0)).current;
+  const customizeRotateAnim = useRef(new Animated.Value(0)).current;
   const recordingPulseAnim = useRef(new Animated.Value(1)).current;
   const recordingPulseRef = useRef<Animated.CompositeAnimation | null>(null);
   const isGenerating = isGeneratingArticle || isGeneratingCurriculum;
   const avgWpm = avgWpmLast3 || 250;
-
-  // Get current preset config
-  const currentPreset = PRESET_OPTIONS.find((p) => p.id === preset) || PRESET_OPTIONS[0];
-
-  // Calculate values based on mode
-  const maxWordsPerArticle = getMaxWordsForWpm(avgWpm);
-
-  // Calculate article count and words based on mode
-  const getCalculatedValues = () => {
-    if (designMode) {
-      // Design mode: calculate from total duration
-      const durationPerArticle = maxWordsPerArticle / avgWpm;
-      const articleCount = Math.max(1, Math.round(totalDuration / durationPerArticle));
-      const cappedArticleCount = Math.min(articleCount, 15); // Max 15 articles
-      const targetWords = maxWordsPerArticle;
-      const actualTotalMinutes = cappedArticleCount * durationPerArticle;
-      return {
-        articleCount: cappedArticleCount,
-        targetWords,
-        totalMinutes: Math.round(actualTotalMinutes),
-        totalWords: cappedArticleCount * targetWords,
-      };
-    } 
-      // Preset mode: use preset values, capped by WPM
-      const presetWords = currentPreset.durationMinutes * avgWpm;
-      const targetWords = Math.min(presetWords, maxWordsPerArticle);
-      const durationPerArticle = targetWords / avgWpm;
-      const totalMinutes = Math.round(currentPreset.articles * durationPerArticle);
-      return {
-        articleCount: currentPreset.articles,
-        targetWords,
-        totalMinutes,
-        totalWords: currentPreset.articles * targetWords,
-      };
-    
-  };
-
-  const { articleCount, targetWords, totalMinutes, totalWords } = getCalculatedValues();
 
   useEffect(() => {
     Animated.timing(rotateAnim, {
@@ -126,12 +83,12 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   }, [isExpanded, rotateAnim]);
 
   useEffect(() => {
-    Animated.timing(optionsRotateAnim, {
-      toValue: showOptions ? 1 : 0,
+    Animated.timing(customizeRotateAnim, {
+      toValue: showCustomize ? 1 : 0,
       duration: 200,
       useNativeDriver: true,
     }).start();
-  }, [showOptions, optionsRotateAnim]);
+  }, [showCustomize, customizeRotateAnim]);
 
   // Recording pulse animation
   useEffect(() => {
@@ -167,9 +124,9 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     outputRange: ['0deg', '90deg'],
   });
 
-  const optionsChevronRotation = optionsRotateAnim.interpolate({
+  const customizeChevronRotation = customizeRotateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '90deg'],
+    outputRange: ['0deg', '180deg'], // Down arrow rotates 180 when expanded
   });
 
   const handleToggle = () => {
@@ -182,27 +139,34 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     }
   };
 
-  const handleOptionsToggle = () => {
+  const handlePortionChange = (newPortion: PortionId) => {
+    setPortion(newPortion);
     animateLayout();
-    setShowOptions((prev) => !prev);
   };
 
-  const handleDesignModeToggle = (value: boolean) => {
+  const handleCustomizeToggle = () => {
     animateLayout();
-    setDesignMode(value);
-    if (!value) {
-      // Reset Layer 2 values when turning off
-      setStyle(null);
-    }
+    setShowCustomize((prev) => !prev);
   };
 
   const resetForm = () => {
     setTopic('');
-    setShowOptions(false);
-    setDesignMode(false);
-    setPreset('nugget');
-    setTotalDuration(15);
-    setStyle(null);
+    setPortion('bite');
+    setShowCustomize(false);
+    setFlavor('auto');
+  };
+
+  // Helper to get portion card display text
+  const getPortionDisplay = (option: typeof PORTION_OPTIONS[number]) => {
+    const { min: minArticles, max: maxArticles } = option.articleRange;
+    const { min: minDur, max: maxDur } = option.durationRange;
+
+    // Add "articles" or "article" suffix
+    const articleCount = minArticles === maxArticles ? minArticles : `${minArticles}-${maxArticles}`;
+    const articleText = minArticles === 1 ? '1 article' : `${articleCount} articles`;
+    const durationText = minDur === maxDur ? `${minDur}min` : `${minDur}-${maxDur}min`;
+
+    return { articleText, durationText };
   };
 
   const handleMicPress = async () => {
@@ -225,16 +189,22 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       return;
     }
 
-    if (!topic.trim() || isGenerating) {return;}
+    if (!topic.trim() || isGenerating) {
+      return;
+    }
 
-    const toneToUse = designMode && style ? style : 'auto';
+    // Use Bite as default when customization is hidden
+    const effectivePortion = showCustomize ? portion : 'bite';
+    const currentOption = PORTION_OPTIONS.find((p) => p.id === effectivePortion)!;
+    const { min, max } = currentOption.articleRange;
+    const durationRange = currentOption.durationRange;
 
-    if (articleCount === 1) {
-      // Single article generation
+    if (min === 1 && max === 1) {
+      // Bite: standalone article generation (fixed 3 min)
       const article = await generateArticle({
         topic: topic.trim(),
-        durationMinutes: Math.round(targetWords / avgWpm),
-        tone: toneToUse === 'auto' ? 'explanatory' : toneToUse, // Fallback for now until backend supports auto
+        durationMinutes: durationRange.min, // 3 min for Bite
+        tone: flavor,
         avgWpm,
         userId: 'current-user',
       });
@@ -246,13 +216,13 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         router.push(`/generated/${article.id}`);
       }
     } else {
-      // Curriculum generation
-      const curriculumId = await createCurriculum(
+      // Curriculum generation with duration range (V2 API)
+      const curriculumId = await createCurriculumV2(
         {
           goal: topic.trim(),
-          articleCount,
-          tone: toneToUse === 'auto' ? 'explanatory' : toneToUse, // Fallback for now
-          durationMinutes: Math.round(targetWords / avgWpm),
+          articleRange: { min, max },
+          tone: flavor, // Can be 'auto'
+          durationRange, // Pass range instead of fixed duration
         },
         avgWpm
       );
@@ -267,12 +237,6 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   };
 
   const canGenerate = topic.trim().length >= 1 && !isGenerating;
-
-  // Build summary text
-  const summaryText =
-    articleCount === 1
-      ? `1 article, ~${Math.round(targetWords).toLocaleString()} words, ${totalMinutes} min read`
-      : `${articleCount} articles, ~${Math.round(totalWords).toLocaleString()} total words, ${totalMinutes} min total`;
 
   return (
     <>
@@ -303,8 +267,8 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         {/* Expanded Form */}
         {isExpanded && (
           <View style={styles.expandedContent}>
-            {/* Topic Input with Mic Button */}
-            <View style={styles.topicInputContainer}>
+            {/* Topic Input with Mic Button and Customize Toggle Inside */}
+            <View style={styles.topicInputWrapper}>
               <TextInput
                 style={[styles.topicInput, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
                 placeholder="What do you want to learn about?"
@@ -315,10 +279,15 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                 maxLength={500}
                 editable={!isGenerating && !isRecording && !isTranscribing}
               />
-              <Animated.View style={isRecording ? { opacity: recordingPulseAnim } : undefined}>
+              <Animated.View
+                style={[
+                  styles.micButtonInside,
+                  isRecording ? { opacity: recordingPulseAnim } : undefined,
+                ]}
+              >
                 <TouchableOpacity
                   style={[
-                    styles.micButton,
+                    styles.micButtonInner,
                     { backgroundColor: theme.backgroundColor },
                     isRecording && styles.micButtonRecording,
                   ]}
@@ -336,6 +305,14 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                   )}
                 </TouchableOpacity>
               </Animated.View>
+
+              {/* Customize Toggle - Inside Text Box at Bottom */}
+              <TouchableOpacity style={styles.customizeToggleInside} onPress={handleCustomizeToggle} disabled={isGenerating}>
+                <Text style={[styles.customizeToggleText, { color: theme.textColor }]}>Adjust duration and tone</Text>
+                <Animated.View style={{ transform: [{ rotate: customizeChevronRotation }] }}>
+                  <Ionicons name="chevron-down" size={SIZES.iconSm} color={theme.textColor} />
+                </Animated.View>
+              </TouchableOpacity>
             </View>
 
             {/* Recording Status / Error */}
@@ -350,144 +327,102 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
               </Text>
             )}
 
-            {/* Summary */}
-            <Text style={[styles.summaryText, { color: theme.textColor }]}>{summaryText}</Text>
-
-            {/* Additional Options Toggle */}
-            <TouchableOpacity style={styles.optionsToggle} onPress={handleOptionsToggle} disabled={isGenerating}>
-              <Text style={[styles.optionsToggleText, { color: JOURNEY_COLORS.success }]}>Additional options</Text>
-              <Animated.View style={{ transform: [{ rotate: optionsChevronRotation }] }}>
-                <Ionicons name="chevron-forward" size={SIZES.iconSm} color={JOURNEY_COLORS.success} />
-              </Animated.View>
-            </TouchableOpacity>
-
-            {/* Layer 1: Preset + Design Toggle */}
-            {showOptions && (
-              <View style={styles.layer1}>
-                {/* Preset Pills */}
-                <Text style={[styles.label, { color: theme.textColor }]}>Preset</Text>
-                <View style={styles.pillRow}>
-                  {PRESET_OPTIONS.map((p) => (
-                    <TouchableOpacity
-                      key={p.id}
-                      style={[
-                        styles.pill,
-                        styles.presetPill,
-                        { backgroundColor: theme.backgroundColor },
-                        preset === p.id && styles.pillSelected,
-                        preset === p.id && { backgroundColor: JOURNEY_COLORS.success },
-                      ]}
-                      onPress={() => !isGenerating && !designMode && setPreset(p.id)}
-                      disabled={isGenerating || designMode}
-                    >
-                      <Text
-                        style={[
-                          styles.pillText,
-                          { color: theme.textColor },
-                          preset === p.id && styles.pillTextSelected,
-                          designMode && styles.pillTextDisabled,
-                        ]}
-                      >
-                        {p.label}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-
-                {/* Design Mode Toggle */}
-                <View style={styles.designToggleRow}>
-                  <Text style={[styles.designToggleLabel, { color: theme.textColor }]}>Design the curriculum</Text>
-                  <Switch
-                    value={designMode}
-                    onValueChange={handleDesignModeToggle}
-                    trackColor={{ false: theme.backgroundColor, true: JOURNEY_COLORS.success }}
-                    thumbColor={theme.textColor}
-                    disabled={isGenerating}
-                  />
-                </View>
-
-                {/* Layer 2: Duration + Style (only when Design mode is ON) */}
-                {designMode && (
-                  <View style={styles.layer2}>
-                    {/* Total Duration Pills */}
-                    <Text style={[styles.label, { color: theme.textColor }]}>Total duration</Text>
-                    <View style={styles.pillRow}>
-                      {TOTAL_DURATION_OPTIONS.map((dur) => (
-                        <TouchableOpacity
-                          key={dur}
-                          style={[
-                            styles.pill,
-                            { backgroundColor: theme.backgroundColor },
-                            totalDuration === dur && styles.pillSelected,
-                            totalDuration === dur && { backgroundColor: JOURNEY_COLORS.success },
-                          ]}
-                          onPress={() => !isGenerating && setTotalDuration(dur)}
-                          disabled={isGenerating}
-                        >
-                          <Text
-                            style={[
-                              styles.pillText,
-                              { color: theme.textColor },
-                              totalDuration === dur && styles.pillTextSelected,
-                            ]}
-                          >
-                            {dur}m
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-
-                    {/* Style Pills */}
-                    <Text style={[styles.label, { color: theme.textColor }]}>Style</Text>
-                    <View style={styles.pillRow}>
+            {/* Customize Section (Expanded) */}
+            {showCustomize && (
+              <View>
+                {/* Portion Section */}
+                <Text style={[styles.label, { color: theme.textColor }]}>Portion</Text>
+                <View style={styles.portionCardsRow}>
+                  {PORTION_OPTIONS.map((p) => {
+                    const { articleText, durationText } = getPortionDisplay(p);
+                    return (
                       <TouchableOpacity
+                        key={p.id}
                         style={[
-                          styles.pill,
-                          styles.stylePill,
+                          styles.portionCard,
                           { backgroundColor: theme.backgroundColor },
-                          style === null && styles.pillSelected,
-                          style === null && { backgroundColor: JOURNEY_COLORS.success },
+                          portion === p.id && { backgroundColor: JOURNEY_COLORS.success },
                         ]}
-                        onPress={() => !isGenerating && setStyle(null)}
+                        onPress={() => handlePortionChange(p.id)}
                         disabled={isGenerating}
                       >
                         <Text
                           style={[
-                            styles.pillText,
+                            styles.portionCardLabel,
                             { color: theme.textColor },
-                            style === null && styles.pillTextSelected,
+                            portion === p.id && styles.portionCardTextSelected,
                           ]}
                         >
-                          Auto
+                          {p.label}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.portionCardArticles,
+                            { color: theme.textColor },
+                            portion === p.id && styles.portionCardTextSelected,
+                          ]}
+                        >
+                          {articleText}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.portionCardDuration,
+                            { color: theme.textColor },
+                            portion === p.id && styles.portionCardTextSelected,
+                          ]}
+                        >
+                          {durationText}
                         </Text>
                       </TouchableOpacity>
-                      {TONE_DEFINITIONS.map((t) => (
-                        <TouchableOpacity
-                          key={t.id}
-                          style={[
-                            styles.pill,
-                            styles.stylePill,
-                            { backgroundColor: theme.backgroundColor },
-                            style === t.id && styles.pillSelected,
-                            style === t.id && { backgroundColor: JOURNEY_COLORS.success },
-                          ]}
-                          onPress={() => !isGenerating && setStyle(t.id)}
-                          disabled={isGenerating}
-                        >
-                          <Text
-                            style={[
-                              styles.pillText,
-                              { color: theme.textColor },
-                              style === t.id && styles.pillTextSelected,
-                            ]}
-                          >
-                            {t.label}
-                          </Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </View>
-                )}
+                    );
+                  })}
+                </View>
+
+                {/* Flavor Pills */}
+                <Text style={[styles.label, { color: theme.textColor }]}>Flavor</Text>
+                <View style={styles.flavorPillRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.flavorPill,
+                      { backgroundColor: theme.backgroundColor },
+                      flavor === 'auto' && { backgroundColor: JOURNEY_COLORS.success },
+                    ]}
+                    onPress={() => !isGenerating && setFlavor('auto')}
+                    disabled={isGenerating}
+                  >
+                    <Text
+                      style={[
+                        styles.flavorPillText,
+                        { color: theme.textColor },
+                        flavor === 'auto' && styles.pillTextSelected,
+                      ]}
+                    >
+                      Auto
+                    </Text>
+                  </TouchableOpacity>
+                  {TONE_DEFINITIONS.map((t) => (
+                    <TouchableOpacity
+                      key={t.id}
+                      style={[
+                        styles.flavorPill,
+                        { backgroundColor: theme.backgroundColor },
+                        flavor === t.id && { backgroundColor: JOURNEY_COLORS.success },
+                      ]}
+                      onPress={() => !isGenerating && setFlavor(t.id)}
+                      disabled={isGenerating}
+                    >
+                      <Text
+                        style={[
+                          styles.flavorPillText,
+                          { color: theme.textColor },
+                          flavor === t.id && styles.pillTextSelected,
+                        ]}
+                      >
+                        {t.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
             )}
 
@@ -504,9 +439,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
               {isGenerating ? (
                 <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
               ) : (
-                <Text style={styles.generateButtonText}>
-                  {articleCount === 1 ? 'Generate Article' : 'Create Curriculum'}
-                </Text>
+                <Text style={styles.generateButtonText}>Serve it up</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -556,20 +489,27 @@ const styles = StyleSheet.create({
   expandedContent: {
     paddingHorizontal: SPACING.md,
   },
-  topicInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: SPACING.sm,
+  topicInputWrapper: {
+    position: 'relative',
+    width: '100%',
   },
   topicInput: {
-    flex: 1,
-    padding: SPACING.md,
+    width: '100%',
+    paddingTop: SPACING.md,
+    paddingLeft: SPACING.md,
+    paddingRight: SIZES.touchTarget + SPACING.xs,
+    paddingBottom: SIZES.touchTarget + SPACING.xs,
     borderRadius: COMPONENT_RADIUS.input,
     ...TYPOGRAPHY.body,
-    minHeight: 60,
+    minHeight: 150,
     textAlignVertical: 'top',
   },
-  micButton: {
+  micButtonInside: {
+    position: 'absolute',
+    right: SPACING.xs,
+    top: SPACING.xs,
+  },
+  micButtonInner: {
     width: SIZES.touchTarget,
     height: SIZES.touchTarget,
     borderRadius: COMPONENT_RADIUS.button,
@@ -584,32 +524,10 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
     textAlign: 'center',
   },
-  summaryText: {
-    ...TYPOGRAPHY.caption,
-    opacity: 0.7,
-    marginTop: SPACING.sm,
-    marginBottom: SPACING.xs,
-  },
-  optionsToggle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: SPACING.sm,
-    gap: SPACING.xs,
-  },
-  optionsToggleText: {
-    ...TYPOGRAPHY.caption,
-    fontWeight: '600',
-  },
-  layer1: {
-    marginTop: SPACING.sm,
-  },
-  layer2: {
-    marginTop: SPACING.sm,
-  },
   label: {
     ...TYPOGRAPHY.label,
-    marginBottom: SPACING.xs,
-    marginTop: SPACING.sm,
+    marginBottom: SPACING.xxs,
+    marginTop: SPACING.xs,
   },
   pillRow: {
     flexDirection: 'row',
@@ -621,15 +539,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     borderRadius: COMPONENT_RADIUS.chip,
   },
-  presetPill: {
-    flex: 1,
-    alignItems: 'center',
-    minWidth: 70,
-  },
-  stylePill: {
-    flex: 1,
-    alignItems: 'center',
-  },
   pillSelected: {
     // backgroundColor set dynamically
   },
@@ -640,18 +549,70 @@ const styles = StyleSheet.create({
     color: JOURNEY_COLORS.textPrimary,
     fontWeight: '600',
   },
-  pillTextDisabled: {
-    opacity: 0.5,
-  },
-  designToggleRow: {
+  customizeToggle: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: SPACING.md,
     paddingVertical: SPACING.sm,
+    gap: SPACING.xs,
+    marginBottom: SPACING.xs,
   },
-  designToggleLabel: {
+  customizeToggleInside: {
+    position: 'absolute',
+    bottom: SPACING.xs,
+    left: SPACING.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
+  },
+  customizeToggleText: {
+    ...TYPOGRAPHY.caption,
+    fontWeight: '600',
+  },
+  portionCardsRow: {
+    flexDirection: 'row',
+    gap: SPACING.xs,
+    marginTop: SPACING.xs,
+    marginBottom: SPACING.sm,
+  },
+  portionCard: {
+    flex: 1,
+    borderRadius: COMPONENT_RADIUS.button,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SPACING.xxs,
+  },
+  portionCardLabel: {
     ...TYPOGRAPHY.body,
+    fontWeight: '600',
+  },
+  portionCardArticles: {
+    fontSize: 11,
+    fontWeight: '400',
+  },
+  portionCardDuration: {
+    fontSize: 11,
+    fontWeight: '400',
+    opacity: 0.7,
+  },
+  portionCardTextSelected: {
+    color: JOURNEY_COLORS.textPrimary,
+  },
+  flavorPillRow: {
+    flexDirection: 'row',
+    gap: SPACING.xs,
+    marginTop: SPACING.xs,
+  },
+  flavorPill: {
+    flex: 1,
+    paddingVertical: SPACING.sm,
+    alignItems: 'center',
+    borderRadius: COMPONENT_RADIUS.button,
+  },
+  flavorPillText: {
+    ...TYPOGRAPHY.caption,
+    fontWeight: '600',
   },
   generateButton: {
     marginTop: SPACING.md,

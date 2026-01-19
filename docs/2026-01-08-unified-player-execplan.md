@@ -7,7 +7,7 @@ This document must be maintained in accordance with PLANS.md at the repository r
 
 ## Purpose / Big Picture
 
-Spidrid's navigation is being simplified from 4+ tabs down to 3 main tabs to reduce user confusion while maintaining access to all functionality. The three main tabs are:
+Devoro's navigation is being simplified from 4+ tabs down to 3 main tabs to reduce user confusion while maintaining access to all functionality. The three main tabs are:
 
 1. **Journey** - Certification progress and milestones (leftmost)
 2. **Play** - The unified player with playlist (center)
@@ -85,7 +85,7 @@ After this change, users see exactly 3 tabs in the floating navbar. Tapping Cont
 
 ## Context and Orientation
 
-Spidrid is a React Native (Expo) RSVP speed reading app using Expo Router for file-based navigation. This section describes the current state after Increment 1 and what needs to change for Increment 2.
+Devoro is a React Native (Expo) RSVP speed reading app using Expo Router for file-based navigation. This section describes the current state after Increment 1 and what needs to change for Increment 2.
 
 **Current State (after Increment 1):**
 

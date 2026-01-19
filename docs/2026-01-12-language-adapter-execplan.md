@@ -137,7 +137,7 @@ All 5 milestones completed successfully. The app now supports 6 Latin-script lan
 
 ## Context and Orientation
 
-The Spidrid app is an Expo/React Native RSVP (Rapid Serial Visual Presentation) speed reading application. RSVP means displaying text one word at a time at a configurable speed (words per minute), allowing users to read faster by eliminating eye movement. Content flows through several processing stages before being displayed word-by-word to the user.
+The Devoro app is an Expo/React Native RSVP (Rapid Serial Visual Presentation) speed reading application. RSVP means displaying text one word at a time at a configurable speed (words per minute), allowing users to read faster by eliminating eye movement. Content flows through several processing stages before being displayed word-by-word to the user.
 
 The relevant service files are in `src/services/`:
 

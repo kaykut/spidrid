@@ -172,7 +172,7 @@ describe('CurriculumCreationWizard', () => {
 
     it('renders all 3 style options', () => {
       goToStep3();
-      expect(screen.getByText('Facts')).toBeTruthy();
+      expect(screen.getByText('Fact')).toBeTruthy();
       expect(screen.getByText('Story')).toBeTruthy();
       expect(screen.getByText('Analogy')).toBeTruthy();
     });

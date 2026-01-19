@@ -259,7 +259,7 @@ export function generateCertificateHTML(params: CertificateTemplateParams): stri
       <span class="icon">${definition?.icon || '🏆'}</span>
     </div>
 
-    <div class="app-name">Spidrid</div>
+    <div class="app-name">Devoro</div>
 
     <div class="certificate-of">Certificate of Achievement</div>
     <h1 class="title">${definition?.name || 'Speed Reader'}</h1>

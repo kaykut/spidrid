@@ -1,4 +1,4 @@
-# Spidrid Test Plan - 90% Coverage Target
+# Devoro Test Plan - 90% Coverage Target
 
 **Date:** 2026-01-07
 **Scope:** Unit & Integration Tests (no E2E)

@@ -24,7 +24,7 @@ export interface ToneDefinition {
 export const TONE_DEFINITIONS: ToneDefinition[] = [
   {
     id: 'explanatory',
-    label: 'Facts',
+    label: 'Fact',
     description: 'Clear and educational',
     emoji: '📚',
     promptModifier:
@@ -94,12 +94,35 @@ export interface PresetOption {
   durationMinutes: number;
 }
 
+/** @deprecated Use PORTION_OPTIONS instead */
 export const PRESET_OPTIONS: readonly PresetOption[] = [
   { id: 'nugget', label: 'Nugget', articles: 1, durationMinutes: 2 },
   { id: 'primer', label: 'Primer', articles: 3, durationMinutes: 3 },
   { id: 'topic', label: 'Topic', articles: 5, durationMinutes: 3 },
   { id: 'deep-dive', label: 'Deep Dive', articles: 10, durationMinutes: 3 },
 ] as const;
+
+// =============================================================================
+// Portion Options (V2 - Menu-Style Curriculum Creation)
+// =============================================================================
+
+export type PortionId = 'bite' | 'snack' | 'meal' | 'feast';
+
+export interface PortionOption {
+  id: PortionId;
+  label: string;
+  articleRange: { min: number; max: number };
+  durationRange: { min: number; max: number };
+}
+
+export const PORTION_OPTIONS: readonly PortionOption[] = [
+  { id: 'bite', label: 'Bite', articleRange: { min: 1, max: 1 }, durationRange: { min: 3, max: 3 } },
+  { id: 'snack', label: 'Snack', articleRange: { min: 2, max: 3 }, durationRange: { min: 5, max: 8 } },
+  { id: 'meal', label: 'Meal', articleRange: { min: 4, max: 6 }, durationRange: { min: 12, max: 15 } },
+  { id: 'feast', label: 'Feast', articleRange: { min: 7, max: 10 }, durationRange: { min: 20, max: 30 } },
+] as const;
+
+export type FlavorOption = 'auto' | ArticleTone;
 
 // Total duration options for Design mode (Layer 2)
 export const TOTAL_DURATION_OPTIONS = [5, 10, 15, 20, 30] as const;

@@ -1,6 +1,6 @@
 # iOS 26 Liquid Glass Implementation
 
-This document describes how Spidrid implements Apple's iOS 26 "Liquid Glass" design language with graceful fallbacks for older iOS versions and Android.
+This document describes how Devoro implements Apple's iOS 26 "Liquid Glass" design language with graceful fallbacks for older iOS versions and Android.
 
 ## Overview
 

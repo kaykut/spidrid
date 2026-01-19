@@ -1,10 +1,10 @@
-# Spidrid Learning Path System
+# Devoro Learning Path System
 
 Reference documentation for the practice and certification implementation.
 
 ## Overview
 
-The Spidrid learning path consists of two main components:
+The Devoro learning path consists of two main components:
 
 1. **Practice Articles** - Progressive skill-building content across 15 topics
 2. **Certification System** - Three tiers validating speed reading mastery

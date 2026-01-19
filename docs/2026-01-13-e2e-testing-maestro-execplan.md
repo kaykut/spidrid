@@ -1,4 +1,4 @@
-# Implement E2E Testing with Maestro for Spidrid
+# Implement E2E Testing with Maestro for Devoro
 
 This ExecPlan is a living document. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
@@ -7,9 +7,9 @@ This document must be maintained in accordance with `PLANS.md` at the repository
 
 ## Purpose / Big Picture
 
-After completing this plan, developers can run automated end-to-end tests that verify critical user journeys in the Spidrid speed reading app. A developer will be able to run `npm run e2e` and watch Maestro automatically launch the app on a dedicated iOS simulator (separate from their manual testing device), navigate through screens, tap buttons, and verify that the RSVP playback, quiz completion, and subscription paywall flows work correctly. This fills the final gap in the test pyramid: the project already has 98 test files covering unit, component, and integration tests, but zero E2E tests that exercise the app as a real user would.
+After completing this plan, developers can run automated end-to-end tests that verify critical user journeys in the Devoro speed reading app. A developer will be able to run `npm run e2e` and watch Maestro automatically launch the app on a dedicated iOS simulator (separate from their manual testing device), navigate through screens, tap buttons, and verify that the RSVP playback, quiz completion, and subscription paywall flows work correctly. This fills the final gap in the test pyramid: the project already has 98 test files covering unit, component, and integration tests, but zero E2E tests that exercise the app as a real user would.
 
-The observable outcome is this: after running `npm run e2e`, the terminal shows Maestro executing all YAML flow files in sequence, the dedicated "Spidrid-E2E-Test" simulator displays the app going through motions automatically, and every flow exits with "Flow Passed" indicating all assertions succeeded.
+The observable outcome is this: after running `npm run e2e`, the terminal shows Maestro executing all YAML flow files in sequence, the dedicated "Devoro-E2E-Test" simulator displays the app going through motions automatically, and every flow exits with "Flow Passed" indicating all assertions succeeded.
 
 
 ## Critical Sequential Dependency Rule
@@ -30,7 +30,7 @@ This strict sequential gating ensures the test suite remains green at all times 
 
 - [ ] M0: Create git worktree on branch `test/e2e-maestro`
 - [ ] M0: Install Maestro CLI via Homebrew
-- [ ] M0: Create dedicated iOS simulator "Spidrid-E2E-Test"
+- [ ] M0: Create dedicated iOS simulator "Devoro-E2E-Test"
 - [ ] M0: Create e2e/ directory structure
 - [ ] M0: Add e2e npm scripts to package.json
 - [ ] M1: Add testIDs to PlaybackControls.tsx
@@ -62,7 +62,7 @@ No discoveries yet. This section will be updated during implementation.
   Rationale: Maestro works directly with Expo Go builds without requiring native compilation or EAS Build setup. The project currently uses Expo Go for development and has no EAS configuration. Maestro's YAML-based flows are simpler to write and maintain than Detox's JavaScript tests. If the project later moves to production native builds, Detox can be added as a complementary framework.
   Date/Author: 2026-01-13 / Claude
 
-- Decision: Use a dedicated iOS simulator named "Spidrid-E2E-Test" for E2E tests.
+- Decision: Use a dedicated iOS simulator named "Devoro-E2E-Test" for E2E tests.
   Rationale: The developer uses an iPhone 16 Plus simulator for manual testing. Running E2E tests on that same simulator would interfere with their development workflow, potentially clearing app state or interrupting their work. A dedicated iPhone 15 simulator isolates E2E testing completely.
   Date/Author: 2026-01-13 / Claude
 
@@ -86,7 +86,7 @@ No outcomes yet. This section will be updated as milestones are completed.
 
 ## Context and Orientation
 
-Spidrid is a React Native speed reading app built with Expo SDK 54 and Expo Router v6. The app displays text one word at a time using RSVP (Rapid Serial Visual Presentation), a technique where words appear sequentially at a fixed point on screen, eliminating the need for eye movement. The ORP (Optimal Recognition Point) is highlighted in coral red at approximately 30% into each word to help the reader's eye fixate quickly.
+Devoro is a React Native speed reading app built with Expo SDK 54 and Expo Router v6. The app displays text one word at a time using RSVP (Rapid Serial Visual Presentation), a technique where words appear sequentially at a fixed point on screen, eliminating the need for eye movement. The ORP (Optimal Recognition Point) is highlighted in coral red at approximately 30% into each word to help the reader's eye fixate quickly.
 
 The codebase lives at `/Users/kaya/Coding/spidrid`. Key directories are `src/app/` for Expo Router screens, `src/components/` for React components, `src/store/` for Zustand state management, and `src/services/` for business logic. The existing test suite is in `__tests__/` with 98 test files using Jest and React Native Testing Library.
 
@@ -193,19 +193,19 @@ Create the dedicated iOS simulator. The `xcrun simctl` command manages simulator
 
 Then create the simulator:
 
-    xcrun simctl create "Spidrid-E2E-Test" "iPhone 15" com.apple.CoreSimulator.SimRuntime.iOS-17-0
+    xcrun simctl create "Devoro-E2E-Test" "iPhone 15" com.apple.CoreSimulator.SimRuntime.iOS-17-0
 
 This outputs a UUID like `5B6D77EF-2AE9-47D0-9A62-70A1ABBC5FA2`. The simulator is now registered but not running.
 
 Boot the simulator:
 
-    xcrun simctl boot "Spidrid-E2E-Test"
+    xcrun simctl boot "Devoro-E2E-Test"
 
 Verify it is running:
 
     xcrun simctl list devices booted
 
-Expected output includes a line like `Spidrid-E2E-Test (5B6D77EF-...) (Booted)`.
+Expected output includes a line like `Devoro-E2E-Test (5B6D77EF-...) (Booted)`.
 
 Create the e2e directory structure in the worktree:
 
@@ -218,17 +218,17 @@ Create `e2e/.maestro/config.yaml` with this content:
 
 Edit `package.json` to add these scripts in the `"scripts"` section:
 
-    "e2e:setup-sim": "xcrun simctl create 'Spidrid-E2E-Test' 'iPhone 15' 2>/dev/null || true && xcrun simctl boot 'Spidrid-E2E-Test' 2>/dev/null || true",
-    "e2e": "maestro --device 'Spidrid-E2E-Test' test e2e/flows/",
-    "e2e:playback": "maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/",
-    "e2e:quiz": "maestro --device 'Spidrid-E2E-Test' test e2e/flows/quiz/",
-    "e2e:monetization": "maestro --device 'Spidrid-E2E-Test' test e2e/flows/subscription/",
-    "e2e:studio": "maestro --device 'Spidrid-E2E-Test' studio",
-    "e2e:reset": "xcrun simctl shutdown 'Spidrid-E2E-Test' 2>/dev/null || true && xcrun simctl erase 'Spidrid-E2E-Test'"
+    "e2e:setup-sim": "xcrun simctl create 'Devoro-E2E-Test' 'iPhone 15' 2>/dev/null || true && xcrun simctl boot 'Devoro-E2E-Test' 2>/dev/null || true",
+    "e2e": "maestro --device 'Devoro-E2E-Test' test e2e/flows/",
+    "e2e:playback": "maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/",
+    "e2e:quiz": "maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/",
+    "e2e:monetization": "maestro --device 'Devoro-E2E-Test' test e2e/flows/subscription/",
+    "e2e:studio": "maestro --device 'Devoro-E2E-Test' studio",
+    "e2e:reset": "xcrun simctl shutdown 'Devoro-E2E-Test' 2>/dev/null || true && xcrun simctl erase 'Devoro-E2E-Test'"
 
 The `2>/dev/null || true` pattern suppresses errors if the simulator already exists or is already booted, making the scripts idempotent.
 
-**Acceptance for Milestone 0:** Run `npm run e2e:setup-sim` and verify the simulator boots (visible in Simulator.app or via `xcrun simctl list devices booted`). Then start Expo in the worktree with `npx expo start`, press `i` to open on iOS, and select "Spidrid-E2E-Test" from the device list. The app should launch on the dedicated simulator. Finally, run `npm run e2e:studio` and verify Maestro Studio opens in a browser showing the app's element hierarchy.
+**Acceptance for Milestone 0:** Run `npm run e2e:setup-sim` and verify the simulator boots (visible in Simulator.app or via `xcrun simctl list devices booted`). Then start Expo in the worktree with `npx expo start`, press `i` to open on iOS, and select "Devoro-E2E-Test" from the device list. The app should launch on the dedicated simulator. Finally, run `npm run e2e:studio` and verify Maestro Studio opens in a browser showing the app's element hierarchy.
 
 
 ## Milestone 1: TestID Foundation
@@ -249,12 +249,12 @@ Edit `src/app/index.tsx` (ContentListScreen). Add testID to the FAB (floating ac
 
 Edit `src/app/add-content.tsx`. Add testIDs to the Practice, Read, and Learn expandable cards. For practice topics in the grid, add testIDs like "add-content.practice.topic-{index}".
 
-**Acceptance for Milestone 1:** Start the app on the Spidrid-E2E-Test simulator, run `npm run e2e:studio`, and use Maestro Studio's element inspector to click on the play button. The inspector should show `id: playback.controls.play-pause-btn` in the element details. Repeat for WPM slider, quiz options, and paywall button to verify all testIDs are visible.
+**Acceptance for Milestone 1:** Start the app on the Devoro-E2E-Test simulator, run `npm run e2e:studio`, and use Maestro Studio's element inspector to click on the play button. The inspector should show `id: playback.controls.play-pause-btn` in the element details. Repeat for WPM slider, quiz options, and paywall button to verify all testIDs are visible.
 
 
 ## Milestone 2: E2E Test - playback-basic.yaml
 
-**PREREQUISITE CHECK:** This is the first E2E test milestone. Milestone 0 and Milestone 1 must be complete. Verify the app launches on Spidrid-E2E-Test simulator and testIDs are visible in Maestro Studio before proceeding.
+**PREREQUISITE CHECK:** This is the first E2E test milestone. Milestone 0 and Milestone 1 must be complete. Verify the app launches on Devoro-E2E-Test simulator and testIDs are visible in Maestro Studio before proceeding.
 
 This milestone implements the first E2E test: basic playback functionality. The test opens an article, starts playing, pauses, skips to completion, and verifies the completion state.
 
@@ -303,7 +303,7 @@ Create file `e2e/flows/playback/playback-basic.yaml`:
 
 **Acceptance for Milestone 2:** Run the test with:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/playback-basic.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/playback-basic.yaml
 
 The test must exit with "Flow Passed". If it fails, debug using `npm run e2e:studio`, fix the issue, and re-run until it passes. Do NOT proceed to Milestone 3 until this test passes.
 
@@ -312,7 +312,7 @@ The test must exit with "Flow Passed". If it fails, debug using `npm run e2e:stu
 
 **PREREQUISITE CHECK (MANDATORY):** Before implementing this test, run the previous test and verify it passes:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/playback-basic.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/playback-basic.yaml
 
 If playback-basic.yaml fails, STOP. Fix it before proceeding. Do NOT continue with a broken test suite.
 
@@ -362,11 +362,11 @@ Create file `e2e/flows/playback/playback-wpm-control.yaml`:
 
 **Acceptance for Milestone 3:** First, verify the previous test still passes:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/playback-basic.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/playback-basic.yaml
 
 Then run the new test:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/playback-wpm-control.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/playback-wpm-control.yaml
 
 Both tests must pass. Do NOT proceed to Milestone 4 until both pass.
 
@@ -375,7 +375,7 @@ Both tests must pass. Do NOT proceed to Milestone 4 until both pass.
 
 **PREREQUISITE CHECK (MANDATORY):** Before implementing this test, run ALL previous tests and verify they pass:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
 
 This runs all flows in the playback folder. Both playback-basic.yaml and playback-wpm-control.yaml must show "Flow Passed". If any test fails, STOP and fix it before proceeding.
 
@@ -425,7 +425,7 @@ Create file `e2e/flows/playback/playback-navigation.yaml`:
 
 **Acceptance for Milestone 4:** Run all playback tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
 
 All three tests must pass. Do NOT proceed to Milestone 5 until all three pass.
 
@@ -434,7 +434,7 @@ All three tests must pass. Do NOT proceed to Milestone 5 until all three pass.
 
 **PREREQUISITE CHECK (MANDATORY):** Before implementing this test, run ALL previous tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
 
 All three playback tests must pass. If any fail, STOP and fix before proceeding.
 
@@ -495,11 +495,11 @@ Create file `e2e/flows/quiz/quiz-completion.yaml`:
 
 **Acceptance for Milestone 5:** First verify all previous tests pass:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
 
 Then run the new quiz test:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/quiz/quiz-completion.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/quiz-completion.yaml
 
 All four tests must pass. Do NOT proceed to Milestone 6 until all pass.
 
@@ -508,8 +508,8 @@ All four tests must pass. Do NOT proceed to Milestone 6 until all pass.
 
 **PREREQUISITE CHECK (MANDATORY):** Run ALL previous tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/quiz/quiz-completion.yaml
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/quiz-completion.yaml
 
 All four tests must pass. If any fail, STOP and fix before proceeding.
 
@@ -563,8 +563,8 @@ Create file `e2e/flows/quiz/quiz-retry.yaml`:
 
 **Acceptance for Milestone 6:** Run all tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/quiz/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/
 
 All five tests (3 playback + 2 quiz) must pass. Do NOT proceed to Milestone 7 until all pass.
 
@@ -573,8 +573,8 @@ All five tests (3 playback + 2 quiz) must pass. Do NOT proceed to Milestone 7 un
 
 **PREREQUISITE CHECK (MANDATORY):** Run ALL previous tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/playback/
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/quiz/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/playback/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/
 
 All five tests must pass. If any fail, STOP and fix before proceeding.
 
@@ -626,7 +626,7 @@ Create file `e2e/flows/subscription/paywall-wpm-limit.yaml`:
 
 **Acceptance for Milestone 7:** Run all tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/
 
 All six tests must pass. Do NOT proceed to Milestone 8 until all pass.
 
@@ -635,7 +635,7 @@ All six tests must pass. Do NOT proceed to Milestone 8 until all pass.
 
 **PREREQUISITE CHECK (MANDATORY):** Run ALL previous tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/
 
 All six tests must pass. If any fail, STOP and fix before proceeding.
 
@@ -667,7 +667,7 @@ Create file `e2e/flows/subscription/paywall-content-limit.yaml`:
 
 **Acceptance for Milestone 8:** Run all tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/
 
 All seven tests must pass. Do NOT proceed to Milestone 9 until all pass.
 
@@ -676,7 +676,7 @@ All seven tests must pass. Do NOT proceed to Milestone 9 until all pass.
 
 **PREREQUISITE CHECK (MANDATORY):** Run ALL previous tests:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/
 
 All seven tests must pass. If any fail, STOP and fix before proceeding.
 
@@ -719,7 +719,7 @@ Create file `e2e/flows/subscription/subscription-simulate.yaml`:
 
 **Acceptance for Milestone 9 (FINAL):** Run ALL tests to verify the complete test suite:
 
-    maestro --device 'Spidrid-E2E-Test' test e2e/flows/
+    maestro --device 'Devoro-E2E-Test' test e2e/flows/
 
 Expected output shows 8 flows executed, all with "Flow Passed" status:
 - playback-basic.yaml: Flow Passed
@@ -753,11 +753,11 @@ Expected output: `Maestro version: 1.38.x`
 
 Step 3 - Create dedicated simulator:
 
-    xcrun simctl create "Spidrid-E2E-Test" "iPhone 15" com.apple.CoreSimulator.SimRuntime.iOS-17-0
-    xcrun simctl boot "Spidrid-E2E-Test"
+    xcrun simctl create "Devoro-E2E-Test" "iPhone 15" com.apple.CoreSimulator.SimRuntime.iOS-17-0
+    xcrun simctl boot "Devoro-E2E-Test"
     xcrun simctl list devices booted
 
-Expected output includes: `Spidrid-E2E-Test (...) (Booted)`
+Expected output includes: `Devoro-E2E-Test (...) (Booted)`
 
 Step 4 - Create directory structure:
 
@@ -780,7 +780,7 @@ Expected: All 8 flows pass.
 
 The plan is complete when:
 
-1. Running `npm run e2e:setup-sim` boots the Spidrid-E2E-Test simulator
+1. Running `npm run e2e:setup-sim` boots the Devoro-E2E-Test simulator
 2. Running `npm run e2e:studio` shows testIDs in Maestro Studio
 3. Running `npm run e2e` executes all 8 E2E test flows
 4. All 8 flows show "Flow Passed" status
@@ -798,7 +798,7 @@ To reset:
 
 To remove everything:
 
-    xcrun simctl delete "Spidrid-E2E-Test"
+    xcrun simctl delete "Devoro-E2E-Test"
     cd /Users/kaya/Coding/spidrid
     git worktree remove ../spidrid-e2e-maestro
     git branch -D test/e2e-maestro

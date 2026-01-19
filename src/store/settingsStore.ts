@@ -66,7 +66,7 @@ export const useSettingsStore = create<SettingsState>()(
       }),
     }),
     {
-      name: 'spidrid-settings',
+      name: 'devoro-settings',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         themeId: state.themeId,

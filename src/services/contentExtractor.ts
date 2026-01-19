@@ -223,7 +223,7 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
 
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; SpidridReader/1.0)',
+        'User-Agent': 'Mozilla/5.0 (compatible; DevoroReader/1.0)',
       },
     });
 
@@ -277,7 +277,7 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
         xhr.onerror = () => reject(new Error('XMLHttpRequest network error'));
         xhr.ontimeout = () => reject(new Error('XMLHttpRequest timeout'));
         xhr.open('GET', url);
-        xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (compatible; SpidridReader/1.0)');
+        xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (compatible; DevoroReader/1.0)');
         xhr.timeout = 30000; // 30 second timeout
         xhr.send();
       });
