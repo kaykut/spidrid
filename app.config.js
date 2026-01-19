@@ -32,7 +32,7 @@ export default {
     web: {
       favicon: './assets/favicon.png',
     },
-    plugins: ['expo-router', 'expo-audio'],
+    plugins: ['expo-router', 'expo-audio', 'expo-font', 'expo-asset'],
     extra: {
       supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
