@@ -221,22 +221,11 @@ export default function DevToolsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.navButton, { borderColor: theme.accentColor }]}
+            style={[styles.navButton, { borderColor: theme.accentColor, marginBottom: 0 }]}
             onPress={() => router.push('/reader/demo')}
           >
             <Text style={[styles.navButtonText, { color: theme.accentColor }]}>
               Demo Reader
-            </Text>
-            <Ionicons name="chevron-forward" size={20} color={theme.accentColor} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navButton, { borderColor: theme.accentColor, marginBottom: 0 }]}
-            onPress={() => router.push('/testing')}
-          >
-            <Ionicons name="flask-outline" size={20} color={theme.accentColor} />
-            <Text style={[styles.navButtonText, { color: theme.accentColor }]}>
-              Component Gallery
             </Text>
             <Ionicons name="chevron-forward" size={20} color={theme.accentColor} />
           </TouchableOpacity>

@@ -14,22 +14,34 @@ Users can verify success by confirming the app runs without errors, all producti
 
 ## Progress
 
-- [ ] Delete testing.tsx screen file
-- [ ] Delete 3 certificate components (CertificateCard, CertificateViewerModal, NewCertificateModal)
-- [ ] Delete 6 certification components (CertificationEarnedModal, CertificationReadyModal, JourneyPath, MilestoneBadge, ProgressRing, TierCard)
-- [ ] Delete 5 journey components (InsightsPanel, MetricsPanel, SmartQueue, UnifiedProgressPath, UpNextCard)
-- [ ] Delete 1 journey animation (PulseAnimation)
-- [ ] Delete 2 addContent components (LearnContent, TrainContent)
-- [ ] Remove testing.tsx route from _layout.tsx
-- [ ] Remove "Component Gallery" button from dev-tools.tsx
-- [ ] Update barrel exports to remove deleted components
-- [ ] Verify app builds without errors
+- [x] (2026-01-20) Delete testing.tsx screen file
+- [x] (2026-01-20) Delete 3 certificate components (CertificateCard, CertificateViewerModal, NewCertificateModal)
+- [x] (2026-01-20) Delete 6 certification components (CertificationEarnedModal, CertificationReadyModal, JourneyPath, MilestoneBadge, ProgressRing, TierCard)
+- [x] (2026-01-20) Delete 5 journey components (InsightsPanel, MetricsPanel, SmartQueue, UnifiedProgressPath, UpNextCard)
+- [x] (2026-01-20) Delete 1 journey animation (PulseAnimation)
+- [x] (2026-01-20) Delete 2 addContent components (LearnContent, TrainContent)
+- [x] (2026-01-20) Remove testing.tsx route from _layout.tsx
+- [x] (2026-01-20) Remove "Component Gallery" button from dev-tools.tsx
+- [x] (2026-01-20) Update barrel exports to remove deleted components (4 index.ts files)
+- [x] (2026-01-20) Clean up stale component references in code comments (certificates.ts)
+- [x] (2026-01-20) Update CLAUDE.md to remove deleted component references
+- [x] (2026-01-20) Delete 14 test files for removed components
+- [x] (2026-01-20) TypeScript typecheck passes with 0 errors
+- [ ] Verify app builds and runs in iOS simulator
 - [ ] Test all production features still work
 - [ ] Commit changes
 
 ## Surprises & Discoveries
 
-(To be filled as work proceeds)
+- Surprise: Test files for deleted components were not originally identified in the verification phase
+  Evidence: Running `npm run typecheck` after component deletion revealed 14 test files importing the deleted components. All test files were located in `__tests__/components/` mirroring the component structure.
+  Resolution: Deleted all 14 test files (3 certificates, 5 certifications, 5 journey, 1 animation). TypeScript typecheck now passes.
+  Date: 2026-01-20
+
+- Observation: Total deletion count higher than originally planned
+  Evidence: Original plan stated "19 files to delete" but actual count is 18 component/screen files + 14 test files = 32 total deletions
+  Impact: More comprehensive cleanup than initially scoped, removing ~6,000+ lines of code including tests
+  Date: 2026-01-20
 
 ## Decision Log
 
@@ -204,6 +216,31 @@ Edit src/app/dev-tools.tsx and remove the "Component Gallery" navigation button 
 
 The section title "Visual Tests" and the two other buttons (Test Long Words, Demo Reader) should remain.
 
+### Phase 5: Clean Up Documentation References
+
+Edit src/types/certificates.ts and update the comment on line 39:
+
+Change from:
+    /**
+     * Certificate type for PDF generation and display
+     * Used by CertificateCard, CertificateViewerModal, and PDF services
+     */
+
+To:
+    /**
+     * Certificate type for PDF generation and display
+     */
+
+Edit CLAUDE.md and remove the deleted component references from the "Certificates" section (lines 85-86):
+
+Remove these lines:
+    - src/components/certificates/CertificateCard.tsx - Display
+    - src/components/certificates/NewCertificateModal.tsx - Award popup
+
+Keep only:
+    ### Certificates
+    - src/store/certificateStore.ts - Award logic
+
 ## Validation and Acceptance
 
 After completing all steps, verify the changes work correctly:
@@ -269,13 +306,15 @@ Expected deleted files count: 19 files
 - 6 journey (5 components + 1 animation)
 - 2 addContent
 
-Expected modified files: 5-6 files
+Expected modified files: 8 files
 - src/app/_layout.tsx (route removal)
 - src/app/dev-tools.tsx (button removal)
 - src/components/certifications/index.ts
 - src/components/journey/index.ts
 - src/components/journey/animations/index.ts
 - src/components/addContent/index.ts
+- src/types/certificates.ts (comment cleanup)
+- CLAUDE.md (documentation cleanup)
 
 ## Idempotence and Recovery
 
@@ -340,7 +379,7 @@ Add Content (2):
 - src/components/addContent/LearnContent.tsx
 - src/components/addContent/TrainContent.tsx
 
-### Files to Modify (6)
+### Files to Modify (8)
 
 - src/app/_layout.tsx - Remove testing route
 - src/app/dev-tools.tsx - Remove Component Gallery button
@@ -348,6 +387,8 @@ Add Content (2):
 - src/components/journey/index.ts - Remove 5 exports
 - src/components/journey/animations/index.ts - Remove 1 export
 - src/components/addContent/index.ts - Remove 2 exports
+- src/types/certificates.ts - Remove component names from comment
+- CLAUDE.md - Remove deleted component references
 
 ### Components to Keep (verified as USED)
 

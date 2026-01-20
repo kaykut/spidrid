@@ -82,8 +82,6 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 
 ### Certificates
 - src/store/certificateStore.ts - Award logic
-- src/components/certificates/CertificateCard.tsx - Display
-- src/components/certificates/NewCertificateModal.tsx - Award popup
 
 ## Key Decisions
 - Expo Router for file-based navigation

@@ -36,7 +36,6 @@ export interface EarnedCertification {
 
 /**
  * Certificate type for PDF generation and display
- * Used by CertificateCard, CertificateViewerModal, and PDF services
  */
 export interface Certificate {
   id: string;

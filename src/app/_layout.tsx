@@ -88,7 +88,6 @@ export default function RootLayout() {
               <Stack.Screen name="topic" options={{ headerShown: false }} />
               <Stack.Screen name="article" options={{ headerShown: false }} />
               <Stack.Screen name="content" options={{ headerShown: false }} />
-              <Stack.Screen name="testing" options={{ presentation: 'modal', headerShown: false }} />
               <Stack.Screen
                 name="journey-profile"
                 options={{
