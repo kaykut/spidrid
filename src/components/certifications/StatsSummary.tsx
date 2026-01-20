@@ -54,7 +54,7 @@ export function StatsSummary({
       <StatItem
         value={bestWPM}
         label="Best WPM"
-        color={JOURNEY_COLORS.warmAccent}
+        color={JOURNEY_COLORS.premiumAccent}
       />
     </View>
   );

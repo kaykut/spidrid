@@ -26,6 +26,7 @@ import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constan
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { ProgressInsight, WeeklyTrendPoint } from '../../types/journey';
+import { useTheme } from '../common/ThemeProvider';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -107,6 +108,7 @@ interface ProgressContentProps {
 }
 
 function ProgressContent({ insight }: ProgressContentProps) {
+  const { theme } = useTheme();
   const { baseline, current, deltaWpm, deltaComprehension } = insight;
 
   const formatDelta = (value: number, suffix: string = '') => {
@@ -152,7 +154,7 @@ function ProgressContent({ insight }: ProgressContentProps) {
         </View>
         <View style={styles.comparisonItem}>
           <Text style={styles.comparisonLabel}>Now:</Text>
-          <Text style={[styles.comparisonValue, { color: JOURNEY_COLORS.accent }]}>
+          <Text style={[styles.comparisonValue, { color: theme.accentColor }]}>
             {current.avgWpm} WPM @ {current.avgComprehension}%
           </Text>
         </View>
@@ -169,6 +171,7 @@ interface TrendContentProps {
 }
 
 function TrendContent({ weeklyTrend }: TrendContentProps) {
+  const { theme } = useTheme();
   // Take last 4 weeks
   const data = weeklyTrend.slice(-4);
   const latestWeek = data[data.length - 1];
@@ -210,6 +213,7 @@ function TrendContent({ weeklyTrend }: TrendContentProps) {
               style={[
                 styles.chartLine,
                 {
+                  backgroundColor: theme.accentColor,
                   width: length,
                   left: prev.x,
                   top: prev.y - 1,
@@ -231,7 +235,7 @@ function TrendContent({ weeklyTrend }: TrendContentProps) {
                 left: point.x - SPACING.xs,
                 top: point.y - SPACING.xs,
                 backgroundColor: index === points.length - 1
-                  ? JOURNEY_COLORS.accent
+                  ? theme.accentColor
                   : JOURNEY_COLORS.textSecondary,
               },
             ]}
@@ -250,7 +254,7 @@ function TrendContent({ weeklyTrend }: TrendContentProps) {
 
       <View style={styles.trendFooter}>
         <Text style={styles.trendLabel}>This week:</Text>
-        <Text style={styles.trendValue}>
+        <Text style={[styles.trendValue, { color: theme.accentColor }]}>
           {latestWeek?.avgWpm || 0} WPM {' '}&bull;{' '} {latestWeek?.avgComprehension || 0}%
         </Text>
       </View>
@@ -266,6 +270,7 @@ interface PlaceholderContentProps {
 }
 
 function PlaceholderContent({ sessionsNeeded }: PlaceholderContentProps) {
+  const { theme } = useTheme();
   return (
     <View style={styles.placeholderContent}>
       <Text style={styles.placeholderText}>
@@ -277,7 +282,10 @@ function PlaceholderContent({ sessionsNeeded }: PlaceholderContentProps) {
             key={i}
             style={[
               styles.placeholderDot,
-              i < 5 - sessionsNeeded && styles.placeholderDotFilled,
+              i < 5 - sessionsNeeded && [
+                styles.placeholderDotFilled,
+                { backgroundColor: theme.accentColor },
+              ],
             ]}
           />
         ))}
@@ -399,7 +407,6 @@ const styles = StyleSheet.create({
   chartLine: {
     position: 'absolute',
     height: SIZES.dividerHeight,
-    backgroundColor: JOURNEY_COLORS.accent,
     borderRadius: COMPONENT_RADIUS.progressBar / 6,
   },
   chartPoint: {
@@ -429,7 +436,6 @@ const styles = StyleSheet.create({
   trendValue: {
     ...TYPOGRAPHY.label,
     fontWeight: FONT_WEIGHTS.medium,
-    color: JOURNEY_COLORS.accent,
     fontVariant: ['tabular-nums'],
   },
 
@@ -456,7 +462,7 @@ const styles = StyleSheet.create({
     backgroundColor: JOURNEY_COLORS.surfaceLight,
   },
   placeholderDotFilled: {
-    backgroundColor: JOURNEY_COLORS.accent,
+    // backgroundColor applied inline with theme.accentColor
   },
 
   // Skeleton Chart

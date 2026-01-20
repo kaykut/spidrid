@@ -98,7 +98,7 @@ export function ContentListItemCard({
     return (
       <TouchableOpacity onPress={handleDelete} style={styles.deleteAction}>
         <Animated.View style={[styles.deleteContent, { transform: [{ scale }] }]}>
-          <Ionicons name="trash-outline" size={SIZES.iconLg} color="#ffffff" />
+          <Ionicons name="trash-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.textPrimary} />
           <Text style={styles.deleteText}>Delete</Text>
         </Animated.View>
       </TouchableOpacity>
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     ...TYPOGRAPHY.caption,
-    color: '#ffffff',
+    color: JOURNEY_COLORS.textPrimary,
     marginTop: SPACING.xxs,
   },
   quizBadge: {

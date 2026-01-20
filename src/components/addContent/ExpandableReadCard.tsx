@@ -18,6 +18,7 @@ import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
 import { useTheme } from '../common/ThemeProvider';
@@ -157,8 +158,8 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
       ]}
     >
       <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
-        <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.accent}20` }]}>
-          <Ionicons name="book-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.accent} />
+        <View style={[styles.iconContainer, { backgroundColor: withOpacity(theme.accentColor, OPACITY.light) }]}>
+          <Ionicons name="book-outline" size={SIZES.iconLg} color={theme.accentColor} />
         </View>
         <View style={styles.textContainer}>
           <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
@@ -185,7 +186,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                       backgroundColor: theme.backgroundColor,
                     },
                     readOption === option.id && styles.optionCardSelected,
-                    readOption === option.id && { borderColor: JOURNEY_COLORS.accent },
+                    readOption === option.id && { borderColor: theme.accentColor },
                   ]}
                   onPress={() => handleOptionPress(option.id)}
                   activeOpacity={0.7}
@@ -193,12 +194,12 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                   <Ionicons
                     name={option.icon as keyof typeof Ionicons.glyphMap}
                     size={SIZES.iconXl}
-                    color={readOption === option.id ? JOURNEY_COLORS.accent : theme.textColor}
+                    color={readOption === option.id ? theme.accentColor : theme.textColor}
                   />
                   <Text
                     style={[
                       styles.optionLabel,
-                      { color: readOption === option.id ? JOURNEY_COLORS.accent : theme.textColor },
+                      { color: readOption === option.id ? theme.accentColor : theme.textColor },
                     ]}
                     numberOfLines={2}
                   >
@@ -237,7 +238,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                 <TouchableOpacity
                   style={[
                     styles.submitButton,
-                    { backgroundColor: JOURNEY_COLORS.accent },
+                    { backgroundColor: theme.accentColor },
                     (isLoading || !inputValue.trim()) && styles.submitButtonDisabled,
                   ]}
                   onPress={readOption === 'url' ? handleImportUrl : handleImportText}

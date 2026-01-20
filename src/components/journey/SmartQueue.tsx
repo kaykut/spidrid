@@ -23,6 +23,7 @@ import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typogr
 import { JOURNEY_COLORS, COLORS } from '../../data/themes';
 import { ArticleRecommendation, UserState } from '../../types/journey';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
+import { useTheme } from '../common/ThemeProvider';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -55,6 +56,8 @@ export function SmartQueue({
   expanded,
   onToggleExpand,
 }: SmartQueueProps) {
+  const { theme } = useTheme();
+
   const handleToggleExpand = () => {
     LayoutAnimation.configureNext(LAYOUT_ANIMATION_EXPAND);
     onToggleExpand();
@@ -84,10 +87,10 @@ export function SmartQueue({
       >
         <View style={[styles.primaryCard, { backgroundColor: JOURNEY_COLORS.surface }]}>
           <View style={styles.primaryHeader}>
-            <View style={styles.primaryBadge}>
-              <Text style={styles.primaryBadgeText}>UP NEXT</Text>
+            <View style={[styles.primaryBadge, { backgroundColor: withOpacity(theme.accentColor, OPACITY.light) }]}>
+              <Text style={[styles.primaryBadgeText, { color: theme.accentColor }]}>UP NEXT</Text>
             </View>
-            <Text style={[styles.primaryWpm, { color: JOURNEY_COLORS.accent }]}>
+            <Text style={[styles.primaryWpm, { color: theme.accentColor }]}>
               {primaryRecommendation.suggestedWpm} WPM
             </Text>
           </View>
@@ -111,7 +114,7 @@ export function SmartQueue({
             </Text>
           </View>
 
-          <View style={[styles.primaryAction, { backgroundColor: JOURNEY_COLORS.accent }]}>
+          <View style={[styles.primaryAction, { backgroundColor: theme.accentColor }]}>
             <Text style={styles.primaryActionText}>Start Reading</Text>
           </View>
         </View>
@@ -176,7 +179,7 @@ export function SmartQueue({
               <View style={[styles.optionCard, { backgroundColor: JOURNEY_COLORS.surface }]}>
                 <View style={styles.optionHeader}>
                   <Text style={styles.optionIcon}>&#x1F4DA;</Text>
-                  <Text style={[styles.optionLabel, { color: JOURNEY_COLORS.accent }]}>
+                  <Text style={[styles.optionLabel, { color: theme.accentColor }]}>
                     CONTINUE TOPIC
                   </Text>
                 </View>
@@ -197,10 +200,10 @@ export function SmartQueue({
                     style={[
                       styles.optionAction,
                       styles.continueAction,
-                      { borderColor: JOURNEY_COLORS.accent },
+                      { borderColor: theme.accentColor },
                     ]}
                   >
-                    <Text style={[styles.optionActionText, { color: JOURNEY_COLORS.accent }]}>
+                    <Text style={[styles.optionActionText, { color: theme.accentColor }]}>
                       Continue {'\u2192'}
                     </Text>
                   </View>
@@ -236,7 +239,6 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
   },
   primaryBadge: {
-    backgroundColor: withOpacity(JOURNEY_COLORS.accent, OPACITY.light),
     paddingVertical: SPACING.xs,
     paddingHorizontal: SPACING.sm,
     borderRadius: COMPONENT_RADIUS.chip / 2,
@@ -244,7 +246,6 @@ const styles = StyleSheet.create({
   primaryBadgeText: {
     ...TYPOGRAPHY.labelSmall,
     fontWeight: FONT_WEIGHTS.semibold,
-    color: JOURNEY_COLORS.accent,
     letterSpacing: LETTER_SPACING.normal,
   },
   primaryWpm: {

@@ -36,7 +36,7 @@ export const OPACITY = {
  *
  * @example
  * withOpacity('#FF6B6B', 0.125) // '#FF6B6B20'
- * withOpacity('#00D4AA', OPACITY.light) // '#00D4AA20'
+ * withOpacity('#E85D24', OPACITY.light) // '#E85D2420'
  */
 export function withOpacity(color: string, opacity: number): string {
   // Clamp opacity between 0 and 1

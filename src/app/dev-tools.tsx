@@ -165,10 +165,10 @@ export default function DevToolsScreen() {
           </View>
 
           <TouchableOpacity
-            style={[styles.devButton, { borderColor: theme.orpColor }]}
+            style={[styles.devButton, { borderColor: JOURNEY_COLORS.low }]}
             onPress={handleClearAuthToken}
           >
-            <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
+            <Text style={[styles.devButtonText, { color: JOURNEY_COLORS.low }]}>
               Clear Auth Token (Debug)
             </Text>
           </TouchableOpacity>
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
   },
   personaButtonActive: {
     borderWidth: 2,
-    borderColor: JOURNEY_COLORS.accent,
+    // borderColor should be applied inline with theme.accentColor if this style is used
   },
   personaButtonReset: {
     backgroundColor: 'rgba(255,100,100,0.2)',

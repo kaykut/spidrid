@@ -10,6 +10,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from '
 import { SPRING_CONFIG } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { ContentCategory } from '../../types/contentList';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -110,8 +111,7 @@ function FilterPill({
   const scaleAnim = useFilterPillAnimation(isActive);
 
   // Compute text color - active pills use contrasting color
-  const activeTextColor = isDarkTheme ? '#000000' : '#ffffff';
-  const pillTextColor = isActive ? activeTextColor : textColor;
+  const pillTextColor = isActive ? JOURNEY_COLORS.textPrimary : textColor;
 
   return (
     <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>

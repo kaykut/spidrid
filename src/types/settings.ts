@@ -10,6 +10,7 @@ export interface Theme {
   orpColor: string;
   crosshairColor: string;
   accentColor: string;
+  accentMuted: string; // Muted/terracotta accent variant
   secondaryBackground: string;
   secondaryBackgroundGradient: string;
   trackColor: string;

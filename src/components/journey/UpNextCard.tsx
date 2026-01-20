@@ -54,7 +54,6 @@ export interface UpNextCardProps {
 // Constants
 // =============================================================================
 
-const TEAL_ACCENT = JOURNEY_COLORS.accent;
 const DEFAULT_MIN_WPM = 100;
 const DEFAULT_MAX_WPM = 1000;
 const DEFAULT_WPM_STEP = 25;
@@ -203,7 +202,7 @@ export function UpNextCard({
           <Text style={[styles.sliderLabel, { color: JOURNEY_COLORS.textSecondary }]}>
             Reading Speed
           </Text>
-          <Text style={[styles.wpmValue, { color: TEAL_ACCENT }]}>
+          <Text style={[styles.wpmValue, { color: theme.accentColor }]}>
             {selectedWpm} WPM
           </Text>
         </View>
@@ -222,7 +221,7 @@ export function UpNextCard({
                 styles.sliderTrackFill,
                 {
                   width: thumbPosition,
-                  backgroundColor: TEAL_ACCENT,
+                  backgroundColor: theme.accentColor,
                 },
               ]}
             />
@@ -253,7 +252,7 @@ export function UpNextCard({
 
       {/* Start Button */}
       <TouchableOpacity
-        style={[styles.startButton, { backgroundColor: TEAL_ACCENT }]}
+        style={[styles.startButton, { backgroundColor: theme.accentColor }]}
         activeOpacity={0.8}
         onPress={handleStart}
       >

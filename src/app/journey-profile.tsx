@@ -332,7 +332,7 @@ export default function JourneyProfileModal() {
               <Text
                 style={[
                   styles.subscriptionValue,
-                  { color: isPremium ? theme.accentColor : theme.orpColor },
+                  { color: isPremium ? theme.accentColor : theme.metaColor },
                 ]}
               >
                 {isPremium ? 'Premium' : 'Free'}

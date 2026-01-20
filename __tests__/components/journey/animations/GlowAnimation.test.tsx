@@ -27,7 +27,7 @@ describe('GlowAnimation', () => {
 
   it('renders children when inactive', () => {
     renderWithProviders(
-      <GlowAnimation active={false} color="#00D4AA">
+      <GlowAnimation active={false} color="#E85D24">
         <TestChild />
       </GlowAnimation>
     );
@@ -37,7 +37,7 @@ describe('GlowAnimation', () => {
 
   it('renders children when active', () => {
     renderWithProviders(
-      <GlowAnimation active={true} color="#00D4AA">
+      <GlowAnimation active={true} color="#E85D24">
         <TestChild />
       </GlowAnimation>
     );
@@ -47,7 +47,7 @@ describe('GlowAnimation', () => {
 
   it('renders multiple children', () => {
     renderWithProviders(
-      <GlowAnimation active={true} color="#00D4AA">
+      <GlowAnimation active={true} color="#E85D24">
         <Text>Child 1</Text>
         <Text>Child 2</Text>
       </GlowAnimation>
@@ -59,7 +59,7 @@ describe('GlowAnimation', () => {
 
   it('cleans up animation on unmount without crashing', () => {
     const { unmount } = renderWithProviders(
-      <GlowAnimation active={true} color="#00D4AA">
+      <GlowAnimation active={true} color="#E85D24">
         <TestChild />
       </GlowAnimation>
     );

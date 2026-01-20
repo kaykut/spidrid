@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...TYPOGRAPHY.body,
-    color: '#ff6b6b',
+    color: JOURNEY_COLORS.low,
     marginBottom: SPACING.sm,
   },
   retryText: {
