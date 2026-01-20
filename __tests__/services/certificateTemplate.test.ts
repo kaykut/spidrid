@@ -20,8 +20,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'John Doe',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(typeof html).toBe('string');
     });
@@ -30,8 +29,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Jane Smith',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('Jane Smith');
     });
@@ -40,8 +38,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: '',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('Speed Reader');
     });
@@ -50,8 +47,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       // Should contain the title from certificate definition
       expect(html).toContain('Speed Reader');
@@ -61,8 +57,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('600 WPM');
     });
@@ -71,60 +66,19 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       // Date should be formatted (January 7, 2026)
       expect(html).toContain('January');
       expect(html).toContain('2026');
     });
 
-    it('contains language label for English', () => {
-      const html = generateCertificateHTML({
-        certificate: mockCertificate,
-        userName: 'Test User',
-        readingLanguage: 'en',
-      });
-
-      expect(html).toContain('English');
-    });
-
-    it('contains language label for Spanish', () => {
-      const html = generateCertificateHTML({
-        certificate: mockCertificate,
-        userName: 'Test User',
-        readingLanguage: 'es',
-      });
-
-      expect(html).toContain('Spanish');
-    });
-
-    it('contains language label for French', () => {
-      const html = generateCertificateHTML({
-        certificate: mockCertificate,
-        userName: 'Test User',
-        readingLanguage: 'fr',
-      });
-
-      expect(html).toContain('French');
-    });
-
-    it('defaults to English for unknown language', () => {
-      const html = generateCertificateHTML({
-        certificate: mockCertificate,
-        userName: 'Test User',
-        readingLanguage: 'unknown',
-      });
-
-      expect(html).toContain('English');
-    });
 
     it('contains certificate ID', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       // ID should be uppercase and first 8 chars
       expect(html).toContain('ABC123XY');
@@ -134,8 +88,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('<!DOCTYPE html>');
       expect(html).toContain('<html>');
@@ -150,8 +103,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('Devoro');
     });
@@ -160,8 +112,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('Certificate of Achievement');
     });
@@ -170,8 +121,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       // Should contain an emoji icon
       expect(html).toContain('⚡'); // speed_reader has lightning bolt icon
@@ -181,8 +131,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('<style>');
       expect(html).toContain('font-family');
@@ -193,8 +142,7 @@ describe('certificateTemplate', () => {
       const html = generateCertificateHTML({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(html).toContain('Verified Achievement');
     });
@@ -211,8 +159,7 @@ describe('certificateTemplate', () => {
         const html = generateCertificateHTML({
           certificate: masterCert,
           userName: 'Master Reader',
-          readingLanguage: 'en',
-        });
+                  });
 
         expect(html).toContain('950 WPM');
         expect(html).toContain('Master Reader');
@@ -231,8 +178,7 @@ describe('certificateTemplate', () => {
         const html = generateCertificateHTML({
           certificate: transcendentCert,
           userName: 'Elite Reader',
-          readingLanguage: 'en',
-        });
+                  });
 
         expect(html).toContain('1250 WPM');
         expect(html).toContain('Elite Reader');
@@ -246,8 +192,7 @@ describe('certificateTemplate', () => {
         const html = generateCertificateHTML({
           certificate: mockCertificate,
           userName: "John O'Brien",
-          readingLanguage: 'en',
-        });
+                  });
 
         expect(html).toContain("O'Brien");
       });
@@ -256,8 +201,7 @@ describe('certificateTemplate', () => {
         const html = generateCertificateHTML({
           certificate: mockCertificate,
           userName: 'José García',
-          readingLanguage: 'es',
-        });
+                  });
 
         expect(html).toContain('José García');
       });
@@ -267,8 +211,7 @@ describe('certificateTemplate', () => {
         const html = generateCertificateHTML({
           certificate: mockCertificate,
           userName: longName,
-          readingLanguage: 'en',
-        });
+                  });
 
         expect(html).toContain(longName);
       });

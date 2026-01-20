@@ -47,10 +47,10 @@ export function detectLanguage(text: string): SupportedLanguage | null {
  * Get language scores for debugging/testing.
  * Legacy function for compatibility.
  *
- * @param text - Text to analyze
+ * @param _text - Text to analyze (unused - legacy compatibility)
  * @returns Empty scores object (legacy compatibility)
  */
-export function getLanguageScores(text: string): Record<SupportedLanguage, number> {
+export function getLanguageScores(_text: string): Record<SupportedLanguage, number> {
   // Optional: Could use francAll from franc-min to get confidence scores
   // For now, return empty scores for legacy compatibility
   return { en: 0, es: 0, fr: 0, de: 0, pt: 0, it: 0 };
