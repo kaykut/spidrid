@@ -187,7 +187,9 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         const { isPremium, dailyGenerationCount, lastGenerationDate } = get();
 
         // Premium users have unlimited generation
-        if (isPremium) return true;
+        if (isPremium) {
+          return true;
+        }
 
         // Check if date has changed since last generation
         const today = new Date().toDateString();

@@ -13,8 +13,8 @@ interface AuthState {
   initialize: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
   signInWithGoogle: () => Promise<void>;
-  signUpWithPassword: (email: string, password: string) => Promise<any>;
-  signInWithPassword: (email: string, password: string) => Promise<any>;
+  signUpWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
+  signInWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
   resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
 }

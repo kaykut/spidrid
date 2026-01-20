@@ -30,10 +30,10 @@ import { useTheme } from '../components/common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SPACING, SHADOWS } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { JOURNEY_COLORS } from '../data/themes';
-import { useJourneyStore } from '../store/journeyStore';
-import { useSubscriptionStore } from '../store/subscriptionStore';
 import { useAuthStore } from '../store/authStore';
 import { useContentStore } from '../store/contentStore';
+import { useJourneyStore } from '../store/journeyStore';
+import { useSubscriptionStore } from '../store/subscriptionStore';
 
 // Helper to convert hex to rgba with alpha
 function hexToRGBA(hex: string, alpha: number) {

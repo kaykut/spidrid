@@ -475,7 +475,9 @@ export const useCurriculumStore = create<CurriculumStore>()(
       saveArticlePosition: (curriculumId, articleIndex, wordIndex) => {
         set((state) => {
           const curriculum = state.curricula[curriculumId];
-          if (!curriculum) return state;
+          if (!curriculum) {
+            return state;
+          }
 
           const updatedArticles = curriculum.articles.map((a, i) =>
             i === articleIndex ? { ...a, currentWordIndex: wordIndex } : a

@@ -1,7 +1,7 @@
-import { ContentSource } from '../types/contentList';
 import { useContentStore } from '../store/contentStore';
-import { useGeneratedStore } from '../store/generatedStore';
 import { useCurriculumStore } from '../store/curriculumStore';
+import { useGeneratedStore } from '../store/generatedStore';
+import { ContentSource } from '../types/contentList';
 
 // =============================================================================
 // Constants
