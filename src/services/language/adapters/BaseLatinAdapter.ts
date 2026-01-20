@@ -8,6 +8,24 @@
 import { LanguageAdapter, SupportedLanguage, HyphenationResult } from '../types';
 
 /**
+ * Common compound word prefixes (Greek/Latin roots).
+ * Exported as a constant for use in language-specific adapters.
+ * Total: 44 prefixes, sorted by length (longest first)
+ */
+export const BASE_LATIN_PREFIXES: string[] = [
+  // 7+ chars
+  'electro', 'counter',
+  // 6 chars
+  'pseudo', 'thermo', 'chrono', 'hetero',
+  // 5 chars
+  'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra', 'proto', 'retro',
+  // 4 chars
+  'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele', 'homo', 'omni',
+  // 3 chars
+  'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri', 'iso', 'pan',
+];
+
+/**
  * Shared defaults for all Latin-script languages.
  * These patterns and values are largely universal across European languages.
  */
@@ -30,24 +48,10 @@ export abstract class BaseLatinAdapter implements LanguageAdapter {
 
   abstract hyphenateSync(word: string): HyphenationResult;
 
-  /**
-   * Common compound word prefixes (Greek/Latin roots).
-   * These are largely universal across European languages.
-   * Sorted by length (longest first) to match most specific prefix.
-   * Total: 46 prefixes (expanded from 32 to handle more long words)
-   */
-  readonly compoundPrefixes: string[] = [
-    // 7+ chars
-    'electro', 'counter',
-    // 6 chars
-    'pseudo', 'thermo', 'chrono', 'hetero',
-    // 5 chars
-    'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra', 'proto', 'retro',
-    // 4 chars
-    'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele', 'homo', 'omni',
-    // 3 chars
-    'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri', 'iso', 'pan',
-  ];
+  /** Common compound word prefixes (Greek/Latin roots) */
+  get compoundPrefixes(): string[] {
+    return BASE_LATIN_PREFIXES;
+  }
 
   // Punctuation detection - shared across Latin languages
 

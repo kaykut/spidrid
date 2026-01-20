@@ -7,7 +7,7 @@
 // @ts-expect-error - hyphen package doesn't have type definitions
 import hyphenFr from 'hyphen/fr';
 import { HyphenationResult } from '../types';
-import { BaseLatinAdapter } from './BaseLatinAdapter';
+import { BaseLatinAdapter, BASE_LATIN_PREFIXES } from './BaseLatinAdapter';
 
 /** Soft hyphen character used by the hyphen library */
 const SOFT_HYPHEN = '\u00AD';
@@ -25,6 +25,15 @@ export class FrenchAdapter extends BaseLatinAdapter {
 
   /** French letters including œ, æ, ç, and accented characters */
   readonly letterPattern: RegExp = /[a-zA-ZàâäæçéèêëîïôœùûüÿÀÂÄÆÇÉÈÊËÎÏÔŒÙÛÜŸ]/;
+
+  /** French compound prefixes (inherited + French-specific) */
+  get compoundPrefixes(): string[] {
+    return [
+      ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
+      // French-specific prefixes (13 total), sorted by length (longest first)
+      'arrière', 'contre', 'avant', 'après', 'entre', 'sous', 'sans', 'pré', 'dés', 'sur', 're', 'dé', 'de',
+    ];
+  }
 
   /**
    * Hyphenate a word using the French hyphenation library.

@@ -7,7 +7,7 @@
 // @ts-expect-error - hyphen package doesn't have type definitions
 import hyphenIt from 'hyphen/it';
 import { HyphenationResult } from '../types';
-import { BaseLatinAdapter } from './BaseLatinAdapter';
+import { BaseLatinAdapter, BASE_LATIN_PREFIXES } from './BaseLatinAdapter';
 
 /** Soft hyphen character used by the hyphen library */
 const SOFT_HYPHEN = '\u00AD';
@@ -25,6 +25,15 @@ export class ItalianAdapter extends BaseLatinAdapter {
 
   /** Italian letters including accented vowels */
   readonly letterPattern: RegExp = /[a-zA-ZàèéìíòóùúÀÈÉÌÍÒÓÙÚ]/;
+
+  /** Italian compound prefixes (inherited + Italian-specific) */
+  get compoundPrefixes(): string[] {
+    return [
+      ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
+      // Italian-specific prefixes (7 total), sorted by length (longest first)
+      'contro', 'sovra', 'sopra', 'sotto', 'stra', 'dopo', 'dis',
+    ];
+  }
 
   /**
    * Hyphenate a word using the Italian hyphenation library.

@@ -7,7 +7,7 @@
 // @ts-expect-error - hyphen package doesn't have type definitions
 import hyphenPt from 'hyphen/pt';
 import { HyphenationResult } from '../types';
-import { BaseLatinAdapter } from './BaseLatinAdapter';
+import { BaseLatinAdapter, BASE_LATIN_PREFIXES } from './BaseLatinAdapter';
 
 /** Soft hyphen character used by the hyphen library */
 const SOFT_HYPHEN = '\u00AD';
@@ -25,6 +25,15 @@ export class PortugueseAdapter extends BaseLatinAdapter {
 
   /** Portuguese letters including ã, õ, ç, and accented characters */
   readonly letterPattern: RegExp = /[a-zA-ZáàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ]/;
+
+  /** Portuguese compound prefixes (inherited + Portuguese-specific) */
+  get compoundPrefixes(): string[] {
+    return [
+      ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
+      // Portuguese-specific prefixes (10 total), sorted by length (longest first)
+      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'após', 'des', 'pós', 'pré',
+    ];
+  }
 
   /**
    * Hyphenate a word using the Portuguese hyphenation library.

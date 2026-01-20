@@ -7,7 +7,7 @@
 // @ts-expect-error - hyphen package doesn't have type definitions
 import hyphenEs from 'hyphen/es';
 import { HyphenationResult } from '../types';
-import { BaseLatinAdapter } from './BaseLatinAdapter';
+import { BaseLatinAdapter, BASE_LATIN_PREFIXES } from './BaseLatinAdapter';
 
 /** Soft hyphen character used by the hyphen library */
 const SOFT_HYPHEN = '\u00AD';
@@ -25,6 +25,15 @@ export class SpanishAdapter extends BaseLatinAdapter {
 
   /** Spanish letters including ñ and accented vowels */
   readonly letterPattern: RegExp = /[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]/;
+
+  /** Spanish compound prefixes (inherited + Spanish-specific) */
+  get compoundPrefixes(): string[] {
+    return [
+      ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes from BaseLatinAdapter
+      // Spanish-specific prefixes (9 total), sorted by length (longest first)
+      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'tras', 'des', 're',
+    ];
+  }
 
   /**
    * Hyphenate a word using the Spanish hyphenation library.

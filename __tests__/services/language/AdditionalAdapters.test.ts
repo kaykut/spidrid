@@ -95,6 +95,24 @@ describe('SpanishAdapter', () => {
       expect(figurePattern?.test('Tabla 2.1')).toBe(true);
     });
   });
+
+  describe('compoundPrefixes', () => {
+    it('should include language-specific Spanish prefixes', () => {
+      expect(spanishAdapter.compoundPrefixes).toContain('sobre');
+      expect(spanishAdapter.compoundPrefixes).toContain('contra');
+      expect(spanishAdapter.compoundPrefixes).toContain('entre');
+      expect(spanishAdapter.compoundPrefixes).toContain('des');
+    });
+
+    it('should inherit Greek/Latin prefixes from BaseLatinAdapter', () => {
+      expect(spanishAdapter.compoundPrefixes).toContain('photo');
+      expect(spanishAdapter.compoundPrefixes).toContain('anti');
+    });
+
+    it('should have comprehensive prefix list (>46)', () => {
+      expect(spanishAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    });
+  });
 });
 
 describe('FrenchAdapter', () => {
@@ -175,6 +193,24 @@ describe('FrenchAdapter', () => {
       const figurePattern = patterns.find(p => p.source.includes('Tableau'));
       expect(figurePattern?.test('Figure 1')).toBe(true);
       expect(figurePattern?.test('Tableau 2')).toBe(true);
+    });
+  });
+
+  describe('compoundPrefixes', () => {
+    it('should include language-specific French prefixes', () => {
+      expect(frenchAdapter.compoundPrefixes).toContain('contre');
+      expect(frenchAdapter.compoundPrefixes).toContain('arrière');
+      expect(frenchAdapter.compoundPrefixes).toContain('avant');
+      expect(frenchAdapter.compoundPrefixes).toContain('après');
+    });
+
+    it('should inherit Greek/Latin prefixes from BaseLatinAdapter', () => {
+      expect(frenchAdapter.compoundPrefixes).toContain('photo');
+      expect(frenchAdapter.compoundPrefixes).toContain('anti');
+    });
+
+    it('should have comprehensive prefix list (>46)', () => {
+      expect(frenchAdapter.compoundPrefixes.length).toBeGreaterThan(46);
     });
   });
 });
@@ -332,6 +368,24 @@ describe('PortugueseAdapter', () => {
       expect(figurePattern?.test('Tabela 2')).toBe(true);
     });
   });
+
+  describe('compoundPrefixes', () => {
+    it('should include language-specific Portuguese prefixes', () => {
+      expect(portugueseAdapter.compoundPrefixes).toContain('sobre');
+      expect(portugueseAdapter.compoundPrefixes).toContain('contra');
+      expect(portugueseAdapter.compoundPrefixes).toContain('entre');
+      expect(portugueseAdapter.compoundPrefixes).toContain('após');
+    });
+
+    it('should inherit Greek/Latin prefixes from BaseLatinAdapter', () => {
+      expect(portugueseAdapter.compoundPrefixes).toContain('photo');
+      expect(portugueseAdapter.compoundPrefixes).toContain('anti');
+    });
+
+    it('should have comprehensive prefix list (>46)', () => {
+      expect(portugueseAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    });
+  });
 });
 
 describe('ItalianAdapter', () => {
@@ -407,6 +461,24 @@ describe('ItalianAdapter', () => {
       const figurePattern = patterns.find(p => p.source.includes('Tabella'));
       expect(figurePattern?.test('Figura 1')).toBe(true);
       expect(figurePattern?.test('Tabella 2')).toBe(true);
+    });
+  });
+
+  describe('compoundPrefixes', () => {
+    it('should include language-specific Italian prefixes', () => {
+      expect(italianAdapter.compoundPrefixes).toContain('contro');
+      expect(italianAdapter.compoundPrefixes).toContain('sopra');
+      expect(italianAdapter.compoundPrefixes).toContain('sotto');
+      expect(italianAdapter.compoundPrefixes).toContain('stra');
+    });
+
+    it('should inherit Greek/Latin prefixes from BaseLatinAdapter', () => {
+      expect(italianAdapter.compoundPrefixes).toContain('photo');
+      expect(italianAdapter.compoundPrefixes).toContain('anti');
+    });
+
+    it('should have comprehensive prefix list (>46)', () => {
+      expect(italianAdapter.compoundPrefixes.length).toBeGreaterThan(46);
     });
   });
 });
