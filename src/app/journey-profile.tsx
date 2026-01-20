@@ -26,6 +26,7 @@ import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
 import { Paywall } from '../components/paywall/Paywall';
+import { PremiumBadge } from '../components/premium/PremiumBadge';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
@@ -34,7 +35,7 @@ import { useAuthStore } from '../store/authStore';
 import { useJourneyStore } from '../store/journeyStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
-import { READING_LANGUAGES, type FontFamily, type Theme } from '../types/settings';
+import { type FontFamily, type Theme } from '../types/settings';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
 // Helper to convert hex to rgba with alpha
@@ -102,12 +103,10 @@ export default function JourneyProfileModal() {
   const { certProgress, avgWpmLast3, avgCompLast5 } = useJourneyStore();
   const {
     userName,
-    readingLanguage,
     fontFamily,
     paragraphPauseEnabled,
     moveFinishedToHistory,
     setUserName,
-    setReadingLanguage,
     setFontFamily,
     setParagraphPauseEnabled,
     setMoveFinishedToHistory,
@@ -121,11 +120,7 @@ export default function JourneyProfileModal() {
   const { isLoggedIn, userEmail, signOut } = useAuthStore();
 
   const [showPaywall, setShowPaywall] = useState(false);
-  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  const currentLanguage =
-    READING_LANGUAGES.find((l) => l.code === readingLanguage)?.label || 'English';
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
@@ -266,6 +261,11 @@ export default function JourneyProfileModal() {
               placeholderTextColor={withOpacity(theme.textColor, OPACITY.strong)}
             />
 
+            {/*
+              HIDDEN FOR ENGLISH-ONLY LAUNCH
+              Recycle as "App Language" (UI localization) setting during internationalization.
+              Reading language now auto-detects per-content at playback time.
+
             <Text
               style={[styles.inputLabel, { color: theme.textColor, marginTop: SPACING.lg }]}
             >
@@ -319,6 +319,7 @@ export default function JourneyProfileModal() {
                 ))}
               </View>
             )}
+            */}
           </View>
 
           {/* Subscription Section */}
@@ -369,13 +370,13 @@ export default function JourneyProfileModal() {
             </TouchableOpacity>
           </View>
 
-          {/* Sync Section - Only for Premium users */}
-          {isPremium && (
-            <>
-              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Sync Across Devices
-              </Text>
-              <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+          {/* Sync Section - Show for all users, gate behind paywall */}
+          <>
+            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+              Sync Across Devices
+            </Text>
+              <View style={[styles.card, { backgroundColor: theme.secondaryBackground, position: 'relative' }]}>
+                {!isPremium && <PremiumBadge />}
                 {isLoggedIn ? (
                   <>
                     <View style={styles.syncStatusRow}>
@@ -426,7 +427,13 @@ export default function JourneyProfileModal() {
                     </Text>
                     <TouchableOpacity
                       style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
-                      onPress={() => setShowAuthModal(true)}
+                      onPress={() => {
+                        if (!isPremium) {
+                          setShowPaywall(true);
+                        } else {
+                          setShowAuthModal(true);
+                        }
+                      }}
                     >
                       <Ionicons
                         name="sync-outline"
@@ -439,7 +446,6 @@ export default function JourneyProfileModal() {
                 )}
               </View>
             </>
-          )}
 
           {/* Reading Settings */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Reading</Text>

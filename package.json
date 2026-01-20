@@ -44,6 +44,7 @@
     "expo-sharing": "~14.0.8",
     "expo-splash-screen": "^31.0.13",
     "expo-status-bar": "~3.0.9",
+    "franc-min": "^6.2.0",
     "hyphen": "^1.13.0",
     "jszip": "^3.10.1",
     "linkedom": "^0.18.12",

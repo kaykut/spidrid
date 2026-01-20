@@ -57,7 +57,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   fontFamily: 'system',
   hapticFeedback: true,
   userName: '',
-  readingLanguage: 'en',
+  readingLanguage: 'auto',
   paragraphPauseEnabled: true,
   moveFinishedToHistory: false,
 };

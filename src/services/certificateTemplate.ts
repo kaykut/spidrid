@@ -1,19 +1,13 @@
 import { Certificate, getCertificateDefinition } from '../types/certificates';
-import { READING_LANGUAGES } from '../types/settings';
 
 interface CertificateTemplateParams {
   certificate: Certificate;
   userName: string;
-  readingLanguage: string;
 }
 
 export function generateCertificateHTML(params: CertificateTemplateParams): string {
-  const { certificate, userName, readingLanguage } = params;
+  const { certificate, userName } = params;
   const definition = getCertificateDefinition(certificate.type);
-
-  const languageLabel = READING_LANGUAGES.find(
-    l => l.code === readingLanguage
-  )?.label || 'English';
 
   const earnedDate = new Date(certificate.earnedAt).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -281,10 +275,6 @@ export function generateCertificateHTML(params: CertificateTemplateParams): stri
       <div class="detail-item">
         <p class="detail-label">Date Achieved</p>
         <p class="detail-value">${earnedDate}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-label">Reading Language</p>
-        <p class="detail-value">${languageLabel}</p>
       </div>
       <div class="detail-item">
         <p class="detail-label">Certificate ID</p>

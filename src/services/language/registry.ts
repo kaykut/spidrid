@@ -11,6 +11,7 @@ import { germanAdapter } from './adapters/GermanAdapter';
 import { italianAdapter } from './adapters/ItalianAdapter';
 import { portugueseAdapter } from './adapters/PortugueseAdapter';
 import { spanishAdapter } from './adapters/SpanishAdapter';
+import { genericAdapter } from './adapters/GenericAdapter';
 import { LanguageAdapter, SupportedLanguage } from './types';
 
 /**
@@ -36,7 +37,7 @@ const adapters: Record<SupportedLanguage, LanguageAdapter> = {
  */
 export function getAdapter(languageCode: string): LanguageAdapter {
   const code = languageCode as SupportedLanguage;
-  return adapters[code] || englishAdapter;
+  return adapters[code] || genericAdapter;
 }
 
 /**

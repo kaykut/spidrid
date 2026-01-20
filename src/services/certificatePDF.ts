@@ -6,7 +6,6 @@ import { generateCertificateHTML } from './certificateTemplate';
 interface GeneratePDFParams {
   certificate: Certificate;
   userName: string;
-  readingLanguage: string;
 }
 
 export async function generateCertificatePDF(

@@ -32,7 +32,7 @@ export function CertificateViewerModal({
 }: CertificateViewerModalProps) {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
-  const { userName, readingLanguage } = useSettingsStore();
+  const { userName } = useSettingsStore();
 
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -40,7 +40,6 @@ export function CertificateViewerModal({
     ? generateCertificateHTML({
         certificate,
         userName,
-        readingLanguage,
       })
     : '';
 
@@ -54,7 +53,6 @@ export function CertificateViewerModal({
       pdfUri = await generateCertificatePDF({
         certificate,
         userName,
-        readingLanguage,
       });
 
       await shareCertificate(pdfUri);
@@ -70,7 +68,7 @@ export function CertificateViewerModal({
         deleteCertificatePDF(pdfUri);
       }
     }
-  }, [certificate, userName, readingLanguage]);
+  }, [certificate, userName]);
 
   if (!certificate) {return null;}
 

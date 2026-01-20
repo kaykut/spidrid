@@ -38,7 +38,6 @@ jest.mock('react-native-webview', () => {
 jest.mock('../../src/store/settingsStore', () => ({
   useSettingsStore: () => ({
     userName: 'Test User',
-    readingLanguage: 'en',
   }),
 }));
 

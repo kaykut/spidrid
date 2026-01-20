@@ -20,7 +20,9 @@ import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../constants/typograph
 import { JOURNEY_COLORS } from '../data/themes';
 import { useRSVPEngine } from '../hooks/useRSVPEngine';
 import { processText, getAdaptiveFontSize } from '../services/textProcessor';
+import { getAdapterForContent, getAdapter } from '../services/language';
 import { useContentStore } from '../store/contentStore';
+import { useSettingsStore } from '../store/settingsStore';
 import { useGeneratedStore } from '../store/generatedStore';
 import { useLearningStore } from '../store/learningStore';
 import { ContentSource } from '../types/contentList';
@@ -68,14 +70,22 @@ export default function PlaybackModal() {
     return resolveContentBySource(sourceId, source);
   }, [sourceId, source]);
 
+  // Get reading language setting for per-content language detection
+  const readingLanguage = useSettingsStore(state => state.readingLanguage);
+
   // Process text into words for RSVP engine
   const processedWords = useMemo(() => {
     if (!resolvedContent?.content) {
       return [];
     }
 
-    return processText(resolvedContent.content);
-  }, [resolvedContent?.content]);
+    // Get adapter based on content + user setting
+    const adapter = readingLanguage === 'auto'
+      ? getAdapterForContent(resolvedContent.content) // Auto-detect with franc
+      : getAdapter(readingLanguage); // Force user's choice
+
+    return processText(resolvedContent.content, adapter);
+  }, [resolvedContent?.content, readingLanguage]);
 
   // Restore saved reading position (if available)
   const savedPosition = useMemo(() => {

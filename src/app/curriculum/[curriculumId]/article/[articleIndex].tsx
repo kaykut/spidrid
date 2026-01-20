@@ -23,7 +23,9 @@ import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../../../constants/
 import { JOURNEY_COLORS } from '../../../../data/themes';
 import { useRSVPEngine } from '../../../../hooks/useRSVPEngine';
 import { processText } from '../../../../services/textProcessor';
+import { getAdapterForContent, getAdapter } from '../../../../services/language';
 import { useCurriculumStore } from '../../../../store/curriculumStore';
+import { useSettingsStore } from '../../../../store/settingsStore';
 import { useJourneyStore } from '../../../../store/journeyStore';
 import { useLearningStore } from '../../../../store/learningStore';
 import { isAnswerCorrect } from '../../../../utils/calculateQuizScore';
@@ -52,12 +54,20 @@ export default function CurriculumArticleScreen() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [readingWPM, setReadingWPM] = useState(currentWPM);
 
+  // Get reading language setting for per-content language detection
+  const readingLanguage = useSettingsStore(state => state.readingLanguage);
+
   // Process article content for RSVP
   const processedWords = useMemo(() => {
     if (!article?.content) {return [];}
 
-    return processText(article.content);
-  }, [article?.content]);
+    // Get adapter based on content + user setting
+    const adapter = readingLanguage === 'auto'
+      ? getAdapterForContent(article.content)
+      : getAdapter(readingLanguage);
+
+    return processText(article.content, adapter);
+  }, [article?.content, readingLanguage]);
 
   // RSVP engine
   const engine = useRSVPEngine(processedWords, currentWPM);

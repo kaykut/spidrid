@@ -37,8 +37,7 @@ describe('certificatePDF', () => {
       await generateCertificatePDF({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(mockPrintToFileAsync).toHaveBeenCalledTimes(1);
       expect(mockPrintToFileAsync).toHaveBeenCalledWith({
@@ -53,8 +52,7 @@ describe('certificatePDF', () => {
       const result = await generateCertificatePDF({
         certificate: mockCertificate,
         userName: 'Test User',
-        readingLanguage: 'en',
-      });
+              });
 
       expect(result).toBe('file://generated.pdf');
     });
@@ -65,8 +63,7 @@ describe('certificatePDF', () => {
       await generateCertificatePDF({
         certificate: mockCertificate,
         userName: 'John Doe',
-        readingLanguage: 'en',
-      });
+              });
 
       const call = mockPrintToFileAsync.mock.calls[0][0];
       expect(call.html).toContain('John Doe');
@@ -80,8 +77,7 @@ describe('certificatePDF', () => {
         generateCertificatePDF({
           certificate: mockCertificate,
           userName: 'Test User',
-          readingLanguage: 'en',
-        })
+                  })
       ).rejects.toThrow('Print failed');
     });
   });
