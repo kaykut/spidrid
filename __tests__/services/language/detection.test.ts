@@ -71,6 +71,11 @@ describe('getLanguageScores', () => {
       de: 0,
       pt: 0,
       it: 0,
+      nl: 0,
+      pl: 0,
+      ro: 0,
+      sv: 0,
+      cs: 0,
     });
   });
 

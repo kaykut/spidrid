@@ -61,10 +61,10 @@ describe('settingsStore', () => {
       expect(result.current.userName).toBe('');
     });
 
-    it('starts with readingLanguage as en', () => {
+    it('starts with readingLanguage as auto', () => {
       const { result } = renderHook(() => useSettingsStore());
       expect(result.current.readingLanguage).toBe(DEFAULT_SETTINGS.readingLanguage);
-      expect(result.current.readingLanguage).toBe('en');
+      expect(result.current.readingLanguage).toBe('auto');
     });
 
     it('has theme object matching themeId', () => {

@@ -34,12 +34,20 @@ describe('Language Registry', () => {
       expect(isSupported('en')).toBe(true);
     });
 
-    it('should return true for planned languages (es, fr, de, pt, it)', () => {
+    it('should return true for original languages (es, fr, de, pt, it)', () => {
       expect(isSupported('es')).toBe(true);
       expect(isSupported('fr')).toBe(true);
       expect(isSupported('de')).toBe(true);
       expect(isSupported('pt')).toBe(true);
       expect(isSupported('it')).toBe(true);
+    });
+
+    it('should return true for new languages (nl, pl, ro, sv, cs)', () => {
+      expect(isSupported('nl')).toBe(true);
+      expect(isSupported('pl')).toBe(true);
+      expect(isSupported('ro')).toBe(true);
+      expect(isSupported('sv')).toBe(true);
+      expect(isSupported('cs')).toBe(true);
     });
 
     it('should return false for unsupported languages', () => {
@@ -61,7 +69,7 @@ describe('Language Registry', () => {
       expect(languages).toContain('en');
     });
 
-    it('should include all planned Latin-script languages', () => {
+    it('should include all original Latin-script languages', () => {
       const languages = getSupportedLanguages();
       expect(languages).toContain('es');
       expect(languages).toContain('fr');
@@ -70,9 +78,18 @@ describe('Language Registry', () => {
       expect(languages).toContain('it');
     });
 
-    it('should have exactly 6 supported languages', () => {
+    it('should include all new languages', () => {
       const languages = getSupportedLanguages();
-      expect(languages.length).toBe(6);
+      expect(languages).toContain('nl');
+      expect(languages).toContain('pl');
+      expect(languages).toContain('ro');
+      expect(languages).toContain('sv');
+      expect(languages).toContain('cs');
+    });
+
+    it('should have exactly 11 supported languages', () => {
+      const languages = getSupportedLanguages();
+      expect(languages.length).toBe(11);
     });
   });
 

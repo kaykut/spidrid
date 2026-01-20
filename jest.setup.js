@@ -120,6 +120,17 @@ jest.mock('./src/services/purchases', () => ({
   getPremiumEntitlement: jest.fn().mockReturnValue('premium'),
 }));
 
+// Mock franc-min to avoid ESM module issues
+jest.mock('franc-min', () => ({
+  franc: jest.fn((text) => {
+    // Mock returns ISO 639-3 codes like the real franc
+    if (text.includes('quick brown fox')) return 'eng';
+    if (text.includes('rápido marrón')) return 'spa';
+    if (text.includes('rapide brun')) return 'fra';
+    return 'und'; // undetermined
+  }),
+}));
+
 // Silence console warnings in tests
 const originalWarn = console.warn;
 console.warn = (...args) => {
