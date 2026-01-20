@@ -10,13 +10,12 @@ interface ContentStore {
 
   // Actions
   addContent: (content: Omit<ImportedContent, 'id' | 'createdAt' | 'readProgress'>) => ImportedContent;
-  updateProgress: (id: string, progress: number) => void;
+  updateProgress: (id: string, progress: number, currentWordIndex?: number) => void;
+  getCurrentWordIndex: (id: string) => number | undefined;
   updateLastRead: (id: string) => void;
   deleteContent: (id: string) => void;
   getContentById: (id: string) => ImportedContent | undefined;
   setCurrentContent: (id: string | null) => void;
-  clearAllContent: () => void;
-  hydrateForTesting: (data: { importedContent: ImportedContent[] }) => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -40,12 +39,18 @@ export const useContentStore = create<ContentStore>()(
         return newContent;
       },
 
-      updateProgress: (id, progress) => {
+      updateProgress: (id, progress, currentWordIndex) => {
         set((state) => ({
           importedContent: state.importedContent.map((c) =>
-            c.id === id ? { ...c, readProgress: progress } : c
+            c.id === id
+              ? { ...c, readProgress: progress, currentWordIndex }
+              : c
           ),
         }));
+      },
+
+      getCurrentWordIndex: (id) => {
+        return get().importedContent.find((c) => c.id === id)?.currentWordIndex;
       },
 
       updateLastRead: (id) => {
@@ -68,14 +73,6 @@ export const useContentStore = create<ContentStore>()(
 
       setCurrentContent: (id) => {
         set({ currentContentId: id });
-      },
-
-      clearAllContent: () => {
-        set({ importedContent: [], currentContentId: null });
-      },
-
-      hydrateForTesting: (data) => {
-        set({ importedContent: data.importedContent, currentContentId: null });
       },
     }),
     {

@@ -7,12 +7,15 @@ interface AuthState {
   isAnonymous: boolean;
   isLoggedIn: boolean;
   userId: string | null;
+  userEmail: string | null; // User's email address (null for anonymous users)
   authError: string | null; // Error message from last auth failure
 
   initialize: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
   signInWithGoogle: () => Promise<void>;
-  signInWithMagicLink: (email: string) => Promise<void>;
+  signUpWithPassword: (email: string, password: string) => Promise<any>;
+  signInWithPassword: (email: string, password: string) => Promise<any>;
+  resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -22,23 +25,24 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   isAnonymous: false,
   isLoggedIn: false,
   userId: null,
+  userEmail: null,
   authError: null,
 
   // Initialize authentication - check for existing session or create anonymous
   initialize: async () => {
-    console.warn('[AuthStore] === initialize() called ===');
-    console.warn('[AuthStore] isInitialized:', get().isInitialized);
+    console.log('[AuthStore] === initialize() called ===');
+    console.log('[AuthStore] isInitialized:', get().isInitialized);
 
     if (get().isInitialized) {
-      console.warn('[AuthStore] Already initialized, returning');
+      console.log('[AuthStore] Already initialized, returning');
       return;
     }
 
-    console.warn('[AuthStore] Setting up auth state change listener');
+    console.log('[AuthStore] Setting up auth state change listener');
     // Set up auth state change listener to handle session updates
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.warn('[AuthStore] onAuthStateChange event:', _event);
-      console.warn('[AuthStore] session:', session ? {
+      console.log('[AuthStore] onAuthStateChange event:', _event);
+      console.log('[AuthStore] session:', session ? {
         userId: session.user?.id,
         isAnonymous: session.user?.is_anonymous
       } : 'null');
@@ -46,6 +50,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       if (session) {
         const isAnonymous = session.user?.is_anonymous ?? false;
         const userId = session.user?.id ?? null;
+        const userEmail = session.user?.email ?? null;
         const wasLoggedIn = get().isLoggedIn;
         const isNowLoggedIn = !isAnonymous;
 
@@ -53,6 +58,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           isAnonymous,
           isLoggedIn: isNowLoggedIn,
           userId,
+          userEmail,
         });
 
         // Link RevenueCat user when user logs in (not anonymous)
@@ -69,20 +75,21 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           });
         }
       } else {
-        console.warn('[AuthStore] No session in onAuthStateChange');
+        console.log('[AuthStore] No session in onAuthStateChange');
         set({
           isAnonymous: false,
           isLoggedIn: false,
           userId: null,
+          userEmail: null,
         });
       }
     });
 
-    console.warn('[AuthStore] Checking for existing session...');
+    console.log('[AuthStore] Checking for existing session...');
     // Check for existing session
     const { data: { session }, error } = await supabase.auth.getSession();
 
-    console.warn('[AuthStore] getSession result:', {
+    console.log('[AuthStore] getSession result:', {
       hasSession: !!session,
       error: error?.message,
       userId: session?.user?.id,
@@ -90,7 +97,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     });
 
     if (session && !error) {
-      console.warn('[AuthStore] Using existing session');
+      console.log('[AuthStore] Using existing session');
       // Use existing session
       const isAnonymous = session.user?.is_anonymous ?? false;
       set({
@@ -98,15 +105,16 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         isAnonymous,
         isLoggedIn: !isAnonymous,
         userId: session.user?.id ?? null,
+        userEmail: session.user?.email ?? null,
       });
       return;
     }
 
-    console.warn('[AuthStore] No existing session - calling signInAnonymously()');
+    console.log('[AuthStore] No existing session - calling signInAnonymously()');
     // No session - sign in anonymously
     const { data, error: signInError } = await supabase.auth.signInAnonymously();
 
-    console.warn('[AuthStore] signInAnonymously result:', {
+    console.log('[AuthStore] signInAnonymously result:', {
       hasUser: !!data?.user,
       userId: data?.user?.id,
       error: signInError?.message,
@@ -129,7 +137,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
 
-    console.warn('[AuthStore] signInAnonymously SUCCESS - user created:', data.user.id);
+    console.log('[AuthStore] signInAnonymously SUCCESS - user created:', data.user.id);
     set({
       isInitialized: true,
       isAnonymous: true,
@@ -146,7 +154,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     const { data: { session }, error } = await supabase.auth.refreshSession();
 
     if (error || !session) {
-      console.warn('[AuthStore] Failed to refresh session:', error?.message);
+      console.log('[AuthStore] Failed to refresh session:', error?.message);
       // Fall back to cached session
       const { data: cached } = await supabase.auth.getSession();
       return cached.session?.access_token ?? null;
@@ -166,13 +174,50 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     }
   },
 
-  // Sign in with Magic Link - sends OTP email to link to current session
-  signInWithMagicLink: async (email: string) => {
-    const { error } = await supabase.auth.signInWithOtp({
+  // Sign up with email and password - creates new permanent account
+  signUpWithPassword: async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signUp({
       email,
-      options: {
-        shouldCreateUser: false, // Link to existing anonymous user, don't create new
-      },
+      password,
+    });
+
+    if (error) {
+      // Map common errors to user-friendly messages
+      if (error.message.toLowerCase().includes('already registered')) {
+        throw new Error('This email is already registered. Try signing in instead.');
+      }
+      if (error.message.toLowerCase().includes('password')) {
+        throw new Error('Password must be at least 8 characters long');
+      }
+      throw error;
+    }
+
+    // Supabase sends verification email automatically
+    return data;
+  },
+
+  // Sign in with existing email and password
+  signInWithPassword: async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      // Map common errors to user-friendly messages
+      if (error.message.toLowerCase().includes('invalid')) {
+        throw new Error('Invalid email or password');
+      }
+      throw error;
+    }
+
+    return data;
+  },
+
+  // Request password reset email
+  resetPassword: async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'devoro://auth/callback',
     });
 
     if (error) {
@@ -195,6 +240,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         isAnonymous: false,
         isLoggedIn: false,
         userId: null,
+        userEmail: null,
       });
       return;
     }
@@ -203,6 +249,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       isAnonymous: true,
       isLoggedIn: false,
       userId: data.user.id,
+      userEmail: null,
     });
   },
 }));

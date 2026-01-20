@@ -18,7 +18,6 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -36,7 +35,6 @@ import { useJourneyStore } from '../store/journeyStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
 import { READING_LANGUAGES, type FontFamily, type Theme } from '../types/settings';
-import { FREE_TIER_LIMITS } from '../types/subscription';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
 // Helper to convert hex to rgba with alpha
@@ -116,14 +114,11 @@ export default function JourneyProfileModal() {
   } = useSettingsStore();
   const {
     isPremium,
-    setPremium,
-    contentAccessCount,
-    resetContentCount,
     getMaxWPM,
     isRestoring,
     restorePurchases,
   } = useSubscriptionStore();
-  const { isLoggedIn, userId, signOut } = useAuthStore();
+  const { isLoggedIn, userEmail, signOut } = useAuthStore();
 
   const [showPaywall, setShowPaywall] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
@@ -156,37 +151,11 @@ export default function JourneyProfileModal() {
     }
   }, [restorePurchases]);
 
-  const handleClearAuthToken = useCallback(async () => {
-    Alert.alert(
-      'Clear Auth Token',
-      'This will clear the Supabase auth token and force a new anonymous sign-in. Continue?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await AsyncStorage.removeItem('supabase.auth.token');
-              Alert.alert(
-                'Cleared',
-                'Auth token cleared. Restart the app to get a fresh anonymous session.'
-              );
-            } catch (_error) {
-              Alert.alert('Error', 'Failed to clear auth token');
-            }
-          },
-        },
-      ]
-    );
-  }, []);
-
   return (
     <>
       <Paywall
         visible={showPaywall}
         onClose={() => setShowPaywall(false)}
-        reason="content_limit"
       />
       <AuthModal
         visible={showAuthModal}
@@ -376,16 +345,6 @@ export default function JourneyProfileModal() {
                 {getMaxWPM()}
               </Text>
             </View>
-            {!isPremium && (
-              <View style={styles.subscriptionRow}>
-                <Text style={[styles.subscriptionLabel, { color: theme.textColor }]}>
-                  Articles used
-                </Text>
-                <Text style={[styles.subscriptionValue, { color: theme.textColor }]}>
-                  {contentAccessCount} / {FREE_TIER_LIMITS.MAX_CONTENT}
-                </Text>
-              </View>
-            )}
             {!isPremium ? (
               <TouchableOpacity
                 style={[styles.upgradeButton, { backgroundColor: theme.accentColor }]}
@@ -393,16 +352,7 @@ export default function JourneyProfileModal() {
               >
                 <Text style={styles.upgradeText}>Upgrade to Premium</Text>
               </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={[styles.resetButton, { borderColor: theme.orpColor }]}
-                onPress={() => setPremium(false)}
-              >
-                <Text style={[styles.resetText, { color: theme.orpColor }]}>
-                  Reset to Free (Dev)
-                </Text>
-              </TouchableOpacity>
-            )}
+            ) : null}
             {/* Restore Purchases - available for all users per Apple guidelines */}
             <TouchableOpacity
               style={[styles.restoreButton, { borderColor: theme.crosshairColor }]}
@@ -442,10 +392,23 @@ export default function JourneyProfileModal() {
                           style={[styles.syncStatusDesc, { color: JOURNEY_COLORS.textSecondary }]}
                           numberOfLines={1}
                         >
-                          {userId ? `User ID: ${userId.slice(0, 8)}...` : 'Syncing enabled'}
+                          {userEmail || 'Account verified'}
                         </Text>
                       </View>
                     </View>
+
+                    {/* Sync Status Indicator */}
+                    <View style={styles.syncStatusIndicator}>
+                      <Ionicons
+                        name="cloud-outline"
+                        size={SIZES.iconSm}
+                        color={JOURNEY_COLORS.textSecondary}
+                      />
+                      <Text style={[styles.syncStatusText, { color: JOURNEY_COLORS.textSecondary }]}>
+                        Ready to sync • Data sync coming soon
+                      </Text>
+                    </View>
+
                     <TouchableOpacity
                       style={[styles.signOutButton, { borderColor: theme.crosshairColor }]}
                       onPress={signOut}
@@ -562,71 +525,22 @@ export default function JourneyProfileModal() {
             </View>
           </View>
 
-          {/* Dev controls */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Developer</Text>
-          {!isPremium ? (
-            <TouchableOpacity
-              style={[styles.devButton, { borderColor: theme.accentColor }]}
-              onPress={() => setPremium(true)}
-            >
-              <Text style={[styles.devButtonText, { color: theme.accentColor }]}>
-                Set Premium (Dev)
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[styles.devButton, { borderColor: theme.orpColor }]}
-              onPress={() => setPremium(false)}
-            >
-              <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
-                Reset to Free (Dev)
-              </Text>
-            </TouchableOpacity>
+          {/* Dev Tools - Consolidated */}
+          {__DEV__ && (
+            <>
+              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Developer</Text>
+              <TouchableOpacity
+                style={[styles.devToolsButton, { borderColor: theme.accentColor }]}
+                onPress={() => router.push('/dev-tools')}
+              >
+                <Ionicons name="flask-outline" size={20} color={theme.accentColor} />
+                <Text style={[styles.devToolsText, { color: theme.accentColor }]}>
+                  Dev Tools
+                </Text>
+                <Ionicons name="chevron-forward" size={20} color={theme.accentColor} />
+              </TouchableOpacity>
+            </>
           )}
-          {!isPremium && contentAccessCount > 0 && (
-            <TouchableOpacity
-              style={[styles.devButton, { borderColor: theme.crosshairColor }]}
-              onPress={resetContentCount}
-            >
-              <Text style={[styles.devButtonText, { color: theme.textColor }]}>
-                Reset Article Count
-              </Text>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity
-            style={[styles.devButton, { borderColor: theme.orpColor }]}
-            onPress={handleClearAuthToken}
-          >
-            <Text style={[styles.devButtonText, { color: theme.orpColor }]}>
-              Clear Auth Token (Debug)
-            </Text>
-          </TouchableOpacity>
-
-          {/* Debug Storage Button */}
-          <TouchableOpacity
-            style={[styles.devButton, { borderColor: theme.accentColor }]}
-            onPress={() => router.push('/debug-storage')}
-          >
-            <Text style={[styles.devButtonText, { color: theme.accentColor }]}>
-              Debug Storage
-            </Text>
-          </TouchableOpacity>
-
-          {/* Component Gallery (Dev) */}
-          <TouchableOpacity
-            style={[styles.flaskButton, { backgroundColor: theme.secondaryBackground }]}
-            onPress={() => router.push('/testing')}
-          >
-            <Ionicons
-              name="flask-outline"
-              size={SIZES.iconMd}
-              color={theme.textColor}
-              style={{ opacity: 0.5 }}
-            />
-            <Text style={[styles.flaskText, { color: theme.textColor }]}>
-              Component Gallery
-            </Text>
-          </TouchableOpacity>
         </ScrollView>
 
         {/* Top gradient overlay */}
@@ -848,6 +762,23 @@ const styles = StyleSheet.create({
     fontWeight: FONT_WEIGHTS.regular,
     opacity: 0.7,
   },
+  devToolsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    borderRadius: COMPONENT_RADIUS.button,
+    borderWidth: 1,
+    marginBottom: SPACING.xxl,
+    gap: SPACING.sm,
+  },
+  devToolsText: {
+    ...TYPOGRAPHY.buttonSmall,
+    fontWeight: FONT_WEIGHTS.medium,
+    flex: 1,
+    textAlign: 'center',
+  },
   flaskButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -896,6 +827,20 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
     marginTop: SPACING.xs,
+  },
+  syncStatusIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    backgroundColor: withOpacity(JOURNEY_COLORS.textSecondary, 0.05),
+    borderRadius: COMPONENT_RADIUS.button,
+    marginBottom: SPACING.md,
+  },
+  syncStatusText: {
+    ...TYPOGRAPHY.caption,
+    fontSize: 12,
   },
   signOutButton: {
     paddingVertical: SPACING.md,

@@ -139,18 +139,6 @@ interface JourneyActions {
 
   // Migration
   migrateFromLearningStore: () => void;
-
-  // Reset (for testing/development)
-  resetJourneyData: () => void;
-
-  // Testing only - directly set state for persona testing
-  hydrateForTesting: (state: {
-    sessions: JourneySession[];
-    speedProofs: SpeedProof[];
-    certProgress: Record<JourneyCertTier, JourneyCertProgress>;
-    streak: StreakData;
-    baseline: BaselineStats | null;
-  }) => void;
 }
 
 // =============================================================================
@@ -538,31 +526,6 @@ export const useJourneyStore = create<JourneyState & JourneyActions>()(
       // Reset
       // =========================================================================
 
-      resetJourneyData: () => {
-        set({
-          ...initialState,
-          certProgress: {
-            speed_reader: { ...DEFAULT_CERT_PROGRESS },
-            velocity_master: { ...DEFAULT_CERT_PROGRESS },
-            transcendent: { ...DEFAULT_CERT_PROGRESS },
-          },
-        });
-      },
-
-      // =========================================================================
-      // Testing
-      // =========================================================================
-
-      hydrateForTesting: (testState) => {
-        set({
-          sessions: testState.sessions,
-          speedProofs: testState.speedProofs,
-          certProgress: testState.certProgress,
-          streak: testState.streak,
-          baseline: testState.baseline,
-        });
-        get().recalculateAll();
-      },
     }),
     {
       name: 'devoro-journey',

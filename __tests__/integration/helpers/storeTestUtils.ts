@@ -40,7 +40,6 @@ export function resetAllStores(): void {
     isPremium: false,
     isLoading: false,
     isInitialized: false,
-    contentAccessCount: 0,
     linkedUserId: null,
   });
 

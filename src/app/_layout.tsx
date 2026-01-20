@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { AppState } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -39,19 +40,37 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    console.warn('[_layout] === useEffect triggered ===');
-    console.warn('[_layout] Calling initializeAuth()');
+    console.log('[_layout] === useEffect triggered ===');
+    console.log('[_layout] Calling initializeAuth()');
     initializeAuth();
-    console.warn('[_layout] Calling initializeSubscription()');
+    console.log('[_layout] Calling initializeSubscription()');
     initializeSubscription();
-    console.warn('[_layout] Calling initializeAutoSync()');
+    console.log('[_layout] Calling initializeAutoSync()');
     initializeAutoSync();
 
     return () => {
-      console.warn('[_layout] Cleanup: calling cleanupAutoSync()');
+      console.log('[_layout] Cleanup: calling cleanupAutoSync()');
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription]);
+
+  // Save reading positions when app backgrounds
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        // Trigger sync push to save any pending position updates
+        import('../services/syncOrchestrator').then(({ pushAllChanges }) => {
+          pushAllChanges().catch(err => {
+            console.warn('[_layout] Background sync failed:', err);
+          });
+        });
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   // Return null while fonts are loading
   if (!fontsLoaded && !fontError) {
@@ -112,6 +131,16 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="history"
+                options={{
+                  presentation: 'fullScreenModal',
+                  animation: 'slide_from_bottom',
+                  gestureEnabled: true,
+                  headerShown: false,
+                  contentStyle: { backgroundColor: 'transparent' },
+                }}
+              />
+              <Stack.Screen
+                name="dev-tools"
                 options={{
                   presentation: 'fullScreenModal',
                   animation: 'slide_from_bottom',

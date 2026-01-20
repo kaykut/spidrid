@@ -11,7 +11,9 @@ jest.mock('../../src/services/supabase', () => ({
       signInAnonymously: jest.fn(),
       signOut: jest.fn(),
       linkIdentity: jest.fn(),
-      signInWithOtp: jest.fn(),
+      signUp: jest.fn(),
+      signInWithPassword: jest.fn(),
+      resetPasswordForEmail: jest.fn(),
       onAuthStateChange: jest.fn(() => ({
         data: { subscription: { unsubscribe: jest.fn() } },
       })),
@@ -193,7 +195,7 @@ describe('authStore', () => {
         error: null,
       });
 
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBe('cached-token');
@@ -214,7 +216,7 @@ describe('authStore', () => {
         error: null,
       });
 
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBeNull();
@@ -246,28 +248,73 @@ describe('authStore', () => {
     });
   });
 
-  describe('signInWithMagicLink', () => {
-    it('should call signInWithOtp with email', async () => {
-      (mockSupabase.auth.signInWithOtp as jest.Mock).mockResolvedValue({
+  describe('signUpWithPassword', () => {
+    it('should call signUp with email and password', async () => {
+      (mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
+        data: { user: { id: 'new-user-id' } },
+        error: null,
+      });
+
+      await useAuthStore.getState().signUpWithPassword('test@example.com', 'password123');
+
+      expect(mockSupabase.auth.signUp).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+    });
+
+    it('should throw error when signUp fails', async () => {
+      (mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
+        data: null,
+        error: new Error('User already registered'),
+      });
+
+      await expect(
+        useAuthStore.getState().signUpWithPassword('test@example.com', 'password123')
+      ).rejects.toThrow('already registered');
+    });
+  });
+
+  describe('signInWithPassword', () => {
+    it('should call signInWithPassword with email and password', async () => {
+      (mockSupabase.auth.signInWithPassword as jest.Mock).mockResolvedValue({
+        data: { user: { id: 'existing-user-id' } },
+        error: null,
+      });
+
+      await useAuthStore.getState().signInWithPassword('test@example.com', 'password123');
+
+      expect(mockSupabase.auth.signInWithPassword).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+    });
+
+    it('should throw error when signInWithPassword fails', async () => {
+      (mockSupabase.auth.signInWithPassword as jest.Mock).mockResolvedValue({
+        data: null,
+        error: new Error('Invalid login credentials'),
+      });
+
+      await expect(
+        useAuthStore.getState().signInWithPassword('test@example.com', 'wrongpassword')
+      ).rejects.toThrow('Invalid');
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should call resetPasswordForEmail with email', async () => {
+      (mockSupabase.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
         data: {},
         error: null,
       });
 
-      await useAuthStore.getState().signInWithMagicLink('test@example.com');
+      await useAuthStore.getState().resetPassword('test@example.com');
 
-      expect(mockSupabase.auth.signInWithOtp).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        options: { shouldCreateUser: false },
-      });
-    });
-
-    it('should throw error when signInWithOtp fails', async () => {
-      (mockSupabase.auth.signInWithOtp as jest.Mock).mockResolvedValue({
-        data: null,
-        error: new Error('Email auth failed'),
-      });
-
-      await expect(useAuthStore.getState().signInWithMagicLink('test@example.com')).rejects.toThrow('Email auth failed');
+      expect(mockSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith(
+        'test@example.com',
+        { redirectTo: 'devoro://auth/callback' }
+      );
     });
   });
 
@@ -332,6 +379,317 @@ describe('authStore', () => {
       expect(useSubscriptionStore.getState().linkedUserId).toBeNull();
 
       unlinkSpy.mockRestore();
+    });
+  });
+
+  describe('userEmail behavior', () => {
+    beforeEach(() => {
+      // Reset to clean state with userEmail
+      useAuthStore.setState({
+        isInitialized: false,
+        isAnonymous: false,
+        isLoggedIn: false,
+        userId: null,
+        userEmail: null,
+        authError: null,
+      });
+    });
+
+    describe('email extraction from session', () => {
+      it('BEHAVIOR: should extract email when user signs in with password', async () => {
+        // GIVEN: Supabase returns session with email
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        // Mock getSession to return no session (anonymous path)
+        (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+          data: { session: null },
+          error: null,
+        });
+        (mockSupabase.auth.signInAnonymously as jest.Mock).mockResolvedValue({
+          data: {
+            user: { id: 'temp-anon', is_anonymous: true },
+            session: { access_token: 'temp-token' },
+          },
+          error: null,
+        });
+
+        // Initialize to set up listener
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Auth state changes with email
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'user-123',
+            email: 'test@example.com',
+            is_anonymous: false,
+          },
+          access_token: 'token',
+        });
+
+        // THEN: Email is observable in store
+        const state = useAuthStore.getState();
+        expect(state.userEmail).toBe('test@example.com');
+        expect(state.isLoggedIn).toBe(true);
+        expect(state.isAnonymous).toBe(false);
+      });
+
+      it('BEHAVIOR: should extract email when initializing with existing session', async () => {
+        // GIVEN: Existing session with email
+        (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+          data: {
+            session: {
+              user: {
+                id: 'existing-user',
+                email: 'existing@example.com',
+                is_anonymous: false,
+              },
+              access_token: 'existing-token',
+            },
+          },
+          error: null,
+        });
+
+        // WHEN: Store initializes
+        await useAuthStore.getState().initialize();
+
+        // THEN: Email is extracted from session
+        const state = useAuthStore.getState();
+        expect(state.userEmail).toBe('existing@example.com');
+        expect(state.isLoggedIn).toBe(true);
+      });
+
+      it('BEHAVIOR: should handle missing email gracefully (OAuth edge case)', async () => {
+        // GIVEN: Session exists but email is undefined
+        (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+          data: {
+            session: {
+              user: {
+                id: 'oauth-user',
+                email: undefined,
+                is_anonymous: false,
+              },
+              access_token: 'oauth-token',
+            },
+          },
+          error: null,
+        });
+
+        // WHEN: Store initializes
+        await useAuthStore.getState().initialize();
+
+        // THEN: Email is null (not undefined)
+        const state = useAuthStore.getState();
+        expect(state.userEmail).toBeNull();
+        expect(state.isLoggedIn).toBe(true);
+      });
+    });
+
+    describe('email cleared on sign out', () => {
+      it('BEHAVIOR: should clear email when user signs out', async () => {
+        // GIVEN: User is signed in with email
+        useAuthStore.setState({
+          isLoggedIn: true,
+          userEmail: 'user@example.com',
+          userId: 'user-123',
+          isAnonymous: false,
+        });
+
+        (mockSupabase.auth.signOut as jest.Mock).mockResolvedValue({ error: null });
+        (mockSupabase.auth.signInAnonymously as jest.Mock).mockResolvedValue({
+          data: {
+            user: { id: 'anon-id', is_anonymous: true },
+            session: { access_token: 'anon-token' },
+          },
+          error: null,
+        });
+
+        // WHEN: User signs out
+        await useAuthStore.getState().signOut();
+
+        // THEN: Email is cleared
+        const state = useAuthStore.getState();
+        expect(state.userEmail).toBeNull();
+        expect(state.isLoggedIn).toBe(false);
+        expect(state.isAnonymous).toBe(true);
+      });
+
+      it('BEHAVIOR: should clear email when session ends', async () => {
+        // GIVEN: User is signed in
+        useAuthStore.setState({
+          isLoggedIn: true,
+          userEmail: 'user@example.com',
+          isAnonymous: false,
+        });
+
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Session ends (null session)
+        mockAuthStateCallback('SIGNED_OUT', null);
+
+        // THEN: Email is cleared
+        expect(useAuthStore.getState().userEmail).toBeNull();
+        expect(useAuthStore.getState().isLoggedIn).toBe(false);
+      });
+    });
+
+    describe('anonymous users', () => {
+      it('BEHAVIOR: should have null email for anonymous users', async () => {
+        // GIVEN: Anonymous session
+        (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
+          data: { session: null },
+          error: null,
+        });
+        (mockSupabase.auth.signInAnonymously as jest.Mock).mockResolvedValue({
+          data: {
+            user: {
+              id: 'anon-123',
+              is_anonymous: true,
+              email: null,
+            },
+            session: { access_token: 'anon-token' },
+          },
+          error: null,
+        });
+
+        // WHEN: Store initializes with anonymous user
+        await useAuthStore.getState().initialize();
+
+        // THEN: Email is null
+        const state = useAuthStore.getState();
+        expect(state.userEmail).toBeNull();
+        expect(state.isAnonymous).toBe(true);
+        expect(state.isLoggedIn).toBe(false);
+      });
+    });
+
+    describe('edge cases', () => {
+      it('EDGE: should handle email with special characters', async () => {
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Session has email with special characters
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'user-123',
+            email: 'user+test@example.com',
+            is_anonymous: false,
+          },
+        });
+
+        // THEN: Email is stored correctly
+        expect(useAuthStore.getState().userEmail).toBe('user+test@example.com');
+      });
+
+      it('EDGE: should handle very long email', async () => {
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        const longEmail = 'very.long.email.address.that.could.cause.issues@subdomain.example.com';
+
+        // WHEN: Session has very long email
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'user-123',
+            email: longEmail,
+            is_anonymous: false,
+          },
+        });
+
+        // THEN: Email is stored correctly
+        expect(useAuthStore.getState().userEmail).toBe(longEmail);
+      });
+
+      it('EDGE: should handle empty string email', async () => {
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Session has empty string email (shouldn't happen but defensively handle)
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'user-123',
+            email: '',
+            is_anonymous: false,
+          },
+        });
+
+        // THEN: Empty string is stored (truthy check will fail, showing fallback)
+        expect(useAuthStore.getState().userEmail).toBe('');
+      });
+    });
+
+    describe('state consistency', () => {
+      it('INVARIANT: email should be null when isAnonymous is true', async () => {
+        // Test invariant: anonymous users never have emails
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Anonymous session
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'anon-123',
+            is_anonymous: true,
+            email: null,
+          },
+        });
+
+        const state = useAuthStore.getState();
+        expect(state.isAnonymous).toBe(true);
+        expect(state.userEmail).toBeNull();
+      });
+
+      it('INVARIANT: email should exist when isLoggedIn is true (except OAuth edge cases)', async () => {
+        // Test that logged-in users typically have emails
+        const mockAuthStateCallback = jest.fn();
+        (mockSupabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback) => {
+          mockAuthStateCallback.mockImplementation(callback);
+          return { data: { subscription: { unsubscribe: jest.fn() } } };
+        });
+
+        await useAuthStore.getState().initialize();
+
+        // WHEN: Real user signs in
+        mockAuthStateCallback('SIGNED_IN', {
+          user: {
+            id: 'user-123',
+            email: 'user@example.com',
+            is_anonymous: false,
+          },
+        });
+
+        const state = useAuthStore.getState();
+        expect(state.isLoggedIn).toBe(true);
+        expect(state.userEmail).toBeTruthy();
+      });
     });
   });
 });

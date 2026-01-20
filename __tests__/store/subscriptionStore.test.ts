@@ -21,7 +21,6 @@ describe('subscriptionStore', () => {
       isInitialized: false,
       isRestoring: false,
       restoreError: null,
-      contentAccessCount: 0,
       linkedUserId: null,
     });
     jest.clearAllMocks();
@@ -31,11 +30,6 @@ describe('subscriptionStore', () => {
     it('starts with isPremium as false', () => {
       const { result } = renderHook(() => useSubscriptionStore());
       expect(result.current.isPremium).toBe(false);
-    });
-
-    it('starts with contentAccessCount as 0', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-      expect(result.current.contentAccessCount).toBe(0);
     });
 
     it('starts with isLoading as false', () => {
@@ -116,150 +110,12 @@ describe('subscriptionStore', () => {
     });
   });
 
-  describe('setPremium()', () => {
-    it('updates isPremium to true', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(true);
-      });
-
-      expect(result.current.isPremium).toBe(true);
-    });
-
-    it('updates isPremium to false', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(true);
-      });
-
-      act(() => {
-        result.current.setPremium(false);
-      });
-
-      expect(result.current.isPremium).toBe(false);
-    });
-  });
-
-  describe('incrementContentCount()', () => {
-    it('increments contentAccessCount by 1', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.incrementContentCount();
-      });
-
-      expect(result.current.contentAccessCount).toBe(1);
-    });
-
-    it('increments multiple times correctly', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.incrementContentCount();
-        result.current.incrementContentCount();
-        result.current.incrementContentCount();
-      });
-
-      expect(result.current.contentAccessCount).toBe(3);
-    });
-  });
-
-  describe('resetContentCount()', () => {
-    it('resets contentAccessCount to 0', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.incrementContentCount();
-        result.current.incrementContentCount();
-      });
-
-      expect(result.current.contentAccessCount).toBeGreaterThan(0);
-
-      act(() => {
-        result.current.resetContentCount();
-      });
-
-      expect(result.current.contentAccessCount).toBe(0);
-    });
-  });
-
-  describe('canAccessContent()', () => {
-    it('returns true for premium users regardless of count', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(true);
-        // Set count above limit
-        for (let i = 0; i < FREE_TIER_LIMITS.MAX_CONTENT + 5; i++) {
-          result.current.incrementContentCount();
-        }
-      });
-
-      expect(result.current.canAccessContent()).toBe(true);
-    });
-
-    it('returns true for free tier when count is below limit', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
-        result.current.resetContentCount();
-      });
-
-      expect(result.current.canAccessContent()).toBe(true);
-    });
-
-    it('returns true for free tier when count equals limit - 1', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
-        result.current.resetContentCount();
-        for (let i = 0; i < FREE_TIER_LIMITS.MAX_CONTENT - 1; i++) {
-          result.current.incrementContentCount();
-        }
-      });
-
-      expect(result.current.canAccessContent()).toBe(true);
-    });
-
-    it('returns false for free tier when count reaches limit', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
-        result.current.resetContentCount();
-        for (let i = 0; i < FREE_TIER_LIMITS.MAX_CONTENT; i++) {
-          result.current.incrementContentCount();
-        }
-      });
-
-      expect(result.current.canAccessContent()).toBe(false);
-    });
-
-    it('returns false for free tier when count exceeds limit', () => {
-      const { result } = renderHook(() => useSubscriptionStore());
-
-      act(() => {
-        result.current.setPremium(false);
-        result.current.resetContentCount();
-        for (let i = 0; i < FREE_TIER_LIMITS.MAX_CONTENT + 3; i++) {
-          result.current.incrementContentCount();
-        }
-      });
-
-      expect(result.current.canAccessContent()).toBe(false);
-    });
-  });
-
   describe('getMaxWPM()', () => {
     it('returns premium limit for premium users', () => {
       const { result } = renderHook(() => useSubscriptionStore());
 
       act(() => {
-        result.current.setPremium(true);
+        useSubscriptionStore.setState({ isPremium: true });
       });
 
       expect(result.current.getMaxWPM()).toBe(PREMIUM_LIMITS.MAX_WPM);
@@ -270,7 +126,7 @@ describe('subscriptionStore', () => {
       const { result } = renderHook(() => useSubscriptionStore());
 
       act(() => {
-        result.current.setPremium(false);
+        useSubscriptionStore.setState({ isPremium: false });
       });
 
       expect(result.current.getMaxWPM()).toBe(FREE_TIER_LIMITS.MAX_WPM);
@@ -284,7 +140,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(true);
+          useSubscriptionStore.setState({ isPremium: true });
         });
 
         expect(result.current.canUseWPM(1500)).toBe(true);
@@ -294,7 +150,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(true);
+          useSubscriptionStore.setState({ isPremium: true });
         });
 
         expect(result.current.canUseWPM(1000)).toBe(true);
@@ -306,7 +162,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(true);
+          useSubscriptionStore.setState({ isPremium: true });
         });
 
         expect(result.current.canUseWPM(1501)).toBe(false);
@@ -319,7 +175,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(false);
+          useSubscriptionStore.setState({ isPremium: false });
         });
 
         expect(result.current.canUseWPM(450)).toBe(true);
@@ -329,7 +185,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(false);
+          useSubscriptionStore.setState({ isPremium: false });
         });
 
         expect(result.current.canUseWPM(250)).toBe(true);
@@ -340,7 +196,7 @@ describe('subscriptionStore', () => {
         const { result } = renderHook(() => useSubscriptionStore());
 
         act(() => {
-          result.current.setPremium(false);
+          useSubscriptionStore.setState({ isPremium: false });
         });
 
         expect(result.current.canUseWPM(451)).toBe(false);
@@ -618,11 +474,97 @@ describe('subscriptionStore', () => {
     });
   });
 
-  describe('constants validation', () => {
-    it('FREE_TIER_LIMITS.MAX_CONTENT is 5', () => {
-      expect(FREE_TIER_LIMITS.MAX_CONTENT).toBe(5);
+  describe('AI generation limits', () => {
+    it('canGenerateArticle returns true for premium users regardless of count', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        useSubscriptionStore.setState({ isPremium: true, dailyGenerationCount: 10 });
+      });
+
+      expect(result.current.canGenerateArticle()).toBe(true);
     });
 
+    it('canGenerateArticle returns true for first 3 articles', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        useSubscriptionStore.setState({ isPremium: false, dailyGenerationCount: 0, lastGenerationDate: new Date().toDateString() });
+      });
+
+      expect(result.current.canGenerateArticle()).toBe(true);
+
+      act(() => {
+        result.current.incrementGenerationCount();
+      });
+      expect(result.current.canGenerateArticle()).toBe(true);
+
+      act(() => {
+        result.current.incrementGenerationCount();
+      });
+      expect(result.current.canGenerateArticle()).toBe(true);
+
+      act(() => {
+        result.current.incrementGenerationCount();
+      });
+      expect(result.current.dailyGenerationCount).toBe(3);
+    });
+
+    it('canGenerateArticle returns false on 4th article', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        useSubscriptionStore.setState({ isPremium: false, dailyGenerationCount: 0, lastGenerationDate: new Date().toDateString() });
+      });
+
+      act(() => {
+        result.current.incrementGenerationCount();
+        result.current.incrementGenerationCount();
+        result.current.incrementGenerationCount();
+      });
+
+      expect(result.current.canGenerateArticle()).toBe(false);
+    });
+
+    it('canGenerateArticle resets counter when date changes', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      act(() => {
+        useSubscriptionStore.setState({
+          isPremium: false,
+          dailyGenerationCount: 3,
+          lastGenerationDate: yesterday.toDateString(),
+        });
+      });
+
+      act(() => {
+        const canGenerate = result.current.canGenerateArticle();
+        expect(canGenerate).toBe(true);
+      });
+
+      expect(result.current.dailyGenerationCount).toBe(0);
+    });
+
+    it('resetDailyCount resets both count and date', () => {
+      const { result } = renderHook(() => useSubscriptionStore());
+
+      act(() => {
+        useSubscriptionStore.setState({ dailyGenerationCount: 5, lastGenerationDate: '2026-01-01' });
+      });
+
+      act(() => {
+        result.current.resetDailyCount();
+      });
+
+      expect(result.current.dailyGenerationCount).toBe(0);
+      expect(result.current.lastGenerationDate).toBeNull();
+    });
+  });
+
+  describe('constants validation', () => {
     it('FREE_TIER_LIMITS.MAX_WPM is 450', () => {
       expect(FREE_TIER_LIMITS.MAX_WPM).toBe(450);
     });

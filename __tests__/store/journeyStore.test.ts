@@ -1087,55 +1087,6 @@ describe('journeyStore', () => {
   });
 
   // ===========================================================================
-  // Reset
-  // ===========================================================================
-
-  describe('resetJourneyData()', () => {
-    it('resets all journey data to initial state', () => {
-      const { result } = renderHook(() => useJourneyStore());
-
-      // Set up some data
-      act(() => {
-        result.current.recordSession({
-          wpm: 900,
-          comprehension: 100,
-          articleId: 'test',
-          articleType: 'curriculum',
-        });
-      });
-
-      expect(result.current.sessions).toHaveLength(1);
-      expect(result.current.velocityScore).toBeGreaterThan(0);
-
-      act(() => {
-        result.current.resetJourneyData();
-      });
-
-      expect(result.current.sessions).toHaveLength(0);
-      expect(result.current.velocityScore).toBe(0);
-      expect(result.current.level).toBe('novice');
-      expect(result.current.baseline).toBeNull();
-      expect(result.current.speedProofs).toHaveLength(0);
-    });
-
-    it('resets certification progress', () => {
-      const { result } = renderHook(() => useJourneyStore());
-
-      act(() => {
-        result.current.markCertExamPassed('speed_reader');
-      });
-
-      expect(result.current.certProgress.speed_reader.examPassed).toBe(true);
-
-      act(() => {
-        result.current.resetJourneyData();
-      });
-
-      expect(result.current.certProgress.speed_reader.examPassed).toBe(false);
-    });
-  });
-
-  // ===========================================================================
   // initializeJourneyStore
   // ===========================================================================
 

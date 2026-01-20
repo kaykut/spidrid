@@ -75,7 +75,6 @@ describe('TopicScreen Integration', () => {
       isPremium: false,
       isLoading: false,
       isInitialized: true,
-      contentAccessCount: 0,
     });
 
     // Reset journey store
@@ -167,121 +166,6 @@ describe('TopicScreen Integration', () => {
       const articleCard = screen.getByText('The Water Cycle');
       fireEvent.press(articleCard);
 
-      expect(mockPush).toHaveBeenCalledWith('/article/science-discovery-p01');
-    });
-  });
-
-  describe('content access with real subscription store', () => {
-    it('increments content count for non-completed articles when not premium', () => {
-      // Clear article progress so no articles are completed
-      useLearningStore.setState({
-        articleProgress: {},
-        currentArticleId: null,
-        currentWPM: 250,
-        recentCompletions: [],
-      });
-
-      // Ensure not premium and content access is available
-      useSubscriptionStore.setState({
-        isPremium: false,
-        isLoading: false,
-        isInitialized: true,
-        contentAccessCount: 0,
-      });
-
-      renderWithProviders(<TopicScreen />);
-
-      const articleCard = screen.getByText('The Water Cycle');
-      fireEvent.press(articleCard);
-
-      // Verify the real store was updated
-      expect(useSubscriptionStore.getState().contentAccessCount).toBe(1);
-      expect(mockPush).toHaveBeenCalledWith('/article/science-discovery-p01');
-    });
-
-    it('does not increment for completed articles', () => {
-      // First article is completed
-      useLearningStore.setState({
-        articleProgress: {
-          'science-discovery-p01': {
-            articleId: 'science-discovery-p01',
-            completed: true,
-            comprehensionScore: 85,
-            highestWPM: 300,
-            lastReadAt: Date.now(),
-            attemptCount: 1,
-          },
-        },
-        currentArticleId: null,
-        currentWPM: 250,
-        recentCompletions: [],
-      });
-
-      useSubscriptionStore.setState({
-        isPremium: false,
-        isLoading: false,
-        isInitialized: true,
-        contentAccessCount: 0,
-      });
-
-      renderWithProviders(<TopicScreen />);
-
-      const articleCard = screen.getByText('The Water Cycle');
-      fireEvent.press(articleCard);
-
-      // Should not increment for completed articles
-      expect(useSubscriptionStore.getState().contentAccessCount).toBe(0);
-      expect(mockPush).toHaveBeenCalledWith('/article/science-discovery-p01');
-    });
-
-    it('redirects to paywall when content limit reached', () => {
-      // Clear article progress so no articles are completed
-      useLearningStore.setState({
-        articleProgress: {},
-        currentArticleId: null,
-        currentWPM: 250,
-        recentCompletions: [],
-      });
-
-      // Set content count at limit (5 for free tier)
-      useSubscriptionStore.setState({
-        isPremium: false,
-        isLoading: false,
-        isInitialized: true,
-        contentAccessCount: 5,
-      });
-
-      renderWithProviders(<TopicScreen />);
-
-      const articleCard = screen.getByText('The Water Cycle');
-      fireEvent.press(articleCard);
-
-      expect(mockPush).toHaveBeenCalledWith('/paywall?reason=content_limit');
-    });
-
-    it('allows unlimited access for premium users', () => {
-      // Clear article progress so no articles are completed
-      useLearningStore.setState({
-        articleProgress: {},
-        currentArticleId: null,
-        currentWPM: 250,
-        recentCompletions: [],
-      });
-
-      // Premium user
-      useSubscriptionStore.setState({
-        isPremium: true,
-        isLoading: false,
-        isInitialized: true,
-        contentAccessCount: 100, // High count but premium so doesn't matter
-      });
-
-      renderWithProviders(<TopicScreen />);
-
-      const articleCard = screen.getByText('The Water Cycle');
-      fireEvent.press(articleCard);
-
-      // Should navigate without incrementing count
       expect(mockPush).toHaveBeenCalledWith('/article/science-discovery-p01');
     });
   });

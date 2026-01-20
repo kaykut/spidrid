@@ -147,7 +147,7 @@ describe('Index', () => {
 
   describe('stats panel', () => {
     it('displays stats summary', () => {
-      const { getByText, getAllByText } = render(
+      const { getByText } = render(
         <TestWrapper>
           <Index />
         </TestWrapper>

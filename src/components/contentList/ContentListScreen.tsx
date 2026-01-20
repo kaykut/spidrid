@@ -17,8 +17,6 @@ import {
   SectionListRenderItem,
   RefreshControl,
   SectionListData,
-  TouchableOpacity,
-  Text,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -241,6 +239,7 @@ export function ContentListScreen() {
       >
         <GlassView
           appearance={isDarkTheme ? 'dark' : 'light'}
+          glassStyle="regular"
           style={[styles.glassContainer, { paddingTop: insets.top }]}
         >
           <View style={styles.statsContainer}>
@@ -255,16 +254,6 @@ export function ContentListScreen() {
           <FilterPills activeFilter={activeFilter} onFilterChange={setFilter} />
         </GlassView>
       </View>
-
-      {/* DEV ONLY: Quick access to long words test */}
-      {__DEV__ && (
-        <TouchableOpacity
-          style={[styles.devButton, { backgroundColor: theme.accentColor }]}
-          onPress={() => router.push('/reader/long-words')}
-        >
-          <Text style={styles.devButtonText}>🧪 Test Long Words</Text>
-        </TouchableOpacity>
-      )}
 
       {/* Floating Action Bar (bottom-right) */}
       <FloatingActionBar
@@ -318,19 +307,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  devButton: {
-    position: 'absolute',
-    bottom: SPACING.xxxl,
-    left: SPACING.md,
-    paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderRadius: 20,
-    zIndex: 100,
-  },
-  devButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
   },
 });

@@ -2,8 +2,12 @@
  * RevenueCat Purchases Service
  *
  * Wrapper around react-native-purchases SDK with graceful degradation.
- * In Expo Go, the SDK is not available - all methods return safe defaults.
- * In preview/production builds, real RevenueCat integration is used.
+ *
+ * API key selection is handled at build time via environment files:
+ * - .env.development: Test Store key for Expo Go and dev builds
+ * - .env.production: Production key for adhoc/preview/production builds
+ *
+ * If the key is not configured, methods return safe defaults.
  */
 
 import Constants from 'expo-constants';
@@ -28,7 +32,9 @@ export interface PurchasesPackage {
   };
 }
 
+// API key is set at build time via environment files
 const REVENUECAT_API_KEY = Constants.expoConfig?.extra?.revenueCatApiKey || '';
+
 const PREMIUM_ENTITLEMENT = 'premium';
 
 let isConfigured = false;
@@ -67,7 +73,7 @@ export async function configurePurchases(): Promise<boolean> {
   }
 
   if (!REVENUECAT_API_KEY) {
-    console.warn('[Purchases] No API key configured');
+    console.warn('[Purchases] No REVENUECAT_API_KEY configured in environment');
     return false;
   }
 

@@ -11,6 +11,7 @@ export interface ImportedContent {
   createdAt: number;
   lastReadAt?: number;
   readProgress: number; // 0-1
+  currentWordIndex?: number; // Saved playback position for resume functionality
   // Optional metadata from article extraction
   author?: string; // Article byline
   excerpt?: string; // Article description/subtitle

@@ -25,13 +25,17 @@ describe('AuthModal', () => {
   const mockOnClose = jest.fn();
   const mockOnSuccess = jest.fn();
   const mockSignInWithGoogle = jest.fn();
-  const mockSignInWithMagicLink = jest.fn();
+  const mockSignUpWithPassword = jest.fn();
+  const mockSignInWithPassword = jest.fn();
+  const mockResetPassword = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseAuthStore.mockReturnValue({
       signInWithGoogle: mockSignInWithGoogle,
-      signInWithMagicLink: mockSignInWithMagicLink,
+      signUpWithPassword: mockSignUpWithPassword,
+      signInWithPassword: mockSignInWithPassword,
+      resetPassword: mockResetPassword,
     } as any);
   });
 
@@ -42,7 +46,7 @@ describe('AuthModal', () => {
 
     expect(getByText('Sync Across Devices')).toBeTruthy();
     expect(getByText('Continue with Google')).toBeTruthy();
-    expect(getByText('Send Magic Link')).toBeTruthy();
+    expect(getByText('Continue')).toBeTruthy();
   });
 
   it('should not render content when not visible', () => {
@@ -103,44 +107,111 @@ describe('AuthModal', () => {
     );
 
     const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
     fireEvent.changeText(emailInput, 'invalid-email');
-    fireEvent.press(getByText('Send Magic Link'));
+    fireEvent.changeText(passwordInput, 'password123');
+    fireEvent.press(getByText('Continue'));
 
     await waitFor(() => {
       expect(getByText('Please enter a valid email address')).toBeTruthy();
     });
   });
 
-  it('should call signInWithMagicLink with valid email', async () => {
-    mockSignInWithMagicLink.mockResolvedValue(undefined);
-
+  it('should not submit when password is missing', async () => {
     const { getByText, getByPlaceholderText } = render(
       <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
     );
 
     const emailInput = getByPlaceholderText('your@email.com');
     fireEvent.changeText(emailInput, 'test@example.com');
-    fireEvent.press(getByText('Send Magic Link'));
+    // Password field is left empty
+
+    // Button is disabled when password is missing, so clicking won't call auth functions
+    fireEvent.press(getByText('Continue'));
+
+    // Auth functions should not be called
+    expect(mockSignInWithPassword).not.toHaveBeenCalled();
+    expect(mockSignUpWithPassword).not.toHaveBeenCalled();
+  });
+
+  it('should show error for short password', async () => {
+    const { getByText, getByPlaceholderText } = render(
+      <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
+    );
+
+    const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
+    fireEvent.changeText(emailInput, 'test@example.com');
+    fireEvent.changeText(passwordInput, 'short');
+    fireEvent.press(getByText('Continue'));
 
     await waitFor(() => {
-      expect(mockSignInWithMagicLink).toHaveBeenCalledWith('test@example.com');
+      expect(getByText('Password must be at least 8 characters long')).toBeTruthy();
     });
   });
 
-  it('should show email sent confirmation after magic link is sent', async () => {
-    mockSignInWithMagicLink.mockResolvedValue(undefined);
+  it('should call signInWithPassword with valid credentials', async () => {
+    mockSignInWithPassword.mockResolvedValue(undefined);
 
     const { getByText, getByPlaceholderText } = render(
       <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
     );
 
     const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
     fireEvent.changeText(emailInput, 'test@example.com');
-    fireEvent.press(getByText('Send Magic Link'));
+    fireEvent.changeText(passwordInput, 'password123');
+    fireEvent.press(getByText('Continue'));
+
+    await waitFor(() => {
+      expect(mockSignInWithPassword).toHaveBeenCalledWith('test@example.com', 'password123');
+      expect(mockOnSuccess).toHaveBeenCalled();
+      expect(mockOnClose).toHaveBeenCalled();
+    });
+  });
+
+  it('should fallback to signup when sign-in fails with Invalid error', async () => {
+    mockSignInWithPassword.mockRejectedValue(new Error('Invalid email or password'));
+    mockSignUpWithPassword.mockResolvedValue(undefined);
+
+    const { getByText, getByPlaceholderText } = render(
+      <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
+    );
+
+    const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
+    fireEvent.changeText(emailInput, 'new@example.com');
+    fireEvent.changeText(passwordInput, 'newpassword123');
+    fireEvent.press(getByText('Continue'));
+
+    await waitFor(() => {
+      expect(mockSignInWithPassword).toHaveBeenCalledWith('new@example.com', 'newpassword123');
+      expect(mockSignUpWithPassword).toHaveBeenCalledWith('new@example.com', 'newpassword123');
+    });
+  });
+
+  it('should show email sent confirmation after signup', async () => {
+    mockSignInWithPassword.mockRejectedValue(new Error('Invalid email or password'));
+    mockSignUpWithPassword.mockResolvedValue(undefined);
+
+    const { getByText, getByPlaceholderText } = render(
+      <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
+    );
+
+    const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
+    fireEvent.changeText(emailInput, 'new@example.com');
+    fireEvent.changeText(passwordInput, 'newpassword123');
+    fireEvent.press(getByText('Continue'));
 
     await waitFor(() => {
       expect(getByText('Check your email')).toBeTruthy();
-      expect(getByText(/We sent a magic link to test@example.com/)).toBeTruthy();
+      expect(getByText(/We sent a verification link to new@example.com/)).toBeTruthy();
     });
   });
 
@@ -154,19 +225,22 @@ describe('AuthModal', () => {
     // The close button functionality is tested implicitly through other tests
   });
 
-  it('should show error when magic link fails', async () => {
-    mockSignInWithMagicLink.mockRejectedValue(new Error('Email failed to send'));
+  it('should show error when authentication fails', async () => {
+    mockSignInWithPassword.mockRejectedValue(new Error('Network error'));
 
     const { getByText, getByPlaceholderText } = render(
       <AuthModal visible={true} onClose={mockOnClose} onSuccess={mockOnSuccess} />
     );
 
     const emailInput = getByPlaceholderText('your@email.com');
+    const passwordInput = getByPlaceholderText('Password (min 8 characters)');
+
     fireEvent.changeText(emailInput, 'test@example.com');
-    fireEvent.press(getByText('Send Magic Link'));
+    fireEvent.changeText(passwordInput, 'password123');
+    fireEvent.press(getByText('Continue'));
 
     await waitFor(() => {
-      expect(getByText('Email failed to send')).toBeTruthy();
+      expect(getByText('Network error')).toBeTruthy();
     });
   });
 });

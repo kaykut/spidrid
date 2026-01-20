@@ -58,22 +58,5 @@ export function useItemChangeTracking(currentIds: string[]): ItemChangeMap {
     prevIdsRef.current = currentIds;
   }, [currentIds]);
 
-  // Log changes for debugging
-  useEffect(() => {
-    if (removedItems.length > 0) {
-      console.warn('[useItemChangeTracking] Removed items detected:', {
-        count: removedItems.length,
-        ids: removedItems.map(r => r.id),
-      });
-    }
-    const newCount = Array.from(changeMap.values()).filter(type => type === 'new').length;
-    if (newCount > 0) {
-      console.warn('[useItemChangeTracking] New items detected:', {
-        count: newCount,
-        ids: Array.from(changeMap.entries()).filter(([_, type]) => type === 'new').map(([id]) => id),
-      });
-    }
-  }, [removedItems, changeMap]);
-
   return { changeMap, removedItems };
 }

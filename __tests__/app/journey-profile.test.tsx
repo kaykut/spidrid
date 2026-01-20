@@ -118,7 +118,6 @@ function resetStores() {
 
   useSubscriptionStore.setState({
     isPremium: false,
-    contentAccessCount: 0,
   });
 
   useJourneyStore.setState({
@@ -284,7 +283,7 @@ describe('JourneyProfileModal', () => {
 
   describe('subscription section - free tier', () => {
     beforeEach(() => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 3 });
+      useSubscriptionStore.setState({ isPremium: false });
     });
 
     it('shows Subscription section', () => {
@@ -304,14 +303,6 @@ describe('JourneyProfileModal', () => {
 
       expect(getByText('Max WPM')).toBeTruthy();
       expect(getByText('450')).toBeTruthy(); // Free tier WPM limit
-    });
-
-    it('shows articles used count', () => {
-      const { getByText } = renderWithProviders(<JourneyProfileModal />);
-
-      expect(getByText('Articles used')).toBeTruthy();
-      // Text is interpolated as "3 / 5"
-      expect(getByText(/3\s*\/\s*5/)).toBeTruthy();
     });
 
     it('shows Upgrade to Premium button', () => {
@@ -357,19 +348,7 @@ describe('JourneyProfileModal', () => {
       expect(queryByText('Articles used')).toBeNull();
     });
 
-    it('shows Reset to Free dev button', () => {
-      const { getAllByText } = renderWithProviders(<JourneyProfileModal />);
-
-      expect(getAllByText('Reset to Free (Dev)').length).toBeGreaterThan(0);
-    });
-
-    it('resets to free when dev button pressed', () => {
-      const { getAllByText } = renderWithProviders(<JourneyProfileModal />);
-
-      fireEvent.press(getAllByText('Reset to Free (Dev)')[0]);
-
-      expect(useSubscriptionStore.getState().isPremium).toBe(false);
-    });
+    // Note: Premium dev controls (toggle premium, reset) moved to /dev-tools screen
   });
 
   // ===========================================================================
@@ -454,60 +433,31 @@ describe('JourneyProfileModal', () => {
   // ===========================================================================
 
   describe('dev controls', () => {
-    it('shows Developer section when free and has used content', () => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 3 });
+    it('shows Developer section', () => {
+      useSubscriptionStore.setState({ isPremium: false });
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       expect(getByText('Developer')).toBeTruthy();
-      expect(getByText('Reset Article Count')).toBeTruthy();
-    });
-
-    it('shows Developer section even when premium', () => {
-      useSubscriptionStore.setState({ isPremium: true });
-      const { getByText, getAllByText } = renderWithProviders(<JourneyProfileModal />);
-
-      // Developer section is always visible, but shows different controls
-      expect(getByText('Developer')).toBeTruthy();
-      expect(getAllByText('Reset to Free (Dev)').length).toBeGreaterThan(0);
-    });
-
-    it('shows Developer section even when no content used', () => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 0 });
-      const { getByText, queryByText } = renderWithProviders(<JourneyProfileModal />);
-
-      // Developer section is always visible
-      expect(getByText('Developer')).toBeTruthy();
-      // But Reset Article Count button should not be visible
-      expect(queryByText('Reset Article Count')).toBeNull();
-    });
-
-    it('resets content count when button pressed', () => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 5 });
-      const { getByText } = renderWithProviders(<JourneyProfileModal />);
-
-      fireEvent.press(getByText('Reset Article Count'));
-
-      expect(useSubscriptionStore.getState().contentAccessCount).toBe(0);
     });
   });
 
   // ===========================================================================
-  // Component Gallery
+  // Dev Tools
   // ===========================================================================
 
-  describe('component gallery', () => {
-    it('shows Component Gallery button', () => {
+  describe('dev tools', () => {
+    it('shows Dev Tools button', () => {
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
-      expect(getByText('Component Gallery')).toBeTruthy();
+      expect(getByText('Dev Tools')).toBeTruthy();
     });
 
-    it('navigates to testing screen when pressed', () => {
+    it('navigates to dev-tools screen when pressed', () => {
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
-      fireEvent.press(getByText('Component Gallery'));
+      fireEvent.press(getByText('Dev Tools'));
 
-      expect(mockRouterPush).toHaveBeenCalledWith('/testing');
+      expect(mockRouterPush).toHaveBeenCalledWith('/dev-tools');
     });
   });
 });

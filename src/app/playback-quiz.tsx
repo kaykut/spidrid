@@ -23,6 +23,7 @@ import { useLearningStore } from '../store/learningStore';
 import { ContentSource } from '../types/contentList';
 import { isAnswerCorrect } from '../utils/calculateQuizScore';
 import { resolveContentBySource } from '../utils/contentResolver';
+import { clearPosition } from '../utils/positionUtils';
 
 export default function PlaybackQuizModal() {
   const { theme } = useTheme();
@@ -95,6 +96,7 @@ export default function PlaybackQuizModal() {
               highestWPM: readingWPM,
               lastReadAt: Date.now(),
             });
+            clearPosition(sourceId, source);
             recordSession({
               wpm: readingWPM,
               comprehension: score,
@@ -106,6 +108,7 @@ export default function PlaybackQuizModal() {
             const articleIndex = parseInt(articleIndexStr, 10);
             if (curriculumId && !isNaN(articleIndex)) {
               markArticleCompleted(curriculumId, articleIndex, score, readingWPM);
+              clearPosition(sourceId, source);
               recordSession({
                 wpm: readingWPM,
                 comprehension: score,

@@ -69,7 +69,9 @@ jest.mock('@supabase/supabase-js', () => ({
       onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
       signOut: jest.fn().mockResolvedValue({ error: null }),
       linkIdentity: jest.fn().mockResolvedValue({ data: {}, error: null }),
-      signInWithOtp: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      signUp: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      signInWithPassword: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      resetPasswordForEmail: jest.fn().mockResolvedValue({ data: {}, error: null }),
       setSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
     },
     from: jest.fn(() => ({

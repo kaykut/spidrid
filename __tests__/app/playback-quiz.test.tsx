@@ -19,6 +19,14 @@ import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 // Mocks
 // =============================================================================
 
+// Mock positionUtils
+jest.mock('../../src/utils/positionUtils', () => ({
+  savePosition: jest.fn(),
+  getSavedPosition: jest.fn(() => undefined),
+  clearPosition: jest.fn(),
+  AUTO_SAVE_INTERVAL_MS: 15000,
+}));
+
 // Mock expo-router
 const mockRouterBack = jest.fn();
 const mockRouterDismissAll = jest.fn();

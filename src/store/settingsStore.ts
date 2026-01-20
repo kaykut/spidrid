@@ -21,13 +21,6 @@ interface SettingsState extends UserSettings {
   setParagraphPauseEnabled: (enabled: boolean) => void;
   setMoveFinishedToHistory: (enabled: boolean) => void;
   setActiveContentTab: (tab: ContentTab) => void;
-  resetSettings: () => void;
-
-  // Testing only - directly set state for persona testing
-  hydrateForTesting: (state: {
-    defaultWPM: number;
-    userName: string;
-  }) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -53,17 +46,6 @@ export const useSettingsStore = create<SettingsState>()(
       setParagraphPauseEnabled: (paragraphPauseEnabled) => set({ paragraphPauseEnabled }),
       setMoveFinishedToHistory: (moveFinishedToHistory) => set({ moveFinishedToHistory }),
       setActiveContentTab: (activeContentTab) => set({ activeContentTab }),
-
-      resetSettings: () => set({
-        ...DEFAULT_SETTINGS,
-        theme: themes[DEFAULT_SETTINGS.themeId],
-      }),
-
-      // Testing only
-      hydrateForTesting: (testState) => set({
-        defaultWPM: testState.defaultWPM,
-        userName: testState.userName,
-      }),
     }),
     {
       name: 'devoro-settings',

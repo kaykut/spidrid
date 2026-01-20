@@ -78,22 +78,6 @@ describe('Paywall', () => {
 
       expect(screen.getByText(new RegExp(`${FREE_TIER_LIMITS.MAX_WPM} WPM`))).toBeTruthy();
     });
-
-    it('shows content limit reason when reason is content_limit', () => {
-      renderWithProviders(
-        <Paywall visible={true} onClose={jest.fn()} reason="content_limit" />
-      );
-
-      expect(screen.getByText(new RegExp(`${FREE_TIER_LIMITS.MAX_CONTENT} articles`))).toBeTruthy();
-    });
-
-    it('defaults to content_limit reason', () => {
-      renderWithProviders(
-        <Paywall visible={true} onClose={jest.fn()} />
-      );
-
-      expect(screen.getByText(new RegExp(`${FREE_TIER_LIMITS.MAX_CONTENT} articles`))).toBeTruthy();
-    });
   });
 
   describe('benefits', () => {
@@ -103,14 +87,6 @@ describe('Paywall', () => {
       );
 
       expect(screen.getByText(new RegExp(`${PREMIUM_LIMITS.MAX_WPM} WPM`))).toBeTruthy();
-    });
-
-    it('shows unlimited articles benefit', () => {
-      renderWithProviders(
-        <Paywall visible={true} onClose={jest.fn()} />
-      );
-
-      expect(screen.getByText(/Unlimited articles/)).toBeTruthy();
     });
 
     it('shows all topics benefit', () => {

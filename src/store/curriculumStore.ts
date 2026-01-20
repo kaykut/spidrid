@@ -62,6 +62,9 @@ interface CurriculumActions {
   markArticleCompleted: (curriculumId: string, articleIndex: number, score: number, wpm: number) => void;
   generateArticle: (curriculumId: string, articleIndex: number) => Promise<void>;
   clearError: () => void;
+  // Position tracking
+  saveArticlePosition: (curriculumId: string, articleIndex: number, wordIndex?: number) => void;
+  getArticlePosition: (curriculumId: string, articleIndex: number) => number | undefined;
   // Expanded/collapsed state management
   toggleExpanded: (curriculumId: string) => void;
   isExpanded: (curriculumId: string) => boolean;
@@ -464,6 +467,39 @@ export const useCurriculumStore = create<CurriculumStore>()(
           const { [id]: _, ...rest } = state.curricula;
           return { curricula: rest };
         });
+      },
+
+      // =======================================================================
+      // Save Article Position
+      // =======================================================================
+      saveArticlePosition: (curriculumId, articleIndex, wordIndex) => {
+        set((state) => {
+          const curriculum = state.curricula[curriculumId];
+          if (!curriculum) return state;
+
+          const updatedArticles = curriculum.articles.map((a, i) =>
+            i === articleIndex ? { ...a, currentWordIndex: wordIndex } : a
+          );
+
+          return {
+            curricula: {
+              ...state.curricula,
+              [curriculumId]: {
+                ...curriculum,
+                articles: updatedArticles,
+                updatedAt: Date.now(),
+              },
+            },
+          };
+        });
+      },
+
+      // =======================================================================
+      // Get Article Position
+      // =======================================================================
+      getArticlePosition: (curriculumId, articleIndex) => {
+        const curriculum = get().curricula[curriculumId];
+        return curriculum?.articles[articleIndex]?.currentWordIndex;
       },
 
       // =======================================================================

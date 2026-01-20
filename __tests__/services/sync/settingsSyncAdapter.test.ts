@@ -2,6 +2,7 @@ import { settingsSyncAdapter, SyncableSettings } from '../../../src/services/syn
 import { useSettingsStore } from '../../../src/store/settingsStore';
 import { supabase } from '../../../src/services/supabase';
 import { DEFAULT_SETTINGS } from '../../../src/types/settings';
+import { themes } from '../../../src/data/themes';
 
 // Mock supabase
 jest.mock('../../../src/services/supabase', () => ({
@@ -29,7 +30,10 @@ describe('settingsSyncAdapter', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset store to defaults
-    useSettingsStore.getState().resetSettings();
+    useSettingsStore.setState({
+      ...DEFAULT_SETTINGS,
+      theme: themes[DEFAULT_SETTINGS.themeId],
+    });
   });
 
   describe('toSyncItems', () => {

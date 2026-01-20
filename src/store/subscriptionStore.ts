@@ -17,29 +17,23 @@ interface SubscriptionStore {
   isInitialized: boolean;
   isRestoring: boolean;
   restoreError: string | null;
-  contentAccessCount: number;
   linkedUserId: string | null;
+  dailyGenerationCount: number;
+  lastGenerationDate: string | null;
 
   // Actions
   initialize: () => Promise<void>;
-  setPremium: (isPremium: boolean) => void;
-  incrementContentCount: () => void;
-  resetContentCount: () => void;
   purchaseProduct: () => Promise<boolean>;
   linkRevenueCatUser: (supabaseUserId: string) => Promise<void>;
   unlinkRevenueCatUser: () => Promise<void>;
   restorePurchases: () => Promise<RestorePurchasesResult>;
 
   // Helpers
-  canAccessContent: () => boolean;
   getMaxWPM: () => number;
   canUseWPM: (wpm: number) => boolean;
-
-  // Testing only - directly set state for persona testing
-  hydrateForTesting: (state: {
-    isPremium: boolean;
-    contentAccessCount: number;
-  }) => void;
+  canGenerateArticle: () => boolean;
+  incrementGenerationCount: () => void;
+  resetDailyCount: () => void;
 }
 
 export const useSubscriptionStore = create<SubscriptionStore>()(
@@ -51,8 +45,9 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       isInitialized: false,
       isRestoring: false,
       restoreError: null,
-      contentAccessCount: 0,
       linkedUserId: null,
+      dailyGenerationCount: 0,
+      lastGenerationDate: null,
 
       // Initialize RevenueCat SDK and check premium status
       initialize: async () => {
@@ -67,21 +62,6 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
           // RevenueCat not available (Expo Go) - default to free tier
           set({ isPremium: false, isLoading: false, isInitialized: true });
         }
-      },
-
-      // Set premium status (for testing and manual override)
-      setPremium: (isPremium) => {
-        set({ isPremium });
-      },
-
-      // Increment content access count
-      incrementContentCount: () => {
-        set(state => ({ contentAccessCount: state.contentAccessCount + 1 }));
-      },
-
-      // Reset content count (for testing)
-      resetContentCount: () => {
-        set({ contentAccessCount: 0 });
       },
 
       // Purchase a subscription product
@@ -179,12 +159,6 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         }
       },
 
-      // Check if user can access more content
-      canAccessContent: () => {
-        const { isPremium, contentAccessCount } = get();
-        return isPremium || contentAccessCount < FREE_TIER_LIMITS.MAX_CONTENT;
-      },
-
       // Get max WPM based on subscription
       getMaxWPM: () => {
         return get().isPremium ? PREMIUM_LIMITS.MAX_WPM : FREE_TIER_LIMITS.MAX_WPM;
@@ -196,12 +170,48 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         return wpm <= maxWPM;
       },
 
-      // Testing only
-      hydrateForTesting: (testState) => {
-        set({
-          isPremium: testState.isPremium,
-          contentAccessCount: testState.contentAccessCount,
-        });
+      // Check if user can generate an AI article (premium = unlimited, free = 3/day)
+      //
+      // TIMEZONE BEHAVIOR: This uses device local time via toDateString(). Users traveling
+      // across timezones may experience:
+      // - Traveling east (e.g., NYC → Tokyo): Counter may reset early as device clock jumps forward
+      // - Traveling west (e.g., Tokyo → NYC): Counter may not reset until device catches up
+      //
+      // This is acceptable for the current implementation as it affects a small percentage of users.
+      // If this becomes a significant issue, consider switching to UTC-based date tracking:
+      //   const today = new Date().toISOString().split('T')[0];
+      //
+      // Tradeoff: UTC-based tracking would be consistent globally but less intuitive for users
+      // (reset time would vary by timezone - e.g., 8pm EST vs midnight EST).
+      canGenerateArticle: () => {
+        const { isPremium, dailyGenerationCount, lastGenerationDate } = get();
+
+        // Premium users have unlimited generation
+        if (isPremium) return true;
+
+        // Check if date has changed since last generation
+        const today = new Date().toDateString();
+        if (lastGenerationDate !== today) {
+          // New day - reset counter and allow generation
+          set({ dailyGenerationCount: 0, lastGenerationDate: today });
+          return true;
+        }
+
+        // Free tier: max 3 articles per day
+        return dailyGenerationCount < 3;
+      },
+
+      // Increment generation count after successful article generation
+      incrementGenerationCount: () => {
+        set((state) => ({
+          dailyGenerationCount: state.dailyGenerationCount + 1,
+          lastGenerationDate: new Date().toDateString(),
+        }));
+      },
+
+      // Reset daily count (for testing only)
+      resetDailyCount: () => {
+        set({ dailyGenerationCount: 0, lastGenerationDate: null });
       },
     }),
     {
@@ -209,7 +219,8 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         isPremium: state.isPremium,
-        contentAccessCount: state.contentAccessCount,
+        dailyGenerationCount: state.dailyGenerationCount,
+        lastGenerationDate: state.lastGenerationDate,
       }),
     }
   )

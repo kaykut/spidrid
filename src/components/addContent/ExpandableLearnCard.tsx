@@ -49,7 +49,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   const { generateArticle, isGenerating: isGeneratingArticle } = useGeneratedStore();
   const { createCurriculumV2, isGenerating: isGeneratingCurriculum } = useCurriculumStore();
   const { avgWpmLast3 } = useJourneyStore();
-  const { isPremium } = useSubscriptionStore();
+  const { isPremium, canGenerateArticle, incrementGenerationCount } = useSubscriptionStore();
 
   // Form state
   const [topic, setTopic] = useState('');
@@ -57,6 +57,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   const [showCustomize, setShowCustomize] = useState(false);
   const [flavor, setFlavor] = useState<FlavorOption>('auto');
   const [showPaywall, setShowPaywall] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<'generation_limit' | undefined>();
 
   // Recording hook for speech-to-text
   const {
@@ -184,17 +185,31 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   };
 
   const handleGenerate = async () => {
-    if (!isPremium) {
-      setShowPaywall(true);
-      return;
-    }
-
     if (!topic.trim() || isGenerating) {
       return;
     }
 
     // Use Bite as default when customization is hidden
     const effectivePortion = showCustomize ? portion : 'bite';
+    const effectiveFlavor = showCustomize ? flavor : 'auto';
+
+    // Check if user is trying to use premium features
+    const isPremiumPortion = effectivePortion !== 'bite';
+    const isPremiumFlavor = effectiveFlavor !== 'auto';
+
+    if (!isPremium && (isPremiumPortion || isPremiumFlavor)) {
+      setPaywallReason(undefined);
+      setShowPaywall(true);
+      return;
+    }
+
+    // Check if free user has hit daily generation limit
+    if (!isPremium && !canGenerateArticle()) {
+      setPaywallReason('generation_limit');
+      setShowPaywall(true);
+      return;
+    }
+
     const currentOption = PORTION_OPTIONS.find((p) => p.id === effectivePortion)!;
     const { min, max } = currentOption.articleRange;
     const durationRange = currentOption.durationRange;
@@ -204,12 +219,16 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       const article = await generateArticle({
         topic: topic.trim(),
         durationMinutes: durationRange.min, // 3 min for Bite
-        tone: flavor,
+        tone: effectiveFlavor,
         avgWpm,
         userId: 'current-user',
       });
 
       if (article) {
+        // Increment generation count for free users
+        if (!isPremium) {
+          incrementGenerationCount();
+        }
         resetForm();
         onExpandChange(false);
         onClose();
@@ -221,13 +240,17 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
         {
           goal: topic.trim(),
           articleRange: { min, max },
-          tone: flavor, // Can be 'auto'
+          tone: effectiveFlavor, // Can be 'auto'
           durationRange, // Pass range instead of fixed duration
         },
         avgWpm
       );
 
       if (curriculumId) {
+        // Increment generation count for free users
+        if (!isPremium) {
+          incrementGenerationCount();
+        }
         resetForm();
         onExpandChange(false);
         onClose();
@@ -240,7 +263,14 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
 
   return (
     <>
-      <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} />
+      <Paywall
+        visible={showPaywall}
+        onClose={() => {
+          setShowPaywall(false);
+          setPaywallReason(undefined);
+        }}
+        reason={paywallReason}
+      />
       <View
         style={[
           styles.cardWrapper,
@@ -335,6 +365,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                 <View style={styles.portionCardsRow}>
                   {PORTION_OPTIONS.map((p) => {
                     const { articleText, durationText } = getPortionDisplay(p);
+                    const isLocked = !isPremium && p.id !== 'bite';
                     return (
                       <TouchableOpacity
                         key={p.id}
@@ -343,8 +374,20 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                           { backgroundColor: theme.backgroundColor },
                           portion === p.id && { backgroundColor: JOURNEY_COLORS.success },
                         ]}
-                        onPress={() => handlePortionChange(p.id)}
+                        onPress={() => {
+                          if (isLocked) {
+                            setPaywallReason(undefined);
+                            setShowPaywall(true);
+                          } else {
+                            handlePortionChange(p.id);
+                          }
+                        }}
                         disabled={isGenerating}
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${p.label} portion${isLocked ? ' (Premium feature)' : ''}`}
+                        accessibilityHint={isLocked ? 'Upgrade to premium to unlock' : `Select ${p.label} portion`}
+                        accessibilityState={{ disabled: isGenerating || isLocked }}
                       >
                         <Text
                           style={[
@@ -373,6 +416,12 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         >
                           {durationText}
                         </Text>
+
+                        {isLocked && (
+                          <View style={styles.lockBadge} importantForAccessibility="no-hide-descendants">
+                            <Ionicons name="lock-closed" size={12} color="#FFD700" />
+                          </View>
+                        )}
                       </TouchableOpacity>
                     );
                   })}
@@ -400,28 +449,52 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                       Auto
                     </Text>
                   </TouchableOpacity>
-                  {TONE_DEFINITIONS.map((t) => (
-                    <TouchableOpacity
-                      key={t.id}
-                      style={[
-                        styles.flavorPill,
-                        { backgroundColor: theme.backgroundColor },
-                        flavor === t.id && { backgroundColor: JOURNEY_COLORS.success },
-                      ]}
-                      onPress={() => !isGenerating && setFlavor(t.id)}
-                      disabled={isGenerating}
-                    >
-                      <Text
+                  {TONE_DEFINITIONS.map((t) => {
+                    const isLocked = !isPremium;
+                    return (
+                      <TouchableOpacity
+                        key={t.id}
                         style={[
-                          styles.flavorPillText,
-                          { color: theme.textColor },
-                          flavor === t.id && styles.pillTextSelected,
+                          styles.flavorPill,
+                          { backgroundColor: theme.backgroundColor },
+                          flavor === t.id && { backgroundColor: JOURNEY_COLORS.success },
                         ]}
+                        onPress={() => {
+                          if (isLocked) {
+                            setPaywallReason(undefined);
+                            setShowPaywall(true);
+                          } else if (!isGenerating) {
+                            setFlavor(t.id);
+                          }
+                        }}
+                        disabled={isGenerating}
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${t.label} flavor${isLocked ? ' (Premium feature)' : ''}`}
+                        accessibilityHint={isLocked ? 'Upgrade to premium to unlock' : `Select ${t.label} writing style`}
+                        accessibilityState={{ disabled: isGenerating || isLocked }}
                       >
-                        {t.label}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
+                        <Text
+                          style={[
+                            styles.flavorPillText,
+                            { color: theme.textColor },
+                            flavor === t.id && styles.pillTextSelected,
+                          ]}
+                        >
+                          {t.label}
+                        </Text>
+                        {isLocked && (
+                          <Ionicons
+                            name="lock-closed"
+                            size={10}
+                            color="#FFD700"
+                            style={{ marginLeft: 4 }}
+                            importantForAccessibility="no"
+                          />
+                        )}
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
               </View>
             )}
@@ -613,6 +686,14 @@ const styles = StyleSheet.create({
   flavorPillText: {
     ...TYPOGRAPHY.caption,
     fontWeight: '600',
+  },
+  lockBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 10,
+    padding: 2,
   },
   generateButton: {
     marginTop: SPACING.md,

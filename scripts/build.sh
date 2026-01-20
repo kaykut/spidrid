@@ -24,6 +24,24 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# Load environment variables from specified env file
+load_env() {
+  local ENV_FILE="$1"
+  if [[ -f "$ENV_FILE" ]]; then
+    echo -e "${GREEN}Loading environment from $ENV_FILE...${NC}"
+    set -a
+    source "$ENV_FILE"
+    set +a
+  else
+    echo -e "${RED}Error: $ENV_FILE not found${NC}"
+    echo "Create $ENV_FILE with required variables:"
+    echo "  EXPO_PUBLIC_SUPABASE_URL=..."
+    echo "  EXPO_PUBLIC_SUPABASE_ANON_KEY=..."
+    echo "  REVENUECAT_API_KEY=..."
+    exit 1
+  fi
+}
+
 show_help() {
   echo ""
   echo -e "${CYAN}Devoro Build Script${NC}"
@@ -219,6 +237,14 @@ if [[ -z "$MODE" ]]; then
   echo -e "${RED}Error: Build mode is required${NC}"
   show_help
   exit 1
+fi
+
+# Select environment file based on mode
+# dev uses test key, adhoc/testflight use production key
+if [[ "$MODE" == "dev" ]]; then
+  load_env ".env.development"
+else
+  load_env ".env.production"
 fi
 
 # Execute build

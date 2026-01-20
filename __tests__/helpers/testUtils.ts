@@ -12,6 +12,7 @@ import {
   ArticleGenerationStatus,
   ArticleCompletionStatus,
 } from '../../src/types/curriculum';
+import type { ImportedContent } from '../../src/types/content';
 
 /**
  * Creates a mock ProcessedWord for testing.
@@ -216,4 +217,83 @@ export function createCurriculum(
     articles,
     ...overrides,
   };
+}
+
+// =============================================================================
+// Imported Content Factory
+// =============================================================================
+
+/**
+ * Creates a mock ImportedContent for testing contentStore.
+ */
+export function createMockContent(
+  overrides: Partial<ImportedContent> = {}
+): ImportedContent {
+  return {
+    id: 'imported-123',
+    title: 'Test Article',
+    content: 'This is test content for imported articles.',
+    wordCount: 7,
+    source: 'text',
+    createdAt: Date.now(),
+    readProgress: 0,
+    ...overrides,
+  };
+}
+
+// =============================================================================
+// Position Tracking Factories
+// =============================================================================
+
+/**
+ * Creates ImportedContent with a saved reading position.
+ * Used for testing position restore functionality.
+ */
+export function createImportedContentWithPosition(
+  currentWordIndex: number,
+  overrides: Partial<ImportedContent> = {}
+): ImportedContent {
+  return createMockContent({
+    currentWordIndex,
+    readProgress: currentWordIndex > 0 ? 0.5 : 0,
+    ...overrides,
+  });
+}
+
+/**
+ * Creates GeneratedArticle with a saved reading position.
+ * Used for testing position restore functionality.
+ */
+export function createGeneratedArticleWithPosition(
+  currentWordIndex: number,
+  overrides: Partial<GeneratedArticle> = {}
+): GeneratedArticle {
+  return createGeneratedArticle({
+    currentWordIndex,
+    ...overrides,
+  });
+}
+
+/**
+ * Creates Curriculum with a saved reading position for a specific article.
+ * Used for testing position restore functionality.
+ *
+ * @param articleIndex - Index of the article to set position for
+ * @param wordIndex - Word index to save
+ * @param overrides - Optional curriculum overrides
+ */
+export function createCurriculumWithPosition(
+  articleIndex: number,
+  wordIndex: number,
+  overrides: Partial<Curriculum> = {}
+): Curriculum {
+  const curriculum = createCurriculum(overrides);
+  if (articleIndex < curriculum.articles.length) {
+    curriculum.articles[articleIndex] = {
+      ...curriculum.articles[articleIndex],
+      currentWordIndex: wordIndex,
+      completionStatus: 'in_progress',
+    };
+  }
+  return curriculum;
 }

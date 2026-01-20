@@ -154,6 +154,7 @@ export interface GeneratedArticle {
   highestWPM?: number;
   lastReadAt?: number;
   attemptCount: number;
+  currentWordIndex?: number; // Saved playback position for resume functionality
 }
 
 // =============================================================================

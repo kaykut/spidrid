@@ -32,9 +32,12 @@ interface AuthModalProps {
 
 export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
   const { theme } = useTheme();
-  const { signInWithGoogle, signInWithMagicLink } = useAuthStore();
+  const { signInWithGoogle, signUpWithPassword, signInWithPassword, resetPassword } = useAuthStore();
 
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,13 +60,63 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
     }
   };
 
-  const handleMagicLink = async () => {
+  const handleEmailPasswordAuth = async () => {
+    // Validation
     if (!email.trim()) {
       setError('Please enter your email address');
       return;
     }
 
-    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (!password.trim()) {
+      setError('Please enter your password');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+
+    setError(null);
+    setIsLoadingEmail(true);
+
+    try {
+      // Auto-detect: Try sign-in first
+      try {
+        await signInWithPassword(email.trim(), password);
+        onSuccess();
+        onClose();
+      } catch (signInError) {
+        // If sign-in fails due to invalid credentials, suggest sign-up
+        if (signInError instanceof Error && signInError.message.includes('Invalid')) {
+          setError('Account not found. Creating new account...');
+
+          // Attempt sign-up
+          await signUpWithPassword(email.trim(), password);
+          setEmailSent(true); // Show "check your email" confirmation
+        } else {
+          throw signInError;
+        }
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Authentication failed');
+    } finally {
+      setIsLoadingEmail(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setError('Please enter your email address');
+      return;
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
       setError('Please enter a valid email address');
@@ -74,10 +127,10 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
     setIsLoadingEmail(true);
 
     try {
-      await signInWithMagicLink(email.trim());
-      setEmailSent(true);
+      await resetPassword(email.trim());
+      setEmailSent(true); // Show "check your email" confirmation
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send magic link');
+      setError(err instanceof Error ? err.message : 'Failed to send reset email');
     } finally {
       setIsLoadingEmail(false);
     }
@@ -101,7 +154,10 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
         Check your email
       </Text>
       <Text style={[styles.emailSentDescription, { color: JOURNEY_COLORS.textSecondary }]}>
-        We sent a magic link to {email}. Click the link in the email to sign in.
+        {showForgotPassword
+          ? `We sent a password reset link to ${email}. Click the link to reset your password.`
+          : `We sent a verification link to ${email}. Click the link to confirm your account and sign in.`
+        }
       </Text>
       <TouchableOpacity
         style={[styles.doneButton, { backgroundColor: theme.accentColor }]}
@@ -151,6 +207,8 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
       </View>
 
       <Text style={[styles.label, { color: theme.textColor }]}>Sign in with email</Text>
+
+      {/* Email Input */}
       <TextInput
         style={[
           styles.emailInput,
@@ -169,20 +227,68 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
         editable={!isLoading}
       />
 
+      {/* Password Input */}
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={[
+            styles.emailInput,
+            styles.passwordInput,
+            {
+              backgroundColor: theme.secondaryBackground,
+              color: theme.textColor,
+            },
+          ]}
+          placeholder="Password (min 8 characters)"
+          placeholderTextColor={JOURNEY_COLORS.textTertiary}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+          editable={!isLoading}
+        />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+          disabled={isLoading}
+        >
+          <Ionicons
+            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+            size={20}
+            color={JOURNEY_COLORS.textTertiary}
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* Forgot Password Link */}
+      <TouchableOpacity
+        onPress={() => {
+          setShowForgotPassword(true);
+          handleForgotPassword();
+        }}
+        style={styles.forgotPasswordLink}
+        disabled={isLoading}
+      >
+        <Text style={[styles.forgotPasswordText, { color: theme.accentColor }]}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
+
+      {/* Continue Button */}
       <TouchableOpacity
         style={[
           styles.magicLinkButton,
           { backgroundColor: theme.accentColor },
-          (!email.trim() || isLoading) && styles.buttonDisabled,
+          ((!email.trim() || !password.trim()) || isLoading) && styles.buttonDisabled,
         ]}
-        onPress={handleMagicLink}
-        disabled={!email.trim() || isLoading}
+        onPress={handleEmailPasswordAuth}
+        disabled={(!email.trim() || !password.trim()) || isLoading}
         activeOpacity={0.8}
       >
         {isLoadingEmail ? (
           <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
         ) : (
-          <Text style={styles.magicLinkButtonText}>Send Magic Link</Text>
+          <Text style={styles.magicLinkButtonText}>Continue</Text>
         )}
       </TouchableOpacity>
     </>
@@ -345,5 +451,29 @@ const styles = StyleSheet.create({
   doneButtonText: {
     ...TYPOGRAPHY.button,
     color: JOURNEY_COLORS.textPrimary,
+  },
+  passwordContainer: {
+    position: 'relative',
+    width: '100%',
+  },
+  passwordInput: {
+    paddingRight: 48, // Space for eye icon
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: SPACING.lg,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    paddingBottom: SPACING.md, // Account for input's margin bottom
+  },
+  forgotPasswordLink: {
+    alignSelf: 'flex-end',
+    marginTop: -SPACING.xs,
+    marginBottom: SPACING.md,
+  },
+  forgotPasswordText: {
+    ...TYPOGRAPHY.label,
+    fontSize: 13,
   },
 });

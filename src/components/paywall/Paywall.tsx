@@ -18,10 +18,10 @@ import { useTheme } from '../common/ThemeProvider';
 interface PaywallProps {
   visible: boolean;
   onClose: () => void;
-  reason?: 'wpm_limit' | 'content_limit';
+  reason?: 'wpm_limit' | 'generation_limit';
 }
 
-export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallProps) {
+export function Paywall({ visible, onClose, reason }: PaywallProps) {
   const { theme } = useTheme();
   const { purchaseProduct, restorePurchases, isLoading, isRestoring } = useSubscriptionStore();
   const [error, setError] = useState<string | null>(null);
@@ -62,9 +62,12 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
     }
   };
 
-  const reasonText = reason === 'wpm_limit'
-    ? `Free tier is limited to ${FREE_TIER_LIMITS.MAX_WPM} WPM`
-    : `You've reached the free limit of ${FREE_TIER_LIMITS.MAX_CONTENT} articles`;
+  let reasonText = '';
+  if (reason === 'wpm_limit') {
+    reasonText = `Free tier is limited to ${FREE_TIER_LIMITS.MAX_WPM} WPM`;
+  } else if (reason === 'generation_limit') {
+    reasonText = 'Free tier is limited to 3 AI-generated articles per day';
+  }
 
   return (
     <Modal
@@ -91,9 +94,11 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
           </Text>
 
           {/* Reason */}
-          <Text style={[styles.reason, { color: theme.orpColor }]}>
-            {reasonText}
-          </Text>
+          {reasonText ? (
+            <Text style={[styles.reason, { color: theme.orpColor }]}>
+              {reasonText}
+            </Text>
+          ) : null}
 
           {/* Benefits */}
           <View style={styles.benefits}>
@@ -102,7 +107,7 @@ export function Paywall({ visible, onClose, reason = 'content_limit' }: PaywallP
               theme={theme}
             />
             <BenefitItem
-              text="Unlimited articles & imports"
+              text="Unlimited AI article generation"
               theme={theme}
             />
             <BenefitItem

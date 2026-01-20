@@ -13,7 +13,6 @@ export interface PurchaseOffering {
 
 // Free tier limits as constants
 export const FREE_TIER_LIMITS = {
-  MAX_CONTENT: 5,
   MAX_WPM: 450,
 } as const;
 

@@ -32,7 +32,7 @@ interface GeneratedActions {
   updateArticleProgress: (
     id: string,
     updates: Partial<
-      Pick<GeneratedArticle, 'completed' | 'comprehensionScore' | 'highestWPM' | 'lastReadAt' | 'attemptCount'>
+      Pick<GeneratedArticle, 'completed' | 'comprehensionScore' | 'highestWPM' | 'lastReadAt' | 'attemptCount' | 'currentWordIndex'>
     >
   ) => void;
   getArticleById: (id: string) => GeneratedArticle | undefined;

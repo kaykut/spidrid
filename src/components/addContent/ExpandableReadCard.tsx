@@ -20,9 +20,7 @@ import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
-import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { useTheme } from '../common/ThemeProvider';
-import { Paywall } from '../paywall/Paywall';
 import { usePdfExtractor } from '../PdfExtractorProvider';
 
 const READ_OPTIONS = [
@@ -48,12 +46,10 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   const { theme } = useTheme();
   const { extractPdf } = usePdfExtractor();
   const { addContent } = useContentStore();
-  const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
 
   const [readOption, setReadOption] = useState<ReadOptionId | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
 
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const readOptionCardWidth = getReadOptionCardWidth();
@@ -97,19 +93,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
     }
   };
 
-  const checkImportLimit = (): boolean => {
-    if (isPremium) {return true;}
-    if (!canAccessContent()) {
-      setShowPaywall(true);
-      return false;
-    }
-    return true;
-  };
-
   const handleImportSuccess = (contentId: string) => {
-    if (!isPremium) {
-      incrementContentCount();
-    }
     setReadOption(null);
     setInputValue('');
     onExpandChange(false);
@@ -118,7 +102,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   const handleImportUrl = async () => {
-    if (!inputValue.trim() || !checkImportLimit()) {return;}
+    if (!inputValue.trim()) {return;}
     setIsLoading(true);
     const result = await extractFromUrl(inputValue.trim());
     setIsLoading(false);
@@ -131,7 +115,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   const handleImportText = () => {
-    if (!inputValue.trim() || !checkImportLimit()) {return;}
+    if (!inputValue.trim()) {return;}
     const result = createFromText(inputValue.trim());
     if (result.success && result.content) {
       const saved = addContent(result.content);
@@ -147,7 +131,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
         type: ['application/epub+zip', 'application/pdf', 'application/x-mobipocket-ebook'],
         copyToCacheDirectory: true,
       });
-      if (result.canceled || !checkImportLimit()) {return;}
+      if (result.canceled) {return;}
       const asset = result.assets[0];
       setIsLoading(true);
       const importResult = await extractFromEbook(asset.uri, asset.name, { pdfExtractor: extractPdf });
@@ -165,29 +149,27 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   return (
-    <>
-      <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} reason="content_limit" />
-      <View
-        style={[
-          styles.cardWrapper,
-          { backgroundColor: theme.secondaryBackground },
-          isExpanded && styles.cardExpanded,
-        ]}
-      >
-        <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
-          <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.accent}20` }]}>
-            <Ionicons name="book-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.accent} />
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
-            <Text style={[styles.description, { color: theme.textColor }]}>
-              Speed read your own articles or books from PDFs, EPUBs, or links
-            </Text>
-          </View>
-          <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
-            <Ionicons name="chevron-forward" size={SIZES.iconMd} color={theme.textColor} style={styles.chevron} />
-          </Animated.View>
-        </TouchableOpacity>
+    <View
+      style={[
+        styles.cardWrapper,
+        { backgroundColor: theme.secondaryBackground },
+        isExpanded && styles.cardExpanded,
+      ]}
+    >
+      <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
+        <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.accent}20` }]}>
+          <Ionicons name="book-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.accent} />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
+          <Text style={[styles.description, { color: theme.textColor }]}>
+            Speed read your own articles or books from PDFs, EPUBs, or links
+          </Text>
+        </View>
+        <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
+          <Ionicons name="chevron-forward" size={SIZES.iconMd} color={theme.textColor} style={styles.chevron} />
+        </Animated.View>
+      </TouchableOpacity>
 
         {isExpanded && (
           <View style={styles.expandedContent}>
@@ -271,8 +253,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
             )}
           </View>
         )}
-      </View>
-    </>
+    </View>
   );
 }
 

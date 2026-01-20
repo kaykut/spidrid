@@ -11,9 +11,10 @@ import { ProcessedWord, RSVPEngineControls, ChapterPauseInfo } from '../types/pl
  */
 export function useRSVPEngine(
   words: ProcessedWord[],
-  initialWPM: number = 250
+  initialWPM: number = 250,
+  initialIndex: number = 0
 ): RSVPEngineControls {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isPlaying, setIsPlaying] = useState(false);
   const [wpm, setWPM] = useState(initialWPM);
   const [chapterPaused, setChapterPaused] = useState<ChapterPauseInfo | null>(null);

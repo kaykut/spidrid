@@ -12,9 +12,9 @@ import { themes } from '../../src/data/themes';
 describe('settingsStore', () => {
   beforeEach(() => {
     // Reset store state before each test
-    const { result } = renderHook(() => useSettingsStore());
-    act(() => {
-      result.current.resetSettings();
+    useSettingsStore.setState({
+      ...DEFAULT_SETTINGS,
+      theme: themes[DEFAULT_SETTINGS.themeId],
     });
   });
 
@@ -329,53 +329,6 @@ describe('settingsStore', () => {
 
         expect(result.current.readingLanguage).toBe(lang);
       });
-    });
-  });
-
-  describe('resetSettings()', () => {
-    it('restores all settings to defaults', () => {
-      const { result } = renderHook(() => useSettingsStore());
-
-      // Change all settings
-      act(() => {
-        result.current.setTheme('sepia');
-        result.current.setDefaultWPM(500);
-        result.current.setShowCrosshairs(false);
-        result.current.setCrosshairOpacity(0.8);
-        result.current.setFontSize(60);
-        result.current.setHapticFeedback(false);
-        result.current.setUserName('Test User');
-        result.current.setReadingLanguage('fr');
-      });
-
-      // Reset
-      act(() => {
-        result.current.resetSettings();
-      });
-
-      // Verify all defaults
-      expect(result.current.themeId).toBe('dark');
-      expect(result.current.defaultWPM).toBe(250);
-      expect(result.current.showCrosshairs).toBe(true);
-      expect(result.current.crosshairOpacity).toBe(0.5);
-      expect(result.current.fontSize).toBe(42);
-      expect(result.current.hapticFeedback).toBe(true);
-      expect(result.current.userName).toBe('');
-      expect(result.current.readingLanguage).toBe('en');
-    });
-
-    it('restores theme object', () => {
-      const { result } = renderHook(() => useSettingsStore());
-
-      act(() => {
-        result.current.setTheme('light');
-      });
-
-      act(() => {
-        result.current.resetSettings();
-      });
-
-      expect(result.current.theme).toBe(themes.dark);
     });
   });
 

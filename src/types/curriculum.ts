@@ -103,6 +103,9 @@ export interface CurriculumArticle {
   /** User's reading WPM for this article */
   readingWPM?: number;
 
+  /** Saved playback position for resume functionality */
+  currentWordIndex?: number;
+
   /** Error message if generation failed */
   generationError?: string;
 }

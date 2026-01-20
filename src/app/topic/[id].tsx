@@ -9,7 +9,6 @@ import { getTopicById, getArticlesByTopic } from '../../data/curriculum';
 import { JOURNEY_COLORS, OVERLAY_COLORS, COLOR_OPACITY, DIFFICULTY_COLORS } from '../../data/themes';
 import { useCertificateStore } from '../../store/certificateStore';
 import { useLearningStore } from '../../store/learningStore';
-import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { Article } from '../../types/learning';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
 
@@ -17,7 +16,6 @@ export default function TopicScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
   const { getArticleProgress, getTopicProgress } = useLearningStore();
-  const { canAccessContent, incrementContentCount, isPremium } = useSubscriptionStore();
   const { getCertificationProgress } = useCertificateStore();
 
   const topic = getTopicById(id);
@@ -42,30 +40,11 @@ export default function TopicScreen() {
     );
   }
 
-  /**
-   * Check content access for non-premium users on incomplete articles.
-   * Returns true if access is allowed, increments count if needed.
-   */
-  const checkArticleAccess = (articleId: string): boolean => {
-    const progress = getArticleProgress(articleId);
-    if (progress?.completed || isPremium) {return true;}
-    if (!canAccessContent()) {
-      router.push('/paywall?reason=content_limit');
-      return false;
-    }
-    incrementContentCount();
-    return true;
-  };
-
   const handleArticlePress = (articleId: string) => {
-    if (!checkArticleAccess(articleId)) {return;}
     router.push(`/article/${articleId}`);
   };
 
   const handlePlayPress = (articleId: string) => {
-    if (!checkArticleAccess(articleId)) {
-      return;
-    }
     router.push({
       pathname: '/playback',
       params: { sourceId: articleId, source: 'training' },
