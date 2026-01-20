@@ -45,6 +45,9 @@ jest.mock('@expo/vector-icons', () => {
     Ionicons: ({ name, testID }: { name: string; testID?: string }) => (
       <View testID={testID || `icon-${name}`} />
     ),
+    MaterialCommunityIcons: ({ name, testID }: { name: string; testID?: string }) => (
+      <View testID={testID || `icon-${name}`} />
+    ),
   };
 });
 
@@ -239,14 +242,17 @@ describe('JourneyProfileModal', () => {
       expect(useSettingsStore.getState().userName).toBe('Jane Smith');
     });
 
-    it('shows language selector with current language', () => {
+    // Language selector tests skipped - feature is hidden for English-only launch
+    // Will be recycled as "App Language" (UI localization) setting during i18n
+    // Reading language now auto-detects per-content at playback time
+    it.skip('shows language selector with current language', () => {
       useSettingsStore.setState({ readingLanguage: 'en' });
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       expect(getByText('English')).toBeTruthy();
     });
 
-    it('opens language picker when selector pressed', () => {
+    it.skip('opens language picker when selector pressed', () => {
       const { getByText, queryByText } = renderWithProviders(<JourneyProfileModal />);
 
       // Language list should not be visible initially (only current language shown)
@@ -260,7 +266,7 @@ describe('JourneyProfileModal', () => {
       expect(getByText('French')).toBeTruthy();
     });
 
-    it('selects language and closes picker', () => {
+    it.skip('selects language and closes picker', () => {
       const { getByText, queryByText } = renderWithProviders(<JourneyProfileModal />);
 
       // Open picker
