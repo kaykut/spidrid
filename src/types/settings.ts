@@ -34,18 +34,23 @@ export interface UserSettings {
 
 /**
  * Supported reading languages.
- * Auto-detect uses stop-word frequency analysis to identify the language.
- * Only Latin-script languages are currently supported; CJK languages require
- * word segmentation and RTL languages require bidirectional text handling.
+ * Auto-detect uses franc-min trigram analysis to identify the language.
+ * Total: 11 European Latin-script languages
+ * CJK languages require word segmentation; RTL languages require bidirectional text handling.
  */
 export const READING_LANGUAGES = [
   { code: 'auto', label: 'Auto-detect' },
+  { code: 'cs', label: 'Czech' },
+  { code: 'nl', label: 'Dutch' },
   { code: 'en', label: 'English' },
-  { code: 'es', label: 'Spanish' },
   { code: 'fr', label: 'French' },
   { code: 'de', label: 'German' },
   { code: 'it', label: 'Italian' },
+  { code: 'pl', label: 'Polish' },
   { code: 'pt', label: 'Portuguese' },
+  { code: 'ro', label: 'Romanian' },
+  { code: 'es', label: 'Spanish' },
+  { code: 'sv', label: 'Swedish' },
 ] as const;
 
 export const DEFAULT_SETTINGS: UserSettings = {

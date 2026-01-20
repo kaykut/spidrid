@@ -9,8 +9,11 @@
 /**
  * Supported language codes.
  * Currently limited to Latin-script languages that share similar processing patterns.
+ * Total: 11 European languages
  */
-export type SupportedLanguage = 'en' | 'es' | 'fr' | 'de' | 'pt' | 'it';
+export type SupportedLanguage =
+  | 'en' | 'es' | 'fr' | 'de' | 'pt' | 'it'
+  | 'nl' | 'pl' | 'ro' | 'sv' | 'cs';
 
 /**
  * Result of hyphenating a word into syllables.
