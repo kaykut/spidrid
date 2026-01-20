@@ -37,6 +37,7 @@ import {
 } from '../../types/generated';
 import { useTheme } from '../common/ThemeProvider';
 import { Paywall } from '../paywall/Paywall';
+import { PremiumBadge } from '../premium/PremiumBadge';
 
 interface ExpandableLearnCardProps {
   isExpanded: boolean;
@@ -417,11 +418,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                           {durationText}
                         </Text>
 
-                        {isLocked && (
-                          <View style={styles.lockBadge} importantForAccessibility="no-hide-descendants">
-                            <Ionicons name="lock-closed" size={12} color="#FFD700" />
-                          </View>
-                        )}
+                        {isLocked && <PremiumBadge />}
                       </TouchableOpacity>
                     );
                   })}
@@ -483,15 +480,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         >
                           {t.label}
                         </Text>
-                        {isLocked && (
-                          <Ionicons
-                            name="lock-closed"
-                            size={10}
-                            color="#FFD700"
-                            style={{ marginLeft: 4 }}
-                            importantForAccessibility="no"
-                          />
-                        )}
+                        {isLocked && <PremiumBadge size={8} top={2} right={2} />}
                       </TouchableOpacity>
                     );
                   })}
@@ -678,6 +667,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   flavorPill: {
+    position: 'relative',
     flex: 1,
     paddingVertical: SPACING.sm,
     alignItems: 'center',
@@ -686,14 +676,6 @@ const styles = StyleSheet.create({
   flavorPillText: {
     ...TYPOGRAPHY.caption,
     fontWeight: '600',
-  },
-  lockBadge: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    borderRadius: 10,
-    padding: 2,
   },
   generateButton: {
     marginTop: SPACING.md,
