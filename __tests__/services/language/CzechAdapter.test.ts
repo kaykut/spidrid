@@ -71,11 +71,11 @@ describe('CzechAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include Czech-specific prefixes', () => {
+    it('should include Czech-specific prefixes (4+ chars only)', () => {
       expect(czechAdapter.compoundPrefixes).toContain('před');
       expect(czechAdapter.compoundPrefixes).toContain('mezi');
       expect(czechAdapter.compoundPrefixes).toContain('spolu');
-      expect(czechAdapter.compoundPrefixes).toContain('ne');
+      expect(czechAdapter.compoundPrefixes).toContain('vůči');
     });
 
     it('should inherit Greek/Latin prefixes', () => {
@@ -83,8 +83,8 @@ describe('CzechAdapter', () => {
       expect(czechAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>60)', () => {
-      expect(czechAdapter.compoundPrefixes.length).toBeGreaterThan(60);
+    it('should have comprehensive prefix list (>35, 4+ chars only)', () => {
+      expect(czechAdapter.compoundPrefixes.length).toBeGreaterThan(35);
     });
   });
 

@@ -39,6 +39,14 @@ export class GermanAdapter extends BaseLatinAdapter {
     };
   }
 
+  /**
+   * Compound prefixes: Inherits BASE_LATIN_PREFIXES from BaseLatinAdapter.
+   * No German-specific prefixes added.
+   * Total: 32 Greek/Latin prefixes (4+ chars only).
+   *
+   * NOTE: Does NOT override compoundPrefixes getter - uses base implementation.
+   */
+
   /** German caption keywords */
   readonly captionKeywords: string[] = [
     'Foto', 'Bild', 'Abbildung', 'Grafik', 'Illustration',

@@ -42,7 +42,7 @@ export class PolishAdapter extends BaseLatinAdapter {
 
   /**
    * Polish compound prefixes (inherited Greek/Latin + Polish-specific).
-   * Total: 44 base + 26 Polish = 70 prefixes.
+   * Total: 32 base + 9 Polish = 41 prefixes (4+ chars only).
    *
    * Polish prefixes sorted by length (longest first) to ensure proper matching.
    */
@@ -55,10 +55,6 @@ export class PolishAdapter extends BaseLatinAdapter {
       'współ', 'przed', 'ponad', 'spoza',
       // 4 chars
       'prze', 'przy', 'poza', 'pozo',
-      // 3 chars
-      'nie', 'roz', 'pod', 'nad', 'bez', 'doz', 'wyz',
-      // 2 chars
-      'po', 'za', 'do', 'od', 'na', 'we', 'ze', 'wy', 'uz', 'ob',
     ];
   }
 

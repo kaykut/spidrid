@@ -29,6 +29,14 @@ export class GenericAdapter extends BaseLatinAdapter {
       hyphenatedWord: word,
     };
   }
+
+  /**
+   * Compound prefixes: Inherits BASE_LATIN_PREFIXES from BaseLatinAdapter.
+   * No language-specific prefixes added (generic fallback).
+   * Total: 32 Greek/Latin prefixes (4+ chars only).
+   *
+   * NOTE: Does NOT override compoundPrefixes getter - uses base implementation.
+   */
 }
 
 export const genericAdapter = new GenericAdapter();

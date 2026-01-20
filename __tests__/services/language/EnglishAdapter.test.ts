@@ -131,9 +131,9 @@ describe('EnglishAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include common Greek/Latin prefixes', () => {
+    it('should include common Greek/Latin prefixes (4+ chars only)', () => {
       expect(englishAdapter.compoundPrefixes).toContain('photo');
-      expect(englishAdapter.compoundPrefixes).toContain('bio');
+      expect(englishAdapter.compoundPrefixes).toContain('anti');
       expect(englishAdapter.compoundPrefixes).toContain('electro');
     });
 

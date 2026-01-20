@@ -42,7 +42,7 @@ export class SwedishAdapter extends BaseLatinAdapter {
 
   /**
    * Swedish compound prefixes (inherited Greek/Latin + Swedish-specific).
-   * Total: 44 base + 26 Swedish = 70 prefixes.
+   * Total: 32 base + 13 Swedish = 45 prefixes (4+ chars only).
    *
    * Swedish prefixes sorted by length (longest first) to ensure proper matching.
    */
@@ -55,10 +55,6 @@ export class SwedishAdapter extends BaseLatinAdapter {
       'genom', 'omkring', 'ytter',
       // 4 chars
       'fram', 'över', 'ovan', 'utan', 'ämne', 'grund', 'emel', 'efter', 'åter',
-      // 3 chars
-      'för', 'och', 'upp', 'mot', 'sam', 'bak', 'vid', 'med', 'hem',
-      // 2 chars
-      'av', 'på', 'åt', 'om',
     ];
   }
 

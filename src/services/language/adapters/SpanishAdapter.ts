@@ -30,8 +30,8 @@ export class SpanishAdapter extends BaseLatinAdapter {
   get compoundPrefixes(): string[] {
     return [
       ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes from BaseLatinAdapter
-      // Spanish-specific prefixes (9 total), sorted by length (longest first)
-      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'tras', 'des', 're',
+      // Spanish-specific prefixes (7 total, 4+ chars only), sorted by length (longest first)
+      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'tras',
     ];
   }
 

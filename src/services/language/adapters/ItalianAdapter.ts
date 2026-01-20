@@ -30,8 +30,8 @@ export class ItalianAdapter extends BaseLatinAdapter {
   get compoundPrefixes(): string[] {
     return [
       ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
-      // Italian-specific prefixes (7 total), sorted by length (longest first)
-      'contro', 'sovra', 'sopra', 'sotto', 'stra', 'dopo', 'dis',
+      // Italian-specific prefixes (6 total, 4+ chars only), sorted by length (longest first)
+      'contro', 'sovra', 'sopra', 'sotto', 'stra', 'dopo',
     ];
   }
 

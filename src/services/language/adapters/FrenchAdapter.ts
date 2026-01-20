@@ -30,8 +30,8 @@ export class FrenchAdapter extends BaseLatinAdapter {
   get compoundPrefixes(): string[] {
     return [
       ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
-      // French-specific prefixes (13 total), sorted by length (longest first)
-      'arrière', 'contre', 'avant', 'après', 'entre', 'sous', 'sans', 'pré', 'dés', 'sur', 're', 'dé', 'de',
+      // French-specific prefixes (7 total, 4+ chars only), sorted by length (longest first)
+      'arrière', 'contre', 'avant', 'après', 'entre', 'sous', 'sans',
     ];
   }
 

@@ -44,23 +44,19 @@ export class DutchAdapter extends BaseLatinAdapter {
 
   /**
    * Dutch compound prefixes (inherited + Dutch-specific).
-   * Includes both inseparable (be-, ge-, ver-) and separable (voor-, over-) prefixes.
-   * Total: 44 inherited + 23 Dutch-specific = 67 prefixes.
+   * Includes both inseparable and separable prefixes (4+ chars only).
+   * Total: 32 inherited + 11 Dutch-specific = 43 prefixes.
    */
   get compoundPrefixes(): string[] {
     return [
       ...BASE_LATIN_PREFIXES,
-      // Dutch-specific prefixes (23 total), sorted by length (longest first)
+      // Dutch-specific prefixes (11 total, 4+ chars only), sorted by length (longest first)
       // 6 chars
       'tussen', 'buiten', 'binnen', 'achter',
       // 5 chars
       'tegen', 'onder', 'boven',
       // 4 chars
       'voor', 'over', 'door', 'rond',
-      // 3 chars
-      'ver', 'ont', 'her', 'bij', 'mee', 'uit', 'aan',
-      // 2 chars (highly productive, protected by MIN_REMAINDER_LENGTH = 4)
-      'be', 'ge', 'op', 'in', 'af',
     ];
   }
 

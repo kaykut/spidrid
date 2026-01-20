@@ -39,6 +39,14 @@ export class EnglishAdapter extends BaseLatinAdapter {
     };
   }
 
+  /**
+   * Compound prefixes: Inherits BASE_LATIN_PREFIXES from BaseLatinAdapter.
+   * No English-specific prefixes added.
+   * Total: 32 Greek/Latin prefixes (4+ chars only).
+   *
+   * NOTE: Does NOT override compoundPrefixes getter - uses base implementation.
+   */
+
   /** English caption keywords */
   readonly captionKeywords: string[] = [
     'Photo', 'Image', 'Picture', 'Figure', 'Chart', 'Graph', 'Illustration',

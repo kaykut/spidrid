@@ -30,8 +30,8 @@ export class PortugueseAdapter extends BaseLatinAdapter {
   get compoundPrefixes(): string[] {
     return [
       ...BASE_LATIN_PREFIXES, // Inherit Greek/Latin prefixes
-      // Portuguese-specific prefixes (10 total), sorted by length (longest first)
-      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'após', 'des', 'pós', 'pré',
+      // Portuguese-specific prefixes (7 total, 4+ chars only), sorted by length (longest first)
+      'contra', 'sobre', 'entre', 'infra', 'extra', 'ante', 'após',
     ];
   }
 

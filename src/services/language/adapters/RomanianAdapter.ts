@@ -42,7 +42,7 @@ export class RomanianAdapter extends BaseLatinAdapter {
 
   /**
    * Romanian compound prefixes (inherited Greek/Latin + Romanian-specific).
-   * Total: 44 base + 15 Romanian = 59 prefixes.
+   * Total: 32 base + 4 Romanian = 36 prefixes (4+ chars only).
    *
    * Romanian prefixes sorted by length (longest first) to ensure proper matching.
    */
@@ -55,10 +55,6 @@ export class RomanianAdapter extends BaseLatinAdapter {
       'supra', 'dintre',
       // 4 chars
       'prea',
-      // 3 chars
-      'sub', 'des', 'pre', 'con',
-      // 2 chars
-      'ne', 're', 'co', 'în', 'de', 'pe',
     ];
   }
 

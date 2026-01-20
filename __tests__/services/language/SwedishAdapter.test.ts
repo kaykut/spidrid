@@ -62,11 +62,11 @@ describe('SwedishAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include Swedish-specific prefixes', () => {
-      expect(swedishAdapter.compoundPrefixes).toContain('för');
+    it('should include Swedish-specific prefixes (4+ chars only)', () => {
       expect(swedishAdapter.compoundPrefixes).toContain('över');
       expect(swedishAdapter.compoundPrefixes).toContain('mellan');
       expect(swedishAdapter.compoundPrefixes).toContain('åter');
+      expect(swedishAdapter.compoundPrefixes).toContain('fram');
     });
 
     it('should inherit Greek/Latin prefixes', () => {
@@ -74,8 +74,8 @@ describe('SwedishAdapter', () => {
       expect(swedishAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>65)', () => {
-      expect(swedishAdapter.compoundPrefixes.length).toBeGreaterThan(65);
+    it('should have comprehensive prefix list (>40, 4+ chars only)', () => {
+      expect(swedishAdapter.compoundPrefixes.length).toBeGreaterThan(40);
     });
   });
 

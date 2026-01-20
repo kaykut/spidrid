@@ -42,7 +42,7 @@ export class CzechAdapter extends BaseLatinAdapter {
 
   /**
    * Czech compound prefixes (inherited Greek/Latin + Czech-specific).
-   * Total: 44 base + 22 Czech = 66 prefixes.
+   * Total: 32 base + 8 Czech = 40 prefixes (4+ chars only).
    *
    * Czech prefixes sorted by length (longest first) to ensure proper matching.
    */
@@ -55,10 +55,6 @@ export class CzechAdapter extends BaseLatinAdapter {
       'zpět',
       // 4 chars
       'před', 'mezi', 'skrz', 'vůči', 'přes',
-      // 3 chars
-      'pod', 'nad', 'pro', 'bez', 'roz', 'nej', 'při', 'pře', 'pre',
-      // 2 chars
-      'na', 'ne', 'po', 'do', 'od', 'ob', 'za',
     ];
   }
 

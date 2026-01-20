@@ -65,11 +65,11 @@ describe('PolishAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include Polish-specific prefixes', () => {
-      expect(polishAdapter.compoundPrefixes).toContain('nie');
+    it('should include Polish-specific prefixes (4+ chars only)', () => {
       expect(polishAdapter.compoundPrefixes).toContain('przed');
       expect(polishAdapter.compoundPrefixes).toContain('między');
-      expect(polishAdapter.compoundPrefixes).toContain('po');
+      expect(polishAdapter.compoundPrefixes).toContain('prze');
+      expect(polishAdapter.compoundPrefixes).toContain('przy');
     });
 
     it('should inherit Greek/Latin prefixes', () => {
@@ -77,8 +77,8 @@ describe('PolishAdapter', () => {
       expect(polishAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>65)', () => {
-      expect(polishAdapter.compoundPrefixes.length).toBeGreaterThan(65);
+    it('should have comprehensive prefix list (>35, 4+ chars only)', () => {
+      expect(polishAdapter.compoundPrefixes.length).toBeGreaterThan(35);
     });
   });
 

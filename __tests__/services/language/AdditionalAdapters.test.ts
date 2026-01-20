@@ -97,11 +97,11 @@ describe('SpanishAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include language-specific Spanish prefixes', () => {
+    it('should include language-specific Spanish prefixes (4+ chars only)', () => {
       expect(spanishAdapter.compoundPrefixes).toContain('sobre');
       expect(spanishAdapter.compoundPrefixes).toContain('contra');
       expect(spanishAdapter.compoundPrefixes).toContain('entre');
-      expect(spanishAdapter.compoundPrefixes).toContain('des');
+      expect(spanishAdapter.compoundPrefixes).toContain('infra');
     });
 
     it('should inherit Greek/Latin prefixes from BaseLatinAdapter', () => {
@@ -109,8 +109,8 @@ describe('SpanishAdapter', () => {
       expect(spanishAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>46)', () => {
-      expect(spanishAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    it('should have comprehensive prefix list (>38, 4+ chars only)', () => {
+      expect(spanishAdapter.compoundPrefixes.length).toBeGreaterThan(38);
     });
   });
 });
@@ -209,8 +209,8 @@ describe('FrenchAdapter', () => {
       expect(frenchAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>46)', () => {
-      expect(frenchAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    it('should have comprehensive prefix list (>38, 4+ chars only)', () => {
+      expect(frenchAdapter.compoundPrefixes.length).toBeGreaterThan(38);
     });
   });
 });
@@ -382,8 +382,8 @@ describe('PortugueseAdapter', () => {
       expect(portugueseAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>46)', () => {
-      expect(portugueseAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    it('should have comprehensive prefix list (>38, 4+ chars only)', () => {
+      expect(portugueseAdapter.compoundPrefixes.length).toBeGreaterThan(38);
     });
   });
 });
@@ -477,8 +477,8 @@ describe('ItalianAdapter', () => {
       expect(italianAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>46)', () => {
-      expect(italianAdapter.compoundPrefixes.length).toBeGreaterThan(46);
+    it('should have comprehensive prefix list (>37, 4+ chars only)', () => {
+      expect(italianAdapter.compoundPrefixes.length).toBeGreaterThan(37);
     });
   });
 });

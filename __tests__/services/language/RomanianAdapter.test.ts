@@ -61,11 +61,11 @@ describe('RomanianAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include Romanian-specific prefixes', () => {
-      expect(romanianAdapter.compoundPrefixes).toContain('ne');
-      expect(romanianAdapter.compoundPrefixes).toContain('pre');
+    it('should include Romanian-specific prefixes (4+ chars only)', () => {
       expect(romanianAdapter.compoundPrefixes).toContain('împre');
-      expect(romanianAdapter.compoundPrefixes).toContain('în');
+      expect(romanianAdapter.compoundPrefixes).toContain('supra');
+      expect(romanianAdapter.compoundPrefixes).toContain('dintre');
+      expect(romanianAdapter.compoundPrefixes).toContain('prea');
     });
 
     it('should inherit Greek/Latin prefixes', () => {
@@ -73,8 +73,8 @@ describe('RomanianAdapter', () => {
       expect(romanianAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list (>55)', () => {
-      expect(romanianAdapter.compoundPrefixes.length).toBeGreaterThan(55);
+    it('should have comprehensive prefix list (>35, 4+ chars only)', () => {
+      expect(romanianAdapter.compoundPrefixes.length).toBeGreaterThan(35);
     });
   });
 

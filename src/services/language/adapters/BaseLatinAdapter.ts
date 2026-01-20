@@ -10,7 +10,7 @@ import { LanguageAdapter, SupportedLanguage, HyphenationResult } from '../types'
 /**
  * Common compound word prefixes (Greek/Latin roots).
  * Exported as a constant for use in language-specific adapters.
- * Total: 44 prefixes, sorted by length (longest first)
+ * Total: 32 prefixes (4+ chars only), sorted by length (longest first)
  */
 export const BASE_LATIN_PREFIXES: string[] = [
   // 7+ chars
@@ -21,8 +21,6 @@ export const BASE_LATIN_PREFIXES: string[] = [
   'photo', 'hydro', 'micro', 'macro', 'multi', 'ultra', 'super', 'trans', 'under', 'inter', 'intra', 'proto', 'retro',
   // 4 chars
   'anti', 'auto', 'semi', 'mono', 'poly', 'meta', 'para', 'over', 'mega', 'self', 'tele', 'homo', 'omni',
-  // 3 chars
-  'pre', 'pro', 'bio', 'geo', 'neo', 'sub', 'mis', 'non', 'out', 'tri', 'iso', 'pan',
 ];
 
 /**

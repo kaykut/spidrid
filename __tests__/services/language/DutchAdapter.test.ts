@@ -56,12 +56,12 @@ describe('DutchAdapter', () => {
   });
 
   describe('compoundPrefixes', () => {
-    it('should include Dutch-specific prefixes', () => {
+    it('should include Dutch-specific prefixes (4+ chars only)', () => {
       expect(dutchAdapter.compoundPrefixes).toContain('voor');
       expect(dutchAdapter.compoundPrefixes).toContain('over');
       expect(dutchAdapter.compoundPrefixes).toContain('onder');
-      expect(dutchAdapter.compoundPrefixes).toContain('be');
-      expect(dutchAdapter.compoundPrefixes).toContain('ge');
+      expect(dutchAdapter.compoundPrefixes).toContain('tussen');
+      expect(dutchAdapter.compoundPrefixes).toContain('boven');
     });
 
     it('should inherit Greek/Latin prefixes', () => {
@@ -69,8 +69,8 @@ describe('DutchAdapter', () => {
       expect(dutchAdapter.compoundPrefixes).toContain('anti');
     });
 
-    it('should have comprehensive prefix list', () => {
-      expect(dutchAdapter.compoundPrefixes.length).toBeGreaterThan(60);
+    it('should have comprehensive prefix list (>40, 4+ chars only)', () => {
+      expect(dutchAdapter.compoundPrefixes.length).toBeGreaterThan(40);
     });
   });
 
