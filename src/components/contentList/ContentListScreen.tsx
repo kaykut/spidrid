@@ -81,7 +81,15 @@ export function ContentListScreen() {
   // Get the computed grouped content list - recomputes when source stores change
   const sections = useMemo(() => {
     return getGroupedContentList();
-  }, [getGroupedContentList]);
+  }, [
+    getGroupedContentList,
+    activeFilter,
+    _importedContent,
+    _generatedArticles,
+    _curricula,
+    _articleProgress,
+    _moveFinishedToHistory,
+  ]);
 
   // Check if list is truly empty (no content at all, ignoring filter)
   const isEmptyWithoutFilter = useMemo(() => {

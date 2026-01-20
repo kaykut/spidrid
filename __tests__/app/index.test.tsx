@@ -260,6 +260,91 @@ describe('Index', () => {
       fireEvent.press(getByText('Learning'));
       expect(useContentListStore.getState().activeFilter).toBe('learning');
     });
+
+    it('filters displayed content when filter pill is pressed', () => {
+      // Setup: Add content of different categories
+      const now = Date.now();
+
+      // Add a book (EPUB with >50 pages)
+      useContentStore.setState({
+        importedContent: [
+          {
+            id: 'book-1',
+            title: 'Test Book',
+            content: 'Book content',
+            wordCount: 15000, // >50 pages (50 * 250 = 12500)
+            source: 'epub',
+            createdAt: now,
+            readProgress: 0,
+          },
+          {
+            id: 'article-1',
+            title: 'Test Article',
+            content: 'Article content',
+            wordCount: 500, // <50 pages
+            source: 'url',
+            createdAt: now - 1000,
+            readProgress: 0,
+          },
+        ],
+      });
+
+      // Add a generated article (learning category)
+      useGeneratedStore.setState({
+        articles: [
+          {
+            id: 'gen-1',
+            topic: 'Testing',
+            targetDuration: 3,
+            tone: 'explanatory',
+            title: 'Test Learning Article',
+            content: 'Learning content',
+            wordCount: 600,
+            questions: [],
+            status: 'complete',
+            generatedAt: now - 2000,
+            completed: false,
+            attemptCount: 0,
+          },
+        ],
+      });
+
+      const { getByText, queryByText, getAllByText } = render(
+        <TestWrapper>
+          <Index />
+        </TestWrapper>
+      );
+
+      // Verify all content visible initially (All filter)
+      expect(getByText('Test Book')).toBeTruthy();
+      expect(getByText('Test Article')).toBeTruthy();
+      expect(getByText('Test Learning Article')).toBeTruthy();
+
+      // Filter by Books - should only show book
+      fireEvent.press(getByText('Books'));
+      expect(getByText('Test Book')).toBeTruthy();
+      expect(queryByText('Test Article')).toBeNull();
+      expect(queryByText('Test Learning Article')).toBeNull();
+
+      // Filter by Articles - should only show article
+      const articlesTexts = getAllByText('Articles');
+      fireEvent.press(articlesTexts[articlesTexts.length - 1]);
+      expect(queryByText('Test Book')).toBeNull();
+      expect(getByText('Test Article')).toBeTruthy();
+      expect(queryByText('Test Learning Article')).toBeNull();
+
+      // Filter by Learning - should only show learning content
+      fireEvent.press(getByText('Learning'));
+      expect(queryByText('Test Book')).toBeNull();
+      expect(queryByText('Test Article')).toBeNull();
+      expect(getByText('Test Learning Article')).toBeTruthy();
+
+      // Filter back to All - should show everything
+      fireEvent.press(getByText('All'));
+      expect(getByText('Test Book')).toBeTruthy();
+      expect(getByText('Test Article')).toBeTruthy();
+      expect(getByText('Test Learning Article')).toBeTruthy();
+    });
   });
 
   // ===========================================================================
