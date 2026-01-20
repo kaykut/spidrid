@@ -41,7 +41,7 @@ export function PremiumBadge({
       <MaterialCommunityIcons
         name="crown"
         size={size}
-        color={JOURNEY_COLORS.warmAccent}
+        color={JOURNEY_COLORS.premiumAccent}
       />
     </View>
   );

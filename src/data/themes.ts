@@ -11,8 +11,10 @@ export const JOURNEY_COLORS = {
   surfaceLight: '#2A2A2A',      // Borders, subtle divisions
 
   // Accents
-  accent: '#00D4AA',            // Electric teal - VS number, CTAs, interactive
-  warmAccent: '#FFB84D',        // Amber - achievements, milestones
+  // DEPRECATED: Use theme.accentColor from useTheme() hook for theme-aware components
+  // This constant is kept for backwards compatibility but may be removed in future versions
+  accent: '#E85D24',            // Burnt orange (dark theme) - DEPRECATED, use theme.accentColor
+  premiumAccent: '#FFB84D',     // Amber - premium badges, achievements, milestones
 
   // Text
   textPrimary: '#FFFFFF',       // Headlines, VS, primary content
@@ -44,8 +46,6 @@ export const COLOR_OPACITY = {
   successTint: '#34C75940',      // success @ 25% - quiz correct bg
   successSubtle: '#34C75960',    // success @ 38% - numeric range
   lowTint: '#FF6B6B40',          // low @ 25% - quiz incorrect bg
-  accentTint: '#00D4AA26',       // accent @ 15%
-  accentSubtle: '#00D4AA15',     // accent @ 8% - nav highlight
   certificationTint: '#9775fa4D', // certificationAccent @ 30% - certification card borders
 } as const;
 
@@ -78,61 +78,65 @@ export const themes: Record<string, Theme> = {
     id: 'dark',
     name: 'Dark',
     backgroundColor: '#0a0a0a',
-    textColor: '#ffffff',
+    textColor: '#F5F5F5',
     orpColor: '#ff6b6b',
     crosshairColor: '#333333',
-    accentColor: '#00D4AA',
+    accentColor: '#E85D24',
+    accentMuted: '#C75D3A',
     secondaryBackground: '#1a1a1a',
     secondaryBackgroundGradient: '#141414',
     trackColor: '#2a2a2a',
-    metaColor: '#8E8E93', // Muted gray for headers
-    textSecondaryColor: '#8E8E93',
+    metaColor: '#888888', // Muted gray for headers
+    textSecondaryColor: '#888888',
     background: '#0a0a0a',
   },
   midnight: {
     id: 'midnight',
     name: 'Midnight',
-    backgroundColor: '#1a1a2e',
-    textColor: '#eaeaea',
+    backgroundColor: '#0D1421',
+    textColor: '#E8EAF0',
     orpColor: '#e94560',
     crosshairColor: '#16213e',
-    accentColor: '#0f3460',
-    secondaryBackground: '#16213e',
+    accentColor: '#F06A2E',
+    accentMuted: '#B85A3A',
+    secondaryBackground: '#1A2333',
     secondaryBackgroundGradient: '#121b33',
     trackColor: '#1e2d4d',
-    metaColor: '#7878ab', // Muted purple-gray for headers
-    textSecondaryColor: '#7878ab',
-    background: '#1a1a2e',
+    metaColor: '#7A8599', // Muted blue-gray for headers
+    textSecondaryColor: '#7A8599',
+    background: '#0D1421',
   },
   sepia: {
     id: 'sepia',
     name: 'Sepia',
-    backgroundColor: '#f4ecd8',
-    textColor: '#5c4033',
+    backgroundColor: '#F5F0E6',
+    textColor: '#2C2416',
     orpColor: '#c41e3a', // Cardinal red - good contrast against brown text
     crosshairColor: '#d4c4a8',
-    accentColor: '#704214',
-    secondaryBackground: '#d9ceb8',
+    accentColor: '#C44D1A',
+    accentMuted: '#A65D3A',
+    secondaryBackground: '#FFFFFF',
     secondaryBackgroundGradient: '#cfc4ae',
     trackColor: '#c4b9a3',
-    metaColor: '#8b7355', // Muted brown for headers
-    textSecondaryColor: '#8b7355',
-    background: '#f4ecd8',
+    metaColor: '#7A7062', // Muted warm gray for headers
+    textSecondaryColor: '#7A7062',
+    background: '#F5F0E6',
   },
   light: {
     id: 'light',
     name: 'Light',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FAFAFA',
     textColor: '#1a1a1a',
     orpColor: '#dc3545',
     crosshairColor: '#e0e0e0',
-    accentColor: '#007bff',
-    secondaryBackground: '#e8e8e8',
+    accentColor: '#D4521A',
+    accentMuted: '#B86B4A',
+    secondaryBackground: '#FFFFFF',
     secondaryBackgroundGradient: '#dedede',
     trackColor: '#d0d0d0',
-    metaColor: '#636366', // Muted gray for headers
-    textSecondaryColor: '#636366',
-    background: '#ffffff',
+    metaColor: '#6B6B6B', // Muted gray for headers
+    textSecondaryColor: '#6B6B6B',
+    background: '#FAFAFA',
   },
 };
 

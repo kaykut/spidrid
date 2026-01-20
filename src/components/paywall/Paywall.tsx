@@ -95,7 +95,7 @@ export function Paywall({ visible, onClose, reason }: PaywallProps) {
 
           {/* Reason */}
           {reasonText ? (
-            <Text style={[styles.reason, { color: theme.orpColor }]}>
+            <Text style={[styles.reason, { color: JOURNEY_COLORS.low }]}>
               {reasonText}
             </Text>
           ) : null}
@@ -127,7 +127,7 @@ export function Paywall({ visible, onClose, reason }: PaywallProps) {
 
           {/* Error */}
           {error && (
-            <Text style={[styles.error, { color: theme.orpColor }]}>
+            <Text style={[styles.error, { color: JOURNEY_COLORS.low }]}>
               {error}
             </Text>
           )}

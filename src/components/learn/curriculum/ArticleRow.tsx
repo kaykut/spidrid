@@ -80,7 +80,7 @@ export function ArticleRow({ article, onPress }: Props) {
         <Ionicons
           name="alert-circle"
           size={20}
-          color="#ff6b6b"
+          color={JOURNEY_COLORS.low}
         />
       );
     }

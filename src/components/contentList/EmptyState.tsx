@@ -10,6 +10,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 
 interface EmptyStateProps {
@@ -53,9 +54,9 @@ export function EmptyState({ onAddContent }: EmptyStateProps) {
         <Ionicons
           name="add"
           size={SIZES.iconMd}
-          color={isDarkTheme ? '#000000' : '#ffffff'}
+          color={JOURNEY_COLORS.textPrimary}
         />
-        <Text style={[styles.buttonText, { color: isDarkTheme ? '#000000' : '#ffffff' }]}>
+        <Text style={[styles.buttonText, { color: JOURNEY_COLORS.textPrimary }]}>
           Get Started
         </Text>
       </TouchableOpacity>

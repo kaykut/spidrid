@@ -264,7 +264,7 @@ export default function CurriculumArticleScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.errorContainer}>
-          <Ionicons name="alert-circle" size={SIZES.iconHuge} color="#ff6b6b" />
+          <Ionicons name="alert-circle" size={SIZES.iconHuge} color={JOURNEY_COLORS.low} />
           <Text style={[styles.errorText, { color: theme.textColor, marginTop: SPACING.lg }]}>
             Generation Failed
           </Text>
@@ -360,7 +360,7 @@ export default function CurriculumArticleScreen() {
                     <Text
                       style={[
                         styles.resultValue,
-                        { color: finalScore >= 50 ? JOURNEY_COLORS.success : theme.orpColor },
+                        { color: finalScore >= 50 ? JOURNEY_COLORS.success : JOURNEY_COLORS.low },
                       ]}
                     >
                       {finalScore}%

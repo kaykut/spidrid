@@ -129,7 +129,7 @@ export function UnifiedProgressPath({
       <View key={`milestone-${index}`} style={styles.nodeColumn}>
         <GlowAnimation
           active={status === 'current'}
-          color={JOURNEY_COLORS.accent}
+          color={theme.accentColor}
           glowSize={8}
         >
           <Pressable
@@ -141,8 +141,8 @@ export function UnifiedProgressPath({
                 height: nodeSize,
                 borderRadius: nodeSize / 2,
               },
-              status === 'completed' && styles.nodeCompleted,
-              status === 'current' && [styles.nodeCurrent, SHADOWS.glow(JOURNEY_COLORS.accent)],
+              status === 'completed' && [styles.nodeCompleted, { backgroundColor: theme.accentColor }],
+              status === 'current' && [styles.nodeCurrent, { backgroundColor: theme.accentColor }, SHADOWS.glow(theme.accentColor)],
               status === 'future' && [styles.nodeFuture, { borderColor: theme.secondaryBackground }],
             ]}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -183,7 +183,7 @@ export function UnifiedProgressPath({
               style={[
                 styles.certStar,
                 certProgress[certTier].examUnlocked
-                  ? { color: JOURNEY_COLORS.warmAccent }
+                  ? { color: JOURNEY_COLORS.premiumAccent }
                   : { color: JOURNEY_COLORS.textTertiary },
                 certProgress[certTier].examPassed && styles.certStarEarned,
               ]}
@@ -206,7 +206,7 @@ export function UnifiedProgressPath({
       <View style={[styles.lineContainer, { left: lineOffset, right: lineOffset }]}>
         <View style={styles.lineBackground} />
         <LinearGradient
-          colors={[JOURNEY_COLORS.accent, JOURNEY_COLORS.accent]}
+          colors={[theme.accentColor, theme.accentColor]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={[styles.lineFilled, { width: `${progressPercent}%` }]}
@@ -290,10 +290,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nodeCompleted: {
-    backgroundColor: JOURNEY_COLORS.accent,
+    // backgroundColor applied inline with theme.accentColor
   },
   nodeCurrent: {
-    backgroundColor: JOURNEY_COLORS.accent,
+    // backgroundColor applied inline with theme.accentColor
   },
   nodeFuture: {
     backgroundColor: COLORS.transparent,

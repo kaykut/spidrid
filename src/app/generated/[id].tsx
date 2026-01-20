@@ -250,7 +250,7 @@ export default function GeneratedArticleScreen() {
                     <Text
                       style={[
                         styles.resultValue,
-                        { color: finalScore >= 50 ? JOURNEY_COLORS.success : theme.orpColor },
+                        { color: finalScore >= 50 ? JOURNEY_COLORS.success : JOURNEY_COLORS.low },
                       ]}
                     >
                       {finalScore}%

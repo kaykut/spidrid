@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { ChapterPauseInfo } from '../../types/playback';
 import { useTheme } from '../common/ThemeProvider';
 
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   continueText: {
     ...TYPOGRAPHY.button,
-    color: '#000000',
+    color: JOURNEY_COLORS.textPrimary,
     fontWeight: FONT_WEIGHTS.semibold,
   },
 });

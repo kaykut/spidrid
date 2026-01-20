@@ -115,7 +115,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress, isLast }: Mileston
     <View style={[styles.milestoneRow, isLast && styles.milestoneRowLast]}>
       {/* Node circle */}
       <View style={styles.nodeWrapper}>
-        <GlowAnimation active={isNext} color={JOURNEY_COLORS.accent} glowSize={6}>
+        <GlowAnimation active={isNext} color={theme.accentColor} glowSize={6}>
           <View
             style={[
               styles.node,
@@ -124,8 +124,8 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress, isLast }: Mileston
                 height: nodeSize,
                 borderRadius: nodeSize / 2,
               },
-              isCompleted && styles.nodeCompleted,
-              isNext && styles.nodeNext,
+              isCompleted && [styles.nodeCompleted, { backgroundColor: theme.accentColor }],
+              isNext && [styles.nodeNext, { backgroundColor: theme.accentColor }],
               !isCompleted && !isNext && [styles.nodeFuture, { backgroundColor: theme.secondaryBackground }],
             ]}
           >
@@ -163,7 +163,7 @@ function MilestoneRow({ state, avgWpm, avgComp, certProgress, isLast }: Mileston
               current={avgWpm}
               target={milestone.wpm}
               floor={prevMilestoneWpm}
-              color={JOURNEY_COLORS.accent}
+              color={theme.accentColor}
               trackColor={theme.trackColor}
             />
 
@@ -223,7 +223,7 @@ export function VerticalProgressPath({
       <View style={styles.lineContainer}>
         <View style={[styles.lineBackground, { backgroundColor: theme.trackColor }]} />
         <LinearGradient
-          colors={[JOURNEY_COLORS.accent, JOURNEY_COLORS.accent]}
+          colors={[theme.accentColor, theme.accentColor]}
           style={[styles.lineFilled, { height: lineHeight } as ViewStyle]}
         />
       </View>
@@ -322,10 +322,10 @@ const styles = StyleSheet.create({
     backgroundColor: JOURNEY_COLORS.surfaceLight,
   },
   nodeCompleted: {
-    backgroundColor: JOURNEY_COLORS.accent,
+    // backgroundColor applied inline with theme.accentColor
   },
   nodeNext: {
-    backgroundColor: JOURNEY_COLORS.accent,
+    // backgroundColor applied inline with theme.accentColor
   },
   nodeFuture: {
     backgroundColor: COLORS.transparent,

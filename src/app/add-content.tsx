@@ -192,13 +192,13 @@ export default function AddContentModal() {
               <View
                 style={[
                   styles.menuIconContainer,
-                  { backgroundColor: `${JOURNEY_COLORS.warmAccent}20` },
+                  { backgroundColor: `${JOURNEY_COLORS.premiumAccent}20` },
                 ]}
               >
                 <Ionicons
                   name="stopwatch-outline"
                   size={SIZES.iconLg}
-                  color={JOURNEY_COLORS.warmAccent}
+                  color={JOURNEY_COLORS.premiumAccent}
                 />
               </View>
               <View style={styles.menuTextContainer}>
