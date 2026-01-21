@@ -1,1 +1,17 @@
-{}
+{
+  "science_discovery": "Science & Discovery 🔬",
+  "health_medicine": "Health & Medicine ⚕️",
+  "history_civilization": "History & Civilization 🏛️",
+  "technology_internet": "Technology & Internet 💻",
+  "nature_wildlife": "Nature & Wildlife 🌿",
+  "climate_environment": "Climate & Environment 🌍",
+  "space_cosmos": "Space & Cosmos 🌌",
+  "psychology_mind": "Psychology & Mind 🧠",
+  "self_improvement": "Self-Improvement ✨",
+  "business_careers": "Business & Careers 💼",
+  "finance_investing": "Finance & Investing 📈",
+  "trivia_fun_facts": "Trivia & Fun Facts 🎯",
+  "world_travel": "World & Travel ✈️",
+  "arts_culture": "Arts & Culture 🎭",
+  "lifestyle_wellness": "Lifestyle & Wellness 🌸"
+}

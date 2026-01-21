@@ -1,0 +1,16 @@
+{
+  "default_title": "Czytanie",
+  "empty": {
+    "content_not_found": "Nie Znaleziono Treści",
+    "content_not_loaded": "Żądana treść nie mogła zostać załadowana."
+  },
+  "results": {
+    "complete": "Ukończono!",
+    "reading_speed": "Prędkość Czytania",
+    "words_read": "Przeczytane Słowa"
+  },
+  "controls": {
+    "play": "Odtwórz",
+    "pause": "Pauza"
+  }
+}

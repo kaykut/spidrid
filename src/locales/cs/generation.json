@@ -1,0 +1,56 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Fakt",
+    "fact_desc": "Jasné a vzdělávací",
+    "story": "Příběh",
+    "story_desc": "Poutavé vyprávění",
+    "analogy": "Podoby",
+    "analogy_desc": "Bohaté na srovnání"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Sousto",
+    "snack": "Svačina",
+    "meal": "Jídlo",
+    "feast": "Hostina"
+  },
+  "presets": {
+    "nugget": "Zrnko",
+    "primer": "Úvod",
+    "topic": "Téma",
+    "deep_dive": "Do hloubky"
+  },
+  "labels": {
+    "portion": "Porce",
+    "flavor": "Styl",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "O čem se chcete dozvědět více?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Upravit délku a tón",
+    "serve_it_up": "Podávejte",
+    "listening": "Poslouchám...",
+    "transcribing": "Přepisuji..."
+  },
+  "article_one": "{{count}} článek",
+  "article_few": "{{count}} články",
+  "article_many": "{{count}} článku",
+  "article_other": "{{count}} článků",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "{{portion}} porce (Premium funkce)",
+    "portion_hint_upgrade": "Přejděte na premium pro odemčení",
+    "portion_hint_select": "Vybrat {{portion}} porci",
+    "flavor_premium": "{{flavor}} styl (Premium funkce)",
+    "flavor_hint_select": "Vybrat {{flavor}} styl psaní"
+  }
+}

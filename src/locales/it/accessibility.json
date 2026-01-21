@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Chiudi",
+    "back": "Torna indietro"
+  },
+  "fabs": {
+    "profile": "Apri percorso e profilo",
+    "add_content": "Aggiungi nuovo contenuto"
+  },
+  "buttons": {
+    "close_button": "Chiudi",
+    "back_button": "Torna indietro"
+  }
+}

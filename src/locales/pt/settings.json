@@ -1,0 +1,35 @@
+{
+  "page_title": "Jornada & Configurações",
+  "sections": {
+    "theme": "Tema",
+    "your_info": "Suas Informações",
+    "reading": "Leitura",
+    "developer": "Desenvolvedor"
+  },
+  "themes": {
+    "dark": "Escuro",
+    "midnight": "Noite",
+    "sepia": "Sépia",
+    "light": "Claro"
+  },
+  "fonts": {
+    "system": "Sistema",
+    "serif": "Serif",
+    "round": "Arredondada",
+    "condensed": "Condensada",
+    "preview": "Prévia"
+  },
+  "user_info": {
+    "name_label": "Nome (para certificados)",
+    "name_placeholder": "Digite seu nome"
+  },
+  "reading": {
+    "paragraph_pause": "Pausa entre Parágrafos",
+    "paragraph_pause_desc": "Breve pausa entre parágrafos",
+    "move_to_history": "Mover para Histórico",
+    "move_to_history_desc": "Itens concluídos movem para Histórico"
+  },
+  "developer": {
+    "dev_tools": "Ferramentas Dev"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "page_title": "Viaje y Ajustes",
+  "sections": {
+    "theme": "Tema",
+    "your_info": "Tu Información",
+    "reading": "Lectura",
+    "developer": "Desarrollador"
+  },
+  "themes": {
+    "dark": "Oscuro",
+    "midnight": "Noche",
+    "sepia": "Sepia",
+    "light": "Claro"
+  },
+  "fonts": {
+    "system": "Sistema",
+    "serif": "Serif",
+    "round": "Redonda",
+    "condensed": "Condensada",
+    "preview": "Vista previa"
+  },
+  "user_info": {
+    "name_label": "Nombre (para certificados)",
+    "name_placeholder": "Ingresa tu nombre"
+  },
+  "reading": {
+    "paragraph_pause": "Pausa entre Párrafos",
+    "paragraph_pause_desc": "Breve pausa entre párrafos",
+    "move_to_history": "Mover al Historial",
+    "move_to_history_desc": "Los elementos completados se mueven al historial"
+  },
+  "developer": {
+    "dev_tools": "Herramientas de Desarrollo"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "tones": {
+    "fact": "Fakty",
+    "fact_desc": "Jasne i edukacyjne",
+    "story": "Historia",
+    "story_desc": "Narracyjne i wciągające",
+    "analogy": "Metafora",
+    "analogy_desc": "Bogate w porównania",
+    "auto": "Automat"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Łyk",
+    "snack": "Kęs",
+    "meal": "Danie",
+    "feast": "Uczta"
+  },
+  "presets": {
+    "nugget": "Ziarno",
+    "primer": "Podstawy",
+    "topic": "Temat",
+    "deep_dive": "Głębokie Zanurzenie"
+  },
+  "labels": {
+    "portion": "Porcja",
+    "flavor": "Styl",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Czego chcesz się nauczyć?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Dostosuj czas i ton",
+    "serve_it_up": "Podaj to",
+    "listening": "Słucham...",
+    "transcribing": "Transkrybuję..."
+  },
+  "article_one": "{{count}} artykuł",
+  "article_few": "{{count}} artykuły",
+  "article_many": "{{count}} artykułu",
+  "article_other": "{{count}} artykułów",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "Porcja {{portion}} (Funkcja Premium)",
+    "portion_hint_upgrade": "Przejdź na Premium, aby odblokować",
+    "portion_hint_select": "Wybierz porcję {{portion}}",
+    "flavor_premium": "Styl {{flavor}} (Funkcja Premium)",
+    "flavor_hint_select": "Wybierz styl pisania {{flavor}}"
+  }
+}

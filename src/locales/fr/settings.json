@@ -1,0 +1,35 @@
+{
+  "page_title": "Parcours & Paramètres",
+  "sections": {
+    "theme": "Thème",
+    "your_info": "Vos Informations",
+    "reading": "Lecture",
+    "developer": "Développeur"
+  },
+  "themes": {
+    "dark": "Sombre",
+    "midnight": "Nuit",
+    "sepia": "Sépia",
+    "light": "Clair"
+  },
+  "fonts": {
+    "system": "Système",
+    "serif": "Serif",
+    "round": "Arrondi",
+    "condensed": "Condensé",
+    "preview": "Aperçu"
+  },
+  "user_info": {
+    "name_label": "Nom (pour les certificats)",
+    "name_placeholder": "Entrez votre nom"
+  },
+  "reading": {
+    "paragraph_pause": "Pause Paragraphes",
+    "paragraph_pause_desc": "Brève pause entre les paragraphes",
+    "move_to_history": "Déplacer vers Historique",
+    "move_to_history_desc": "Les éléments terminés vont dans Historique"
+  },
+  "developer": {
+    "dev_tools": "Outils Dev"
+  }
+}

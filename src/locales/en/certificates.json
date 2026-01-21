@@ -1,1 +1,13 @@
-{}
+{
+  "template": {
+    "certificate_of_achievement": "Certificate of Achievement",
+    "reading_excellence": "Reading Excellence",
+    "presented_to": "This certificate is proudly presented to",
+    "exceptional_proficiency": "For demonstrating exceptional speed reading proficiency",
+    "reading_speed_achieved": "by achieving a reading speed of",
+    "date_achieved": "Date Achieved",
+    "certificate_id": "Certificate ID",
+    "verified_achievement": "Verified Achievement",
+    "default_name": "Speed Reader"
+  }
+}

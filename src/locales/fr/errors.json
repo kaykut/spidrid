@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Une erreur s'est produite",
+    "try_again": "Veuillez réessayer"
+  },
+  "network": {
+    "no_connection": "Pas de connexion internet",
+    "timeout": "Délai d'attente dépassé"
+  },
+  "content": {
+    "not_found": "Contenu introuvable",
+    "failed_to_load": "Échec du chargement du contenu"
+  }
+}

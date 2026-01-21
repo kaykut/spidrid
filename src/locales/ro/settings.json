@@ -1,0 +1,35 @@
+{
+  "page_title": "Parcurs și Setări",
+  "sections": {
+    "theme": "Temă",
+    "your_info": "Informațiile Tale",
+    "reading": "Citire",
+    "developer": "Dezvoltator"
+  },
+  "themes": {
+    "dark": "Închis",
+    "midnight": "Noapte",
+    "sepia": "Sepia",
+    "light": "Luminos"
+  },
+  "fonts": {
+    "system": "Sistem",
+    "serif": "Serif",
+    "round": "Rotund",
+    "condensed": "Condensat",
+    "preview": "Previzualizare"
+  },
+  "user_info": {
+    "name_label": "Nume (pentru certificate)",
+    "name_placeholder": "Introdu numele tău"
+  },
+  "reading": {
+    "paragraph_pause": "Pauză la Paragraf",
+    "paragraph_pause_desc": "Pauză scurtă între paragrafe",
+    "move_to_history": "Mută în Istoric",
+    "move_to_history_desc": "Elementele finalizate merg în Istoric"
+  },
+  "developer": {
+    "dev_tools": "Unelte Dev"
+  }
+}

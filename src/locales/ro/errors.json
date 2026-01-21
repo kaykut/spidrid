@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Ceva nu a funcționat",
+    "try_again": "Te rugăm să încerci din nou"
+  },
+  "network": {
+    "no_connection": "Fără conexiune la internet",
+    "timeout": "Cererea a expirat"
+  },
+  "content": {
+    "not_found": "Conținut negăsit",
+    "failed_to_load": "Nu s-a putut încărca conținutul"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Prestationsintyg",
+    "reading_excellence": "Läsexcellens",
+    "presented_to": "Detta certifikat överlämnas stolt till",
+    "exceptional_proficiency": "För att ha visat exceptionell skicklighet i snabbläsning",
+    "reading_speed_achieved": "genom att uppnå en läshastighet på",
+    "date_achieved": "Datum uppnått",
+    "certificate_id": "Certifikat-ID",
+    "verified_achievement": "Verifierad prestation",
+    "default_name": "Snabbläsare"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "app_name": "Devoro",
+  "loading": "Cargando...",
+  "not_available": "No disponible",
+  "actions": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "done": "Listo",
+    "continue": "Continuar",
+    "get_started": "Comenzar",
+    "import": "Importar",
+    "save_and_read": "Guardar y Leer"
+  },
+  "or": "o",
+  "wpm_suffix": "WPM"
+}

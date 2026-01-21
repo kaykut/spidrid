@@ -16,13 +16,13 @@ import enCertificates from '../../locales/en/certificates.json';
 import enCommon from '../../locales/en/common.json';
 import enConsumption from '../../locales/en/consumption.json';
 import enContent from '../../locales/en/content.json';
+import enErrors from '../../locales/en/errors.json';
 import enGeneration from '../../locales/en/generation.json';
 import enInterests from '../../locales/en/interests.json';
 import enPlayback from '../../locales/en/playback.json';
 import enQuiz from '../../locales/en/quiz.json';
 import enSettings from '../../locales/en/settings.json';
 import enSubscription from '../../locales/en/subscription.json';
-import enErrors from '../../locales/en/errors.json';
 import enTopics from '../../locales/en/topics.json';
 
 export const NAMESPACES = [

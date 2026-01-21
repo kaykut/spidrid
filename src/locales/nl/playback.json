@@ -1,0 +1,16 @@
+{
+  "default_title": "Lezen",
+  "empty": {
+    "content_not_found": "Inhoud Niet Gevonden",
+    "content_not_loaded": "De gevraagde inhoud kon niet worden geladen."
+  },
+  "results": {
+    "complete": "Voltooid!",
+    "reading_speed": "Leessnelheid",
+    "words_read": "Gelezen Woorden"
+  },
+  "controls": {
+    "play": "Afspelen",
+    "pause": "Pauzeren"
+  }
+}

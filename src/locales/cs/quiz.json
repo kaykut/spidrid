@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Kvíz porozumění",
+  "quiz_results": "Výsledky",
+  "quiz_only": "Kvíz",
+  "question_progress": "Otázka {{current}} z {{total}}",
+  "no_quiz_available": "Žádný kvíz",
+  "no_quiz_desc": "Tento obsah nemá otázky kvízu.",
+  "results": {
+    "complete": "Hotovo!",
+    "comprehension": "Porozumění",
+    "correct_answers": "Správné odpovědi",
+    "reading_speed": "Rychlost čtení",
+    "done": "Hotovo",
+    "retake": "Opakovat kvíz"
+  }
+}

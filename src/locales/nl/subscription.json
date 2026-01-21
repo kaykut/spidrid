@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Abonnement",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Gratis",
+  "max_wpm": "Max WPM",
+  "upgrade_to_premium": "Upgrade naar Premium",
+  "restore_purchases": "Aankopen Herstellen",
+  "paywall": {
+    "title": "Upgrade naar Premium",
+    "reason_wpm": "Gratis versie is beperkt tot {{wpm}} WPM",
+    "reason_generation": "Gratis versie is beperkt tot 3 AI-gegenereerde artikelen per dag"
+  },
+  "benefits": {
+    "max_wpm": "Lees tot {{wpm}} WPM",
+    "unlimited_generation": "Onbeperkt AI-artikelen genereren",
+    "all_topics": "Alle onderwerpen & curriculum",
+    "certificates": "Verdien snelheidscertificaten"
+  },
+  "actions": {
+    "subscribe_now": "Nu Abonneren"
+  },
+  "alerts": {
+    "purchase_failed": "Aankoop mislukt. Probeer het opnieuw.",
+    "no_purchases": "Geen eerdere aankopen gevonden.",
+    "restored_title": "Hersteld",
+    "restored_message": "Je aankopen zijn succesvol hersteld.",
+    "error_title": "Fout",
+    "no_purchases_title": "Geen Aankopen"
+  }
+}

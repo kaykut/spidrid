@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Něco se pokazilo",
+    "try_again": "Zkuste to prosím znovu"
+  },
+  "network": {
+    "no_connection": "Žádné internetové připojení",
+    "timeout": "Časový limit požadavku vypršel"
+  },
+  "content": {
+    "not_found": "Obsah nenalezen",
+    "failed_to_load": "Načtení obsahu selhalo"
+  }
+}

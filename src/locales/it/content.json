@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Nessun contenuto ancora",
+    "subtitle": "Aggiungi articoli, libri o genera contenuti di apprendimento per iniziare la lettura veloce."
+  },
+  "filters": {
+    "all": "Tutti",
+    "books": "Libri",
+    "articles": "Articoli",
+    "learning": "Apprendimento",
+    "training": "Allenamento"
+  }
+}

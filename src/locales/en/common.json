@@ -1,6 +1,17 @@
 {
   "app_name": "Devoro",
   "loading": "Loading...",
-  "cancel": "Cancel",
-  "confirm": "Confirm"
+  "not_available": "Not available",
+  "actions": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "done": "Done",
+    "continue": "Continue",
+    "get_started": "Get Started",
+    "import": "Import",
+    "save_and_read": "Save & Read"
+  },
+  "or": "or",
+  "wpm_suffix": "WPM"
 }

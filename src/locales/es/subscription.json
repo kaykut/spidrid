@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Suscripción",
+  "status": "Estado",
+  "status_premium": "Premium",
+  "status_free": "Gratis",
+  "max_wpm": "WPM Máximo",
+  "upgrade_to_premium": "Actualizar a Premium",
+  "restore_purchases": "Restaurar Compras",
+  "paywall": {
+    "title": "Actualizar a Premium",
+    "reason_wpm": "El nivel gratuito está limitado a {{wpm}} WPM",
+    "reason_generation": "El nivel gratuito está limitado a 3 artículos generados por IA al día"
+  },
+  "benefits": {
+    "max_wpm": "Lee hasta {{wpm}} WPM",
+    "unlimited_generation": "Generación ilimitada de artículos por IA",
+    "all_topics": "Todos los temas y plan de estudios",
+    "certificates": "Obtén certificados de velocidad"
+  },
+  "actions": {
+    "subscribe_now": "Suscribirse Ahora"
+  },
+  "alerts": {
+    "purchase_failed": "Compra fallida. Por favor intenta de nuevo.",
+    "no_purchases": "No se encontraron compras anteriores.",
+    "restored_title": "Restaurado",
+    "restored_message": "Tus compras han sido restauradas exitosamente.",
+    "error_title": "Error",
+    "no_purchases_title": "Sin Compras"
+  }
+}

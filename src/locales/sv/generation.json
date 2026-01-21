@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "fact": "Fakta",
+    "fact_desc": "Tydlig och pedagogisk",
+    "story": "Saga",
+    "story_desc": "Narrativ och engagerande",
+    "analogy": "Metafor",
+    "analogy_desc": "Rik på jämförelser",
+    "auto": "Auto"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Tugga",
+    "snack": "Snack",
+    "meal": "Måltid",
+    "feast": "Fest"
+  },
+  "presets": {
+    "nugget": "Nugget",
+    "primer": "Grund",
+    "topic": "Ämne",
+    "deep_dive": "Djupdykning"
+  },
+  "labels": {
+    "portion": "Portion",
+    "flavor": "Smak",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Vad vill du lära dig om?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Justera längd och ton",
+    "serve_it_up": "Servera",
+    "listening": "Lyssnar...",
+    "transcribing": "Transkriberar..."
+  },
+  "article_one": "{{count}} artikel",
+  "article_other": "{{count}} artiklar",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "{{portion}} portion (Premium-funktion)",
+    "portion_hint_upgrade": "Uppgradera till premium för att låsa upp",
+    "portion_hint_select": "Välj {{portion}} portion",
+    "flavor_premium": "{{flavor}} smak (Premium-funktion)",
+    "flavor_hint_select": "Välj {{flavor}} skrivstil"
+  }
+}

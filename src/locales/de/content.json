@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Noch kein Inhalt",
+    "subtitle": "Füge Artikel, Bücher hinzu oder generiere Lerninhalte, um mit dem Speed Reading zu beginnen."
+  },
+  "filters": {
+    "all": "Alle",
+    "books": "Bücher",
+    "articles": "Artikel",
+    "learning": "Lernen",
+    "training": "Training"
+  }
+}

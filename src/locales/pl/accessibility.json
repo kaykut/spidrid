@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Zamknij",
+    "back": "Wróć"
+  },
+  "fabs": {
+    "profile": "Otwórz postępy i profil",
+    "add_content": "Dodaj nową treść"
+  },
+  "buttons": {
+    "close_button": "Zamknij",
+    "back_button": "Wróć"
+  }
+}

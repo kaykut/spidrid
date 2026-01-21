@@ -1,0 +1,31 @@
+{
+  "page_title": "Nieuwe Inhoud",
+  "practice": {
+    "title": "Oefenen",
+    "desc": "Kies uit vooraf gegenereerde inhoud om snellezen te oefenen"
+  },
+  "read": {
+    "title": "Lezen",
+    "desc": "Snellees je eigen artikelen of boeken van PDF's, EPUB's of links",
+    "options": {
+      "webpage": "Een webpagina",
+      "text": "Platte Tekst",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Voer URL in (bijv. https://example.com/article)",
+      "text": "Plak je tekst hier..."
+    }
+  },
+  "learn": {
+    "title": "Leren",
+    "desc": "Genereer artikelen over onderwerpen die je wilt beheersen"
+  },
+  "errors": {
+    "import_failed": "Importeren Mislukt",
+    "extract_url": "Kon inhoud niet uit URL extraheren",
+    "process_text": "Kon tekst niet verwerken",
+    "extract_content": "Kon inhoud niet extraheren",
+    "pick_document": "Kon document niet selecteren"
+  }
+}

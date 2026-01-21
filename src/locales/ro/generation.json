@@ -1,0 +1,55 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Fapt",
+    "fact_desc": "Clar și educativ",
+    "story": "Poveste",
+    "story_desc": "Narativ și captivant",
+    "analogy": "Analog",
+    "analogy_desc": "Bogat în comparații"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Gură",
+    "snack": "Gustare",
+    "meal": "Masă",
+    "feast": "Ospăț"
+  },
+  "presets": {
+    "nugget": "Nugget",
+    "primer": "Inițiere",
+    "topic": "Subiect",
+    "deep_dive": "Aprofundare"
+  },
+  "labels": {
+    "portion": "Porție",
+    "flavor": "Aromă",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Despre ce vrei să înveți?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Ajustează durata și tonul",
+    "serve_it_up": "Servește",
+    "listening": "Ascult...",
+    "transcribing": "Transcriu..."
+  },
+  "article_one": "{{count}} articol",
+  "article_few": "{{count}} articole",
+  "article_other": "{{count}} de articole",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "Porție {{portion}} (funcție Premium)",
+    "portion_hint_upgrade": "Treci la premium pentru a debloca",
+    "portion_hint_select": "Selectează porția {{portion}}",
+    "flavor_premium": "Aromă {{flavor}} (funcție Premium)",
+    "flavor_hint_select": "Selectează stilul {{flavor}}"
+  }
+}

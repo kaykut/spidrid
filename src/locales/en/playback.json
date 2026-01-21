@@ -1,1 +1,16 @@
-{}
+{
+  "default_title": "Reading",
+  "empty": {
+    "content_not_found": "Content Not Found",
+    "content_not_loaded": "The requested content could not be loaded."
+  },
+  "results": {
+    "complete": "Complete!",
+    "reading_speed": "Reading Speed",
+    "words_read": "Words Read"
+  },
+  "controls": {
+    "play": "Play",
+    "pause": "Pause"
+  }
+}

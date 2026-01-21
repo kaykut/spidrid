@@ -1,0 +1,35 @@
+{
+  "page_title": "Percorso & Impostazioni",
+  "sections": {
+    "theme": "Tema",
+    "your_info": "Tue Info",
+    "reading": "Lettura",
+    "developer": "Sviluppatore"
+  },
+  "themes": {
+    "dark": "Scuro",
+    "midnight": "Notte",
+    "sepia": "Seppia",
+    "light": "Chiaro"
+  },
+  "fonts": {
+    "system": "Sistema",
+    "serif": "Serif",
+    "round": "Tondo",
+    "condensed": "Stretto",
+    "preview": "Anteprima"
+  },
+  "user_info": {
+    "name_label": "Nome (per i certificati)",
+    "name_placeholder": "Inserisci il tuo nome"
+  },
+  "reading": {
+    "paragraph_pause": "Pausa Paragrafo",
+    "paragraph_pause_desc": "Breve pausa tra i paragrafi",
+    "move_to_history": "Sposta in Cronologia",
+    "move_to_history_desc": "Gli elementi completati vanno in Cronologia"
+  },
+  "developer": {
+    "dev_tools": "Strumenti Dev"
+  }
+}

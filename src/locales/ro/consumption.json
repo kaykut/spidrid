@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Citire"
+  },
+  "import": {
+    "importing": "Se importă...",
+    "processing": "Se procesează conținutul..."
+  }
+}

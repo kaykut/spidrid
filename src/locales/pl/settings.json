@@ -1,0 +1,35 @@
+{
+  "page_title": "Postępy i Ustawienia",
+  "sections": {
+    "theme": "Motyw",
+    "your_info": "Twoje Dane",
+    "reading": "Czytanie",
+    "developer": "Deweloper"
+  },
+  "themes": {
+    "dark": "Ciemny",
+    "midnight": "Północ",
+    "sepia": "Sepia",
+    "light": "Jasny"
+  },
+  "fonts": {
+    "system": "Systemowa",
+    "serif": "Szeryfowa",
+    "round": "Zaokrąglona",
+    "condensed": "Wąska",
+    "preview": "Podgląd"
+  },
+  "user_info": {
+    "name_label": "Imię (do certyfikatów)",
+    "name_placeholder": "Wpisz swoje imię"
+  },
+  "reading": {
+    "paragraph_pause": "Pauza Akapitowa",
+    "paragraph_pause_desc": "Krótka przerwa między akapitami",
+    "move_to_history": "Przenieś do Historii",
+    "move_to_history_desc": "Ukończone elementy przechodzą do Historii"
+  },
+  "developer": {
+    "dev_tools": "Narzędzia Dev"
+  }
+}

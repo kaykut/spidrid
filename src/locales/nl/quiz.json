@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Begrijpingsquiz",
+  "quiz_results": "Resultaten",
+  "quiz_only": "Quiz",
+  "question_progress": "Vraag {{current}} van {{total}}",
+  "no_quiz_available": "Geen Quiz Beschikbaar",
+  "no_quiz_desc": "Deze inhoud heeft geen quizvragen.",
+  "results": {
+    "complete": "Voltooid!",
+    "comprehension": "Begrip",
+    "correct_answers": "Juiste Antwoorden",
+    "reading_speed": "Leessnelheid",
+    "done": "Klaar",
+    "retake": "Quiz Opnieuw"
+  }
+}

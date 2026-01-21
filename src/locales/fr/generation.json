@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "fact": "Fait",
+    "fact_desc": "Clair et éducatif",
+    "story": "Récit",
+    "story_desc": "Narratif et captivant",
+    "analogy": "Image",
+    "analogy_desc": "Riche en comparaisons",
+    "auto": "Auto"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Bouchée",
+    "snack": "Snack",
+    "meal": "Repas",
+    "feast": "Festin"
+  },
+  "presets": {
+    "nugget": "Pépite",
+    "primer": "Initiation",
+    "topic": "Sujet",
+    "deep_dive": "Approfondi"
+  },
+  "labels": {
+    "portion": "Portion",
+    "flavor": "Style",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Qu'aimeriez-vous apprendre ?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Ajuster la durée et le ton",
+    "serve_it_up": "Servir",
+    "listening": "Écoute...",
+    "transcribing": "Transcription..."
+  },
+  "article_one": "{{count}} article",
+  "article_other": "{{count}} articles",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "Portion {{portion}} (Fonctionnalité Premium)",
+    "portion_hint_upgrade": "Passez à Premium pour déverrouiller",
+    "portion_hint_select": "Sélectionner la portion {{portion}}",
+    "flavor_premium": "Style {{flavor}} (Fonctionnalité Premium)",
+    "flavor_hint_select": "Sélectionner le style {{flavor}}"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certificaat van Prestatie",
+    "reading_excellence": "Lees Excellentie",
+    "presented_to": "Dit certificaat wordt met trots uitgereikt aan",
+    "exceptional_proficiency": "Voor het tonen van uitzonderlijke snelleesbekwaamheid",
+    "reading_speed_achieved": "door het behalen van een leessnelheid van",
+    "date_achieved": "Datum Behaald",
+    "certificate_id": "Certificaat ID",
+    "verified_achievement": "Geverifieerde Prestatie",
+    "default_name": "Snellezer"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Zatím žádný obsah",
+    "subtitle": "Přidejte články, knihy nebo vygenerujte vzdělávací obsah pro rychlé čtení."
+  },
+  "filters": {
+    "all": "Vše",
+    "books": "Knihy",
+    "articles": "Články",
+    "learning": "Učení",
+    "training": "Trénink"
+  }
+}

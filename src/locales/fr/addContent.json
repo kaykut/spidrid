@@ -1,0 +1,31 @@
+{
+  "page_title": "Nouveau Contenu",
+  "practice": {
+    "title": "S'entraîner",
+    "desc": "Choisissez parmi du contenu prégénéré pour pratiquer la lecture rapide"
+  },
+  "read": {
+    "title": "Lire",
+    "desc": "Lisez rapidement vos propres articles ou livres depuis PDFs, EPUBs ou liens",
+    "options": {
+      "webpage": "Une page web",
+      "text": "Texte Brut",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Entrez l'URL (ex. https://example.com/article)",
+      "text": "Collez votre texte ici..."
+    }
+  },
+  "learn": {
+    "title": "Apprendre",
+    "desc": "Générez des articles sur les sujets que vous voulez maîtriser"
+  },
+  "errors": {
+    "import_failed": "Échec de l'Importation",
+    "extract_url": "Impossible d'extraire le contenu de l'URL",
+    "process_text": "Impossible de traiter le texte",
+    "extract_content": "Impossible d'extraire le contenu",
+    "pick_document": "Échec de la sélection du document"
+  }
+}

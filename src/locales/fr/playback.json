@@ -1,0 +1,16 @@
+{
+  "default_title": "Lecture",
+  "empty": {
+    "content_not_found": "Contenu Introuvable",
+    "content_not_loaded": "Le contenu demandé n'a pas pu être chargé."
+  },
+  "results": {
+    "complete": "Terminé !",
+    "reading_speed": "Vitesse de Lecture",
+    "words_read": "Mots Lus"
+  },
+  "controls": {
+    "play": "Lecture",
+    "pause": "Pause"
+  }
+}

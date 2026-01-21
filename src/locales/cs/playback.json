@@ -1,0 +1,16 @@
+{
+  "default_title": "Čtení",
+  "empty": {
+    "content_not_found": "Obsah nenalezen",
+    "content_not_loaded": "Požadovaný obsah se nepodařilo načíst."
+  },
+  "results": {
+    "complete": "Hotovo!",
+    "reading_speed": "Rychlost čtení",
+    "words_read": "Přečtených slov"
+  },
+  "controls": {
+    "play": "Přehrát",
+    "pause": "Pauza"
+  }
+}

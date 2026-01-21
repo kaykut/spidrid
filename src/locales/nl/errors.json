@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Er ging iets mis",
+    "try_again": "Probeer het opnieuw"
+  },
+  "network": {
+    "no_connection": "Geen internetverbinding",
+    "timeout": "Verzoek verlopen"
+  },
+  "content": {
+    "not_found": "Inhoud niet gevonden",
+    "failed_to_load": "Kon inhoud niet laden"
+  }
+}

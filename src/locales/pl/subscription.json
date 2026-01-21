@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Subskrypcja",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Darmowy",
+  "max_wpm": "Maks. WPM",
+  "upgrade_to_premium": "Przejdź na Premium",
+  "restore_purchases": "Przywróć Zakupy",
+  "paywall": {
+    "title": "Przejdź na Premium",
+    "reason_wpm": "Darmowy plan jest ograniczony do {{wpm}} WPM",
+    "reason_generation": "Darmowy plan jest ograniczony do 3 artykułów AI dziennie"
+  },
+  "benefits": {
+    "max_wpm": "Czytaj do {{wpm}} WPM",
+    "unlimited_generation": "Nieograniczone generowanie artykułów AI",
+    "all_topics": "Wszystkie tematy i program",
+    "certificates": "Zdobywaj certyfikaty prędkości"
+  },
+  "actions": {
+    "subscribe_now": "Subskrybuj Teraz"
+  },
+  "alerts": {
+    "purchase_failed": "Zakup nie powiódł się. Spróbuj ponownie.",
+    "no_purchases": "Nie znaleziono wcześniejszych zakupów.",
+    "restored_title": "Przywrócono",
+    "restored_message": "Twoje zakupy zostały pomyślnie przywrócone.",
+    "error_title": "Błąd",
+    "no_purchases_title": "Brak Zakupów"
+  }
+}

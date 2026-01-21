@@ -1,0 +1,35 @@
+{
+  "page_title": "Resa & Inställningar",
+  "sections": {
+    "theme": "Tema",
+    "your_info": "Din info",
+    "reading": "Läsning",
+    "developer": "Utvecklare"
+  },
+  "themes": {
+    "dark": "Mörk",
+    "midnight": "Midnatt",
+    "sepia": "Sepia",
+    "light": "Ljus"
+  },
+  "fonts": {
+    "system": "System",
+    "serif": "Serif",
+    "round": "Rund",
+    "condensed": "Komprimerad",
+    "preview": "Förhandsgranska"
+  },
+  "user_info": {
+    "name_label": "Namn (för certifikat)",
+    "name_placeholder": "Ange ditt namn"
+  },
+  "reading": {
+    "paragraph_pause": "Stycke-paus",
+    "paragraph_pause_desc": "Kort paus mellan stycken",
+    "move_to_history": "Flytta till historik",
+    "move_to_history_desc": "Färdiga objekt flyttas till historik"
+  },
+  "developer": {
+    "dev_tools": "Utvecklarverktyg"
+  }
+}

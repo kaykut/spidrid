@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Verständnistest",
+  "quiz_results": "Ergebnisse",
+  "quiz_only": "Quiz",
+  "question_progress": "Frage {{current}} von {{total}}",
+  "no_quiz_available": "Kein Quiz verfügbar",
+  "no_quiz_desc": "Dieser Inhalt hat keine Quizfragen.",
+  "results": {
+    "complete": "Fertig!",
+    "comprehension": "Verständnis",
+    "correct_answers": "Richtige Antworten",
+    "reading_speed": "Lesegeschwindigkeit",
+    "done": "Fertig",
+    "retake": "Quiz wiederholen"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certifikát úspěchu",
+    "reading_excellence": "Excelence ve čtení",
+    "presented_to": "Tento certifikát je s hrdostí udělován",
+    "exceptional_proficiency": "Za prokázání výjimečné dovednosti v rychlém čtení",
+    "reading_speed_achieved": "dosažením rychlosti čtení",
+    "date_achieved": "Datum dosažení",
+    "certificate_id": "ID certifikátu",
+    "verified_achievement": "Ověřený úspěch",
+    "default_name": "Rychločtenář"
+  }
+}

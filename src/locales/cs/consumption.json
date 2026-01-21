@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Čtení"
+  },
+  "import": {
+    "importing": "Importuji...",
+    "processing": "Zpracovávám obsah..."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "default_title": "Läser",
+  "empty": {
+    "content_not_found": "Innehåll hittades inte",
+    "content_not_loaded": "Det begärda innehållet kunde inte laddas."
+  },
+  "results": {
+    "complete": "Klart!",
+    "reading_speed": "Läshastighet",
+    "words_read": "Ord lästa"
+  },
+  "controls": {
+    "play": "Spela",
+    "pause": "Pausa"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Abonnement",
+  "status": "Statut",
+  "status_premium": "Premium",
+  "status_free": "Gratuit",
+  "max_wpm": "WPM Max",
+  "upgrade_to_premium": "Passer à Premium",
+  "restore_purchases": "Restaurer les Achats",
+  "paywall": {
+    "title": "Passer à Premium",
+    "reason_wpm": "La version gratuite est limitée à {{wpm}} WPM",
+    "reason_generation": "La version gratuite est limitée à 3 articles générés par IA par jour"
+  },
+  "benefits": {
+    "max_wpm": "Lisez jusqu'à {{wpm}} WPM",
+    "unlimited_generation": "Génération illimitée d'articles IA",
+    "all_topics": "Tous les sujets & curriculum",
+    "certificates": "Obtenez des certificats de vitesse"
+  },
+  "actions": {
+    "subscribe_now": "S'abonner Maintenant"
+  },
+  "alerts": {
+    "purchase_failed": "Échec de l'achat. Veuillez réessayer.",
+    "no_purchases": "Aucun achat précédent trouvé.",
+    "restored_title": "Restauré",
+    "restored_message": "Vos achats ont été restaurés avec succès.",
+    "error_title": "Erreur",
+    "no_purchases_title": "Aucun Achat"
+  }
+}

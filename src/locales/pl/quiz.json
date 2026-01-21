@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Test Zrozumienia",
+  "quiz_results": "Wyniki",
+  "quiz_only": "Test",
+  "question_progress": "Pytanie {{current}} z {{total}}",
+  "no_quiz_available": "Brak Dostępnego Testu",
+  "no_quiz_desc": "Ta treść nie zawiera pytań testowych.",
+  "results": {
+    "complete": "Ukończono!",
+    "comprehension": "Zrozumienie",
+    "correct_answers": "Poprawne Odpowiedzi",
+    "reading_speed": "Prędkość Czytania",
+    "done": "Gotowe",
+    "retake": "Powtórz Test"
+  }
+}

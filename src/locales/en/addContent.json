@@ -1,1 +1,31 @@
-{}
+{
+  "page_title": "New Content",
+  "practice": {
+    "title": "Practice",
+    "desc": "Choose from pre-generated content to practice speed reading"
+  },
+  "read": {
+    "title": "Read",
+    "desc": "Speed read your own articles or books from PDFs, EPUBs, or links",
+    "options": {
+      "webpage": "A webpage",
+      "text": "Plain Text",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Enter URL (e.g., https://example.com/article)",
+      "text": "Paste your text here..."
+    }
+  },
+  "learn": {
+    "title": "Learn",
+    "desc": "Generate articles on topics you want to master"
+  },
+  "errors": {
+    "import_failed": "Import Failed",
+    "extract_url": "Could not extract content from URL",
+    "process_text": "Could not process text",
+    "extract_content": "Could not extract content",
+    "pick_document": "Failed to pick document"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Niciun conținut încă",
+    "subtitle": "Adaugă articole, cărți sau generează conținut educațional pentru a începe cititul rapid."
+  },
+  "filters": {
+    "all": "Toate",
+    "books": "Cărți",
+    "articles": "Articole",
+    "learning": "Educație",
+    "training": "Antrenament"
+  }
+}

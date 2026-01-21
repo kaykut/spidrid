@@ -1,0 +1,31 @@
+{
+  "page_title": "Neuer Inhalt",
+  "practice": {
+    "title": "Üben",
+    "desc": "Wähle aus vorgefertigten Inhalten zum Speed-Reading-Training"
+  },
+  "read": {
+    "title": "Lesen",
+    "desc": "Lies deine eigenen Artikel oder Bücher aus PDFs, EPUBs oder Links",
+    "options": {
+      "webpage": "Eine Webseite",
+      "text": "Einfacher Text",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "URL eingeben (z.B. https://example.com/artikel)",
+      "text": "Füge deinen Text hier ein..."
+    }
+  },
+  "learn": {
+    "title": "Lernen",
+    "desc": "Generiere Artikel über Themen, die du meistern möchtest"
+  },
+  "errors": {
+    "import_failed": "Import fehlgeschlagen",
+    "extract_url": "Konnte Inhalt von URL nicht extrahieren",
+    "process_text": "Konnte Text nicht verarbeiten",
+    "extract_content": "Konnte Inhalt nicht extrahieren",
+    "pick_document": "Dokumentauswahl fehlgeschlagen"
+  }
+}

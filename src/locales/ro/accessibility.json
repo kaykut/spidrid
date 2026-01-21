@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Închide",
+    "back": "Înapoi"
+  },
+  "fabs": {
+    "profile": "Deschide parcursul și profilul",
+    "add_content": "Adaugă conținut nou"
+  },
+  "buttons": {
+    "close_button": "Închide",
+    "back_button": "Înapoi"
+  }
+}

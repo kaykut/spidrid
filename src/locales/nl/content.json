@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Nog geen inhoud",
+    "subtitle": "Voeg artikelen, boeken toe of genereer leerinhoud om aan de slag te gaan met snellezen."
+  },
+  "filters": {
+    "all": "Alle",
+    "books": "Boeken",
+    "articles": "Artikelen",
+    "learning": "Leren",
+    "training": "Training"
+  }
+}

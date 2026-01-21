@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Fechar",
+    "back": "Voltar"
+  },
+  "fabs": {
+    "profile": "Abrir jornada e perfil",
+    "add_content": "Adicionar novo conteúdo"
+  },
+  "buttons": {
+    "close_button": "Fechar",
+    "back_button": "Voltar"
+  }
+}

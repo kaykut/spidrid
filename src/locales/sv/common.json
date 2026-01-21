@@ -1,0 +1,17 @@
+{
+  "app_name": "Devoro",
+  "loading": "Laddar...",
+  "not_available": "Ej tillgänglig",
+  "actions": {
+    "cancel": "Avbryt",
+    "confirm": "Bekräfta",
+    "close": "Stäng",
+    "done": "Klar",
+    "continue": "Fortsätt",
+    "get_started": "Kom igång",
+    "import": "Importera",
+    "save_and_read": "Spara & Läs"
+  },
+  "or": "eller",
+  "wpm_suffix": "WPM"
+}

@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Läser"
+  },
+  "import": {
+    "importing": "Importerar...",
+    "processing": "Bearbetar innehåll..."
+  }
+}

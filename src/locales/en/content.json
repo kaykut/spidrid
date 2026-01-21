@@ -1,1 +1,13 @@
-{}
+{
+  "empty": {
+    "title": "No content yet",
+    "subtitle": "Add articles, books, or generate learning content to get started with speed reading."
+  },
+  "filters": {
+    "all": "All",
+    "books": "Books",
+    "articles": "Articles",
+    "learning": "Learning",
+    "training": "Training"
+  }
+}

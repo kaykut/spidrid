@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Abonnement",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Kostenlos",
+  "max_wpm": "Max. WPM",
+  "upgrade_to_premium": "Auf Premium upgraden",
+  "restore_purchases": "Käufe wiederherstellen",
+  "paywall": {
+    "title": "Auf Premium upgraden",
+    "reason_wpm": "Kostenlose Version ist auf {{wpm}} WPM begrenzt",
+    "reason_generation": "Kostenlose Version ist auf 3 KI-generierte Artikel pro Tag begrenzt"
+  },
+  "benefits": {
+    "max_wpm": "Lesen bis zu {{wpm}} WPM",
+    "unlimited_generation": "Unbegrenzte KI-Artikelgenerierung",
+    "all_topics": "Alle Themen & Lehrplan",
+    "certificates": "Schnelligkeitszertifikate verdienen"
+  },
+  "actions": {
+    "subscribe_now": "Jetzt abonnieren"
+  },
+  "alerts": {
+    "purchase_failed": "Kauf fehlgeschlagen. Bitte erneut versuchen.",
+    "no_purchases": "Keine früheren Käufe gefunden.",
+    "restored_title": "Wiederhergestellt",
+    "restored_message": "Deine Käufe wurden erfolgreich wiederhergestellt.",
+    "error_title": "Fehler",
+    "no_purchases_title": "Keine Käufe"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "default_title": "Citire",
+  "empty": {
+    "content_not_found": "Conținut Negăsit",
+    "content_not_loaded": "Conținutul solicitat nu a putut fi încărcat."
+  },
+  "results": {
+    "complete": "Complet!",
+    "reading_speed": "Viteză de Citire",
+    "words_read": "Cuvinte Citite"
+  },
+  "controls": {
+    "play": "Redare",
+    "pause": "Pauză"
+  }
+}
