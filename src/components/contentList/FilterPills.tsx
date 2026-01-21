@@ -9,8 +9,8 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
 import { SPRING_CONFIG } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { ContentCategory } from '../../types/contentList';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { ContentCategory } from '../../types/contentList';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 

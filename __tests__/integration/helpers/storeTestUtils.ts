@@ -13,6 +13,7 @@ import { useCurriculumStore } from '../../../src/store/curriculumStore';
 import { useLearningStore } from '../../../src/store/learningStore';
 import { useJourneyStore } from '../../../src/store/journeyStore';
 import { useSettingsStore } from '../../../src/store/settingsStore';
+import { useLocaleStore } from '../../../src/store/localeStore';
 import { resetSyncState } from '../../../src/services/syncOrchestrator';
 import { ImportedContent } from '../../../src/types/content';
 import { GeneratedArticle } from '../../../src/types/generated';
@@ -103,6 +104,12 @@ export function resetAllStores(): void {
     readingLanguage: 'en',
     paragraphPauseEnabled: true,
     moveFinishedToHistory: false,
+  });
+
+  // Reset locale store
+  useLocaleStore.setState({
+    currentLocale: 'en',
+    isInitialized: false,
   });
 
   // Reset sync orchestrator state

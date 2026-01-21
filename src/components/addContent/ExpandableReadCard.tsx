@@ -18,9 +18,9 @@ import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
-import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
 import { useContentStore } from '../../store/contentStore';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
 import { usePdfExtractor } from '../PdfExtractorProvider';
 
