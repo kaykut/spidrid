@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../components/controls/PlaybackControls';
-import { Paywall } from '../../components/paywall/Paywall';
 import { RSVPWord } from '../../components/rsvp/RSVPWord';
 import { SPACING, COMPONENT_SPACING, space, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
@@ -15,7 +14,6 @@ const DEMO_TEXT = `The quick brown fox jumps over the lazy dog. This sentence co
 
 export default function DemoReaderScreen() {
   const { theme } = useTheme();
-  const [showPaywall, setShowPaywall] = useState(false);
 
   const words = useMemo(() => {
     return processText(DEMO_TEXT);
@@ -24,12 +22,6 @@ export default function DemoReaderScreen() {
   const engine = useRSVPEngine(words, 250);
 
   return (
-    <>
-    <Paywall
-      visible={showPaywall}
-      onClose={() => setShowPaywall(false)}
-      reason="wpm_limit"
-    />
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       {/* Header */}
       <View style={styles.header}>
@@ -56,7 +48,7 @@ export default function DemoReaderScreen() {
         onWPMChange={engine.setWPM}
         onRewind={engine.rewindSentence}
         onSkip={engine.skipSentence}
-        onWPMLimitHit={() => setShowPaywall(true)}
+        onWPMLimitHit={() => router.push({ pathname: '/paywall', params: { trigger: 'wpm_limit' } })}
       />
 
       {/* Instructions */}
@@ -67,7 +59,6 @@ export default function DemoReaderScreen() {
         </Text>
       </View>
     </SafeAreaView>
-    </>
   );
 }
 

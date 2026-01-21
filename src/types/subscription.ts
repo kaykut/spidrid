@@ -13,8 +13,9 @@ export interface PurchaseOffering {
 
 // Free tier limits as constants
 export const FREE_TIER_LIMITS = {
-  MAX_CONTENT: 5,
+  MAX_CONTENT: 2,
   MAX_WPM: 450,
+  DAILY_ARTICLES: 2, // Alias for clarity
 } as const;
 
 export const PREMIUM_LIMITS = {

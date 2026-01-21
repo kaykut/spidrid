@@ -31,7 +31,6 @@ import { MetricsPanel } from '../components/journey/MetricsPanel';
 import { SmartQueue } from '../components/journey/SmartQueue';
 import { UnifiedProgressPath } from '../components/journey/UnifiedProgressPath';
 import { UpNextCard } from '../components/journey/UpNextCard';
-import { Paywall } from '../components/paywall/Paywall';
 import { MultipleSelectQuestion } from '../components/quiz/MultipleSelectQuestion';
 import { NumericQuestion } from '../components/quiz/NumericQuestion';
 import { SingleChoiceQuestion } from '../components/quiz/SingleChoiceQuestion';
@@ -280,7 +279,6 @@ export default function TestingScreen() {
   const [showNewCertificate, setShowNewCertificate] = useState(false);
   const [showCertificationEarned, setShowCertificationEarned] = useState(false);
   const [showCertificationReady, setShowCertificationReady] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
 
   // Interactive states
   const [isPlaying, setIsPlaying] = useState(false);
@@ -641,14 +639,20 @@ export default function TestingScreen() {
         {/* ============================================================ */}
 
         <ComponentSection
-          filename="src/components/paywall/Paywall.tsx"
-          componentName="Paywall"
+          filename="src/app/paywall.tsx"
+          componentName="Paywall Route"
         >
-          <ModalToggle label="Show Paywall" onPress={() => setShowPaywall(true)} />
-          <Paywall
-            visible={showPaywall}
-            onClose={() => setShowPaywall(false)}
-            reason="wpm_limit"
+          <ModalToggle
+            label="Show Paywall (upgrade)"
+            onPress={() => router.push({ pathname: '/paywall', params: { trigger: 'upgrade' } })}
+          />
+          <ModalToggle
+            label="Show Paywall (wpm_limit)"
+            onPress={() => router.push({ pathname: '/paywall', params: { trigger: 'wpm_limit' } })}
+          />
+          <ModalToggle
+            label="Show Paywall (daily_limit)"
+            onPress={() => router.push({ pathname: '/paywall', params: { trigger: 'daily_limit' } })}
           />
         </ComponentSection>
 

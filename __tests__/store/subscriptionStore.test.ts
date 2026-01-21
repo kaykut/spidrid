@@ -619,8 +619,8 @@ describe('subscriptionStore', () => {
   });
 
   describe('constants validation', () => {
-    it('FREE_TIER_LIMITS.MAX_CONTENT is 5', () => {
-      expect(FREE_TIER_LIMITS.MAX_CONTENT).toBe(5);
+    it('FREE_TIER_LIMITS.MAX_CONTENT is 2', () => {
+      expect(FREE_TIER_LIMITS.MAX_CONTENT).toBe(2);
     });
 
     it('FREE_TIER_LIMITS.MAX_WPM is 450', () => {

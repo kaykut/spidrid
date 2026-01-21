@@ -19,7 +19,6 @@ import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { useTheme } from '../common/ThemeProvider';
 import { GenerateArticleModal, GeneratedArticleCard } from '../learn';
 import { CurriculumAccordion, CurriculumCreationWizard } from '../learn/curriculum';
-import { Paywall } from '../paywall/Paywall';
 
 type Segment = 'articles' | 'curricula';
 
@@ -32,7 +31,6 @@ export function LearnContent({ onClose }: LearnContentProps) {
   const [segment, setSegment] = useState<Segment>('articles');
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [showCurriculumWizard, setShowCurriculumWizard] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
 
   const { articles, isGenerating } = useGeneratedStore();
   const { isPremium } = useSubscriptionStore();
@@ -48,7 +46,7 @@ export function LearnContent({ onClose }: LearnContentProps) {
 
   const handleGeneratePress = () => {
     if (!isPremium) {
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'upgrade' } });
       return;
     }
     setShowGenerateModal(true);
@@ -62,7 +60,7 @@ export function LearnContent({ onClose }: LearnContentProps) {
 
   const handleCreateCurriculumPress = () => {
     if (!isPremium) {
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'upgrade' } });
       return;
     }
     setShowCurriculumWizard(true);
@@ -75,8 +73,6 @@ export function LearnContent({ onClose }: LearnContentProps) {
 
   return (
     <>
-      <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} />
-
       <GenerateArticleModal
         visible={showGenerateModal}
         onClose={() => setShowGenerateModal(false)}

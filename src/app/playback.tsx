@@ -129,7 +129,7 @@ export default function PlaybackModal() {
   };
 
   const handleWPMLimitHit = () => {
-    // TODO: Show paywall modal for premium WPM limits
+    router.push({ pathname: '/paywall', params: { trigger: 'wpm_limit' } });
   };
 
   const handleWPMChange = (wpm: number) => {

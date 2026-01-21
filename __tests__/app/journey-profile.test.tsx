@@ -81,29 +81,6 @@ jest.mock('../../src/components/journey/VerticalProgressPath', () => {
   };
 });
 
-// Mock Paywall
-jest.mock('../../src/components/paywall/Paywall', () => {
-  const { View, Text, TouchableOpacity } = require('react-native');
-  return {
-    Paywall: ({
-      visible,
-      onClose,
-    }: {
-      visible: boolean;
-      onClose: () => void;
-      reason: string;
-    }) =>
-      visible ? (
-        <View testID="paywall">
-          <Text>Paywall</Text>
-          <TouchableOpacity testID="paywall-close" onPress={onClose}>
-            <Text>Close</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null,
-  };
-});
-
 // =============================================================================
 // Test Helpers
 // =============================================================================
@@ -284,7 +261,7 @@ describe('JourneyProfileModal', () => {
 
   describe('subscription section - free tier', () => {
     beforeEach(() => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 3 });
+      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 1 });
     });
 
     it('shows Subscription section', () => {
@@ -310,8 +287,8 @@ describe('JourneyProfileModal', () => {
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       expect(getByText('Articles used')).toBeTruthy();
-      // Text is interpolated as "3 / 5"
-      expect(getByText(/3\s*\/\s*5/)).toBeTruthy();
+      // Text is interpolated as "1 / 2" (contentAccessCount / MAX_CONTENT)
+      expect(getByText(/1\s*\/\s*2/)).toBeTruthy();
     });
 
     it('shows Upgrade to Premium button', () => {
@@ -320,12 +297,15 @@ describe('JourneyProfileModal', () => {
       expect(getByText('Upgrade to Premium')).toBeTruthy();
     });
 
-    it('opens paywall when upgrade button pressed', () => {
-      const { getByText, getByTestId } = renderWithProviders(<JourneyProfileModal />);
+    it('navigates to paywall when upgrade button pressed', () => {
+      const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       fireEvent.press(getByText('Upgrade to Premium'));
 
-      expect(getByTestId('paywall')).toBeTruthy();
+      expect(mockRouterPush).toHaveBeenCalledWith({
+        pathname: '/paywall',
+        params: { trigger: 'upgrade' },
+      });
     });
   });
 
@@ -455,7 +435,7 @@ describe('JourneyProfileModal', () => {
 
   describe('dev controls', () => {
     it('shows Developer section when free and has used content', () => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 3 });
+      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 1 });
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       expect(getByText('Developer')).toBeTruthy();
@@ -482,7 +462,7 @@ describe('JourneyProfileModal', () => {
     });
 
     it('resets content count when button pressed', () => {
-      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 5 });
+      useSubscriptionStore.setState({ isPremium: false, contentAccessCount: 1 });
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       fireEvent.press(getByText('Reset Article Count'));

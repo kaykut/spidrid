@@ -39,7 +39,6 @@ import {
   PresetId,
 } from '../../types/generated';
 import { useTheme } from '../common/ThemeProvider';
-import { Paywall } from '../paywall/Paywall';
 
 interface ExpandableLearnCardProps {
   isExpanded: boolean;
@@ -61,7 +60,6 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   const [preset, setPreset] = useState<PresetId>('nugget');
   const [totalDuration, setTotalDuration] = useState(15); // Layer 2
   const [style, setStyle] = useState<ArticleTone | null>(null); // Layer 2, null = auto
-  const [showPaywall, setShowPaywall] = useState(false);
 
   // Recording hook for speech-to-text
   const {
@@ -221,7 +219,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
 
   const handleGenerate = async () => {
     if (!isPremium) {
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'daily_limit' } });
       return;
     }
 
@@ -275,15 +273,13 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       : `${articleCount} articles, ~${Math.round(totalWords).toLocaleString()} total words, ${totalMinutes} min total`;
 
   return (
-    <>
-      <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} />
-      <View
-        style={[
-          styles.cardWrapper,
-          { backgroundColor: theme.secondaryBackground },
-          isExpanded && styles.cardExpanded,
-        ]}
-      >
+    <View
+      style={[
+        styles.cardWrapper,
+        { backgroundColor: theme.secondaryBackground },
+        isExpanded && styles.cardExpanded,
+      ]}
+    >
         {/* Header */}
         <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
           <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.success}20` }]}>
@@ -511,8 +507,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             </TouchableOpacity>
           </View>
         )}
-      </View>
-    </>
+    </View>
   );
 }
 

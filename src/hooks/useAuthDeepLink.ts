@@ -11,7 +11,7 @@ import { supabase } from '../services/supabase';
 
 /**
  * Extract tokens from a Supabase auth callback URL
- * The URL format is typically: spidrid://auth/callback#access_token=...&refresh_token=...
+ * The URL format is typically: devoro://auth/callback#access_token=...&refresh_token=...
  */
 function extractTokensFromUrl(url: string): {
   accessToken: string | null;

@@ -243,12 +243,12 @@ describe('TopicScreen Integration', () => {
         recentCompletions: [],
       });
 
-      // Set content count at limit (5 for free tier)
+      // Set content count at limit (2 for free tier)
       useSubscriptionStore.setState({
         isPremium: false,
         isLoading: false,
         isInitialized: true,
-        contentAccessCount: 5,
+        contentAccessCount: 2,
       });
 
       renderWithProviders(<TopicScreen />);

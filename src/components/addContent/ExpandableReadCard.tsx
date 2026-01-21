@@ -22,7 +22,6 @@ import { extractFromUrl, createFromText, extractFromEbook } from '../../services
 import { useContentStore } from '../../store/contentStore';
 import { useSubscriptionStore } from '../../store/subscriptionStore';
 import { useTheme } from '../common/ThemeProvider';
-import { Paywall } from '../paywall/Paywall';
 import { usePdfExtractor } from '../PdfExtractorProvider';
 
 const READ_OPTIONS = [
@@ -53,7 +52,6 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   const [readOption, setReadOption] = useState<ReadOptionId | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
 
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const readOptionCardWidth = getReadOptionCardWidth();
@@ -100,7 +98,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   const checkImportLimit = (): boolean => {
     if (isPremium) {return true;}
     if (!canAccessContent()) {
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'daily_limit' } });
       return false;
     }
     return true;
@@ -165,11 +163,9 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   };
 
   return (
-    <>
-      <Paywall visible={showPaywall} onClose={() => setShowPaywall(false)} reason="content_limit" />
-      <View
-        style={[
-          styles.cardWrapper,
+    <View
+      style={[
+        styles.cardWrapper,
           { backgroundColor: theme.secondaryBackground },
           isExpanded && styles.cardExpanded,
         ]}
@@ -272,7 +268,6 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
           </View>
         )}
       </View>
-    </>
   );
 }
 

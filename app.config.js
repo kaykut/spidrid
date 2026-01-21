@@ -1,8 +1,8 @@
 export default {
   expo: {
-    name: 'Spidrid',
-    slug: 'spidrid',
-    scheme: 'spidrid',
+    name: 'Devoro',
+    slug: 'devoro',
+    scheme: 'devoro',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
@@ -15,10 +15,10 @@ export default {
     },
     ios: {
       supportsTablet: true,
-      bundleIdentifier: 'com.spidrid.app',
+      bundleIdentifier: 'com.devoro.app',
     },
     android: {
-      package: 'com.spidrid.app',
+      package: 'com.devoro.app',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#0a0a0a',
