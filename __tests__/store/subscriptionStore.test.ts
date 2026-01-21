@@ -569,6 +569,10 @@ describe('subscriptionStore', () => {
       expect(FREE_TIER_LIMITS.MAX_WPM).toBe(450);
     });
 
+    it('FREE_TIER_LIMITS.MAX_DAILY_AI_GENERATIONS is 3', () => {
+      expect(FREE_TIER_LIMITS.MAX_DAILY_AI_GENERATIONS).toBe(3);
+    });
+
     it('PREMIUM_LIMITS.MAX_WPM is 1500', () => {
       expect(PREMIUM_LIMITS.MAX_WPM).toBe(1500);
     });

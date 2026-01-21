@@ -1,7 +1,6 @@
 export interface SubscriptionState {
   isPremium: boolean;
   isLoading: boolean;
-  contentAccessCount: number;
 }
 
 export interface PurchaseOffering {
@@ -14,6 +13,7 @@ export interface PurchaseOffering {
 // Free tier limits as constants
 export const FREE_TIER_LIMITS = {
   MAX_WPM: 450,
+  MAX_DAILY_AI_GENERATIONS: 3,
 } as const;
 
 export const PREMIUM_LIMITS = {

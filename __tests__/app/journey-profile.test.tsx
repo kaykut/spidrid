@@ -84,29 +84,6 @@ jest.mock('../../src/components/journey/VerticalProgressPath', () => {
   };
 });
 
-// Mock Paywall
-jest.mock('../../src/components/paywall/Paywall', () => {
-  const { View, Text, TouchableOpacity } = require('react-native');
-  return {
-    Paywall: ({
-      visible,
-      onClose,
-    }: {
-      visible: boolean;
-      onClose: () => void;
-      reason: string;
-    }) =>
-      visible ? (
-        <View testID="paywall">
-          <Text>Paywall</Text>
-          <TouchableOpacity testID="paywall-close" onPress={onClose}>
-            <Text>Close</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null,
-  };
-});
-
 // =============================================================================
 // Test Helpers
 // =============================================================================
@@ -317,12 +294,15 @@ describe('JourneyProfileModal', () => {
       expect(getByText('Upgrade to Premium')).toBeTruthy();
     });
 
-    it('opens paywall when upgrade button pressed', () => {
-      const { getByText, getByTestId } = renderWithProviders(<JourneyProfileModal />);
+    it('navigates to paywall when upgrade button pressed', () => {
+      const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       fireEvent.press(getByText('Upgrade to Premium'));
 
-      expect(getByTestId('paywall')).toBeTruthy();
+      expect(mockRouterPush).toHaveBeenCalledWith({
+        pathname: '/paywall',
+        params: { trigger: 'upgrade' },
+      });
     });
   });
 

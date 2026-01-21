@@ -36,7 +36,6 @@ import {
   PortionId,
 } from '../../types/generated';
 import { useTheme } from '../common/ThemeProvider';
-import { Paywall } from '../paywall/Paywall';
 import { PremiumBadge } from '../premium/PremiumBadge';
 
 interface ExpandableLearnCardProps {
@@ -50,15 +49,13 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   const { generateArticle, isGenerating: isGeneratingArticle } = useGeneratedStore();
   const { createCurriculumV2, isGenerating: isGeneratingCurriculum } = useCurriculumStore();
   const { avgWpmLast3 } = useJourneyStore();
-  const { isPremium, canGenerateArticle, incrementGenerationCount } = useSubscriptionStore();
+  const { isPremium, canGenerateArticle } = useSubscriptionStore();
 
   // Form state
   const [topic, setTopic] = useState('');
   const [portion, setPortion] = useState<PortionId>('bite');
   const [showCustomize, setShowCustomize] = useState(false);
   const [flavor, setFlavor] = useState<FlavorOption>('auto');
-  const [showPaywall, setShowPaywall] = useState(false);
-  const [paywallReason, setPaywallReason] = useState<'generation_limit' | undefined>();
 
   // Recording hook for speech-to-text
   const {
@@ -199,15 +196,13 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
     const isPremiumFlavor = effectiveFlavor !== 'auto';
 
     if (!isPremium && (isPremiumPortion || isPremiumFlavor)) {
-      setPaywallReason(undefined);
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
       return;
     }
 
     // Check if free user has hit daily generation limit
     if (!isPremium && !canGenerateArticle()) {
-      setPaywallReason('generation_limit');
-      setShowPaywall(true);
+      router.push({ pathname: '/paywall', params: { trigger: 'generation_limit' } });
       return;
     }
 
@@ -226,10 +221,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       });
 
       if (article) {
-        // Increment generation count for free users
-        if (!isPremium) {
-          incrementGenerationCount();
-        }
+        // Generation count is now incremented inside generateArticle in the store
         resetForm();
         onExpandChange(false);
         onClose();
@@ -248,10 +240,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       );
 
       if (curriculumId) {
-        // Increment generation count for free users
-        if (!isPremium) {
-          incrementGenerationCount();
-        }
+        // Generation count is now incremented per-article inside store's generateArticle
         resetForm();
         onExpandChange(false);
         onClose();
@@ -263,23 +252,14 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
   const canGenerate = topic.trim().length >= 1 && !isGenerating;
 
   return (
-    <>
-      <Paywall
-        visible={showPaywall}
-        onClose={() => {
-          setShowPaywall(false);
-          setPaywallReason(undefined);
-        }}
-        reason={paywallReason}
-      />
-      <View
-        style={[
-          styles.cardWrapper,
-          { backgroundColor: theme.secondaryBackground },
-          isExpanded && styles.cardExpanded,
-        ]}
-      >
-        {/* Header */}
+    <View
+      style={[
+        styles.cardWrapper,
+        { backgroundColor: theme.secondaryBackground },
+        isExpanded && styles.cardExpanded,
+      ]}
+    >
+      {/* Header */}
         <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
           <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.success}20` }]}>
             <MaterialCommunityIcons name="brain" size={SIZES.iconLg} color={JOURNEY_COLORS.success} />
@@ -377,8 +357,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         ]}
                         onPress={() => {
                           if (isLocked) {
-                            setPaywallReason(undefined);
-                            setShowPaywall(true);
+                            router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
                           } else {
                             handlePortionChange(p.id);
                           }
@@ -458,8 +437,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         ]}
                         onPress={() => {
                           if (isLocked) {
-                            setPaywallReason(undefined);
-                            setShowPaywall(true);
+                            router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
                           } else if (!isGenerating) {
                             setFlavor(t.id);
                           }
@@ -506,8 +484,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             </TouchableOpacity>
           </View>
         )}
-      </View>
-    </>
+    </View>
   );
 }
 

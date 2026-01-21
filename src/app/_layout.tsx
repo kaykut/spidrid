@@ -161,6 +161,16 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
+                name="paywall"
+                options={{
+                  presentation: 'fullScreenModal',
+                  animation: 'slide_from_bottom',
+                  gestureEnabled: true,
+                  headerShown: false,
+                  contentStyle: { backgroundColor: 'transparent' },
+                }}
+              />
+              <Stack.Screen
                 name="dev-tools"
                 options={{
                   presentation: 'fullScreenModal',

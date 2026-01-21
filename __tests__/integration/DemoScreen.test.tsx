@@ -11,9 +11,11 @@ import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 
 // Mock expo-router
 const mockBack = jest.fn();
+const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
   router: {
     back: () => mockBack(),
+    push: (params: unknown) => mockPush(params),
   },
 }));
 
@@ -24,15 +26,6 @@ jest.mock('react-native-safe-area-context', () => {
     SafeAreaView: ({ children }: { children: React.ReactNode }) => (
       <View>{children}</View>
     ),
-  };
-});
-
-// Mock Paywall
-jest.mock('../../src/components/paywall/Paywall', () => {
-  const { View } = require('react-native');
-  return {
-    Paywall: ({ visible }: { visible: boolean }) =>
-      visible ? <View testID="paywall" /> : null,
   };
 });
 
@@ -138,13 +131,16 @@ describe('DemoReaderScreen Integration', () => {
   });
 
   describe('paywall', () => {
-    it('shows paywall when WPM limit is hit', () => {
+    it('navigates to paywall when WPM limit is hit', () => {
       renderWithProviders(<DemoReaderScreen />);
 
       const limitButton = screen.getByTestId('wpm-limit-btn');
       fireEvent.press(limitButton);
 
-      expect(screen.getByTestId('paywall')).toBeTruthy();
+      expect(mockPush).toHaveBeenCalledWith({
+        pathname: '/paywall',
+        params: { trigger: 'wpm_limit' },
+      });
     });
   });
 });

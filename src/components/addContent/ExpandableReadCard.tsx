@@ -172,7 +172,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
         </Animated.View>
       </TouchableOpacity>
 
-        {isExpanded && (
+      {isExpanded && (
           <View style={styles.expandedContent}>
             <View style={styles.optionRow}>
               {READ_OPTIONS.map((option) => (
