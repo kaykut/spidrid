@@ -5,6 +5,8 @@
  * and the Smart Queue recommendation system.
  */
 
+import { CERT_TIER_COLORS } from '../constants/dataColors';
+
 // =============================================================================
 // Velocity Levels
 // =============================================================================
@@ -137,7 +139,7 @@ export const JOURNEY_CERT_DEFINITIONS: JourneyCertDefinition[] = [
     name: 'Speed Reader',
     description: 'Achieved VS 40 with 900 WPM capability',
     icon: '⚡',
-    color: '#fab005',
+    color: CERT_TIER_COLORS.speedReader,
     vsThreshold: 40,
     speedProofWpm: 900,
     speedProofMinComp: 70,
@@ -150,7 +152,7 @@ export const JOURNEY_CERT_DEFINITIONS: JourneyCertDefinition[] = [
     name: 'Velocity Master',
     description: 'Achieved VS 60 with 1200 WPM capability',
     icon: '🔥',
-    color: '#ff6b6b',
+    color: CERT_TIER_COLORS.velocityMaster,
     vsThreshold: 60,
     speedProofWpm: 1200,
     speedProofMinComp: 70,
@@ -163,7 +165,7 @@ export const JOURNEY_CERT_DEFINITIONS: JourneyCertDefinition[] = [
     name: 'Transcendent',
     description: 'Achieved VS 95 with 1500 WPM capability',
     icon: '👑',
-    color: '#9775fa',
+    color: CERT_TIER_COLORS.transcendent,
     vsThreshold: 95,
     speedProofWpm: 1500,
     speedProofMinComp: 70,

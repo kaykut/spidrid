@@ -20,7 +20,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
-import { JOURNEY_COLORS } from '../../data/themes';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
 import { useDynamicCardTitle } from '../../hooks/useDynamicCardTitle';
 import { ContentListItem, ContentSource, ContentCategory } from '../../types/contentList';
 import { useTheme } from '../common/ThemeProvider';
@@ -168,7 +168,7 @@ export function ContentListItemCard({
             <View
               style={[
                 styles.progressTrack,
-                { backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' },
+                { backgroundColor: isDarkTheme ? OVERLAY_COLORS.progressInactiveDark : OVERLAY_COLORS.progressInactiveLight },
               ]}
             >
               {item.progress > 0 && (

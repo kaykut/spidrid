@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     marginTop: SPACING.lg,
     padding: SPACING.md,
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+    backgroundColor: OVERLAY_COLORS.errorTint,
     borderRadius: COMPONENT_RADIUS.card,
   },
   errorText: {

@@ -281,8 +281,8 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
       >
         {/* Header */}
         <TouchableOpacity style={styles.cardHeader} onPress={handleToggle} activeOpacity={0.7}>
-          <View style={[styles.iconContainer, { backgroundColor: `${JOURNEY_COLORS.success}20` }]}>
-            <MaterialCommunityIcons name="brain" size={SIZES.iconLg} color={JOURNEY_COLORS.success} />
+          <View style={[styles.iconContainer, { backgroundColor: `${theme.accentColor}20` }]}>
+            <MaterialCommunityIcons name="school" size={SIZES.iconLg} color={theme.accentColor} />
           </View>
           <View style={styles.textContainer}>
             <Text style={[styles.title, { color: theme.textColor }]}>Learn</Text>
@@ -373,7 +373,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         style={[
                           styles.portionCard,
                           { backgroundColor: theme.backgroundColor },
-                          portion === p.id && { backgroundColor: JOURNEY_COLORS.success },
+                          portion === p.id && { backgroundColor: theme.accentColor },
                         ]}
                         onPress={() => {
                           if (isLocked) {
@@ -431,7 +431,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                     style={[
                       styles.flavorPill,
                       { backgroundColor: theme.backgroundColor },
-                      flavor === 'auto' && { backgroundColor: JOURNEY_COLORS.success },
+                      flavor === 'auto' && { backgroundColor: theme.accentColor },
                     ]}
                     onPress={() => !isGenerating && setFlavor('auto')}
                     disabled={isGenerating}
@@ -454,7 +454,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         style={[
                           styles.flavorPill,
                           { backgroundColor: theme.backgroundColor },
-                          flavor === t.id && { backgroundColor: JOURNEY_COLORS.success },
+                          flavor === t.id && { backgroundColor: theme.accentColor },
                         ]}
                         onPress={() => {
                           if (isLocked) {
@@ -492,7 +492,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             <TouchableOpacity
               style={[
                 styles.generateButton,
-                { backgroundColor: JOURNEY_COLORS.success },
+                { backgroundColor: theme.accentColor },
                 !canGenerate && styles.generateButtonDisabled,
               ]}
               onPress={handleGenerate}

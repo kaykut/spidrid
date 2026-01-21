@@ -27,7 +27,6 @@ import { animateLayout } from '../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { TOPICS, getPracticeArticles } from '../data/curriculum';
-import { JOURNEY_COLORS } from '../data/themes';
 import { useLearningStore } from '../store/learningStore';
 
 // Calculate topic card width for 3-per-row grid inside Practice card
@@ -192,13 +191,13 @@ export default function AddContentModal() {
               <View
                 style={[
                   styles.menuIconContainer,
-                  { backgroundColor: `${JOURNEY_COLORS.premiumAccent}20` },
+                  { backgroundColor: `${theme.accentColor}20` },
                 ]}
               >
                 <Ionicons
                   name="stopwatch-outline"
                   size={SIZES.iconLg}
-                  color={JOURNEY_COLORS.premiumAccent}
+                  color={theme.accentColor}
                 />
               </View>
               <View style={styles.menuTextContainer}>

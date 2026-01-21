@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SPACING, COMPONENT_RADIUS } from '@/constants/spacing';
-import { JOURNEY_COLORS } from '@/data/themes';
+import { JOURNEY_COLORS, OVERLAY_COLORS } from '@/data/themes';
 
 interface PremiumBadgeProps {
   /** Icon size in pixels (default: 12) */
@@ -50,7 +50,7 @@ export function PremiumBadge({
 const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: OVERLAY_COLORS.badgeBackdrop,
     borderRadius: COMPONENT_RADIUS.chip,
     padding: SPACING.xxs,
   },

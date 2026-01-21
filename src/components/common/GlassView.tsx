@@ -12,6 +12,7 @@ import { View, StyleSheet, ViewStyle, StyleProp, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 import { GlassView as ExpoGlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
+import { OVERLAY_COLORS } from '../../data/themes';
 
 type GlassStyle = 'clear' | 'regular';
 
@@ -49,8 +50,8 @@ export function GlassView({ appearance, glassStyle = 'clear', style, children }:
   // Fallback: expo-blur for Expo Go, Android, and iOS < 26
   const tint = appearance === 'dark' ? 'dark' : 'light';
   const overlayColor = appearance === 'dark'
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(0, 0, 0, 0.08)';
+    ? OVERLAY_COLORS.glassBorderDark
+    : OVERLAY_COLORS.glassBorderLight;
 
   return (
     <View style={style}>

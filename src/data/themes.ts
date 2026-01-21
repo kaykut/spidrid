@@ -29,6 +29,15 @@ export const JOURNEY_COLORS = {
 } as const;
 
 /**
+ * Content Card Colors
+ * Used for Practice/Read/Learn cards in add-content modal
+ */
+export const CARD_COLORS = {
+  practice: JOURNEY_COLORS.premiumAccent,  // #FFB84D - amber (existing)
+  // READ and LEARN cards use theme.accentColor (dynamic per theme - burnt orange)
+} as const;
+
+/**
  * Difficulty level colors for curriculum content
  * Semantic colors representing learning progression
  */
@@ -71,6 +80,10 @@ export const OVERLAY_COLORS = {
   inactiveDark: 'rgba(255, 255, 255, 0.6)',
   iconLight: 'rgba(0, 0, 0, 0.7)',
   iconDark: 'rgba(255, 255, 255, 0.8)',
+  badgeBackdrop: 'rgba(0, 0, 0, 0.6)',           // Premium badge dark overlay
+  errorTint: 'rgba(255, 107, 107, 0.1)',         // Error backgrounds (low @ 10%)
+  progressInactiveDark: 'rgba(255, 255, 255, 0.15)',  // Content card inactive (dark theme)
+  progressInactiveLight: 'rgba(0, 0, 0, 0.12)',       // Content card inactive (light theme)
 } as const;
 
 export const themes: Record<string, Theme> = {
