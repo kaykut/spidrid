@@ -54,6 +54,9 @@ export function PlanSelector({
     ? (yearlyPackage.product.price / 12).toFixed(2)
     : null;
 
+  // Extract currency symbol from priceString (e.g., "$39.99" → "$", "€39.99" → "€")
+  const currencySymbol = yearlyPackage?.product.priceString?.replace(/[\d.,\s]/g, '').trim() || '$';
+
   // Extract trial info from yearly plan
   const trialDays = yearlyPackage?.product.introPrice?.periodUnit === 'DAY'
     ? yearlyPackage.product.introPrice.periodNumberOfUnits
@@ -69,7 +72,7 @@ export function PlanSelector({
             {
               backgroundColor: theme.secondaryBackground,
               borderColor: selectedPlan === 'yearly' ? theme.accentColor : theme.trackColor,
-              borderWidth: selectedPlan === 'yearly' ? 2 : 2,
+              borderWidth: 2,
             },
           ]}
           onPress={() => onPlanChange('yearly')}
@@ -84,7 +87,7 @@ export function PlanSelector({
           </Text>
           {yearlyMonthlyEquivalent && (
             <Text style={[styles.planEquivalent, { color: theme.textSecondaryColor }]}>
-              ${yearlyMonthlyEquivalent}/mo
+              {currencySymbol}{yearlyMonthlyEquivalent}/mo
             </Text>
           )}
           {trialDays && (
@@ -103,7 +106,7 @@ export function PlanSelector({
             {
               backgroundColor: theme.secondaryBackground,
               borderColor: selectedPlan === 'monthly' ? theme.accentColor : theme.trackColor,
-              borderWidth: selectedPlan === 'monthly' ? 2 : 2,
+              borderWidth: 2,
             },
           ]}
           onPress={() => onPlanChange('monthly')}

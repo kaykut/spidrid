@@ -39,6 +39,7 @@ import { JOURNEY_COLORS } from '../data/themes';
 import * as PurchasesService from '../services/purchases';
 import type { PurchasesPackage } from '../services/purchases';
 import { useSubscriptionStore } from '../store/subscriptionStore';
+import { isNetworkError } from '../utils/networkUtils';
 
 export default function PaywallScreen() {
   const { theme } = useTheme();
@@ -94,13 +95,7 @@ export default function PaywallScreen() {
       setMonthlyPackage(monthly);
     } catch (err) {
       console.error('[Paywall] Failed to fetch offerings:', err);
-      // Check if it's a network error
-      const isNetworkError = err instanceof Error &&
-        (err.message.includes('network') ||
-         err.message.includes('Network') ||
-         err.message.includes('timeout') ||
-         err.message.includes('fetch'));
-      if (isNetworkError) {
+      if (isNetworkError(err)) {
         setIsOffline(true);
         setError('Connect to internet to subscribe');
       } else {
