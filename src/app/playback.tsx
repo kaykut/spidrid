@@ -7,7 +7,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, AppState } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -204,6 +204,25 @@ export default function PlaybackModal() {
       savePosition(state.sourceId, state.source, state.currentIndex, state.progress);
     };
   }, []); // Empty deps - only runs on unmount
+
+  // Save position when app backgrounds (while playback modal is open)
+  // This ensures reading position is persisted if the app is backgrounded without
+  // closing the modal. Note: This is LOCAL storage save only, not server sync.
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        const state = latestStateRef.current;
+        // Save current reading position to local storage
+        if (!state.isComplete && state.sourceId && state.source !== 'training') {
+          savePosition(state.sourceId, state.source, state.currentIndex, state.progress);
+        }
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []); // Empty deps - subscription uses latestStateRef
 
   const handleClose = () => {
     // Save current position before closing

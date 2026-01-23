@@ -13,9 +13,6 @@ interface AuthState {
   initialize: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
   signInWithGoogle: () => Promise<void>;
-  signUpWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
-  signInWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
-  resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -167,57 +164,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   signInWithGoogle: async () => {
     const { error } = await supabase.auth.linkIdentity({
       provider: 'google',
-    });
-
-    if (error) {
-      throw error;
-    }
-  },
-
-  // Sign up with email and password - creates new permanent account
-  signUpWithPassword: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      // Map common errors to user-friendly messages
-      if (error.message.toLowerCase().includes('already registered')) {
-        throw new Error('This email is already registered. Try signing in instead.');
-      }
-      if (error.message.toLowerCase().includes('password')) {
-        throw new Error('Password must be at least 8 characters long');
-      }
-      throw error;
-    }
-
-    // Supabase sends verification email automatically
-    return data;
-  },
-
-  // Sign in with existing email and password
-  signInWithPassword: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      // Map common errors to user-friendly messages
-      if (error.message.toLowerCase().includes('invalid')) {
-        throw new Error('Invalid email or password');
-      }
-      throw error;
-    }
-
-    return data;
-  },
-
-  // Request password reset email
-  resetPassword: async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'devoro://auth/callback',
     });
 
     if (error) {

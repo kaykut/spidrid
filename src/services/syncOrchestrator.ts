@@ -6,6 +6,7 @@
  */
 
 import { useAuthStore } from '../store/authStore';
+import { useSubscriptionStore } from '../store/subscriptionStore';
 import {
   contentSyncAdapter,
   generatedSyncAdapter,
@@ -66,11 +67,12 @@ export function resetSyncState(): void {
 // =============================================================================
 
 /**
- * Check if user is authenticated and can sync
+ * Check if user is authenticated and has premium subscription for sync
  */
 function canSync(): boolean {
   const { isLoggedIn } = useAuthStore.getState();
-  return isLoggedIn;
+  const { isPremium } = useSubscriptionStore.getState();
+  return isLoggedIn && isPremium;
 }
 
 /**
@@ -124,7 +126,7 @@ export async function performFullSync(): Promise<SyncResult> {
   if (!canSync()) {
     return {
       success: false,
-      error: 'Not authenticated',
+      error: 'Authentication and premium subscription required',
       syncedAt: Date.now(),
     };
   }
@@ -208,7 +210,7 @@ export async function pushAllChanges(): Promise<SyncResult> {
   if (!canSync()) {
     return {
       success: false,
-      error: 'Not authenticated',
+      error: 'Authentication and premium subscription required',
       syncedAt: Date.now(),
     };
   }
@@ -267,7 +269,7 @@ export async function pullAllData(): Promise<SyncResult> {
   if (!canSync()) {
     return {
       success: false,
-      error: 'Not authenticated',
+      error: 'Authentication and premium subscription required',
       syncedAt: Date.now(),
     };
   }
@@ -362,7 +364,7 @@ export async function syncSingleAdapter(adapterName: AdapterName): Promise<SyncR
   if (!canSync()) {
     return {
       success: false,
-      error: 'Not authenticated',
+      error: 'Authentication and premium subscription required',
       syncedAt: Date.now(),
     };
   }

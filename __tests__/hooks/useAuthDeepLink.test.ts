@@ -9,6 +9,7 @@ jest.mock('../../src/services/supabase', () => ({
   supabase: {
     auth: {
       setSession: jest.fn(),
+      signInWithOAuth: jest.fn(),
     },
   },
 }));
@@ -105,6 +106,36 @@ describe('useAuthDeepLink', () => {
 
     await new Promise(resolve => setTimeout(resolve, 0));
 
+    expect(mockSupabase.auth.setSession).not.toHaveBeenCalled();
+  });
+
+  it('should call signInWithOAuth when identity_already_exists error occurs', async () => {
+    const errorUrl = 'devoro://auth/callback#error=identity_already_exists&error_description=Identity+is+already+linked';
+    (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(errorUrl);
+    (mockSupabase.auth.signInWithOAuth as jest.Mock).mockResolvedValue({ data: { url: 'https://google.com/oauth' }, error: null });
+
+    renderHook(() => useAuthDeepLink());
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(mockSupabase.auth.signInWithOAuth).toHaveBeenCalledWith({
+      provider: 'google',
+      options: {
+        redirectTo: 'devoro://auth/callback',
+      },
+    });
+    expect(mockSupabase.auth.setSession).not.toHaveBeenCalled();
+  });
+
+  it('should not call signInWithOAuth for other errors', async () => {
+    const errorUrl = 'devoro://auth/callback#error=other_error&error_description=Some+other+error';
+    (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(errorUrl);
+
+    renderHook(() => useAuthDeepLink());
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(mockSupabase.auth.signInWithOAuth).not.toHaveBeenCalled();
     expect(mockSupabase.auth.setSession).not.toHaveBeenCalled();
   });
 });

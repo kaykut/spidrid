@@ -324,7 +324,7 @@ describe('Full Sync Flow Integration', () => {
       const result = await performFullSync();
 
       expect(result.success).toBe(false);
-      expect(result.error).toBe('Not authenticated');
+      expect(result.error).toBe('Authentication and premium subscription required');
     });
 
     it('should succeed for premium logged-in user', async () => {

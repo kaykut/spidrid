@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { AppState } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -53,24 +52,6 @@ export default function RootLayout() {
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription]);
-
-  // Save reading positions when app backgrounds
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextAppState) => {
-      if (nextAppState === 'background' || nextAppState === 'inactive') {
-        // Trigger sync push to save any pending position updates
-        import('../services/syncOrchestrator').then(({ pushAllChanges }) => {
-          pushAllChanges().catch(err => {
-            console.warn('[_layout] Background sync failed:', err);
-          });
-        });
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
 
   // Return null while fonts are loading
   if (!fontsLoaded && !fontError) {

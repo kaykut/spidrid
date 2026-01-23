@@ -37,12 +37,65 @@ function extractTokensFromUrl(url: string): {
 }
 
 /**
+ * Extract error information from a Supabase auth callback URL
+ * The URL format is: devoro://auth/callback#error=identity_already_exists&error_description=...
+ */
+function extractErrorFromUrl(url: string): {
+  error: string | null;
+  errorDescription: string | null;
+} {
+  try {
+    // Parse the URL hash fragment (everything after #)
+    const hashIndex = url.indexOf('#');
+    if (hashIndex === -1) {
+      return { error: null, errorDescription: null };
+    }
+
+    const hash = url.substring(hashIndex + 1);
+    const params = new URLSearchParams(hash);
+
+    return {
+      error: params.get('error'),
+      errorDescription: params.get('error_description'),
+    };
+  } catch {
+    return { error: null, errorDescription: null };
+  }
+}
+
+/**
  * Handle the auth callback URL by setting the session with Supabase
  */
 async function handleAuthCallback(url: string): Promise<void> {
   const { accessToken, refreshToken } = extractTokensFromUrl(url);
 
   if (!accessToken || !refreshToken) {
+    // Check for error in the callback
+    const { error, errorDescription } = extractErrorFromUrl(url);
+
+    if (error === 'identity_already_exists') {
+      // Google account is already linked to another user
+      // This happens on Device 2 when trying to link an identity that was already
+      // linked on Device 1. We need to sign in to the existing account instead.
+      console.log('[Auth] Identity already exists, signing in to existing account');
+
+      // Trigger a new OAuth flow to sign in (not link)
+      const { error: signInError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'devoro://auth/callback',
+        },
+      });
+
+      if (signInError) {
+        console.error('[Auth] Failed to sign in with OAuth:', signInError);
+      }
+      return;
+    }
+
+    if (error) {
+      console.error('[Auth] OAuth callback error:', error, errorDescription);
+    }
     return;
   }
 
@@ -53,7 +106,7 @@ async function handleAuthCallback(url: string): Promise<void> {
   });
 
   if (error) {
-    console.error('Error setting session from deep link:', error);
+    console.error('[Auth] Error setting session from deep link:', error);
   }
 }
 

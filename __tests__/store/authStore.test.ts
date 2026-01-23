@@ -11,9 +11,6 @@ jest.mock('../../src/services/supabase', () => ({
       signInAnonymously: jest.fn(),
       signOut: jest.fn(),
       linkIdentity: jest.fn(),
-      signUp: jest.fn(),
-      signInWithPassword: jest.fn(),
-      resetPasswordForEmail: jest.fn(),
       onAuthStateChange: jest.fn(() => ({
         data: { subscription: { unsubscribe: jest.fn() } },
       })),
@@ -248,75 +245,6 @@ describe('authStore', () => {
     });
   });
 
-  describe('signUpWithPassword', () => {
-    it('should call signUp with email and password', async () => {
-      (mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
-        data: { user: { id: 'new-user-id' } },
-        error: null,
-      });
-
-      await useAuthStore.getState().signUpWithPassword('test@example.com', 'password123');
-
-      expect(mockSupabase.auth.signUp).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: 'password123',
-      });
-    });
-
-    it('should throw error when signUp fails', async () => {
-      (mockSupabase.auth.signUp as jest.Mock).mockResolvedValue({
-        data: null,
-        error: new Error('User already registered'),
-      });
-
-      await expect(
-        useAuthStore.getState().signUpWithPassword('test@example.com', 'password123')
-      ).rejects.toThrow('already registered');
-    });
-  });
-
-  describe('signInWithPassword', () => {
-    it('should call signInWithPassword with email and password', async () => {
-      (mockSupabase.auth.signInWithPassword as jest.Mock).mockResolvedValue({
-        data: { user: { id: 'existing-user-id' } },
-        error: null,
-      });
-
-      await useAuthStore.getState().signInWithPassword('test@example.com', 'password123');
-
-      expect(mockSupabase.auth.signInWithPassword).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: 'password123',
-      });
-    });
-
-    it('should throw error when signInWithPassword fails', async () => {
-      (mockSupabase.auth.signInWithPassword as jest.Mock).mockResolvedValue({
-        data: null,
-        error: new Error('Invalid login credentials'),
-      });
-
-      await expect(
-        useAuthStore.getState().signInWithPassword('test@example.com', 'wrongpassword')
-      ).rejects.toThrow('Invalid');
-    });
-  });
-
-  describe('resetPassword', () => {
-    it('should call resetPasswordForEmail with email', async () => {
-      (mockSupabase.auth.resetPasswordForEmail as jest.Mock).mockResolvedValue({
-        data: {},
-        error: null,
-      });
-
-      await useAuthStore.getState().resetPassword('test@example.com');
-
-      expect(mockSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith(
-        'test@example.com',
-        { redirectTo: 'devoro://auth/callback' }
-      );
-    });
-  });
 
   describe('signOut', () => {
     it('should sign out and create new anonymous session', async () => {

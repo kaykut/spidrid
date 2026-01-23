@@ -7,6 +7,7 @@ import {
   resetSyncState,
 } from '../../src/services/syncOrchestrator';
 import { useAuthStore } from '../../src/store/authStore';
+import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 
 // Mock all sync adapters
 jest.mock('../../src/services/sync', () => ({
@@ -64,8 +65,9 @@ describe('syncOrchestrator', () => {
     jest.clearAllMocks();
     // Reset sync state
     resetSyncState();
-    // Reset auth store
+    // Reset auth store and subscription store
     useAuthStore.setState({ isLoggedIn: true, userId: 'test-user' });
+    useSubscriptionStore.setState({ isPremium: true });
     // Reset mock implementations to default success state
     (mockContentAdapter.pull as jest.Mock).mockResolvedValue([]);
     (mockContentAdapter.push as jest.Mock).mockResolvedValue(undefined);
@@ -97,7 +99,7 @@ describe('syncOrchestrator', () => {
       const result = await performFullSync();
 
       expect(result.success).toBe(false);
-      expect(result.error).toBe('Not authenticated');
+      expect(result.error).toBe('Authentication and premium subscription required');
     });
 
     it('should call all adapters on full sync', async () => {
@@ -166,7 +168,7 @@ describe('syncOrchestrator', () => {
       const result = await pushAllChanges();
 
       expect(result.success).toBe(false);
-      expect(result.error).toBe('Not authenticated');
+      expect(result.error).toBe('Authentication and premium subscription required');
     });
 
     it('should push all adapters without pulling', async () => {
@@ -196,7 +198,7 @@ describe('syncOrchestrator', () => {
       const result = await pullAllData();
 
       expect(result.success).toBe(false);
-      expect(result.error).toBe('Not authenticated');
+      expect(result.error).toBe('Authentication and premium subscription required');
     });
 
     it('should pull and merge without pushing', async () => {
@@ -228,7 +230,7 @@ describe('syncOrchestrator', () => {
       const result = await syncSingleAdapter('content');
 
       expect(result.success).toBe(false);
-      expect(result.error).toBe('Not authenticated');
+      expect(result.error).toBe('Authentication and premium subscription required');
     });
 
     it('should sync only the specified adapter', async () => {
