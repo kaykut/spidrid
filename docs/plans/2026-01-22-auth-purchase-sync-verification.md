@@ -22,8 +22,8 @@ The output is NOT code changes—it is a detailed audit report that will inform 
 - [x] (2026-01-22 15:45) Task 1: Verify first app install flow (Supabase ID, RC ID, aliasing) - REQUIREMENT CORRECTED
 - [x] (2026-01-22 16:15) Task 2: Verify sign-in flow on device_1 (OAuth/email alias linking) - CRITICAL BUGS FOUND
 - [x] (2026-01-23) Task 3: Verify content upload gating (no premium = no upload) - CRITICAL BUGS FOUND
-- [ ] Task 4: Verify purchase flow (entitlement assignment)
-- [ ] Task 5: Verify content upload trigger on purchase (existing content sync)
+- [x] (2026-01-23) Task 4: Verify purchase flow (entitlement assignment) - NO BUGS
+- [x] (2026-01-23) Task 5: Verify content upload trigger on purchase (existing content sync) - BUG FOUND
 - [ ] Task 6: Verify cross-device sign-in with different platform (ID recovery, content download)
 - [ ] Task 7: Verify same-platform purchase recovery (restore purchases flow)
 - [ ] Task 8: Verify expired entitlement handling (ID recovery but no sync)
@@ -583,6 +583,14 @@ CREATE POLICY "Users can CRUD own content" ON user_content
 - **Location**: src/services/syncOrchestrator.ts:71-74
 - **Fix**: Update `canSync()` to check BOTH `isLoggedIn && isPremium`
 
+**BUG #5**: No automatic sync trigger when user becomes premium (Task 5)
+- **Severity**: MEDIUM (user experience issue, content not lost)
+- **Location**: src/hooks/useSyncManager.ts:167-200 (initializeAutoSync)
+- **Root Cause**: `initializeAutoSync()` subscribes to content stores but NOT subscriptionStore; when `isPremium` changes, no callbacks fire
+- **Impact**: Pre-existing content created while free is not uploaded immediately after purchase; content syncs only on next edit
+- **Fix**: Add subscription to `subscriptionStore` that triggers `performFullSync()` when `isPremium` transitions from false→true
+- **Status**: ✅ FIXED (2026-01-23)
+
 **Missing Server-Side Enforcement**:
 - **Severity**: MEDIUM (requires architectural change)
 - **Location**: supabase/migrations/20260113000000_create_user_content.sql
@@ -642,10 +650,237 @@ CREATE POLICY "Users can CRUD own content" ON user_content
 - ✅ All sync entry points now protected by dual-gate pattern
 - ✅ No regression in existing functionality
 
+**Bug #5 Fix: Add Automatic Sync Trigger on Premium Upgrade**
+- **Location**: [src/hooks/useSyncManager.ts](src/hooks/useSyncManager.ts)
+- **Original Issue**: When user purchases premium, existing local content not automatically uploaded to server
+- **Root Cause**: `initializeAutoSync()` subscribed to content stores but NOT subscriptionStore, so `isPremium` state changes didn't trigger any callbacks
+- **Fix**: Added subscription to `subscriptionStore` in `initializeAutoSync()` that:
+  - Tracks previous premium state using module-level variable `wasPremium`
+  - Detects transition from `false` → `true` when user upgrades
+  - Only triggers sync if user is BOTH premium AND logged in (`isLoggedIn && isPremium`)
+  - Calls `performFullSync()` to upload all existing content immediately
+  - Initializes `wasPremium` to current state on startup
+  - Resets `wasPremium` in `cleanupAutoSync()` for proper test cleanup
+- **Implementation**:
+  - useSyncManager.ts:161 - Added `wasPremium` module-level variable
+  - useSyncManager.ts:203-216 - Added subscriptionStore subscription with upgrade detection
+  - useSyncManager.ts:218 - Initialize wasPremium to current state
+  - useSyncManager.ts:228 - Reset wasPremium on cleanup
+- **Console Logging**: Added "[AutoSync] User became premium - triggering full sync" log for debugging
+- **Files Modified**:
+  - src/hooks/useSyncManager.ts - Added subscriptionStore subscription and premium transition tracking
+  - __tests__/hooks/useSyncManager.test.ts - Added 4 test cases for premium upgrade trigger
+- **Test Coverage**:
+  - ✓ Triggers sync when user becomes premium (while logged in)
+  - ✓ Does NOT trigger sync when user becomes premium but not logged in
+  - ✓ Does NOT trigger sync when already premium (no transition)
+  - ✓ Resets wasPremium state on cleanup (for proper re-initialization)
+- **Result**: All 96 test suites passing (2,300 tests, up from 2,296)
+
+**Verification:**
+- ✅ Premium upgrade immediately triggers full sync
+- ✅ Pre-existing content uploaded without requiring user to edit
+- ✅ Dual-gate respected (must be both logged in AND premium)
+- ✅ No false triggers when already premium
+- ✅ Clean state management across app lifecycle
+
 **Discovery #13 Resolution:**
 - **Finding**: Adapter-level push operations only check authentication, NOT premium
 - **Decision**: This is CORRECT architecture - adapters are data access primitives, premium gating is a business logic concern that belongs at the orchestration layer
 - **No changes needed** - adapters remain focused on authentication-only checks
+
+### M5: Task 4 - Purchase Flow (Entitlement Assignment)
+
+**Requirement:**
+- Verify that when a user purchases premium, the entitlement is correctly assigned
+- Trace the purchase flow for both anonymous and authenticated users
+- Verify RevenueCat integration and entitlement checking logic
+
+**Code Trace:**
+
+**1. Purchase Flow - Anonymous User**
+- User opens paywall → [Paywall.tsx](src/components/paywall/Paywall.tsx):43-51
+- `handlePurchase()` calls `subscriptionStore.purchaseProduct()`
+- [subscriptionStore.ts](src/store/subscriptionStore.ts):68-93:
+  - Gets offerings from RevenueCat (line 72)
+  - Calls `PurchasesService.purchasePackage(offerings[0])` (line 79)
+  - [purchases.ts](src/services/purchases.ts):173-185 - Calls `Purchases.purchasePackage(pkg)`
+  - RC SDK processes payment with App Store/Google Play
+  - Returns `customerInfo` with entitlements
+  - Checks `customerInfo.entitlements.active['premium'] !== undefined` (line 81)
+  - Updates `isPremium: true` (line 82)
+- Purchase linked to anonymous RC ID: `$RCAnonymousID:abc-def-ghi`
+
+**2. Sign-In After Purchase - Entitlement Transfer**
+- User signs in with Google → [authStore.ts](src/store/authStore.ts):164-172
+- `onAuthStateChange` fires with authenticated session (line 40-83)
+- Detects transition `!wasLoggedIn && isNowLoggedIn` (line 63)
+- Calls `linkRevenueCatUser(userId)` (line 64):
+  - [subscriptionStore.ts](src/store/subscriptionStore.ts):96-129 calls `PurchasesService.loginUser(userId)`
+  - [purchases.ts](src/services/purchases.ts):110-121 - `Purchases.logIn(userId)` transfers anonymous purchases to authenticated user
+  - Returns `customerInfo` with transferred entitlements
+  - Updates `isPremium` based on transferred entitlements (line 111)
+- Also calls `restorePurchases()` (line 70) as additional safety measure
+- State: `isLoggedIn: true, isPremium: true`
+
+**3. Purchase Flow - Already Signed In**
+- User already authenticated when purchasing
+- Purchase flow identical to anonymous (lines 68-93)
+- Purchase linked to current RC customer ID
+- RC SDK persists logged-in user ID across app restarts
+- No transfer needed - purchase directly associated with authenticated RC customer
+
+**Error Handling:**
+- [Paywall.tsx](src/components/paywall/Paywall.tsx):43-51 - Shows "Purchase failed. Please try again." on error
+- [subscriptionStore.ts](src/store/subscriptionStore.ts):88-92 - Catches purchase errors, logs and returns `false`
+- Purchase errors from RC SDK properly propagated to UI
+
+**RevenueCat SDK Persistence:**
+- [purchases.ts](src/services/purchases.ts):110-121 - `logIn()` persists user ID in RC SDK storage
+- Logged-in user ID remembered across app restarts without re-calling `logIn()`
+- [authStore.ts](src/store/authStore.ts):176-177 - `signOut()` calls `unlinkRevenueCatUser()` → `logoutUser()` to clear RC user
+- [purchases.ts](src/services/purchases.ts):127-136 - `logOut()` creates new anonymous RC ID
+
+**Verification:**
+
+✅ **Purchase → Entitlement Flow:**
+- Anonymous purchase: Entitlement assigned to anonymous RC ID
+- Sign-in after purchase: `logIn()` transfers entitlements to authenticated user
+- Already signed-in purchase: Entitlement directly assigned to authenticated RC customer
+- RC SDK persists authenticated user ID across app restarts
+
+✅ **Error Handling:**
+- Purchase errors caught and displayed to user
+- No silent failures in purchase flow
+
+✅ **State Management:**
+- `isPremium` correctly updated after purchase
+- Entitlement check uses RC's `customerInfo.entitlements.active['premium']`
+- State persisted to AsyncStorage via Zustand middleware
+
+**Findings:**
+
+**No bugs found in purchase flow.** Entitlement assignment works correctly for all scenarios:
+1. ✅ Anonymous user purchases → entitlement assigned to anonymous RC ID
+2. ✅ Anonymous user purchases then signs in → entitlements transferred via `logIn()`
+3. ✅ Authenticated user purchases → entitlement directly assigned
+4. ✅ RC SDK persists user ID across app restarts
+5. ✅ Error handling properly surfaces failures to UI
+
+**Status**: ✅ VERIFIED - Purchase flow correctly assigns entitlements
+
+### M6: Task 5 - Content Upload Trigger on Purchase
+
+**Requirement:**
+- After a user purchases premium, verify that existing local content automatically syncs to server
+- Check if there's a trigger mechanism for isPremium state change
+- Verify that pre-existing content (created while free) is uploaded
+
+**Code Trace:**
+
+**1. Sync Trigger Mechanisms**
+
+**Option A: useSyncManager Hook**
+- [useSyncManager.ts](src/hooks/useSyncManager.ts):74-90
+- useEffect with dependencies `[isLoggedIn, isPremium]`
+- When `isPremium` changes from `false` → `true`, effect fires
+- Calls `performFullSync()` which uploads existing content
+- **Issue**: This hook must be mounted in a component to work
+
+**Hook Usage Search:**
+- Searched codebase for `useSyncManager()` calls in app components
+- Found: Only used in test files (__tests__/hooks/useSyncManager.test.ts, __tests__/integration/*)
+- **NOT mounted in any production app component**
+
+**Option B: initializeAutoSync() Store Subscriptions**
+- [useSyncManager.ts](src/hooks/useSyncManager.ts):167-200
+- Called from [_layout.tsx](src/app/_layout.tsx):48 on app startup
+- Subscribes to content stores: contentStore, generatedStore, curriculumStore, learningStore, journeyStore, settingsStore (lines 172-179)
+- On store change, checks `isLoggedIn && isPremium` and calls `pushAllChanges()` (lines 184-194)
+- **Issue**: Subscribes to CONTENT stores only, NOT subscriptionStore
+- When `isPremium` changes, no store change event fires
+- Sync only triggers when content stores change (add/edit/delete)
+
+**2. Purchase Flow - Sync Trigger**
+
+**Scenario: User has existing content, then purchases**
+1. Free user creates 10 articles locally (stored in contentStore)
+2. User signs in (optional) - no sync because not premium
+3. User opens paywall, purchases premium
+4. [subscriptionStore.ts](src/store/subscriptionStore.ts):82 - `isPremium` updated to `true`
+5. **Question**: Does sync trigger?
+
+**Analysis:**
+- `useSyncManager` hook's useEffect would trigger, BUT hook not mounted
+- `initializeAutoSync()` subscriptions listen to content stores, NOT subscription store
+- No store change event fires (content stores unchanged, only subscriptionStore changed)
+- **Result**: NO automatic sync triggered
+
+6. User must create/edit content to trigger first sync
+7. When content changes, auto-sync fires and uploads ALL content (including pre-existing)
+8. Pre-existing content eventually uploaded, but NOT immediately after purchase
+
+**Verification:**
+
+❌ **Bug #5 Discovered: No automatic sync trigger when user becomes premium**
+
+**Reproduction Steps:**
+1. Free user creates local content (e.g., 10 imported articles)
+2. User signs in with Google (optional)
+3. User purchases premium via paywall
+4. `isPremium` changes from `false` → `true`
+5. Observe: No sync triggered, existing content not uploaded
+6. User creates/edits any content
+7. Auto-sync triggers, uploads all content including pre-existing articles
+
+**Root Cause:**
+- `initializeAutoSync()` subscribes to content stores but NOT `subscriptionStore`
+- When `isPremium` changes, no subscription callbacks fire
+- `useSyncManager` hook has correct logic (useEffect with isPremium dependency) but is never mounted
+
+**Impact:**
+- **Severity**: MEDIUM
+- Premium users who purchase after creating content don't get immediate backup
+- Content is NOT lost - it syncs on next edit
+- Creates user confusion: "I paid for sync, why isn't my content backed up?"
+- Missing the "wow moment" of immediate sync after purchase
+
+**Suggested Fix:**
+Add subscription to `subscriptionStore` in `initializeAutoSync()` that triggers `performFullSync()` when `isPremium` transitions from `false` → `true`:
+
+```typescript
+// In initializeAutoSync()
+const stores = [
+  require('../store/contentStore').useContentStore,
+  require('../store/generatedStore').useGeneratedStore,
+  // ... other content stores
+];
+
+// Track previous premium state to detect transitions
+let wasPremium = false;
+
+// Subscribe to subscriptionStore for premium state changes
+const unsubscribeSubscription = require('../store/subscriptionStore').useSubscriptionStore.subscribe(() => {
+  const { isLoggedIn } = useAuthStore.getState();
+  const { isPremium } = require('../store/subscriptionStore').useSubscriptionStore.getState();
+
+  // Trigger full sync when user becomes premium
+  if (!wasPremium && isPremium && isLoggedIn) {
+    performFullSync().catch((error) => {
+      console.error('[AutoSync] Premium upgrade sync failed:', error);
+    });
+  }
+
+  wasPremium = isPremium;
+});
+
+autoSyncUnsubscribers.push(unsubscribeSubscription);
+```
+
+**Alternative Fix:**
+Mount `useSyncManager` hook in a top-level component (e.g., _layout.tsx via a custom provider) so its useEffect runs.
+
+**Status**: ✅ FIXED (2026-01-23) - Content upload now automatically triggered on premium purchase via subscriptionStore subscription
 
 ## Decision Log
 

@@ -159,6 +159,7 @@ export function useSyncManager(): SyncManagerState & SyncManagerActions {
 // =============================================================================
 
 let autoSyncUnsubscribers: (() => void)[] = [];
+let wasPremium = false; // Track previous premium state for detecting upgrades
 
 /**
  * Initialize auto-sync subscriptions.
@@ -178,7 +179,7 @@ export function initializeAutoSync(): void {
     require('../store/settingsStore').useSettingsStore,
   ];
 
-  // Subscribe to each store
+  // Subscribe to each content store for automatic push on changes
   for (const store of stores) {
     const unsubscribe = store.subscribe(() => {
       const { isLoggedIn } = useAuthStore.getState();
@@ -197,6 +198,28 @@ export function initializeAutoSync(): void {
 
     autoSyncUnsubscribers.push(unsubscribe);
   }
+
+  // Subscribe to subscription store to trigger full sync when user becomes premium
+  // This ensures pre-existing content (created while free) is uploaded immediately after purchase
+  const unsubscribeSubscription = useSubscriptionStore.subscribe(() => {
+    const { isLoggedIn } = useAuthStore.getState();
+    const { isPremium } = useSubscriptionStore.getState();
+
+    // Detect transition from free to premium (and user is logged in)
+    if (!wasPremium && isPremium && isLoggedIn) {
+      console.log('[AutoSync] User became premium - triggering full sync');
+      performFullSync().catch((error) => {
+        console.error('[AutoSync] Premium upgrade sync failed:', error);
+      });
+    }
+
+    wasPremium = isPremium;
+  });
+
+  autoSyncUnsubscribers.push(unsubscribeSubscription);
+
+  // Initialize wasPremium to current state
+  wasPremium = useSubscriptionStore.getState().isPremium;
 }
 
 /**
@@ -208,4 +231,5 @@ export function cleanupAutoSync(): void {
     unsubscribe();
   }
   autoSyncUnsubscribers = [];
+  wasPremium = false; // Reset premium state tracker
 }

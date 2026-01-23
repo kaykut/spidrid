@@ -1,5 +1,9 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
-import { useSyncManager } from '../../src/hooks/useSyncManager';
+import {
+  useSyncManager,
+  initializeAutoSync,
+  cleanupAutoSync,
+} from '../../src/hooks/useSyncManager';
 import { useAuthStore } from '../../src/store/authStore';
 import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 import {
@@ -227,6 +231,113 @@ describe('useSyncManager', () => {
       jest.advanceTimersByTime(1000);
 
       expect(performFullSync).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('initializeAutoSync - premium upgrade trigger', () => {
+    afterEach(() => {
+      cleanupAutoSync();
+    });
+
+    it('should trigger full sync when user becomes premium (while logged in)', async () => {
+      // Setup: logged-in free user
+      useAuthStore.setState({ isLoggedIn: true, userId: 'user-123' });
+      useSubscriptionStore.setState({ isPremium: false });
+
+      // Initialize auto-sync subscriptions
+      initializeAutoSync();
+
+      // Clear any calls from initialization
+      jest.clearAllMocks();
+
+      // Simulate premium upgrade
+      await act(async () => {
+        useSubscriptionStore.setState({ isPremium: true });
+      });
+
+      // Verify full sync was triggered
+      await waitFor(() => {
+        expect(performFullSync).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('should not trigger sync when user becomes premium but not logged in', async () => {
+      // Setup: anonymous free user
+      useAuthStore.setState({ isLoggedIn: false, userId: null });
+      useSubscriptionStore.setState({ isPremium: false });
+
+      // Initialize auto-sync subscriptions
+      initializeAutoSync();
+
+      // Clear any calls from initialization
+      jest.clearAllMocks();
+
+      // Simulate premium upgrade without login
+      await act(async () => {
+        useSubscriptionStore.setState({ isPremium: true });
+      });
+
+      // Wait a bit
+      jest.advanceTimersByTime(1000);
+
+      // Verify no sync triggered (user must be logged in)
+      expect(performFullSync).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger sync when already premium (no transition)', async () => {
+      // Setup: already premium user
+      useAuthStore.setState({ isLoggedIn: true, userId: 'user-123' });
+      useSubscriptionStore.setState({ isPremium: true });
+
+      // Initialize auto-sync subscriptions
+      initializeAutoSync();
+
+      // Clear any calls from initialization
+      jest.clearAllMocks();
+
+      // Simulate subscription store change without premium transition
+      await act(async () => {
+        useSubscriptionStore.setState({ isPremium: true, isLoading: false });
+      });
+
+      // Wait a bit
+      jest.advanceTimersByTime(1000);
+
+      // Verify no sync triggered (no transition from false to true)
+      expect(performFullSync).not.toHaveBeenCalled();
+    });
+
+    it('should reset wasPremium state on cleanup', async () => {
+      // Setup: logged-in premium user
+      useAuthStore.setState({ isLoggedIn: true, userId: 'user-123' });
+      useSubscriptionStore.setState({ isPremium: true });
+
+      // Initialize auto-sync subscriptions
+      initializeAutoSync();
+
+      // Cleanup
+      cleanupAutoSync();
+
+      // Re-initialize with free user
+      useAuthStore.setState({ isLoggedIn: true, userId: 'user-456' });
+      useSubscriptionStore.setState({ isPremium: false });
+      initializeAutoSync();
+
+      // Clear any calls
+      jest.clearAllMocks();
+
+      // Upgrade to premium - should trigger sync (wasPremium was reset)
+      await act(async () => {
+        useSubscriptionStore.setState({ isPremium: true });
+      });
+
+      // Verify sync triggered
+      await waitFor(() => {
+        expect(performFullSync).toHaveBeenCalledTimes(1);
+      });
+
+      // Cleanup
+      cleanupAutoSync();
     });
   });
 });
