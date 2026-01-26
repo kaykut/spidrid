@@ -29,13 +29,18 @@ interface AuthModalProps {
 
 export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
   const { theme } = useTheme();
-  const { signInWithGoogle } = useAuthStore();
+  const { signInWithGoogle, authError } = useAuthStore();
 
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  // Combine local error (from signInWithGoogle throwing) with store error (from deep link callback)
+  const error = localError || authError;
 
   const handleGoogleSignIn = async () => {
-    setError(null);
+    // Clear both local error and store error
+    setLocalError(null);
+    useAuthStore.setState({ authError: null });
     setIsLoadingGoogle(true);
 
     try {
@@ -43,7 +48,7 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
       onSuccess();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to sign in with Google');
+      setLocalError(err instanceof Error ? err.message : 'Failed to sign in with Google');
     } finally {
       setIsLoadingGoogle(false);
     }
@@ -52,7 +57,8 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
 
   const handleClose = () => {
     if (!isLoadingGoogle) {
-      setError(null);
+      setLocalError(null);
+      useAuthStore.setState({ authError: null });
       onClose();
     }
   };

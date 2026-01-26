@@ -8,6 +8,7 @@
 import { useEffect } from 'react';
 import * as Linking from 'expo-linking';
 import { supabase } from '../services/supabase';
+import { useAuthStore } from '../store/authStore';
 
 /**
  * Extract tokens from a Supabase auth callback URL
@@ -67,6 +68,9 @@ function extractErrorFromUrl(url: string): {
  * Handle the auth callback URL by setting the session with Supabase
  */
 async function handleAuthCallback(url: string): Promise<void> {
+  // Clear any previous auth error when processing a new callback
+  useAuthStore.setState({ authError: null });
+
   const { accessToken, refreshToken } = extractTokensFromUrl(url);
 
   if (!accessToken || !refreshToken) {
@@ -89,12 +93,18 @@ async function handleAuthCallback(url: string): Promise<void> {
 
       if (signInError) {
         console.error('[Auth] Failed to sign in with OAuth:', signInError);
+        useAuthStore.setState({
+          authError: signInError.message || 'Sign in failed. Please try again.',
+        });
       }
       return;
     }
 
     if (error) {
       console.error('[Auth] OAuth callback error:', error, errorDescription);
+      useAuthStore.setState({
+        authError: errorDescription || error || 'Authentication failed. Please try again.',
+      });
     }
     return;
   }
@@ -107,6 +117,9 @@ async function handleAuthCallback(url: string): Promise<void> {
 
   if (error) {
     console.error('[Auth] Error setting session from deep link:', error);
+    useAuthStore.setState({
+      authError: error.message || 'Failed to complete sign in. Please try again.',
+    });
   }
 }
 
