@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Stäng",
+    "back": "Gå tillbaka"
+  },
+  "fabs": {
+    "profile": "Öppna resa och profil",
+    "add_content": "Lägg till nytt innehåll"
+  },
+  "buttons": {
+    "close_button": "Stäng",
+    "back_button": "Gå tillbaka"
+  }
+}

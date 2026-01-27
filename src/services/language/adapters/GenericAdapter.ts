@@ -5,8 +5,8 @@
  * Returns whole words without hyphenation to avoid incorrect splits.
  */
 
-import { BaseLatinAdapter } from './BaseLatinAdapter';
 import { HyphenationResult } from '../types';
+import { BaseLatinAdapter } from './BaseLatinAdapter';
 
 /**
  * Generic adapter that disables hyphenation.

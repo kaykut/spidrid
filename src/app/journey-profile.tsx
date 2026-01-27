@@ -25,7 +25,6 @@ import { AuthModal } from '../components/auth/AuthModal';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
-import { Paywall } from '../components/paywall/Paywall';
 import { PremiumBadge } from '../components/premium/PremiumBadge';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
@@ -119,7 +118,6 @@ export default function JourneyProfileModal() {
   } = useSubscriptionStore();
   const { isLoggedIn, userEmail, signOut } = useAuthStore();
 
-  const [showPaywall, setShowPaywall] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
@@ -148,10 +146,6 @@ export default function JourneyProfileModal() {
 
   return (
     <>
-      <Paywall
-        visible={showPaywall}
-        onClose={() => setShowPaywall(false)}
-      />
       <AuthModal
         visible={showAuthModal}
         onClose={() => setShowAuthModal(false)}
@@ -349,7 +343,7 @@ export default function JourneyProfileModal() {
             {!isPremium ? (
               <TouchableOpacity
                 style={[styles.upgradeButton, { backgroundColor: theme.accentColor }]}
-                onPress={() => setShowPaywall(true)}
+                onPress={() => router.push({ pathname: '/paywall', params: { trigger: 'upgrade' } })}
               >
                 <Text style={styles.upgradeText}>Upgrade to Premium</Text>
               </TouchableOpacity>
@@ -428,10 +422,10 @@ export default function JourneyProfileModal() {
                     <TouchableOpacity
                       style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
                       onPress={() => {
-                        if (!isPremium) {
-                          setShowPaywall(true);
-                        } else {
+                        if (isPremium) {
                           setShowAuthModal(true);
+                        } else {
+                          router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
                         }
                       }}
                     >

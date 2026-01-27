@@ -1,0 +1,31 @@
+{
+  "page_title": "Nytt innehåll",
+  "practice": {
+    "title": "Öva",
+    "desc": "Välj från förgenererat innehåll för att öva snabbläsning"
+  },
+  "read": {
+    "title": "Läs",
+    "desc": "Snabbläs dina egna artiklar eller böcker från PDF, EPUB eller länkar",
+    "options": {
+      "webpage": "En webbsida",
+      "text": "Vanlig text",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Ange URL (t.ex. https://example.com/article)",
+      "text": "Klistra in din text här..."
+    }
+  },
+  "learn": {
+    "title": "Lär dig",
+    "desc": "Generera artiklar om ämnen du vill bemästra"
+  },
+  "errors": {
+    "import_failed": "Import misslyckades",
+    "extract_url": "Kunde inte extrahera innehåll från URL",
+    "process_text": "Kunde inte bearbeta text",
+    "extract_content": "Kunde inte extrahera innehåll",
+    "pick_document": "Misslyckades att välja dokument"
+  }
+}

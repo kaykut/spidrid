@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Quiz di Comprensione",
+  "quiz_results": "Risultati",
+  "quiz_only": "Quiz",
+  "question_progress": "Domanda {{current}} di {{total}}",
+  "no_quiz_available": "Nessun Quiz Disponibile",
+  "no_quiz_desc": "Questo contenuto non ha domande di quiz.",
+  "results": {
+    "complete": "Completato!",
+    "comprehension": "Comprensione",
+    "correct_answers": "Risposte Corrette",
+    "reading_speed": "Velocità di Lettura",
+    "done": "Fatto",
+    "retake": "Ripeti Quiz"
+  }
+}

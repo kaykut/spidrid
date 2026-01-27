@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certificat de Realizare",
+    "reading_excellence": "Excelență în Citire",
+    "presented_to": "Acest certificat este prezentat cu mândrie lui",
+    "exceptional_proficiency": "Pentru demonstrarea unei competențe excepționale în cititul rapid",
+    "reading_speed_achieved": "prin atingerea unei viteze de citire de",
+    "date_achieved": "Data Realizării",
+    "certificate_id": "ID Certificat",
+    "verified_achievement": "Realizare Verificată",
+    "default_name": "Cititor Rapid"
+  }
+}

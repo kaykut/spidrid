@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Quiz de Comprehensiune",
+  "quiz_results": "Rezultate",
+  "quiz_only": "Quiz",
+  "question_progress": "Întrebarea {{current}} din {{total}}",
+  "no_quiz_available": "Niciun Quiz Disponibil",
+  "no_quiz_desc": "Acest conținut nu are întrebări de quiz.",
+  "results": {
+    "complete": "Complet!",
+    "comprehension": "Comprehensiune",
+    "correct_answers": "Răspunsuri Corecte",
+    "reading_speed": "Viteză de Citire",
+    "done": "Gata",
+    "retake": "Reluează Quizul"
+  }
+}

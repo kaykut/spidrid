@@ -1,0 +1,31 @@
+{
+  "page_title": "Nový obsah",
+  "practice": {
+    "title": "Trénink",
+    "desc": "Vyberte si z připraveného obsahu pro trénink rychločtení"
+  },
+  "read": {
+    "title": "Číst",
+    "desc": "Rychle čtěte své vlastní články nebo knihy z PDF, EPUB nebo odkazů",
+    "options": {
+      "webpage": "Webová stránka",
+      "text": "Prostý text",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Zadejte URL (např. https://example.com/article)",
+      "text": "Vložte sem text..."
+    }
+  },
+  "learn": {
+    "title": "Učit se",
+    "desc": "Generujte články o tématech, která chcete zvládnout"
+  },
+  "errors": {
+    "import_failed": "Import selhal",
+    "extract_url": "Nelze extrahovat obsah z URL",
+    "process_text": "Nelze zpracovat text",
+    "extract_content": "Nelze extrahovat obsah",
+    "pick_document": "Nepodařilo se vybrat dokument"
+  }
+}

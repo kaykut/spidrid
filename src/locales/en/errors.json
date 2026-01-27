@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Something went wrong",
+    "try_again": "Please try again"
+  },
+  "network": {
+    "no_connection": "No internet connection",
+    "timeout": "Request timed out"
+  },
+  "content": {
+    "not_found": "Content not found",
+    "failed_to_load": "Failed to load content"
+  }
+}

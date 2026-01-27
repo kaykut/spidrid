@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Hecho",
+    "fact_desc": "Claro y educativo",
+    "story": "Relato",
+    "story_desc": "Narrativo y atractivo",
+    "analogy": "Símil",
+    "analogy_desc": "Rico en comparaciones"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Bocado",
+    "snack": "Merienda",
+    "meal": "Comida",
+    "feast": "Festín"
+  },
+  "presets": {
+    "nugget": "Píldora",
+    "primer": "Intro",
+    "topic": "Tema",
+    "deep_dive": "Profundo"
+  },
+  "labels": {
+    "portion": "Porción",
+    "flavor": "Estilo",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "¿Sobre qué quieres aprender?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Ajustar duración y tono",
+    "serve_it_up": "Sírvelo",
+    "listening": "Escuchando...",
+    "transcribing": "Transcribiendo..."
+  },
+  "article_one": "{{count}} artículo",
+  "article_other": "{{count}} artículos",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "Porción {{portion}} (función Premium)",
+    "portion_hint_upgrade": "Actualiza a premium para desbloquear",
+    "portion_hint_select": "Seleccionar porción {{portion}}",
+    "flavor_premium": "Estilo {{flavor}} (función Premium)",
+    "flavor_hint_select": "Seleccionar estilo de escritura {{flavor}}"
+  }
+}

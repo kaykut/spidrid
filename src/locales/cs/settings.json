@@ -1,0 +1,35 @@
+{
+  "page_title": "Cesta & Nastavení",
+  "sections": {
+    "theme": "Motiv",
+    "your_info": "Vaše údaje",
+    "reading": "Čtení",
+    "developer": "Vývojář"
+  },
+  "themes": {
+    "dark": "Tmavý",
+    "midnight": "Půlnoc",
+    "sepia": "Sépie",
+    "light": "Světlý"
+  },
+  "fonts": {
+    "system": "Systém",
+    "serif": "Serif",
+    "round": "Kulaté",
+    "condensed": "Úzké",
+    "preview": "Náhled"
+  },
+  "user_info": {
+    "name_label": "Jméno (pro certifikáty)",
+    "name_placeholder": "Zadejte své jméno"
+  },
+  "reading": {
+    "paragraph_pause": "Pauza mezi odstavci",
+    "paragraph_pause_desc": "Krátká pauza mezi odstavci",
+    "move_to_history": "Přesunout do historie",
+    "move_to_history_desc": "Dokončené položky se přesunou do historie"
+  },
+  "developer": {
+    "dev_tools": "Nástroje pro vývojáře"
+  }
+}

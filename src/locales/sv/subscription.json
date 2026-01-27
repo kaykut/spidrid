@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Prenumeration",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Gratis",
+  "max_wpm": "Max WPM",
+  "upgrade_to_premium": "Uppgradera till Premium",
+  "restore_purchases": "Återställ köp",
+  "paywall": {
+    "title": "Uppgradera till Premium",
+    "reason_wpm": "Gratis nivå är begränsad till {{wpm}} WPM",
+    "reason_generation": "Gratis nivå är begränsad till 3 AI-genererade artiklar per dag"
+  },
+  "benefits": {
+    "max_wpm": "Läs upp till {{wpm}} WPM",
+    "unlimited_generation": "Obegränsad AI-artikelgenerering",
+    "all_topics": "Alla ämnen & läroplan",
+    "certificates": "Tjäna hastighetscertifikat"
+  },
+  "actions": {
+    "subscribe_now": "Prenumerera nu"
+  },
+  "alerts": {
+    "purchase_failed": "Köp misslyckades. Försök igen.",
+    "no_purchases": "Inga tidigare köp hittades.",
+    "restored_title": "Återställt",
+    "restored_message": "Dina köp har återställts.",
+    "error_title": "Fel",
+    "no_purchases_title": "Inga köp"
+  }
+}

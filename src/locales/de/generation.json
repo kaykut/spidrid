@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Fakt",
+    "fact_desc": "Klar und lehrreich",
+    "story": "Story",
+    "story_desc": "Erzählend und fesselnd",
+    "analogy": "Bild",
+    "analogy_desc": "Reich an Metaphern"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Biss",
+    "snack": "Snack",
+    "meal": "Mahl",
+    "feast": "Fest"
+  },
+  "presets": {
+    "nugget": "Nugget",
+    "primer": "Einführung",
+    "topic": "Thema",
+    "deep_dive": "Vertiefung"
+  },
+  "labels": {
+    "portion": "Portion",
+    "flavor": "Stil",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Worüber möchtest du etwas lernen?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Dauer und Ton anpassen",
+    "serve_it_up": "Auftischen",
+    "listening": "Hört zu...",
+    "transcribing": "Transkribiert..."
+  },
+  "article_one": "{{count}} Artikel",
+  "article_other": "{{count}} Artikel",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "{{portion}}-Portion (Premium-Funktion)",
+    "portion_hint_upgrade": "Upgrade auf Premium zum Freischalten",
+    "portion_hint_select": "{{portion}}-Portion auswählen",
+    "flavor_premium": "{{flavor}}-Stil (Premium-Funktion)",
+    "flavor_hint_select": "{{flavor}}-Schreibstil auswählen"
+  }
+}

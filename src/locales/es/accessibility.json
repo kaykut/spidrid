@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Cerrar",
+    "back": "Volver"
+  },
+  "fabs": {
+    "profile": "Abrir viaje y perfil",
+    "add_content": "Agregar nuevo contenido"
+  },
+  "buttons": {
+    "close_button": "Cerrar",
+    "back_button": "Volver"
+  }
+}

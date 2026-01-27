@@ -9,6 +9,7 @@ import { czechAdapter } from './adapters/CzechAdapter';
 import { dutchAdapter } from './adapters/DutchAdapter';
 import { englishAdapter } from './adapters/EnglishAdapter';
 import { frenchAdapter } from './adapters/FrenchAdapter';
+import { genericAdapter } from './adapters/GenericAdapter';
 import { germanAdapter } from './adapters/GermanAdapter';
 import { italianAdapter } from './adapters/ItalianAdapter';
 import { polishAdapter } from './adapters/PolishAdapter';
@@ -16,7 +17,6 @@ import { portugueseAdapter } from './adapters/PortugueseAdapter';
 import { romanianAdapter } from './adapters/RomanianAdapter';
 import { spanishAdapter } from './adapters/SpanishAdapter';
 import { swedishAdapter } from './adapters/SwedishAdapter';
-import { genericAdapter } from './adapters/GenericAdapter';
 import { LanguageAdapter, SupportedLanguage } from './types';
 
 /**

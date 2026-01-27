@@ -1,0 +1,17 @@
+{
+  "app_name": "Devoro",
+  "loading": "Laden...",
+  "not_available": "Niet beschikbaar",
+  "actions": {
+    "cancel": "Annuleren",
+    "confirm": "Bevestigen",
+    "close": "Sluiten",
+    "done": "Klaar",
+    "continue": "Doorgaan",
+    "get_started": "Aan de slag",
+    "import": "Importeren",
+    "save_and_read": "Opslaan & Lezen"
+  },
+  "or": "of",
+  "wpm_suffix": "WPM"
+}

@@ -1,0 +1,31 @@
+{
+  "page_title": "Novo Conteúdo",
+  "practice": {
+    "title": "Praticar",
+    "desc": "Escolha conteúdo pré-gerado para praticar leitura rápida"
+  },
+  "read": {
+    "title": "Ler",
+    "desc": "Leia rapidamente seus próprios artigos ou livros de PDFs, EPUBs ou links",
+    "options": {
+      "webpage": "Uma página web",
+      "text": "Texto Simples",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Digite a URL (ex: https://example.com/article)",
+      "text": "Cole seu texto aqui..."
+    }
+  },
+  "learn": {
+    "title": "Aprender",
+    "desc": "Gere artigos sobre tópicos que você quer dominar"
+  },
+  "errors": {
+    "import_failed": "Importação Falhou",
+    "extract_url": "Não foi possível extrair conteúdo da URL",
+    "process_text": "Não foi possível processar texto",
+    "extract_content": "Não foi possível extrair conteúdo",
+    "pick_document": "Falha ao selecionar documento"
+  }
+}

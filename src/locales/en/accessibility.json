@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Close",
+    "back": "Go back"
+  },
+  "fabs": {
+    "profile": "Open journey and profile",
+    "add_content": "Add new content"
+  },
+  "buttons": {
+    "close_button": "Close",
+    "back_button": "Go back"
+  }
+}

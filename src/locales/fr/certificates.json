@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certificat de Réussite",
+    "reading_excellence": "Excellence en Lecture",
+    "presented_to": "Ce certificat est fièrement décerné à",
+    "exceptional_proficiency": "Pour avoir démontré une maîtrise exceptionnelle de la lecture rapide",
+    "reading_speed_achieved": "en atteignant une vitesse de lecture de",
+    "date_achieved": "Date d'Obtention",
+    "certificate_id": "ID du Certificat",
+    "verified_achievement": "Réussite Vérifiée",
+    "default_name": "Lecteur Rapide"
+  }
+}

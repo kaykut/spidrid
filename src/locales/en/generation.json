@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Fact",
+    "fact_desc": "Clear and educational",
+    "story": "Story",
+    "story_desc": "Narrative and engaging",
+    "analogy": "Analogy",
+    "analogy_desc": "Rich in comparisons"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Bite",
+    "snack": "Snack",
+    "meal": "Meal",
+    "feast": "Feast"
+  },
+  "presets": {
+    "nugget": "Nugget",
+    "primer": "Primer",
+    "topic": "Topic",
+    "deep_dive": "Deep Dive"
+  },
+  "labels": {
+    "portion": "Portion",
+    "flavor": "Flavor",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "What do you want to learn about?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Adjust duration and tone",
+    "serve_it_up": "Serve it up",
+    "listening": "Listening...",
+    "transcribing": "Transcribing..."
+  },
+  "article_one": "{{count}} article",
+  "article_other": "{{count}} articles",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "{{portion}} portion (Premium feature)",
+    "portion_hint_upgrade": "Upgrade to premium to unlock",
+    "portion_hint_select": "Select {{portion}} portion",
+    "flavor_premium": "{{flavor}} flavor (Premium feature)",
+    "flavor_hint_select": "Select {{flavor}} writing style"
+  }
+}

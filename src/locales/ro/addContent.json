@@ -1,0 +1,31 @@
+{
+  "page_title": "Conținut Nou",
+  "practice": {
+    "title": "Practică",
+    "desc": "Alege din conținut pre-generat pentru a practica cititul rapid"
+  },
+  "read": {
+    "title": "Citește",
+    "desc": "Citește rapid propriile articole sau cărți din PDF-uri, EPUB-uri sau link-uri",
+    "options": {
+      "webpage": "O pagină web",
+      "text": "Text Simplu",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "Introdu URL (ex., https://example.com/article)",
+      "text": "Lipește textul tău aici..."
+    }
+  },
+  "learn": {
+    "title": "Învață",
+    "desc": "Generează articole pe subiecte pe care vrei să le stăpânești"
+  },
+  "errors": {
+    "import_failed": "Import Eșuat",
+    "extract_url": "Nu s-a putut extrage conținutul din URL",
+    "process_text": "Nu s-a putut procesa textul",
+    "extract_content": "Nu s-a putut extrage conținutul",
+    "pick_document": "Nu s-a putut selecta documentul"
+  }
+}

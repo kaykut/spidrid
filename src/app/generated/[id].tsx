@@ -21,12 +21,12 @@ import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
-import { processText } from '../../services/textProcessor';
 import { getAdapterForContent, getAdapter } from '../../services/language';
+import { processText } from '../../services/textProcessor';
 import { useGeneratedStore } from '../../store/generatedStore';
-import { useSettingsStore } from '../../store/settingsStore';
 import { useJourneyStore } from '../../store/journeyStore';
 import { useLearningStore } from '../../store/learningStore';
+import { useSettingsStore } from '../../store/settingsStore';
 import { isAnswerCorrect } from '../../utils/calculateQuizScore';
 
 type Phase = 'reading' | 'quiz' | 'results';

@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Leistungszertifikat",
+    "reading_excellence": "Leseexzellenz",
+    "presented_to": "Dieses Zertifikat wird mit Stolz verliehen an",
+    "exceptional_proficiency": "Für die Demonstration außergewöhnlicher Schnelllesefähigkeiten",
+    "reading_speed_achieved": "durch das Erreichen einer Lesegeschwindigkeit von",
+    "date_achieved": "Datum der Erreichung",
+    "certificate_id": "Zertifikats-ID",
+    "verified_achievement": "Verifizierte Leistung",
+    "default_name": "Schnellleser"
+  }
+}

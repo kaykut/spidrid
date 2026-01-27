@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Subscription",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Free",
+  "max_wpm": "Max WPM",
+  "upgrade_to_premium": "Upgrade to Premium",
+  "restore_purchases": "Restore Purchases",
+  "paywall": {
+    "title": "Upgrade to Premium",
+    "reason_wpm": "Free tier is limited to {{wpm}} WPM",
+    "reason_generation": "Free tier is limited to 3 AI-generated articles per day"
+  },
+  "benefits": {
+    "max_wpm": "Read up to {{wpm}} WPM",
+    "unlimited_generation": "Unlimited AI article generation",
+    "all_topics": "All topics & curriculum",
+    "certificates": "Earn speed certificates"
+  },
+  "actions": {
+    "subscribe_now": "Subscribe Now"
+  },
+  "alerts": {
+    "purchase_failed": "Purchase failed. Please try again.",
+    "no_purchases": "No previous purchases found.",
+    "restored_title": "Restored",
+    "restored_message": "Your purchases have been restored successfully.",
+    "error_title": "Error",
+    "no_purchases_title": "No Purchases"
+  }
+}

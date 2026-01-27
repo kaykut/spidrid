@@ -10,6 +10,7 @@ import {
   TONE_DEFINITIONS,
 } from '../types/generated';
 import { useAuthStore } from './authStore';
+import { useSubscriptionStore } from './subscriptionStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 
@@ -109,6 +110,12 @@ export const useGeneratedStore = create<GeneratedStore>()(
             questions: result.article.questions,
             status: 'complete',
           };
+
+          // Increment generation count for free users (LLM cost incurred)
+          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
+          if (!isPremium) {
+            incrementGenerationCount();
+          }
 
           set((state) => ({
             articles: state.articles.map((a) => (a.id === placeholderId ? completedArticle : a)),

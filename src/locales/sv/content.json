@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Inget innehåll ännu",
+    "subtitle": "Lägg till artiklar, böcker eller generera lärande innehåll för att komma igång med snabbläsning."
+  },
+  "filters": {
+    "all": "Alla",
+    "books": "Böcker",
+    "articles": "Artiklar",
+    "learning": "Lärande",
+    "training": "Träning"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Sluiten",
+    "back": "Ga terug"
+  },
+  "fabs": {
+    "profile": "Open reis en profiel",
+    "add_content": "Nieuwe inhoud toevoegen"
+  },
+  "buttons": {
+    "close_button": "Sluiten",
+    "back_button": "Ga terug"
+  }
+}

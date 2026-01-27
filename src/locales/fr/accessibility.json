@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Fermer",
+    "back": "Retour"
+  },
+  "fabs": {
+    "profile": "Ouvrir le parcours et le profil",
+    "add_content": "Ajouter du nouveau contenu"
+  },
+  "buttons": {
+    "close_button": "Fermer",
+    "back_button": "Retour"
+  }
+}

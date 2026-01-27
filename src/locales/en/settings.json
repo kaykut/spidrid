@@ -1,0 +1,35 @@
+{
+  "page_title": "Journey & Settings",
+  "sections": {
+    "theme": "Theme",
+    "your_info": "Your Info",
+    "reading": "Reading",
+    "developer": "Developer"
+  },
+  "themes": {
+    "dark": "Dark",
+    "midnight": "Midnight",
+    "sepia": "Sepia",
+    "light": "Light"
+  },
+  "fonts": {
+    "system": "System",
+    "serif": "Serif",
+    "round": "Round",
+    "condensed": "Condensed",
+    "preview": "Preview"
+  },
+  "user_info": {
+    "name_label": "Name (for certificates)",
+    "name_placeholder": "Enter your name"
+  },
+  "reading": {
+    "paragraph_pause": "Paragraph Pause",
+    "paragraph_pause_desc": "Brief pause between paragraphs",
+    "move_to_history": "Move to History",
+    "move_to_history_desc": "Completed items move to History"
+  },
+  "developer": {
+    "dev_tools": "Dev Tools"
+  }
+}

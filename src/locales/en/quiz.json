@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Comprehension Quiz",
+  "quiz_results": "Results",
+  "quiz_only": "Quiz",
+  "question_progress": "Question {{current}} of {{total}}",
+  "no_quiz_available": "No Quiz Available",
+  "no_quiz_desc": "This content does not have quiz questions.",
+  "results": {
+    "complete": "Complete!",
+    "comprehension": "Comprehension",
+    "correct_answers": "Correct Answers",
+    "reading_speed": "Reading Speed",
+    "done": "Done",
+    "retake": "Retake Quiz"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Läsförståelseprov",
+  "quiz_results": "Resultat",
+  "quiz_only": "Prov",
+  "question_progress": "Fråga {{current}} av {{total}}",
+  "no_quiz_available": "Inget prov tillgängligt",
+  "no_quiz_desc": "Detta innehåll har inga provfrågor.",
+  "results": {
+    "complete": "Klart!",
+    "comprehension": "Förståelse",
+    "correct_answers": "Rätt svar",
+    "reading_speed": "Läshastighet",
+    "done": "Klar",
+    "retake": "Gör om provet"
+  }
+}

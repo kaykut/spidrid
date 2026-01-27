@@ -1,0 +1,13 @@
+{
+  "empty": {
+    "title": "Brak treści",
+    "subtitle": "Dodaj artykuły, książki lub wygeneruj treści edukacyjne, aby rozpocząć szybkie czytanie."
+  },
+  "filters": {
+    "all": "Wszystko",
+    "books": "Książki",
+    "articles": "Artykuły",
+    "learning": "Nauka",
+    "training": "Trening"
+  }
+}

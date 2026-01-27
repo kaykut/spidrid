@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Zavřít",
+    "back": "Zpět"
+  },
+  "fabs": {
+    "profile": "Otevřít cestu a profil",
+    "add_content": "Přidat nový obsah"
+  },
+  "buttons": {
+    "close_button": "Zavřít",
+    "back_button": "Zpět"
+  }
+}

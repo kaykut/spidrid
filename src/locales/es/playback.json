@@ -1,0 +1,16 @@
+{
+  "default_title": "Lectura",
+  "empty": {
+    "content_not_found": "Contenido No Encontrado",
+    "content_not_loaded": "No se pudo cargar el contenido solicitado."
+  },
+  "results": {
+    "complete": "¡Completado!",
+    "reading_speed": "Velocidad de Lectura",
+    "words_read": "Palabras Leídas"
+  },
+  "controls": {
+    "play": "Reproducir",
+    "pause": "Pausar"
+  }
+}

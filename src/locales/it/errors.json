@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Qualcosa è andato storto",
+    "try_again": "Riprova"
+  },
+  "network": {
+    "no_connection": "Nessuna connessione internet",
+    "timeout": "Richiesta scaduta"
+  },
+  "content": {
+    "not_found": "Contenuto non trovato",
+    "failed_to_load": "Impossibile caricare il contenuto"
+  }
+}

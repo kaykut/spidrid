@@ -22,6 +22,7 @@ import {
 import { TONE_DEFINITIONS } from '../types/generated';
 import { Question } from '../types/learning';
 import { useAuthStore } from './authStore';
+import { useSubscriptionStore } from './subscriptionStore';
 
 const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
 
@@ -637,6 +638,12 @@ export const useCurriculumStore = create<CurriculumStore>()(
 
           if (!result.success || !result.article) {
             throw new Error(result.error || 'Generation failed');
+          }
+
+          // Increment generation count for free users (LLM cost incurred)
+          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
+          if (!isPremium) {
+            incrementGenerationCount();
           }
 
           // Update article with generated content

@@ -1,0 +1,16 @@
+{
+  "default_title": "Lesen",
+  "empty": {
+    "content_not_found": "Inhalt nicht gefunden",
+    "content_not_loaded": "Der angeforderte Inhalt konnte nicht geladen werden."
+  },
+  "results": {
+    "complete": "Fertig!",
+    "reading_speed": "Lesegeschwindigkeit",
+    "words_read": "Gelesene Wörter"
+  },
+  "controls": {
+    "play": "Abspielen",
+    "pause": "Pausieren"
+  }
+}

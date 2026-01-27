@@ -1,0 +1,31 @@
+{
+  "section_subscription": "Abonament",
+  "status": "Status",
+  "status_premium": "Premium",
+  "status_free": "Gratuit",
+  "max_wpm": "WPM Maxim",
+  "upgrade_to_premium": "Treci la Premium",
+  "restore_purchases": "Restaurează Achizițiile",
+  "paywall": {
+    "title": "Treci la Premium",
+    "reason_wpm": "Nivelul gratuit este limitat la {{wpm}} WPM",
+    "reason_generation": "Nivelul gratuit este limitat la 3 articole AI generate pe zi"
+  },
+  "benefits": {
+    "max_wpm": "Citește până la {{wpm}} WPM",
+    "unlimited_generation": "Generare nelimitată de articole AI",
+    "all_topics": "Toate subiectele și programa",
+    "certificates": "Obține certificate de viteză"
+  },
+  "actions": {
+    "subscribe_now": "Abonează-te Acum"
+  },
+  "alerts": {
+    "purchase_failed": "Achiziție eșuată. Te rugăm să încerci din nou.",
+    "no_purchases": "Nu s-au găsit achiziții anterioare.",
+    "restored_title": "Restaurat",
+    "restored_message": "Achizițiile tale au fost restaurate cu succes.",
+    "error_title": "Eroare",
+    "no_purchases_title": "Nicio Achiziție"
+  }
+}

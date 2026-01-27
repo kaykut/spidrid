@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Något gick fel",
+    "try_again": "Försök igen"
+  },
+  "network": {
+    "no_connection": "Ingen internetanslutning",
+    "timeout": "Begäran tog för lång tid"
+  },
+  "content": {
+    "not_found": "Innehåll hittades inte",
+    "failed_to_load": "Kunde inte ladda innehåll"
+  }
+}

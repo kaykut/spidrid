@@ -20,6 +20,14 @@ export interface CustomerInfo {
   };
 }
 
+export interface PurchasesIntroPrice {
+  price: number;
+  priceString: string;
+  period: string;
+  periodUnit: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+  periodNumberOfUnits: number;
+}
+
 export interface PurchasesPackage {
   identifier: string;
   packageType: string;
@@ -29,6 +37,7 @@ export interface PurchasesPackage {
     description: string;
     priceString: string;
     price: number;
+    introPrice?: PurchasesIntroPrice;
   };
 }
 

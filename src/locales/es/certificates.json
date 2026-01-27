@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certificado de Logro",
+    "reading_excellence": "Excelencia en Lectura",
+    "presented_to": "Este certificado se presenta con orgullo a",
+    "exceptional_proficiency": "Por demostrar competencia excepcional en lectura rápida",
+    "reading_speed_achieved": "al alcanzar una velocidad de lectura de",
+    "date_achieved": "Fecha de Logro",
+    "certificate_id": "ID del Certificado",
+    "verified_achievement": "Logro Verificado",
+    "default_name": "Lector Veloz"
+  }
+}

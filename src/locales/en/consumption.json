@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Reading"
+  },
+  "import": {
+    "importing": "Importing...",
+    "processing": "Processing content..."
+  }
+}

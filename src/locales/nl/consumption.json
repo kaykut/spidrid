@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Lezen"
+  },
+  "import": {
+    "importing": "Importeren...",
+    "processing": "Inhoud verwerken..."
+  }
+}

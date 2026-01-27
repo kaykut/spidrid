@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Certyfikat Osiągnięcia",
+    "reading_excellence": "Doskonałość w Czytaniu",
+    "presented_to": "Niniejszy certyfikat zostaje dumnie przyznany",
+    "exceptional_proficiency": "Za wykazanie wyjątkowej biegłości w szybkim czytaniu",
+    "reading_speed_achieved": "poprzez osiągnięcie prędkości czytania",
+    "date_achieved": "Data Osiągnięcia",
+    "certificate_id": "ID Certyfikatu",
+    "verified_achievement": "Zweryfikowane Osiągnięcie",
+    "default_name": "Szybki Czytelnik"
+  }
+}

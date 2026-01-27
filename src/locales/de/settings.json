@@ -1,0 +1,35 @@
+{
+  "page_title": "Reise & Einstellungen",
+  "sections": {
+    "theme": "Design",
+    "your_info": "Deine Info",
+    "reading": "Lesen",
+    "developer": "Entwickler"
+  },
+  "themes": {
+    "dark": "Dunkel",
+    "midnight": "Nacht",
+    "sepia": "Sepia",
+    "light": "Hell"
+  },
+  "fonts": {
+    "system": "System",
+    "serif": "Serif",
+    "round": "Rund",
+    "condensed": "Schmal",
+    "preview": "Vorschau"
+  },
+  "user_info": {
+    "name_label": "Name (für Zertifikate)",
+    "name_placeholder": "Name eingeben"
+  },
+  "reading": {
+    "paragraph_pause": "Absatzpause",
+    "paragraph_pause_desc": "Kurze Pause zwischen Absätzen",
+    "move_to_history": "In Verlauf verschieben",
+    "move_to_history_desc": "Erledigte Inhalte in Verlauf verschieben"
+  },
+  "developer": {
+    "dev_tools": "Dev Tools"
+  }
+}

@@ -199,8 +199,8 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
           return true;
         }
 
-        // Free tier: max 3 articles per day
-        return dailyGenerationCount < 3;
+        // Free tier: max articles per day
+        return dailyGenerationCount < FREE_TIER_LIMITS.MAX_DAILY_AI_GENERATIONS;
       },
 
       // Increment generation count after successful article generation

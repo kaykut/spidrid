@@ -1,0 +1,31 @@
+{
+  "page_title": "Nowa Treść",
+  "practice": {
+    "title": "Ćwiczenie",
+    "desc": "Wybierz spośród gotowych treści, aby ćwiczyć szybkie czytanie"
+  },
+  "read": {
+    "title": "Czytaj",
+    "desc": "Czytaj szybko własne artykuły lub książki z PDF-ów, EPUB-ów lub linków",
+    "options": {
+      "webpage": "Strona internetowa",
+      "text": "Zwykły Tekst",
+      "ebook": "Epub i PDF"
+    },
+    "placeholders": {
+      "url": "Wpisz URL (np. https://example.com/article)",
+      "text": "Wklej swój tekst tutaj..."
+    }
+  },
+  "learn": {
+    "title": "Ucz się",
+    "desc": "Generuj artykuły na tematy, które chcesz opanować"
+  },
+  "errors": {
+    "import_failed": "Import Nieudany",
+    "extract_url": "Nie można wyodrębnić treści z URL",
+    "process_text": "Nie można przetworzyć tekstu",
+    "extract_content": "Nie można wyodrębnić treści",
+    "pick_document": "Nie udało się wybrać dokumentu"
+  }
+}

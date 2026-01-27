@@ -1,0 +1,35 @@
+{
+  "page_title": "Reis & Instellingen",
+  "sections": {
+    "theme": "Thema",
+    "your_info": "Jouw Info",
+    "reading": "Lezen",
+    "developer": "Ontwikkelaar"
+  },
+  "themes": {
+    "dark": "Donker",
+    "midnight": "Nacht",
+    "sepia": "Sepia",
+    "light": "Licht"
+  },
+  "fonts": {
+    "system": "Systeem",
+    "serif": "Serif",
+    "round": "Rond",
+    "condensed": "Smal",
+    "preview": "Voorbeeld"
+  },
+  "user_info": {
+    "name_label": "Naam (voor certificaten)",
+    "name_placeholder": "Voer je naam in"
+  },
+  "reading": {
+    "paragraph_pause": "Alinea Pauze",
+    "paragraph_pause_desc": "Korte pauze tussen alinea's",
+    "move_to_history": "Verplaats naar Geschiedenis",
+    "move_to_history_desc": "Voltooide items gaan naar Geschiedenis"
+  },
+  "developer": {
+    "dev_tools": "Dev Tools"
+  }
+}

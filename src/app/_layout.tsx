@@ -8,7 +8,9 @@ import { ThemeProvider } from '../components/common/ThemeProvider';
 import { PdfExtractorProvider } from '../components/PdfExtractorProvider';
 import { useAuthDeepLink } from '../hooks/useAuthDeepLink';
 import { initializeAutoSync, cleanupAutoSync } from '../hooks/useSyncManager';
+import { initI18n } from '../services/i18n';
 import { useAuthStore } from '../store/authStore';
+import { useLocaleStore } from '../store/localeStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
 
 // Prevent splash screen from auto-hiding
@@ -17,6 +19,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const initializeAuth = useAuthStore(state => state.initialize);
   const initializeSubscription = useSubscriptionStore(state => state.initialize);
+  const initializeLocale = useLocaleStore(state => state.initialize);
 
   // Load custom fonts
   const [fontsLoaded, fontError] = useFonts({
@@ -40,6 +43,25 @@ export default function RootLayout() {
 
   useEffect(() => {
     console.log('[_layout] === useEffect triggered ===');
+
+    // Initialize i18n with detected locale
+    const setupI18n = async () => {
+      try {
+        console.log('[_layout] Calling initializeLocale()');
+        await initializeLocale();
+        const locale = useLocaleStore.getState().currentLocale || 'en';
+        console.log('[_layout] Initializing i18n with locale:', locale);
+        await initI18n(locale);
+      } catch (error) {
+        console.error('[_layout] i18n initialization failed:', error);
+        // App continues with English fallback
+      }
+    };
+
+    setupI18n().catch(err => {
+      console.error('[_layout] setupI18n error:', err);
+    });
+
     console.log('[_layout] Calling initializeAuth()');
     initializeAuth();
     console.log('[_layout] Calling initializeSubscription()');
@@ -51,7 +73,7 @@ export default function RootLayout() {
       console.log('[_layout] Cleanup: calling cleanupAutoSync()');
       cleanupAutoSync();
     };
-  }, [initializeAuth, initializeSubscription]);
+  }, [initializeAuth, initializeSubscription, initializeLocale]);
 
   // Return null while fonts are loading
   if (!fontsLoaded && !fontError) {
@@ -111,6 +133,16 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="history"
+                options={{
+                  presentation: 'fullScreenModal',
+                  animation: 'slide_from_bottom',
+                  gestureEnabled: true,
+                  headerShown: false,
+                  contentStyle: { backgroundColor: 'transparent' },
+                }}
+              />
+              <Stack.Screen
+                name="paywall"
                 options={{
                   presentation: 'fullScreenModal',
                   animation: 'slide_from_bottom',

@@ -1,0 +1,54 @@
+{
+  "tones": {
+    "auto": "Auto",
+    "fact": "Feit",
+    "fact_desc": "Helder en leerzaam",
+    "story": "Verhaal",
+    "story_desc": "Verhalend en boeiend",
+    "analogy": "Beeld",
+    "analogy_desc": "Vol vergelijkingen"
+  },
+  "durations": {
+    "1min": "1 min",
+    "2min": "2 min",
+    "3min": "3 min",
+    "5min": "5 min",
+    "10min": "10 min"
+  },
+  "portions": {
+    "bite": "Hap",
+    "snack": "Snack",
+    "meal": "Maal",
+    "feast": "Feest"
+  },
+  "presets": {
+    "nugget": "Nugget",
+    "primer": "Basis",
+    "topic": "Onderwerp",
+    "deep_dive": "Diepgang"
+  },
+  "labels": {
+    "portion": "Portie",
+    "flavor": "Smaak",
+    "auto": "Auto"
+  },
+  "placeholders": {
+    "topic": "Waar wil je meer over leren?"
+  },
+  "actions": {
+    "adjust_duration_tone": "Duur en toon aanpassen",
+    "serve_it_up": "Serveer het op",
+    "listening": "Luisteren...",
+    "transcribing": "Transcriberen..."
+  },
+  "article_one": "{{count}} artikel",
+  "article_other": "{{count}} artikelen",
+  "min_suffix": "min",
+  "a11y": {
+    "portion_premium": "{{portion}} portie (Premium functie)",
+    "portion_hint_upgrade": "Upgrade naar premium om te ontgrendelen",
+    "portion_hint_select": "Selecteer {{portion}} portie",
+    "flavor_premium": "{{flavor}} smaak (Premium functie)",
+    "flavor_hint_select": "Selecteer {{flavor}} schrijfstijl"
+  }
+}
