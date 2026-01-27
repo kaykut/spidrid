@@ -25,7 +25,6 @@ import { AuthModal } from '../components/auth/AuthModal';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
 import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
-import { PremiumBadge } from '../components/premium/PremiumBadge';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
@@ -370,7 +369,6 @@ export default function JourneyProfileModal() {
               Sync Across Devices
             </Text>
               <View style={[styles.card, { backgroundColor: theme.secondaryBackground, position: 'relative' }]}>
-                {!isPremium && <PremiumBadge />}
                 {isLoggedIn ? (
                   <>
                     <View style={styles.syncStatusRow}>
@@ -416,17 +414,13 @@ export default function JourneyProfileModal() {
                 ) : (
                   <>
                     <Text style={[styles.syncDescription, { color: JOURNEY_COLORS.textSecondary }]}>
-                      Sign in to sync your reading progress, certificates, and settings across all
-                      your devices.
+                      Sign in to enable cloud sync of your reading progress, certificates, and settings.
+                      Syncing requires Premium.
                     </Text>
                     <TouchableOpacity
                       style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
                       onPress={() => {
-                        if (isPremium) {
-                          setShowAuthModal(true);
-                        } else {
-                          router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
-                        }
+                        setShowAuthModal(true);
                       }}
                     >
                       <Ionicons

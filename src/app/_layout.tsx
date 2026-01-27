@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { AppState } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -42,8 +43,9 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    // Initialize i18n with detected locale
-    const setupI18n = async () => {
+    // Initialize app services
+    const initializeApp = async () => {
+      // Initialize i18n with detected locale first (needed for UI)
       try {
         await initializeLocale();
         const locale = useLocaleStore.getState().currentLocale || 'en';
@@ -52,20 +54,47 @@ export default function RootLayout() {
         console.error('[_layout] i18n initialization failed:', error);
         // App continues with English fallback
       }
+
+      // Initialize auth and subscription sequentially to prevent race conditions
+      // Auth MUST complete before subscription to ensure RevenueCat is configured
+      // before any linkRevenueCatUser calls from the auth listener
+      await initializeAuth();
+      await initializeSubscription();
+      initializeAutoSync();
     };
 
-    setupI18n().catch(err => {
-      console.error('[_layout] setupI18n error:', err);
+    initializeApp().catch(err => {
+      console.error('[_layout] initializeApp error:', err);
     });
-
-    initializeAuth();
-    initializeSubscription();
-    initializeAutoSync();
 
     return () => {
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription, initializeLocale]);
+
+  // Handle app foreground/background transitions
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        // Refresh premium status when app comes to foreground
+        // RevenueCat SDK auto-refreshes its cache, but we need to read it
+        useSubscriptionStore.getState().refreshPremiumStatus();
+      }
+
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        // Trigger sync push to save any pending position updates
+        import('../services/syncOrchestrator').then(({ pushAllChanges }) => {
+          pushAllChanges().catch(() => {
+            // Background sync failed silently - will retry on next app state change
+          });
+        });
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   // Return null while fonts are loading
   if (!fontsLoaded && !fontError) {

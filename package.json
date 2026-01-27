@@ -20,7 +20,11 @@
     "e2e:quiz": "maestro --device 'Devoro-E2E-Test' test e2e/flows/quiz/",
     "e2e:monetization": "maestro --device 'Devoro-E2E-Test' test e2e/flows/subscription/",
     "e2e:studio": "maestro --device 'Devoro-E2E-Test' studio",
-    "e2e:reset": "xcrun simctl shutdown 'Devoro-E2E-Test' 2>/dev/null || true && xcrun simctl erase 'Devoro-E2E-Test'"
+    "e2e:reset": "xcrun simctl shutdown 'Devoro-E2E-Test' 2>/dev/null || true && xcrun simctl erase 'Devoro-E2E-Test'",
+    "generate-baseline": "tsx scripts/generate-baseline.ts",
+    "generate-project-status": "tsx scripts/generate-project-status.ts",
+    "validate-translation": "tsx scripts/validate-translation.ts",
+    "translate-batch": "tsx scripts/translate-batch.ts"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -62,6 +66,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "29.5.14",
     "@types/react": "~19.1.0",
@@ -78,6 +83,7 @@
     "jest-expo": "~54.0.16",
     "react-refresh": "^0.18.0",
     "react-test-renderer": "19.1.0",
+    "tsx": "^4.7.0",
     "typescript": "~5.9.2"
   },
   "overrides": {

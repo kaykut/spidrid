@@ -73,6 +73,7 @@ jest.mock('@supabase/supabase-js', () => ({
       signInWithPassword: jest.fn().mockResolvedValue({ data: {}, error: null }),
       resetPasswordForEmail: jest.fn().mockResolvedValue({ data: {}, error: null }),
       setSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      signInWithOAuth: jest.fn().mockResolvedValue({ data: {}, error: null }),
     },
     from: jest.fn(() => ({
       select: jest.fn().mockReturnThis(),
@@ -118,6 +119,7 @@ jest.mock('./src/services/purchases', () => ({
   purchasePackage: jest.fn().mockResolvedValue(null),
   isAvailable: jest.fn().mockReturnValue(false),
   getPremiumEntitlement: jest.fn().mockReturnValue('premium'),
+  setupCustomerInfoListener: jest.fn().mockReturnValue(() => {}), // Returns cleanup function
 }));
 
 // Mock franc-min to avoid ESM module issues

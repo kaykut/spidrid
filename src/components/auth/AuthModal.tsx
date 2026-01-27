@@ -70,6 +70,13 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
         Sign in to sync your reading progress, certificates, and settings across all your devices.
       </Text>
 
+      <View style={[styles.warningContainer, { backgroundColor: `${JOURNEY_COLORS.warning}15`, borderColor: `${JOURNEY_COLORS.warning}30` }]}>
+        <Ionicons name="information-circle-outline" size={SIZES.iconSm} color={JOURNEY_COLORS.warning} />
+        <Text style={[styles.warningText, { color: JOURNEY_COLORS.textSecondary }]}>
+          Signing in will sync your cloud data to this device. Any articles or progress created locally before signing in will not be transferred.
+        </Text>
+      </View>
+
       {error && (
         <View style={[styles.errorContainer, { backgroundColor: `${JOURNEY_COLORS.low}20` }]}>
           <Ionicons name="alert-circle" size={SIZES.iconSm} color={JOURNEY_COLORS.low} />
@@ -161,6 +168,20 @@ const styles = StyleSheet.create({
   description: {
     ...TYPOGRAPHY.body,
     marginBottom: SPACING.lg,
+  },
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.chip,
+    borderWidth: 1,
+    marginBottom: SPACING.lg,
+    gap: SPACING.sm,
+  },
+  warningText: {
+    ...TYPOGRAPHY.caption,
+    flex: 1,
+    lineHeight: 18,
   },
   errorContainer: {
     flexDirection: 'row',
