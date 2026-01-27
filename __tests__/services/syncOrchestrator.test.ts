@@ -7,6 +7,7 @@ import {
   resetSyncState,
 } from '../../src/services/syncOrchestrator';
 import { useAuthStore } from '../../src/store/authStore';
+import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 
 // Mock all sync adapters
 jest.mock('../../src/services/sync', () => ({
@@ -64,8 +65,9 @@ describe('syncOrchestrator', () => {
     jest.clearAllMocks();
     // Reset sync state
     resetSyncState();
-    // Reset auth store
+    // Reset auth store - sync requires both isLoggedIn and isPremium
     useAuthStore.setState({ isLoggedIn: true, userId: 'test-user' });
+    useSubscriptionStore.setState({ isPremium: true });
     // Reset mock implementations to default success state
     (mockContentAdapter.pull as jest.Mock).mockResolvedValue([]);
     (mockContentAdapter.push as jest.Mock).mockResolvedValue(undefined);
@@ -93,6 +95,7 @@ describe('syncOrchestrator', () => {
   describe('performFullSync', () => {
     it('should fail when not authenticated', async () => {
       useAuthStore.setState({ isLoggedIn: false });
+      useSubscriptionStore.setState({ isPremium: false });
 
       const result = await performFullSync();
 
@@ -162,6 +165,7 @@ describe('syncOrchestrator', () => {
   describe('pushAllChanges', () => {
     it('should fail when not authenticated', async () => {
       useAuthStore.setState({ isLoggedIn: false });
+      useSubscriptionStore.setState({ isPremium: false });
 
       const result = await pushAllChanges();
 
@@ -192,6 +196,7 @@ describe('syncOrchestrator', () => {
   describe('pullAllData', () => {
     it('should fail when not authenticated', async () => {
       useAuthStore.setState({ isLoggedIn: false });
+      useSubscriptionStore.setState({ isPremium: false });
 
       const result = await pullAllData();
 
@@ -224,6 +229,7 @@ describe('syncOrchestrator', () => {
   describe('syncSingleAdapter', () => {
     it('should fail when not authenticated', async () => {
       useAuthStore.setState({ isLoggedIn: false });
+      useSubscriptionStore.setState({ isPremium: false });
 
       const result = await syncSingleAdapter('content');
 

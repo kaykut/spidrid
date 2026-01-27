@@ -69,17 +69,13 @@ export default function PaywallScreen() {
   const triggerKey = (trigger as PaywallTrigger) || 'default';
   const subheadline = PAYWALL_SUBHEADLINES[triggerKey] || PAYWALL_COPY.defaultSubheadline;
 
-  // Track mount time for analytics
-  const [mountTime] = useState(Date.now());
+  // Track mount time for analytics (TODO: use when analytics service is integrated)
+  const [_mountTime] = useState(Date.now());
 
   // Analytics: paywall_viewed on mount (includes deep link referrer if present)
   useEffect(() => {
-    const eventData: Record<string, string | undefined> = { trigger: triggerKey };
-    if (referrer) {
-      eventData.referrer = referrer;
-      eventData.source = 'deep_link';
-    }
-    console.log('[Analytics] paywall_viewed', eventData);
+    // TODO: Integrate with analytics service
+    // const eventData = { trigger: triggerKey, referrer, source: referrer ? 'deep_link' : undefined };
   }, [triggerKey, referrer]);
 
   // Fetch offerings function (reusable for retry)
@@ -120,8 +116,7 @@ export default function PaywallScreen() {
   }, [isPremium]);
 
   const handleClose = () => {
-    const timeSpent = Math.round((Date.now() - mountTime) / 1000);
-    console.log('[Analytics] paywall_dismissed', { trigger: triggerKey, timeSpent });
+    // TODO: Track paywall_dismissed with analytics (timeSpent: Date.now() - mountTime)
     router.back();
   };
 
@@ -131,7 +126,7 @@ export default function PaywallScreen() {
       return;
     }
 
-    console.log('[Analytics] purchase_initiated', { plan: selectedPlan, trigger: triggerKey });
+    // TODO: Track purchase_initiated with analytics
     setIsPurchasing(true);
     setError(null);
 
@@ -140,24 +135,23 @@ export default function PaywallScreen() {
       if (customerInfo) {
         const hasPremium = customerInfo.entitlements.active[PurchasesService.getPremiumEntitlement()] !== undefined;
         if (hasPremium) {
-          console.log('[Analytics] purchase_completed', { plan: selectedPlan, trigger: triggerKey });
+          // TODO: Track purchase_completed with analytics
           useSubscriptionStore.setState({ isPremium: true });
           router.back();
           return;
         }
       }
-      console.log('[Analytics] purchase_failed', { plan: selectedPlan, trigger: triggerKey, reason: 'no_entitlement' });
+      // TODO: Track purchase_failed with analytics
       setError('Purchase failed. Please try again.');
     } catch (err: unknown) {
       // Check if user cancelled
       const errorCode = (err as { userCancelled?: boolean })?.userCancelled;
       if (errorCode) {
-        console.log('[Analytics] purchase_cancelled', { plan: selectedPlan, trigger: triggerKey });
         // User cancelled - dismiss silently
+        // TODO: Track purchase_cancelled with analytics
         return;
       }
-      console.error('[Paywall] Purchase error:', err);
-      console.log('[Analytics] purchase_failed', { plan: selectedPlan, trigger: triggerKey, reason: 'error' });
+      // TODO: Track purchase_failed with analytics
       setError('Purchase failed. Please try again.');
     } finally {
       setIsPurchasing(false);
@@ -165,17 +159,17 @@ export default function PaywallScreen() {
   };
 
   const handleRestore = async () => {
-    console.log('[Analytics] restore_initiated', { trigger: triggerKey });
+    // TODO: Track restore_initiated with analytics
     const result = await restorePurchases();
     if (result.success) {
-      console.log('[Analytics] restore_completed', { success: true, trigger: triggerKey });
+      // TODO: Track restore_completed with analytics
       Alert.alert('Purchases Restored!', 'Your subscription has been restored.');
       router.back();
     } else if (result.error) {
-      console.log('[Analytics] restore_completed', { success: false, trigger: triggerKey, error: result.error });
+      // TODO: Track restore_failed with analytics
       Alert.alert('Error', result.error);
     } else {
-      console.log('[Analytics] restore_completed', { success: false, trigger: triggerKey, noPurchases: true });
+      // TODO: Track restore_no_purchases with analytics
       Alert.alert('No Purchases Found', result.message || 'No previous purchases found.');
     }
   };
@@ -189,7 +183,7 @@ export default function PaywallScreen() {
   };
 
   const handlePlanChange = (plan: 'yearly' | 'monthly') => {
-    console.log('[Analytics] plan_selected', { plan, trigger: triggerKey });
+    // TODO: Track plan_selected with analytics
     setSelectedPlan(plan);
   };
 

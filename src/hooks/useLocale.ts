@@ -12,8 +12,8 @@ import type { Namespace } from '../services/i18n';
 import type { SupportedLocale } from '../types/locale';
 
 export const useLocale = (namespace: Namespace | Namespace[] = 'common') => {
-  const { t, i18n } = useTranslation(namespace);
-  const { setLocale, getSupportedLocales } = useLocaleStore();
+  const { t } = useTranslation(namespace);
+  const { currentLocale, setLocale, getSupportedLocales } = useLocaleStore();
 
   const switchLanguage = async (locale: SupportedLocale) => {
     await changeLanguage(locale);
@@ -22,7 +22,7 @@ export const useLocale = (namespace: Namespace | Namespace[] = 'common') => {
 
   return {
     t,
-    currentLocale: i18n.language as SupportedLocale,
+    currentLocale: currentLocale ?? 'en',
     supportedLocales: getSupportedLocales(),
     switchLanguage,
   };

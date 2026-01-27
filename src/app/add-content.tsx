@@ -15,7 +15,6 @@ import {
   ScrollView,
   Animated,
   Dimensions,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -133,112 +132,95 @@ export default function AddContentModal() {
     });
   };
 
-  const handleOutsidePress = () => {
-    if (isPracticeExpanded) {
-      animateLayout();
-      setIsPracticeExpanded(false);
-    }
-    if (isReadExpanded) {
-      animateLayout();
-      setIsReadExpanded(false);
-    }
-    if (isLearnExpanded) {
-      animateLayout();
-      setIsLearnExpanded(false);
-    }
-  };
-
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
   const topicCardWidth = getTopicCardWidth();
 
   const renderContent = () => {
     return (
-      <TouchableWithoutFeedback onPress={handleOutsidePress}>
-        <ScrollView
-          style={styles.menuContainer}
-          contentContainerStyle={styles.menuContent}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
+      <ScrollView
+        style={styles.menuContainer}
+        contentContainerStyle={styles.menuContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Expandable Read Card */}
+        <ExpandableReadCard
+          isExpanded={isReadExpanded}
+          onExpandChange={handleReadExpandChange}
+          onClose={handleClose}
+        />
+
+        {/* Expandable Learn Card */}
+        <ExpandableLearnCard
+          isExpanded={isLearnExpanded}
+          onExpandChange={handleLearnExpandChange}
+          onClose={handleClose}
+        />
+
+        {/* Expandable Practice Card */}
+        <View
+          style={[
+            styles.practiceCardWrapper,
+            { backgroundColor: theme.secondaryBackground },
+            isPracticeExpanded && styles.practiceCardExpanded,
+          ]}
         >
-          {/* Expandable Read Card */}
-          <ExpandableReadCard
-            isExpanded={isReadExpanded}
-            onExpandChange={handleReadExpandChange}
-            onClose={handleClose}
-          />
-
-          {/* Expandable Learn Card */}
-          <ExpandableLearnCard
-            isExpanded={isLearnExpanded}
-            onExpandChange={handleLearnExpandChange}
-            onClose={handleClose}
-          />
-
-          {/* Expandable Practice Card */}
-          <View
-            style={[
-              styles.practiceCardWrapper,
-              { backgroundColor: theme.secondaryBackground },
-              isPracticeExpanded && styles.practiceCardExpanded,
-            ]}
+          {/* Header row */}
+          <TouchableOpacity
+            style={styles.practiceCardHeader}
+            onPress={togglePracticeExpanded}
+            activeOpacity={0.7}
+            testID="add-content.practice-card"
           >
-            {/* Header row */}
-            <TouchableOpacity
-              style={styles.practiceCardHeader}
-              onPress={togglePracticeExpanded}
-              activeOpacity={0.7}
-              testID="add-content.practice-card"
+            <View
+              style={[
+                styles.menuIconContainer,
+                { backgroundColor: `${JOURNEY_COLORS.premiumAccent}20` },
+              ]}
             >
-              <View
-                style={[
-                  styles.menuIconContainer,
-                  { backgroundColor: `${JOURNEY_COLORS.premiumAccent}20` },
-                ]}
-              >
-                <Ionicons
-                  name="stopwatch-outline"
-                  size={SIZES.iconLg}
-                  color={JOURNEY_COLORS.premiumAccent}
-                />
-              </View>
-              <View style={styles.menuTextContainer}>
-                <Text style={[styles.menuTitle, { color: theme.textColor }]} testID="add-content.practice-text">Practice</Text>
-                <Text style={[styles.menuDescription, { color: theme.textColor }]}>
-                  Choose from pre-generated content to practice speed reading
-                </Text>
-              </View>
-              <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={SIZES.iconMd}
-                  color={theme.textColor}
-                  style={styles.chevron}
-                />
-              </Animated.View>
-            </TouchableOpacity>
+              <Ionicons
+                name="stopwatch-outline"
+                size={SIZES.iconLg}
+                color={JOURNEY_COLORS.premiumAccent}
+              />
+            </View>
+            <View style={styles.menuTextContainer}>
+              <Text style={[styles.menuTitle, { color: theme.textColor }]} testID="add-content.practice-text">Practice</Text>
+              <Text style={[styles.menuDescription, { color: theme.textColor }]}>
+                Choose from pre-generated content to practice speed reading
+              </Text>
+            </View>
+            <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
+              <Ionicons
+                name="chevron-forward"
+                size={SIZES.iconMd}
+                color={theme.textColor}
+                style={styles.chevron}
+              />
+            </Animated.View>
+          </TouchableOpacity>
 
-            {/* Topic Grid - shown when expanded, inside the card */}
-            {isPracticeExpanded && (
-              <View style={styles.topicGrid}>
-                {TOPICS.map((topic, index) => {
-                  const progress = getTopicProgress(topic.id);
-                  return (
-                    <MiniTopicCard
-                      key={topic.id}
-                      topic={topic}
-                      progress={progress}
-                      cardWidth={topicCardWidth}
-                      backgroundColor={theme.backgroundColor}
-                      onPress={() => handleTopicPress(topic.id)}
-                      testID={`add-content.practice.topic-${index}`}
-                    />
-                  );
-                })}
-              </View>
-            )}
-          </View>
-        </ScrollView>
-      </TouchableWithoutFeedback>
+          {/* Topic Grid - shown when expanded, inside the card */}
+          {isPracticeExpanded && (
+            <View style={styles.topicGrid}>
+              {TOPICS.map((topic, index) => {
+                const progress = getTopicProgress(topic.id);
+                return (
+                  <MiniTopicCard
+                    key={topic.id}
+                    topic={topic}
+                    progress={progress}
+                    cardWidth={topicCardWidth}
+                    backgroundColor={theme.backgroundColor}
+                    onPress={() => handleTopicPress(topic.id)}
+                    testID={`add-content.practice.topic-${index}`}
+                  />
+                );
+              })}
+            </View>
+          )}
+        </View>
+      </ScrollView>
     );
   };
 

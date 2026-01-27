@@ -99,3 +99,4 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 - **ExecPlans:** `docs/plans/`
 - **iOS/Builds/RevenueCat:** `docs/reference/ios-config.md`
 - **iOS 26 Liquid Glass:** `docs/reference/IOS26.md`
+- **Revenuecat Supabase Authentication Flow:** `docs/reference/revenuecat-supabase-authentication-flow.md`

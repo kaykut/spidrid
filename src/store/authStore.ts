@@ -12,6 +12,7 @@ interface AuthState {
 
   initialize: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
+  signInWithOAuth: (provider: 'google' | 'apple') => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signUpWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
   signInWithPassword: (email: string, password: string) => Promise<{ user: unknown; session: unknown } | null>;
@@ -30,29 +31,25 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
   // Initialize authentication - check for existing session or create anonymous
   initialize: async () => {
-    console.log('[AuthStore] === initialize() called ===');
-    console.log('[AuthStore] isInitialized:', get().isInitialized);
-
     if (get().isInitialized) {
-      console.log('[AuthStore] Already initialized, returning');
       return;
     }
 
-    console.log('[AuthStore] Setting up auth state change listener');
     // Set up auth state change listener to handle session updates
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('[AuthStore] onAuthStateChange event:', _event);
-      console.log('[AuthStore] session:', session ? {
-        userId: session.user?.id,
-        isAnonymous: session.user?.is_anonymous
-      } : 'null');
-
       if (session) {
         const isAnonymous = session.user?.is_anonymous ?? false;
         const userId = session.user?.id ?? null;
         const userEmail = session.user?.email ?? null;
-        const wasLoggedIn = get().isLoggedIn;
+
+        const prevState = get();
+        const wasLoggedIn = prevState.isLoggedIn;
         const isNowLoggedIn = !isAnonymous;
+        const prevUserId = prevState.userId;
+
+        // Detect user ID change (not just anonymous → authenticated)
+        // This happens when Device 2 signs in with existing account from Device 1
+        const userIdChanged = prevUserId && userId && prevUserId !== userId;
 
         set({
           isAnonymous,
@@ -61,21 +58,23 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           userEmail,
         });
 
-        // Link RevenueCat user when user logs in (not anonymous)
-        // This syncs premium status across devices
-        if (!wasLoggedIn && isNowLoggedIn && userId) {
-          useSubscriptionStore.getState().linkRevenueCatUser(userId).catch((error) => {
-            console.error('[Auth] Failed to link RevenueCat user:', error);
-          });
-
-          // Restore purchases after login to handle "guest purchase then login" scenario
-          // This ensures purchases made before signing in transfer to the authenticated account
-          useSubscriptionStore.getState().restorePurchases().catch((error) => {
-            console.error('[Auth] Failed to restore purchases after login:', error);
-          });
+        // Link RevenueCat when transitioning to authenticated
+        // (First time login OR user ID change)
+        if ((!wasLoggedIn && isNowLoggedIn) || userIdChanged) {
+          if (userId) {
+            // CRITICAL: These must be sequential, not parallel
+            // linkRevenueCatUser MUST complete before restorePurchases
+            (async () => {
+              try {
+                await useSubscriptionStore.getState().linkRevenueCatUser(userId);
+                await useSubscriptionStore.getState().restorePurchases();
+              } catch (error) {
+                console.error('[Auth] Failed to link and restore:', error);
+              }
+            })();
+          }
         }
       } else {
-        console.log('[AuthStore] No session in onAuthStateChange');
         set({
           isAnonymous: false,
           isLoggedIn: false,
@@ -85,19 +84,10 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       }
     });
 
-    console.log('[AuthStore] Checking for existing session...');
     // Check for existing session
     const { data: { session }, error } = await supabase.auth.getSession();
 
-    console.log('[AuthStore] getSession result:', {
-      hasSession: !!session,
-      error: error?.message,
-      userId: session?.user?.id,
-      isAnonymous: session?.user?.is_anonymous
-    });
-
     if (session && !error) {
-      console.log('[AuthStore] Using existing session');
       // Use existing session
       const isAnonymous = session.user?.is_anonymous ?? false;
       set({
@@ -110,25 +100,10 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
 
-    console.log('[AuthStore] No existing session - calling signInAnonymously()');
     // No session - sign in anonymously
     const { data, error: signInError } = await supabase.auth.signInAnonymously();
 
-    console.log('[AuthStore] signInAnonymously result:', {
-      hasUser: !!data?.user,
-      userId: data?.user?.id,
-      error: signInError?.message,
-      errorDetails: signInError
-    });
-
     if (signInError || !data.user) {
-      // Log the error for debugging
-      console.error(
-        '[AuthStore] signInAnonymously failed:',
-        signInError?.message || 'No user returned',
-        signInError
-      );
-
       // Even on error, mark as initialized to prevent infinite retries
       set({
         isInitialized: true,
@@ -137,7 +112,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
 
-    console.log('[AuthStore] signInAnonymously SUCCESS - user created:', data.user.id);
     set({
       isInitialized: true,
       isAnonymous: true,
@@ -154,7 +128,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     const { data: { session }, error } = await supabase.auth.refreshSession();
 
     if (error || !session) {
-      console.log('[AuthStore] Failed to refresh session:', error?.message);
       // Fall back to cached session
       const { data: cached } = await supabase.auth.getSession();
       return cached.session?.access_token ?? null;
@@ -163,14 +136,37 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     return session.access_token;
   },
 
-  // Sign in with Google - links Google identity to current anonymous session
-  signInWithGoogle: async () => {
-    const { error } = await supabase.auth.linkIdentity({
-      provider: 'google',
+  // Sign in with OAuth (for returning users on Device 2+)
+  // Use this when user already has an account and wants to sign in
+  signInWithOAuth: async (provider: 'google' | 'apple') => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
     });
 
     if (error) {
       throw error;
+    }
+  },
+
+  // Sign in with Google - smart fallback for new vs returning users
+  // Try OAuth first (returning user), fall back to linkIdentity (new user)
+  signInWithGoogle: async () => {
+    // Try signInWithOAuth first (for returning users on Device 2+)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (!error) {
+      return; // Success, returning user
+    }
+
+    // If OAuth fails, try linkIdentity for new user
+    const { error: linkError } = await supabase.auth.linkIdentity({
+      provider: 'google',
+    });
+
+    if (linkError) {
+      throw linkError;
     }
   },
 

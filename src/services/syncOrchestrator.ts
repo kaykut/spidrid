@@ -6,6 +6,7 @@
  */
 
 import { useAuthStore } from '../store/authStore';
+import { useSubscriptionStore } from '../store/subscriptionStore';
 import {
   contentSyncAdapter,
   generatedSyncAdapter,
@@ -66,11 +67,12 @@ export function resetSyncState(): void {
 // =============================================================================
 
 /**
- * Check if user is authenticated and can sync
+ * Check if user is authenticated and has premium (required for sync)
  */
 function canSync(): boolean {
   const { isLoggedIn } = useAuthStore.getState();
-  return isLoggedIn;
+  const { isPremium } = useSubscriptionStore.getState();
+  return isLoggedIn && isPremium;
 }
 
 /**
@@ -122,9 +124,11 @@ async function syncAdapter<T extends SyncItem>(
  */
 export async function performFullSync(): Promise<SyncResult> {
   if (!canSync()) {
+    const { isLoggedIn } = useAuthStore.getState();
+
     return {
       success: false,
-      error: 'Not authenticated',
+      error: !isLoggedIn ? 'Not authenticated' : 'Premium required for sync',
       syncedAt: Date.now(),
     };
   }

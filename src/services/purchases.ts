@@ -71,7 +71,11 @@ function loadPurchasesSDK(): PurchasesSDK | null {
 
 /**
  * Configure RevenueCat SDK.
- * Returns true if successfully configured, false if SDK not available.
+ *
+ * RevenueCat will create its own anonymous ID. When the user signs in,
+ * call loginUser() to alias the anonymous ID with the Supabase user ID.
+ *
+ * @returns true if successfully configured, false if SDK not available.
  */
 export async function configurePurchases(): Promise<boolean> {
   if (isConfigured) {return true;}
@@ -89,7 +93,6 @@ export async function configurePurchases(): Promise<boolean> {
   try {
     await Purchases.configure({ apiKey: REVENUECAT_API_KEY });
     isConfigured = true;
-    // Debug:('[Purchases] SDK configured successfully');
     return true;
   } catch (error) {
     console.error('[Purchases] Failed to configure:', error);
@@ -99,11 +102,20 @@ export async function configurePurchases(): Promise<boolean> {
 
 /**
  * Check if user has active premium entitlement.
+ *
+ * @param forceFresh - If true, invalidates SDK cache to guarantee fresh data from server.
+ *                     Use on app foreground or when you need guaranteed up-to-date status.
+ *                     Default false uses SDK's 5-minute cache policy.
  */
-export async function checkPremiumStatus(): Promise<boolean> {
+export async function checkPremiumStatus(forceFresh = false): Promise<boolean> {
   if (!isConfigured || !Purchases) {return false;}
 
   try {
+    // Invalidate cache to force fresh fetch from RevenueCat server
+    if (forceFresh) {
+      await Purchases.invalidateCustomerInfoCache();
+    }
+
     const customerInfo = await Purchases.getCustomerInfo();
     return customerInfo.entitlements.active[PREMIUM_ENTITLEMENT] !== undefined;
   } catch (error) {
@@ -205,4 +217,47 @@ export function isAvailable(): boolean {
  */
 export function getPremiumEntitlement(): string {
   return PREMIUM_ENTITLEMENT;
+}
+
+/**
+ * Set up a listener for CustomerInfo updates from RevenueCat SDK.
+ *
+ * The listener fires when:
+ * - Subscription status changes (expiration, renewal, etc.)
+ * - Purchases made on other devices sync
+ * - Admin grants/revokes entitlements
+ * - Refunds are processed
+ *
+ * This ensures the app stays in sync with the latest subscription state
+ * without manually polling RevenueCat.
+ *
+ * @param callback - Called with updated premium status whenever CustomerInfo changes
+ * @returns Cleanup function to remove the listener
+ */
+export function setupCustomerInfoListener(
+  callback: (isPremium: boolean) => void
+): () => void {
+  if (!isConfigured || !Purchases) {
+    console.warn('[Purchases] Cannot setup listener: SDK not configured');
+    return () => {}; // No-op cleanup
+  }
+
+  try {
+    const listener = Purchases.addCustomerInfoUpdateListener((customerInfo: CustomerInfo) => {
+      const isPremium = customerInfo.entitlements.active[PREMIUM_ENTITLEMENT] !== undefined;
+      callback(isPremium);
+    });
+
+    // Return cleanup function
+    return () => {
+      try {
+        listener.remove();
+      } catch (error) {
+        console.warn('[Purchases] Failed to remove listener:', error);
+      }
+    };
+  } catch (error) {
+    console.error('[Purchases] Failed to setup CustomerInfo listener:', error);
+    return () => {}; // No-op cleanup
+  }
 }

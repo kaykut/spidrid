@@ -23,6 +23,7 @@ interface SubscriptionStore {
 
   // Actions
   initialize: () => Promise<void>;
+  refreshPremiumStatus: () => Promise<void>;
   purchaseProduct: () => Promise<boolean>;
   linkRevenueCatUser: (supabaseUserId: string) => Promise<void>;
   unlinkRevenueCatUser: () => Promise<void>;
@@ -54,13 +55,36 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         if (get().isInitialized) {return;}
         set({ isLoading: true });
 
+        // Configure RevenueCat (creates anonymous ID)
         const configured = await PurchasesService.configurePurchases();
         if (configured) {
-          const isPremium = await PurchasesService.checkPremiumStatus();
-          set({ isPremium, isLoading: false, isInitialized: true });
+          // Fetch fresh premium status on initialization
+          const isPremium = await PurchasesService.checkPremiumStatus(true);
+          set({
+            isPremium,
+            isLoading: false,
+            isInitialized: true
+          });
+
+          // Set up listener for CustomerInfo updates (subscription changes, refunds, etc.)
+          PurchasesService.setupCustomerInfoListener((updatedIsPremium) => {
+            set({ isPremium: updatedIsPremium });
+          });
         } else {
           // RevenueCat not available (Expo Go) - default to free tier
           set({ isPremium: false, isLoading: false, isInitialized: true });
+        }
+      },
+
+      // Refresh premium status from RevenueCat (forces fresh fetch)
+      refreshPremiumStatus: async () => {
+        set({ isLoading: true });
+        try {
+          const isPremium = await PurchasesService.checkPremiumStatus(true);
+          set({ isPremium, isLoading: false });
+        } catch (error) {
+          console.error('[Subscription] Refresh failed:', error);
+          set({ isLoading: false });
         }
       },
 
@@ -220,7 +244,10 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       name: 'devoro-subscription',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
-        isPremium: state.isPremium,
+        // IMPORTANT: isPremium is NOT persisted to avoid stale data.
+        // Always fetch fresh from RevenueCat on app launch.
+        // AsyncStorage hydration can be slower than network fetch, causing
+        // stale persisted data to overwrite fresh data from RevenueCat.
         dailyGenerationCount: state.dailyGenerationCount,
         lastGenerationDate: state.lastGenerationDate,
       }),

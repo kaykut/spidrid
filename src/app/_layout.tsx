@@ -43,47 +43,49 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    console.log('[_layout] === useEffect triggered ===');
-
-    // Initialize i18n with detected locale
-    const setupI18n = async () => {
+    // Initialize app services
+    const initializeApp = async () => {
+      // Initialize i18n with detected locale first (needed for UI)
       try {
-        console.log('[_layout] Calling initializeLocale()');
         await initializeLocale();
         const locale = useLocaleStore.getState().currentLocale || 'en';
-        console.log('[_layout] Initializing i18n with locale:', locale);
         await initI18n(locale);
       } catch (error) {
         console.error('[_layout] i18n initialization failed:', error);
         // App continues with English fallback
       }
+
+      // Initialize auth and subscription sequentially to prevent race conditions
+      // Auth MUST complete before subscription to ensure RevenueCat is configured
+      // before any linkRevenueCatUser calls from the auth listener
+      await initializeAuth();
+      await initializeSubscription();
+      initializeAutoSync();
     };
 
-    setupI18n().catch(err => {
-      console.error('[_layout] setupI18n error:', err);
+    initializeApp().catch(err => {
+      console.error('[_layout] initializeApp error:', err);
     });
 
-    console.log('[_layout] Calling initializeAuth()');
-    initializeAuth();
-    console.log('[_layout] Calling initializeSubscription()');
-    initializeSubscription();
-    console.log('[_layout] Calling initializeAutoSync()');
-    initializeAutoSync();
-
     return () => {
-      console.log('[_layout] Cleanup: calling cleanupAutoSync()');
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription, initializeLocale]);
 
-  // Save reading positions when app backgrounds
+  // Handle app foreground/background transitions
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        // Refresh premium status when app comes to foreground
+        // RevenueCat SDK auto-refreshes its cache, but we need to read it
+        useSubscriptionStore.getState().refreshPremiumStatus();
+      }
+
       if (nextAppState === 'background' || nextAppState === 'inactive') {
         // Trigger sync push to save any pending position updates
         import('../services/syncOrchestrator').then(({ pushAllChanges }) => {
-          pushAllChanges().catch(err => {
-            console.warn('[_layout] Background sync failed:', err);
+          pushAllChanges().catch(() => {
+            // Background sync failed silently - will retry on next app state change
           });
         });
       }

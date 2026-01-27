@@ -14,6 +14,7 @@ jest.mock('../../src/services/supabase', () => ({
       signUp: jest.fn(),
       signInWithPassword: jest.fn(),
       resetPasswordForEmail: jest.fn(),
+      signInWithOAuth: jest.fn(),
       onAuthStateChange: jest.fn(() => ({
         data: { subscription: { unsubscribe: jest.fn() } },
       })),
@@ -90,9 +91,7 @@ describe('authStore', () => {
       expect(mockSupabase.auth.signInAnonymously).toHaveBeenCalled();
     });
 
-    it('should log error when signInAnonymously fails', async () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
+    it('should handle signInAnonymously failure gracefully', async () => {
       (mockSupabase.auth.getSession as jest.Mock).mockResolvedValue({
         data: { session: null },
         error: null,
@@ -104,19 +103,10 @@ describe('authStore', () => {
 
       await useAuthStore.getState().initialize();
 
-      // Should have logged an error
-      expect(consoleSpy).toHaveBeenCalledWith(
-        '[AuthStore] signInAnonymously failed:',
-        'Anonymous sign-ins are not enabled',
-        { message: 'Anonymous sign-ins are not enabled' }
-      );
-
       // Should still mark as initialized to prevent infinite retries
       const state = useAuthStore.getState();
       expect(state.isInitialized).toBe(true);
       expect(state.authError).toBe('Anonymous sign-ins are not enabled');
-
-      consoleSpy.mockRestore();
     });
 
     it('should set authError state when signInAnonymously fails', async () => {
@@ -195,15 +185,9 @@ describe('authStore', () => {
         error: null,
       });
 
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBe('cached-token');
-      expect(consoleSpy).toHaveBeenCalledWith(
-        '[AuthStore] Failed to refresh session:',
-        'Refresh failed'
-      );
-      consoleSpy.mockRestore();
     });
 
     it('should return null when no session exists', async () => {
@@ -225,7 +209,26 @@ describe('authStore', () => {
   });
 
   describe('signInWithGoogle', () => {
-    it('should call linkIdentity with google provider', async () => {
+    it('should call signInWithOAuth with google provider first', async () => {
+      (mockSupabase.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
+        data: {},
+        error: null,
+      });
+
+      await useAuthStore.getState().signInWithGoogle();
+
+      expect(mockSupabase.auth.signInWithOAuth).toHaveBeenCalledWith({
+        provider: 'google',
+      });
+      // Should not fall back to linkIdentity if OAuth succeeds
+      expect(mockSupabase.auth.linkIdentity).not.toHaveBeenCalled();
+    });
+
+    it('should fall back to linkIdentity when signInWithOAuth fails', async () => {
+      (mockSupabase.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
+        data: null,
+        error: new Error('OAuth not available'),
+      });
       (mockSupabase.auth.linkIdentity as jest.Mock).mockResolvedValue({
         data: {},
         error: null,
@@ -233,12 +236,19 @@ describe('authStore', () => {
 
       await useAuthStore.getState().signInWithGoogle();
 
+      expect(mockSupabase.auth.signInWithOAuth).toHaveBeenCalledWith({
+        provider: 'google',
+      });
       expect(mockSupabase.auth.linkIdentity).toHaveBeenCalledWith({
         provider: 'google',
       });
     });
 
-    it('should throw error when linkIdentity fails', async () => {
+    it('should throw error when both OAuth and linkIdentity fail', async () => {
+      (mockSupabase.auth.signInWithOAuth as jest.Mock).mockResolvedValue({
+        data: null,
+        error: new Error('OAuth not available'),
+      });
       (mockSupabase.auth.linkIdentity as jest.Mock).mockResolvedValue({
         data: null,
         error: new Error('Google auth failed'),
