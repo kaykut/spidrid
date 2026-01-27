@@ -374,6 +374,19 @@ Obtain translations for the 10 additional languages. We will:
 
 ### Milestone 6: Full Integration
 
+> **⚠️ CRITICAL: This milestone MUST be executed using the comprehensive specification document:**
+>
+> **📋 [`docs/M6-INTEGRATION-SPEC.md`](./M6-INTEGRATION-SPEC.md) — THE DEFINITIVE EXECUTION GUIDE**
+>
+> The specification document contains:
+> - Zero-tolerance policy for missed strings
+> - Complete file inventory (~40 files, ~260 strings)
+> - Section-by-section breakdown with exact replacement patterns
+> - Detection grep commands to verify completeness
+> - Visual verification checklist for every screen state
+>
+> **DO NOT proceed without reading the full spec. DO NOT deviate from the spec.**
+
 Replace all hardcoded strings throughout the app. We will:
 
 1. Work systematically through each screen in `src/app/`:
@@ -402,7 +415,13 @@ Replace all hardcoded strings throughout the app. We will:
    - Replace user-facing error messages with translation keys
    - Keep internal/debug messages in English
 
-**Acceptance**: Every screen in the app shows translated text when language is switched. Running `npm run typecheck` passes. All existing tests pass. No hardcoded English strings remain in user-facing code (verified by grep).
+**Acceptance**:
+1. ✅ Every screen in the app shows translated text when language is switched
+2. ✅ Running `npm run typecheck` passes
+3. ✅ All existing tests pass
+4. ✅ No hardcoded English strings remain in user-facing code (verified by grep commands in M6-INTEGRATION-SPEC.md)
+5. ✅ **ALL verification criteria in [`docs/M6-INTEGRATION-SPEC.md`](./M6-INTEGRATION-SPEC.md) are met** (mandatory)
+6. ✅ Visual verification checklist in spec document completed with all screens confirmed
 
 
 ### Milestone 7: Language Switcher UI
@@ -609,25 +628,55 @@ Expected output: A comprehensive catalog with 500-1000 strings organized by name
 
 ### Milestone 6 Steps:
 
-1. Create a tracking document for integration progress.
+> **📋 EXECUTION BASIS: [`docs/M6-INTEGRATION-SPEC.md`](./M6-INTEGRATION-SPEC.md)**
+>
+> The spec document is the **single source of truth** for M6 execution. Follow it line-by-line.
 
-2. For each screen, systematically:
-   - Update imports
-   - Replace strings
-   - Test functionality
-   - Mark complete in tracking document
+1. **FIRST: Read the entire spec document** (`docs/M6-INTEGRATION-SPEC.md`)
+   - Understand the zero-tolerance policy
+   - Review all 8 sections and their string counts
+   - Note the detection commands and verification checklist
 
-3. Run tests after each screen:
+2. **Execute Section by Section** as detailed in the spec:
+   - Section 1: Screens (~8 files)
+   - Section 2: Components (~20+ files)
+   - Section 3: Services (~3 files)
+   - Section 4: Static Data (~5 files)
+   - Section 5: Stores (~2 files)
+   - Section 6: Accessibility Labels
+   - Section 7: Special Patterns (interpolation, pluralization)
+   - Section 8: Final Verification
+
+3. **For each file**, follow the spec's replacement patterns exactly:
+   - Add `useLocale` hook with correct namespace
+   - Replace strings using exact patterns from spec
+   - Handle interpolation and pluralization as documented
+
+4. **Run tests after each section**:
    ```
    npm run test
    npm run typecheck
    ```
 
-4. Final verification:
+5. **Run detection commands** from the spec:
    ```
-   grep -r '"[A-Z][a-z]' src/app/ src/components/ --include="*.tsx" | grep -v "import" | grep -v "//"
+   # These exact commands are documented in M6-INTEGRATION-SPEC.md Section 8
+   grep -rn 'placeholder="[A-Z]' src/ --include="*.tsx"
+   grep -rn 'label="[A-Z]' src/ --include="*.tsx"
+   grep -rn '"[A-Z][a-z].*\.\.\."' src/ --include="*.tsx"
+   # ... additional commands in spec
    ```
-   This should show minimal results (only valid hardcoded strings like IDs, not UI text).
+
+6. **Complete Visual Verification Checklist** from spec:
+   - Every screen state listed in the spec must be visually confirmed
+   - All text must appear translated when language is switched
+
+7. **Final gate check** — M6 is NOT complete until:
+   - [ ] All detection commands return zero unexpected matches
+   - [ ] Visual verification checklist 100% complete
+   - [ ] `npm run test` passes
+   - [ ] `npm run typecheck` passes
+   - [ ] `npm run lint` passes
 
 
 ### Milestone 7 Steps:
@@ -705,10 +754,12 @@ After completing all milestones, the following must be true:
    - Verify it launches in German
 
 4. **Completeness Validation**:
+   - **📋 Execute ALL detection commands from [`docs/M6-INTEGRATION-SPEC.md`](./M6-INTEGRATION-SPEC.md) Section 8**
+   - **📋 Complete Visual Verification Checklist from spec document**
    - Run validation script: `npx tsx scripts/validate-translations.ts`
    - Expect: "All languages have complete translations. No missing keys."
    - Run grep check: `grep -r '"[A-Z][a-z]' src/app/ src/components/ --include="*.tsx" | grep -v "import" | grep -v "//"`
-   - Expect: Minimal results, no user-facing English strings
+   - Expect: Zero user-facing English strings (not "minimal" — ZERO)
 
 5. **Performance Validation**:
    - Switch between languages 10 times in Settings

@@ -1,5 +1,5 @@
-import { Topic } from '../../types/learning';
 import { TOPIC_COLORS } from '../../constants/dataColors';
+import { Topic } from '../../types/learning';
 
 /**
  * 15 curriculum topics - each maps 1:1 with a user interest

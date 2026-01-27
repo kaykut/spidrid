@@ -81,7 +81,7 @@ async function handleAuthCallback(url: string): Promise<void> {
       // Google account is already linked to another user
       // This happens on Device 2 when trying to link an identity that was already
       // linked on Device 1. We need to sign in to the existing account instead.
-      console.log('[Auth] Identity already exists, signing in to existing account');
+      console.warn('[Auth] Identity already exists, signing in to existing account');
 
       // Trigger a new OAuth flow to sign in (not link)
       const { error: signInError } = await supabase.auth.signInWithOAuth({

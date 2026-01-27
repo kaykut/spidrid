@@ -42,15 +42,11 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   useEffect(() => {
-    console.log('[_layout] === useEffect triggered ===');
-
     // Initialize i18n with detected locale
     const setupI18n = async () => {
       try {
-        console.log('[_layout] Calling initializeLocale()');
         await initializeLocale();
         const locale = useLocaleStore.getState().currentLocale || 'en';
-        console.log('[_layout] Initializing i18n with locale:', locale);
         await initI18n(locale);
       } catch (error) {
         console.error('[_layout] i18n initialization failed:', error);
@@ -62,15 +58,11 @@ export default function RootLayout() {
       console.error('[_layout] setupI18n error:', err);
     });
 
-    console.log('[_layout] Calling initializeAuth()');
     initializeAuth();
-    console.log('[_layout] Calling initializeSubscription()');
     initializeSubscription();
-    console.log('[_layout] Calling initializeAutoSync()');
     initializeAutoSync();
 
     return () => {
-      console.log('[_layout] Cleanup: calling cleanupAutoSync()');
       cleanupAutoSync();
     };
   }, [initializeAuth, initializeSubscription, initializeLocale]);

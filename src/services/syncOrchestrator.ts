@@ -44,6 +44,7 @@ export type SyncStatus = 'idle' | 'syncing' | 'error';
 let lastSyncAt: number | null = null;
 let syncStatus: SyncStatus = 'idle';
 let syncError: string | null = null;
+let lastTriggerTime = 0;
 
 export function getSyncState() {
   return {
@@ -60,6 +61,7 @@ export function resetSyncState(): void {
   lastSyncAt = null;
   syncStatus = 'idle';
   syncError = null;
+  lastTriggerTime = 0;
 }
 
 // =============================================================================
@@ -73,6 +75,34 @@ function canSync(): boolean {
   const { isLoggedIn } = useAuthStore.getState();
   const { isPremium } = useSubscriptionStore.getState();
   return isLoggedIn && isPremium;
+}
+
+// Minimum time between triggered syncs (debounce for double-calls)
+const MIN_TRIGGER_INTERVAL_MS = 5000; // 5 seconds
+
+/**
+ * Trigger a full sync if user is eligible (logged in + premium).
+ * Uses time-based debounce to prevent double-sync when multiple
+ * functions call this in quick succession (e.g., linkRevenueCatUser + restorePurchases).
+ *
+ * Call this directly from subscription flows (purchase, restore, linkRevenueCatUser)
+ * rather than relying on state change subscriptions.
+ */
+export function triggerSyncIfEligible(): void {
+  if (!canSync()) {
+    return;
+  }
+
+  const now = Date.now();
+  if (now - lastTriggerTime < MIN_TRIGGER_INTERVAL_MS) {
+    return;
+  }
+
+  lastTriggerTime = now;
+
+  performFullSync().catch((error) => {
+    console.error('[Sync] Triggered sync failed:', error);
+  });
 }
 
 /**

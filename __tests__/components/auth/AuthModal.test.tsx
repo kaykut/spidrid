@@ -1,6 +1,5 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { AuthModal } from '../../../src/components/auth/AuthModal';
-import { useAuthStore } from '../../../src/store/authStore';
 
 // Mock the theme provider
 jest.mock('../../../src/components/common/ThemeProvider', () => ({
@@ -14,23 +13,28 @@ jest.mock('../../../src/components/common/ThemeProvider', () => ({
   }),
 }));
 
-// Mock the auth store
-jest.mock('../../../src/store/authStore', () => ({
-  useAuthStore: jest.fn(),
-}));
+// Create mocks that will be populated in the factory
+let mockSignInWithGoogle: jest.Mock;
+let mockSetState: jest.Mock;
 
-const mockUseAuthStore = useAuthStore as jest.MockedFunction<typeof useAuthStore>;
+jest.mock('../../../src/store/authStore', () => {
+  mockSignInWithGoogle = jest.fn();
+  mockSetState = jest.fn();
+  const mockHook = () => ({
+    signInWithGoogle: mockSignInWithGoogle,
+    authError: null,
+  });
+  (mockHook as any).setState = mockSetState;
+  return { useAuthStore: mockHook };
+});
 
 describe('AuthModal', () => {
   const mockOnClose = jest.fn();
   const mockOnSuccess = jest.fn();
-  const mockSignInWithGoogle = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseAuthStore.mockReturnValue({
-      signInWithGoogle: mockSignInWithGoogle,
-    } as any);
+    mockSignInWithGoogle.mockReset();
   });
 
   it('should render modal when visible', () => {

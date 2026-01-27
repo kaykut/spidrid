@@ -79,8 +79,10 @@ export function ContentListScreen() {
   void _moveFinishedToHistory;
 
   // Get the computed grouped content list - recomputes when source stores change
+  // Note: Underscored vars force recomputation when Zustand store state changes
   const sections = useMemo(() => {
     return getGroupedContentList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     getGroupedContentList,
     activeFilter,

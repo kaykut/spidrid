@@ -5,6 +5,7 @@ import {
   syncSingleAdapter,
   getSyncState,
   resetSyncState,
+  triggerSyncIfEligible,
 } from '../../src/services/syncOrchestrator';
 import { useAuthStore } from '../../src/store/authStore';
 import { useSubscriptionStore } from '../../src/store/subscriptionStore';
@@ -263,6 +264,77 @@ describe('syncOrchestrator', () => {
       expect(result.success).toBe(true);
       expect(result.itemCounts?.content).toBe(1);
       expect(result.itemCounts?.generated).toBe(0);
+    });
+  });
+
+  describe('triggerSyncIfEligible', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should not trigger sync when not logged in', () => {
+      useAuthStore.setState({ isLoggedIn: false });
+      useSubscriptionStore.setState({ isPremium: true });
+
+      triggerSyncIfEligible();
+
+      // Advance timers to ensure any async operations complete
+      jest.advanceTimersByTime(100);
+
+      expect(mockContentAdapter.pull).not.toHaveBeenCalled();
+    });
+
+    it('should not trigger sync when not premium', () => {
+      useAuthStore.setState({ isLoggedIn: true });
+      useSubscriptionStore.setState({ isPremium: false });
+
+      triggerSyncIfEligible();
+
+      jest.advanceTimersByTime(100);
+
+      expect(mockContentAdapter.pull).not.toHaveBeenCalled();
+    });
+
+    it('should trigger sync when logged in and premium', async () => {
+      useAuthStore.setState({ isLoggedIn: true });
+      useSubscriptionStore.setState({ isPremium: true });
+
+      triggerSyncIfEligible();
+
+      // Wait for async performFullSync
+      await jest.runAllTimersAsync();
+
+      expect(mockContentAdapter.pull).toHaveBeenCalled();
+    });
+
+    it('should debounce rapid calls (5 second minimum interval)', async () => {
+      useAuthStore.setState({ isLoggedIn: true });
+      useSubscriptionStore.setState({ isPremium: true });
+
+      // First call should trigger
+      triggerSyncIfEligible();
+      await jest.runAllTimersAsync();
+      expect(mockContentAdapter.pull).toHaveBeenCalledTimes(1);
+
+      jest.clearAllMocks();
+
+      // Immediate second call should be skipped (within 5 second window)
+      triggerSyncIfEligible();
+      await jest.runAllTimersAsync();
+      expect(mockContentAdapter.pull).not.toHaveBeenCalled();
+
+      // Advance time past debounce interval
+      jest.advanceTimersByTime(6000);
+      jest.clearAllMocks();
+
+      // Third call should trigger (past debounce window)
+      triggerSyncIfEligible();
+      await jest.runAllTimersAsync();
+      expect(mockContentAdapter.pull).toHaveBeenCalledTimes(1);
     });
   });
 });

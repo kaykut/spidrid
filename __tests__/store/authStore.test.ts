@@ -192,15 +192,9 @@ describe('authStore', () => {
         error: null,
       });
 
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBe('cached-token');
-      expect(consoleSpy).toHaveBeenCalledWith(
-        '[AuthStore] Failed to refresh session:',
-        'Refresh failed'
-      );
-      consoleSpy.mockRestore();
     });
 
     it('should return null when no session exists', async () => {
@@ -213,11 +207,9 @@ describe('authStore', () => {
         error: null,
       });
 
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       const token = await useAuthStore.getState().getAccessToken();
 
       expect(token).toBeNull();
-      consoleSpy.mockRestore();
     });
   });
 

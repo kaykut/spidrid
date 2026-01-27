@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import * as PurchasesService from '../services/purchases';
+import { triggerSyncIfEligible } from '../services/syncOrchestrator';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../types/subscription';
 
 interface RestorePurchasesResult {
@@ -80,6 +81,12 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
           if (customerInfo) {
             const isPremium = customerInfo.entitlements.active[PurchasesService.getPremiumEntitlement()] !== undefined;
             set({ isPremium, isLoading: false });
+
+            // Trigger sync after successful purchase
+            if (isPremium) {
+              triggerSyncIfEligible();
+            }
+
             return isPremium;
           }
 
@@ -114,6 +121,9 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
               isPremium,
               isLoading: false,
             });
+
+            // Trigger sync now that user is linked and may have premium
+            triggerSyncIfEligible();
           } else {
             // RevenueCat not available - just track the linked user locally
             set({
@@ -144,6 +154,12 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
           if (customerInfo) {
             const isPremium = customerInfo.entitlements.active[PurchasesService.getPremiumEntitlement()] !== undefined;
             set({ isPremium, isRestoring: false });
+
+            // Trigger sync after successful restore
+            if (isPremium) {
+              triggerSyncIfEligible();
+            }
+
             return isPremium
               ? { success: true }
               : { success: false, message: 'No purchases to restore' };
