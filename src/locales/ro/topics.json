@@ -1,4 +1,18 @@
 {
+  "page_title": "Subiecte",
+  "practice_articles": "Articole de practică",
+  "practice_desc": "Îmbunătățește-ți abilitățile de citire rapidă",
+  "certification_tests": "Teste de certificare",
+  "certification_desc": "Demonstrează-ți stăpânirea",
+  "ready_badge": "Pregătit!",
+  "score_label": "Scor: {{score}}%",
+  "best_wpm": "Cel mai bun: {{wpm}} CPM",
+  "progress_format": "{{completed}} din {{total}} finalizat(e)",
+  "progress_with_avg": "{{completed}} din {{total}} finalizat(e) · {{avg}}% medie",
+  "a11y": {
+    "tap_to_read": "Atinge pentru a citi",
+    "completed": "Finalizat"
+  },
   "science_discovery": "Știință & Descoperire 🔬",
   "science_discovery_desc": "Descoperiri revoluționare care au schimbat lumea",
   "health_medicine": "Sănătate & Medicină ⚕️",

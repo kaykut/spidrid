@@ -5,6 +5,15 @@
   "question_progress": "Întrebarea {{current}} din {{total}}",
   "no_quiz_available": "Niciun Quiz Disponibil",
   "no_quiz_desc": "Acest conținut nu are întrebări de quiz.",
+  "true": "Adevărat",
+  "false": "Fals",
+  "correct": "Corect!",
+  "answer_was": "Răspuns: {{value}}{{unit}}",
+  "submit_answer": "Trimite răspunsul",
+  "a11y": {
+    "select_true": "Apăsați de două ori pentru a selecta Adevărat",
+    "select_false": "Apăsați de două ori pentru a selecta Fals"
+  },
   "results": {
     "complete": "Complet!",
     "comprehension": "Comprehensiune",

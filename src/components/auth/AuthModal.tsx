@@ -1,11 +1,11 @@
 /**
  * AuthModal Component
  *
- * Bottom sheet modal for authenticating with Google OAuth.
+ * Bottom sheet modal for authenticating with Google OAuth and Apple ID.
  * Used by premium users to enable multi-device sync.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,11 @@ import {
   Modal,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
@@ -29,10 +32,15 @@ interface AuthModalProps {
 
 export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
   const { theme } = useTheme();
-  const { signInWithGoogle, authError } = useAuthStore();
+  const { t } = useTranslation('auth');
+  const { signInWithGoogle, signInWithApple, authError } = useAuthStore();
 
-  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
+  const [loadingProvider, setLoadingProvider] = useState<'google' | 'apple' | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [isAppleAvailable, setIsAppleAvailable] = useState(false);
+  const isLoadingGoogle = loadingProvider === 'google';
+  const isLoadingApple = loadingProvider === 'apple';
+  const isAnyLoading = loadingProvider !== null;
 
   // Combine local error (from signInWithGoogle throwing) with store error (from deep link callback)
   const error = localError || authError;
@@ -41,22 +49,64 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
     // Clear both local error and store error
     setLocalError(null);
     useAuthStore.setState({ authError: null });
-    setIsLoadingGoogle(true);
+    setLoadingProvider('google');
 
     try {
       await signInWithGoogle();
       onSuccess();
       onClose();
     } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Failed to sign in with Google');
+      setLocalError(err instanceof Error ? err.message : t('errors.google_failed'));
     } finally {
-      setIsLoadingGoogle(false);
+      setLoadingProvider(null);
     }
   };
 
+  useEffect(() => {
+    let isMounted = true;
+    if (Platform.OS !== 'ios') {
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    AppleAuthentication.isAvailableAsync()
+      .then((available) => {
+        if (isMounted) {
+          setIsAppleAvailable(available);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setIsAppleAvailable(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleAppleSignIn = async () => {
+    setLocalError(null);
+    useAuthStore.setState({ authError: null });
+    setLoadingProvider('apple');
+
+    try {
+      await signInWithApple();
+      onSuccess();
+      onClose();
+    } catch (err) {
+      if ((err as { code?: string })?.code !== 'ERR_REQUEST_CANCELED') {
+        setLocalError(err instanceof Error ? err.message : t('errors.apple_failed'));
+      }
+    } finally {
+      setLoadingProvider(null);
+    }
+  };
 
   const handleClose = () => {
-    if (!isLoadingGoogle) {
+    if (!isAnyLoading) {
       setLocalError(null);
       useAuthStore.setState({ authError: null });
       onClose();
@@ -67,13 +117,13 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
   const renderAuthOptions = () => (
     <>
       <Text style={[styles.description, { color: JOURNEY_COLORS.textSecondary }]}>
-        Sign in to sync your reading progress, certificates, and settings across all your devices.
+        {t('sync.desc')}
       </Text>
 
       <View style={[styles.warningContainer, { backgroundColor: `${JOURNEY_COLORS.warning}15`, borderColor: `${JOURNEY_COLORS.warning}30` }]}>
         <Ionicons name="information-circle-outline" size={SIZES.iconSm} color={JOURNEY_COLORS.warning} />
         <Text style={[styles.warningText, { color: JOURNEY_COLORS.textSecondary }]}>
-          Signing in will sync your cloud data to this device. Any articles or progress created locally before signing in will not be transferred.
+          {t('sync.warning')}
         </Text>
       </View>
 
@@ -87,7 +137,7 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
       <TouchableOpacity
         style={[styles.googleButton, { backgroundColor: theme.secondaryBackground }]}
         onPress={handleGoogleSignIn}
-        disabled={isLoadingGoogle}
+        disabled={isAnyLoading}
         activeOpacity={0.8}
       >
         {isLoadingGoogle ? (
@@ -96,11 +146,35 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
           <>
             <Ionicons name="logo-google" size={SIZES.iconMd} color={theme.textColor} />
             <Text style={[styles.googleButtonText, { color: theme.textColor }]}>
-              Continue with Google
+              {t('modal.continue_google')}
             </Text>
           </>
         )}
       </TouchableOpacity>
+
+      {Platform.OS === 'ios' && isAppleAvailable ? (
+        <View style={styles.appleButtonWrapper}>
+          {/* AppleAuthenticationButton doesn't support disabled prop,
+              so we handle loading state inside the onPress handler */}
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
+            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+            cornerRadius={COMPONENT_RADIUS.button}
+            style={[styles.appleButton, isAnyLoading && { opacity: 0.5 }]}
+            onPress={() => {
+              if (!isAnyLoading) {
+                void handleAppleSignIn();
+              }
+            }}
+            testID="apple-sign-in-button"
+          />
+          {isLoadingApple ? (
+            <View style={styles.appleLoadingOverlay}>
+              <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
+            </View>
+          ) : null}
+        </View>
+      ) : null}
     </>
   );
 
@@ -111,17 +185,17 @@ export function AuthModal({ visible, onClose, onSuccess }: AuthModalProps) {
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
           <View style={[styles.header, { borderBottomColor: theme.secondaryBackground }]}>
             <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-              Sync Across Devices
+              {t('modal.title_sync')}
             </Text>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={handleClose}
-              disabled={isLoadingGoogle}
+              disabled={isAnyLoading}
             >
               <Ionicons
                 name="close"
                 size={SIZES.iconMd}
-                color={isLoadingGoogle ? JOURNEY_COLORS.textTertiary : theme.textColor}
+                color={isAnyLoading ? JOURNEY_COLORS.textTertiary : theme.textColor}
               />
             </TouchableOpacity>
           </View>
@@ -202,6 +276,19 @@ const styles = StyleSheet.create({
     borderRadius: COMPONENT_RADIUS.button,
     paddingVertical: SPACING.lg,
     gap: SPACING.sm,
+  },
+  appleButtonWrapper: {
+    marginTop: SPACING.sm,
+    position: 'relative',
+  },
+  appleButton: {
+    width: '100%',
+    height: SIZES.touchTarget,
+  },
+  appleLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   googleButtonText: {
     ...TYPOGRAPHY.button,

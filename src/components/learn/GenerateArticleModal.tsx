@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../data/themes';
@@ -37,6 +38,7 @@ interface Props {
 
 export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
   const { theme } = useTheme();
+  const { t } = useTranslation('generation');
   const { generateArticle, isGenerating } = useGeneratedStore();
 
   const [topic, setTopic] = useState('');
@@ -78,7 +80,7 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
         <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={handleClose} />
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
           <View style={[styles.header, { borderBottomColor: theme.secondaryBackground }]}>
-            <Text style={[styles.headerTitle, { color: theme.textColor }]}>Generate Article</Text>
+            <Text style={[styles.headerTitle, { color: theme.textColor }]}>{t('modal.generate_article')}</Text>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={handleClose}
@@ -94,7 +96,7 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
 
           <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
             <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-              What do you want to learn about?
+              {t('modal.what_learn_about')}
             </Text>
             <TextInput
               style={[
@@ -104,7 +106,7 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
                   color: theme.textColor,
                 },
               ]}
-              placeholder="e.g., The history of coffee, How black holes form, Why cats purr..."
+              placeholder={t('placeholders.topic_examples')}
               placeholderTextColor={JOURNEY_COLORS.textTertiary}
               value={topic}
               onChangeText={setTopic}
@@ -113,7 +115,7 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
               editable={!isGenerating}
             />
 
-            <Text style={[styles.label, { color: theme.textColor }]}>Reading Duration</Text>
+            <Text style={[styles.label, { color: theme.textColor }]}>{t('labels.reading_duration')}</Text>
             <View style={styles.durationRow}>
               {DURATION_OPTIONS.map((opt) => (
                 <DurationPill
@@ -125,17 +127,17 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
               ))}
             </View>
             <Text style={[styles.estimatedWords, { color: JOURNEY_COLORS.textSecondary }]}>
-              ~{estimatedWords.toLocaleString()} words at your current pace
+              {t('modal.estimated_words', { words: estimatedWords.toLocaleString() })}
             </Text>
 
-            <Text style={[styles.label, { color: theme.textColor }]}>Writing Style</Text>
+            <Text style={[styles.label, { color: theme.textColor }]}>{t('labels.writing_style')}</Text>
             <View style={styles.toneGrid}>
-              {TONE_DEFINITIONS.map((t) => (
+              {TONE_DEFINITIONS.map((toneItem) => (
                 <TonePill
-                  key={t.id}
-                  tone={t}
-                  selected={tone === t.id}
-                  onPress={() => !isGenerating && setTone(t.id)}
+                  key={toneItem.id}
+                  tone={toneItem}
+                  selected={tone === toneItem.id}
+                  onPress={() => !isGenerating && setTone(toneItem.id)}
                 />
               ))}
             </View>
@@ -153,7 +155,7 @@ export function GenerateArticleModal({ visible, onClose, avgWpm }: Props) {
               {isGenerating ? (
                 <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
               ) : (
-                <Text style={styles.generateButtonText}>Generate</Text>
+                <Text style={styles.generateButtonText}>{t('modal.generate_button')}</Text>
               )}
             </TouchableOpacity>
           </ScrollView>

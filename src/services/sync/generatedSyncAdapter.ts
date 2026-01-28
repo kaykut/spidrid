@@ -9,6 +9,7 @@ import { useGeneratedStore } from '../../store/generatedStore';
 import { GeneratedArticle } from '../../types/generated';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'generated';
 
@@ -83,6 +84,8 @@ export const generatedSyncAdapter: SyncAdapter<SyncableGenerated> = {
   push: async (items: SyncableGenerated[]): Promise<void> => {
     if (items.length === 0) {return;}
 
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');
@@ -109,6 +112,8 @@ export const generatedSyncAdapter: SyncAdapter<SyncableGenerated> = {
    * Pull items from Supabase user_content table
    */
   pull: async (): Promise<SyncableGenerated[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

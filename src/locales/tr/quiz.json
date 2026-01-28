@@ -1,0 +1,16 @@
+{
+  "quiz_title": "Anlama Testi",
+  "quiz_results": "Sonuçlar",
+  "quiz_only": "Test",
+  "question_progress": "{{current}}. Soru / {{total}}",
+  "no_quiz_available": "Test Yok",
+  "no_quiz_desc": "Bu içerikte test soruları bulunmuyor.",
+  "results": {
+    "complete": "Tamamlandı!",
+    "comprehension": "Anlama",
+    "correct_answers": "Doğru Cevaplar",
+    "reading_speed": "Okuma Hızı",
+    "done": "Bitti",
+    "retake": "Testi Tekrar Çöz"
+  }
+}

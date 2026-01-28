@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Innehåll hittades inte",
     "failed_to_load": "Kunde inte ladda innehåll"
+  },
+  "topic": {
+    "not_found": "Ämne hittades inte"
+  },
+  "article": {
+    "not_found": "Artikel hittades inte"
   }
 }

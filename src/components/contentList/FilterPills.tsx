@@ -7,6 +7,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SPRING_CONFIG } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -14,17 +15,13 @@ import { ContentCategory } from '../../types/contentList';
 import { GlassView } from '../common/GlassView';
 import { useTheme } from '../common/ThemeProvider';
 
-interface FilterOption {
-  id: ContentCategory | null;
-  label: string;
-}
-
-const FILTER_OPTIONS: FilterOption[] = [
-  { id: null, label: 'All' },
-  { id: 'books', label: 'Books' },
-  { id: 'articles', label: 'Articles' },
-  { id: 'learning', label: 'Learning' },
-  { id: 'training', label: 'Training' },
+// Filter keys - labels are looked up dynamically via i18n
+const FILTER_KEYS: Array<{ id: ContentCategory | null; key: string }> = [
+  { id: null, key: 'all' },
+  { id: 'books', key: 'books' },
+  { id: 'articles', key: 'articles' },
+  { id: 'learning', key: 'learning' },
+  { id: 'training', key: 'training' },
 ];
 
 interface FilterPillsProps {
@@ -34,6 +31,7 @@ interface FilterPillsProps {
 
 export function FilterPills({ activeFilter, onFilterChange }: FilterPillsProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('content');
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
   return (
@@ -43,12 +41,12 @@ export function FilterPills({ activeFilter, onFilterChange }: FilterPillsProps) 
       contentContainerStyle={styles.container}
       style={styles.scrollView}
     >
-      {FILTER_OPTIONS.map((option) => {
+      {FILTER_KEYS.map((option) => {
         const isActive = activeFilter === option.id;
         return (
           <FilterPill
-            key={option.label}
-            label={option.label}
+            key={option.key}
+            label={t(`filters.${option.key}`)}
             isActive={isActive}
             isDarkTheme={isDarkTheme}
             accentColor={theme.accentColor}

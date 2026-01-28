@@ -17,6 +17,7 @@ import {
   Animated,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Swipeable } from 'react-native-gesture-handler';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -69,11 +70,16 @@ export function ContentListItemCard({
   onDelete,
 }: ContentListItemCardProps) {
   const { theme } = useTheme();
+  const { t: tConsumption } = useTranslation('consumption');
+  const { t: tAddContent } = useTranslation('addContent');
+  const { t: tCommon } = useTranslation('common');
   const swipeableRef = useRef<Swipeable>(null);
   const { titleStyle, onTextLayout } = useDynamicCardTitle(item.title);
 
   const iconName = getIconName(item.source, item.category);
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
+  const isProcessing = item.isProcessing;
+  const hasProcessingProgress = typeof item.processingProgress === 'number';
 
   const handleDelete = () => {
     swipeableRef.current?.close();
@@ -99,7 +105,7 @@ export function ContentListItemCard({
       <TouchableOpacity onPress={handleDelete} style={styles.deleteAction}>
         <Animated.View style={[styles.deleteContent, { transform: [{ scale }] }]}>
           <Ionicons name="trash-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.textPrimary} />
-          <Text style={styles.deleteText}>Delete</Text>
+          <Text style={styles.deleteText}>{tCommon('actions.delete')}</Text>
         </Animated.View>
       </TouchableOpacity>
     );
@@ -121,7 +127,7 @@ export function ContentListItemCard({
   };
 
   // Show progress bar for non-completed items (empty for not_started, filled for in_progress)
-  const showProgressBar = item.state !== 'completed';
+  const showProgressBar = item.state !== 'completed' && !isProcessing && !item.processingError;
 
   const cardContent = (
     <TouchableOpacity
@@ -132,6 +138,7 @@ export function ContentListItemCard({
         {
           backgroundColor: theme.secondaryBackground,
         },
+        isProcessing && styles.processingCard,
       ]}
     >
       {/* Quiz Badge - top right corner */}
@@ -162,7 +169,11 @@ export function ContentListItemCard({
         </Text>
         <View style={styles.metadata}>
           <Text style={[styles.wordCount, { color: theme.metaColor }]}>
-            {formatWordCount(item.wordCount)}
+            {(() => {
+              if (item.processingError) { return tAddContent('errors.import_failed'); }
+              if (isProcessing) { return tConsumption('import.importing'); }
+              return formatWordCount(item.wordCount);
+            })()}
           </Text>
           {showProgressBar && (
             <View
@@ -183,6 +194,11 @@ export function ContentListItemCard({
                 />
               )}
             </View>
+          )}
+          {isProcessing && hasProcessingProgress && (
+            <Text style={[styles.processingPercent, { color: theme.metaColor }]}>
+              {Math.round(item.processingProgress ?? 0)}%
+            </Text>
           )}
         </View>
       </View>
@@ -231,6 +247,13 @@ const styles = StyleSheet.create({
   progressFill: {
     height: '100%',
     borderRadius: COMPONENT_RADIUS.progressBar,
+  },
+  processingCard: {
+    opacity: 0.75,
+  },
+  processingPercent: {
+    ...TYPOGRAPHY.caption,
+    marginLeft: SPACING.xs,
   },
   deleteAction: {
     backgroundColor: JOURNEY_COLORS.low,

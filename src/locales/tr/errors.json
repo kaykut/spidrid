@@ -1,0 +1,14 @@
+{
+  "general": {
+    "something_went_wrong": "Bir şeyler ters gitti",
+    "try_again": "Lütfen tekrar deneyin"
+  },
+  "network": {
+    "no_connection": "İnternet bağlantısı yok",
+    "timeout": "İstek zaman aşımına uğradı"
+  },
+  "content": {
+    "not_found": "İçerik bulunamadı",
+    "failed_to_load": "İçerik yüklenemedi"
+  }
+}

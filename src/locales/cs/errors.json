@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Obsah nenalezen",
     "failed_to_load": "Načtení obsahu selhalo"
+  },
+  "topic": {
+    "not_found": "Téma nenalezeno"
+  },
+  "article": {
+    "not_found": "Článek nenalezen"
   }
 }

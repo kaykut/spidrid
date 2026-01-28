@@ -2,6 +2,7 @@
   "app_name": "Devoro",
   "loading": "Se încarcă...",
   "not_available": "Indisponibil",
+  "words": "cuvinte",
   "actions": {
     "cancel": "Anulează",
     "confirm": "Confirmă",
@@ -10,8 +11,12 @@
     "continue": "Continuă",
     "get_started": "Începe",
     "import": "Importă",
-    "save_and_read": "Salvează și citește"
+    "save_and_read": "Salvează și citește",
+    "back": "Înapoi",
+    "delete": "Șterge",
+    "try_again": "Încearcă din nou"
   },
   "or": "sau",
-  "wpm_suffix": "WPM"
+  "wpm_suffix": "WPM",
+  "error": "Eroare"
 }

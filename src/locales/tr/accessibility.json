@@ -1,0 +1,14 @@
+{
+  "general": {
+    "close": "Kapat",
+    "back": "Geri dön"
+  },
+  "fabs": {
+    "profile": "Yolculuk ve profili aç",
+    "add_content": "Yeni içerik ekle"
+  },
+  "buttons": {
+    "close_button": "Kapat",
+    "back_button": "Geri dön"
+  }
+}

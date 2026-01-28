@@ -20,8 +20,8 @@ interface MiniTopicCardProps {
   testID?: string;
 }
 
-const ICON_CONTAINER_SIZE = 28;
-const CARD_HEIGHT = 80;
+const ICON_CONTAINER_SIZE = 36;
+const CARD_HEIGHT = 100;
 
 export function MiniTopicCard({
   topic,
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconEmoji: {
-    fontSize: 16,
+    fontSize: 20,
   },
   title: {
-    ...TYPOGRAPHY.labelSmall,
+    ...TYPOGRAPHY.label,
     textAlign: 'center',
-    lineHeight: 14,
+    lineHeight: 16,
   },
   progressRow: {
     flexDirection: 'row',

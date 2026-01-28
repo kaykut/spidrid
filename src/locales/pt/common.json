@@ -10,8 +10,13 @@
     "continue": "Continuar",
     "get_started": "Começar",
     "import": "Importar",
-    "save_and_read": "Salvar & Ler"
+    "save_and_read": "Salvar & Ler",
+    "back": "Voltar",
+    "delete": "Excluir",
+    "try_again": "Tentar novamente"
   },
   "or": "ou",
-  "wpm_suffix": "WPM"
+  "wpm_suffix": "WPM",
+  "error": "Erro",
+  "words": "palavras"
 }

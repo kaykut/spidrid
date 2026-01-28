@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING, COMPONENT_RADIUS, SIZES, COMPONENT_SIZES } from '../../constants/spacing';
@@ -15,6 +16,7 @@ import { withOpacity, OPACITY } from '../../utils/colorUtils';
 export default function TopicScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
+  const { t } = useTranslation(['topics', 'common', 'errors']);
   const { getArticleProgress, getTopicProgress } = useLearningStore();
   const { getCertificationProgress } = useCertificateStore();
 
@@ -35,7 +37,7 @@ export default function TopicScreen() {
   if (!topic) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <Text style={[styles.errorText, { color: theme.textColor }]}>Topic not found</Text>
+        <Text style={[styles.errorText, { color: theme.textColor }]}>{t('errors:topic.not_found')}</Text>
       </SafeAreaView>
     );
   }
@@ -60,7 +62,7 @@ export default function TopicScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Text style={[styles.backText, { color: theme.accentColor }]}>← Back</Text>
+          <Text style={[styles.backText, { color: theme.accentColor }]}>← {t('common:actions.back')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -73,16 +75,25 @@ export default function TopicScreen() {
           <Text style={[styles.topicName, { color: theme.textColor }]}>{topic.name}</Text>
           <Text style={[styles.topicDesc, { color: theme.textColor }]}>{topic.description}</Text>
           <Text style={[styles.progressLabel, { color: theme.textColor }]}>
-            {topicProgress.articlesCompleted} of {topicProgress.totalArticles} completed
-            {topicProgress.averageScore > 0 && ` · ${topicProgress.averageScore}% avg`}
+            {topicProgress.averageScore > 0
+              ? t('progress_with_avg', {
+                  completed: topicProgress.articlesCompleted,
+                  total: topicProgress.totalArticles,
+                  avg: topicProgress.averageScore
+                })
+              : t('progress_format', {
+                  completed: topicProgress.articlesCompleted,
+                  total: topicProgress.totalArticles
+                })
+            }
           </Text>
         </View>
 
         {/* Practice Articles */}
         <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Practice Articles</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('practice_articles')}</Text>
           <Text style={[styles.sectionSubtitle, { color: theme.textColor }]}>
-            Build your speed reading skills
+            {t('practice_desc')}
           </Text>
         </View>
         <View style={styles.articlesList}>
@@ -97,6 +108,7 @@ export default function TopicScreen() {
               difficultyColor={difficultyColor}
               onPress={() => handleArticlePress(article.id)}
               onPlay={() => handlePlayPress(article.id)}
+              t={t}
             />
           ))}
         </View>
@@ -107,16 +119,16 @@ export default function TopicScreen() {
             <View style={[styles.sectionHeader, styles.certificationSection]}>
               <View style={styles.sectionTitleRow}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  Certification Tests
+                  {t('certification_tests')}
                 </Text>
                 {isReadyForCertification && (
                   <View style={[styles.readyBadge, { backgroundColor: JOURNEY_COLORS.success }]}>
-                    <Text style={styles.readyBadgeText}>Ready!</Text>
+                    <Text style={styles.readyBadgeText}>{t('ready_badge')}</Text>
                   </View>
                 )}
               </View>
               <Text style={[styles.sectionSubtitle, { color: theme.textColor }]}>
-                Demonstrate your mastery
+                {t('certification_desc')}
               </Text>
             </View>
             <View style={styles.articlesList}>
@@ -132,6 +144,7 @@ export default function TopicScreen() {
                   onPress={() => handleArticlePress(article.id)}
                   onPlay={() => handlePlayPress(article.id)}
                   isCertification={true}
+                  t={t}
                 />
               ))}
             </View>
@@ -157,6 +170,7 @@ interface ArticleCardProps {
   onPress: () => void;
   onPlay: () => void;
   isCertification?: boolean;
+  t: (key: string, params?: Record<string, unknown>) => string;
 }
 
 function ArticleCard({
@@ -169,6 +183,7 @@ function ArticleCard({
   onPress,
   onPlay,
   isCertification = false,
+  t,
 }: ArticleCardProps) {
   const isCompleted = progress?.completed;
   const lengthLabel = article.certificationLength
@@ -184,8 +199,8 @@ function ArticleCard({
       ]}
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${article.title}, ${article.wordCount} words, ${article.difficulty}`}
-      accessibilityHint={isCompleted ? 'Completed' : 'Tap to read'}
+      accessibilityLabel={`${article.title}, ${article.wordCount} ${t('common:words')}, ${article.difficulty}`}
+      accessibilityHint={isCompleted ? t('a11y.completed') : t('a11y.tap_to_read')}
     >
       <View style={styles.articleHeader}>
         <View
@@ -215,7 +230,7 @@ function ArticleCard({
               </Text>
             )}
             <Text style={[styles.wordCount, { color: theme.textColor }]}>
-              · {article.wordCount} words
+              · {article.wordCount} {t('common:words')}
             </Text>
           </View>
         </View>
@@ -236,10 +251,10 @@ function ArticleCard({
       {isCompleted && progress && (
         <View style={[styles.progressInfo, { borderTopColor: theme.crosshairColor }]}>
           <Text style={[styles.progressText, { color: theme.textColor }]}>
-            Score: {progress.comprehensionScore}%
+            {t('score_label', { score: progress.comprehensionScore })}
           </Text>
           <Text style={[styles.progressText, { color: theme.textColor }]}>
-            Best: {progress.highestWPM} WPM
+            {t('best_wpm', { wpm: progress.highestWPM })}
           </Text>
         </View>
       )}

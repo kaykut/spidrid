@@ -7,10 +7,33 @@
   "results": {
     "complete": "Voltooid!",
     "reading_speed": "Leessnelheid",
-    "words_read": "Gelezen Woorden"
+    "words_read": "Gelezen Woorden",
+    "read_again": "Opnieuw lezen",
+    "reading_complete": "Lezen voltooid!",
+    "article_complete": "Artikel voltooid!",
+    "word_count": "Aantal woorden",
+    "comprehension": "Begrip",
+    "correct_answers": "Juiste antwoorden"
   },
   "controls": {
     "play": "Afspelen",
-    "pause": "Pauzeren"
+    "pause": "Pauzeren",
+    "wpm_suffix": "WPM",
+    "max_wpm": "(max {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Hoofdstuk {{number}}",
+    "continue": "Verder lezen"
+  },
+  "errors": {
+    "article_not_found": "Artikel niet gevonden",
+    "curriculum_not_found": "Curriculum niet gevonden",
+    "go_back": "Terug",
+    "article_locked": "Artikel vergrendeld",
+    "article_locked_desc": "Voltooi het vorige artikel om dit te ontgrendelen.",
+    "generating": "Artikel genereren...",
+    "generating_desc": "Even geduld, we maken je artikel aan.",
+    "generation_failed": "Genereren mislukt",
+    "generation_failed_desc": "Er is een fout opgetreden bij het genereren van het artikel."
   }
 }

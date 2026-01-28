@@ -1,4 +1,18 @@
 {
+  "page_title": "Ämnen",
+  "practice_articles": "Övningsartiklar",
+  "practice_desc": "Förbättra dina snabbläsningsfärdigheter",
+  "certification_tests": "Certifieringstester",
+  "certification_desc": "Visa din behärskning",
+  "ready_badge": "Redo!",
+  "score_label": "Poäng: {{score}}%",
+  "best_wpm": "Bäst: {{wpm}} OPM",
+  "progress_format": "{{completed}} av {{total}} slutfört",
+  "progress_with_avg": "{{completed}} av {{total}} slutfört · {{avg}}% genomsnitt",
+  "a11y": {
+    "tap_to_read": "Tryck för att läsa",
+    "completed": "Slutförd"
+  },
   "science_discovery": "Vetenskap & Upptäckter 🔬",
   "science_discovery_desc": "Banbrytande upptäckter som förändrade vår värld",
   "health_medicine": "Hälsa & Medicin ⚕️",

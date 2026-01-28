@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS } from '../../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../../constants/typography';
 import { JOURNEY_COLORS, OVERLAY_COLORS } from '../../../data/themes';
@@ -48,6 +49,7 @@ const ARTICLE_COUNT_OPTIONS = [3, 5, 7, 10];
 
 export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
   const { theme } = useTheme();
+  const { t } = useTranslation(['generation', 'common']);
   const { createCurriculum, isGenerating, generationProgress, generationError, clearError } =
     useCurriculumStore();
 
@@ -149,7 +151,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                 {generationProgress.message}
               </Text>
               <Text style={[styles.progressStep, { color: JOURNEY_COLORS.textSecondary }]}>
-                Step {generationProgress.current} of {generationProgress.total}
+                {t('wizard.step_progress', { current: generationProgress.current, total: generationProgress.total })}
               </Text>
             </View>
           </View>
@@ -167,7 +169,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
         <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={handleClose} />
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
           <View style={[styles.header, { borderBottomColor: theme.secondaryBackground }]}>
-            <Text style={[styles.headerTitle, { color: theme.textColor }]}>Create Curriculum</Text>
+            <Text style={[styles.headerTitle, { color: theme.textColor }]}>{t('modal.create_curriculum')}</Text>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={handleClose}
@@ -186,14 +188,14 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
             {currentStep === 'goal' && (
               <>
                 <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-                  What do you want to learn?
+                  {t('modal.what_learn')}
                 </Text>
                 <TextInput
                   style={[
                     styles.goalInput,
                     { backgroundColor: theme.secondaryBackground, color: theme.textColor },
                   ]}
-                  placeholder="e.g., Learn the fundamentals of machine learning, Understand cryptocurrency, Master cooking basics..."
+                  placeholder={t('placeholders.goal_examples')}
                   placeholderTextColor={JOURNEY_COLORS.textTertiary}
                   value={goal}
                   onChangeText={setGoal}
@@ -201,7 +203,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                   maxLength={500}
                 />
                 <Text style={styles.charCount}>
-                  {goal.length}/500 {goal.length < 10 && '(min 10 characters)'}
+                  {goal.length}/500 {goal.length < 10 && t('wizard.min_chars')}
                 </Text>
               </>
             )}
@@ -210,7 +212,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
             {currentStep === 'articles' && (
               <>
                 <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-                  How many articles?
+                  {t('modal.how_many_articles')}
                 </Text>
                 <View style={styles.pillRow}>
                   {ARTICLE_COUNT_OPTIONS.map((count) => (
@@ -236,7 +238,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                   ))}
                 </View>
                 <Text style={styles.helperText}>
-                  More articles = deeper coverage of your topic
+                  {t('wizard.articles_helper')}
                 </Text>
               </>
             )}
@@ -245,7 +247,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
             {currentStep === 'tone' && (
               <>
                 <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-                  Writing Style
+                  {t('labels.writing_style')}
                 </Text>
                 <View style={styles.toneGrid}>
                   {TONE_DEFINITIONS.map((t) => (
@@ -264,9 +266,9 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
             {currentStep === 'duration' && (
               <>
                 <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-                  Reading Duration
+                  {t('labels.reading_duration')}
                 </Text>
-                <Text style={styles.subLabel}>Per article</Text>
+                <Text style={styles.subLabel}>{t('wizard.per_article')}</Text>
                 <View style={styles.pillRow}>
                   {DURATION_OPTIONS.map((opt) => (
                     <DurationPill
@@ -278,10 +280,10 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                   ))}
                 </View>
                 <Text style={styles.helperText}>
-                  ~{wordsPerArticle.toLocaleString()} words per article at your pace
+                  {t('wizard.words_per_article', { words: wordsPerArticle.toLocaleString() })}
                 </Text>
                 <Text style={styles.helperText}>
-                  Total: ~{totalMinutes} min ({totalWords.toLocaleString()} words)
+                  {t('wizard.total_time', { minutes: totalMinutes, words: totalWords.toLocaleString() })}
                 </Text>
               </>
             )}
@@ -290,11 +292,11 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
             {currentStep === 'confirm' && (
               <>
                 <Text style={[styles.label, styles.labelFirst, { color: theme.textColor }]}>
-                  Review your curriculum
+                  {t('wizard.review_title')}
                 </Text>
                 <View style={[styles.summaryCard, { backgroundColor: theme.secondaryBackground }]}>
                   <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Goal</Text>
+                    <Text style={styles.summaryLabel}>{t('wizard.summary_goal')}</Text>
                     <Text
                       style={[styles.summaryValue, { color: theme.textColor }]}
                       numberOfLines={2}
@@ -303,30 +305,30 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                     </Text>
                   </View>
                   <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Articles</Text>
+                    <Text style={styles.summaryLabel}>{t('wizard.summary_articles')}</Text>
                     <Text style={[styles.summaryValue, { color: theme.textColor }]}>
-                      {articleCount} articles
+                      {t('article', { count: articleCount })}
                     </Text>
                   </View>
                   <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Style</Text>
+                    <Text style={styles.summaryLabel}>{t('wizard.summary_style')}</Text>
                     <Text style={[styles.summaryValue, { color: theme.textColor }]}>
                       {toneDefinition?.emoji} {toneDefinition?.label}
                     </Text>
                   </View>
                   <View style={styles.summaryRow}>
-                    <Text style={styles.summaryLabel}>Duration</Text>
+                    <Text style={styles.summaryLabel}>{t('wizard.summary_duration')}</Text>
                     <Text style={[styles.summaryValue, { color: theme.textColor }]}>
-                      {durationMinutes} min per article (~{totalMinutes} min total)
+                      {durationMinutes} {t('min_suffix')} ({t('wizard.total_time', { minutes: totalMinutes, words: totalWords.toLocaleString() })})
                     </Text>
                   </View>
                   <View style={[styles.summaryRow, { marginTop: SPACING.md }]}>
                     <View style={styles.quizToggleInfo}>
                       <Text style={[styles.summaryLabel, { color: theme.textColor }]}>
-                        Test comprehension
+                        {t('wizard.quiz_toggle')}
                       </Text>
                       <Text style={[styles.summaryHint, { color: JOURNEY_COLORS.textSecondary }]}>
-                        Include 5 quiz questions per article
+                        {t('wizard.quiz_hint')}
                       </Text>
                     </View>
                     <Switch
@@ -343,7 +345,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                     <Text style={styles.errorText}>{generationError}</Text>
                     <TouchableOpacity onPress={clearError}>
                       <Text style={[styles.retryText, { color: theme.accentColor }]}>
-                        Try Again
+                        {t('common:actions.try_again')}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -358,7 +360,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                   style={[styles.backButton, { borderColor: theme.accentColor }]}
                   onPress={goBack}
                 >
-                  <Text style={[styles.backButtonText, { color: theme.accentColor }]}>Back</Text>
+                  <Text style={[styles.backButtonText, { color: theme.accentColor }]}>{t('common:actions.back')}</Text>
                 </TouchableOpacity>
               )}
               <TouchableOpacity
@@ -375,7 +377,7 @@ export function CurriculumCreationWizard({ visible, onClose, avgWpm }: Props) {
                   <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
                 ) : (
                   <Text style={styles.nextButtonText}>
-                    {currentStep === 'confirm' ? 'Create Curriculum' : 'Next'}
+                    {currentStep === 'confirm' ? t('modal.create_curriculum') : t('modal.next')}
                   </Text>
                 )}
               </TouchableOpacity>

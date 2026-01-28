@@ -11,7 +11,7 @@ import { SupportedLanguage } from './types';
 /**
  * ISO 639-3 to ISO 639-1 language code mapping.
  * franc-min returns ISO 639-3 (3-letter) codes, we use ISO 639-1 (2-letter) in the app.
- * Total: 11 European languages
+ * Total: 12 European languages
  */
 const ISO_639_3_TO_1: Record<string, SupportedLanguage> = {
   eng: 'en',
@@ -20,12 +20,12 @@ const ISO_639_3_TO_1: Record<string, SupportedLanguage> = {
   deu: 'de',
   por: 'pt',
   ita: 'it',
-  // New languages
   nld: 'nl', // Dutch
   pol: 'pl', // Polish
   ron: 'ro', // Romanian (ISO 639-3 is 'ron', not 'rum')
   swe: 'sv', // Swedish
   ces: 'cs', // Czech (ISO 639-3 is 'ces', not 'cze')
+  tur: 'tr', // Turkish
 };
 
 /**
@@ -72,5 +72,6 @@ export function getLanguageScores(_text: string): Record<SupportedLanguage, numb
     ro: 0,
     sv: 0,
     cs: 0,
+    tr: 0,
   };
 }

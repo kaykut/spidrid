@@ -9,5 +9,16 @@
     "articles": "Články",
     "learning": "Učení",
     "training": "Trénink"
+  },
+  "history": {
+    "title": "Historie",
+    "empty_title": "Zatím žádné dokončené položky",
+    "empty_subtitle": "Zde se zobrazí položky, které dočtete"
+  },
+  "stats": {
+    "devoured": "Přečteno",
+    "words": "Slova",
+    "retention": "Retence",
+    "best_wpm": "Nejlepší WPM"
   }
 }

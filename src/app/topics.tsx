@@ -8,6 +8,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { EdgeFadeScrollView } from '../components/common/EdgeFadeScrollView';
 import { useTheme } from '../components/common/ThemeProvider';
@@ -18,6 +19,7 @@ import { useLearningStore } from '../store/learningStore';
 
 export default function TopicsScreen() {
   const { theme } = useTheme();
+  const { t } = useTranslation('topics');
   const { getTopicProgress } = useLearningStore();
 
   // Show all topics (onboarding interest filtering removed)
@@ -34,7 +36,7 @@ export default function TopicsScreen() {
         >
           <Ionicons name="chevron-back" size={SIZES.iconLg} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.title, { color: theme.textColor }]}>Topics</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>{t('page_title')}</Text>
         <View style={styles.backButton} />
       </View>
 

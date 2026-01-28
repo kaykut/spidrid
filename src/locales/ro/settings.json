@@ -4,7 +4,8 @@
     "theme": "Temă",
     "your_info": "Informațiile Tale",
     "reading": "Citire",
-    "developer": "Dezvoltator"
+    "developer": "Dezvoltator",
+    "language": "Limbă"
   },
   "themes": {
     "dark": "Închis",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Unelte Dev"
+  },
+  "language": {
+    "app_language": "Limba aplicației",
+    "app_language_desc": "Limba interfeței aplicației"
   }
 }

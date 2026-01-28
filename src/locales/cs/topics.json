@@ -1,4 +1,18 @@
 {
+  "page_title": "Témata",
+  "practice_articles": "Cvičné články",
+  "practice_desc": "Zlepšete své dovednosti rychlého čtení",
+  "certification_tests": "Certifikační testy",
+  "certification_desc": "Prokažte své zvládnutí",
+  "ready_badge": "Připraveno!",
+  "score_label": "Skóre: {{score}}%",
+  "best_wpm": "Nejlepší: {{wpm}} SZM",
+  "progress_format": "{{completed}} z {{total}} dokončeno",
+  "progress_with_avg": "{{completed}} z {{total}} dokončeno · {{avg}}% průměr",
+  "a11y": {
+    "tap_to_read": "Klepněte pro čtení",
+    "completed": "Dokončeno"
+  },
   "science_discovery": "Věda & Objevy 🔬",
   "science_discovery_desc": "Průlomové objevy, které změnily náš svět",
   "health_medicine": "Zdraví & Medicína ⚕️",

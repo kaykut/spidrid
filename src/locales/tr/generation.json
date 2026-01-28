@@ -1,0 +1,67 @@
+{
+  "tones": {
+    "auto": "Otomatik",
+    "fact": "Gerçek",
+    "fact_desc": "Açık ve eğitici",
+    "story": "Hikaye",
+    "story_desc": "Anlatı ve ilgi çekici",
+    "analogy": "Analoji",
+    "analogy_desc": "Karşılaştırmalarla dolu"
+  },
+  "durations": {
+    "1min": "1 dk",
+    "2min": "2 dk",
+    "3min": "3 dk",
+    "5min": "5 dk",
+    "10min": "10 dk"
+  },
+  "portions": {
+    "bite": "Lokma",
+    "snack": "Atıştırma",
+    "meal": "Öğün",
+    "feast": "Ziyafet"
+  },
+  "presets": {
+    "nugget": "Özet",
+    "primer": "Giriş",
+    "topic": "Konu",
+    "deep_dive": "Derinlemesine İnceleme"
+  },
+  "labels": {
+    "portion": "Porsiyon",
+    "flavor": "Tat",
+    "auto": "Otomatik",
+    "reading_duration": "Okuma Süresi",
+    "writing_style": "Yazım Stili"
+  },
+  "placeholders": {
+    "topic": "Ne hakkında bilgi edinmek istiyorsunuz?",
+    "topic_examples": "ör., Kahvenin tarihi, Kara delikler nasıl oluşur, Kediler neden mırlar...",
+    "goal_examples": "ör., Makine öğrenmesinin temellerini öğrenin, Kripto para birimini anlayın, Temel yemek pişirme konusunda uzmanlaşın..."
+  },
+  "actions": {
+    "adjust_duration_tone": "Süreyi ve tonu ayarla",
+    "serve_it_up": "Sun",
+    "listening": "Dinleniyor...",
+    "transcribing": "Yazıya dökülüyor..."
+  },
+  "article_one": "{{count}} makale",
+  "article_other": "{{count}} makale",
+  "min_suffix": "dk",
+  "modal": {
+    "generate_article": "Makale Oluştur",
+    "create_curriculum": "Müfredat Oluştur",
+    "what_learn_about": "Ne hakkında bilgi edinmek istiyorsunuz?",
+    "what_learn": "Ne öğrenmek istiyorsunuz?",
+    "how_many_articles": "Kaç makale?",
+    "estimated_words": "Şu anki hızınızda ~{{words}} kelime",
+    "next": "İleri"
+  },
+  "a11y": {
+    "portion_premium": "{{portion}} porsiyon (Premium özellik)",
+    "portion_hint_upgrade": "Kilidini açmak için premium'a yükseltin",
+    "portion_hint_select": "{{portion}} porsiyonu seçin",
+    "flavor_premium": "{{flavor}} tadı (Premium özellik)",
+    "flavor_hint_select": "{{flavor}} yazım stilini seçin"
+  }
+}

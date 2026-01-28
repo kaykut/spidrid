@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import * as PurchasesService from '../services/purchases';
-import { triggerSyncIfEligible } from '../services/syncOrchestrator';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../types/subscription';
 
 interface RestorePurchasesResult {
@@ -19,6 +18,7 @@ interface SubscriptionStore {
   isRestoring: boolean;
   restoreError: string | null;
   linkedUserId: string | null;
+  pendingLinkUserId: string | null;
   dailyGenerationCount: number;
   lastGenerationDate: string | null;
 
@@ -38,6 +38,20 @@ interface SubscriptionStore {
   resetDailyCount: () => void;
 }
 
+const triggerSyncIfEligibleSafe = (): void => {
+  // Use dynamic import to avoid circular dependencies
+  // Wrapped in try-catch for Jest compatibility (dynamic imports fail without --experimental-vm-modules)
+  try {
+    void import('../services/syncOrchestrator').then(({ triggerSyncIfEligible }) => {
+      triggerSyncIfEligible();
+    }).catch(() => {
+      // Silently fail if module can't be loaded (e.g., in tests)
+    });
+  } catch {
+    // Dynamic import not supported in test environment
+  }
+};
+
 export const useSubscriptionStore = create<SubscriptionStore>()(
   persist(
     (set, get) => ({
@@ -48,6 +62,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       isRestoring: false,
       restoreError: null,
       linkedUserId: null,
+      pendingLinkUserId: null,
       dailyGenerationCount: 0,
       lastGenerationDate: null,
 
@@ -61,6 +76,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         if (configured) {
           // Fetch fresh premium status on initialization
           const isPremium = await PurchasesService.checkPremiumStatus(true);
+          const wasPremium = get().isPremium;
           set({
             isPremium,
             isLoading: false,
@@ -69,8 +85,26 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
 
           // Set up listener for CustomerInfo updates (subscription changes, refunds, etc.)
           PurchasesService.setupCustomerInfoListener((updatedIsPremium) => {
+            const wasPremiumListener = get().isPremium;
             set({ isPremium: updatedIsPremium });
+            if (!wasPremiumListener && updatedIsPremium) {
+              triggerSyncIfEligibleSafe();
+            }
           });
+
+          if (!wasPremium && isPremium) {
+            triggerSyncIfEligibleSafe();
+          }
+
+          // Attempt deferred linking if auth already established
+          const authStore = require('./authStore') as typeof import('./authStore');
+          const { isLoggedIn, userId } = authStore.useAuthStore.getState();
+          const linkTarget = get().pendingLinkUserId || userId;
+          if (isLoggedIn && linkTarget) {
+            get().linkRevenueCatUser(linkTarget).catch((error) => {
+              console.error('[Subscription] Deferred link failed:', error);
+            });
+          }
         } else {
           // RevenueCat not available (Expo Go) - default to free tier
           set({ isPremium: false, isLoading: false, isInitialized: true });
@@ -82,7 +116,18 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         set({ isLoading: true });
         try {
           const isPremium = await PurchasesService.checkPremiumStatus(true);
+          const wasPremium = get().isPremium;
           set({ isPremium, isLoading: false });
+          if (!wasPremium && isPremium) {
+            triggerSyncIfEligibleSafe();
+          }
+
+          const pendingLinkUserId = get().pendingLinkUserId;
+          if (pendingLinkUserId) {
+            get().linkRevenueCatUser(pendingLinkUserId).catch((error) => {
+              console.error('[Subscription] Pending link retry failed:', error);
+            });
+          }
         } catch (error) {
           console.error('[Subscription] Refresh failed:', error);
           set({ isLoading: false });
@@ -108,7 +153,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
 
             // Trigger sync after successful purchase
             if (isPremium) {
-              triggerSyncIfEligible();
+              triggerSyncIfEligibleSafe();
             }
 
             return isPremium;
@@ -128,11 +173,16 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
         const currentLinkedId = get().linkedUserId;
 
         // Already linked to this user
-        if (currentLinkedId === supabaseUserId) {
+        if (currentLinkedId === supabaseUserId && !get().pendingLinkUserId) {
           return;
         }
 
-        set({ isLoading: true });
+        if (!PurchasesService.isAvailable()) {
+          set({ pendingLinkUserId: supabaseUserId });
+          return;
+        }
+
+        set({ isLoading: true, pendingLinkUserId: supabaseUserId });
 
         try {
           const customerInfo = await PurchasesService.loginUser(supabaseUserId);
@@ -144,15 +194,16 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
               linkedUserId: supabaseUserId,
               isPremium,
               isLoading: false,
+              pendingLinkUserId: null,
             });
 
             // Trigger sync now that user is linked and may have premium
-            triggerSyncIfEligible();
+            triggerSyncIfEligibleSafe();
           } else {
-            // RevenueCat not available - just track the linked user locally
+            // Login failed or RevenueCat unavailable - keep pending to retry later
             set({
-              linkedUserId: supabaseUserId,
               isLoading: false,
+              pendingLinkUserId: supabaseUserId,
             });
           }
         } catch (error) {
@@ -165,7 +216,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
       // Unlink RevenueCat customer on sign out
       unlinkRevenueCatUser: async () => {
         await PurchasesService.logoutUser();
-        set({ linkedUserId: null });
+        set({ linkedUserId: null, pendingLinkUserId: null, isPremium: false });
       },
 
       // Restore purchases from App Store/Play Store (required by Apple guidelines)
@@ -181,7 +232,7 @@ export const useSubscriptionStore = create<SubscriptionStore>()(
 
             // Trigger sync after successful restore
             if (isPremium) {
-              triggerSyncIfEligible();
+              triggerSyncIfEligibleSafe();
             }
 
             return isPremium

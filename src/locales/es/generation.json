@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Porción",
     "flavor": "Estilo",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Duración de lectura",
+    "writing_style": "Estilo de escritura"
   },
   "placeholders": {
-    "topic": "¿Sobre qué quieres aprender?"
+    "topic": "¿Sobre qué quieres aprender?",
+    "topic_examples": "ej. La historia del café, Cómo se forman los agujeros negros, Por qué ronronean los gatos...",
+    "goal_examples": "ej. Aprender los fundamentos del aprendizaje automático, Entender las criptomonedas, Dominar lo básico de cocina..."
   },
   "actions": {
     "adjust_duration_tone": "Ajustar duración y tono",
@@ -50,5 +54,30 @@
     "portion_hint_select": "Seleccionar porción {{portion}}",
     "flavor_premium": "Estilo {{flavor}} (función Premium)",
     "flavor_hint_select": "Seleccionar estilo de escritura {{flavor}}"
+  },
+  "modal": {
+    "generate_article": "Generar artículo",
+    "create_curriculum": "Crear currículo",
+    "what_learn_about": "¿Sobre qué quieres aprender?",
+    "what_learn": "¿Qué quieres aprender?",
+    "how_many_articles": "¿Cuántos artículos?",
+    "estimated_words": "~{{words}} palabras a tu ritmo",
+    "next": "Siguiente",
+    "generate_button": "Generar"
+  },
+  "wizard": {
+    "step_progress": "Paso {{current}} de {{total}}",
+    "min_chars": "(mín. 10 caracteres)",
+    "articles_helper": "Más artículos = cobertura más profunda",
+    "per_article": "Por artículo",
+    "words_per_article": "~{{words}} palabras por artículo a tu ritmo",
+    "total_time": "Total: ~{{minutes}} min ({{words}} palabras)",
+    "review_title": "Revisa tu plan",
+    "summary_goal": "Meta",
+    "summary_articles": "Artículos",
+    "summary_style": "Estilo",
+    "summary_duration": "Duración",
+    "quiz_toggle": "Evaluar comprensión",
+    "quiz_hint": "Incluir 5 preguntas de quiz por artículo"
   }
 }

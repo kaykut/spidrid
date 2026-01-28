@@ -8,6 +8,7 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING } from '../../constants/spacing';
@@ -17,9 +18,13 @@ import { useContentStore } from '../../store/contentStore';
 export default function ContentDeepLinkScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
-  const { getContentById } = useContentStore();
+  const { t: tConsumption } = useTranslation('consumption');
+  const { t: tAddContent } = useTranslation('addContent');
+  const { t: tCommon } = useTranslation('common');
 
-  const content = getContentById(id);
+  const content = useContentStore((state) =>
+    id ? state.getContentById(id) : undefined
+  );
 
   useEffect(() => {
     if (!content) {
@@ -28,6 +33,10 @@ export default function ContentDeepLinkScreen() {
         router.back();
       }, 1500);
       return () => clearTimeout(timer);
+    }
+
+    if ((content.processingStatus ?? 'ready') !== 'ready') {
+      return;
     }
 
     // Navigate to playback modal
@@ -40,18 +49,30 @@ export default function ContentDeepLinkScreen() {
   if (!content) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <Text style={[styles.errorText, { color: theme.textColor }]}>Content not found</Text>
+        <Text style={[styles.errorText, { color: theme.textColor }]}>{tConsumption('content_not_found')}</Text>
       </SafeAreaView>
     );
   }
 
+  const isProcessing = (content.processingStatus ?? 'ready') === 'processing';
+  const isError = content.processingStatus === 'error';
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={theme.accentColor} />
+        {!isError && <ActivityIndicator size="large" color={theme.accentColor} />}
         <Text style={[styles.loadingText, { color: theme.textColor }]}>
-          Loading {content.title}...
+          {(() => {
+            if (isError) { return tAddContent('errors.import_failed'); }
+            if (isProcessing) { return tConsumption('import.processing'); }
+            return tCommon('loading');
+          })()}
         </Text>
+        {isError && content.processingError && (
+          <Text style={[styles.errorDetail, { color: theme.textColor }]}>
+            {content.processingError}
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -71,6 +92,12 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.body,
     marginTop: SPACING.lg,
     textAlign: 'center',
+  },
+  errorDetail: {
+    ...TYPOGRAPHY.caption,
+    marginTop: SPACING.sm,
+    textAlign: 'center',
+    opacity: 0.7,
   },
   errorText: {
     ...TYPOGRAPHY.body,

@@ -87,8 +87,14 @@ const simulateWebViewMessage = (messageData: Record<string, unknown>) => {
 };
 
 // Helper to render with providers
-const renderWithProviders = (ui: React.ReactElement) => {
-  return render(<ThemeProvider>{ui}</ThemeProvider>);
+const renderWithProviders = (ui: React.ReactElement, options?: { skipReady?: boolean }) => {
+  const result = render(<ThemeProvider>{ui}</ThemeProvider>);
+  if (!options?.skipReady) {
+    act(() => {
+      simulateWebViewMessage({ type: 'ready' });
+    });
+  }
+  return result;
 };
 
 // Test component that uses the hook

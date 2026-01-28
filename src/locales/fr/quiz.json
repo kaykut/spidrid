@@ -5,6 +5,15 @@
   "question_progress": "Question {{current}} sur {{total}}",
   "no_quiz_available": "Aucun Quiz Disponible",
   "no_quiz_desc": "Ce contenu ne contient pas de questions de quiz.",
+  "true": "Vrai",
+  "false": "Faux",
+  "correct": "Correct !",
+  "answer_was": "Réponse : {{value}}{{unit}}",
+  "submit_answer": "Valider la réponse",
+  "a11y": {
+    "select_true": "Appuyez deux fois pour sélectionner Vrai",
+    "select_false": "Appuyez deux fois pour sélectionner Faux"
+  },
   "results": {
     "complete": "Terminé !",
     "comprehension": "Compréhension",

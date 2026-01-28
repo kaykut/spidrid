@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, SIZES, space } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -48,6 +49,8 @@ export function PlaybackControls({
   onWPMLimitHit,
 }: PlaybackControlsProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('playback');
+  const { t: tCommon } = useTranslation('common');
   const { getMaxWPM, isPremium } = useSubscriptionStore();
   const maxWPM = getMaxWPM();
 
@@ -92,7 +95,7 @@ export function PlaybackControls({
         <View style={styles.wpmDisplay} testID="playback.controls.wpm-display">
           <Text style={[styles.wpmValue, { color: theme.accentColor }]}>{wpm}</Text>
           <Text style={[styles.wpmLabel, { color: theme.textColor }]}>
-            WPM{!isPremium && ` (max ${maxWPM})`}
+            {tCommon('wpm_suffix')}{!isPremium && ` ${t('controls.max_wpm', { max: maxWPM })}`}
           </Text>
         </View>
 

@@ -15,21 +15,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
   Alert,
   ActivityIndicator,
-  useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../components/common/ThemeProvider';
 import { PaywallFeature } from '../components/paywall/PaywallFeature';
 import { PlanSelector } from '../components/paywall/PlanSelector';
 import {
-  PAYWALL_COPY,
-  PAYWALL_SUBHEADLINES,
   LEGAL_URLS,
   type PaywallTrigger,
 } from '../constants/paywall';
@@ -37,14 +34,14 @@ import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { JOURNEY_COLORS } from '../data/themes';
 import * as PurchasesService from '../services/purchases';
-import type { PurchasesPackage } from '../services/purchases';
 import { useSubscriptionStore } from '../store/subscriptionStore';
 import { isNetworkError } from '../utils/networkUtils';
+import type { PurchasesPackage } from '../services/purchases';
 
 export default function PaywallScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
-  const { height: screenHeight } = useWindowDimensions();
+  const { t } = useTranslation('subscription');
 
   // Parse route params including deep link support
   // Deep link format: devoro://paywall?trigger=upgrade&referrer=marketing_email
@@ -67,7 +64,8 @@ export default function PaywallScreen() {
 
   // Get contextual subheadline based on trigger
   const triggerKey = (trigger as PaywallTrigger) || 'default';
-  const subheadline = PAYWALL_SUBHEADLINES[triggerKey] || PAYWALL_COPY.defaultSubheadline;
+  const subheadlineKey = `paywall.subheadline_${triggerKey}`;
+  const subheadline = t(subheadlineKey);
 
   // Track mount time for analytics (TODO: use when analytics service is integrated)
   const [_mountTime] = useState(Date.now());
@@ -93,27 +91,26 @@ export default function PaywallScreen() {
       console.error('[Paywall] Failed to fetch offerings:', err);
       if (isNetworkError(err)) {
         setIsOffline(true);
-        setError('Connect to internet to subscribe');
+        setError(t('paywall.errors.offline'));
       } else {
-        setError('Pricing unavailable');
+        setError(t('paywall.errors.pricing_unavailable'));
       }
     } finally {
       setIsLoadingOfferings(false);
     }
   };
 
-  // Fetch offerings on mount
-  useEffect(() => {
-    fetchOfferings();
-  }, []);
+  // Fetch offerings on mount only - intentionally empty deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchOfferings(); }, []);
 
   // If already premium, dismiss immediately
   useEffect(() => {
     if (isPremium) {
-      Alert.alert('Already Subscribed', "You're already a premium member!");
+      Alert.alert(t('alerts.already_subscribed_title'), t('alerts.already_subscribed_message'));
       router.back();
     }
-  }, [isPremium]);
+  }, [isPremium, t]);
 
   const handleClose = () => {
     // TODO: Track paywall_dismissed with analytics (timeSpent: Date.now() - mountTime)
@@ -142,7 +139,7 @@ export default function PaywallScreen() {
         }
       }
       // TODO: Track purchase_failed with analytics
-      setError('Purchase failed. Please try again.');
+      setError(t('alerts.purchase_failed'));
     } catch (err: unknown) {
       // Check if user cancelled
       const errorCode = (err as { userCancelled?: boolean })?.userCancelled;
@@ -152,7 +149,7 @@ export default function PaywallScreen() {
         return;
       }
       // TODO: Track purchase_failed with analytics
-      setError('Purchase failed. Please try again.');
+      setError(t('alerts.purchase_failed'));
     } finally {
       setIsPurchasing(false);
     }
@@ -163,14 +160,14 @@ export default function PaywallScreen() {
     const result = await restorePurchases();
     if (result.success) {
       // TODO: Track restore_completed with analytics
-      Alert.alert('Purchases Restored!', 'Your subscription has been restored.');
+      Alert.alert(t('alerts.restored_title'), t('alerts.restored_message'));
       router.back();
     } else if (result.error) {
       // TODO: Track restore_failed with analytics
-      Alert.alert('Error', result.error);
+      Alert.alert(t('alerts.error_title'), result.error);
     } else {
       // TODO: Track restore_no_purchases with analytics
-      Alert.alert('No Purchases Found', result.message || 'No previous purchases found.');
+      Alert.alert(t('alerts.no_purchases_title'), result.message || t('alerts.no_purchases'));
     }
   };
 
@@ -193,19 +190,17 @@ export default function PaywallScreen() {
     ? selectedPackage.product.introPrice.periodNumberOfUnits
     : null;
   const ctaText = trialDays
-    ? PAYWALL_COPY.ctaWithTrial.replace('{trial_days}', String(trialDays))
-    : PAYWALL_COPY.ctaWithoutTrial;
+    ? t('paywall.cta.try_free', { days: trialDays })
+    : t('paywall.cta.subscribe');
 
   // Get CTA subtext showing price
   const priceString = selectedPackage?.product.priceString || '';
-  const ctaSubtext = selectedPackage
-    ? (trialDays
-        ? PAYWALL_COPY.ctaSubtextWithTrial.replace('{price}', priceString)
-        : PAYWALL_COPY.ctaSubtextWithoutTrial.replace('{price}', priceString))
-    : null;
-
-  // Image height is ~30% of screen
-  const imageHeight = screenHeight * 0.3;
+  const getCtaSubtext = () => {
+    if (!selectedPackage) { return null; }
+    if (trialDays) { return t('paywall.cta.then_price', { price: priceString }); }
+    return t('paywall.cta.price_per_year', { price: priceString });
+  };
+  const ctaSubtext = getCtaSubtext();
 
   return (
     <View
@@ -232,18 +227,11 @@ export default function PaywallScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Illustration image */}
-        <Image
-          source={require('../../assets/paywall_image.jpg')}
-          style={[styles.image, { height: imageHeight }]}
-          resizeMode="cover"
-        />
-
         {/* Content */}
         <View style={styles.content}>
           {/* Headline */}
           <Text style={[styles.headline, { color: theme.textColor }]}>
-            {PAYWALL_COPY.headline}
+            {t('paywall.headline')}
           </Text>
 
           {/* Subheadline */}
@@ -253,14 +241,21 @@ export default function PaywallScreen() {
 
           {/* Features */}
           <View style={styles.features}>
-            {PAYWALL_COPY.features.map((feature, index) => (
-              <PaywallFeature
-                key={index}
-                icon={feature.icon as keyof typeof Ionicons.glyphMap}
-                title={feature.title}
-                subtitle={feature.subtitle}
-              />
-            ))}
+            <PaywallFeature
+              icon="infinite-outline"
+              title={t('paywall.features.unlimited_title')}
+              subtitle={t('paywall.features.unlimited_subtitle')}
+            />
+            <PaywallFeature
+              icon="sync-outline"
+              title={t('paywall.features.sync_title')}
+              subtitle={t('paywall.features.sync_subtitle')}
+            />
+            <PaywallFeature
+              icon="speedometer-outline"
+              title={t('paywall.features.speed_title')}
+              subtitle={t('paywall.features.speed_subtitle')}
+            />
           </View>
 
           {/* Plan Selector */}
@@ -287,7 +282,7 @@ export default function PaywallScreen() {
                   <ActivityIndicator size="small" color={theme.accentColor} />
                 ) : (
                   <Text style={[styles.retryButtonText, { color: theme.accentColor }]}>
-                    Retry
+                    {t('paywall.errors.retry')}
                   </Text>
                 )}
               </TouchableOpacity>
@@ -304,7 +299,7 @@ export default function PaywallScreen() {
             ]}
             onPress={handlePurchase}
             disabled={isPurchasing || isLoading || isOffline || (!yearlyPackage && !monthlyPackage)}
-            accessibilityLabel={isOffline ? 'Connect to internet to subscribe' : ctaText}
+            accessibilityLabel={isOffline ? t('paywall.errors.offline') : ctaText}
             accessibilityRole="button"
             accessibilityState={{ disabled: isOffline || (!yearlyPackage && !monthlyPackage) }}
           >
@@ -312,7 +307,7 @@ export default function PaywallScreen() {
               <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
             ) : (
               <Text style={styles.primaryCtaText}>
-                {isOffline ? 'Connect to internet' : ctaText}
+                {isOffline ? t('paywall.errors.offline') : ctaText}
               </Text>
             )}
           </TouchableOpacity>
@@ -324,17 +319,10 @@ export default function PaywallScreen() {
             </Text>
           )}
 
-          {/* Secondary CTA */}
-          <TouchableOpacity
-            style={styles.secondaryCta}
-            onPress={handleClose}
-            accessibilityLabel="Dismiss paywall"
-            accessibilityRole="button"
-          >
-            <Text style={[styles.secondaryCtaText, { color: theme.textSecondaryColor }]}>
-              {PAYWALL_COPY.secondaryCta}
-            </Text>
-          </TouchableOpacity>
+          {/* Cancel anytime reassurance */}
+          <Text style={[styles.cancelText, { color: theme.metaColor }]}>
+            {t('paywall.trust.cancel_anytime')}
+          </Text>
 
           {/* Footer links */}
           <View style={styles.footer}>
@@ -342,14 +330,14 @@ export default function PaywallScreen() {
               style={styles.footerLink}
               onPress={handleRestore}
               disabled={isRestoring}
-              accessibilityLabel="Restore purchases"
+              accessibilityLabel={t('paywall.footer.restore')}
               accessibilityRole="button"
             >
               {isRestoring ? (
                 <ActivityIndicator size="small" color={theme.metaColor} />
               ) : (
                 <Text style={[styles.footerLinkText, { color: theme.metaColor }]}>
-                  Restore purchases
+                  {t('paywall.footer.restore')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -359,11 +347,11 @@ export default function PaywallScreen() {
             <TouchableOpacity
               style={styles.footerLink}
               onPress={handleOpenTerms}
-              accessibilityLabel="Terms of service"
+              accessibilityLabel={t('paywall.footer.terms')}
               accessibilityRole="link"
             >
               <Text style={[styles.footerLinkText, { color: theme.metaColor }]}>
-                Terms
+                {t('paywall.footer.terms')}
               </Text>
             </TouchableOpacity>
 
@@ -372,11 +360,11 @@ export default function PaywallScreen() {
             <TouchableOpacity
               style={styles.footerLink}
               onPress={handleOpenPrivacy}
-              accessibilityLabel="Privacy policy"
+              accessibilityLabel={t('paywall.footer.privacy')}
               accessibilityRole="link"
             >
               <Text style={[styles.footerLinkText, { color: theme.metaColor }]}>
-                Privacy
+                {t('paywall.footer.privacy')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -404,13 +392,10 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-  },
-  image: {
-    width: '100%',
+    justifyContent: 'center',
   },
   content: {
     paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.lg,
   },
   headline: {
     ...TYPOGRAPHY.pageTitle,
@@ -466,16 +451,13 @@ const styles = StyleSheet.create({
   ctaSubtext: {
     ...TYPOGRAPHY.caption,
     textAlign: 'center',
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.xs,
   },
-  secondaryCta: {
-    height: SIZES.touchTarget,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.lg,
-  },
-  secondaryCtaText: {
-    ...TYPOGRAPHY.body,
+  cancelText: {
+    ...TYPOGRAPHY.caption,
+    textAlign: 'center',
+    marginTop: SPACING.xs,
+    marginBottom: SPACING.md,
   },
   footer: {
     flexDirection: 'row',

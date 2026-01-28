@@ -5,6 +5,15 @@
   "question_progress": "Vraag {{current}} van {{total}}",
   "no_quiz_available": "Geen Quiz Beschikbaar",
   "no_quiz_desc": "Deze inhoud heeft geen quizvragen.",
+  "true": "Waar",
+  "false": "Onwaar",
+  "correct": "Correct!",
+  "answer_was": "Antwoord: {{value}}{{unit}}",
+  "submit_answer": "Antwoord verzenden",
+  "a11y": {
+    "select_true": "Dubbeltik om Waar te selecteren",
+    "select_false": "Dubbeltik om Onwaar te selecteren"
+  },
   "results": {
     "complete": "Voltooid!",
     "comprehension": "Begrip",

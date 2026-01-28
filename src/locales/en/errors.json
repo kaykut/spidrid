@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Content not found",
     "failed_to_load": "Failed to load content"
+  },
+  "topic": {
+    "not_found": "Topic not found"
+  },
+  "article": {
+    "not_found": "Article not found"
   }
 }

@@ -1,4 +1,18 @@
 {
+  "page_title": "Topics",
+  "practice_articles": "Practice Articles",
+  "practice_desc": "Build your speed reading skills",
+  "certification_tests": "Certification Tests",
+  "certification_desc": "Demonstrate your mastery",
+  "ready_badge": "Ready!",
+  "score_label": "Score: {{score}}%",
+  "best_wpm": "Best: {{wpm}} WPM",
+  "progress_format": "{{completed}} of {{total}} completed",
+  "progress_with_avg": "{{completed}} of {{total}} completed · {{avg}}% avg",
+  "a11y": {
+    "tap_to_read": "Tap to read",
+    "completed": "Completed"
+  },
   "science_discovery": "Science & Discovery 🔬",
   "science_discovery_desc": "Breakthrough discoveries that changed our world",
   "health_medicine": "Health & Medicine ⚕️",

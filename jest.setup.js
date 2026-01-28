@@ -1,6 +1,23 @@
 // Import built-in jest matchers from @testing-library/react-native
 import '@testing-library/react-native/build/matchers/extend-expect';
 
+// Initialize i18n for tests (must be before any module imports that use i18n)
+// This fixes tests that import INTERESTS or TOPICS which use i18n.t() at module load time
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+i18n.use(initReactI18next).init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      interests: require('./src/locales/en/interests.json'),
+      topics: require('./src/locales/en/topics.json'),
+    },
+  },
+  interpolation: { escapeValue: false },
+});
+
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
@@ -43,15 +60,58 @@ jest.mock('react-native-gesture-handler', () => {
   };
 });
 
-// Mock expo-file-system with new File API
-jest.mock('expo-file-system', () => ({
-  File: jest.fn().mockImplementation((uri) => ({
-    uri,
+// Mock expo-file-system with new File + Directory API
+jest.mock('expo-file-system', () => {
+  const joinUri = (...parts) => {
+    const normalized = parts
+      .map((part) => {
+        if (typeof part === 'string') {return part;}
+        if (part && typeof part.uri === 'string') {return part.uri;}
+        return '';
+      })
+      .filter(Boolean);
+    if (normalized.length === 0) {return '';}
+    return normalized.slice(1).reduce((acc, part) => {
+      const accTrim = acc.replace(/\/+$/, '');
+      const partTrim = part.replace(/^\/+/, '');
+      return `${accTrim}/${partTrim}`;
+    }, normalized[0]);
+  };
+
+  const mockFileCopy = jest.fn();
+  const mockDirectoryCreate = jest.fn();
+
+  class Directory {
+    constructor(...uris) {
+      this.uri = joinUri(...uris);
+    }
+    create(...args) {
+      return mockDirectoryCreate(...args);
+    }
+    createDirectory(name) {
+      return new Directory(this, name);
+    }
+    createFile(name) {
+      return new File(this, name);
+    }
+  }
+
+  const File = jest.fn().mockImplementation((...uris) => ({
+    uri: joinUri(...uris),
     exists: true,
     base64: jest.fn().mockResolvedValue('mockBase64Data'),
     delete: jest.fn(),
-  })),
-}));
+    copy: mockFileCopy,
+  }));
+
+  return {
+    File,
+    Directory,
+    Paths: {
+      document: new Directory('file:///app/documents/'),
+    },
+  };
+});
 
 // Mock Supabase client
 jest.mock('@supabase/supabase-js', () => ({
@@ -92,6 +152,8 @@ jest.mock('expo-linking', () => ({
   addEventListener: jest.fn().mockReturnValue({ remove: jest.fn() }),
 }));
 
+// expo-apple-authentication and expo-crypto are mocked via __mocks__ directory
+
 // Mock expo-audio for audio recording
 jest.mock('expo-audio', () => ({
   useAudioRecorder: jest.fn(() => ({
@@ -120,6 +182,14 @@ jest.mock('./src/services/purchases', () => ({
   isAvailable: jest.fn().mockReturnValue(false),
   getPremiumEntitlement: jest.fn().mockReturnValue('premium'),
   setupCustomerInfoListener: jest.fn().mockReturnValue(() => {}), // Returns cleanup function
+}));
+
+// syncOrchestrator is mocked locally in tests that need it (e.g., subscriptionStore.test.ts)
+// The actual module uses dynamic imports which are handled by try-catch in production code
+
+// Mock syncAccess for sync adapter tests
+jest.mock('./src/services/sync/syncAccess', () => ({
+  requireSyncEligibility: jest.fn(), // Default: no-op (doesn't throw)
 }));
 
 // Mock franc-min to avoid ESM module issues

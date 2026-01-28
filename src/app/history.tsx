@@ -18,6 +18,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
@@ -44,6 +45,7 @@ function hexToRGBA(hex: string, alpha: number) {
 export default function HistoryModal() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation('content');
   const routerNav = useRouter();
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
@@ -151,7 +153,7 @@ export default function HistoryModal() {
         ]}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
-          <Text style={[styles.pageTitle, { color: theme.textColor }]}>History</Text>
+          <Text style={[styles.pageTitle, { color: theme.textColor }]}>{t('history.title')}</Text>
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>
@@ -162,10 +164,10 @@ export default function HistoryModal() {
               style={{ opacity: 0.3 }}
             />
             <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-              No completed items yet
+              {t('history.empty_title')}
             </Text>
             <Text style={[styles.emptySubtitle, { color: theme.textColor }]}>
-              Items you finish reading will appear here
+              {t('history.empty_subtitle')}
             </Text>
           </View>
         }

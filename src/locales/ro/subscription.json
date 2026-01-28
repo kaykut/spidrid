@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Treci la Premium",
     "reason_wpm": "Nivelul gratuit este limitat la {{wpm}} WPM",
-    "reason_generation": "Nivelul gratuit este limitat la 3 articole AI generate pe zi"
+    "reason_generation": "Nivelul gratuit este limitat la 3 articole AI generate pe zi",
+    "headline": "Hrănește-ți mintea",
+    "subheadline_default": "Lasă scrollul infinit în urmă și învață orice subiect în câteva minute.",
+    "subheadline_daily_limit": "Ai folosit cele 2 articole gratuite de azi. Vrei acces nelimitat?",
+    "subheadline_premium_portion": "Porțiile Gustare, Masă și Festin necesită Premium.",
+    "subheadline_premium_flavor": "Stilurile Fapt, Poveste și Analogie necesită Premium.",
+    "subheadline_sign_in": "Autentificarea necesită Devoro Premium pentru sincronizare între dispozitive.",
+    "subheadline_wpm_limit": "Vitezele de citire peste 450 WPM necesită Premium.",
+    "features": {
+      "unlimited_title": "Articole AI nelimitate",
+      "unlimited_subtitle": "Fără limite zilnice de învățare",
+      "sync_title": "Sincronizare între dispozitive",
+      "sync_subtitle": "Continuă de unde ai rămas",
+      "speed_title": "Viteză de citire Premium",
+      "speed_subtitle": "Până la 1.500 WPM"
+    },
+    "plans": {
+      "yearly": "Anual",
+      "monthly": "Lunar",
+      "per_month": "{{price}}/lună",
+      "free_trial": "{{days}} zile de încercare gratuită",
+      "most_popular": "Cel mai popular",
+      "save_percent": "Economisești {{percent}}%",
+      "no_plans": "Niciun plan disponibil"
+    },
+    "cta": {
+      "subscribe": "Abonează-te acum",
+      "try_free": "Încearcă {{days}} zile gratuit",
+      "then_price": "apoi {{price}}/an",
+      "price_per_year": "{{price}}/an"
+    },
+    "trust": {
+      "cancel_anytime": "Anulezi oricând"
+    },
+    "footer": {
+      "restore": "Restaurează achizițiile",
+      "terms": "Termeni",
+      "privacy": "Confidențialitate"
+    },
+    "errors": {
+      "offline": "Conectează-te la internet pentru a te abona",
+      "pricing_unavailable": "Prețuri indisponibile",
+      "retry": "Reîncearcă"
+    }
   },
   "benefits": {
     "max_wpm": "Citește până la {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Achiziție eșuată. Te rugăm să încerci din nou.",
     "no_purchases": "Nu s-au găsit achiziții anterioare.",
-    "restored_title": "Restaurat",
-    "restored_message": "Achizițiile tale au fost restaurate cu succes.",
+    "restored_title": "Achiziții restaurate!",
+    "restored_message": "Abonamentul tău a fost restaurat.",
     "error_title": "Eroare",
-    "no_purchases_title": "Nicio Achiziție"
+    "no_purchases_title": "Nicio achiziție găsită",
+    "already_subscribed_title": "Deja abonat",
+    "already_subscribed_message": "Ești deja un membru premium!"
   }
 }

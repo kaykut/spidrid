@@ -1,0 +1,9 @@
+{
+  "reader": {
+    "default_title": "Okuma"
+  },
+  "import": {
+    "importing": "İçe aktarılıyor...",
+    "processing": "İçerik işleniyor..."
+  }
+}

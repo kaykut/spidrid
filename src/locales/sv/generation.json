@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Portion",
     "flavor": "Smak",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Lästid",
+    "writing_style": "Skrivstil"
   },
   "placeholders": {
-    "topic": "Vad vill du lära dig om?"
+    "topic": "Vad vill du lära dig om?",
+    "topic_examples": "t.ex. Kaffets historia, Hur svarta hål bildas, Varför spinner katter...",
+    "goal_examples": "t.ex. Lär dig grunderna i maskininlärning, Förstå kryptovalutor, Bemästra grunderna i matlagning..."
   },
   "actions": {
     "adjust_duration_tone": "Justera längd och ton",
@@ -50,5 +54,26 @@
     "portion_hint_select": "Välj {{portion}} portion",
     "flavor_premium": "{{flavor}} smak (Premium-funktion)",
     "flavor_hint_select": "Välj {{flavor}} skrivstil"
+  },
+  "modal": {
+    "generate_article": "Generera artikel",
+    "create_curriculum": "Skapa läroplan",
+    "what_learn_about": "Vad vill du lära dig om?",
+    "what_learn": "Vad vill du lära dig?",
+    "how_many_articles": "Hur många artiklar?",
+    "estimated_words": "~{{words}} ord i din takt",
+    "next": "Nästa",
+    "generate_button": "Generera"
+  },
+  "wizard": {
+    "step_progress": "Steg {{current}} av {{total}}",
+    "min_chars": "(min. 10 tecken)",
+    "review_title": "Granska din studieplan",
+    "summary_goal": "Mål",
+    "summary_articles": "Artiklar",
+    "summary_style": "Stil",
+    "summary_duration": "Längd",
+    "quiz_toggle": "Testa förståelse",
+    "quiz_hint": "Inkludera 5 quizfrågor per artikel"
   }
 }

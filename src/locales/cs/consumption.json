@@ -5,5 +5,6 @@
   "import": {
     "importing": "Importuji...",
     "processing": "Zpracovávám obsah..."
-  }
+  },
+  "content_not_found": "Obsah nenalezen"
 }

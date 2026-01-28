@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Portie",
     "flavor": "Smaak",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Leesduur",
+    "writing_style": "Schrijfstijl"
   },
   "placeholders": {
-    "topic": "Waar wil je meer over leren?"
+    "topic": "Waar wil je meer over leren?",
+    "topic_examples": "bijv. De geschiedenis van koffie, Hoe ontstaan zwarte gaten, Waarom spinnen katten...",
+    "goal_examples": "bijv. Leer de basis van machine learning, Begrijp cryptocurrency, Beheers de kookbasis..."
   },
   "actions": {
     "adjust_duration_tone": "Duur en toon aanpassen",
@@ -50,5 +54,30 @@
     "portion_hint_select": "Selecteer {{portion}} portie",
     "flavor_premium": "{{flavor}} smaak (Premium functie)",
     "flavor_hint_select": "Selecteer {{flavor}} schrijfstijl"
+  },
+  "modal": {
+    "generate_article": "Artikel genereren",
+    "create_curriculum": "Curriculum maken",
+    "what_learn_about": "Waarover wil je leren?",
+    "what_learn": "Wat wil je leren?",
+    "how_many_articles": "Hoeveel artikelen?",
+    "estimated_words": "~{{words}} woorden in je tempo",
+    "next": "Volgende",
+    "generate_button": "Genereren"
+  },
+  "wizard": {
+    "step_progress": "Stap {{current}} van {{total}}",
+    "min_chars": "(min. 10 tekens)",
+    "articles_helper": "Meer artikelen = diepere dekking van je onderwerp",
+    "per_article": "Per artikel",
+    "words_per_article": "~{{words}} woorden per artikel op jouw leessnelheid",
+    "total_time": "Totaal: ~{{minutes}} min om dit curriculum te voltooien",
+    "review_title": "Controleer je leerplan",
+    "summary_goal": "Doel",
+    "summary_articles": "Artikelen",
+    "summary_style": "Stijl",
+    "summary_duration": "Duur",
+    "quiz_toggle": "Test begrip",
+    "quiz_hint": "5 quizvragen per artikel toevoegen"
   }
 }

@@ -171,9 +171,9 @@ describe('localeStore', () => {
 
       const locales = getSupportedLocales();
 
-      expect(locales).toHaveLength(11);
+      expect(locales).toHaveLength(12);
       expect(locales.map(l => l.code)).toEqual(
-        expect.arrayContaining(['en', 'cs', 'de', 'nl', 'fr', 'it', 'pl', 'pt', 'ro', 'es', 'sv'])
+        expect.arrayContaining(['en', 'cs', 'de', 'nl', 'fr', 'it', 'pl', 'pt', 'ro', 'es', 'sv', 'tr'])
       );
     });
 

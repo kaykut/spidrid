@@ -18,6 +18,7 @@ import {
   UIManager,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Swipeable } from 'react-native-gesture-handler';
 import { SPACING, COMPONENT_SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -50,6 +51,7 @@ export function CurriculumAccordionItem({
   defaultExpanded = true,
 }: CurriculumAccordionItemProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('common');
   const toggleExpandedInStore = useCurriculumStore((state) => state.toggleExpanded);
   const isExpandedInStore = useCurriculumStore((state) => state.isExpanded(item.sourceId));
   const swipeableRef = useRef<Swipeable>(null);
@@ -96,7 +98,7 @@ export function CurriculumAccordionItem({
       <TouchableOpacity onPress={handleDelete} style={styles.deleteAction}>
         <Animated.View style={[styles.deleteContent, { transform: [{ scale }] }]}>
           <Ionicons name="trash-outline" size={SIZES.iconLg} color={JOURNEY_COLORS.textPrimary} />
-          <Text style={styles.deleteText}>Delete</Text>
+          <Text style={styles.deleteText}>{t('actions.delete')}</Text>
         </Animated.View>
       </TouchableOpacity>
     );

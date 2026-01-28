@@ -9,6 +9,11 @@ import { useSubscriptionStore } from '../../src/store/subscriptionStore';
 import { FREE_TIER_LIMITS, PREMIUM_LIMITS } from '../../src/types/subscription';
 import * as PurchasesService from '../../src/services/purchases';
 
+// Mock dynamic import of syncOrchestrator to avoid experimental-vm-modules error
+jest.mock('../../src/services/syncOrchestrator', () => ({
+  triggerSyncIfEligible: jest.fn(),
+}));
+
 // Get the mocked purchases service
 const mockPurchasesService = PurchasesService as jest.Mocked<typeof PurchasesService>;
 
@@ -257,8 +262,20 @@ describe('subscriptionStore', () => {
   });
 
   describe('linkRevenueCatUser()', () => {
+    beforeEach(() => {
+      // linkRevenueCatUser requires isAvailable() to return true
+      mockPurchasesService.isAvailable.mockReturnValue(true);
+    });
+
+    afterEach(() => {
+      mockPurchasesService.isAvailable.mockReturnValue(false);
+    });
+
     it('sets linkedUserId after linking', async () => {
-      mockPurchasesService.loginUser.mockResolvedValueOnce(null);
+      // loginUser must return customerInfo for linkedUserId to be set
+      mockPurchasesService.loginUser.mockResolvedValueOnce({
+        entitlements: { active: {} },
+      });
 
       const { result } = renderHook(() => useSubscriptionStore());
 
@@ -286,7 +303,10 @@ describe('subscriptionStore', () => {
     });
 
     it('skips linking if already linked to same user', async () => {
-      mockPurchasesService.loginUser.mockResolvedValueOnce(null);
+      // First link succeeds with customerInfo
+      mockPurchasesService.loginUser.mockResolvedValueOnce({
+        entitlements: { active: {} },
+      });
 
       const { result } = renderHook(() => useSubscriptionStore());
 
@@ -305,7 +325,10 @@ describe('subscriptionStore', () => {
     });
 
     it('allows relinking to different user', async () => {
-      mockPurchasesService.loginUser.mockResolvedValue(null);
+      // Both links succeed with customerInfo
+      mockPurchasesService.loginUser.mockResolvedValue({
+        entitlements: { active: {} },
+      });
 
       const { result } = renderHook(() => useSubscriptionStore());
 

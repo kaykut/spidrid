@@ -9,5 +9,16 @@
     "articles": "Articles",
     "learning": "Learning",
     "training": "Training"
+  },
+  "history": {
+    "title": "History",
+    "empty_title": "No completed items yet",
+    "empty_subtitle": "Items you finish reading will appear here"
+  },
+  "stats": {
+    "devoured": "Devoured",
+    "words": "Words",
+    "retention": "Retention",
+    "best_wpm": "Best WPM"
   }
 }

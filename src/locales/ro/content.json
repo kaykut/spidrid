@@ -9,5 +9,16 @@
     "articles": "Articole",
     "learning": "Educație",
     "training": "Antrenament"
+  },
+  "history": {
+    "title": "Istoric",
+    "empty_title": "Niciun element finalizat încă",
+    "empty_subtitle": "Elementele pe care le termini de citit vor apărea aici"
+  },
+  "stats": {
+    "devoured": "Devorat",
+    "words": "Cuvinte",
+    "retention": "Retenție",
+    "best_wpm": "Cel mai bun CPM"
   }
 }

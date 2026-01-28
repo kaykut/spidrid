@@ -74,7 +74,7 @@ describe('useLocale hook', () => {
       const { result } = renderHook(() => useLocale());
 
       expect(Array.isArray(result.current.supportedLocales)).toBe(true);
-      expect(result.current.supportedLocales.length).toBe(11);
+      expect(result.current.supportedLocales.length).toBe(12);
     });
 
     it('supported locales have required properties', () => {

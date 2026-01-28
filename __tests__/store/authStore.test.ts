@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
 import { useAuthStore } from '../../src/store/authStore';
 import { supabase } from '../../src/services/supabase';
 import { useSubscriptionStore } from '../../src/store/subscriptionStore';
@@ -11,6 +14,8 @@ jest.mock('../../src/services/supabase', () => ({
       signInAnonymously: jest.fn(),
       signOut: jest.fn(),
       linkIdentity: jest.fn(),
+      signInWithIdToken: jest.fn(),
+      updateUser: jest.fn(),
       onAuthStateChange: jest.fn(() => ({
         data: { subscription: { unsubscribe: jest.fn() } },
       })),
@@ -18,7 +23,23 @@ jest.mock('../../src/services/supabase', () => ({
   },
 }));
 
+jest.mock('expo-apple-authentication', () => ({
+  isAvailableAsync: jest.fn(),
+  signInAsync: jest.fn(),
+  AppleAuthenticationScope: {
+    FULL_NAME: 0,
+    EMAIL: 1,
+  },
+}));
+
+jest.mock('expo-crypto', () => ({
+  getRandomBytesAsync: jest.fn(),
+}));
+
 const mockSupabase = supabase as jest.Mocked<typeof supabase>;
+const mockAppleAuth = AppleAuthentication as jest.Mocked<typeof AppleAuthentication>;
+const mockCrypto = Crypto as jest.Mocked<typeof Crypto>;
+const originalPlatform = Platform.OS;
 
 describe('authStore', () => {
   beforeEach(() => {
@@ -28,9 +49,17 @@ describe('authStore', () => {
       isAnonymous: false,
       isLoggedIn: false,
       userId: null,
+      pendingOAuthProvider: null,
       authError: null,
     });
     jest.clearAllMocks();
+    Object.defineProperty(Platform, 'OS', { value: 'ios' });
+    mockAppleAuth.isAvailableAsync.mockResolvedValue(true);
+    mockCrypto.getRandomBytesAsync.mockResolvedValue(new Uint8Array([1, 2, 3, 4]));
+  });
+
+  afterAll(() => {
+    Object.defineProperty(Platform, 'OS', { value: originalPlatform });
   });
 
   describe('initial state', () => {
@@ -234,6 +263,99 @@ describe('authStore', () => {
       });
 
       await expect(useAuthStore.getState().signInWithGoogle()).rejects.toThrow('Google auth failed');
+    });
+  });
+
+  describe('signInWithApple', () => {
+    it('should link Apple identity using the native ID token', async () => {
+      mockAppleAuth.signInAsync.mockResolvedValue({
+        identityToken: 'apple-id-token',
+        fullName: null,
+      } as any);
+      (mockSupabase.auth.linkIdentity as jest.Mock).mockResolvedValue({
+        data: {},
+        error: null,
+      });
+
+      await useAuthStore.getState().signInWithApple();
+
+      expect(mockSupabase.auth.linkIdentity).toHaveBeenCalledWith({
+        provider: 'apple',
+        token: 'apple-id-token',
+        nonce: expect.any(String),
+      });
+    });
+
+    it('should store the full name when Apple provides it', async () => {
+      mockAppleAuth.signInAsync.mockResolvedValue({
+        identityToken: 'apple-id-token',
+        fullName: { givenName: 'Ada', familyName: 'Lovelace' },
+      } as any);
+      (mockSupabase.auth.linkIdentity as jest.Mock).mockResolvedValue({
+        data: {},
+        error: null,
+      });
+      (mockSupabase.auth.updateUser as jest.Mock).mockResolvedValue({ data: {}, error: null });
+
+      await useAuthStore.getState().signInWithApple();
+
+      expect(mockSupabase.auth.updateUser).toHaveBeenCalledWith({
+        data: {
+          full_name: 'Ada Lovelace',
+          given_name: 'Ada',
+          family_name: 'Lovelace',
+        },
+      });
+    });
+
+    it('should sign in to existing account when identity already exists', async () => {
+      mockAppleAuth.signInAsync.mockResolvedValue({
+        identityToken: 'apple-id-token',
+        fullName: null,
+      } as any);
+      (mockSupabase.auth.linkIdentity as jest.Mock).mockResolvedValue({
+        data: null,
+        error: { code: 'identity_already_exists', message: 'Identity already exists' },
+      });
+      (mockSupabase.auth.signInWithIdToken as jest.Mock).mockResolvedValue({
+        data: { session: { access_token: 'token' } },
+        error: null,
+      });
+
+      await useAuthStore.getState().signInWithApple();
+
+      expect(mockSupabase.auth.signInWithIdToken).toHaveBeenCalledWith({
+        provider: 'apple',
+        token: 'apple-id-token',
+        nonce: expect.any(String),
+      });
+    });
+
+    it('should reject when Apple sign-in is unavailable on the device', async () => {
+      mockAppleAuth.isAvailableAsync.mockResolvedValue(false);
+
+      await expect(useAuthStore.getState().signInWithApple()).rejects.toThrow(
+        'Apple sign-in is not available on this device.'
+      );
+    });
+
+    it('should reject when Apple sign-in is not supported on the platform', async () => {
+      Object.defineProperty(Platform, 'OS', { value: 'android' });
+
+      await expect(useAuthStore.getState().signInWithApple()).rejects.toThrow(
+        'Apple sign-in is only available on iOS.'
+      );
+    });
+
+    it('should reject when Apple does not return an identity token', async () => {
+      mockAppleAuth.signInAsync.mockResolvedValue({
+        identityToken: null,
+        fullName: null,
+      } as any);
+
+      await expect(useAuthStore.getState().signInWithApple()).rejects.toThrow(
+        'Apple sign-in failed. Please try again.'
+      );
     });
   });
 

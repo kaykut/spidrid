@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Inhoud niet gevonden",
     "failed_to_load": "Kon inhoud niet laden"
+  },
+  "topic": {
+    "not_found": "Onderwerp niet gevonden"
+  },
+  "article": {
+    "not_found": "Artikel niet gevonden"
   }
 }

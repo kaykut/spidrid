@@ -1,3 +1,6 @@
+import { Platform } from 'react-native';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
 import { create } from 'zustand';
 import { supabase } from '../services/supabase';
 import { useSubscriptionStore } from './subscriptionStore';
@@ -9,12 +12,19 @@ interface AuthState {
   userId: string | null;
   userEmail: string | null; // User's email address (null for anonymous users)
   authError: string | null; // Error message from last auth failure
+  pendingOAuthProvider: 'google' | null;
 
   initialize: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
   signInWithGoogle: () => Promise<void>;
+  signInWithApple: () => Promise<void>;
   signOut: () => Promise<void>;
 }
+
+const generateNonce = async (): Promise<string> => {
+  const bytes = await Crypto.getRandomBytesAsync(32);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+};
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
   // Initial state
@@ -24,26 +34,16 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   userId: null,
   userEmail: null,
   authError: null,
+  pendingOAuthProvider: null,
 
   // Initialize authentication - check for existing session or create anonymous
   initialize: async () => {
-    console.log('[AuthStore] === initialize() called ===');
-    console.log('[AuthStore] isInitialized:', get().isInitialized);
-
     if (get().isInitialized) {
-      console.log('[AuthStore] Already initialized, returning');
       return;
     }
 
-    console.log('[AuthStore] Setting up auth state change listener');
     // Set up auth state change listener to handle session updates
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('[AuthStore] onAuthStateChange event:', _event);
-      console.log('[AuthStore] session:', session ? {
-        userId: session.user?.id,
-        isAnonymous: session.user?.is_anonymous
-      } : 'null');
-
       if (session) {
         const isAnonymous = session.user?.is_anonymous ?? false;
         const userId = session.user?.id ?? null;
@@ -56,6 +56,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           isLoggedIn: isNowLoggedIn,
           userId,
           userEmail,
+          pendingOAuthProvider: null,
         });
 
         // Link RevenueCat user when user logs in (not anonymous)
@@ -72,29 +73,20 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           });
         }
       } else {
-        console.log('[AuthStore] No session in onAuthStateChange');
         set({
           isAnonymous: false,
           isLoggedIn: false,
           userId: null,
           userEmail: null,
+          pendingOAuthProvider: null,
         });
       }
     });
 
-    console.log('[AuthStore] Checking for existing session...');
     // Check for existing session
     const { data: { session }, error } = await supabase.auth.getSession();
 
-    console.log('[AuthStore] getSession result:', {
-      hasSession: !!session,
-      error: error?.message,
-      userId: session?.user?.id,
-      isAnonymous: session?.user?.is_anonymous
-    });
-
     if (session && !error) {
-      console.log('[AuthStore] Using existing session');
       // Use existing session
       const isAnonymous = session.user?.is_anonymous ?? false;
       set({
@@ -103,23 +95,15 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         isLoggedIn: !isAnonymous,
         userId: session.user?.id ?? null,
         userEmail: session.user?.email ?? null,
+        pendingOAuthProvider: null,
       });
       return;
     }
 
-    console.log('[AuthStore] No existing session - calling signInAnonymously()');
     // No session - sign in anonymously
     const { data, error: signInError } = await supabase.auth.signInAnonymously();
 
-    console.log('[AuthStore] signInAnonymously result:', {
-      hasUser: !!data?.user,
-      userId: data?.user?.id,
-      error: signInError?.message,
-      errorDetails: signInError
-    });
-
     if (signInError || !data.user) {
-      // Log the error for debugging
       console.error(
         '[AuthStore] signInAnonymously failed:',
         signInError?.message || 'No user returned',
@@ -130,16 +114,17 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       set({
         isInitialized: true,
         authError: signInError?.message || 'Authentication failed',
+        pendingOAuthProvider: null,
       });
       return;
     }
 
-    console.log('[AuthStore] signInAnonymously SUCCESS - user created:', data.user.id);
     set({
       isInitialized: true,
       isAnonymous: true,
       isLoggedIn: false,
       userId: data.user.id,
+      pendingOAuthProvider: null,
     });
   },
 
@@ -151,7 +136,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     const { data: { session }, error } = await supabase.auth.refreshSession();
 
     if (error || !session) {
-      console.log('[AuthStore] Failed to refresh session:', error?.message);
+      console.warn('[AuthStore] Failed to refresh session:', error?.message);
       // Fall back to cached session
       const { data: cached } = await supabase.auth.getSession();
       return cached.session?.access_token ?? null;
@@ -162,12 +147,73 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
   // Sign in with Google - links Google identity to current anonymous session
   signInWithGoogle: async () => {
+    set({ pendingOAuthProvider: 'google' });
     const { error } = await supabase.auth.linkIdentity({
       provider: 'google',
     });
 
     if (error) {
+      set({ pendingOAuthProvider: null });
       throw error;
+    }
+  },
+
+  // Sign in with Apple - native iOS flow only
+  signInWithApple: async () => {
+    if (Platform.OS !== 'ios') {
+      throw new Error('Apple sign-in is only available on iOS.');
+    }
+
+    const isAvailable = await AppleAuthentication.isAvailableAsync();
+    if (!isAvailable) {
+      throw new Error('Apple sign-in is not available on this device.');
+    }
+
+    const nonce = await generateNonce();
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+      nonce,
+    });
+
+    if (!credential.identityToken) {
+      throw new Error('Apple sign-in failed. Please try again.');
+    }
+
+    const { error } = await supabase.auth.linkIdentity({
+      provider: 'apple',
+      token: credential.identityToken,
+      nonce,
+    });
+
+    if (error?.code === 'identity_already_exists') {
+      const { error: signInError } = await supabase.auth.signInWithIdToken({
+        provider: 'apple',
+        token: credential.identityToken,
+        nonce,
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
+    } else if (error) {
+      throw error;
+    }
+
+    const givenName = credential.fullName?.givenName ?? '';
+    const familyName = credential.fullName?.familyName ?? '';
+    const fullName = [givenName, familyName].filter(Boolean).join(' ').trim();
+
+    if (fullName) {
+      await supabase.auth.updateUser({
+        data: {
+          full_name: fullName,
+          given_name: givenName || undefined,
+          family_name: familyName || undefined,
+        },
+      });
     }
   },
 
@@ -187,6 +233,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         isLoggedIn: false,
         userId: null,
         userEmail: null,
+        pendingOAuthProvider: null,
       });
       return;
     }
@@ -196,6 +243,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       isLoggedIn: false,
       userId: data.user.id,
       userEmail: null,
+      pendingOAuthProvider: null,
     });
   },
 }));

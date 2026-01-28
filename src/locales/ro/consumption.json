@@ -5,5 +5,6 @@
   "import": {
     "importing": "Se importă...",
     "processing": "Se procesează conținutul..."
-  }
+  },
+  "content_not_found": "Conținut negăsit"
 }

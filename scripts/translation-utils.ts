@@ -28,6 +28,7 @@ export const TRANSLATION_LANGUAGES = [
   'ro', // Romanian
   'es', // Spanish
   'sv', // Swedish
+  'tr', // Turkish
 ] as const;
 
 export type TranslationLanguage = typeof TRANSLATION_LANGUAGES[number] | 'en';
@@ -70,6 +71,7 @@ export const LANGUAGE_NAMES: Record<TranslationLanguage, string> = {
   ro: 'Romanian (română)',
   es: 'Spanish (español)',
   sv: 'Swedish (svenska)',
+  tr: 'Turkish (Türkçe)',
 };
 
 /**

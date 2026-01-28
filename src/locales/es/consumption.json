@@ -5,5 +5,6 @@
   "import": {
     "importing": "Importando...",
     "processing": "Procesando contenido..."
-  }
+  },
+  "content_not_found": "Contenido no encontrado"
 }

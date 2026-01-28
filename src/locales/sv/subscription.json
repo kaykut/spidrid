@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Uppgradera till Premium",
     "reason_wpm": "Gratis nivå är begränsad till {{wpm}} WPM",
-    "reason_generation": "Gratis nivå är begränsad till 3 AI-genererade artiklar per dag"
+    "reason_generation": "Gratis nivå är begränsad till 3 AI-genererade artiklar per dag",
+    "headline": "Mata din hjärna",
+    "subheadline_default": "Lämna det ändlösa scrollandet bakom dig och lär dig vilket ämne som helst på minuter.",
+    "subheadline_daily_limit": "Du har använt dina 2 gratisartiklar idag. Vill du ha obegränsad tillgång?",
+    "subheadline_premium_portion": "Portionerna Snack, Måltid och Fest kräver Premium.",
+    "subheadline_premium_flavor": "Stilarna Fakta, Berättelse och Analogi kräver Premium.",
+    "subheadline_sign_in": "Inloggning kräver Devoro Premium för synkronisering mellan enheter.",
+    "subheadline_wpm_limit": "Läshastigheter över 450 WPM kräver Premium.",
+    "features": {
+      "unlimited_title": "Obegränsade AI-artiklar",
+      "unlimited_subtitle": "Inga dagliga begränsningar på lärande",
+      "sync_title": "Synkronisering mellan enheter",
+      "sync_subtitle": "Fortsätt där du slutade",
+      "speed_title": "Premium läshastighet",
+      "speed_subtitle": "Upp till 1 500 WPM"
+    },
+    "plans": {
+      "yearly": "Årsvis",
+      "monthly": "Månadsvis",
+      "per_month": "{{price}}/mån",
+      "free_trial": "{{days}} dagars gratis provperiod",
+      "most_popular": "Mest populär",
+      "save_percent": "Spara {{percent}}%",
+      "no_plans": "Inga planer tillgängliga"
+    },
+    "cta": {
+      "subscribe": "Prenumerera nu",
+      "try_free": "Prova gratis i {{days}} dagar",
+      "then_price": "sedan {{price}}/år",
+      "price_per_year": "{{price}}/år"
+    },
+    "trust": {
+      "cancel_anytime": "Avsluta när du vill"
+    },
+    "footer": {
+      "restore": "Återställ köp",
+      "terms": "Villkor",
+      "privacy": "Integritet"
+    },
+    "errors": {
+      "offline": "Anslut till internet för att prenumerera",
+      "pricing_unavailable": "Priser ej tillgängliga",
+      "retry": "Försök igen"
+    }
   },
   "benefits": {
     "max_wpm": "Läs upp till {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Köp misslyckades. Försök igen.",
     "no_purchases": "Inga tidigare köp hittades.",
-    "restored_title": "Återställt",
-    "restored_message": "Dina köp har återställts.",
+    "restored_title": "Köp återställda!",
+    "restored_message": "Din prenumeration har återställts.",
     "error_title": "Fel",
-    "no_purchases_title": "Inga köp"
+    "no_purchases_title": "Inga köp hittades",
+    "already_subscribed_title": "Redan prenumerant",
+    "already_subscribed_message": "Du är redan premiummedlem!"
   }
 }

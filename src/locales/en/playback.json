@@ -6,11 +6,34 @@
   },
   "results": {
     "complete": "Complete!",
+    "reading_complete": "Reading Complete!",
+    "article_complete": "Article Complete!",
     "reading_speed": "Reading Speed",
-    "words_read": "Words Read"
+    "words_read": "Words Read",
+    "word_count": "Word Count",
+    "comprehension": "Comprehension",
+    "correct_answers": "Correct Answers",
+    "read_again": "Read Again"
   },
   "controls": {
     "play": "Play",
-    "pause": "Pause"
+    "pause": "Pause",
+    "wpm_suffix": "WPM",
+    "max_wpm": "(max {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Chapter {{number}}",
+    "continue": "Continue Reading"
+  },
+  "errors": {
+    "article_not_found": "Article not found",
+    "curriculum_not_found": "Curriculum not found",
+    "go_back": "Go back",
+    "article_locked": "Article Locked",
+    "article_locked_desc": "Complete the previous article to unlock this one.",
+    "generating": "Generating Article...",
+    "generating_desc": "Please wait while we create your article.",
+    "generation_failed": "Generation Failed",
+    "generation_failed_desc": "An error occurred while generating the article."
   }
 }

@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Upgrade naar Premium",
     "reason_wpm": "Gratis versie is beperkt tot {{wpm}} WPM",
-    "reason_generation": "Gratis versie is beperkt tot 3 AI-gegenereerde artikelen per dag"
+    "reason_generation": "Gratis versie is beperkt tot 3 AI-gegenereerde artikelen per dag",
+    "headline": "Voed je brein",
+    "subheadline_default": "Laat eindeloos scrollen achter je en leer elk onderwerp in minuten.",
+    "subheadline_daily_limit": "Je hebt je 2 gratis artikelen van vandaag gebruikt. Onbeperkt doorgaan?",
+    "subheadline_premium_portion": "Snack-, Maaltijd- en Feestmaal-porties vereisen Premium.",
+    "subheadline_premium_flavor": "Feit-, Verhaal- en Analogie-tonen vereisen Premium.",
+    "subheadline_sign_in": "Inloggen vereist Devoro Premium voor synchronisatie tussen apparaten.",
+    "subheadline_wpm_limit": "Leessnelheden boven 450 WPM vereisen Premium.",
+    "features": {
+      "unlimited_title": "Onbeperkte AI-artikelen",
+      "unlimited_subtitle": "Geen dagelijkse limieten op leren",
+      "sync_title": "Multi-apparaat synchronisatie",
+      "sync_subtitle": "Ga verder waar je gebleven was",
+      "speed_title": "Premium leessnelheid",
+      "speed_subtitle": "Tot 1.500 WPM"
+    },
+    "plans": {
+      "yearly": "Jaarlijks",
+      "monthly": "Maandelijks",
+      "per_month": "{{price}}/maand",
+      "free_trial": "{{days}} dagen gratis proberen",
+      "most_popular": "Meest gekozen",
+      "save_percent": "Bespaar {{percent}}%",
+      "no_plans": "Geen abonnementen beschikbaar"
+    },
+    "cta": {
+      "subscribe": "Nu abonneren",
+      "try_free": "Probeer {{days}} dagen gratis",
+      "then_price": "daarna {{price}}/jaar",
+      "price_per_year": "{{price}}/jaar"
+    },
+    "trust": {
+      "cancel_anytime": "Op elk moment opzeggen"
+    },
+    "footer": {
+      "restore": "Aankopen herstellen",
+      "terms": "Voorwaarden",
+      "privacy": "Privacy"
+    },
+    "errors": {
+      "offline": "Verbind met internet om te abonneren",
+      "pricing_unavailable": "Prijzen niet beschikbaar",
+      "retry": "Opnieuw proberen"
+    }
   },
   "benefits": {
     "max_wpm": "Lees tot {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Aankoop mislukt. Probeer het opnieuw.",
     "no_purchases": "Geen eerdere aankopen gevonden.",
-    "restored_title": "Hersteld",
-    "restored_message": "Je aankopen zijn succesvol hersteld.",
+    "restored_title": "Aankopen hersteld!",
+    "restored_message": "Je abonnement is hersteld.",
     "error_title": "Fout",
-    "no_purchases_title": "Geen Aankopen"
+    "no_purchases_title": "Geen aankopen gevonden",
+    "already_subscribed_title": "Al geabonneerd",
+    "already_subscribed_message": "Je bent al een premium lid!"
   }
 }

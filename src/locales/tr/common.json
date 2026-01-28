@@ -1,0 +1,18 @@
+{
+  "app_name": "Devoro",
+  "loading": "Yükleniyor...",
+  "not_available": "Mevcut değil",
+  "error": "Hata",
+  "actions": {
+    "cancel": "İptal",
+    "confirm": "Onayla",
+    "close": "Kapat",
+    "done": "Bitti",
+    "continue": "Devam",
+    "get_started": "Başla",
+    "import": "İçe Aktar",
+    "save_and_read": "Kaydet & Oku"
+  },
+  "or": "veya",
+  "wpm_suffix": "WPM"
+}

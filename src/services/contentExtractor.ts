@@ -403,6 +403,7 @@ export async function extractFromUrl(url: string): Promise<ContentImportResult> 
         sourceUrl: url,
         createdAt: 0, // Will be set by store
         readProgress: 0,
+        processingStatus: 'ready',
       },
     };
   } catch (error) {
@@ -454,6 +455,7 @@ export function createFromText(text: string, title?: string): ContentImportResul
       source: 'text',
       createdAt: 0,
       readProgress: 0,
+      processingStatus: 'ready',
     },
   };
 }
@@ -487,6 +489,7 @@ export async function extractFromEbook(
             fileName,
             createdAt: 0,
             readProgress: 0,
+            processingStatus: 'ready',
           },
         };
       }
@@ -513,6 +516,7 @@ export async function extractFromEbook(
             fileName,
             createdAt: 0,
             readProgress: 0,
+            processingStatus: 'ready',
           },
         };
       }

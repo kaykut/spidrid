@@ -1,4 +1,18 @@
 {
+  "page_title": "Onderwerpen",
+  "practice_articles": "Oefenartikelen",
+  "practice_desc": "Verbeter je snelleestechnieken",
+  "certification_tests": "Certificeringstests",
+  "certification_desc": "Toon je beheersing",
+  "ready_badge": "Klaar!",
+  "score_label": "Score: {{score}}%",
+  "best_wpm": "Beste: {{wpm}} WPM",
+  "progress_format": "{{completed}} van {{total}} voltooid",
+  "progress_with_avg": "{{completed}} van {{total}} voltooid · {{avg}}% gem.",
+  "a11y": {
+    "tap_to_read": "Tik om te lezen",
+    "completed": "Voltooid"
+  },
   "science_discovery": "Wetenschap & Ontdekking 🔬",
   "science_discovery_desc": "Baanbrekende ontdekkingen die onze wereld veranderden",
   "health_medicine": "Gezondheid & Geneeskunde ⚕️",

@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Contenu introuvable",
     "failed_to_load": "Échec du chargement du contenu"
+  },
+  "topic": {
+    "not_found": "Sujet introuvable"
+  },
+  "article": {
+    "not_found": "Article introuvable"
   }
 }

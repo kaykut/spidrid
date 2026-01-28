@@ -17,9 +17,11 @@ import {
   SectionListRenderItem,
   RefreshControl,
   SectionListData,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SPACING } from '../../constants/spacing';
 import { useItemChangeTracking } from '../../hooks/useItemChangeTracking';
@@ -52,6 +54,8 @@ function hexToRGBA(hex: string, alpha: number) {
 
 export function ContentListScreen() {
   const { theme } = useTheme();
+  const { t: tConsumption } = useTranslation('consumption');
+  const { t: tAddContent } = useTranslation('addContent');
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const stats = useStats();
@@ -129,13 +133,21 @@ export function ContentListScreen() {
 
   const handleItemPress = useCallback(
     (item: ContentListItem) => {
+      if (item.isProcessing) {
+        Alert.alert(tConsumption('import.processing'));
+        return;
+      }
+      if (item.processingError) {
+        Alert.alert(tAddContent('errors.import_failed'), item.processingError);
+        return;
+      }
       // Navigate to playback modal with content info
       router.push({
         pathname: '/playback',
         params: { sourceId: item.sourceId, source: item.source },
       });
     },
-    [router]
+    [router, tConsumption, tAddContent]
   );
 
   const handleDeleteItem = useCallback(

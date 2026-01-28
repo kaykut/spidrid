@@ -2,14 +2,15 @@
 /**
  * Batch Translation Script
  *
- * Translates curriculum articles using Google Gemini API.
- * Supports content and quiz translation with status tracking.
+ * Translates curriculum articles and UI locale files using Google Gemini API.
+ * Supports content, quiz, and UI translation with status tracking.
  *
  * Usage:
  *   npm run translate-batch -- --language de --mode sequential --limit 1
  *   npm run translate-batch -- --language fr --mode batch
  *   npm run translate-batch -- --language es --type quiz --dry-run
  *   npm run translate-batch -- --language de --use-cache  # Retry from cached responses
+ *   npm run translate-batch -- --language tr --type ui    # Translate UI locale files
  */
 
 import * as fs from 'fs';
@@ -36,6 +37,32 @@ import {
 } from './translation-utils';
 
 // ============================================================
+// UI Locale Constants
+// ============================================================
+
+const UI_NAMESPACES = [
+  'accessibility',
+  'addContent',
+  'auth',
+  'certificates',
+  'common',
+  'consumption',
+  'content',
+  'errors',
+  'generation',
+  'interests',
+  'playback',
+  'quiz',
+  'settings',
+  'subscription',
+  'topics',
+] as const;
+
+type UINamespace = typeof UI_NAMESPACES[number];
+
+const LOCALES_DIR = path.join(__dirname, '..', 'src', 'locales');
+
+// ============================================================
 // Types
 // ============================================================
 
@@ -44,7 +71,7 @@ interface CLIArgs {
   topic?: TopicId;
   mode: 'sequential' | 'batch';
   limit?: number;
-  type: 'content' | 'quiz' | 'both';
+  type: 'content' | 'quiz' | 'both' | 'ui';
   dryRun: boolean;
   useCache: boolean;  // Retry from cached API responses without calling API
   batchSize: number;  // Parallel requests per batch (default 5)
@@ -65,6 +92,19 @@ interface TranslationResult {
   success: boolean;
   wordCount?: number;
   questionCount?: number;
+  error?: string;
+  durationMs?: number;
+}
+
+interface UITask {
+  namespace: UINamespace;
+  language: TranslationLanguage;
+}
+
+interface UIResult {
+  task: UITask;
+  success: boolean;
+  keyCount?: number;
   error?: string;
   durationMs?: number;
 }
@@ -113,8 +153,8 @@ function parseArgs(): CLIArgs {
   const limit = limitStr ? parseInt(limitStr, 10) : undefined;
 
   const typeArg = getArg('type') || 'both';
-  if (!['content', 'quiz', 'both'].includes(typeArg)) {
-    console.error('Error: --type must be "content", "quiz", or "both"');
+  if (!['content', 'quiz', 'both', 'ui'].includes(typeArg)) {
+    console.error('Error: --type must be "content", "quiz", "both", or "ui"');
     process.exit(1);
   }
 
@@ -129,7 +169,7 @@ function parseArgs(): CLIArgs {
     topic: topic as TopicId | undefined,
     mode,
     limit,
-    type: typeArg as 'content' | 'quiz' | 'both',
+    type: typeArg as 'content' | 'quiz' | 'both' | 'ui',
     dryRun: hasFlag('dry-run'),
     useCache: hasFlag('use-cache'),
     batchSize,
@@ -145,6 +185,10 @@ const CACHE_DIR = path.join(__dirname, 'cache');
 
 function getCachePath(language: string, articleId: string, type: 'content' | 'quiz'): string {
   return path.join(CACHE_DIR, language, `${articleId}-${type}.txt`);
+}
+
+function getUICachePath(language: string, namespace: string): string {
+  return path.join(CACHE_DIR, language, `ui-${namespace}.txt`);
 }
 
 function saveToCache(language: string, articleId: string, type: 'content' | 'quiz', response: string): void {
@@ -170,6 +214,35 @@ function loadFromCache(language: string, articleId: string, type: 'content' | 'q
 
 function clearCache(language: string, articleId: string, type: 'content' | 'quiz'): void {
   const cachePath = getCachePath(language, articleId, type);
+
+  if (fs.existsSync(cachePath)) {
+    fs.unlinkSync(cachePath);
+  }
+}
+
+function saveUIToCache(language: string, namespace: string, response: string): void {
+  const cachePath = getUICachePath(language, namespace);
+  const cacheDir = path.dirname(cachePath);
+
+  if (!fs.existsSync(cacheDir)) {
+    fs.mkdirSync(cacheDir, { recursive: true });
+  }
+
+  fs.writeFileSync(cachePath, response, 'utf-8');
+}
+
+function loadUIFromCache(language: string, namespace: string): string | null {
+  const cachePath = getUICachePath(language, namespace);
+
+  if (!fs.existsSync(cachePath)) {
+    return null;
+  }
+
+  return fs.readFileSync(cachePath, 'utf-8');
+}
+
+function clearUICache(language: string, namespace: string): void {
+  const cachePath = getUICachePath(language, namespace);
 
   if (fs.existsSync(cachePath)) {
     fs.unlinkSync(cachePath);
@@ -256,6 +329,34 @@ function findPendingTasks(args: CLIArgs): TranslationTask[] {
           englishWordCount: article.wordCount,
         });
       }
+    }
+  }
+
+  // Apply limit if specified
+  if (args.limit && args.limit > 0) {
+    return tasks.slice(0, args.limit);
+  }
+
+  return tasks;
+}
+
+/**
+ * Find pending UI locale files that need translation.
+ * A file is pending if it doesn't exist in the target language directory.
+ */
+function findPendingUITasks(args: CLIArgs): UITask[] {
+  const tasks: UITask[] = [];
+  const targetDir = path.join(LOCALES_DIR, args.language);
+
+  for (const namespace of UI_NAMESPACES) {
+    const targetPath = path.join(targetDir, `${namespace}.json`);
+
+    // Only translate if target file doesn't exist
+    if (!fs.existsSync(targetPath)) {
+      tasks.push({
+        namespace,
+        language: args.language,
+      });
     }
   }
 
@@ -406,6 +507,36 @@ ${exampleJson}
 NO markdown. NO explanations. ONLY raw JSON array.`;
 }
 
+/**
+ * Build prompt for UI locale JSON translation.
+ */
+function buildUIPrompt(namespace: string, jsonContent: string, language: TranslationLanguage): string {
+  const langName = LANGUAGE_NAMES[language];
+
+  return `Translate this JSON locale file to ${langName}.
+
+**Namespace:** ${namespace}
+
+**Source JSON:**
+${jsonContent}
+
+**CRITICAL RULES:**
+1. Preserve ALL keys exactly - only translate string values
+2. Keep {{variableName}} placeholders unchanged (e.g., {{count}}, {{wpm}}, {{email}})
+3. Keep emojis exactly as-is
+4. Never translate "Devoro" or "WPM"
+5. For pluralization keys (_one, _other, _few, _many), translate appropriately
+6. Maintain JSON structure exactly (nested objects, arrays)
+7. Keep technical terms like "RSVP", "PDF", "EPUB", "URL" unchanged
+
+**Character Balancing (button groups must have similar display lengths):**
+- portions: bite/snack/meal/feast → keep translations within ±3 character spread
+- tones: auto/fact/story/analogy → keep translations within ±3 character spread
+- themes: dark/midnight/sepia/light → keep translations within ±3 character spread
+
+Return ONLY valid JSON. No markdown code blocks. No explanations.`;
+}
+
 // ============================================================
 // Response Parsers
 // ============================================================
@@ -490,6 +621,63 @@ function parseQuizResponse(text: string, englishQuestions: Question[]): Question
   });
 
   return validated;
+}
+
+/**
+ * Parse UI locale translation response.
+ * Validates JSON structure and key preservation.
+ */
+function parseUIResponse(text: string, originalKeys: string[]): Record<string, any> {
+  // Strip markdown code blocks if present
+  let jsonStr = text.trim();
+  if (jsonStr.startsWith('```')) {
+    jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+  }
+
+  let parsed: Record<string, any>;
+  try {
+    parsed = JSON.parse(jsonStr);
+  } catch (e) {
+    throw new Error(`Failed to parse UI JSON: ${e}`);
+  }
+
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    throw new Error('UI response is not a valid JSON object');
+  }
+
+  // Get all keys from parsed response (flattened)
+  const parsedKeys = getAllKeys(parsed);
+
+  // Check for missing keys
+  const missingKeys = originalKeys.filter(k => !parsedKeys.includes(k));
+  if (missingKeys.length > 0) {
+    console.warn(`  ⚠ Warning: ${missingKeys.length} missing keys: ${missingKeys.slice(0, 3).join(', ')}${missingKeys.length > 3 ? '...' : ''}`);
+  }
+
+  return parsed;
+}
+
+/**
+ * Recursively get all keys from a nested object using dot notation.
+ */
+function getAllKeys(obj: Record<string, any>, prefix = ''): string[] {
+  let keys: string[] = [];
+  for (const key of Object.keys(obj)) {
+    const fullKey = prefix ? `${prefix}.${key}` : key;
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      keys = keys.concat(getAllKeys(obj[key], fullKey));
+    } else {
+      keys.push(fullKey);
+    }
+  }
+  return keys;
+}
+
+/**
+ * Count all leaf keys in a nested object.
+ */
+function countKeys(obj: Record<string, any>): number {
+  return getAllKeys(obj).length;
 }
 
 // ============================================================
@@ -630,6 +818,77 @@ async function translateQuiz(
   }
 }
 
+/**
+ * Translate a UI locale JSON file.
+ */
+async function translateUI(
+  task: UITask,
+  model: any,
+  useCache: boolean
+): Promise<UIResult> {
+  const startTime = Date.now();
+
+  try {
+    // Read English source file
+    const englishPath = path.join(LOCALES_DIR, 'en', `${task.namespace}.json`);
+    if (!fs.existsSync(englishPath)) {
+      throw new Error(`English source file not found: ${englishPath}`);
+    }
+
+    const englishContent = fs.readFileSync(englishPath, 'utf-8');
+    const englishJson = JSON.parse(englishContent);
+    const originalKeys = getAllKeys(englishJson);
+
+    let text: string;
+
+    // Check cache first if useCache flag is set
+    const cached = loadUIFromCache(task.language, task.namespace);
+    if (useCache && cached) {
+      text = cached;
+    } else {
+      // Call API with retry logic
+      const prompt = buildUIPrompt(task.namespace, englishContent, task.language);
+      text = await withRetry(async () => {
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+      }, `ui:${task.namespace}`);
+
+      // Save to cache IMMEDIATELY after API call (before parsing)
+      saveUIToCache(task.language, task.namespace, text);
+    }
+
+    const translatedJson = parseUIResponse(text, originalKeys);
+    const keyCount = countKeys(translatedJson);
+
+    // Ensure target directory exists
+    const targetDir = path.join(LOCALES_DIR, task.language);
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+
+    // Write translated file
+    const targetPath = path.join(targetDir, `${task.namespace}.json`);
+    fs.writeFileSync(targetPath, JSON.stringify(translatedJson, null, 2) + '\n', 'utf-8');
+
+    // Clear cache on success
+    clearUICache(task.language, task.namespace);
+
+    return {
+      task,
+      success: true,
+      keyCount,
+      durationMs: Date.now() - startTime,
+    };
+  } catch (error: any) {
+    return {
+      task,
+      success: false,
+      error: error.message,
+      durationMs: Date.now() - startTime,
+    };
+  }
+}
+
 // ============================================================
 // Status Update
 // ============================================================
@@ -679,6 +938,18 @@ function logError(result: TranslationResult): void {
   console.error(`  ✗ ${task.articleId} ${task.type} -> ${task.language}: ${error} ${duration}`);
 }
 
+function logUISuccess(result: UIResult): void {
+  const { task, keyCount, durationMs } = result;
+  const duration = durationMs ? `(${(durationMs / 1000).toFixed(1)}s)` : '';
+  console.log(`  ✓ ${task.namespace}.json -> ${task.language}: ${keyCount} keys ${duration}`);
+}
+
+function logUIError(result: UIResult): void {
+  const { task, error, durationMs } = result;
+  const duration = durationMs ? `(${(durationMs / 1000).toFixed(1)}s)` : '';
+  console.error(`  ✗ ${task.namespace}.json -> ${task.language}: ${error} ${duration}`);
+}
+
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -699,6 +970,12 @@ async function main(): Promise<void> {
   if (args.limit) console.log(`Limit: ${args.limit}`);
   if (args.useCache) console.log(`Cache: Using cached responses (no API calls)`);
   console.log('');
+
+  // Handle UI translation mode separately
+  if (args.type === 'ui') {
+    await runUITranslation(args);
+    return;
+  }
 
   // Find pending tasks
   const tasks = findPendingTasks(args);
@@ -811,6 +1088,68 @@ async function main(): Promise<void> {
   console.log(`\n✓ Complete: ${successCount} succeeded, ${failCount} failed`);
   console.log(`  Articles: ${tensor.stats.articlesTranslated}/${tensor.stats.totalArticles}`);
   console.log(`  Quizzes: ${tensor.stats.quizzesTranslated}/${tensor.stats.totalArticles}`);
+  console.log('');
+}
+
+/**
+ * Run UI locale file translation.
+ */
+async function runUITranslation(args: CLIArgs): Promise<void> {
+  // Find pending UI tasks
+  const tasks = findPendingUITasks(args);
+
+  if (tasks.length === 0) {
+    console.log('✓ All UI locale files already translated.\n');
+    return;
+  }
+
+  console.log(`Found ${tasks.length} pending UI locale files:\n`);
+
+  // Dry run - just list tasks
+  if (args.dryRun) {
+    tasks.forEach(t => console.log(`  ${t.namespace}.json`));
+    console.log('\nDry run - no translations performed.\n');
+    return;
+  }
+
+  // Initialize Gemini
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey && !args.useCache) {
+    console.error('Error: GEMINI_API_KEY environment variable not set');
+    console.error('Use --use-cache to retry from cached responses without API calls');
+    process.exit(1);
+  }
+
+  const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+  const model = genAI?.getGenerativeModel({ model: 'gemini-2.0-flash' }) ?? null;
+
+  // Process UI tasks sequentially (they're independent files, no race conditions)
+  let successCount = 0;
+  let failCount = 0;
+
+  for (const task of tasks) {
+    console.log(`Translating UI: ${task.namespace}.json${args.useCache ? ' (from cache)' : ''}`);
+
+    const result = await translateUI(task, model, args.useCache);
+
+    if (result.success) {
+      logUISuccess(result);
+      successCount++;
+    } else {
+      logUIError(result);
+      failCount++;
+    }
+
+    // Small delay between API calls to avoid rate limits
+    if (tasks.indexOf(task) < tasks.length - 1) {
+      await delay(args.delayMs);
+    }
+  }
+
+  // Summary
+  console.log('\n' + '='.repeat(50));
+  console.log(`\n✓ UI Translation Complete: ${successCount} succeeded, ${failCount} failed`);
+  console.log(`  Target: src/locales/${args.language}/`);
   console.log('');
 }
 

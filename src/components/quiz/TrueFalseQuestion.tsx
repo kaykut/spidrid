@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
@@ -20,6 +21,7 @@ export function TrueFalseQuestion({
   disabled,
 }: TrueFalseQuestionProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('quiz');
   const showResult = selectedAnswer !== null;
 
   const getButtonStyle = (value: boolean) => {
@@ -52,11 +54,11 @@ export function TrueFalseQuestion({
           disabled={disabled}
           accessibilityRole="radio"
           accessibilityState={{ selected: selectedAnswer === true, disabled }}
-          accessibilityLabel="True"
-          accessibilityHint={disabled ? undefined : 'Double tap to select True'}
+          accessibilityLabel={t('true')}
+          accessibilityHint={disabled ? undefined : t('a11y.select_true')}
         >
           <Text style={[styles.answerButtonText, { color: theme.textColor }]}>
-            True
+            {t('true')}
           </Text>
           {showResult && question.correctAnswer === true && (
             <Text style={styles.correctIndicator}>✓</Text>
@@ -72,11 +74,11 @@ export function TrueFalseQuestion({
           disabled={disabled}
           accessibilityRole="radio"
           accessibilityState={{ selected: selectedAnswer === false, disabled }}
-          accessibilityLabel="False"
-          accessibilityHint={disabled ? undefined : 'Double tap to select False'}
+          accessibilityLabel={t('false')}
+          accessibilityHint={disabled ? undefined : t('a11y.select_false')}
         >
           <Text style={[styles.answerButtonText, { color: theme.textColor }]}>
-            False
+            {t('false')}
           </Text>
           {showResult && question.correctAnswer === false && (
             <Text style={styles.correctIndicator}>✓</Text>

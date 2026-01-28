@@ -164,6 +164,10 @@ export interface PdfExtractionResult {
 
 interface PdfExtractorContextType {
   extractPdf: (fileUri: string) => Promise<PdfExtractionResult>;
+  extractPdfWithProgress: (
+    fileUri: string,
+    onProgress: (percent: number) => void
+  ) => Promise<PdfExtractionResult>;
   isExtracting: boolean;
 }
 
@@ -181,6 +185,7 @@ interface PendingExtraction {
   resolve: (result: PdfExtractionResult) => void;
   reject: (error: Error) => void;
   timeoutId: ReturnType<typeof setTimeout>;
+  onProgress?: (percent: number) => void;
 }
 
 interface Props {
@@ -226,7 +231,9 @@ export function PdfExtractorProvider({ children }: Props) {
           break;
 
         case 'progress':
-          // Could emit progress events here if needed
+          if (pendingRef.current?.onProgress && typeof data.percent === 'number') {
+            pendingRef.current.onProgress(data.percent);
+          }
           break;
 
         default:
@@ -238,46 +245,75 @@ export function PdfExtractorProvider({ children }: Props) {
     }
   }, []);
 
-  const extractPdf = useCallback(async (fileUri: string): Promise<PdfExtractionResult> => {
-    if (pendingRef.current) {
-      throw new Error('PDF extraction already in progress');
-    }
+  const extractPdfInternal = useCallback(
+    async (
+      fileUri: string,
+      onProgress?: (percent: number) => void
+    ): Promise<PdfExtractionResult> => {
+      if (pendingRef.current) {
+        throw new Error('PDF extraction already in progress');
+      }
 
-    // Read file as base64
-    const pdfFile = new File(fileUri);
-    const base64 = await pdfFile.base64();
+      if (!isReadyRef.current) {
+        await new Promise<void>((resolve) => {
+          const start = Date.now();
+          const interval = setInterval(() => {
+            if (isReadyRef.current || Date.now() - start > 5000) {
+              clearInterval(interval);
+              resolve();
+            }
+          }, 100);
+        });
+      }
 
-    setIsExtracting(true);
+      // Read file as base64
+      const pdfFile = new File(fileUri);
+      const base64 = await pdfFile.base64();
 
-    return new Promise((resolve, reject) => {
-      // Set timeout (60 seconds for large PDFs)
-      const timeoutId = setTimeout(() => {
-        if (pendingRef.current) {
+      setIsExtracting(true);
+
+      return new Promise((resolve, reject) => {
+        // Set timeout (60 seconds for large PDFs)
+        const timeoutId = setTimeout(() => {
+          if (pendingRef.current) {
+            pendingRef.current = null;
+            setIsExtracting(false);
+            reject(new Error('PDF extraction timed out. The file may be too large.'));
+          }
+        }, 60000);
+
+        pendingRef.current = { resolve, reject, timeoutId, onProgress };
+
+        // Send extraction request to WebView
+        if (webViewRef.current) {
+          webViewRef.current.postMessage(JSON.stringify({
+            type: 'extract',
+            base64,
+          }));
+        } else {
+          clearTimeout(timeoutId);
           pendingRef.current = null;
           setIsExtracting(false);
-          reject(new Error('PDF extraction timed out. The file may be too large.'));
+          reject(new Error('PDF extractor not initialized'));
         }
-      }, 60000);
+      });
+    },
+    []
+  );
 
-      pendingRef.current = { resolve, reject, timeoutId };
+  const extractPdf = useCallback((fileUri: string): Promise<PdfExtractionResult> => {
+    return extractPdfInternal(fileUri);
+  }, [extractPdfInternal]);
 
-      // Send extraction request to WebView
-      if (webViewRef.current) {
-        webViewRef.current.postMessage(JSON.stringify({
-          type: 'extract',
-          base64,
-        }));
-      } else {
-        clearTimeout(timeoutId);
-        pendingRef.current = null;
-        setIsExtracting(false);
-        reject(new Error('PDF extractor not initialized'));
-      }
-    });
-  }, []);
+  const extractPdfWithProgress = useCallback(
+    (fileUri: string, onProgress: (percent: number) => void): Promise<PdfExtractionResult> => {
+      return extractPdfInternal(fileUri, onProgress);
+    },
+    [extractPdfInternal]
+  );
 
   return (
-    <PdfExtractorContext.Provider value={{ extractPdf, isExtracting }}>
+    <PdfExtractorContext.Provider value={{ extractPdf, extractPdfWithProgress, isExtracting }}>
       {children}
       <View style={styles.hiddenWebView}>
         <WebView

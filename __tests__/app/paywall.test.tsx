@@ -47,6 +47,53 @@ jest.mock('expo-linking', () => ({
   openURL: jest.fn(),
 }));
 
+// Mock react-i18next for translations
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, params?: Record<string, unknown>) => {
+      const translations: Record<string, string> = {
+        'paywall.headline': 'Feed Your Brain',
+        'paywall.subheadline_default': 'Leave doomscrolling behind and learn any topic in minutes.',
+        'paywall.subheadline_upgrade': 'Leave doomscrolling behind and learn any topic in minutes.',
+        'paywall.subheadline_daily_limit': "You've used your 2 free articles today. Go unlimited?",
+        'paywall.features.unlimited_title': 'Unlimited AI articles',
+        'paywall.features.unlimited_subtitle': 'No daily caps on learning',
+        'paywall.features.sync_title': 'Multi-device sync',
+        'paywall.features.sync_subtitle': 'Pick up where you left off',
+        'paywall.features.speed_title': 'Premium reading speed',
+        'paywall.features.speed_subtitle': 'Up to 1,500 WPM',
+        'paywall.plans.yearly': 'Yearly',
+        'paywall.plans.monthly': 'Monthly',
+        'paywall.plans.most_popular': 'Most Popular',
+        'paywall.plans.save_percent': `Save ${params?.percent || 17}%`,
+        'paywall.plans.per_month': `${params?.price || ''}/mo`,
+        'paywall.plans.free_trial': `${params?.days || ''} day free trial`,
+        'paywall.plans.no_plans': 'No plans available',
+        'paywall.cta.subscribe': 'Subscribe Now',
+        'paywall.cta.try_free': `Try Free for ${params?.days || ''} Days`,
+        'paywall.cta.then_price': `then ${params?.price || ''}/year`,
+        'paywall.cta.price_per_year': `${params?.price || ''}/year`,
+        'paywall.trust.cancel_anytime': 'Cancel anytime',
+        'paywall.footer.restore': 'Restore purchases',
+        'paywall.footer.terms': 'Terms',
+        'paywall.footer.privacy': 'Privacy',
+        'paywall.errors.offline': 'Connect to internet to subscribe',
+        'paywall.errors.pricing_unavailable': 'Pricing unavailable',
+        'paywall.errors.retry': 'Retry',
+        'alerts.already_subscribed_title': 'Already Subscribed',
+        'alerts.already_subscribed_message': "You're already a premium member!",
+        'alerts.purchase_failed': 'Purchase failed. Please try again.',
+        'alerts.restored_title': 'Purchases Restored!',
+        'alerts.restored_message': 'Your subscription has been restored.',
+        'alerts.error_title': 'Error',
+        'alerts.no_purchases_title': 'No Purchases Found',
+        'alerts.no_purchases': 'No previous purchases found.',
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 // Mock purchases service
 const mockGetOfferings = jest.fn();
 jest.mock('../../src/services/purchases', () => ({
@@ -134,13 +181,13 @@ describe('PaywallScreen', () => {
     it('shows headline', () => {
       const { getByText } = renderWithProviders(<PaywallScreen />);
 
-      expect(getByText('Devour Any Topic')).toBeTruthy();
+      expect(getByText('Feed Your Brain')).toBeTruthy();
     });
 
     it('shows subheadline', () => {
       const { getByText } = renderWithProviders(<PaywallScreen />);
 
-      expect(getByText(/unlimited custom articles/i)).toBeTruthy();
+      expect(getByText(/doomscrolling/i)).toBeTruthy();
     });
   });
 
@@ -191,11 +238,6 @@ describe('PaywallScreen', () => {
       });
     });
 
-    it('shows secondary CTA (Not now)', () => {
-      const { getByText } = renderWithProviders(<PaywallScreen />);
-
-      expect(getByText('Not now')).toBeTruthy();
-    });
   });
 
   describe('footer links', () => {
@@ -227,13 +269,6 @@ describe('PaywallScreen', () => {
       expect(mockRouterBack).toHaveBeenCalled();
     });
 
-    it('calls router.back() when secondary CTA pressed', () => {
-      const { getByText } = renderWithProviders(<PaywallScreen />);
-
-      fireEvent.press(getByText('Not now'));
-
-      expect(mockRouterBack).toHaveBeenCalled();
-    });
   });
 
   describe('error handling', () => {

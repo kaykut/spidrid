@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Porzione",
     "flavor": "Stile",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Durata lettura",
+    "writing_style": "Stile di scrittura"
   },
   "placeholders": {
-    "topic": "Cosa vuoi imparare?"
+    "topic": "Cosa vuoi imparare?",
+    "topic_examples": "es. La storia del caffè, Come si formano i buchi neri, Perché i gatti fanno le fusa...",
+    "goal_examples": "es. Imparare le basi del machine learning, Capire le criptovalute, Padroneggiare le basi della cucina..."
   },
   "actions": {
     "adjust_duration_tone": "Regola durata e tono",
@@ -50,5 +54,30 @@
     "portion_hint_select": "Seleziona porzione {{portion}}",
     "flavor_premium": "Stile {{flavor}} (Funzione Premium)",
     "flavor_hint_select": "Seleziona stile di scrittura {{flavor}}"
+  },
+  "modal": {
+    "generate_article": "Genera articolo",
+    "create_curriculum": "Crea curriculum",
+    "what_learn_about": "Di cosa vuoi imparare?",
+    "what_learn": "Cosa vuoi imparare?",
+    "how_many_articles": "Quanti articoli?",
+    "estimated_words": "~{{words}} parole al tuo ritmo",
+    "next": "Avanti",
+    "generate_button": "Genera"
+  },
+  "wizard": {
+    "step_progress": "Passo {{current}} di {{total}}",
+    "min_chars": "(min. 10 caratteri)",
+    "articles_helper": "Più articoli = copertura più approfondita",
+    "per_article": "Per articolo",
+    "words_per_article": "~{{words}} parole per articolo al tuo ritmo",
+    "total_time": "Totale: ~{{minutes}} min ({{words}} parole)",
+    "review_title": "Rivedi il tuo programma",
+    "summary_goal": "Obiettivo",
+    "summary_articles": "Articoli",
+    "summary_style": "Stile",
+    "summary_duration": "Durata",
+    "quiz_toggle": "Verifica comprensione",
+    "quiz_hint": "Includere 5 domande quiz per articolo"
   }
 }

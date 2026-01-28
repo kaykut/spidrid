@@ -1,0 +1,31 @@
+{
+  "page_title": "Yeni İçerik",
+  "practice": {
+    "title": "Pratik",
+    "desc": "Hızlı okuma pratiği yapmak için önceden oluşturulmuş içeriklerden birini seçin"
+  },
+  "read": {
+    "title": "Oku",
+    "desc": "Kendi makalelerinizi veya kitaplarınızı PDF'lerden, EPUB'lardan veya bağlantılardan hızlı okuyun",
+    "options": {
+      "webpage": "Bir web sayfası",
+      "text": "Düz Metin",
+      "ebook": "Epub & PDF"
+    },
+    "placeholders": {
+      "url": "URL girin (örn. https://example.com/article)",
+      "text": "Metninizi buraya yapıştırın..."
+    }
+  },
+  "learn": {
+    "title": "Öğren",
+    "desc": "Usta olmak istediğiniz konularda makaleler oluşturun"
+  },
+  "errors": {
+    "import_failed": "İçe Aktarma Başarısız",
+    "extract_url": "URL'den içerik çıkarılamadı",
+    "process_text": "Metin işlenemedi",
+    "extract_content": "İçerik çıkarılamadı",
+    "pick_document": "Belge seçilemedi"
+  }
+}

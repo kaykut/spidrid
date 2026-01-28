@@ -16,10 +16,12 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthModal } from '../components/auth/AuthModal';
 import { GlassView } from '../components/common/GlassView';
@@ -28,11 +30,14 @@ import { VerticalProgressPath } from '../components/journey/VerticalProgressPath
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
+import { changeLanguage } from '../services/i18n';
 import { calculateORP } from '../services/orp';
 import { useAuthStore } from '../store/authStore';
 import { useJourneyStore } from '../store/journeyStore';
+import { useLocaleStore } from '../store/localeStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
+import { SUPPORTED_LOCALES, type SupportedLocale } from '../types/locale';
 import { type FontFamily, type Theme } from '../types/settings';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
@@ -98,6 +103,9 @@ function FontPreview({ fontFamily, theme }: FontPreviewProps) {
 export default function JourneyProfileModal() {
   const { theme, setTheme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation('settings');
+  const { t: tSub } = useTranslation('subscription');
+  const { t: tAuth } = useTranslation('auth');
   const { certProgress, avgWpmLast3, avgCompLast5 } = useJourneyStore();
   const {
     userName,
@@ -116,16 +124,18 @@ export default function JourneyProfileModal() {
     restorePurchases,
   } = useSubscriptionStore();
   const { isLoggedIn, userEmail, signOut } = useAuthStore();
+  const { currentLocale, setLocale } = useLocaleStore();
 
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showLanguagePicker, setShowLanguagePicker] = useState(false);
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
   const fontOptions: Array<{ id: FontFamily; label: string }> = [
-    { id: 'system', label: 'System' },
-    { id: 'lora', label: 'Serif' },
-    { id: 'inter', label: 'Round' },
-    { id: 'reddit-sans-condensed', label: 'Condensed' },
+    { id: 'system', label: t('fonts.system') },
+    { id: 'lora', label: t('fonts.serif') },
+    { id: 'inter', label: t('fonts.round') },
+    { id: 'reddit-sans-condensed', label: t('fonts.condensed') },
   ];
 
   const handleClose = () => {
@@ -135,13 +145,22 @@ export default function JourneyProfileModal() {
   const handleRestorePurchases = useCallback(async () => {
     const result = await restorePurchases();
     if (result.success) {
-      Alert.alert('Restored', 'Your purchases have been restored successfully.');
+      Alert.alert(tSub('alerts.restored_title'), tSub('alerts.restored_message'));
     } else if (result.error) {
-      Alert.alert('Error', result.error);
+      Alert.alert(tSub('alerts.error_title'), result.error);
     } else {
-      Alert.alert('No Purchases', result.message || 'No purchases found to restore.');
+      Alert.alert(tSub('alerts.no_purchases_title'), result.message || tSub('alerts.no_purchases'));
     }
-  }, [restorePurchases]);
+  }, [restorePurchases, tSub]);
+
+  const handleLanguageChange = useCallback(async (locale: SupportedLocale) => {
+    setLocale(locale);
+    await changeLanguage(locale);
+    setShowLanguagePicker(false);
+  }, [setLocale]);
+
+  // Get current language display name
+  const currentLanguageInfo = SUPPORTED_LOCALES.find(l => l.code === currentLocale) || SUPPORTED_LOCALES[0];
 
   return (
     <>
@@ -196,7 +215,7 @@ export default function JourneyProfileModal() {
           showsVerticalScrollIndicator={false}
         >
           {/* Page title */}
-          <Text style={[styles.pageTitle, { color: theme.textColor }]}>Journey & Settings</Text>
+          <Text style={[styles.pageTitle, { color: theme.textColor }]}>{t('page_title')}</Text>
 
           {/* ====== JOURNEY SECTION ====== */}
 
@@ -215,7 +234,7 @@ export default function JourneyProfileModal() {
           {/* ====== PROFILE SECTION ====== */}
 
           {/* Theme Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Theme</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.theme')}</Text>
           <View style={styles.themeGrid}>
             {themeList.map((t) => (
               <TouchableOpacity
@@ -234,10 +253,10 @@ export default function JourneyProfileModal() {
           </View>
 
           {/* User Profile Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Your Info</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.your_info')}</Text>
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <Text style={[styles.inputLabel, { color: theme.textColor }]}>
-              Name (for certificates)
+              {t('user_info.name_label')}
             </Text>
             <TextInput
               style={[
@@ -250,19 +269,20 @@ export default function JourneyProfileModal() {
               ]}
               value={userName}
               onChangeText={setUserName}
-              placeholder="Enter your name"
+              placeholder={t('user_info.name_placeholder')}
               placeholderTextColor={withOpacity(theme.textColor, OPACITY.strong)}
             />
 
-            {/*
-              HIDDEN FOR ENGLISH-ONLY LAUNCH
-              Recycle as "App Language" (UI localization) setting during internationalization.
-              Reading language now auto-detects per-content at playback time.
+          </View>
 
-            <Text
-              style={[styles.inputLabel, { color: theme.textColor, marginTop: SPACING.lg }]}
-            >
-              Reading Language
+          {/* Language Section */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.language')}</Text>
+          <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+            <Text style={[styles.inputLabel, { color: theme.textColor }]}>
+              {t('language.app_language')}
+            </Text>
+            <Text style={[styles.settingDescription, { color: JOURNEY_COLORS.textSecondary }]}>
+              {t('language.app_language_desc')}
             </Text>
             <TouchableOpacity
               style={[
@@ -272,55 +292,108 @@ export default function JourneyProfileModal() {
                   borderColor: theme.crosshairColor,
                 },
               ]}
-              onPress={() => setShowLanguagePicker(!showLanguagePicker)}
+              onPress={() => setShowLanguagePicker(true)}
             >
-              <Text style={{ color: theme.textColor }}>{currentLanguage}</Text>
-              <Text style={{ color: theme.textColor, opacity: 0.5 }}>
-                {showLanguagePicker ? '▲' : '▼'}
-              </Text>
+              <View style={styles.languageSelectorContent}>
+                <Text style={styles.languageFlag}>{currentLanguageInfo.flag}</Text>
+                <Text style={[styles.languageSelectorText, { color: theme.textColor }]}>
+                  {currentLanguageInfo.nativeName}
+                </Text>
+              </View>
+              <Ionicons
+                name="chevron-down"
+                size={SIZES.iconSm}
+                color={withOpacity(theme.textColor, OPACITY.medium)}
+              />
             </TouchableOpacity>
 
-            {showLanguagePicker && (
-              <View style={[styles.languageList, { backgroundColor: theme.backgroundColor }]}>
-                {READING_LANGUAGES.map((lang) => (
-                  <TouchableOpacity
-                    key={lang.code}
-                    style={[
-                      styles.languageOption,
-                      readingLanguage === lang.code && {
-                        backgroundColor: withOpacity(theme.accentColor, OPACITY.light),
-                      },
-                    ]}
-                    onPress={() => {
-                      setReadingLanguage(lang.code);
-                      setShowLanguagePicker(false);
-                    }}
-                  >
-                    <Text
-                      style={[
-                        styles.languageOptionText,
-                        { color: theme.textColor },
-                        readingLanguage === lang.code && {
-                          color: theme.accentColor,
-                          fontWeight: FONT_WEIGHTS.semibold,
-                        },
-                      ]}
-                    >
-                      {lang.label}
+            <Modal
+              visible={showLanguagePicker}
+              transparent
+              animationType="fade"
+              onRequestClose={() => setShowLanguagePicker(false)}
+            >
+              <TouchableOpacity
+                style={styles.languageModalOverlay}
+                activeOpacity={1}
+                onPress={() => setShowLanguagePicker(false)}
+              >
+                <View
+                  style={[
+                    styles.languageModalContent,
+                    { backgroundColor: theme.secondaryBackground },
+                  ]}
+                >
+                  <View style={styles.languageModalHeader}>
+                    <Text style={[styles.languageModalTitle, { color: theme.textColor }]}>
+                      {t('language.app_language')}
                     </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-            */}
+                    <TouchableOpacity
+                      onPress={() => setShowLanguagePicker(false)}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    >
+                      <Ionicons name="close" size={SIZES.iconMd} color={theme.textColor} />
+                    </TouchableOpacity>
+                  </View>
+                  <ScrollView
+                    style={styles.languageListScroll}
+                    showsVerticalScrollIndicator={true}
+                  >
+                    {SUPPORTED_LOCALES.map((lang) => (
+                      <TouchableOpacity
+                        key={lang.code}
+                        style={[
+                          styles.languageOption,
+                          { borderBottomColor: withOpacity(theme.textColor, OPACITY.subtle) },
+                          currentLocale === lang.code && {
+                            backgroundColor: withOpacity(theme.accentColor, OPACITY.light),
+                          },
+                        ]}
+                        onPress={() => handleLanguageChange(lang.code)}
+                      >
+                        <Text style={styles.languageOptionFlag}>{lang.flag}</Text>
+                        <View style={styles.languageOptionContent}>
+                          <Text
+                            style={[
+                              styles.languageOptionText,
+                              { color: theme.textColor },
+                              currentLocale === lang.code && {
+                                color: theme.accentColor,
+                                fontWeight: FONT_WEIGHTS.semibold,
+                              },
+                            ]}
+                          >
+                            {lang.nativeName}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.languageOptionSubtext,
+                              { color: JOURNEY_COLORS.textSecondary },
+                              currentLocale === lang.code && {
+                                color: withOpacity(theme.accentColor, OPACITY.medium),
+                              },
+                            ]}
+                          >
+                            {lang.englishName}
+                          </Text>
+                        </View>
+                        {currentLocale === lang.code && (
+                          <Ionicons name="checkmark" size={SIZES.iconSm} color={theme.accentColor} />
+                        )}
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              </TouchableOpacity>
+            </Modal>
           </View>
 
           {/* Subscription Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Subscription</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{tSub('section_subscription')}</Text>
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <View style={styles.subscriptionRow}>
               <Text style={[styles.subscriptionLabel, { color: theme.textColor }]}>
-                Status
+                {tSub('status')}
               </Text>
               <Text
                 style={[
@@ -328,12 +401,12 @@ export default function JourneyProfileModal() {
                   { color: isPremium ? theme.accentColor : theme.metaColor },
                 ]}
               >
-                {isPremium ? 'Premium' : 'Free'}
+                {isPremium ? tSub('status_premium') : tSub('status_free')}
               </Text>
             </View>
             <View style={styles.subscriptionRow}>
               <Text style={[styles.subscriptionLabel, { color: theme.textColor }]}>
-                Max WPM
+                {tSub('max_wpm')}
               </Text>
               <Text style={[styles.subscriptionValue, { color: theme.textColor }]}>
                 {getMaxWPM()}
@@ -344,7 +417,7 @@ export default function JourneyProfileModal() {
                 style={[styles.upgradeButton, { backgroundColor: theme.accentColor }]}
                 onPress={() => router.push({ pathname: '/paywall', params: { trigger: 'upgrade' } })}
               >
-                <Text style={styles.upgradeText}>Upgrade to Premium</Text>
+                <Text style={styles.upgradeText}>{tSub('upgrade_to_premium')}</Text>
               </TouchableOpacity>
             ) : null}
             {/* Restore Purchases - available for all users per Apple guidelines */}
@@ -357,7 +430,7 @@ export default function JourneyProfileModal() {
                 <ActivityIndicator size="small" color={theme.textColor} />
               ) : (
                 <Text style={[styles.restoreButtonText, { color: theme.textColor }]}>
-                  Restore Purchases
+                  {tSub('restore_purchases')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -366,7 +439,7 @@ export default function JourneyProfileModal() {
           {/* Sync Section - Show for all users, gate behind paywall */}
           <>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Sync Across Devices
+              {tAuth('section_sync')}
             </Text>
               <View style={[styles.card, { backgroundColor: theme.secondaryBackground, position: 'relative' }]}>
                 {isLoggedIn ? (
@@ -379,13 +452,13 @@ export default function JourneyProfileModal() {
                       />
                       <View style={styles.syncStatusInfo}>
                         <Text style={[styles.syncStatusLabel, { color: theme.textColor }]}>
-                          Signed In
+                          {tAuth('sync.signed_in')}
                         </Text>
                         <Text
                           style={[styles.syncStatusDesc, { color: JOURNEY_COLORS.textSecondary }]}
                           numberOfLines={1}
                         >
-                          {userEmail || 'Account verified'}
+                          {userEmail || tAuth('sync.account_verified')}
                         </Text>
                       </View>
                     </View>
@@ -398,7 +471,7 @@ export default function JourneyProfileModal() {
                         color={JOURNEY_COLORS.textSecondary}
                       />
                       <Text style={[styles.syncStatusText, { color: JOURNEY_COLORS.textSecondary }]}>
-                        Ready to sync • Data sync coming soon
+                        {tAuth('sync.status_ready')}
                       </Text>
                     </View>
 
@@ -407,15 +480,14 @@ export default function JourneyProfileModal() {
                       onPress={signOut}
                     >
                       <Text style={[styles.signOutText, { color: theme.textColor }]}>
-                        Sign Out
+                        {tAuth('sync.sign_out')}
                       </Text>
                     </TouchableOpacity>
                   </>
                 ) : (
                   <>
                     <Text style={[styles.syncDescription, { color: JOURNEY_COLORS.textSecondary }]}>
-                      Sign in to enable cloud sync of your reading progress, certificates, and settings.
-                      Syncing requires Premium.
+                      {tAuth('sync.desc')}
                     </Text>
                     <TouchableOpacity
                       style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
@@ -428,7 +500,7 @@ export default function JourneyProfileModal() {
                         size={SIZES.iconSm}
                         color={JOURNEY_COLORS.textPrimary}
                       />
-                      <Text style={styles.signInText}>Sign In to Sync</Text>
+                      <Text style={styles.signInText}>{tAuth('sync.sign_in_to_sync')}</Text>
                     </TouchableOpacity>
                   </>
                 )}
@@ -436,7 +508,7 @@ export default function JourneyProfileModal() {
             </>
 
           {/* Reading Settings */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Reading</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.reading')}</Text>
 
           {/* Font Selector */}
           <View style={styles.fontGrid}>
@@ -479,7 +551,7 @@ export default function JourneyProfileModal() {
 
           {/* Font Preview */}
           <View style={[styles.fontPreviewContainer, { backgroundColor: theme.secondaryBackground }]}>
-            <Text style={[styles.fontPreviewTitle, { color: theme.textColor }]}>Preview</Text>
+            <Text style={[styles.fontPreviewTitle, { color: theme.textColor }]}>{t('fonts.preview')}</Text>
             <FontPreview fontFamily={fontFamily} theme={theme} />
           </View>
 
@@ -488,10 +560,10 @@ export default function JourneyProfileModal() {
             <View style={styles.settingRow}>
               <View style={styles.settingInfo}>
                 <Text style={[styles.settingLabel, { color: theme.textColor }]}>
-                  Paragraph Pause
+                  {t('reading.paragraph_pause')}
                 </Text>
                 <Text style={[styles.settingDesc, { color: theme.textColor }]}>
-                  Brief pause between paragraphs
+                  {t('reading.paragraph_pause_desc')}
                 </Text>
               </View>
               <Switch
@@ -504,10 +576,10 @@ export default function JourneyProfileModal() {
             <View style={[styles.settingRow, { marginTop: SPACING.md }]}>
               <View style={styles.settingInfo}>
                 <Text style={[styles.settingLabel, { color: theme.textColor }]}>
-                  Move to History
+                  {t('reading.move_to_history')}
                 </Text>
                 <Text style={[styles.settingDesc, { color: theme.textColor }]}>
-                  Completed items move to History
+                  {t('reading.move_to_history_desc')}
                 </Text>
               </View>
               <Switch
@@ -522,14 +594,14 @@ export default function JourneyProfileModal() {
           {/* Dev Tools - Consolidated */}
           {__DEV__ && (
             <>
-              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Developer</Text>
+              <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.developer')}</Text>
               <TouchableOpacity
                 style={[styles.devToolsButton, { borderColor: theme.accentColor }]}
                 onPress={() => router.push('/dev-tools')}
               >
                 <Ionicons name="flask-outline" size={20} color={theme.accentColor} />
                 <Text style={[styles.devToolsText, { color: theme.accentColor }]}>
-                  Dev Tools
+                  {t('developer.dev_tools')}
                 </Text>
                 <Ionicons name="chevron-forward" size={20} color={theme.accentColor} />
               </TouchableOpacity>
@@ -667,17 +739,69 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  languageList: {
-    marginTop: SPACING.sm,
-    borderRadius: COMPONENT_RADIUS.button,
-    maxHeight: 200,
+  languageSelectorContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+  },
+  languageFlag: {
+    fontSize: 18,
+  },
+  languageModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.lg,
+  },
+  languageModalContent: {
+    width: '100%',
+    maxHeight: '70%',
+    borderRadius: COMPONENT_RADIUS.modal,
+    overflow: 'hidden',
+  },
+  languageModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  languageModalTitle: {
+    ...TYPOGRAPHY.cardTitle,
+  },
+  languageListScroll: {
+    maxHeight: 400,
   },
   languageOption: {
-    paddingHorizontal: SPACING.md,
+    paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    gap: SPACING.md,
+  },
+  languageOptionFlag: {
+    fontSize: 22,
+  },
+  languageOptionContent: {
+    flex: 1,
   },
   languageOptionText: {
     ...TYPOGRAPHY.body,
+  },
+  languageOptionSubtext: {
+    ...TYPOGRAPHY.caption,
+    marginTop: 2,
+  },
+  languageSelectorText: {
+    ...TYPOGRAPHY.body,
+  },
+  settingDescription: {
+    ...TYPOGRAPHY.caption,
+    marginBottom: SPACING.sm,
   },
   subscriptionRow: {
     flexDirection: 'row',

@@ -4,7 +4,8 @@
     "theme": "Design",
     "your_info": "Deine Info",
     "reading": "Lesen",
-    "developer": "Entwickler"
+    "developer": "Entwickler",
+    "language": "Sprache"
   },
   "themes": {
     "dark": "Dunkel",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Dev Tools"
+  },
+  "language": {
+    "app_language": "App-Sprache",
+    "app_language_desc": "Sprache der Benutzeroberfläche"
   }
 }

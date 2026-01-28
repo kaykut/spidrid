@@ -9,5 +9,16 @@
     "articles": "Artigos",
     "learning": "Aprendizado",
     "training": "Treino"
+  },
+  "history": {
+    "title": "Histórico",
+    "empty_title": "Nenhum item concluído ainda",
+    "empty_subtitle": "Itens que você terminar de ler aparecerão aqui"
+  },
+  "stats": {
+    "devoured": "Devorado",
+    "words": "Palavras",
+    "retention": "Retenção",
+    "best_wpm": "Melhor PPM"
   }
 }

@@ -13,6 +13,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../components/common/ThemeProvider';
 import { PlaybackControls } from '../../../../components/controls/PlaybackControls';
@@ -29,6 +30,7 @@ import { useJourneyStore } from '../../../../store/journeyStore';
 import { useLearningStore } from '../../../../store/learningStore';
 import { useSettingsStore } from '../../../../store/settingsStore';
 import { isAnswerCorrect } from '../../../../utils/calculateQuizScore';
+import { splitTitle } from '../../../../utils/titleUtils';
 
 type Phase = 'reading' | 'quiz' | 'results';
 
@@ -38,6 +40,9 @@ export default function CurriculumArticleScreen() {
     curriculumId: string;
     articleIndex: string;
   }>();
+  const { t } = useTranslation('playback');
+  const { t: tQuiz } = useTranslation('quiz');
+  const { t: tCommon } = useTranslation('common');
 
   const { getCurriculum, markArticleCompleted } = useCurriculumStore();
   const { recordSession } = useJourneyStore();
@@ -177,9 +182,9 @@ export default function CurriculumArticleScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: theme.textColor }]}>Curriculum not found</Text>
+          <Text style={[styles.errorText, { color: theme.textColor }]}>{t('errors.curriculum_not_found')}</Text>
           <TouchableOpacity onPress={() => router.back()}>
-            <Text style={[styles.linkText, { color: theme.accentColor }]}>Go back</Text>
+            <Text style={[styles.linkText, { color: theme.accentColor }]}>{t('errors.go_back')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -196,9 +201,9 @@ export default function CurriculumArticleScreen() {
           </TouchableOpacity>
         </View>
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: theme.textColor }]}>Article not found</Text>
+          <Text style={[styles.errorText, { color: theme.textColor }]}>{t('errors.article_not_found')}</Text>
           <TouchableOpacity onPress={() => router.back()}>
-            <Text style={[styles.linkText, { color: theme.accentColor }]}>Go back</Text>
+            <Text style={[styles.linkText, { color: theme.accentColor }]}>{t('errors.go_back')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -217,14 +222,14 @@ export default function CurriculumArticleScreen() {
         <View style={styles.errorContainer}>
           <Ionicons name="lock-closed" size={SIZES.iconHuge} color={JOURNEY_COLORS.textSecondary} />
           <Text style={[styles.errorText, { color: theme.textColor, marginTop: SPACING.lg }]}>
-            Article Locked
+            {t('errors.article_locked')}
           </Text>
           <Text style={[styles.errorSubtext, { color: JOURNEY_COLORS.textSecondary }]}>
-            Complete the previous article to unlock this one.
+            {t('errors.article_locked_desc')}
           </Text>
           <TouchableOpacity onPress={() => router.back()}>
             <Text style={[styles.linkText, { color: theme.accentColor, marginTop: SPACING.lg }]}>
-              Go back
+              {t('errors.go_back')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -244,10 +249,10 @@ export default function CurriculumArticleScreen() {
         <View style={styles.errorContainer}>
           <ActivityIndicator size="large" color={theme.accentColor} />
           <Text style={[styles.errorText, { color: theme.textColor, marginTop: SPACING.lg }]}>
-            Generating Article...
+            {t('errors.generating')}
           </Text>
           <Text style={[styles.errorSubtext, { color: JOURNEY_COLORS.textSecondary }]}>
-            Please wait while we create your article.
+            {t('errors.generating_desc')}
           </Text>
         </View>
       </SafeAreaView>
@@ -266,14 +271,14 @@ export default function CurriculumArticleScreen() {
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle" size={SIZES.iconHuge} color={JOURNEY_COLORS.low} />
           <Text style={[styles.errorText, { color: theme.textColor, marginTop: SPACING.lg }]}>
-            Generation Failed
+            {t('errors.generation_failed')}
           </Text>
           <Text style={[styles.errorSubtext, { color: JOURNEY_COLORS.textSecondary }]}>
-            {article.generationError || 'An error occurred while generating the article.'}
+            {article.generationError || t('errors.generation_failed_desc')}
           </Text>
           <TouchableOpacity onPress={() => router.back()}>
             <Text style={[styles.linkText, { color: theme.accentColor, marginTop: SPACING.lg }]}>
-              Go back
+              {t('errors.go_back')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -294,9 +299,21 @@ export default function CurriculumArticleScreen() {
         <TouchableOpacity style={styles.backButton} onPress={handleDone}>
           <Ionicons name="arrow-back" size={SIZES.iconMd} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]} numberOfLines={1}>
-          {article.title}
-        </Text>
+        {(() => {
+          const { primary, subtitle } = splitTitle(article.title);
+          return (
+            <View style={styles.headerTitleContainer}>
+              <Text style={[styles.headerTitle, { color: theme.textColor }]} numberOfLines={1}>
+                {primary}
+              </Text>
+              {subtitle && (
+                <Text style={[styles.headerSubtitle, { color: theme.textColor }]} numberOfLines={1}>
+                  {subtitle}
+                </Text>
+              )}
+            </View>
+          );
+        })()}
         <View style={[styles.badge, { backgroundColor: `${theme.accentColor}20` }]}>
           <Text style={[styles.badgeText, { color: theme.accentColor }]}>
             {articleIdx + 1} of {totalArticles}
@@ -330,7 +347,7 @@ export default function CurriculumArticleScreen() {
           <ScrollView style={styles.quizContainer} showsVerticalScrollIndicator={false}>
             <View style={styles.quizProgress}>
               <Text style={[styles.quizProgressText, { color: theme.textColor }]}>
-                Question {currentQuestionIndex + 1} of {article.questions?.length ?? 0}
+                {tQuiz('question_progress', { current: currentQuestionIndex + 1, total: article.questions?.length ?? 0 })}
               </Text>
             </View>
 
@@ -347,7 +364,7 @@ export default function CurriculumArticleScreen() {
         {phase === 'results' && (
           <View style={styles.resultsContainer}>
             <Text style={[styles.resultsTitle, { color: theme.textColor }]}>
-              Article Complete!
+              {t('results.article_complete')}
             </Text>
 
             <View style={[styles.resultsCard, { backgroundColor: theme.secondaryBackground }]}>
@@ -355,7 +372,7 @@ export default function CurriculumArticleScreen() {
                 <>
                   <View style={styles.resultRow}>
                     <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                      Comprehension
+                      {t('results.comprehension')}
                     </Text>
                     <Text
                       style={[
@@ -368,7 +385,7 @@ export default function CurriculumArticleScreen() {
                   </View>
                   <View style={styles.resultRow}>
                     <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                      Correct Answers
+                      {t('results.correct_answers')}
                     </Text>
                     <Text style={[styles.resultValue, { color: theme.textColor }]}>
                       {correctAnswers} / {article.questions.length}
@@ -378,15 +395,15 @@ export default function CurriculumArticleScreen() {
               )}
               <View style={styles.resultRow}>
                 <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                  Reading Speed
+                  {t('results.reading_speed')}
                 </Text>
                 <Text style={[styles.resultValue, { color: theme.accentColor }]}>
-                  {readingWPM} WPM
+                  {readingWPM} {tCommon('wpm_suffix')}
                 </Text>
               </View>
               <View style={styles.resultRow}>
                 <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                  Word Count
+                  {t('results.word_count')}
                 </Text>
                 <Text style={[styles.resultValue, { color: theme.textColor }]}>
                   {article.wordCount?.toLocaleString() || 0}
@@ -398,7 +415,7 @@ export default function CurriculumArticleScreen() {
               style={[styles.doneButton, { backgroundColor: theme.accentColor }]}
               onPress={handleDone}
             >
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text style={styles.doneButtonText}>{tCommon('actions.done')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -406,7 +423,7 @@ export default function CurriculumArticleScreen() {
               onPress={handlePlayAgain}
             >
               <Text style={[styles.retryButtonText, { color: theme.accentColor }]}>
-                Read Again
+                {t('results.read_again')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -431,9 +448,16 @@ const styles = StyleSheet.create({
     padding: SPACING.sm,
     marginRight: SPACING.sm,
   },
+  headerTitleContainer: {
+    flex: 1,
+  },
   headerTitle: {
     ...TYPOGRAPHY.cardSubtitle,
-    flex: 1,
+  },
+  headerSubtitle: {
+    ...TYPOGRAPHY.label,
+    opacity: 0.7,
+    marginTop: SPACING.xxs,
   },
   badge: {
     paddingHorizontal: SPACING.sm,

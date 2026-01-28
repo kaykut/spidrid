@@ -7,10 +7,33 @@
   "results": {
     "complete": "Fertig!",
     "reading_speed": "Lesegeschwindigkeit",
-    "words_read": "Gelesene Wörter"
+    "words_read": "Gelesene Wörter",
+    "read_again": "Erneut lesen",
+    "reading_complete": "Lesen abgeschlossen!",
+    "article_complete": "Artikel abgeschlossen!",
+    "word_count": "Wortanzahl",
+    "comprehension": "Verständnis",
+    "correct_answers": "Richtige Antworten"
   },
   "controls": {
     "play": "Abspielen",
-    "pause": "Pausieren"
+    "pause": "Pausieren",
+    "wpm_suffix": "WPM",
+    "max_wpm": "(max {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Kapitel {{number}}",
+    "continue": "Weiterlesen"
+  },
+  "errors": {
+    "article_not_found": "Artikel nicht gefunden",
+    "curriculum_not_found": "Lehrplan nicht gefunden",
+    "go_back": "Zurück",
+    "article_locked": "Artikel gesperrt",
+    "article_locked_desc": "Schließen Sie den vorherigen Artikel ab, um diesen freizuschalten.",
+    "generating": "Artikel wird erstellt...",
+    "generating_desc": "Bitte warten Sie, während wir Ihren Artikel erstellen.",
+    "generation_failed": "Generierung fehlgeschlagen",
+    "generation_failed_desc": "Beim Erstellen des Artikels ist ein Fehler aufgetreten."
   }
 }

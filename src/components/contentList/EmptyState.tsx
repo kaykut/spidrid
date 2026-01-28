@@ -8,6 +8,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -19,6 +20,8 @@ interface EmptyStateProps {
 
 export function EmptyState({ onAddContent }: EmptyStateProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('content');
+  const { t: tCommon } = useTranslation('common');
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
   return (
@@ -39,10 +42,10 @@ export function EmptyState({ onAddContent }: EmptyStateProps) {
 
       {/* Message */}
       <Text style={[styles.title, { color: theme.textColor }]}>
-        No content yet
+        {t('empty.title')}
       </Text>
       <Text style={[styles.subtitle, { color: theme.metaColor }]}>
-        Add articles, books, or generate learning content to get started with speed reading.
+        {t('empty.subtitle')}
       </Text>
 
       {/* CTA Button */}
@@ -57,7 +60,7 @@ export function EmptyState({ onAddContent }: EmptyStateProps) {
           color={JOURNEY_COLORS.textPrimary}
         />
         <Text style={[styles.buttonText, { color: JOURNEY_COLORS.textPrimary }]}>
-          Get Started
+          {tCommon('actions.get_started')}
         </Text>
       </TouchableOpacity>
     </View>

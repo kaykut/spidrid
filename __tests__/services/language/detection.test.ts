@@ -76,6 +76,7 @@ describe('getLanguageScores', () => {
       ro: 0,
       sv: 0,
       cs: 0,
+      tr: 0,
     });
   });
 

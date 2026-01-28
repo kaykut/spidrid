@@ -4,7 +4,8 @@
     "theme": "Thema",
     "your_info": "Jouw Info",
     "reading": "Lezen",
-    "developer": "Ontwikkelaar"
+    "developer": "Ontwikkelaar",
+    "language": "Taal"
   },
   "themes": {
     "dark": "Donker",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Dev Tools"
+  },
+  "language": {
+    "app_language": "App-taal",
+    "app_language_desc": "Taal van de app-interface"
   }
 }

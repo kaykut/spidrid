@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Conținut negăsit",
     "failed_to_load": "Nu s-a putut încărca conținutul"
+  },
+  "topic": {
+    "not_found": "Subiect negăsit"
+  },
+  "article": {
+    "not_found": "Articol negăsit"
   }
 }

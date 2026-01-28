@@ -5,5 +5,6 @@
   "import": {
     "importing": "Importerar...",
     "processing": "Bearbetar innehåll..."
-  }
+  },
+  "content_not_found": "Innehåll hittades inte"
 }

@@ -7,10 +7,33 @@
   "results": {
     "complete": "¡Completado!",
     "reading_speed": "Velocidad de Lectura",
-    "words_read": "Palabras Leídas"
+    "words_read": "Palabras Leídas",
+    "read_again": "Leer de nuevo",
+    "reading_complete": "¡Lectura completada!",
+    "article_complete": "¡Artículo completado!",
+    "word_count": "Conteo de palabras",
+    "comprehension": "Comprensión",
+    "correct_answers": "Respuestas correctas"
   },
   "controls": {
     "play": "Reproducir",
-    "pause": "Pausar"
+    "pause": "Pausar",
+    "wpm_suffix": "PPM",
+    "max_wpm": "(máx {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Capítulo {{number}}",
+    "continue": "Continuar leyendo"
+  },
+  "errors": {
+    "article_not_found": "Artículo no encontrado",
+    "curriculum_not_found": "Plan de estudios no encontrado",
+    "go_back": "Volver",
+    "article_locked": "Artículo bloqueado",
+    "article_locked_desc": "Completa el artículo anterior para desbloquear este.",
+    "generating": "Generando artículo...",
+    "generating_desc": "Por favor espera mientras creamos tu artículo.",
+    "generation_failed": "Generación fallida",
+    "generation_failed_desc": "Ocurrió un error al generar el artículo."
   }
 }

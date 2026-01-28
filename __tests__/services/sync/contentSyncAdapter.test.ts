@@ -1,6 +1,7 @@
 import { contentSyncAdapter, SyncableContent } from '../../../src/services/sync/contentSyncAdapter';
 import { useContentStore } from '../../../src/store/contentStore';
 import { supabase } from '../../../src/services/supabase';
+import * as syncAccess from '../../../src/services/sync/syncAccess';
 
 // Mock supabase
 jest.mock('../../../src/services/supabase', () => ({
@@ -13,6 +14,7 @@ jest.mock('../../../src/services/supabase', () => ({
 }));
 
 const mockSupabase = supabase as jest.Mocked<typeof supabase>;
+const mockSyncAccess = syncAccess as jest.Mocked<typeof syncAccess>;
 
 describe('contentSyncAdapter', () => {
   const mockUser = { id: 'test-user-id' };
@@ -175,9 +177,10 @@ describe('contentSyncAdapter', () => {
       expect(mockSupabase.auth.getUser).not.toHaveBeenCalled();
     });
 
-    it('should throw error when not authenticated', async () => {
-      (mockSupabase.auth.getUser as jest.Mock).mockResolvedValue({
-        data: { user: null },
+    it('should throw error when not eligible for sync', async () => {
+      // Mock syncAccess to throw (not authenticated or not premium)
+      mockSyncAccess.requireSyncEligibility.mockImplementationOnce(() => {
+        throw new Error('Authentication and premium subscription required');
       });
 
       const items: SyncableContent[] = [
@@ -193,7 +196,7 @@ describe('contentSyncAdapter', () => {
         },
       ];
 
-      await expect(contentSyncAdapter.push(items)).rejects.toThrow('Not authenticated');
+      await expect(contentSyncAdapter.push(items)).rejects.toThrow('Authentication and premium subscription required');
     });
 
     it('should upsert items to user_content table', async () => {
@@ -268,12 +271,13 @@ describe('contentSyncAdapter', () => {
   });
 
   describe('pull', () => {
-    it('should throw error when not authenticated', async () => {
-      (mockSupabase.auth.getUser as jest.Mock).mockResolvedValue({
-        data: { user: null },
+    it('should throw error when not eligible for sync', async () => {
+      // Mock syncAccess to throw (not authenticated or not premium)
+      mockSyncAccess.requireSyncEligibility.mockImplementationOnce(() => {
+        throw new Error('Authentication and premium subscription required');
       });
 
-      await expect(contentSyncAdapter.pull()).rejects.toThrow('Not authenticated');
+      await expect(contentSyncAdapter.pull()).rejects.toThrow('Authentication and premium subscription required');
     });
 
     it('should return empty array when no data', async () => {

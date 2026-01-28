@@ -2,6 +2,7 @@
   "app_name": "Devoro",
   "loading": "Lädt...",
   "not_available": "Nicht verfügbar",
+  "error": "Fehler",
   "actions": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
@@ -10,8 +11,12 @@
     "continue": "Weiter",
     "get_started": "Los geht's",
     "import": "Importieren",
-    "save_and_read": "Speichern & Lesen"
+    "save_and_read": "Speichern & Lesen",
+    "back": "Zurück",
+    "delete": "Löschen",
+    "try_again": "Erneut versuchen"
   },
+  "words": "Wörter",
   "or": "oder",
   "wpm_suffix": "WPM"
 }

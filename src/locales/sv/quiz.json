@@ -5,6 +5,15 @@
   "question_progress": "Fråga {{current}} av {{total}}",
   "no_quiz_available": "Inget prov tillgängligt",
   "no_quiz_desc": "Detta innehåll har inga provfrågor.",
+  "true": "Sant",
+  "false": "Falskt",
+  "correct": "Rätt!",
+  "answer_was": "Svar: {{value}}{{unit}}",
+  "submit_answer": "Skicka svar",
+  "a11y": {
+    "select_true": "Dubbeltryck för att välja Sant",
+    "select_false": "Dubbeltryck för att välja Falskt"
+  },
   "results": {
     "complete": "Klart!",
     "comprehension": "Förståelse",

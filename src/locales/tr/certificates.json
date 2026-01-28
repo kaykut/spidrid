@@ -1,0 +1,13 @@
+{
+  "template": {
+    "certificate_of_achievement": "Başarı Sertifikası",
+    "reading_excellence": "Okuma Mükemmelliği",
+    "presented_to": "Bu sertifika gururla sunulmuştur",
+    "exceptional_proficiency": "Olağanüstü hızlı okuma yeterliliği gösterdiği için",
+    "reading_speed_achieved": "okuma hızına ulaşarak",
+    "date_achieved": "Başarı Tarihi",
+    "certificate_id": "Sertifika ID",
+    "verified_achievement": "Onaylı Başarı",
+    "default_name": "Hızlı Okuyucu"
+  }
+}

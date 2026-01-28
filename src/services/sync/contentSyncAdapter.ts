@@ -9,6 +9,7 @@ import { useContentStore } from '../../store/contentStore';
 import { ImportedContent } from '../../types/content';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'imported';
 
@@ -37,8 +38,15 @@ export interface SyncableContent extends SyncItem {
  * Adds updatedAt timestamp if not present
  */
 function toSyncableContent(content: ImportedContent): SyncableContent {
+  const {
+    processingStatus: _processingStatus,
+    processingProgress: _processingProgress,
+    processingError: _processingError,
+    processingPayload: _processingPayload,
+    ...syncable
+  } = content;
   return {
-    ...content,
+    ...syncable,
     // Use lastReadAt or createdAt as the updatedAt timestamp
     updatedAt: content.lastReadAt || content.createdAt,
   };
@@ -59,7 +67,9 @@ export const contentSyncAdapter: SyncAdapter<SyncableContent> = {
    */
   toSyncItems: (): SyncableContent[] => {
     const { importedContent } = useContentStore.getState();
-    return importedContent.map(toSyncableContent);
+    return importedContent
+      .filter((item) => (item.processingStatus ?? 'ready') === 'ready')
+      .map(toSyncableContent);
   },
 
   /**
@@ -77,6 +87,8 @@ export const contentSyncAdapter: SyncAdapter<SyncableContent> = {
    */
   push: async (items: SyncableContent[]): Promise<void> => {
     if (items.length === 0) {return;}
+
+    requireSyncEligibility();
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -105,6 +117,8 @@ export const contentSyncAdapter: SyncAdapter<SyncableContent> = {
    * Pull items from Supabase user_content table
    */
   pull: async (): Promise<SyncableContent[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

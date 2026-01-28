@@ -83,9 +83,11 @@ async function handleAuthCallback(url: string): Promise<void> {
       // linked on Device 1. We need to sign in to the existing account instead.
       console.warn('[Auth] Identity already exists, signing in to existing account');
 
+      const pendingProvider = useAuthStore.getState().pendingOAuthProvider || 'google';
+
       // Trigger a new OAuth flow to sign in (not link)
       const { error: signInError } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: pendingProvider,
         options: {
           redirectTo: 'devoro://auth/callback',
         },
@@ -95,6 +97,7 @@ async function handleAuthCallback(url: string): Promise<void> {
         console.error('[Auth] Failed to sign in with OAuth:', signInError);
         useAuthStore.setState({
           authError: signInError.message || 'Sign in failed. Please try again.',
+          pendingOAuthProvider: null,
         });
       }
       return;
@@ -104,6 +107,7 @@ async function handleAuthCallback(url: string): Promise<void> {
       console.error('[Auth] OAuth callback error:', error, errorDescription);
       useAuthStore.setState({
         authError: errorDescription || error || 'Authentication failed. Please try again.',
+        pendingOAuthProvider: null,
       });
     }
     return;
@@ -119,8 +123,12 @@ async function handleAuthCallback(url: string): Promise<void> {
     console.error('[Auth] Error setting session from deep link:', error);
     useAuthStore.setState({
       authError: error.message || 'Failed to complete sign in. Please try again.',
+      pendingOAuthProvider: null,
     });
+    return;
   }
+
+  useAuthStore.setState({ pendingOAuthProvider: null });
 }
 
 /**

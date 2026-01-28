@@ -12,6 +12,7 @@ import { useSettingsStore } from '../../store/settingsStore';
 import { UserSettings } from '../../types/settings';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'settings';
 const SETTINGS_DOC_ID = 'user_settings';
@@ -88,6 +89,8 @@ export const settingsSyncAdapter: SyncAdapter<SyncableSettings> = {
   push: async (items: SyncableSettings[]): Promise<void> => {
     if (items.length === 0) {return;}
 
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');
@@ -114,6 +117,8 @@ export const settingsSyncAdapter: SyncAdapter<SyncableSettings> = {
    * Pull settings from Supabase
    */
   pull: async (): Promise<SyncableSettings[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

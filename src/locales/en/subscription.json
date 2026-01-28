@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Upgrade to Premium",
     "reason_wpm": "Free tier is limited to {{wpm}} WPM",
-    "reason_generation": "Free tier is limited to 3 AI-generated articles per day"
+    "reason_generation": "Free tier is limited to 3 AI-generated articles per day",
+    "headline": "Feed Your Brain",
+    "subheadline_default": "Leave doomscrolling behind and learn any topic in minutes.",
+    "subheadline_daily_limit": "You've used your 2 free articles today. Go unlimited?",
+    "subheadline_premium_portion": "Snack, Meal, and Feast portions require Premium.",
+    "subheadline_premium_flavor": "Fact, Story, and Analogy tones require Premium.",
+    "subheadline_sign_in": "Sign in requires Devoro Premium for cross-device sync.",
+    "subheadline_wpm_limit": "Reading speeds above 450 WPM require Premium.",
+    "features": {
+      "unlimited_title": "Unlimited AI articles",
+      "unlimited_subtitle": "No daily caps on learning",
+      "sync_title": "Multi-device sync",
+      "sync_subtitle": "Pick up where you left off",
+      "speed_title": "Premium reading speed",
+      "speed_subtitle": "Up to 1,500 WPM"
+    },
+    "plans": {
+      "yearly": "Yearly",
+      "monthly": "Monthly",
+      "per_month": "{{price}}/mo",
+      "free_trial": "{{days}} day free trial",
+      "most_popular": "Most Popular",
+      "save_percent": "Save {{percent}}%",
+      "no_plans": "No plans available"
+    },
+    "cta": {
+      "subscribe": "Subscribe Now",
+      "try_free": "Try Free for {{days}} Days",
+      "then_price": "then {{price}}/year",
+      "price_per_year": "{{price}}/year"
+    },
+    "trust": {
+      "cancel_anytime": "Cancel anytime"
+    },
+    "footer": {
+      "restore": "Restore purchases",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    },
+    "errors": {
+      "offline": "Connect to internet to subscribe",
+      "pricing_unavailable": "Pricing unavailable",
+      "retry": "Retry"
+    }
   },
   "benefits": {
     "max_wpm": "Read up to {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Purchase failed. Please try again.",
     "no_purchases": "No previous purchases found.",
-    "restored_title": "Restored",
-    "restored_message": "Your purchases have been restored successfully.",
+    "restored_title": "Purchases Restored!",
+    "restored_message": "Your subscription has been restored.",
     "error_title": "Error",
-    "no_purchases_title": "No Purchases"
+    "no_purchases_title": "No Purchases Found",
+    "already_subscribed_title": "Already Subscribed",
+    "already_subscribed_message": "You're already a premium member!"
   }
 }

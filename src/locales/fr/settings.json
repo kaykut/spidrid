@@ -4,7 +4,8 @@
     "theme": "Thème",
     "your_info": "Vos Informations",
     "reading": "Lecture",
-    "developer": "Développeur"
+    "developer": "Développeur",
+    "language": "Langue"
   },
   "themes": {
     "dark": "Sombre",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Outils Dev"
+  },
+  "language": {
+    "app_language": "Langue de l'application",
+    "app_language_desc": "Langue de l'interface"
   }
 }

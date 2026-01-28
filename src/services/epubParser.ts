@@ -224,7 +224,10 @@ function injectChapterMarkers(
 }
 
 // Main EPUB parsing function
-export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
+export async function parseEpub(
+  fileUri: string,
+  options?: { onProgress?: (percent: number) => void }
+): Promise<EbookParseResult> {
   try {
     // Read file as base64
     const epubFile = new File(fileUri);
@@ -290,7 +293,9 @@ export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
     const spineOffsets: Map<string, number> = new Map();
     let currentOffset = 0;
 
-    for (const itemPath of spineItems) {
+    const totalItems = spineItems.length;
+    for (let index = 0; index < totalItems; index += 1) {
+      const itemPath = spineItems[index];
       const file = zip.file(itemPath);
       if (file) {
         const html = await file.async('text');
@@ -305,6 +310,11 @@ export async function parseEpub(fileUri: string): Promise<EbookParseResult> {
           contentParts.push(text);
           currentOffset += text.length + 2; // +2 for '\n\n' separator
         }
+      }
+
+      if (totalItems > 0 && options?.onProgress) {
+        const percent = Math.round(((index + 1) / totalItems) * 100);
+        options.onProgress(percent);
       }
     }
 

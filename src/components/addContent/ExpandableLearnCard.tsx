@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
@@ -46,6 +47,8 @@ interface ExpandableLearnCardProps {
 
 export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: ExpandableLearnCardProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('addContent');
+  const { t: tGen } = useTranslation('generation');
   const { generateArticle, isGenerating: isGeneratingArticle } = useGeneratedStore();
   const { createCurriculumV2, isGenerating: isGeneratingCurriculum } = useCurriculumStore();
   const { avgWpmLast3 } = useJourneyStore();
@@ -265,9 +268,9 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             <MaterialCommunityIcons name="school" size={SIZES.iconLg} color={theme.accentColor} />
           </View>
           <View style={styles.textContainer}>
-            <Text style={[styles.title, { color: theme.textColor }]}>Learn</Text>
+            <Text style={[styles.title, { color: theme.textColor }]}>{t('learn.title')}</Text>
             <Text style={[styles.description, { color: theme.textColor }]}>
-              Generate articles on topics you want to master
+              {t('learn.desc')}
             </Text>
           </View>
           <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
@@ -282,7 +285,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             <View style={styles.topicInputWrapper}>
               <TextInput
                 style={[styles.topicInput, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
-                placeholder="What do you want to learn about?"
+                placeholder={tGen('placeholders.topic')}
                 placeholderTextColor={`${theme.textColor}60`}
                 value={topic}
                 onChangeText={setTopic}
@@ -319,7 +322,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
 
               {/* Customize Toggle - Inside Text Box at Bottom */}
               <TouchableOpacity style={styles.customizeToggleInside} onPress={handleCustomizeToggle} disabled={isGenerating}>
-                <Text style={[styles.customizeToggleText, { color: theme.textColor }]}>Adjust duration and tone</Text>
+                <Text style={[styles.customizeToggleText, { color: theme.textColor }]}>{tGen('actions.adjust_duration_tone')}</Text>
                 <Animated.View style={{ transform: [{ rotate: customizeChevronRotation }] }}>
                   <Ionicons name="chevron-down" size={SIZES.iconSm} color={theme.textColor} />
                 </Animated.View>
@@ -334,7 +337,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                   { color: recordingError ? JOURNEY_COLORS.warning : JOURNEY_COLORS.success },
                 ]}
               >
-                {recordingError || (isRecording ? 'Listening...' : 'Transcribing...')}
+                {recordingError || (isRecording ? tGen('actions.listening') : tGen('actions.transcribing'))}
               </Text>
             )}
 
@@ -342,7 +345,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
             {showCustomize && (
               <View>
                 {/* Portion Section */}
-                <Text style={[styles.label, { color: theme.textColor }]}>Portion</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>{tGen('labels.portion')}</Text>
                 <View style={styles.portionCardsRow}>
                   {PORTION_OPTIONS.map((p) => {
                     const { articleText, durationText } = getPortionDisplay(p);
@@ -365,8 +368,8 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         disabled={isGenerating}
                         accessible={true}
                         accessibilityRole="button"
-                        accessibilityLabel={`${p.label} portion${isLocked ? ' (Premium feature)' : ''}`}
-                        accessibilityHint={isLocked ? 'Upgrade to premium to unlock' : `Select ${p.label} portion`}
+                        accessibilityLabel={isLocked ? tGen('a11y.portion_premium', { portion: p.label }) : `${p.label} portion`}
+                        accessibilityHint={isLocked ? tGen('a11y.portion_hint_upgrade') : tGen('a11y.portion_hint_select', { portion: p.label })}
                         accessibilityState={{ disabled: isGenerating || isLocked }}
                       >
                         <Text
@@ -404,7 +407,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                 </View>
 
                 {/* Flavor Pills */}
-                <Text style={[styles.label, { color: theme.textColor }]}>Flavor</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>{tGen('labels.flavor')}</Text>
                 <View style={styles.flavorPillRow}>
                   <TouchableOpacity
                     style={[
@@ -422,41 +425,41 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
                         flavor === 'auto' && styles.pillTextSelected,
                       ]}
                     >
-                      Auto
+                      {tGen('labels.auto')}
                     </Text>
                   </TouchableOpacity>
-                  {TONE_DEFINITIONS.map((t) => {
+                  {TONE_DEFINITIONS.map((td) => {
                     const isLocked = !isPremium;
                     return (
                       <TouchableOpacity
-                        key={t.id}
+                        key={td.id}
                         style={[
                           styles.flavorPill,
                           { backgroundColor: theme.backgroundColor },
-                          flavor === t.id && { backgroundColor: theme.accentColor },
+                          flavor === td.id && { backgroundColor: theme.accentColor },
                         ]}
                         onPress={() => {
                           if (isLocked) {
                             router.push({ pathname: '/paywall', params: { trigger: 'premium_feature' } });
                           } else if (!isGenerating) {
-                            setFlavor(t.id);
+                            setFlavor(td.id);
                           }
                         }}
                         disabled={isGenerating}
                         accessible={true}
                         accessibilityRole="button"
-                        accessibilityLabel={`${t.label} flavor${isLocked ? ' (Premium feature)' : ''}`}
-                        accessibilityHint={isLocked ? 'Upgrade to premium to unlock' : `Select ${t.label} writing style`}
+                        accessibilityLabel={isLocked ? tGen('a11y.flavor_premium', { flavor: td.label }) : `${td.label} flavor`}
+                        accessibilityHint={isLocked ? tGen('a11y.portion_hint_upgrade') : tGen('a11y.flavor_hint_select', { flavor: td.label })}
                         accessibilityState={{ disabled: isGenerating || isLocked }}
                       >
                         <Text
                           style={[
                             styles.flavorPillText,
                             { color: theme.textColor },
-                            flavor === t.id && styles.pillTextSelected,
+                            flavor === td.id && styles.pillTextSelected,
                           ]}
                         >
-                          {t.label}
+                          {td.label}
                         </Text>
                         {isLocked && <PremiumBadge size={8} top={2} right={2} />}
                       </TouchableOpacity>
@@ -479,7 +482,7 @@ export function ExpandableLearnCard({ isExpanded, onExpandChange, onClose }: Exp
               {isGenerating ? (
                 <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
               ) : (
-                <Text style={styles.generateButtonText}>Serve it up</Text>
+                <Text style={styles.generateButtonText}>{tGen('actions.serve_it_up')}</Text>
               )}
             </TouchableOpacity>
           </View>

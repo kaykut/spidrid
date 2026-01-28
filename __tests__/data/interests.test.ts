@@ -150,7 +150,7 @@ describe('getInterestById', () => {
     const interest = getInterestById('science');
     expect(interest).toBeDefined();
     expect(interest!.id).toBe('science');
-    expect(interest!.label).toBe('Science & Discovery');
+    expect(interest!.label).toBe('Science & Discovery 🔬');
   });
 
   it('returns undefined for invalid ID', () => {

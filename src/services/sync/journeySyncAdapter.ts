@@ -25,6 +25,7 @@ import {
 } from '../../types/journey';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'journey';
 const JOURNEY_DOC_ID = 'journey_data';
@@ -240,6 +241,8 @@ export const journeySyncAdapter: SyncAdapter<SyncableJourney> = {
   push: async (items: SyncableJourney[]): Promise<void> => {
     if (items.length === 0) {return;}
 
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');
@@ -266,6 +269,8 @@ export const journeySyncAdapter: SyncAdapter<SyncableJourney> = {
    * Pull journey data from Supabase
    */
   pull: async (): Promise<SyncableJourney[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

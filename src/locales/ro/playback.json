@@ -7,10 +7,33 @@
   "results": {
     "complete": "Complet!",
     "reading_speed": "Viteză de Citire",
-    "words_read": "Cuvinte Citite"
+    "words_read": "Cuvinte Citite",
+    "read_again": "Citește din nou",
+    "reading_complete": "Lectură finalizată!",
+    "article_complete": "Articol finalizat!",
+    "word_count": "Număr de cuvinte",
+    "comprehension": "Înțelegere",
+    "correct_answers": "Răspunsuri corecte"
   },
   "controls": {
     "play": "Redare",
-    "pause": "Pauză"
+    "pause": "Pauză",
+    "wpm_suffix": "CPM",
+    "max_wpm": "(max {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Capitolul {{number}}",
+    "continue": "Continuă lectura"
+  },
+  "errors": {
+    "article_not_found": "Articol negăsit",
+    "curriculum_not_found": "Curriculum negăsit",
+    "go_back": "Înapoi",
+    "article_locked": "Articol blocat",
+    "article_locked_desc": "Finalizați articolul anterior pentru a debloca.",
+    "generating": "Se generează articolul...",
+    "generating_desc": "Vă rugăm să așteptați în timp ce creăm articolul.",
+    "generation_failed": "Generare eșuată",
+    "generation_failed_desc": "A apărut o eroare la generarea articolului."
   }
 }

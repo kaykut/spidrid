@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -23,6 +24,7 @@ export function StatsSummary({
   transparent = false,
 }: StatsSummaryProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('content');
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
@@ -38,22 +40,22 @@ export function StatsSummary({
     <View style={styles.row}>
       <StatItem
         value={articlesRead}
-        label="Devoured"
+        label={t('stats.devoured')}
         color={theme.accentColor}
       />
       <StatItem
         value={formatNumber(totalWords)}
-        label="Words"
+        label={t('stats.words')}
         color={theme.accentColor}
       />
       <StatItem
         value={`${averageComprehension}%`}
-        label="Retention"
+        label={t('stats.retention')}
         color={JOURNEY_COLORS.success}
       />
       <StatItem
         value={bestWPM}
-        label="Best WPM"
+        label={t('stats.best_wpm')}
         color={JOURNEY_COLORS.premiumAccent}
       />
     </View>

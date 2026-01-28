@@ -42,12 +42,13 @@ describe('Language Registry', () => {
       expect(isSupported('it')).toBe(true);
     });
 
-    it('should return true for new languages (nl, pl, ro, sv, cs)', () => {
+    it('should return true for new languages (nl, pl, ro, sv, cs, tr)', () => {
       expect(isSupported('nl')).toBe(true);
       expect(isSupported('pl')).toBe(true);
       expect(isSupported('ro')).toBe(true);
       expect(isSupported('sv')).toBe(true);
       expect(isSupported('cs')).toBe(true);
+      expect(isSupported('tr')).toBe(true);
     });
 
     it('should return false for unsupported languages', () => {
@@ -85,11 +86,12 @@ describe('Language Registry', () => {
       expect(languages).toContain('ro');
       expect(languages).toContain('sv');
       expect(languages).toContain('cs');
+      expect(languages).toContain('tr');
     });
 
-    it('should have exactly 11 supported languages', () => {
+    it('should have exactly 12 supported languages', () => {
       const languages = getSupportedLanguages();
-      expect(languages.length).toBe(11);
+      expect(languages.length).toBe(12);
     });
   });
 

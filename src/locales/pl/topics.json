@@ -1,4 +1,18 @@
 {
+  "page_title": "Tematy",
+  "practice_articles": "Artykuły ćwiczeniowe",
+  "practice_desc": "Popraw swoje umiejętności szybkiego czytania",
+  "certification_tests": "Testy certyfikacyjne",
+  "certification_desc": "Pokaż swoje opanowanie",
+  "ready_badge": "Gotowe!",
+  "score_label": "Wynik: {{score}}%",
+  "best_wpm": "Najlepszy: {{wpm}} SŁ/min",
+  "progress_format": "{{completed}} z {{total}} ukończone",
+  "progress_with_avg": "{{completed}} z {{total}} ukończone · {{avg}}% średnio",
+  "a11y": {
+    "tap_to_read": "Dotknij, aby przeczytać",
+    "completed": "Ukończone"
+  },
   "science_discovery": "Nauka & Odkrycia 🔬",
   "science_discovery_desc": "Przełomowe odkrycia, które zmieniły nasz świat",
   "health_medicine": "Zdrowie & Medycyna ⚕️",

@@ -1,0 +1,24 @@
+{
+  "empty": {
+    "title": "Henüz içerik yok",
+    "subtitle": "Hızlı okumaya başlamak için makaleler, kitaplar ekleyin veya öğrenme içeriği oluşturun."
+  },
+  "filters": {
+    "all": "Tümü",
+    "books": "Kitaplar",
+    "articles": "Makaleler",
+    "learning": "Öğrenme",
+    "training": "Eğitim"
+  },
+  "history": {
+    "title": "Geçmiş",
+    "empty_title": "Henüz tamamlanmış öğe yok",
+    "empty_subtitle": "Okumayı bitirdiğiniz öğeler burada görünecektir"
+  },
+  "stats": {
+    "devoured": "Tüketilen",
+    "words": "Kelime",
+    "retention": "Kavrama",
+    "best_wpm": "En İyi WPM"
+  }
+}

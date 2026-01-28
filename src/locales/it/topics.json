@@ -1,4 +1,18 @@
 {
+  "page_title": "Argomenti",
+  "practice_articles": "Articoli di pratica",
+  "practice_desc": "Migliora le tue abilità di lettura veloce",
+  "certification_tests": "Test di certificazione",
+  "certification_desc": "Dimostra la tua padronanza",
+  "ready_badge": "Pronto!",
+  "score_label": "Punteggio: {{score}}%",
+  "best_wpm": "Migliore: {{wpm}} PPM",
+  "progress_format": "{{completed}} di {{total}} completato/i",
+  "progress_with_avg": "{{completed}} di {{total}} completato/i · {{avg}}% media",
+  "a11y": {
+    "tap_to_read": "Tocca per leggere",
+    "completed": "Completato"
+  },
   "science_discovery": "Scienza & Scoperte 🔬",
   "science_discovery_desc": "Scoperte rivoluzionarie che hanno cambiato il nostro mondo",
   "health_medicine": "Salute & Medicina ⚕️",

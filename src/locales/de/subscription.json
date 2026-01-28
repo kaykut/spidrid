@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Auf Premium upgraden",
     "reason_wpm": "Kostenlose Version ist auf {{wpm}} WPM begrenzt",
-    "reason_generation": "Kostenlose Version ist auf 3 KI-generierte Artikel pro Tag begrenzt"
+    "reason_generation": "Kostenlose Version ist auf 3 KI-generierte Artikel pro Tag begrenzt",
+    "headline": "Futter für dein Gehirn",
+    "subheadline_default": "Lass endloses Scrollen hinter dir und lerne jedes Thema in Minuten.",
+    "subheadline_daily_limit": "Du hast heute deine 2 kostenlosen Artikel genutzt. Unbegrenzt weitermachen?",
+    "subheadline_premium_portion": "Snack-, Mahlzeit- und Festmahl-Portionen erfordern Premium.",
+    "subheadline_premium_flavor": "Fakten-, Story- und Analogie-Töne erfordern Premium.",
+    "subheadline_sign_in": "Anmeldung erfordert Devoro Premium für geräteübergreifende Synchronisierung.",
+    "subheadline_wpm_limit": "Lesegeschwindigkeiten über 450 WPM erfordern Premium.",
+    "features": {
+      "unlimited_title": "Unbegrenzte KI-Artikel",
+      "unlimited_subtitle": "Keine täglichen Limits beim Lernen",
+      "sync_title": "Multi-Geräte-Sync",
+      "sync_subtitle": "Mach weiter, wo du aufgehört hast",
+      "speed_title": "Premium-Lesegeschwindigkeit",
+      "speed_subtitle": "Bis zu 1.500 WPM"
+    },
+    "plans": {
+      "yearly": "Jährlich",
+      "monthly": "Monatlich",
+      "per_month": "{{price}}/Monat",
+      "free_trial": "{{days}} Tage gratis testen",
+      "most_popular": "Beliebteste",
+      "save_percent": "{{percent}}% sparen",
+      "no_plans": "Keine Tarife verfügbar"
+    },
+    "cta": {
+      "subscribe": "Jetzt abonnieren",
+      "try_free": "{{days}} Tage gratis testen",
+      "then_price": "danach {{price}}/Jahr",
+      "price_per_year": "{{price}}/Jahr"
+    },
+    "trust": {
+      "cancel_anytime": "Jederzeit kündbar"
+    },
+    "footer": {
+      "restore": "Käufe wiederherstellen",
+      "terms": "AGB",
+      "privacy": "Datenschutz"
+    },
+    "errors": {
+      "offline": "Zum Abonnieren mit dem Internet verbinden",
+      "pricing_unavailable": "Preise nicht verfügbar",
+      "retry": "Erneut versuchen"
+    }
   },
   "benefits": {
     "max_wpm": "Lesen bis zu {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Kauf fehlgeschlagen. Bitte erneut versuchen.",
     "no_purchases": "Keine früheren Käufe gefunden.",
-    "restored_title": "Wiederhergestellt",
-    "restored_message": "Deine Käufe wurden erfolgreich wiederhergestellt.",
+    "restored_title": "Käufe wiederhergestellt!",
+    "restored_message": "Dein Abonnement wurde wiederhergestellt.",
     "error_title": "Fehler",
-    "no_purchases_title": "Keine Käufe"
+    "no_purchases_title": "Keine Käufe gefunden",
+    "already_subscribed_title": "Bereits abonniert",
+    "already_subscribed_message": "Du bist bereits Premium-Mitglied!"
   }
 }

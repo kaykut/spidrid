@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Atualizar para Premium",
     "reason_wpm": "Plano grátis limitado a {{wpm}} WPM",
-    "reason_generation": "Plano grátis limitado a 3 artigos gerados por IA por dia"
+    "reason_generation": "Plano grátis limitado a 3 artigos gerados por IA por dia",
+    "headline": "Alimente seu cérebro",
+    "subheadline_default": "Deixe a rolagem infinita para trás e aprenda qualquer assunto em minutos.",
+    "subheadline_daily_limit": "Você usou seus 2 artigos grátis de hoje. Quer acesso ilimitado?",
+    "subheadline_premium_portion": "As porções Lanche, Refeição e Banquete requerem Premium.",
+    "subheadline_premium_flavor": "Os tons Fato, História e Analogia requerem Premium.",
+    "subheadline_sign_in": "O login requer Devoro Premium para sincronização entre dispositivos.",
+    "subheadline_wpm_limit": "Velocidades de leitura acima de 450 WPM requerem Premium.",
+    "features": {
+      "unlimited_title": "Artigos de IA ilimitados",
+      "unlimited_subtitle": "Sem limites diários de aprendizado",
+      "sync_title": "Sincronização entre dispositivos",
+      "sync_subtitle": "Continue de onde parou",
+      "speed_title": "Velocidade de leitura Premium",
+      "speed_subtitle": "Até 1.500 WPM"
+    },
+    "plans": {
+      "yearly": "Anual",
+      "monthly": "Mensal",
+      "per_month": "{{price}}/mês",
+      "free_trial": "{{days}} dias de teste grátis",
+      "most_popular": "Mais popular",
+      "save_percent": "Economize {{percent}}%",
+      "no_plans": "Nenhum plano disponível"
+    },
+    "cta": {
+      "subscribe": "Assinar agora",
+      "try_free": "Teste grátis por {{days}} dias",
+      "then_price": "depois {{price}}/ano",
+      "price_per_year": "{{price}}/ano"
+    },
+    "trust": {
+      "cancel_anytime": "Cancele quando quiser"
+    },
+    "footer": {
+      "restore": "Restaurar compras",
+      "terms": "Termos",
+      "privacy": "Privacidade"
+    },
+    "errors": {
+      "offline": "Conecte-se à internet para assinar",
+      "pricing_unavailable": "Preços indisponíveis",
+      "retry": "Tentar novamente"
+    }
   },
   "benefits": {
     "max_wpm": "Leia até {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Compra falhou. Por favor, tente novamente.",
     "no_purchases": "Nenhuma compra anterior encontrada.",
-    "restored_title": "Restaurado",
-    "restored_message": "Suas compras foram restauradas com sucesso.",
+    "restored_title": "Compras restauradas!",
+    "restored_message": "Sua assinatura foi restaurada.",
     "error_title": "Erro",
-    "no_purchases_title": "Sem Compras"
+    "no_purchases_title": "Nenhuma compra encontrada",
+    "already_subscribed_title": "Já assinante",
+    "already_subscribed_message": "Você já é um membro premium!"
   }
 }

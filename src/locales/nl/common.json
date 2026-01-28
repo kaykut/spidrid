@@ -10,8 +10,13 @@
     "continue": "Doorgaan",
     "get_started": "Aan de slag",
     "import": "Importeren",
-    "save_and_read": "Opslaan & Lezen"
+    "save_and_read": "Opslaan & Lezen",
+    "back": "Terug",
+    "delete": "Verwijderen",
+    "try_again": "Opnieuw proberen"
   },
   "or": "of",
-  "wpm_suffix": "WPM"
+  "wpm_suffix": "WPM",
+  "error": "Fout",
+  "words": "woorden"
 }

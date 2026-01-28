@@ -3,6 +3,7 @@
  *
  * Singleton registry mapping language codes to adapter instances.
  * Provides lookup functions for adapter retrieval and language support checking.
+ * Supports 12 languages: en, es, fr, de, pt, it, nl, pl, ro, sv, cs, tr
  */
 
 import { czechAdapter } from './adapters/CzechAdapter';
@@ -17,6 +18,7 @@ import { portugueseAdapter } from './adapters/PortugueseAdapter';
 import { romanianAdapter } from './adapters/RomanianAdapter';
 import { spanishAdapter } from './adapters/SpanishAdapter';
 import { swedishAdapter } from './adapters/SwedishAdapter';
+import { turkishAdapter } from './adapters/TurkishAdapter';
 import { LanguageAdapter, SupportedLanguage } from './types';
 
 /**
@@ -36,6 +38,7 @@ const adapters: Record<SupportedLanguage, LanguageAdapter> = {
   ro: romanianAdapter,
   sv: swedishAdapter,
   cs: czechAdapter,
+  tr: turkishAdapter,
 };
 
 /**

@@ -13,24 +13,25 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { animateLayout } from '../../constants/animations';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
-import { extractFromUrl, createFromText, extractFromEbook } from '../../services/contentExtractor';
-import { useContentStore } from '../../store/contentStore';
+import { enqueueImport } from '../../services/contentProcessingQueue';
 import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
-import { usePdfExtractor } from '../PdfExtractorProvider';
 
-const READ_OPTIONS = [
-  { id: 'url', icon: 'link-outline', label: 'A webpage' },
-  { id: 'text', icon: 'clipboard-outline', label: 'Plain Text' },
-  { id: 'ebook', icon: 'book-outline', label: 'Epub & PDF' },
+// Read option keys - labels are looked up via i18n
+const READ_OPTION_KEYS = [
+  { id: 'url', icon: 'link-outline', key: 'webpage' },
+  { id: 'text', icon: 'clipboard-outline', key: 'text' },
+  { id: 'ebook', icon: 'book-outline', key: 'ebook' },
 ] as const;
 
-type ReadOptionId = (typeof READ_OPTIONS)[number]['id'];
+type ReadOptionId = (typeof READ_OPTION_KEYS)[number]['id'];
 
 interface ExpandableReadCardProps {
   isExpanded: boolean;
@@ -45,8 +46,8 @@ const getReadOptionCardWidth = () => {
 
 export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: ExpandableReadCardProps) {
   const { theme } = useTheme();
-  const { extractPdf } = usePdfExtractor();
-  const { addContent } = useContentStore();
+  const { t } = useTranslation('addContent');
+  const { t: tCommon } = useTranslation('common');
 
   const [readOption, setReadOption] = useState<ReadOptionId | null>(null);
   const [inputValue, setInputValue] = useState('');
@@ -105,25 +106,21 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
   const handleImportUrl = async () => {
     if (!inputValue.trim()) {return;}
     setIsLoading(true);
-    const result = await extractFromUrl(inputValue.trim());
+    const saved = enqueueImport(
+      { type: 'url', url: inputValue.trim() },
+      { title: inputValue.trim(), source: 'url', sourceUrl: inputValue.trim() }
+    );
     setIsLoading(false);
-    if (result.success && result.content) {
-      const saved = addContent(result.content);
-      handleImportSuccess(saved.id);
-    } else {
-      Alert.alert('Import Failed', result.error || 'Could not extract content from URL');
-    }
+    handleImportSuccess(saved.id);
   };
 
   const handleImportText = () => {
     if (!inputValue.trim()) {return;}
-    const result = createFromText(inputValue.trim());
-    if (result.success && result.content) {
-      const saved = addContent(result.content);
-      handleImportSuccess(saved.id);
-    } else {
-      Alert.alert('Import Failed', result.error || 'Could not process text');
-    }
+    const saved = enqueueImport(
+      { type: 'text', text: inputValue.trim() },
+      { title: inputValue.trim().split('\n')[0] || t('read.options.text'), source: 'text' }
+    );
+    handleImportSuccess(saved.id);
   };
 
   const handlePickEbook = async () => {
@@ -134,18 +131,40 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
       });
       if (result.canceled) {return;}
       const asset = result.assets[0];
-      setIsLoading(true);
-      const importResult = await extractFromEbook(asset.uri, asset.name, { pdfExtractor: extractPdf });
-      setIsLoading(false);
-      if (importResult.success && importResult.content) {
-        const saved = addContent(importResult.content);
-        handleImportSuccess(saved.id);
-      } else {
-        Alert.alert('Import Failed', importResult.error || 'Could not extract content');
+      const extension = asset.name.toLowerCase().split('.').pop();
+      if (extension !== 'epub' && extension !== 'pdf') {
+        Alert.alert(t('errors.import_failed'), t('errors.extract_content'));
+        return;
       }
+
+      setIsLoading(true);
+      const importsDirectory = new FileSystem.Directory(FileSystem.Paths.document, 'imports');
+      importsDirectory.create({ intermediates: true, idempotent: true });
+
+      const destinationFile = new FileSystem.File(importsDirectory, `${Date.now()}-${asset.name}`);
+      const sourceFile = new FileSystem.File(asset.uri);
+      sourceFile.copy(destinationFile);
+
+      const saved = enqueueImport(
+        {
+          type: 'file',
+          uri: destinationFile.uri,
+          fileName: asset.name,
+          mimeType: asset.mimeType,
+          source: extension === 'pdf' ? 'pdf' : 'epub',
+        },
+        {
+          title: asset.name,
+          source: extension === 'pdf' ? 'pdf' : 'epub',
+          fileName: asset.name,
+        }
+      );
+
+      setIsLoading(false);
+      handleImportSuccess(saved.id);
     } catch {
       setIsLoading(false);
-      Alert.alert('Error', 'Failed to pick document');
+      Alert.alert(tCommon('error'), t('errors.pick_document'));
     }
   };
 
@@ -162,9 +181,9 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
           <Ionicons name="book-outline" size={SIZES.iconLg} color={theme.accentColor} />
         </View>
         <View style={styles.textContainer}>
-          <Text style={[styles.title, { color: theme.textColor }]}>Read</Text>
+          <Text style={[styles.title, { color: theme.textColor }]}>{t('read.title')}</Text>
           <Text style={[styles.description, { color: theme.textColor }]}>
-            Speed read your own articles or books from PDFs, EPUBs, or links
+            {t('read.desc')}
           </Text>
         </View>
         <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
@@ -175,7 +194,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
       {isExpanded && (
           <View style={styles.expandedContent}>
             <View style={styles.optionRow}>
-              {READ_OPTIONS.map((option) => (
+              {READ_OPTION_KEYS.map((option) => (
                 <TouchableOpacity
                   key={option.id}
                   style={[
@@ -203,7 +222,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                     ]}
                     numberOfLines={2}
                   >
-                    {option.label}
+                    {t(`read.options.${option.key}`)}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -214,7 +233,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                 {readOption === 'url' ? (
                   <TextInput
                     style={[styles.input, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
-                    placeholder="Enter URL (e.g., https://example.com/article)"
+                    placeholder={t('read.placeholders.url')}
                     placeholderTextColor={`${theme.textColor}60`}
                     value={inputValue}
                     onChangeText={setInputValue}
@@ -227,7 +246,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                 ) : (
                   <TextInput
                     style={[styles.textArea, { backgroundColor: theme.backgroundColor, color: theme.textColor }]}
-                    placeholder="Paste your text here..."
+                    placeholder={t('read.placeholders.text')}
                     placeholderTextColor={`${theme.textColor}60`}
                     value={inputValue}
                     onChangeText={setInputValue}
@@ -247,7 +266,7 @@ export function ExpandableReadCard({ isExpanded, onExpandChange, onClose }: Expa
                   {isLoading ? (
                     <ActivityIndicator color={JOURNEY_COLORS.textPrimary} />
                   ) : (
-                    <Text style={styles.submitButtonText}>{readOption === 'url' ? 'Import' : 'Save & Read'}</Text>
+                    <Text style={styles.submitButtonText}>{readOption === 'url' ? tCommon('actions.import') : tCommon('actions.save_and_read')}</Text>
                   )}
                 </TouchableOpacity>
               </View>

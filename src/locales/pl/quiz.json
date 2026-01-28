@@ -5,6 +5,15 @@
   "question_progress": "Pytanie {{current}} z {{total}}",
   "no_quiz_available": "Brak Dostępnego Testu",
   "no_quiz_desc": "Ta treść nie zawiera pytań testowych.",
+  "true": "Prawda",
+  "false": "Fałsz",
+  "correct": "Dobrze!",
+  "answer_was": "Odpowiedź: {{value}}{{unit}}",
+  "submit_answer": "Wyślij odpowiedź",
+  "a11y": {
+    "select_true": "Dotknij dwukrotnie, aby wybrać Prawda",
+    "select_false": "Dotknij dwukrotnie, aby wybrać Fałsz"
+  },
   "results": {
     "complete": "Ukończono!",
     "comprehension": "Zrozumienie",

@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Porție",
     "flavor": "Aromă",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Durata citirii",
+    "writing_style": "Stil de scriere"
   },
   "placeholders": {
-    "topic": "Despre ce vrei să înveți?"
+    "topic": "Despre ce vrei să înveți?",
+    "topic_examples": "ex. Istoria cafelei, Cum se formează găurile negre, De ce torc pisicile...",
+    "goal_examples": "ex. Învață bazele învățării automate, Înțelege criptomonedele, Stăpânește bazele gătitului..."
   },
   "actions": {
     "adjust_duration_tone": "Ajustează durata și tonul",
@@ -51,5 +55,26 @@
     "portion_hint_select": "Selectează porția {{portion}}",
     "flavor_premium": "Aromă {{flavor}} (funcție Premium)",
     "flavor_hint_select": "Selectează stilul {{flavor}}"
+  },
+  "modal": {
+    "generate_article": "Generează articol",
+    "create_curriculum": "Creează curriculum",
+    "what_learn_about": "Despre ce vrei să înveți?",
+    "what_learn": "Ce vrei să înveți?",
+    "how_many_articles": "Câte articole?",
+    "estimated_words": "~{{words}} cuvinte la ritmul tău",
+    "next": "Următorul",
+    "generate_button": "Generează"
+  },
+  "wizard": {
+    "step_progress": "Pasul {{current}} din {{total}}",
+    "min_chars": "(min. 10 caractere)",
+    "review_title": "Verifică-ți planul",
+    "summary_goal": "Obiectiv",
+    "summary_articles": "Articole",
+    "summary_style": "Stil",
+    "summary_duration": "Durată",
+    "quiz_toggle": "Testează înțelegerea",
+    "quiz_hint": "Include 5 întrebări quiz per articol"
   }
 }

@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExpandableReadCard, ExpandableLearnCard, MiniTopicCard } from '../components/addContent';
 import { GlassView } from '../components/common/GlassView';
@@ -28,16 +29,17 @@ import { TYPOGRAPHY, FONT_WEIGHTS } from '../constants/typography';
 import { TOPICS, getPracticeArticles } from '../data/curriculum';
 import { useLearningStore } from '../store/learningStore';
 
-// Calculate topic card width for 3-per-row grid inside Practice card
+// Calculate topic card width for 2-per-row grid inside Practice card
 const getTopicCardWidth = () => {
   const screenWidth = Dimensions.get('window').width;
-  // screenWidth - screen padding (SPACING.lg * 2) - topic grid padding (SPACING.md * 2) - gaps (SPACING.sm * 2)
-  return (screenWidth - SPACING.lg * 2 - SPACING.md * 2 - SPACING.sm * 2) / 3;
+  // screenWidth - screen padding (SPACING.lg * 2) - topic grid padding (SPACING.md * 2) - gap (SPACING.sm)
+  return (screenWidth - SPACING.lg * 2 - SPACING.md * 2 - SPACING.sm) / 2;
 };
 
 export default function AddContentModal() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation('addContent');
   const { getTopicProgress, getArticleProgress, startArticle } = useLearningStore();
   const [isPracticeExpanded, setIsPracticeExpanded] = useState(false);
   const [isReadExpanded, setIsReadExpanded] = useState(false);
@@ -184,9 +186,9 @@ export default function AddContentModal() {
               />
             </View>
             <View style={styles.menuTextContainer}>
-              <Text style={[styles.menuTitle, { color: theme.textColor }]} testID="add-content.practice-text">Practice</Text>
+              <Text style={[styles.menuTitle, { color: theme.textColor }]} testID="add-content.practice-text">{t('practice.title')}</Text>
               <Text style={[styles.menuDescription, { color: theme.textColor }]}>
-                Choose from pre-generated content to practice speed reading
+                {t('practice.desc')}
               </Text>
             </View>
             <Animated.View style={{ transform: [{ rotate: chevronRotation }] }}>
@@ -252,7 +254,7 @@ export default function AddContentModal() {
           { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
         ]}
       >
-        New Content
+        {t('page_title')}
       </Text>
 
       {/* Content */}

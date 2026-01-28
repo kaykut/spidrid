@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
@@ -19,11 +20,12 @@ interface ChapterPauseOverlayProps {
  */
 export function ChapterPauseOverlay({ chapter, onContinue }: ChapterPauseOverlayProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('playback');
 
   return (
     <View style={styles.container}>
       <Text style={[styles.chapterLabel, { color: theme.accentColor }]}>
-        Chapter {chapter.index}
+        {t('chapter_pause.chapter', { number: chapter.index })}
       </Text>
       <Text
         style={[styles.chapterTitle, { color: theme.textColor }]}
@@ -36,7 +38,7 @@ export function ChapterPauseOverlay({ chapter, onContinue }: ChapterPauseOverlay
         onPress={onContinue}
         activeOpacity={0.8}
       >
-        <Text style={styles.continueText}>Continue Reading</Text>
+        <Text style={styles.continueText}>{t('chapter_pause.continue')}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Přejít na Premium",
     "reason_wpm": "Bezplatná verze je omezena na {{wpm}} WPM",
-    "reason_generation": "Bezplatná verze je omezena na 3 AI články denně"
+    "reason_generation": "Bezplatná verze je omezena na 3 AI články denně",
+    "headline": "Nakrm svůj mozek",
+    "subheadline_default": "Nech nekonečné scrollování za sebou a nauč se jakékoliv téma během minut.",
+    "subheadline_daily_limit": "Dnes jsi využil/a své 2 bezplatné články. Chceš neomezený přístup?",
+    "subheadline_premium_portion": "Porce Svačina, Jídlo a Hostina vyžadují Premium.",
+    "subheadline_premium_flavor": "Styly Fakt, Příběh a Analogie vyžadují Premium.",
+    "subheadline_sign_in": "Přihlášení vyžaduje Devoro Premium pro synchronizaci mezi zařízeními.",
+    "subheadline_wpm_limit": "Rychlosti čtení nad 450 WPM vyžadují Premium.",
+    "features": {
+      "unlimited_title": "Neomezené AI články",
+      "unlimited_subtitle": "Žádné denní limity na učení",
+      "sync_title": "Synchronizace mezi zařízeními",
+      "sync_subtitle": "Pokračuj, kde jsi skončil/a",
+      "speed_title": "Premium rychlost čtení",
+      "speed_subtitle": "Až 1 500 WPM"
+    },
+    "plans": {
+      "yearly": "Roční",
+      "monthly": "Měsíční",
+      "per_month": "{{price}}/měs.",
+      "free_trial": "{{days}} dní zdarma na vyzkoušení",
+      "most_popular": "Nejoblíbenější",
+      "save_percent": "Ušetři {{percent}}%",
+      "no_plans": "Žádné plány k dispozici"
+    },
+    "cta": {
+      "subscribe": "Předplatit nyní",
+      "try_free": "Vyzkoušej {{days}} dní zdarma",
+      "then_price": "poté {{price}}/rok",
+      "price_per_year": "{{price}}/rok"
+    },
+    "trust": {
+      "cancel_anytime": "Zruš kdykoli"
+    },
+    "footer": {
+      "restore": "Obnovit nákupy",
+      "terms": "Podmínky",
+      "privacy": "Soukromí"
+    },
+    "errors": {
+      "offline": "Pro předplatné se připoj k internetu",
+      "pricing_unavailable": "Ceny nejsou k dispozici",
+      "retry": "Zkusit znovu"
+    }
   },
   "benefits": {
     "max_wpm": "Čtení až do {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Nákup selhal. Zkuste to prosím znovu.",
     "no_purchases": "Nenalezeny žádné předchozí nákupy.",
-    "restored_title": "Obnoveno",
-    "restored_message": "Vaše nákupy byly úspěšně obnoveny.",
+    "restored_title": "Nákupy obnoveny!",
+    "restored_message": "Tvé předplatné bylo obnoveno.",
     "error_title": "Chyba",
-    "no_purchases_title": "Žádné nákupy"
+    "no_purchases_title": "Nenalezeny žádné nákupy",
+    "already_subscribed_title": "Již předplaceno",
+    "already_subscribed_message": "Již jsi prémiovým členem!"
   }
 }

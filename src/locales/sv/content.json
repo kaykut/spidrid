@@ -9,5 +9,16 @@
     "articles": "Artiklar",
     "learning": "Lärande",
     "training": "Träning"
+  },
+  "history": {
+    "title": "Historik",
+    "empty_title": "Inga slutförda objekt ännu",
+    "empty_subtitle": "Objekt du läser klart visas här"
+  },
+  "stats": {
+    "devoured": "Uppslukat",
+    "words": "Ord",
+    "retention": "Retention",
+    "best_wpm": "Bästa OPM"
   }
 }

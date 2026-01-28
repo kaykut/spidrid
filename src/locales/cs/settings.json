@@ -4,7 +4,8 @@
     "theme": "Motiv",
     "your_info": "Vaše údaje",
     "reading": "Čtení",
-    "developer": "Vývojář"
+    "developer": "Vývojář",
+    "language": "Jazyk"
   },
   "themes": {
     "dark": "Tmavý",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Nástroje pro vývojáře"
+  },
+  "language": {
+    "app_language": "Jazyk aplikace",
+    "app_language_desc": "Jazyk rozhraní aplikace"
   }
 }

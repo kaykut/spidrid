@@ -2,6 +2,7 @@ import { renderHook } from '@testing-library/react-native';
 import * as Linking from 'expo-linking';
 import { supabase } from '../../src/services/supabase';
 import { useAuthDeepLink } from '../../src/hooks/useAuthDeepLink';
+import { useAuthStore } from '../../src/store/authStore';
 
 // Get the mocked modules
 jest.mock('expo-linking');
@@ -23,6 +24,7 @@ describe('useAuthDeepLink', () => {
     (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(null);
     (mockLinking.addEventListener as jest.Mock).mockReturnValue({ remove: jest.fn() });
     (mockSupabase.auth.setSession as jest.Mock).mockResolvedValue({ data: { session: null }, error: null });
+    useAuthStore.setState({ pendingOAuthProvider: null, authError: null });
   });
 
   it('should check for initial URL on mount', async () => {
@@ -111,6 +113,7 @@ describe('useAuthDeepLink', () => {
 
   it('should call signInWithOAuth when identity_already_exists error occurs', async () => {
     const errorUrl = 'devoro://auth/callback#error=identity_already_exists&error_description=Identity+is+already+linked';
+    useAuthStore.setState({ pendingOAuthProvider: 'google' });
     (mockLinking.getInitialURL as jest.Mock).mockResolvedValue(errorUrl);
     (mockSupabase.auth.signInWithOAuth as jest.Mock).mockResolvedValue({ data: { url: 'https://google.com/oauth' }, error: null });
 

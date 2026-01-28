@@ -159,6 +159,7 @@ export function useSyncManager(): SyncManagerState & SyncManagerActions {
 // =============================================================================
 
 let autoSyncUnsubscribers: (() => void)[] = [];
+let autoPushTimeout: NodeJS.Timeout | null = null;
 
 /**
  * Initialize auto-sync subscriptions.
@@ -191,7 +192,10 @@ export function initializeAutoSync(): void {
       if (isLoggedIn && isPremium) {
         // Debounced push - clear any existing timeout and set new one
         // This uses a simple approach; the hook provides better control
-        setTimeout(() => {
+        if (autoPushTimeout) {
+          clearTimeout(autoPushTimeout);
+        }
+        autoPushTimeout = setTimeout(() => {
           pushAllChanges().catch((error) => {
             console.error('[AutoSync] Push failed:', error);
           });
@@ -212,4 +216,8 @@ export function cleanupAutoSync(): void {
     unsubscribe();
   }
   autoSyncUnsubscribers = [];
+  if (autoPushTimeout) {
+    clearTimeout(autoPushTimeout);
+    autoPushTimeout = null;
+  }
 }

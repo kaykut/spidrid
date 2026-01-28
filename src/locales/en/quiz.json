@@ -5,6 +5,15 @@
   "question_progress": "Question {{current}} of {{total}}",
   "no_quiz_available": "No Quiz Available",
   "no_quiz_desc": "This content does not have quiz questions.",
+  "true": "True",
+  "false": "False",
+  "correct": "Correct!",
+  "answer_was": "Answer: {{value}}{{unit}}",
+  "submit_answer": "Submit Answer",
+  "a11y": {
+    "select_true": "Double tap to select True",
+    "select_false": "Double tap to select False"
+  },
   "results": {
     "complete": "Complete!",
     "comprehension": "Comprehension",

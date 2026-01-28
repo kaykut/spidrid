@@ -7,8 +7,10 @@
  */
 
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
-import { TYPOGRAPHY } from '../../constants/typography';
+import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
+import { JOURNEY_COLORS } from '../../data/themes';
 import { useTheme } from '../common/ThemeProvider';
 import type { PurchasesPackage } from '../../services/purchases';
 
@@ -28,6 +30,7 @@ export function PlanSelector({
   isLoading,
 }: PlanSelectorProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('subscription');
 
   if (isLoading) {
     return (
@@ -43,7 +46,7 @@ export function PlanSelector({
     return (
       <View style={styles.noPlansContainer}>
         <Text style={[styles.noPlansText, { color: theme.textSecondaryColor }]}>
-          No plans available
+          {t('paywall.plans.no_plans')}
         </Text>
       </View>
     );
@@ -81,18 +84,26 @@ export function PlanSelector({
           accessibilityRole="button"
           accessibilityState={{ selected: selectedPlan === 'yearly' }}
         >
-          <Text style={[styles.planLabel, { color: theme.textColor }]}>Yearly</Text>
+          {/* Most Popular label - centered above card */}
+          <View style={[styles.mostPopularLabel, { backgroundColor: theme.accentColor }]}>
+            <Text style={styles.mostPopularText}>{t('paywall.plans.most_popular')}</Text>
+          </View>
+          {/* Savings badge - top right corner */}
+          <View style={styles.savingsBadge}>
+            <Text style={styles.savingsBadgeText}>{t('paywall.plans.save_percent', { percent: 17 })}</Text>
+          </View>
+          <Text style={[styles.planLabel, { color: theme.textColor }]}>{t('paywall.plans.yearly')}</Text>
           <Text style={[styles.planPrice, { color: theme.textColor }]}>
             {yearlyPackage.product.priceString}
           </Text>
           {yearlyMonthlyEquivalent && (
             <Text style={[styles.planEquivalent, { color: theme.textSecondaryColor }]}>
-              {currencySymbol}{yearlyMonthlyEquivalent}/mo
+              {t('paywall.plans.per_month', { price: `${currencySymbol}${yearlyMonthlyEquivalent}` })}
             </Text>
           )}
           {trialDays && (
             <Text style={[styles.planTrial, { color: theme.accentColor }]}>
-              {trialDays} day free trial
+              {t('paywall.plans.free_trial', { days: trialDays })}
             </Text>
           )}
         </TouchableOpacity>
@@ -115,7 +126,7 @@ export function PlanSelector({
           accessibilityRole="button"
           accessibilityState={{ selected: selectedPlan === 'monthly' }}
         >
-          <Text style={[styles.planLabel, { color: theme.textColor }]}>Monthly</Text>
+          <Text style={[styles.planLabel, { color: theme.textColor }]}>{t('paywall.plans.monthly')}</Text>
           <Text style={[styles.planPrice, { color: theme.textColor }]}>
             {monthlyPackage.product.priceString}
           </Text>
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     gap: SPACING.sm,
+    marginTop: SPACING.lg, // Room for "Most Popular" label above card
   },
   loadingContainer: {
     height: 120,
@@ -145,9 +157,12 @@ const styles = StyleSheet.create({
   },
   planCard: {
     flex: 1,
-    padding: SPACING.md,
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.sm,
     borderRadius: COMPONENT_RADIUS.button,
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 90,
   },
   planLabel: {
     ...TYPOGRAPHY.cardSubtitle,
@@ -163,5 +178,34 @@ const styles = StyleSheet.create({
   planTrial: {
     ...TYPOGRAPHY.caption,
     marginTop: SPACING.xs,
+  },
+  savingsBadge: {
+    position: 'absolute',
+    bottom: -SPACING.sm,
+    alignSelf: 'center',
+    backgroundColor: JOURNEY_COLORS.success,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xxs,
+    borderRadius: COMPONENT_RADIUS.chip,
+    zIndex: 1,
+  },
+  savingsBadgeText: {
+    ...TYPOGRAPHY.caption,
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.semibold,
+  },
+  mostPopularLabel: {
+    position: 'absolute',
+    top: -SPACING.lg,
+    alignSelf: 'center',
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xxs,
+    borderRadius: COMPONENT_RADIUS.chip,
+    zIndex: 2,
+  },
+  mostPopularText: {
+    ...TYPOGRAPHY.caption,
+    color: JOURNEY_COLORS.textPrimary,
+    fontWeight: FONT_WEIGHTS.semibold,
   },
 });

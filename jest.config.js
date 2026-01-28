@@ -9,6 +9,28 @@ module.exports = {
     '!src/types/**/*',
     '!src/app/**/_layout.tsx',
     '!src/app/testing.tsx', // Dev-only component gallery
+    // Exclude locale-specific curriculum data (pure data exports, 10 locales × 15 files)
+    '!src/data/curriculum/cs/**',
+    '!src/data/curriculum/de/**',
+    '!src/data/curriculum/es/**',
+    '!src/data/curriculum/fr/**',
+    '!src/data/curriculum/it/**',
+    '!src/data/curriculum/nl/**',
+    '!src/data/curriculum/pl/**',
+    '!src/data/curriculum/pt/**',
+    '!src/data/curriculum/ro/**',
+    '!src/data/curriculum/sv/**',
+    // Exclude static data modules that are exercised indirectly
+    '!src/data/curriculum/topics.ts',
+    // Exclude dev-only screens
+    '!src/app/dev-tools.tsx',
+    '!src/app/debug-storage.tsx',
+    '!src/app/reader/long-words.tsx', // Dev-only RSVP stress test
+    '!src/components/common/SplashOverlay.tsx', // Animation-only visual component
+    '!src/app/+not-found.tsx', // Expo router fallback screen
+    '!src/data/interests.ts', // Static data export
+    '!src/data/curriculum.ts', // Re-export module (covered via data/curriculum index)
+    '!src/**/index.ts', // Re-export barrels
   ],
   coverageThreshold: {
     global: {

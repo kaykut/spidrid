@@ -130,6 +130,9 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
     // 1. Imported Content (books & articles)
     // =========================================================================
     for (const content of importedContent) {
+      const processingStatus = content.processingStatus ?? 'ready';
+      const isProcessing = processingStatus === 'processing';
+      const processingError = processingStatus === 'error';
       const pageCount = estimatePageCount(content.wordCount);
       const isBook =
         content.source === 'epub' ||
@@ -156,6 +159,9 @@ export const useContentListStore = create<ContentListState>((set, get) => ({
         pageCount: isBook ? pageCount : undefined,
         state,
         progress: Math.round(content.readProgress * 100),
+        isProcessing,
+        processingProgress: content.processingProgress,
+        processingError: processingError ? content.processingError : undefined,
         hasQuiz: false,
         quizPending: false,
         addedAt: content.createdAt,

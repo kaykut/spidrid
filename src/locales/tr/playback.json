@@ -1,0 +1,39 @@
+{
+  "default_title": "Okuma",
+  "empty": {
+    "content_not_found": "İçerik Bulunamadı",
+    "content_not_loaded": "İstenen içerik yüklenemedi."
+  },
+  "results": {
+    "complete": "Tamamlandı!",
+    "reading_complete": "Okuma Tamamlandı!",
+    "article_complete": "Makale Tamamlandı!",
+    "reading_speed": "Okuma Hızı",
+    "words_read": "Okunan Kelime Sayısı",
+    "word_count": "Kelime Sayısı",
+    "comprehension": "Kavrama",
+    "correct_answers": "Doğru Cevaplar",
+    "read_again": "Tekrar Oku"
+  },
+  "controls": {
+    "play": "Oynat",
+    "pause": "Duraklat",
+    "wpm_suffix": "WPM",
+    "max_wpm": "(maks {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "{{number}}. Bölüm",
+    "continue": "Okumaya Devam Et"
+  },
+  "errors": {
+    "article_not_found": "Makale bulunamadı",
+    "curriculum_not_found": "Müfredat bulunamadı",
+    "go_back": "Geri dön",
+    "article_locked": "Makale Kilitli",
+    "article_locked_desc": "Bunun kilidini açmak için önceki makaleyi tamamlayın.",
+    "generating": "Makale Oluşturuluyor...",
+    "generating_desc": "Lütfen makaleniz oluşturulurken bekleyin.",
+    "generation_failed": "Oluşturma Başarısız",
+    "generation_failed_desc": "Makale oluşturulurken bir hata oluştu."
+  }
+}

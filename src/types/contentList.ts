@@ -65,6 +65,15 @@ export interface ContentListItem {
   /** Reading progress (0-100) */
   progress: number;
 
+  /** Whether item is still processing (import pipeline) */
+  isProcessing?: boolean;
+
+  /** Processing progress (0-100) for EPUB/PDF imports */
+  processingProgress?: number;
+
+  /** Processing error message, if any */
+  processingError?: string;
+
   /** Quiz score if completed (0-100) */
   quizScore?: number;
 

@@ -41,7 +41,7 @@ function resolveTrainingContent(contentId: string): ResolvedContent | null {
  */
 function resolveImportedContent(contentId: string): ResolvedContent | null {
   const content = useContentStore.getState().getContentById(contentId);
-  if (!content) {
+  if (!content || (content.processingStatus ?? 'ready') !== 'ready') {
     return null;
   }
 

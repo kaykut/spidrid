@@ -12,6 +12,45 @@ import { Alert } from 'react-native';
 import { ThemeProvider } from '../../../../src/components/common/ThemeProvider';
 import { CurriculumCreationWizard } from '../../../../src/components/learn/curriculum/CurriculumCreationWizard';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, params?: Record<string, unknown>) => {
+      const translations: Record<string, string> = {
+        'modal.create_curriculum': 'Create Curriculum',
+        'modal.what_learn': 'What do you want to learn?',
+        'placeholders.goal_examples': 'e.g., Learn machine learning fundamentals',
+        'wizard.min_chars': 'min chars',
+        'wizard.step_progress': `Step ${params?.current ?? ''}/${params?.total ?? ''}`,
+        'modal.how_many_articles': 'How many articles?',
+        'wizard.articles_helper': 'More articles = deeper coverage of your topic',
+        'labels.writing_style': 'Writing Style',
+        'labels.reading_duration': 'Reading Duration',
+        'wizard.per_article': 'Per article',
+        'wizard.words_per_article': `~${params?.words ?? ''} words per article`,
+        'wizard.total_time': `Total: ~${params?.minutes ?? ''} min to complete this curriculum`,
+        'wizard.review_title': 'Review your curriculum',
+        'wizard.summary_goal': 'Goal',
+        'wizard.summary_articles': 'Articles',
+        'wizard.summary_style': 'Style',
+        'wizard.summary_duration': 'Duration',
+        'wizard.quiz_toggle': 'Test comprehension',
+        'wizard.quiz_hint': 'Include 5 quiz questions after each article',
+        'min_suffix': 'min',
+        'common:actions.try_again': 'Try again',
+        'common:actions.back': 'Back',
+        'modal.next': 'Next',
+      };
+
+      if (key === 'article') {
+        const count = Number(params?.count ?? 0);
+        return count === 1 ? `${count} article` : `${count} articles`;
+      }
+
+      return translations[key] || key;
+    },
+  }),
+}));
+
 // Mock @expo/vector-icons
 jest.mock('@expo/vector-icons', () => {
   const { Text } = require('react-native');

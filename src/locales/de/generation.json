@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Portion",
     "flavor": "Stil",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Lesedauer",
+    "writing_style": "Schreibstil"
   },
   "placeholders": {
-    "topic": "Worüber möchtest du etwas lernen?"
+    "topic": "Worüber möchtest du etwas lernen?",
+    "topic_examples": "z.B. Die Geschichte des Kaffees, Wie entstehen schwarze Löcher, Warum schnurren Katzen...",
+    "goal_examples": "z.B. Grundlagen des maschinellen Lernens lernen, Kryptowährung verstehen, Kochgrundlagen meistern..."
   },
   "actions": {
     "adjust_duration_tone": "Dauer und Ton anpassen",
@@ -50,5 +54,30 @@
     "portion_hint_select": "{{portion}}-Portion auswählen",
     "flavor_premium": "{{flavor}}-Stil (Premium-Funktion)",
     "flavor_hint_select": "{{flavor}}-Schreibstil auswählen"
+  },
+  "modal": {
+    "generate_article": "Artikel generieren",
+    "create_curriculum": "Lehrplan erstellen",
+    "what_learn_about": "Worüber möchtest du lernen?",
+    "what_learn": "Was möchtest du lernen?",
+    "how_many_articles": "Wie viele Artikel?",
+    "estimated_words": "~{{words}} Wörter bei deinem Tempo",
+    "next": "Weiter",
+    "generate_button": "Generieren"
+  },
+  "wizard": {
+    "step_progress": "Schritt {{current}} von {{total}}",
+    "min_chars": "(mind. 10 Zeichen)",
+    "articles_helper": "Mehr Artikel = tiefere Abdeckung deines Themas",
+    "per_article": "Pro Artikel",
+    "words_per_article": "~{{words}} Wörter pro Artikel bei deinem Tempo",
+    "total_time": "Gesamt: ~{{minutes}} Min. ({{words}} Wörter)",
+    "review_title": "Überprüfe deinen Lehrplan",
+    "summary_goal": "Ziel",
+    "summary_articles": "Artikel",
+    "summary_style": "Stil",
+    "summary_duration": "Dauer",
+    "quiz_toggle": "Verständnis testen",
+    "quiz_hint": "5 Quizfragen pro Artikel einschließen"
   }
 }

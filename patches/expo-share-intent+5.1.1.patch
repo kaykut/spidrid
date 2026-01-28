@@ -1,0 +1,230 @@
+diff --git a/node_modules/expo-share-intent/android/src/main/java/expo/modules/shareintent/ExpoShareIntentModule.kt b/node_modules/expo-share-intent/android/src/main/java/expo/modules/shareintent/ExpoShareIntentModule.kt
+index 0153c89..dd8156c 100644
+--- a/node_modules/expo-share-intent/android/src/main/java/expo/modules/shareintent/ExpoShareIntentModule.kt
++++ b/node_modules/expo-share-intent/android/src/main/java/expo/modules/shareintent/ExpoShareIntentModule.kt
+@@ -13,6 +13,7 @@ import android.content.ContentResolver
+ import android.content.ContentUris
+ import android.content.Context
+ import android.content.Intent
++import android.content.pm.PackageManager
+ import android.database.Cursor
+ import android.graphics.BitmapFactory
+ import android.media.MediaMetadataRetriever;
+@@ -122,6 +123,7 @@ class ExpoShareIntentModule : Module() {
+                 return
+             }
+             if (intent.type == null) return
++            val shareTarget = resolveShareTarget(intent)
+             if (intent.type!!.startsWith("text/plain")) {
+                 // text / urls
+                 if (intent.action == Intent.ACTION_SEND) {
+@@ -131,9 +133,11 @@ class ExpoShareIntentModule : Module() {
+                         "meta" to mapOf(
+                             "title" to intent.getCharSequenceExtra(Intent.EXTRA_TITLE),
+                         )
++                        ,
++                        "shareTarget" to shareTarget
+                     ))
+                 } else if (intent.action == Intent.ACTION_VIEW) {
+-                    notifyShareIntent(mapOf( "text" to intent.dataString, "type" to "text"))
++                    notifyShareIntent(mapOf( "text" to intent.dataString, "type" to "text", "shareTarget" to shareTarget))
+                 } else {
+                     notifyError("Invalid action for text sharing: " + intent.action)
+                 }
+@@ -142,14 +146,14 @@ class ExpoShareIntentModule : Module() {
+                 if (intent.action == Intent.ACTION_SEND) {
+                     val uri = intent.parcelable<Uri>(Intent.EXTRA_STREAM);
+                     if (uri != null) {
+-                        notifyShareIntent(mapOf( "files" to arrayOf(getFileInfo(uri), "type" to "file")))
++                        notifyShareIntent(mapOf( "files" to arrayOf(getFileInfo(uri), "type" to "file"), "shareTarget" to shareTarget))
+                     } else {
+                         notifyError("empty uri for file sharing: " + intent.action)
+                     }
+                 } else if (intent.action == Intent.ACTION_SEND_MULTIPLE) {
+                     val uris = intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)
+                     if (uris != null) {
+-                        notifyShareIntent(mapOf( "files" to uris.map { getFileInfo(it) }, "type" to "file"))
++                        notifyShareIntent(mapOf( "files" to uris.map { getFileInfo(it) }, "type" to "file", "shareTarget" to shareTarget))
+                     } else {
+                         notifyError("empty uris array for file sharing: " + intent.action)
+                     }
+@@ -159,6 +163,31 @@ class ExpoShareIntentModule : Module() {
+             }
+         }
+ 
++        private fun resolveShareTarget(intent: Intent): String? {
++            val component = intent.component ?: instance?.currentActivity?.componentName
++            if (component != null) {
++                try {
++                    val info = instance?.context?.packageManager?.getActivityInfo(component, PackageManager.GET_META_DATA)
++                    val metaTarget = info?.metaData?.getString("devoroShareTarget")
++                    if (!metaTarget.isNullOrEmpty()) {
++                        return metaTarget
++                    }
++                } catch (_: Exception) {
++                    // Ignore meta-data lookup failures
++                }
++
++                val className = component.className ?: ""
++                if (className.contains("ShareToDevoroAdd")) {
++                    return "add"
++                }
++                if (className.contains("ShareToDevoroOpen")) {
++                    return "open"
++                }
++            }
++
++            return intent.getStringExtra("devoroShareTarget")
++        }
++
+         /*
+          * https://stackoverflow.com/questions/73019160/the-getparcelableextra-method-is-deprecated
+          */
+diff --git a/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts b/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
+index f2ebd1a..f175ed1 100644
+--- a/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
++++ b/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
+@@ -45,6 +45,7 @@ export type ShareIntentMeta = Record<string, string | undefined> & {
+ interface BaseShareIntent {
+     meta?: ShareIntentMeta | null;
+     text?: string | null;
++    shareTarget?: string | null;
+ }
+ /**
+  * Shared intent to represent both platforms.
+diff --git a/node_modules/expo-share-intent/build/useShareIntent.js b/node_modules/expo-share-intent/build/useShareIntent.js
+index 1ab12c4..ef46d2c 100644
+--- a/node_modules/expo-share-intent/build/useShareIntent.js
++++ b/node_modules/expo-share-intent/build/useShareIntent.js
+@@ -8,6 +8,7 @@ export const SHAREINTENT_DEFAULTVALUE = {
+     text: null,
+     webUrl: null,
+     type: null,
++    shareTarget: null,
+ };
+ export const SHAREINTENT_OPTIONS_DEFAULT = {
+     debug: false,
+@@ -15,6 +16,16 @@ export const SHAREINTENT_OPTIONS_DEFAULT = {
+     disabled: Platform.OS === "web",
+ };
+ const isValueAvailable = (shareIntent) => !!(shareIntent?.text || shareIntent?.webUrl || shareIntent?.files);
++const resolveShareExtensionKey = (url, options) => {
++    if (!url) {
++        return getShareExtensionKey(options);
++    }
++    const match = url.match(/dataUrl=([^?#]+)/);
++    if (match?.[1]) {
++        return decodeURIComponent(match[1]);
++    }
++    return getShareExtensionKey(options);
++};
+ export default function useShareIntent(options = SHAREINTENT_OPTIONS_DEFAULT) {
+     const url = useLinkingURL();
+     const appState = useRef(AppState.currentState);
+@@ -25,8 +36,8 @@ export default function useShareIntent(options = SHAREINTENT_OPTIONS_DEFAULT) {
+         if (options.disabled)
+             return;
+         setError(null);
+-        clearNativeModule &&
+-            ExpoShareIntentModule?.clearShareIntent(getShareExtensionKey(options));
++        const shareKey = resolveShareExtensionKey(url, options);
++        clearNativeModule && ExpoShareIntentModule?.clearShareIntent(shareKey);
+         if (isValueAvailable(shareIntent)) {
+             setSharedIntent(SHAREINTENT_DEFAULTVALUE);
+             options.onResetShareIntent?.();
+diff --git a/node_modules/expo-share-intent/build/utils.js b/node_modules/expo-share-intent/build/utils.js
+index 3d343c6..2a6acad 100644
+--- a/node_modules/expo-share-intent/build/utils.js
++++ b/node_modules/expo-share-intent/build/utils.js
+@@ -57,6 +57,7 @@ export const parseShareIntent = (value, options) => {
+     else {
+         shareIntent = value; // Android
+     }
++    const shareTarget = shareIntent?.shareTarget ?? null;
+     if (shareIntent?.text) {
+         // Try to find the webURL in the SharedIntent text
+         const webUrl = shareIntent.text
+@@ -70,6 +71,7 @@ export const parseShareIntent = (value, options) => {
+             meta: {
+                 title: shareIntent.meta?.title ?? undefined,
+             },
++            shareTarget,
+         };
+     }
+     else if (shareIntent?.weburls?.length) {
+@@ -80,6 +82,7 @@ export const parseShareIntent = (value, options) => {
+             text: weburl.url, // retrocompatibility
+             webUrl: weburl.url,
+             meta: parseJson(weburl.meta, {}),
++            shareTarget,
+         };
+     }
+     else {
+@@ -112,6 +115,7 @@ export const parseShareIntent = (value, options) => {
+                 }, [])
+                 : null,
+             type: isMedia ? "media" : "file",
++            shareTarget,
+         };
+     }
+     options.debug &&
+diff --git a/node_modules/expo-share-intent/plugin/build/ios/ShareExtensionViewController.swift b/node_modules/expo-share-intent/plugin/build/ios/ShareExtensionViewController.swift
+index 0911a9e..ac7b4d2 100644
+--- a/node_modules/expo-share-intent/plugin/build/ios/ShareExtensionViewController.swift
++++ b/node_modules/expo-share-intent/plugin/build/ios/ShareExtensionViewController.swift
+@@ -12,7 +12,7 @@ import UIKit
+ class ShareViewController: UIViewController {
+   let hostAppGroupIdentifier = "<GROUPIDENTIFIER>"
+   let shareProtocol = "<SCHEME>"
+-  let sharedKey = "<SCHEME>ShareKey"
++  let sharedKey = "<SCHEME>ShareKey<SHARE_KEY_SUFFIX>"
+   var sharedMedia: [SharedMediaFile] = []
+   var sharedWebUrl: [WebUrl] = []
+   var sharedText: [String] = []
+@@ -478,7 +478,7 @@ class ShareViewController: UIViewController {
+   }
+ 
+   private func redirectToHostApp(type: RedirectType) {
+-    let url = URL(string: "\(shareProtocol)://dataUrl=\(sharedKey)#\(type)")!
++    let url = URL(string: "\(shareProtocol)://dataUrl=\(sharedKey)?target=<SHARE_TARGET>#\(type)")!
+     var responder = self as UIResponder?
+ 
+     while responder != nil {
+diff --git a/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js b/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js
+index c40060d..20b3bd2 100644
+--- a/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js
++++ b/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js
+@@ -41,7 +41,7 @@ async function writeShareExtensionFiles(platformProjectRoot, scheme, appIdentifi
+     await node_fs_1.default.promises.writeFile(storyboardFilePath, storyboardContent);
+     // ShareViewController.swift
+     const viewControllerFilePath = getShareExtensionViewControllerPath(platformProjectRoot, parameters);
+-    const viewControllerContent = getShareExtensionViewControllerContent(scheme, (0, constants_1.getAppGroup)(appIdentifier, parameters));
++    const viewControllerContent = getShareExtensionViewControllerContent(scheme, (0, constants_1.getAppGroup)(appIdentifier, parameters), parameters);
+     await node_fs_1.default.promises.writeFile(viewControllerFilePath, viewControllerContent);
+     // ShareExtensionPreprocessor.js
+     const preprocessorFilePath = getPreprocessorFilePath(platformProjectRoot, parameters);
+@@ -176,12 +176,14 @@ function getPreprocessorContent(parameters) {
+ var ExtensionPreprocessingJS = new ShareExtensionPreprocessor();
+ `;
+ }
+-function getShareExtensionViewControllerContent(scheme, groupIdentifier) {
++function getShareExtensionViewControllerContent(scheme, groupIdentifier, parameters) {
+     let updatedScheme = scheme;
+     if (Array.isArray(scheme)) {
+         console.warn(`[expo-share-intent] multiple scheme detected (${scheme.join(",")}), using:${updatedScheme}`);
+         updatedScheme = scheme[0];
+     }
++    const keySuffix = parameters?.iosShareExtensionSharedKeySuffix || "";
++    const shareTarget = parameters?.iosShareExtensionTarget || "";
+     console.warn(`[expo-share-intent] add ios share extension (scheme:${updatedScheme} groupIdentifier:${groupIdentifier})`);
+     if (!updatedScheme) {
+         throw new Error("[expo-share-intent] missing custom URL scheme 'expo.scheme' in app.json ! (see https://docs.expo.dev/guides/linking/#linking-to-your-app)");
+@@ -189,5 +191,7 @@ function getShareExtensionViewControllerContent(scheme, groupIdentifier) {
+     const content = node_fs_1.default.readFileSync(node_path_1.default.resolve(__dirname, "./ShareExtensionViewController.swift"), "utf8");
+     return content
+         .replaceAll("<SCHEME>", updatedScheme)
+-        .replaceAll("<GROUPIDENTIFIER>", groupIdentifier);
++        .replaceAll("<GROUPIDENTIFIER>", groupIdentifier)
++        .replaceAll("<SHARE_KEY_SUFFIX>", keySuffix)
++        .replaceAll("<SHARE_TARGET>", shareTarget);
+ }

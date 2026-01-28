@@ -1,4 +1,18 @@
 {
+  "page_title": "Themen",
+  "practice_articles": "Übungsartikel",
+  "practice_desc": "Verbessere deine Schnelllesetechnik",
+  "certification_tests": "Zertifizierungstests",
+  "certification_desc": "Zeige dein Können",
+  "ready_badge": "Bereit!",
+  "score_label": "Punkte: {{score}}%",
+  "best_wpm": "Bestzeit: {{wpm}} WPM",
+  "progress_format": "{{completed}} von {{total}} abgeschlossen",
+  "progress_with_avg": "{{completed}} von {{total}} abgeschlossen · {{avg}}% Durchschnitt",
+  "a11y": {
+    "tap_to_read": "Tippen zum Lesen",
+    "completed": "Abgeschlossen"
+  },
   "science_discovery": "Wissenschaft & Entdeckung 🔬",
   "science_discovery_desc": "Bahnbrechende Entdeckungen, die unsere Welt veränderten",
   "health_medicine": "Gesundheit & Medizin ⚕️",

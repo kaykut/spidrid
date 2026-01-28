@@ -7,10 +7,33 @@
   "results": {
     "complete": "Klart!",
     "reading_speed": "Läshastighet",
-    "words_read": "Ord lästa"
+    "words_read": "Ord lästa",
+    "read_again": "Läs igen",
+    "reading_complete": "Läsning klar!",
+    "article_complete": "Artikel klar!",
+    "word_count": "Ordantal",
+    "comprehension": "Förståelse",
+    "correct_answers": "Rätta svar"
   },
   "controls": {
     "play": "Spela",
-    "pause": "Pausa"
+    "pause": "Pausa",
+    "wpm_suffix": "OPM",
+    "max_wpm": "(max {{max}})"
+  },
+  "chapter_pause": {
+    "chapter": "Kapitel {{number}}",
+    "continue": "Fortsätt läsa"
+  },
+  "errors": {
+    "article_not_found": "Artikel hittades inte",
+    "curriculum_not_found": "Läroplan hittades inte",
+    "go_back": "Gå tillbaka",
+    "article_locked": "Artikel låst",
+    "article_locked_desc": "Slutför föregående artikel för att låsa upp.",
+    "generating": "Genererar artikel...",
+    "generating_desc": "Vänta medan vi skapar din artikel.",
+    "generation_failed": "Generering misslyckades",
+    "generation_failed_desc": "Ett fel uppstod vid generering av artikeln."
   }
 }

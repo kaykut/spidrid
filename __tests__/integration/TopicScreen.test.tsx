@@ -95,7 +95,8 @@ describe('TopicScreen Integration', () => {
     it('renders topic name and description', () => {
       renderWithProviders(<TopicScreen />);
 
-      expect(screen.getByText('Science & Discovery')).toBeTruthy();
+      // Topic name now includes emoji from i18n
+      expect(screen.getByText('Science & Discovery 🔬')).toBeTruthy();
     });
 
     it('displays topic progress from real store', () => {

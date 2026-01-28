@@ -4,7 +4,8 @@
     "theme": "Tema",
     "your_info": "Din info",
     "reading": "Läsning",
-    "developer": "Utvecklare"
+    "developer": "Utvecklare",
+    "language": "Språk"
   },
   "themes": {
     "dark": "Mörk",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Utvecklarverktyg"
+  },
+  "language": {
+    "app_language": "Appspråk",
+    "app_language_desc": "Språk för appgränssnittet"
   }
 }

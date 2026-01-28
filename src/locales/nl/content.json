@@ -9,5 +9,16 @@
     "articles": "Artikelen",
     "learning": "Leren",
     "training": "Training"
+  },
+  "history": {
+    "title": "Geschiedenis",
+    "empty_title": "Nog geen voltooide items",
+    "empty_subtitle": "Items die je hebt uitgelezen verschijnen hier"
+  },
+  "stats": {
+    "devoured": "Verslonden",
+    "words": "Woorden",
+    "retention": "Retentie",
+    "best_wpm": "Beste WPM"
   }
 }

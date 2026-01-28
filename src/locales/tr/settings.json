@@ -1,0 +1,40 @@
+{
+  "page_title": "Yolculuk & Ayarlar",
+  "sections": {
+    "theme": "Tema",
+    "your_info": "Bilgileriniz",
+    "reading": "Okuma",
+    "language": "Dil",
+    "developer": "Geliştirici"
+  },
+  "language": {
+    "app_language": "Uygulama Dili",
+    "app_language_desc": "Uygulama arayüzü için dil"
+  },
+  "themes": {
+    "dark": "Koyu",
+    "midnight": "Gece",
+    "sepia": "Sepya",
+    "light": "Açık"
+  },
+  "fonts": {
+    "system": "Sistem",
+    "serif": "Serif",
+    "round": "Yuvarlak",
+    "condensed": "Yoğun",
+    "preview": "Önizleme"
+  },
+  "user_info": {
+    "name_label": "Ad (sertifikalar için)",
+    "name_placeholder": "Adınızı girin"
+  },
+  "reading": {
+    "paragraph_pause": "Paragraf Arası",
+    "paragraph_pause_desc": "Paragraflar arasında kısa duraklama",
+    "move_to_history": "Geçmişe Taşı",
+    "move_to_history_desc": "Tamamlanan öğeler Geçmişe taşınsın"
+  },
+  "developer": {
+    "dev_tools": "Geliştirici Araçları"
+  }
+}

@@ -2,6 +2,7 @@
   "app_name": "Devoro",
   "loading": "Caricamento...",
   "not_available": "Non disponibile",
+  "error": "Errore",
   "actions": {
     "cancel": "Annulla",
     "confirm": "Conferma",
@@ -10,8 +11,12 @@
     "continue": "Continua",
     "get_started": "Inizia",
     "import": "Importa",
-    "save_and_read": "Salva & Leggi"
+    "save_and_read": "Salva & Leggi",
+    "back": "Indietro",
+    "delete": "Elimina",
+    "try_again": "Riprova"
   },
+  "words": "parole",
   "or": "o",
-  "wpm_suffix": "WPM"
+  "wpm_suffix": "PPM"
 }

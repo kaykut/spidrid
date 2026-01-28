@@ -4,7 +4,8 @@
     "theme": "Motyw",
     "your_info": "Twoje Dane",
     "reading": "Czytanie",
-    "developer": "Deweloper"
+    "developer": "Deweloper",
+    "language": "Język"
   },
   "themes": {
     "dark": "Ciemny",
@@ -31,5 +32,9 @@
   },
   "developer": {
     "dev_tools": "Narzędzia Dev"
+  },
+  "language": {
+    "app_language": "Język aplikacji",
+    "app_language_desc": "Język interfejsu aplikacji"
   }
 }

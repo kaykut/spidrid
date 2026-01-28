@@ -9,7 +9,50 @@
   "paywall": {
     "title": "Przejdź na Premium",
     "reason_wpm": "Darmowy plan jest ograniczony do {{wpm}} WPM",
-    "reason_generation": "Darmowy plan jest ograniczony do 3 artykułów AI dziennie"
+    "reason_generation": "Darmowy plan jest ograniczony do 3 artykułów AI dziennie",
+    "headline": "Nakarm swój mózg",
+    "subheadline_default": "Zostaw bezmyślne przewijanie za sobą i ucz się dowolnego tematu w kilka minut.",
+    "subheadline_daily_limit": "Wykorzystałeś swoje 2 darmowe artykuły na dziś. Przejść na nielimitowany dostęp?",
+    "subheadline_premium_portion": "Porcje Przekąska, Posiłek i Uczta wymagają Premium.",
+    "subheadline_premium_flavor": "Style Fakt, Historia i Analogia wymagają Premium.",
+    "subheadline_sign_in": "Logowanie wymaga Devoro Premium do synchronizacji między urządzeniami.",
+    "subheadline_wpm_limit": "Prędkości czytania powyżej 450 WPM wymagają Premium.",
+    "features": {
+      "unlimited_title": "Nieograniczone artykuły AI",
+      "unlimited_subtitle": "Bez dziennych limitów nauki",
+      "sync_title": "Synchronizacja między urządzeniami",
+      "sync_subtitle": "Kontynuuj, gdzie skończyłeś",
+      "speed_title": "Premium prędkość czytania",
+      "speed_subtitle": "Do 1500 WPM"
+    },
+    "plans": {
+      "yearly": "Roczny",
+      "monthly": "Miesięczny",
+      "per_month": "{{price}}/mies.",
+      "free_trial": "{{days}} dni za darmo",
+      "most_popular": "Najpopularniejszy",
+      "save_percent": "Oszczędź {{percent}}%",
+      "no_plans": "Brak dostępnych planów"
+    },
+    "cta": {
+      "subscribe": "Subskrybuj teraz",
+      "try_free": "Wypróbuj za darmo przez {{days}} dni",
+      "then_price": "następnie {{price}}/rok",
+      "price_per_year": "{{price}}/rok"
+    },
+    "trust": {
+      "cancel_anytime": "Anuluj w każdej chwili"
+    },
+    "footer": {
+      "restore": "Przywróć zakupy",
+      "terms": "Regulamin",
+      "privacy": "Prywatność"
+    },
+    "errors": {
+      "offline": "Połącz się z internetem, aby subskrybować",
+      "pricing_unavailable": "Ceny niedostępne",
+      "retry": "Spróbuj ponownie"
+    }
   },
   "benefits": {
     "max_wpm": "Czytaj do {{wpm}} WPM",
@@ -23,9 +66,11 @@
   "alerts": {
     "purchase_failed": "Zakup nie powiódł się. Spróbuj ponownie.",
     "no_purchases": "Nie znaleziono wcześniejszych zakupów.",
-    "restored_title": "Przywrócono",
-    "restored_message": "Twoje zakupy zostały pomyślnie przywrócone.",
+    "restored_title": "Zakupy przywrócone!",
+    "restored_message": "Twoja subskrypcja została przywrócona.",
     "error_title": "Błąd",
-    "no_purchases_title": "Brak Zakupów"
+    "no_purchases_title": "Nie znaleziono zakupów",
+    "already_subscribed_title": "Już subskrybujesz",
+    "already_subscribed_message": "Jesteś już członkiem premium!"
   }
 }

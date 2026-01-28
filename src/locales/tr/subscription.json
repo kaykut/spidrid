@@ -1,0 +1,76 @@
+{
+  "section_subscription": "Abonelik",
+  "status": "Durum",
+  "status_premium": "Premium",
+  "status_free": "Ücretsiz",
+  "max_wpm": "Max WPM",
+  "upgrade_to_premium": "Premium'a Yükselt",
+  "restore_purchases": "Satın Almaları Geri Yükle",
+  "paywall": {
+    "title": "Premium'a Yükselt",
+    "reason_wpm": "Ücretsiz katman {{wpm}} WPM ile sınırlıdır",
+    "reason_generation": "Ücretsiz katman günde 3 yapay zeka destekli makale ile sınırlıdır",
+    "headline": "Beyninizi Besleyin",
+    "subheadline_default": "Ekran karartmasını bırakın ve herhangi bir konuyu dakikalar içinde öğrenin.",
+    "subheadline_daily_limit": "Bugün 2 ücretsiz makale hakkınızı kullandınız. Sınırsız yapmak ister misiniz?",
+    "subheadline_premium_portion": "Atıştırmalık, Öğün ve Ziyafet porsiyonları Premium gerektirir.",
+    "subheadline_premium_flavor": "Gerçek, Hikaye ve Analoji tonları Premium gerektirir.",
+    "subheadline_sign_in": "Çoklu cihaz senkronizasyonu için Devoro Premium gereklidir.",
+    "subheadline_wpm_limit": "450 WPM üzerindeki okuma hızları Premium gerektirir.",
+    "features": {
+      "unlimited_title": "Sınırsız AI makalesi",
+      "unlimited_subtitle": "Öğrenmede günlük sınır yok",
+      "sync_title": "Çoklu cihaz senkronizasyonu",
+      "sync_subtitle": "Kaldığınız yerden devam edin",
+      "speed_title": "Premium okuma hızı",
+      "speed_subtitle": "1.500 WPM'ye kadar"
+    },
+    "plans": {
+      "yearly": "Yıllık",
+      "monthly": "Aylık",
+      "per_month": "{{price}}/ay",
+      "free_trial": "{{days}} günlük ücretsiz deneme",
+      "most_popular": "En Popüler",
+      "save_percent": "%{{percent}} tasarruf edin",
+      "no_plans": "Plan bulunmuyor"
+    },
+    "cta": {
+      "subscribe": "Şimdi Abone Ol",
+      "try_free": "{{days}} Gün Ücretsiz Dene",
+      "then_price": "sonra {{price}}/yıl",
+      "price_per_year": "{{price}}/yıl"
+    },
+    "trust": {
+      "cancel_anytime": "İstediğiniz zaman iptal edin"
+    },
+    "footer": {
+      "restore": "Satın almaları geri yükle",
+      "terms": "Şartlar",
+      "privacy": "Gizlilik"
+    },
+    "errors": {
+      "offline": "Abone olmak için internete bağlanın",
+      "pricing_unavailable": "Fiyatlandırma mevcut değil",
+      "retry": "Tekrar Dene"
+    }
+  },
+  "benefits": {
+    "max_wpm": "{{wpm}} WPM'ye kadar okuyun",
+    "unlimited_generation": "Sınırsız AI makale oluşturma",
+    "all_topics": "Tüm konular ve müfredat",
+    "certificates": "Hız sertifikaları kazanın"
+  },
+  "actions": {
+    "subscribe_now": "Şimdi Abone Ol"
+  },
+  "alerts": {
+    "purchase_failed": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",
+    "no_purchases": "Önceki satın alma bulunamadı.",
+    "restored_title": "Satın Almalar Geri Yüklendi!",
+    "restored_message": "Aboneliğiniz geri yüklendi.",
+    "error_title": "Hata",
+    "no_purchases_title": "Satın Alma Bulunamadı",
+    "already_subscribed_title": "Zaten Abonesiniz",
+    "already_subscribed_message": "Zaten bir premium üyesisiniz!"
+  }
+}

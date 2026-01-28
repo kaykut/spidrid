@@ -10,5 +10,11 @@
   "content": {
     "not_found": "Contenido no encontrado",
     "failed_to_load": "Error al cargar el contenido"
+  },
+  "topic": {
+    "not_found": "Tema no encontrado"
+  },
+  "article": {
+    "not_found": "Artículo no encontrado"
   }
 }

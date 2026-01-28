@@ -10,7 +10,8 @@
  * If the key is not configured, methods return safe defaults.
  */
 
-import Constants from 'expo-constants';
+import { Platform } from 'react-native';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 
 // Types from react-native-purchases - we define minimal interfaces
 // to avoid import errors when SDK is not available
@@ -53,6 +54,33 @@ let Purchases: any = null;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PurchasesSDK = any;
 
+const IS_EXPO_GO =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient ||
+  Constants.appOwnership === 'expo';
+const IS_UNSUPPORTED_ENV = IS_EXPO_GO || Platform.OS === 'web';
+
+function logPurchasesWarning(message: string, error?: unknown): void {
+  if (IS_UNSUPPORTED_ENV) {
+    return;
+  }
+  if (error) {
+    console.warn(message, error);
+  } else {
+    console.warn(message);
+  }
+}
+
+function logPurchasesError(message: string, error?: unknown): void {
+  if (IS_UNSUPPORTED_ENV) {
+    return;
+  }
+  if (error) {
+    console.error(message, error);
+  } else {
+    console.error(message);
+  }
+}
+
 /**
  * Attempt to load the RevenueCat SDK.
  * Returns null if not available (Expo Go or missing native module).
@@ -64,7 +92,7 @@ function loadPurchasesSDK(): PurchasesSDK | null {
     const module = require('react-native-purchases');
     return module.default || module;
   } catch (error) {
-    console.warn('[Purchases] SDK not available (likely Expo Go):', error);
+    logPurchasesWarning('[Purchases] SDK not available (likely Expo Go):', error);
     return null;
   }
 }
@@ -86,7 +114,7 @@ export async function configurePurchases(): Promise<boolean> {
   }
 
   if (!REVENUECAT_API_KEY) {
-    console.warn('[Purchases] No REVENUECAT_API_KEY configured in environment');
+    logPurchasesWarning('[Purchases] No REVENUECAT_API_KEY configured in environment');
     return false;
   }
 
@@ -95,7 +123,7 @@ export async function configurePurchases(): Promise<boolean> {
     isConfigured = true;
     return true;
   } catch (error) {
-    console.error('[Purchases] Failed to configure:', error);
+    logPurchasesError('[Purchases] Failed to configure:', error);
     return false;
   }
 }
@@ -112,14 +140,26 @@ export async function checkPremiumStatus(forceFresh = false): Promise<boolean> {
 
   try {
     // Invalidate cache to force fresh fetch from RevenueCat server
-    if (forceFresh) {
-      await Purchases.invalidateCustomerInfoCache();
+    // Note: This method is not supported in browser mode (Expo Go)
+    if (forceFresh && typeof Purchases.invalidateCustomerInfoCache === 'function') {
+      try {
+        if (!IS_EXPO_GO && Platform.OS !== 'web') {
+          await Purchases.invalidateCustomerInfoCache();
+        }
+      } catch (cacheError) {
+        const message = cacheError instanceof Error ? cacheError.message : String(cacheError);
+        const isUnsupported = message.includes('not supported on web platform');
+        // Only silently ignore in Expo Go/browser mode; re-throw in production builds
+        if (!IS_EXPO_GO && Platform.OS !== 'web' && !isUnsupported) {
+          throw cacheError;
+        }
+      }
     }
 
     const customerInfo = await Purchases.getCustomerInfo();
     return customerInfo.entitlements.active[PREMIUM_ENTITLEMENT] !== undefined;
   } catch (error) {
-    console.error('[Purchases] Failed to check premium status:', error);
+    logPurchasesError('[Purchases] Failed to check premium status:', error);
     return false;
   }
 }
@@ -136,7 +176,7 @@ export async function loginUser(userId: string): Promise<CustomerInfo | null> {
     // Debug:('[Purchases] User logged in:', userId);
     return customerInfo as CustomerInfo;
   } catch (error) {
-    console.error('[Purchases] Failed to login user:', error);
+    logPurchasesError('[Purchases] Failed to login user:', error);
     return null;
   }
 }
@@ -152,7 +192,7 @@ export async function logoutUser(): Promise<void> {
     await Purchases.logOut();
     // Debug:('[Purchases] User logged out');
   } catch (error) {
-    console.error('[Purchases] Failed to logout user:', error);
+    logPurchasesError('[Purchases] Failed to logout user:', error);
   }
 }
 
@@ -168,7 +208,10 @@ export async function restorePurchases(): Promise<CustomerInfo | null> {
     // Debug:('[Purchases] Purchases restored');
     return customerInfo as CustomerInfo;
   } catch (error) {
-    console.error('[Purchases] Failed to restore purchases:', error);
+    logPurchasesError('[Purchases] Failed to restore purchases:', error);
+    if (IS_UNSUPPORTED_ENV) {
+      return null;
+    }
     throw error; // Rethrow so caller can show error to user
   }
 }
@@ -183,7 +226,7 @@ export async function getOfferings(): Promise<PurchasesPackage[]> {
     const offerings = await Purchases.getOfferings();
     return (offerings.current?.availablePackages || []) as PurchasesPackage[];
   } catch (error) {
-    console.error('[Purchases] Failed to get offerings:', error);
+    logPurchasesError('[Purchases] Failed to get offerings:', error);
     return [];
   }
 }
@@ -200,7 +243,10 @@ export async function purchasePackage(pkg: PurchasesPackage): Promise<CustomerIn
     // Debug:('[Purchases] Purchase completed');
     return customerInfo as CustomerInfo;
   } catch (error) {
-    console.error('[Purchases] Purchase failed:', error);
+    logPurchasesError('[Purchases] Purchase failed:', error);
+    if (IS_UNSUPPORTED_ENV) {
+      return null;
+    }
     throw error; // Rethrow so caller can show error to user
   }
 }
@@ -238,8 +284,8 @@ export function setupCustomerInfoListener(
   callback: (isPremium: boolean) => void
 ): () => void {
   if (!isConfigured || !Purchases) {
-    console.warn('[Purchases] Cannot setup listener: SDK not configured');
-    return () => {}; // No-op cleanup
+    logPurchasesWarning('[Purchases] Cannot setup listener: SDK not configured');
+    return () => { /* no-op cleanup */ };
   }
 
   try {
@@ -253,11 +299,11 @@ export function setupCustomerInfoListener(
       try {
         listener.remove();
       } catch (error) {
-        console.warn('[Purchases] Failed to remove listener:', error);
+        logPurchasesWarning('[Purchases] Failed to remove listener:', error);
       }
     };
   } catch (error) {
-    console.error('[Purchases] Failed to setup CustomerInfo listener:', error);
-    return () => {}; // No-op cleanup
+    logPurchasesError('[Purchases] Failed to setup CustomerInfo listener:', error);
+    return () => { /* no-op cleanup */ };
   }
 }

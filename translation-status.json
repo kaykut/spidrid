@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": 1769451866294,
+  "generatedAt": 1769621707256,
   "languages": {
     "cs": {
       "science-discovery": {
@@ -12021,13 +12021,1215 @@
           "lastUpdated": 1769451866690
         }
       }
+    },
+    "tr": {
+      "science-discovery": {
+        "science-discovery-p01": {
+          "wordCount": 319,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620963717
+        },
+        "science-discovery-p02": {
+          "wordCount": 475,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620973944
+        },
+        "science-discovery-p03": {
+          "wordCount": 617,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620987251
+        },
+        "science-discovery-p04": {
+          "wordCount": 634,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621001884
+        },
+        "science-discovery-p05": {
+          "wordCount": 841,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621019966
+        },
+        "science-discovery-p06": {
+          "wordCount": 972,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621039451
+        },
+        "science-discovery-p07": {
+          "wordCount": 1132,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621084711
+        },
+        "science-discovery-p08": {
+          "wordCount": 1013,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621106502
+        },
+        "science-discovery-p09": {
+          "wordCount": 1191,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621128663
+        },
+        "science-discovery-p10": {
+          "wordCount": 1089,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621150740
+        },
+        "science-discovery-c1": {
+          "wordCount": 573,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621165791
+        },
+        "science-discovery-c2": {
+          "wordCount": 1078,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621187271
+        },
+        "science-discovery-c3": {
+          "wordCount": 1337,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621211459
+        }
+      },
+      "health-medicine": {
+        "health-medicine-p01": {
+          "wordCount": 353,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620963721
+        },
+        "health-medicine-p02": {
+          "wordCount": 499,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620973947
+        },
+        "health-medicine-p03": {
+          "wordCount": 685,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620987254
+        },
+        "health-medicine-p04": {
+          "wordCount": 730,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621001886
+        },
+        "health-medicine-p05": {
+          "wordCount": 908,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621019968
+        },
+        "health-medicine-p06": {
+          "wordCount": 929,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621039453
+        },
+        "health-medicine-p07": {
+          "wordCount": 984,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621084711
+        },
+        "health-medicine-p08": {
+          "wordCount": 1091,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621106504
+        },
+        "health-medicine-p09": {
+          "wordCount": 1030,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621128666
+        },
+        "health-medicine-p10": {
+          "wordCount": 997,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621150743
+        },
+        "health-medicine-c1": {
+          "wordCount": 635,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621165793
+        },
+        "health-medicine-c2": {
+          "wordCount": 1111,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621187273
+        },
+        "health-medicine-c3": {
+          "wordCount": 1213,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621211462
+        }
+      },
+      "history-civilization": {
+        "history-civilization-p01": {
+          "wordCount": 340,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620963724
+        },
+        "history-civilization-p02": {
+          "wordCount": 519,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620973949
+        },
+        "history-civilization-p03": {
+          "wordCount": 645,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620987256
+        },
+        "history-civilization-p04": {
+          "wordCount": 755,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621001887
+        },
+        "history-civilization-p05": {
+          "wordCount": 858,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621019969
+        },
+        "history-civilization-p06": {
+          "wordCount": 803,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621039455
+        },
+        "history-civilization-p07": {
+          "wordCount": 1103,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621084712
+        },
+        "history-civilization-p08": {
+          "wordCount": 970,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621106505
+        },
+        "history-civilization-p09": {
+          "wordCount": 960,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621128670
+        },
+        "history-civilization-p10": {
+          "wordCount": 921,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621150745
+        },
+        "history-civilization-c1": {
+          "wordCount": 590,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621165795
+        },
+        "history-civilization-c2": {
+          "wordCount": 1041,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621187275
+        },
+        "history-civilization-c3": {
+          "wordCount": 1090,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621211464
+        }
+      },
+      "technology-internet": {
+        "technology-internet-p01": {
+          "wordCount": 332,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620963727
+        },
+        "technology-internet-p02": {
+          "wordCount": 513,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620973952
+        },
+        "technology-internet-p03": {
+          "wordCount": 749,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620987259
+        },
+        "technology-internet-p04": {
+          "wordCount": 761,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621001890
+        },
+        "technology-internet-p05": {
+          "wordCount": 950,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621019970
+        },
+        "technology-internet-p06": {
+          "wordCount": 1053,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621039456
+        },
+        "technology-internet-p07": {
+          "wordCount": 1219,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621084713
+        },
+        "technology-internet-p08": {
+          "wordCount": 1172,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621106507
+        },
+        "technology-internet-p09": {
+          "wordCount": 1244,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621128672
+        },
+        "technology-internet-p10": {
+          "wordCount": 1173,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621150747
+        },
+        "technology-internet-c1": {
+          "wordCount": 689,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621165796
+        },
+        "technology-internet-c2": {
+          "wordCount": 1131,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621187276
+        },
+        "technology-internet-c3": {
+          "wordCount": 1303,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621211466
+        }
+      },
+      "nature-wildlife": {
+        "nature-wildlife-p01": {
+          "wordCount": 307,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620963729
+        },
+        "nature-wildlife-p02": {
+          "wordCount": 505,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620973955
+        },
+        "nature-wildlife-p03": {
+          "wordCount": 615,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769620987261
+        },
+        "nature-wildlife-p04": {
+          "wordCount": 785,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621001892
+        },
+        "nature-wildlife-p05": {
+          "wordCount": 884,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621019971
+        },
+        "nature-wildlife-p06": {
+          "wordCount": 969,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621039458
+        },
+        "nature-wildlife-p07": {
+          "wordCount": 1122,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621084714
+        },
+        "nature-wildlife-p08": {
+          "wordCount": 1002,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621106509
+        },
+        "nature-wildlife-p09": {
+          "wordCount": 1017,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621128674
+        },
+        "nature-wildlife-p10": {
+          "wordCount": 989,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621150749
+        },
+        "nature-wildlife-c1": {
+          "wordCount": 691,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621165798
+        },
+        "nature-wildlife-c2": {
+          "wordCount": 1017,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621187277
+        },
+        "nature-wildlife-c3": {
+          "wordCount": 1276,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621211467
+        }
+      },
+      "climate-environment": {
+        "climate-environment-p01": {
+          "wordCount": 329,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621218509
+        },
+        "climate-environment-p02": {
+          "wordCount": 521,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621229787
+        },
+        "climate-environment-p03": {
+          "wordCount": 619,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621248053
+        },
+        "climate-environment-p04": {
+          "wordCount": 724,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621263692
+        },
+        "climate-environment-p05": {
+          "wordCount": 935,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621280868
+        },
+        "climate-environment-p06": {
+          "wordCount": 1004,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621300361
+        },
+        "climate-environment-p07": {
+          "wordCount": 1290,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621325326
+        },
+        "climate-environment-p08": {
+          "wordCount": 1163,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621346624
+        },
+        "climate-environment-p09": {
+          "wordCount": 1125,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621368266
+        },
+        "climate-environment-p10": {
+          "wordCount": 1027,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621390128
+        },
+        "climate-environment-c1": {
+          "wordCount": 758,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621405634
+        },
+        "climate-environment-c2": {
+          "wordCount": 1127,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621427637
+        },
+        "climate-environment-c3": {
+          "wordCount": 1357,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621456600
+        }
+      },
+      "space-cosmos": {
+        "space-cosmos-p01": {
+          "wordCount": 296,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621218511
+        },
+        "space-cosmos-p02": {
+          "wordCount": 521,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621229789
+        },
+        "space-cosmos-p03": {
+          "wordCount": 679,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621248056
+        },
+        "space-cosmos-p04": {
+          "wordCount": 624,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621263695
+        },
+        "space-cosmos-p05": {
+          "wordCount": 808,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621280871
+        },
+        "space-cosmos-p06": {
+          "wordCount": 915,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621300364
+        },
+        "space-cosmos-p07": {
+          "wordCount": 1097,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621325329
+        },
+        "space-cosmos-p08": {
+          "wordCount": 948,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621346626
+        },
+        "space-cosmos-p09": {
+          "wordCount": 1135,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621368269
+        },
+        "space-cosmos-p10": {
+          "wordCount": 1042,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621390130
+        },
+        "space-cosmos-c1": {
+          "wordCount": 708,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621405636
+        },
+        "space-cosmos-c2": {
+          "wordCount": 1078,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621427640
+        },
+        "space-cosmos-c3": {
+          "wordCount": 1368,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621456602
+        }
+      },
+      "psychology-mind": {
+        "psychology-mind-p01": {
+          "wordCount": 315,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621218513
+        },
+        "psychology-mind-p02": {
+          "wordCount": 601,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621229791
+        },
+        "psychology-mind-p03": {
+          "wordCount": 752,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621248058
+        },
+        "psychology-mind-p04": {
+          "wordCount": 792,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621263697
+        },
+        "psychology-mind-p05": {
+          "wordCount": 847,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621280874
+        },
+        "psychology-mind-p06": {
+          "wordCount": 962,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621300366
+        },
+        "psychology-mind-p07": {
+          "wordCount": 1106,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621325331
+        },
+        "psychology-mind-p08": {
+          "wordCount": 1112,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621346628
+        },
+        "psychology-mind-p09": {
+          "wordCount": 1144,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621368271
+        },
+        "psychology-mind-p10": {
+          "wordCount": 1018,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621390132
+        },
+        "psychology-mind-c1": {
+          "wordCount": 672,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621405638
+        },
+        "psychology-mind-c2": {
+          "wordCount": 1006,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621427642
+        },
+        "psychology-mind-c3": {
+          "wordCount": 1257,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621456604
+        }
+      },
+      "self-improvement": {
+        "self-improvement-p01": {
+          "wordCount": 295,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621218515
+        },
+        "self-improvement-p02": {
+          "wordCount": 549,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621229794
+        },
+        "self-improvement-p03": {
+          "wordCount": 744,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621248060
+        },
+        "self-improvement-p04": {
+          "wordCount": 740,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621263699
+        },
+        "self-improvement-p05": {
+          "wordCount": 891,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621280876
+        },
+        "self-improvement-p06": {
+          "wordCount": 978,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621300368
+        },
+        "self-improvement-p07": {
+          "wordCount": 1108,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621325334
+        },
+        "self-improvement-p08": {
+          "wordCount": 1136,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621346631
+        },
+        "self-improvement-p09": {
+          "wordCount": 1109,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621368273
+        },
+        "self-improvement-p10": {
+          "wordCount": 1134,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621390134
+        },
+        "self-improvement-c1": {
+          "wordCount": 716,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621405641
+        },
+        "self-improvement-c2": {
+          "wordCount": 1118,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621427645
+        },
+        "self-improvement-c3": {
+          "wordCount": 1239,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621456606
+        }
+      },
+      "business-careers": {
+        "business-careers-p01": {
+          "wordCount": 280,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621218518
+        },
+        "business-careers-p02": {
+          "wordCount": 567,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621229797
+        },
+        "business-careers-p03": {
+          "wordCount": 715,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621248063
+        },
+        "business-careers-p04": {
+          "wordCount": 744,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621263701
+        },
+        "business-careers-p05": {
+          "wordCount": 911,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621280879
+        },
+        "business-careers-p06": {
+          "wordCount": 1008,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621300370
+        },
+        "business-careers-p07": {
+          "wordCount": 1171,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621325336
+        },
+        "business-careers-p08": {
+          "wordCount": 1093,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621346632
+        },
+        "business-careers-p09": {
+          "wordCount": 1118,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621368276
+        },
+        "business-careers-p10": {
+          "wordCount": 1061,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621390136
+        },
+        "business-careers-c1": {
+          "wordCount": 741,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621405643
+        },
+        "business-careers-c2": {
+          "wordCount": 1087,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621427647
+        },
+        "business-careers-c3": {
+          "wordCount": 1218,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621456608
+        }
+      },
+      "finance-investing": {
+        "finance-investing-p01": {
+          "wordCount": 419,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621464932
+        },
+        "finance-investing-p02": {
+          "wordCount": 638,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621477245
+        },
+        "finance-investing-p03": {
+          "wordCount": 713,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621491955
+        },
+        "finance-investing-p04": {
+          "wordCount": 766,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621507618
+        },
+        "finance-investing-p05": {
+          "wordCount": 985,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621526465
+        },
+        "finance-investing-p06": {
+          "wordCount": 1052,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621549015
+        },
+        "finance-investing-p07": {
+          "wordCount": 1130,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621573653
+        },
+        "finance-investing-p08": {
+          "wordCount": 1225,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621598517
+        },
+        "finance-investing-p09": {
+          "wordCount": 1202,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621622971
+        },
+        "finance-investing-p10": {
+          "wordCount": 1178,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621646768
+        },
+        "finance-investing-c1": {
+          "wordCount": 676,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621660011
+        },
+        "finance-investing-c2": {
+          "wordCount": 1115,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621681699
+        },
+        "finance-investing-c3": {
+          "wordCount": 1245,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621707248
+        }
+      },
+      "trivia-facts": {
+        "trivia-facts-p01": {
+          "wordCount": 382,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621464935
+        },
+        "trivia-facts-p02": {
+          "wordCount": 555,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621477248
+        },
+        "trivia-facts-p03": {
+          "wordCount": 633,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621491957
+        },
+        "trivia-facts-p04": {
+          "wordCount": 726,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621507621
+        },
+        "trivia-facts-p05": {
+          "wordCount": 974,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621526467
+        },
+        "trivia-facts-p06": {
+          "wordCount": 994,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621549017
+        },
+        "trivia-facts-p07": {
+          "wordCount": 1068,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621573656
+        },
+        "trivia-facts-p08": {
+          "wordCount": 1109,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621598520
+        },
+        "trivia-facts-p09": {
+          "wordCount": 1071,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621622974
+        },
+        "trivia-facts-p10": {
+          "wordCount": 911,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621646770
+        },
+        "trivia-facts-c1": {
+          "wordCount": 601,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621660014
+        },
+        "trivia-facts-c2": {
+          "wordCount": 1041,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621681700
+        },
+        "trivia-facts-c3": {
+          "wordCount": 1068,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621707250
+        }
+      },
+      "world-travel": {
+        "world-travel-p01": {
+          "wordCount": 385,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621464938
+        },
+        "world-travel-p02": {
+          "wordCount": 505,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621477251
+        },
+        "world-travel-p03": {
+          "wordCount": 608,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621491959
+        },
+        "world-travel-p04": {
+          "wordCount": 747,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621507624
+        },
+        "world-travel-p05": {
+          "wordCount": 881,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621526469
+        },
+        "world-travel-p06": {
+          "wordCount": 1127,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621549019
+        },
+        "world-travel-p07": {
+          "wordCount": 1077,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621573658
+        },
+        "world-travel-p08": {
+          "wordCount": 1191,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621598523
+        },
+        "world-travel-p09": {
+          "wordCount": 1221,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621622975
+        },
+        "world-travel-p10": {
+          "wordCount": 1165,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621646773
+        },
+        "world-travel-c1": {
+          "wordCount": 611,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621660016
+        },
+        "world-travel-c2": {
+          "wordCount": 1033,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621681702
+        },
+        "world-travel-c3": {
+          "wordCount": 1287,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621707252
+        }
+      },
+      "arts-culture": {
+        "arts-culture-p01": {
+          "wordCount": 314,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621464942
+        },
+        "arts-culture-p02": {
+          "wordCount": 519,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621477253
+        },
+        "arts-culture-p03": {
+          "wordCount": 692,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621491962
+        },
+        "arts-culture-p04": {
+          "wordCount": 737,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621507628
+        },
+        "arts-culture-p05": {
+          "wordCount": 865,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621526471
+        },
+        "arts-culture-p06": {
+          "wordCount": 1016,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621549022
+        },
+        "arts-culture-p07": {
+          "wordCount": 1072,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621573661
+        },
+        "arts-culture-p08": {
+          "wordCount": 1046,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621598524
+        },
+        "arts-culture-p09": {
+          "wordCount": 1084,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621622977
+        },
+        "arts-culture-p10": {
+          "wordCount": 964,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621646775
+        },
+        "arts-culture-c1": {
+          "wordCount": 623,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621660019
+        },
+        "arts-culture-c2": {
+          "wordCount": 1042,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621681703
+        },
+        "arts-culture-c3": {
+          "wordCount": 1154,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621707254
+        }
+      },
+      "lifestyle-wellness": {
+        "lifestyle-wellness-p01": {
+          "wordCount": 315,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621464944
+        },
+        "lifestyle-wellness-p02": {
+          "wordCount": 579,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621477256
+        },
+        "lifestyle-wellness-p03": {
+          "wordCount": 759,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621491964
+        },
+        "lifestyle-wellness-p04": {
+          "wordCount": 823,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621507630
+        },
+        "lifestyle-wellness-p05": {
+          "wordCount": 917,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621526472
+        },
+        "lifestyle-wellness-p06": {
+          "wordCount": 1174,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621549024
+        },
+        "lifestyle-wellness-p07": {
+          "wordCount": 1331,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621573662
+        },
+        "lifestyle-wellness-p08": {
+          "wordCount": 1095,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621598526
+        },
+        "lifestyle-wellness-p09": {
+          "wordCount": 1077,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621622979
+        },
+        "lifestyle-wellness-p10": {
+          "wordCount": 1132,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621646777
+        },
+        "lifestyle-wellness-c1": {
+          "wordCount": 679,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621660021
+        },
+        "lifestyle-wellness-c2": {
+          "wordCount": 1101,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621681704
+        },
+        "lifestyle-wellness-c3": {
+          "wordCount": 1366,
+          "quizTranslated": false,
+          "questionCount": 0,
+          "lastUpdated": 1769621707256
+        }
+      }
     }
   },
   "stats": {
     "totalArticles": 1950,
-    "articlesTranslated": 1950,
+    "articlesTranslated": 2145,
     "quizzesTranslated": 1950,
     "totalWords": 3697500,
-    "wordsTranslated": 2420666
+    "wordsTranslated": 2594209
   }
 }

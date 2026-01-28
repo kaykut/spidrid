@@ -9,6 +9,7 @@ import { useCurriculumStore } from '../../store/curriculumStore';
 import { Curriculum } from '../../types/curriculum';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'curriculum';
 
@@ -76,6 +77,8 @@ export const curriculumSyncAdapter: SyncAdapter<SyncableCurriculum> = {
   push: async (items: SyncableCurriculum[]): Promise<void> => {
     if (items.length === 0) {return;}
 
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');
@@ -102,6 +105,8 @@ export const curriculumSyncAdapter: SyncAdapter<SyncableCurriculum> = {
    * Pull items from Supabase user_content table
    */
   pull: async (): Promise<SyncableCurriculum[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

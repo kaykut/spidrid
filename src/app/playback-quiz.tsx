@@ -10,6 +10,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../components/common/ThemeProvider';
 import { QuestionRenderer, QuestionAnswer } from '../components/quiz';
@@ -28,6 +29,7 @@ import { clearPosition } from '../utils/positionUtils';
 export default function PlaybackQuizModal() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation('quiz');
   const params = useLocalSearchParams<{ sourceId: string; source: string; wpm: string }>();
   const sourceId = params.sourceId ?? '';
   const source = (params.source ?? 'training') as ContentSource;
@@ -170,15 +172,15 @@ export default function PlaybackQuizModal() {
             { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
           ]}
         >
-          Quiz
+          {t('quiz_only')}
         </Text>
 
         <View style={[styles.emptyState, { paddingTop: insets.top + SIZES.touchTarget }]}>
           <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-            No Quiz Available
+            {t('no_quiz_available')}
           </Text>
           <Text style={[styles.emptySubtitle, { color: theme.textColor }]}>
-            This content does not have quiz questions.
+            {t('no_quiz_desc')}
           </Text>
         </View>
       </View>
@@ -203,7 +205,7 @@ export default function PlaybackQuizModal() {
           { top: insets.top + SPACING.sm + (SIZES.touchTarget - 20) / 2, color: theme.textColor },
         ]}
       >
-        {isComplete ? 'Results' : 'Comprehension Quiz'}
+        {isComplete ? t('quiz_results') : t('quiz_title')}
       </Text>
 
       <View style={[styles.content, { paddingTop: insets.top + SIZES.touchTarget, paddingBottom: insets.bottom }]}>
@@ -211,13 +213,13 @@ export default function PlaybackQuizModal() {
         {isComplete ? (
           <View style={styles.resultsContainer}>
             <Text style={[styles.resultsTitle, { color: theme.textColor }]}>
-              Complete!
+              {t('results.complete')}
             </Text>
 
             <View style={[styles.resultsCard, { backgroundColor: theme.secondaryBackground }]}>
               <View style={styles.resultRow}>
                 <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                  Comprehension
+                  {t('results.comprehension')}
                 </Text>
                 <Text
                   style={[
@@ -230,7 +232,7 @@ export default function PlaybackQuizModal() {
               </View>
               <View style={styles.resultRow}>
                 <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                  Correct Answers
+                  {t('results.correct_answers')}
                 </Text>
                 <Text style={[styles.resultValue, { color: theme.textColor }]}>
                   {correctAnswers} / {totalQuestions}
@@ -238,7 +240,7 @@ export default function PlaybackQuizModal() {
               </View>
               <View style={styles.resultRow}>
                 <Text style={[styles.resultLabel, { color: theme.textColor }]}>
-                  Reading Speed
+                  {t('results.reading_speed')}
                 </Text>
                 <Text style={[styles.resultValue, { color: theme.accentColor }]}>
                   {readingWPM} WPM
@@ -250,7 +252,7 @@ export default function PlaybackQuizModal() {
               style={[styles.doneButton, { backgroundColor: theme.accentColor }]}
               onPress={handleDone}
             >
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Text style={styles.doneButtonText}>{t('results.done')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -258,7 +260,7 @@ export default function PlaybackQuizModal() {
               onPress={handleRetakeQuiz}
             >
               <Text style={[styles.retryButtonText, { color: theme.accentColor }]}>
-                Retake Quiz
+                {t('results.retake')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -267,7 +269,7 @@ export default function PlaybackQuizModal() {
           <View style={styles.quizContainer}>
             <View style={styles.quizProgress}>
               <Text style={[styles.quizProgressText, { color: theme.textColor }]}>
-                Question {currentQuestionIndex + 1} of {totalQuestions}
+                {t('question_progress', { current: currentQuestionIndex + 1, total: totalQuestions })}
               </Text>
             </View>
 

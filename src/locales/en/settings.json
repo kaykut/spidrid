@@ -4,7 +4,12 @@
     "theme": "Theme",
     "your_info": "Your Info",
     "reading": "Reading",
+    "language": "Language",
     "developer": "Developer"
+  },
+  "language": {
+    "app_language": "App Language",
+    "app_language_desc": "Language for the app interface"
   },
   "themes": {
     "dark": "Dark",

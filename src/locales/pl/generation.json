@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Porcja",
     "flavor": "Styl",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Czas czytania",
+    "writing_style": "Styl pisania"
   },
   "placeholders": {
-    "topic": "Czego chcesz się nauczyć?"
+    "topic": "Czego chcesz się nauczyć?",
+    "topic_examples": "np. Historia kawy, Jak powstają czarne dziury, Dlaczego koty mruczą...",
+    "goal_examples": "np. Nauka podstaw uczenia maszynowego, Zrozumienie kryptowalut, Opanowanie podstaw gotowania..."
   },
   "actions": {
     "adjust_duration_tone": "Dostosuj czas i ton",
@@ -52,5 +56,30 @@
     "portion_hint_select": "Wybierz porcję {{portion}}",
     "flavor_premium": "Styl {{flavor}} (Funkcja Premium)",
     "flavor_hint_select": "Wybierz styl pisania {{flavor}}"
+  },
+  "modal": {
+    "generate_article": "Wygeneruj artykuł",
+    "create_curriculum": "Utwórz program nauki",
+    "what_learn_about": "O czym chcesz się nauczyć?",
+    "what_learn": "Czego chcesz się nauczyć?",
+    "how_many_articles": "Ile artykułów?",
+    "estimated_words": "~{{words}} słów w twoim tempie",
+    "next": "Dalej",
+    "generate_button": "Generuj"
+  },
+  "wizard": {
+    "step_progress": "Krok {{current}} z {{total}}",
+    "min_chars": "(min. 10 znaków)",
+    "articles_helper": "Więcej artykułów = głębsze omówienie tematu",
+    "per_article": "Na artykuł",
+    "words_per_article": "~{{words}} słów na artykuł w twoim tempie czytania",
+    "total_time": "Razem: ~{{minutes}} min na ukończenie tego programu",
+    "review_title": "Przejrzyj swój plan",
+    "summary_goal": "Cel",
+    "summary_articles": "Artykuły",
+    "summary_style": "Styl",
+    "summary_duration": "Czas",
+    "quiz_toggle": "Sprawdź zrozumienie",
+    "quiz_hint": "Dodaj 5 pytań quizowych na artykuł"
   }
 }

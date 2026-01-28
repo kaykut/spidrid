@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Portion",
     "flavor": "Flavor",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Reading Duration",
+    "writing_style": "Writing Style"
   },
   "placeholders": {
-    "topic": "What do you want to learn about?"
+    "topic": "What do you want to learn about?",
+    "topic_examples": "e.g., The history of coffee, How black holes form, Why cats purr...",
+    "goal_examples": "e.g., Learn the fundamentals of machine learning, Understand cryptocurrency, Master cooking basics..."
   },
   "actions": {
     "adjust_duration_tone": "Adjust duration and tone",
@@ -44,6 +48,31 @@
   "article_one": "{{count}} article",
   "article_other": "{{count}} articles",
   "min_suffix": "min",
+  "modal": {
+    "generate_article": "Generate Article",
+    "create_curriculum": "Create Curriculum",
+    "what_learn_about": "What do you want to learn about?",
+    "what_learn": "What do you want to learn?",
+    "how_many_articles": "How many articles?",
+    "estimated_words": "~{{words}} words at your current pace",
+    "next": "Next",
+    "generate_button": "Generate"
+  },
+  "wizard": {
+    "step_progress": "Step {{current}} of {{total}}",
+    "min_chars": "(min 10 characters)",
+    "articles_helper": "More articles = deeper coverage of your topic",
+    "per_article": "Per article",
+    "words_per_article": "~{{words}} words per article at your reading speed",
+    "total_time": "Total: ~{{minutes}} min to complete this curriculum",
+    "review_title": "Review your curriculum",
+    "summary_goal": "Goal",
+    "summary_articles": "Articles",
+    "summary_style": "Style",
+    "summary_duration": "Duration",
+    "quiz_toggle": "Test comprehension",
+    "quiz_hint": "Include 5 quiz questions after each article"
+  },
   "a11y": {
     "portion_premium": "{{portion}} portion (Premium feature)",
     "portion_hint_upgrade": "Upgrade to premium to unlock",

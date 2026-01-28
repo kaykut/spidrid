@@ -30,10 +30,14 @@
   "labels": {
     "portion": "Porce",
     "flavor": "Styl",
-    "auto": "Auto"
+    "auto": "Auto",
+    "reading_duration": "Délka čtení",
+    "writing_style": "Styl psaní"
   },
   "placeholders": {
-    "topic": "O čem se chcete dozvědět více?"
+    "topic": "O čem se chcete dozvědět více?",
+    "topic_examples": "např. Historie kávy, Jak vznikají černé díry, Proč kočky předou...",
+    "goal_examples": "např. Naučit se základy strojového učení, Pochopit kryptoměny, Ovládnout základy vaření..."
   },
   "actions": {
     "adjust_duration_tone": "Upravit délku a tón",
@@ -52,5 +56,26 @@
     "portion_hint_select": "Vybrat {{portion}} porci",
     "flavor_premium": "{{flavor}} styl (Premium funkce)",
     "flavor_hint_select": "Vybrat {{flavor}} styl psaní"
+  },
+  "modal": {
+    "generate_article": "Vygenerovat článek",
+    "create_curriculum": "Vytvořit učební plán",
+    "what_learn_about": "O čem se chcete naučit?",
+    "what_learn": "Co se chcete naučit?",
+    "how_many_articles": "Kolik článků?",
+    "estimated_words": "~{{words}} slov vaším tempem",
+    "next": "Další",
+    "generate_button": "Generovat"
+  },
+  "wizard": {
+    "step_progress": "Krok {{current}} z {{total}}",
+    "min_chars": "(min. 10 znaků)",
+    "review_title": "Zkontrolujte svůj plán",
+    "summary_goal": "Cíl",
+    "summary_articles": "Články",
+    "summary_style": "Styl",
+    "summary_duration": "Délka",
+    "quiz_toggle": "Testovat porozumění",
+    "quiz_hint": "Zahrnout 5 kvízových otázek na článek"
   }
 }

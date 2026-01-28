@@ -12,11 +12,26 @@ export interface ImportedContent {
   lastReadAt?: number;
   readProgress: number; // 0-1
   currentWordIndex?: number; // Saved playback position for resume functionality
+  processingStatus?: 'processing' | 'ready' | 'error';
+  processingProgress?: number; // 0-100 for EPUB/PDF extraction
+  processingError?: string;
+  processingPayload?: PendingImportPayload;
   // Optional metadata from article extraction
   author?: string; // Article byline
   excerpt?: string; // Article description/subtitle
   siteName?: string; // Source website name
 }
+
+export type PendingImportPayload =
+  | { type: 'url'; url: string }
+  | { type: 'text'; text: string; title?: string }
+  | {
+      type: 'file';
+      uri: string;
+      fileName: string;
+      mimeType?: string;
+      source: 'pdf' | 'epub';
+    };
 
 // Chapter metadata for EPUB navigation
 export interface ChapterMetadata {

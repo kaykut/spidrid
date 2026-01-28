@@ -40,6 +40,10 @@ jest.mock('../../../src/services/supabase', () => {
   return { supabase: mockDb.supabase };
 });
 
+// Need PurchasesService.isAvailable to return true for linkRevenueCatUser tests
+import * as PurchasesService from '../../../src/services/purchases';
+const mockPurchasesService = PurchasesService as jest.Mocked<typeof PurchasesService>;
+
 // =============================================================================
 // Tests
 // =============================================================================
@@ -243,6 +247,19 @@ describe('Auth-Sync Integration', () => {
   // ===========================================================================
 
   describe('RevenueCat user linking', () => {
+    beforeEach(() => {
+      // Need PurchasesService.isAvailable to return true for linkRevenueCatUser to work
+      mockPurchasesService.isAvailable.mockReturnValue(true);
+      // Also need loginUser to return customerInfo for linkedUserId to be set
+      mockPurchasesService.loginUser.mockResolvedValue({
+        entitlements: { active: {} },
+      });
+    });
+
+    afterEach(() => {
+      mockPurchasesService.isAvailable.mockReturnValue(false);
+    });
+
     it('should have linkedUserId null initially', () => {
       const { linkedUserId } = useSubscriptionStore.getState();
       expect(linkedUserId).toBeNull();

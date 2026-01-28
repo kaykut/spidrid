@@ -8,6 +8,7 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../components/common/ThemeProvider';
 import { SPACING } from '../../constants/spacing';
@@ -17,6 +18,7 @@ import { getArticleById } from '../../data/curriculum';
 export default function ArticleDeepLinkScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useTheme();
+  const { t } = useTranslation(['errors', 'common']);
 
   const article = getArticleById(id);
 
@@ -39,7 +41,7 @@ export default function ArticleDeepLinkScreen() {
   if (!article) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-        <Text style={[styles.errorText, { color: theme.textColor }]}>Article not found</Text>
+        <Text style={[styles.errorText, { color: theme.textColor }]}>{t('errors:article.not_found')}</Text>
       </SafeAreaView>
     );
   }
@@ -49,7 +51,7 @@ export default function ArticleDeepLinkScreen() {
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={theme.accentColor} />
         <Text style={[styles.loadingText, { color: theme.textColor }]}>
-          Loading {article.title}...
+          {t('common:loading')}
         </Text>
       </View>
     </SafeAreaView>

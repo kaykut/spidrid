@@ -9,6 +9,7 @@ import { useLearningStore } from '../../store/learningStore';
 import { ArticleProgress } from '../../types/learning';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
+import { requireSyncEligibility } from './syncAccess';
 
 const ITEM_TYPE = 'learning_progress';
 
@@ -78,6 +79,8 @@ export const learningSyncAdapter: SyncAdapter<SyncableLearningProgress> = {
   push: async (items: SyncableLearningProgress[]): Promise<void> => {
     if (items.length === 0) {return;}
 
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');
@@ -104,6 +107,8 @@ export const learningSyncAdapter: SyncAdapter<SyncableLearningProgress> = {
    * Pull items from Supabase user_content table
    */
   pull: async (): Promise<SyncableLearningProgress[]> => {
+    requireSyncEligibility();
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       throw new Error('Not authenticated');

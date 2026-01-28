@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { AppState } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { ShareIntentProvider } from 'expo-share-intent';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ContentProcessingBootstrap } from '../components/common/ContentProcessingBootstrap';
+import { ShareIntentBootstrap } from '../components/common/ShareIntentBootstrap';
+import { SplashOverlay } from '../components/common/SplashOverlay';
 import { ThemeProvider } from '../components/common/ThemeProvider';
 import { PdfExtractorProvider } from '../components/PdfExtractorProvider';
 import { useAuthDeepLink } from '../hooks/useAuthDeepLink';
@@ -22,6 +26,10 @@ export default function RootLayout() {
   const initializeSubscription = useSubscriptionStore(state => state.initialize);
   const initializeLocale = useLocaleStore(state => state.initialize);
 
+  // Track if app is ready to render (fonts loaded) and splash visibility
+  const [appReady, setAppReady] = useState(false);
+  const [splashComplete, setSplashComplete] = useState(false);
+
   // Load custom fonts
   const [fontsLoaded, fontError] = useFonts({
     'Lora': require('../../fonts/Lora/Lora-VariableFont_wght.ttf'),
@@ -32,15 +40,23 @@ export default function RootLayout() {
   // Handle deep links for magic link authentication
   useAuthDeepLink();
 
-  // Hide splash screen when fonts are loaded
+  // When fonts are loaded, mark app as ready and hide native splash
+  // Our custom SplashOverlay takes over seamlessly
   useEffect(() => {
     if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
       if (fontError) {
         console.error('[_layout] Font loading error:', fontError);
       }
+      setAppReady(true);
+      // Hide native splash - our custom gradient splash is now visible
+      SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
+
+  // Callback when splash animation completes
+  const handleSplashComplete = useCallback(() => {
+    setSplashComplete(true);
+  }, []);
 
   useEffect(() => {
     // Initialize app services
@@ -96,22 +112,34 @@ export default function RootLayout() {
     };
   }, []);
 
-  // Return null while fonts are loading
-  if (!fontsLoaded && !fontError) {
+  // Return null while fonts are loading (native splash still visible)
+  if (!appReady) {
     return null;
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <ThemeProvider>
-          <PdfExtractorProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="reader" options={{ headerShown: false }} />
-              <Stack.Screen name="topic" options={{ headerShown: false }} />
-              <Stack.Screen name="article" options={{ headerShown: false }} />
-              <Stack.Screen name="content" options={{ headerShown: false }} />
+    <ShareIntentProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <ThemeProvider>
+            <PdfExtractorProvider>
+              <ShareIntentBootstrap />
+              <ContentProcessingBootstrap />
+              {/* Custom gradient splash overlay - shows for 2 seconds then fades out */}
+              {!splashComplete && (
+                <SplashOverlay
+                  visible={!appReady}
+                  duration={2000}
+                  onAnimationComplete={handleSplashComplete}
+                />
+              )}
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="reader" options={{ headerShown: false }} />
+                <Stack.Screen name="topic" options={{ headerShown: false }} />
+                <Stack.Screen name="article" options={{ headerShown: false }} />
+                <Stack.Screen name="content" options={{ headerShown: false }} />
+                <Stack.Screen name="share" options={{ headerShown: false }} />
               <Stack.Screen
                 name="journey-profile"
                 options={{
@@ -182,10 +210,11 @@ export default function RootLayout() {
                   contentStyle: { backgroundColor: 'transparent' },
                 }}
               />
-            </Stack>
-          </PdfExtractorProvider>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+              </Stack>
+            </PdfExtractorProvider>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </ShareIntentProvider>
   );
 }

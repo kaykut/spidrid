@@ -5,6 +5,15 @@
   "question_progress": "Otázka {{current}} z {{total}}",
   "no_quiz_available": "Žádný kvíz",
   "no_quiz_desc": "Tento obsah nemá otázky kvízu.",
+  "true": "Pravda",
+  "false": "Nepravda",
+  "correct": "Správně!",
+  "answer_was": "Odpověď: {{value}}{{unit}}",
+  "submit_answer": "Odeslat odpověď",
+  "a11y": {
+    "select_true": "Dvojitým klepnutím vyberte Pravda",
+    "select_false": "Dvojitým klepnutím vyberte Nepravda"
+  },
   "results": {
     "complete": "Hotovo!",
     "comprehension": "Porozumění",

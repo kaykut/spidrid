@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PanResponder, Dimensions } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SPACING, COMPONENT_RADIUS, SIZES, SHADOWS, LINE_HEIGHTS } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { JOURNEY_COLORS, COLOR_OPACITY } from '../../data/themes';
@@ -23,6 +24,7 @@ export function NumericQuestion({
   disabled,
 }: NumericQuestionProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation('quiz');
   const showResult = selectedAnswer !== null;
 
   const { min, max, step = 1, unit = '', correctValue, tolerance } = question;
@@ -84,7 +86,7 @@ export function NumericQuestion({
             styles.resultText,
             { color: isCorrect ? JOURNEY_COLORS.success : JOURNEY_COLORS.low },
           ]}>
-            {isCorrect ? '✓ Correct!' : `✗ Answer: ${correctValue}${unit ? ` ${unit}` : ''}`}
+            {isCorrect ? `✓ ${t('correct')}` : `✗ ${t('answer_was', { value: correctValue, unit: unit ? ` ${unit}` : '' })}`}
           </Text>
         )}
       </View>
@@ -146,7 +148,7 @@ export function NumericQuestion({
           onPress={handleSubmit}
           disabled={disabled}
         >
-          <Text style={styles.submitButtonText}>Submit Answer</Text>
+          <Text style={styles.submitButtonText}>{t('submit_answer')}</Text>
         </TouchableOpacity>
       )}
     </View>
