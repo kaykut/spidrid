@@ -5,7 +5,9 @@
     "your_info": "Your Info",
     "reading": "Reading",
     "language": "Language",
-    "developer": "Developer"
+    "developer": "Developer",
+    "appearance": "Appearance",
+    "account": "Account"
   },
   "language": {
     "app_language": "App Language",
@@ -32,9 +34,33 @@
     "paragraph_pause": "Paragraph Pause",
     "paragraph_pause_desc": "Brief pause between paragraphs",
     "move_to_history": "Move to History",
-    "move_to_history_desc": "Completed items move to History"
+    "move_to_history_desc": "Completed items move to History",
+    "advanced_playback": "Advanced Playback Settings",
+    "advanced_playback_desc": "Fine-tune pauses and long-word handling",
+    "punctuation_pauses": "Punctuation Pauses",
+    "pause_comma": "Comma Pause",
+    "pause_comma_desc": "Clause breaks (comma, semicolon, colon)",
+    "pause_period": "Period Pause",
+    "pause_period_desc": "Sentence endings (., !, ?)",
+    "pause_paragraph": "Paragraph Pause",
+    "pause_paragraph_desc": "Context shift between paragraphs",
+    "pause_not_recommended": "Not recommended",
+    "hyphenation_title": "Long Word Handling",
+    "hyphenation_desc": "Control when words split to stay on one line",
+    "hyphenation_stable": "Allow hyphenation to keep font size stable",
+    "hyphenation_minimal": "Only hyphenate to avoid multiple lines",
+    "pause_levels": {
+      "off": "Off",
+      "short": "Short",
+      "medium": "Medium",
+      "long": "Long"
+    }
   },
   "developer": {
     "dev_tools": "Dev Tools"
+  },
+  "appearance": {
+    "theme": "Theme",
+    "font": "Reader Font"
   }
 }

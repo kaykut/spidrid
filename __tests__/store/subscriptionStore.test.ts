@@ -135,7 +135,7 @@ describe('subscriptionStore', () => {
       });
 
       expect(result.current.getMaxWPM()).toBe(FREE_TIER_LIMITS.MAX_WPM);
-      expect(result.current.getMaxWPM()).toBe(450);
+      expect(result.current.getMaxWPM()).toBe(900);
     });
   });
 
@@ -204,8 +204,8 @@ describe('subscriptionStore', () => {
           useSubscriptionStore.setState({ isPremium: false });
         });
 
-        expect(result.current.canUseWPM(451)).toBe(false);
-        expect(result.current.canUseWPM(500)).toBe(false);
+        expect(result.current.canUseWPM(901)).toBe(false);
+        expect(result.current.canUseWPM(950)).toBe(false);
         expect(result.current.canUseWPM(1000)).toBe(false);
       });
     });
@@ -588,8 +588,8 @@ describe('subscriptionStore', () => {
   });
 
   describe('constants validation', () => {
-    it('FREE_TIER_LIMITS.MAX_WPM is 450', () => {
-      expect(FREE_TIER_LIMITS.MAX_WPM).toBe(450);
+    it('FREE_TIER_LIMITS.MAX_WPM is 900', () => {
+      expect(FREE_TIER_LIMITS.MAX_WPM).toBe(900);
     });
 
     it('FREE_TIER_LIMITS.MAX_DAILY_AI_GENERATIONS is 3', () => {

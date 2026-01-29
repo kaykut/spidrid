@@ -17,6 +17,7 @@ import { SPACING, COMPONENT_SPACING } from '../../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText, getAdaptiveFontSize } from '../../services/textProcessor';
+import { useSettingsStore } from '../../store/settingsStore';
 
 // Test words: Ordered by length (12-22 chars) for progressive font size testing
 const TEST_WORDS = [
@@ -161,11 +162,14 @@ const LONG_WORD_TEST = TEST_WORDS.join(' ');
 export default function LongWordsTestScreen() {
   const { theme } = useTheme();
   const [currentWPM, setCurrentWPM] = useState(250);
+  const pauseOnComma = useSettingsStore(state => state.pauseOnComma);
+  const pauseOnPeriod = useSettingsStore(state => state.pauseOnPeriod);
+  const hyphenationMode = useSettingsStore(state => state.hyphenationMode);
 
   // Process test content using production logic (WITH hyphenation for 22+ chars)
   const processedWords = useMemo(() => {
-    return processText(LONG_WORD_TEST);
-  }, []);
+    return processText(LONG_WORD_TEST, undefined, { pauseOnComma, pauseOnPeriod, hyphenationMode });
+  }, [pauseOnComma, pauseOnPeriod, hyphenationMode]);
 
   const engine = useRSVPEngine(processedWords, currentWPM);
 

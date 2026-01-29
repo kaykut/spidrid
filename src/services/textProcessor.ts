@@ -1,9 +1,44 @@
 import { RSVP_FONT_SIZES } from '../constants/typography';
 import { ProcessedWord } from '../types/playback';
+import { DEFAULT_SETTINGS, HyphenationMode, PauseLevel } from '../types/settings';
+import { useSettingsStore } from '../store/settingsStore';
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
-import { calculateORP, calculatePauseMultiplier, isSentenceEnd } from './orp';
-import { splitLongWord, needsSplitting } from './syllables';
+import {
+  calculateORP,
+  calculatePauseMultiplier,
+  isSentenceEnd,
+  getPauseMultiplierForLevel,
+  DEFAULT_PAUSE_MULTIPLIERS,
+  PauseMultipliers,
+} from './orp';
+import { splitLongWord, needsSplitting, DEFAULT_MAX_WORD_LENGTH } from './syllables';
+
+export interface ProcessTextOptions {
+  pauseOnComma?: PauseLevel;
+  pauseOnPeriod?: PauseLevel;
+  hyphenationMode?: HyphenationMode;
+}
+
+const STABLE_HYPHENATION_MAX_LENGTH = 14;
+
+function resolvePauseMultipliers(options?: ProcessTextOptions): PauseMultipliers {
+  const settings = useSettingsStore.getState();
+  const pauseOnComma = options?.pauseOnComma ?? settings.pauseOnComma ?? DEFAULT_SETTINGS.pauseOnComma;
+  const pauseOnPeriod = options?.pauseOnPeriod ?? settings.pauseOnPeriod ?? DEFAULT_SETTINGS.pauseOnPeriod;
+
+  return {
+    sentenceEnd: getPauseMultiplierForLevel('period', pauseOnPeriod),
+    clauseBreak: getPauseMultiplierForLevel('comma', pauseOnComma),
+    longWord: DEFAULT_PAUSE_MULTIPLIERS.longWord,
+  };
+}
+
+function resolveMaxWordLength(options?: ProcessTextOptions): number {
+  const settings = useSettingsStore.getState();
+  const mode = options?.hyphenationMode ?? settings.hyphenationMode ?? DEFAULT_SETTINGS.hyphenationMode;
+  return mode === 'stable' ? STABLE_HYPHENATION_MAX_LENGTH : DEFAULT_MAX_WORD_LENGTH;
+}
 
 /**
  * Tokenize text into words.
@@ -197,13 +232,14 @@ export function tokenizeWithParagraphs(
 export function processWord(
   word: string,
   paragraphEnd: boolean = false,
-  adapter: LanguageAdapter = getCurrentAdapter()
+  adapter: LanguageAdapter = getCurrentAdapter(),
+  pauseMultipliers: PauseMultipliers = DEFAULT_PAUSE_MULTIPLIERS
 ): ProcessedWord {
   return {
     original: word,
     display: word,
     orpIndex: calculateORP(word),
-    pauseMultiplier: calculatePauseMultiplier(word, adapter),
+    pauseMultiplier: calculatePauseMultiplier(word, adapter, pauseMultipliers),
     sentenceEnd: isSentenceEnd(word, adapter),
     paragraphEnd,
   };
@@ -220,9 +256,12 @@ export function processWord(
  */
 export function processText(
   text: string,
-  adapter: LanguageAdapter = getCurrentAdapter()
+  adapter: LanguageAdapter = getCurrentAdapter(),
+  options?: ProcessTextOptions
 ): ProcessedWord[] {
   const { tokens, paragraphEndIndices, headerInfoMap, chapterInfoMap } = tokenizeWithParagraphs(text, adapter);
+  const pauseMultipliers = resolvePauseMultipliers(options);
+  const maxWordLength = resolveMaxWordLength(options);
 
   // Use chapter info from embedded markers
   const chapterStartMap = chapterInfoMap;
@@ -237,8 +276,8 @@ export function processText(
     const headerInfo = headerInfoMap.get(index);
 
     // Check if this word needs splitting (skip headers - they're handled differently)
-    if (needsSplitting(word) && !headerInfo?.headerText) {
-      const chunks = splitLongWord(word, undefined, adapter);
+    if (needsSplitting(word, maxWordLength) && !headerInfo?.headerText) {
+      const chunks = splitLongWord(word, maxWordLength, adapter);
 
       chunks.forEach((chunk, chunkIndex) => {
         const isFirstChunk = chunkIndex === 0;
@@ -248,7 +287,7 @@ export function processText(
           original: word,
           display: chunk,
           orpIndex: calculateORP(chunk),
-          pauseMultiplier: calculatePauseMultiplier(chunk, adapter),
+          pauseMultiplier: calculatePauseMultiplier(chunk, adapter, pauseMultipliers),
           sentenceEnd: isLastChunk && isSentenceEnd(word, adapter),
           paragraphEnd: isLastChunk && isParagraphEnd,
           fullWord: word,
@@ -269,7 +308,7 @@ export function processText(
       });
     } else {
       // Normal word processing (no splitting needed)
-      const baseWord = processWord(word, isParagraphEnd, adapter);
+      const baseWord = processWord(word, isParagraphEnd, adapter, pauseMultipliers);
 
       // Apply chapter start if present
       if (chapterStart) {
@@ -343,8 +382,8 @@ export function findNextSentenceStart(
  * Calculate adaptive font size based on word length.
  *
  * Ensures long words don't wrap on narrow screens (375px iPhone SE) by
- * reducing font size for longer words. Words 22+ chars trigger hyphenation
- * in processText().
+ * reducing font size for longer words. By default, words 22+ chars trigger
+ * hyphenation in processText(), or earlier if aggressive hyphenation is enabled.
  *
  * Font size mappings:
  * - ≤13 chars: 42pt (majority of words, full size)
@@ -355,7 +394,7 @@ export function findNextSentenceStart(
  * - 18-19 chars: 28pt
  * - 20 chars: 26pt
  * - 21 chars: 24pt
- * - 22+ chars: Will be hyphenated by processText, chunks use appropriate size
+ * - 22+ chars: Will be hyphenated by processText by default; chunks use appropriate size
  *
  * @param wordLength - The length of the word to display
  * @returns Appropriate font size in points
@@ -404,9 +443,11 @@ export function getAdaptiveFontSize(wordLength: number): number {
  */
 export function processTextNoSplit(
   text: string,
-  adapter: LanguageAdapter = getCurrentAdapter()
+  adapter: LanguageAdapter = getCurrentAdapter(),
+  options?: ProcessTextOptions
 ): ProcessedWord[] {
   const { tokens, paragraphEndIndices, headerInfoMap, chapterInfoMap } = tokenizeWithParagraphs(text, adapter);
+  const pauseMultipliers = resolvePauseMultipliers(options);
 
   // Use chapter info from embedded markers
   const chapterStartMap = chapterInfoMap;
@@ -420,7 +461,7 @@ export function processTextNoSplit(
     const headerInfo = headerInfoMap.get(index);
 
     // NO SPLITTING - process all words as-is
-    const baseWord = processWord(word, isParagraphEnd, adapter);
+    const baseWord = processWord(word, isParagraphEnd, adapter, pauseMultipliers);
 
     // Apply chapter start if present
     if (chapterStart) {

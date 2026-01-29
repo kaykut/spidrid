@@ -1,6 +1,8 @@
 import { RSVP_DISPLAY } from '../constants/typography';
 
 export type FontFamily = 'system' | 'lora' | 'inter' | 'reddit-sans-condensed';
+export type PauseLevel = 'off' | 'short' | 'medium' | 'long';
+export type HyphenationMode = 'stable' | 'minimal';
 
 export interface Theme {
   id: string;
@@ -29,7 +31,10 @@ export interface UserSettings {
   hapticFeedback: boolean;
   userName: string;
   readingLanguage: string;
-  paragraphPauseEnabled: boolean;
+  pauseOnComma: PauseLevel;
+  pauseOnPeriod: PauseLevel;
+  pauseOnParagraph: PauseLevel;
+  hyphenationMode: HyphenationMode;
   moveFinishedToHistory: boolean;
 }
 
@@ -64,6 +69,9 @@ export const DEFAULT_SETTINGS: UserSettings = {
   hapticFeedback: true,
   userName: '',
   readingLanguage: 'auto',
-  paragraphPauseEnabled: true,
+  pauseOnComma: 'short',
+  pauseOnPeriod: 'short',
+  pauseOnParagraph: 'short',
+  hyphenationMode: 'minimal',
   moveFinishedToHistory: false,
 };

@@ -81,6 +81,9 @@ export const useGeneratedStore = create<GeneratedStore>()(
             throw new Error('Not authenticated');
           }
 
+          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
+          const localDate = new Date().toDateString();
+
           const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-article`, {
             method: 'POST',
             headers: {
@@ -93,6 +96,8 @@ export const useGeneratedStore = create<GeneratedStore>()(
               tone, // Can be 'auto'
               tonePrompt: toneDefinition?.promptModifier || '',
               userId,
+              isPremium,
+              localDate,
             }),
           });
 
@@ -112,7 +117,6 @@ export const useGeneratedStore = create<GeneratedStore>()(
           };
 
           // Increment generation count for free users (LLM cost incurred)
-          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
           if (!isPremium) {
             incrementGenerationCount();
           }

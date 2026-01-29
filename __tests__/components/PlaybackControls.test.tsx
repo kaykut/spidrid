@@ -12,7 +12,7 @@ import { ThemeProvider } from '../../src/components/common/ThemeProvider';
 // Mock the subscription store
 jest.mock('../../src/store/subscriptionStore', () => ({
   useSubscriptionStore: () => ({
-    getMaxWPM: () => 450,
+    getMaxWPM: () => 900,
     isPremium: false,
   }),
 }));
@@ -60,7 +60,7 @@ describe('PlaybackControls', () => {
     it('shows WPM label with max for non-premium', () => {
       renderWithProviders(<PlaybackControls {...defaultProps} />);
 
-      expect(screen.getByText(/WPM.*max 450/)).toBeTruthy();
+      expect(screen.getByText(/WPM.*max 900/)).toBeTruthy();
     });
 
   });

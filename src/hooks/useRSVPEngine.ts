@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { findSentenceStarts, findPreviousSentenceStart, findNextSentenceStart } from '../services/textProcessor';
 import { useSettingsStore } from '../store/settingsStore';
+import { getPauseMultiplierForLevel } from '../services/orp';
 import { ProcessedWord, RSVPEngineControls, ChapterPauseInfo } from '../types/playback';
 
 /**
@@ -21,7 +22,7 @@ export function useRSVPEngine(
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sentenceStarts = useMemo(() => findSentenceStarts(words), [words]);
-  const paragraphPauseEnabled = useSettingsStore(state => state.paragraphPauseEnabled);
+  const pauseOnParagraph = useSettingsStore(state => state.pauseOnParagraph);
 
   const currentWord = words[currentIndex] ?? null;
   const totalWords = words.length;
@@ -58,8 +59,8 @@ export function useRSVPEngine(
     }
 
     // Paragraph end: major context shift (5.0× base interval)
-    if (paragraphPauseEnabled && currentWord.paragraphEnd) {
-      interval = baseInterval * 5.0;
+    if (currentWord.paragraphEnd && pauseOnParagraph !== 'off') {
+      interval = baseInterval * getPauseMultiplierForLevel('paragraph', pauseOnParagraph);
     }
 
     timerRef.current = setTimeout(() => {
@@ -76,7 +77,7 @@ export function useRSVPEngine(
         clearTimeout(timerRef.current);
       }
     };
-  }, [isPlaying, currentIndex, wpm, currentWord, totalWords, paragraphPauseEnabled]);
+  }, [isPlaying, currentIndex, wpm, currentWord, totalWords, pauseOnParagraph]);
 
   const play = useCallback(() => {
     if (currentIndex >= totalWords - 1 && totalWords > 0) {

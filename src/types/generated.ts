@@ -168,6 +168,8 @@ export interface GenerateArticleRequest {
   tonePrompt?: string; // Optional when tone is 'auto'
   userId: string;
   articleCount?: number; // For curriculum generation
+  isPremium?: boolean;
+  localDate?: string;
 }
 
 export interface GenerateArticleResponse {
@@ -179,5 +181,5 @@ export interface GenerateArticleResponse {
     questions: Question[];
   };
   error?: string;
-  errorCode?: 'NOT_PREMIUM' | 'RATE_LIMITED' | 'GENERATION_FAILED' | 'INVALID_REQUEST';
+  errorCode?: 'NOT_PREMIUM' | 'RATE_LIMITED' | 'GENERATION_FAILED' | 'INVALID_REQUEST' | 'DAILY_LIMIT';
 }

@@ -617,6 +617,9 @@ export const useCurriculumStore = create<CurriculumStore>()(
             throw new Error('Not authenticated');
           }
 
+          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
+          const localDate = new Date().toDateString();
+
           const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-article`, {
             method: 'POST',
             headers: {
@@ -631,6 +634,8 @@ export const useCurriculumStore = create<CurriculumStore>()(
               userId: 'curriculum-gen',
               curriculumContext,
               includeQuiz: article.hasQuiz, // Pass article's quiz flag
+              isPremium,
+              localDate,
             }),
           });
 
@@ -641,7 +646,6 @@ export const useCurriculumStore = create<CurriculumStore>()(
           }
 
           // Increment generation count for free users (LLM cost incurred)
-          const { isPremium, incrementGenerationCount } = useSubscriptionStore.getState();
           if (!isPremium) {
             incrementGenerationCount();
           }

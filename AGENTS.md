@@ -95,6 +95,13 @@ ALWAYS use design tokens - NEVER hardcode colors, spacing, radii, or typography 
 ## Anti-Patterns
 - **NO Expo Go simulation layers**: Never create fake SDK methods (simulatePurchase, etc.) for Expo Go. Use real SDK calls with try/catch graceful degradation instead.
 
+## iOS Share Extensions & App Groups
+- iOS share extensions: `Devoro Open` + `Devoro Add`
+- Extension bundle IDs: `com.devoro.app.share-open`, `com.devoro.app.share-add`
+- App Group: `group.com.devoro.app` (must be enabled on main app + both extensions)
+- Team ID: `9AL54PGCAT` (set in `app.config.js` and `eas.json` to avoid `DEVELOPMENT_TEAM` warnings during prebuild)
+- If App Groups change, regenerate iOS provisioning profiles via `eas credentials:configure-build -p ios -e <profile>`
+
 ## Reference Documentation
 - **ExecPlans:** `docs/plans/`
 - **iOS/Builds/RevenueCat:** `docs/reference/ios-config.md`

@@ -81,7 +81,7 @@ index 0153c89..dd8156c 100644
           * https://stackoverflow.com/questions/73019160/the-getparcelableextra-method-is-deprecated
           */
 diff --git a/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts b/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
-index f2ebd1a..f175ed1 100644
+index f2ebd1a..ea3c115 100644
 --- a/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
 +++ b/node_modules/expo-share-intent/build/ExpoShareIntentModule.types.d.ts
 @@ -45,6 +45,7 @@ export type ShareIntentMeta = Record<string, string | undefined> & {
@@ -93,7 +93,7 @@ index f2ebd1a..f175ed1 100644
  /**
   * Shared intent to represent both platforms.
 diff --git a/node_modules/expo-share-intent/build/useShareIntent.js b/node_modules/expo-share-intent/build/useShareIntent.js
-index 1ab12c4..ef46d2c 100644
+index 1ab12c4..a8c60f5 100644
 --- a/node_modules/expo-share-intent/build/useShareIntent.js
 +++ b/node_modules/expo-share-intent/build/useShareIntent.js
 @@ -8,6 +8,7 @@ export const SHAREINTENT_DEFAULTVALUE = {
@@ -133,7 +133,7 @@ index 1ab12c4..ef46d2c 100644
              setSharedIntent(SHAREINTENT_DEFAULTVALUE);
              options.onResetShareIntent?.();
 diff --git a/node_modules/expo-share-intent/build/utils.js b/node_modules/expo-share-intent/build/utils.js
-index 3d343c6..2a6acad 100644
+index 3d343c6..946658f 100644
 --- a/node_modules/expo-share-intent/build/utils.js
 +++ b/node_modules/expo-share-intent/build/utils.js
 @@ -57,6 +57,7 @@ export const parseShareIntent = (value, options) => {
@@ -190,6 +190,185 @@ index 0911a9e..ac7b4d2 100644
      var responder = self as UIResponder?
  
      while responder != nil {
+diff --git a/node_modules/expo-share-intent/plugin/build/ios/withIosShareExtensionXcodeTarget.js b/node_modules/expo-share-intent/plugin/build/ios/withIosShareExtensionXcodeTarget.js
+index eb5971b..1856063 100644
+--- a/node_modules/expo-share-intent/plugin/build/ios/withIosShareExtensionXcodeTarget.js
++++ b/node_modules/expo-share-intent/plugin/build/ios/withIosShareExtensionXcodeTarget.js
+@@ -29,6 +29,26 @@ function getMainAppDevelopmentTeam(pbx) {
+     console.warn("[expo-share-intent] No DEVELOPMENT_TEAM found in main app build settings. Developer will need to manually add Dev Team.");
+     return null;
+ }
++//───────────────────────────────────────────────────────────────────────────
++// Helper: Generate a random UUID for xcode project
++//───────────────────────────────────────────────────────────────────────────
++function generateUuid() {
++    return 'xxxxxxxxxxxxxxxxxxxxxxxx'.replace(/x/g, function() {
++        return Math.floor(Math.random() * 16).toString(16).toUpperCase();
++    });
++}
++//───────────────────────────────────────────────────────────────────────────
++// Helper: Get file type for Xcode
++//───────────────────────────────────────────────────────────────────────────
++function getFileType(fileName) {
++    if (fileName.endsWith('.swift')) return 'sourcecode.swift';
++    if (fileName.endsWith('.storyboard')) return 'file.storyboard';
++    if (fileName.endsWith('.js')) return 'sourcecode.javascript';
++    if (fileName.endsWith('.plist')) return 'text.plist.xml';
++    if (fileName.endsWith('.entitlements')) return 'text.plist.entitlements';
++    if (fileName.endsWith('.xcprivacy')) return 'text.xml';
++    return 'file';
++}
+ const withShareExtensionXcodeTarget = (config, parameters) => {
+     return (0, config_plugins_1.withXcodeProject)(config, async (config) => {
+         const extensionName = (0, constants_1.getShareExtensionName)(parameters);
+@@ -75,32 +95,130 @@ const withShareExtensionXcodeTarget = (config, parameters) => {
+         ];
+         const allFiles = [...sourceFiles, ...resourceFiles, ...configFiles];
+         /* ------------------------------------------------------------------ */
+-        /* 4. Create target, group & build phases (CORRECTED APPROACH)       */
++        /* 4. Create target, group & build phases                             */
++        /*    FIX: Create unique file references for each extension           */
+         /* ------------------------------------------------------------------ */
+-        // 4.1 Create PBXGroup for the extension using addPbxGroup (OneSignal style)
+-        const extGroup = pbxProject.addPbxGroup(allFiles, extensionName, extensionName);
+-        // 4.2 Add the new PBXGroup to the top level group
+-        const groups = pbxProject.hash.project.objects.PBXGroup;
++        const projObjects = pbxProject.hash.project.objects;
++
++        // 4.1 Create unique file references for this extension
++        const fileRefs = {};
++        projObjects.PBXFileReference = projObjects.PBXFileReference || {};
++
++        for (const fileName of allFiles) {
++            const uuid = generateUuid();
++            projObjects.PBXFileReference[uuid] = {
++                isa: 'PBXFileReference',
++                lastKnownFileType: getFileType(fileName),
++                path: fileName,
++                sourceTree: '"<group>"',
++                name: fileName,
++            };
++            projObjects.PBXFileReference[uuid + '_comment'] = fileName;
++            fileRefs[fileName] = uuid;
++        }
++
++        // 4.2 Create PBXGroup for the extension with our file references
++        const groupUuid = generateUuid();
++        projObjects.PBXGroup = projObjects.PBXGroup || {};
++        projObjects.PBXGroup[groupUuid] = {
++            isa: 'PBXGroup',
++            children: allFiles.map(f => ({ value: fileRefs[f], comment: f })),
++            name: extensionName,
++            path: extensionName,
++            sourceTree: '"<group>"',
++        };
++        projObjects.PBXGroup[groupUuid + '_comment'] = extensionName;
++
++        // 4.3 Add the new PBXGroup to the top level (main) group
++        const groups = projObjects.PBXGroup;
+         Object.keys(groups).forEach(function (key) {
+             if (typeof groups[key] === "object" &&
+                 groups[key].name === undefined &&
+-                groups[key].path === undefined) {
+-                pbxProject.addToPbxGroup(extGroup.uuid, key);
++                groups[key].path === undefined &&
++                groups[key].children) {
++                // This is the main project group
++                groups[key].children.push({ value: groupUuid, comment: extensionName });
+             }
+         });
+-        // 4.3 WORK AROUND for addTarget BUG (from OneSignal)
+-        // Xcode projects don't contain these if there is only one target
+-        const projObjects = pbxProject.hash.project.objects;
++
++        // 4.4 WORK AROUND for addTarget BUG (from OneSignal)
+         projObjects.PBXTargetDependency = projObjects.PBXTargetDependency || {};
+         projObjects.PBXContainerItemProxy = projObjects.PBXContainerItemProxy || {};
+-        // 4.4 Create native target
++
++        // 4.5 Create native target
+         const target = pbxProject.addTarget(extensionName, "app_extension", extensionName);
+-        // 4.5 Add build phases to the new target
+-        pbxProject.addBuildPhase(sourceFiles, // Add source files directly to the build phase
+-        "PBXSourcesBuildPhase", "Sources", target.uuid);
+-        pbxProject.addBuildPhase(resourceFiles, // Add resource files directly to the build phase
+-        "PBXResourcesBuildPhase", "Resources", target.uuid);
+-        pbxProject.addBuildPhase([], "PBXFrameworksBuildPhase", "Frameworks", target.uuid);
++
++        // 4.6 Create build phases manually with our specific file UUIDs
++        const sourcesPhaseUuid = generateUuid();
++        const resourcesPhaseUuid = generateUuid();
++        const frameworksPhaseUuid = generateUuid();
++
++        projObjects.PBXSourcesBuildPhase = projObjects.PBXSourcesBuildPhase || {};
++        projObjects.PBXSourcesBuildPhase[sourcesPhaseUuid] = {
++            isa: 'PBXSourcesBuildPhase',
++            buildActionMask: 2147483647,
++            files: [],
++            runOnlyForDeploymentPostprocessing: 0,
++        };
++        projObjects.PBXSourcesBuildPhase[sourcesPhaseUuid + '_comment'] = 'Sources';
++
++        projObjects.PBXResourcesBuildPhase = projObjects.PBXResourcesBuildPhase || {};
++        projObjects.PBXResourcesBuildPhase[resourcesPhaseUuid] = {
++            isa: 'PBXResourcesBuildPhase',
++            buildActionMask: 2147483647,
++            files: [],
++            runOnlyForDeploymentPostprocessing: 0,
++        };
++        projObjects.PBXResourcesBuildPhase[resourcesPhaseUuid + '_comment'] = 'Resources';
++
++        projObjects.PBXFrameworksBuildPhase = projObjects.PBXFrameworksBuildPhase || {};
++        projObjects.PBXFrameworksBuildPhase[frameworksPhaseUuid] = {
++            isa: 'PBXFrameworksBuildPhase',
++            buildActionMask: 2147483647,
++            files: [],
++            runOnlyForDeploymentPostprocessing: 0,
++        };
++        projObjects.PBXFrameworksBuildPhase[frameworksPhaseUuid + '_comment'] = 'Frameworks';
++
++        // 4.7 Add files to build phases using our unique UUIDs
++        projObjects.PBXBuildFile = projObjects.PBXBuildFile || {};
++
++        for (const fileName of sourceFiles) {
++            const buildFileUuid = generateUuid();
++            projObjects.PBXBuildFile[buildFileUuid] = {
++                isa: 'PBXBuildFile',
++                fileRef: fileRefs[fileName],
++                fileRef_comment: fileName,
++            };
++            projObjects.PBXBuildFile[buildFileUuid + '_comment'] = `${fileName} in Sources`;
++            projObjects.PBXSourcesBuildPhase[sourcesPhaseUuid].files.push({
++                value: buildFileUuid,
++                comment: `${fileName} in Sources`
++            });
++        }
++
++        for (const fileName of resourceFiles) {
++            const buildFileUuid = generateUuid();
++            projObjects.PBXBuildFile[buildFileUuid] = {
++                isa: 'PBXBuildFile',
++                fileRef: fileRefs[fileName],
++                fileRef_comment: fileName,
++            };
++            projObjects.PBXBuildFile[buildFileUuid + '_comment'] = `${fileName} in Resources`;
++            projObjects.PBXResourcesBuildPhase[resourcesPhaseUuid].files.push({
++                value: buildFileUuid,
++                comment: `${fileName} in Resources`
++            });
++        }
++
++        // 4.8 Update target to use our build phases
++        const targetObj = projObjects.PBXNativeTarget[target.uuid];
++        targetObj.buildPhases = [
++            { value: sourcesPhaseUuid, comment: 'Sources' },
++            { value: frameworksPhaseUuid, comment: 'Frameworks' },
++            { value: resourcesPhaseUuid, comment: 'Resources' },
++        ];
++
+         /* ------------------------------------------------------------------ */
+         /* 5. Build-settings configuration                                    */
+         /* ------------------------------------------------------------------ */
 diff --git a/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js b/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js
 index c40060d..20b3bd2 100644
 --- a/node_modules/expo-share-intent/plugin/build/ios/writeIosShareExtensionFiles.js

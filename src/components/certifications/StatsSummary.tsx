@@ -1,11 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import { SPACING, COMPONENT_RADIUS } from '../../constants/spacing';
+import { SPACING, COMPONENT_RADIUS, SIZES } from '../../constants/spacing';
 import { TYPOGRAPHY, LETTER_SPACING } from '../../constants/typography';
 import { JOURNEY_COLORS } from '../../data/themes';
+import { useJourneyStore } from '../../store/journeyStore';
+import { withOpacity, OPACITY } from '../../utils/colorUtils';
 import { useTheme } from '../common/ThemeProvider';
+import { JourneyProgressCard } from '../journey/JourneyProgressCard';
+import { Ionicons } from '@expo/vector-icons';
 
 interface StatsSummaryProps {
   articlesRead: number;
@@ -25,6 +29,8 @@ export function StatsSummary({
 }: StatsSummaryProps) {
   const { theme } = useTheme();
   const { t } = useTranslation('content');
+  const { certProgress, avgWpmLast3, avgCompLast5 } = useJourneyStore();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
@@ -37,27 +43,50 @@ export function StatsSummary({
   };
 
   const content = (
-    <View style={styles.row}>
-      <StatItem
-        value={articlesRead}
-        label={t('stats.devoured')}
-        color={theme.accentColor}
-      />
-      <StatItem
-        value={formatNumber(totalWords)}
-        label={t('stats.words')}
-        color={theme.accentColor}
-      />
-      <StatItem
-        value={`${averageComprehension}%`}
-        label={t('stats.retention')}
-        color={JOURNEY_COLORS.success}
-      />
-      <StatItem
-        value={bestWPM}
-        label={t('stats.best_wpm')}
-        color={JOURNEY_COLORS.premiumAccent}
-      />
+    <View style={styles.content}>
+      <View style={styles.row}>
+        <StatItem
+          value={articlesRead}
+          label={t('stats.devoured')}
+          color={theme.accentColor}
+        />
+        <StatItem
+          value={formatNumber(totalWords)}
+          label={t('stats.words')}
+          color={theme.accentColor}
+        />
+        <StatItem
+          value={`${averageComprehension}%`}
+          label={t('stats.retention')}
+          color={JOURNEY_COLORS.success}
+        />
+        <StatItem
+          value={bestWPM}
+          label={t('stats.best_wpm')}
+          color={JOURNEY_COLORS.premiumAccent}
+        />
+      </View>
+      <TouchableOpacity
+        style={styles.expandToggle}
+        onPress={() => setIsExpanded((prev) => !prev)}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      >
+        <Ionicons
+          name={isExpanded ? 'chevron-up' : 'chevron-down'}
+          size={SIZES.iconXs}
+          color={withOpacity(theme.textColor, OPACITY.medium)}
+        />
+      </TouchableOpacity>
+      {isExpanded ? (
+        <View style={styles.journeyContainer}>
+          <JourneyProgressCard
+            avgWpm={avgWpmLast3}
+            avgComp={avgCompLast5}
+            certProgress={certProgress}
+            style={styles.journeyCard}
+          />
+        </View>
+      ) : null}
     </View>
   );
 
@@ -102,11 +131,15 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: COMPONENT_RADIUS.card,
   },
+  content: {
+    paddingVertical: SPACING.xs,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: SPACING.xs,
-    marginVertical: SPACING.md,
+    marginTop: SPACING.sm,
+    marginBottom: SPACING.xs,
   },
   statItem: {
     flex: 1,
@@ -124,5 +157,17 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     textTransform: 'uppercase',
     letterSpacing: LETTER_SPACING.tight,
+  },
+  expandToggle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.xs,
+  },
+  journeyContainer: {
+    paddingHorizontal: SPACING.md,
+    paddingBottom: SPACING.sm,
+  },
+  journeyCard: {
+    marginTop: SPACING.xs,
   },
 });

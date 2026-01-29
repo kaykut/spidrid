@@ -61,6 +61,9 @@ export default function CurriculumArticleScreen() {
 
   // Get reading language setting for per-content language detection
   const readingLanguage = useSettingsStore(state => state.readingLanguage);
+  const pauseOnComma = useSettingsStore(state => state.pauseOnComma);
+  const pauseOnPeriod = useSettingsStore(state => state.pauseOnPeriod);
+  const hyphenationMode = useSettingsStore(state => state.hyphenationMode);
 
   // Process article content for RSVP
   const processedWords = useMemo(() => {
@@ -71,8 +74,8 @@ export default function CurriculumArticleScreen() {
       ? getAdapterForContent(article.content)
       : getAdapter(readingLanguage);
 
-    return processText(article.content, adapter);
-  }, [article?.content, readingLanguage]);
+    return processText(article.content, adapter, { pauseOnComma, pauseOnPeriod, hyphenationMode });
+  }, [article?.content, readingLanguage, pauseOnComma, pauseOnPeriod, hyphenationMode]);
 
   // RSVP engine
   const engine = useRSVPEngine(processedWords, currentWPM);

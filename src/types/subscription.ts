@@ -12,7 +12,7 @@ export interface PurchaseOffering {
 
 // Free tier limits as constants
 export const FREE_TIER_LIMITS = {
-  MAX_WPM: 450,
+  MAX_WPM: 900,
   MAX_DAILY_AI_GENERATIONS: 3,
 } as const;
 

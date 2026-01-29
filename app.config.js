@@ -15,6 +15,7 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.devoro.app',
+      appleTeamId: '9AL54PGCAT',
       usesAppleSignIn: true,
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,

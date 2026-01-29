@@ -13,6 +13,7 @@
 
 import { getCurrentAdapter } from './language';
 import { LanguageAdapter } from './language/types';
+import { PauseLevel } from '../types/settings';
 
 export function calculateORP(word: string): number {
   const len = word.length;
@@ -31,21 +32,69 @@ export function calculateORP(word: string): number {
  * @param word - The word to analyze
  * @param adapter - Language adapter for punctuation patterns (defaults to current language)
  */
+export interface PauseMultipliers {
+  sentenceEnd: number;
+  clauseBreak: number;
+  longWord: number;
+}
+
+const LONG_WORD_MULTIPLIER = 1.2;
+
+export const DEFAULT_PAUSE_MULTIPLIERS: PauseMultipliers = {
+  sentenceEnd: 3.0,
+  clauseBreak: 1.5,
+  longWord: LONG_WORD_MULTIPLIER,
+};
+
+const PAUSE_LEVEL_MULTIPLIERS = {
+  comma: {
+    off: 1.0,
+    short: 1.5,
+    medium: 1.8,
+    long: 2.1,
+  },
+  period: {
+    off: 1.0,
+    short: 3.0,
+    medium: 3.6,
+    long: 4.5,
+  },
+  paragraph: {
+    off: 1.0,
+    short: 5.0,
+    medium: 6.0,
+    long: 7.5,
+  },
+} as const;
+
+export type PauseMultiplierType = keyof typeof PAUSE_LEVEL_MULTIPLIERS;
+
+export function getPauseMultiplierForLevel(
+  type: PauseMultiplierType,
+  level: PauseLevel
+): number {
+  return PAUSE_LEVEL_MULTIPLIERS[type][level] ?? PAUSE_LEVEL_MULTIPLIERS[type].short;
+}
+
 export function calculatePauseMultiplier(
   word: string,
-  adapter: LanguageAdapter = getCurrentAdapter()
+  adapter: LanguageAdapter = getCurrentAdapter(),
+  multipliers: PauseMultipliers = DEFAULT_PAUSE_MULTIPLIERS
 ): number {
-  // Sentence end - longest pause (3.0× for "wrap-up effect")
-  if (adapter.sentenceEndPattern.test(word)) {return 3.0;}
+  const longWordMultiplier = word.length > 12 ? multipliers.longWord : 1.0;
 
-  // Clause break - medium pause (comma, semicolon: 1.5× for clause integration)
-  if (adapter.clauseBreakPattern.test(word)) {return 1.5;}
+  // Sentence end - longest pause (wrap-up effect)
+  if (adapter.sentenceEndPattern.test(word)) {
+    return Math.max(longWordMultiplier, multipliers.sentenceEnd);
+  }
 
-  // Long word - slightly longer for processing
-  if (word.length > 12) {return 1.2;}
+  // Clause break - medium pause (comma, semicolon, colon)
+  if (adapter.clauseBreakPattern.test(word)) {
+    return Math.max(longWordMultiplier, multipliers.clauseBreak);
+  }
 
   // Standard word
-  return 1.0;
+  return longWordMultiplier;
 }
 
 /**

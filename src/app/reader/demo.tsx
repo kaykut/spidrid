@@ -9,15 +9,20 @@ import { SPACING, COMPONENT_SPACING, space, LINE_HEIGHTS } from '../../constants
 import { TYPOGRAPHY, FONT_WEIGHTS } from '../../constants/typography';
 import { useRSVPEngine } from '../../hooks/useRSVPEngine';
 import { processText } from '../../services/textProcessor';
+import { useSettingsStore } from '../../store/settingsStore';
 
 const DEMO_TEXT = `The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet. Speed reading is a collection of methods for increasing reading speed without unacceptable reductions in comprehension or retention. RSVP, or Rapid Serial Visual Presentation, displays words one at a time in a fixed position on the screen. The red letter you see is called the Optimal Recognition Point, or ORP. By fixing your eye on this point, you eliminate the need for saccadic eye movements, which normally consume about 80% of reading time. With practice, you can reach speeds of 500 to 1000 words per minute while maintaining good comprehension.`;
 
 export default function DemoReaderScreen() {
   const { theme } = useTheme();
 
+  const pauseOnComma = useSettingsStore(state => state.pauseOnComma);
+  const pauseOnPeriod = useSettingsStore(state => state.pauseOnPeriod);
+  const hyphenationMode = useSettingsStore(state => state.hyphenationMode);
+
   const words = useMemo(() => {
-    return processText(DEMO_TEXT);
-  }, []);
+    return processText(DEMO_TEXT, undefined, { pauseOnComma, pauseOnPeriod, hyphenationMode });
+  }, [pauseOnComma, pauseOnPeriod, hyphenationMode]);
 
   const engine = useRSVPEngine(words, 250);
 

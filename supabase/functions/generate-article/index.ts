@@ -19,6 +19,8 @@ interface RequestBody {
   userId: string;
   curriculumContext?: CurriculumContext;
   includeQuiz?: boolean; // Optional, defaults to true for backward compatibility
+  isPremium?: boolean;
+  localDate?: string;
 }
 
 // Tone prompts for explicit tone selection
@@ -53,6 +55,9 @@ const GOOGLE_API_KEY = Deno.env.get('GOOGLE_API_KEY') || '';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const MODEL = 'gemini-3-flash-preview';
+const FREE_DAILY_LIMIT = 3;
+const QUOTA_ITEM_TYPE = 'generation_quota';
+const QUOTA_ITEM_ID = 'daily_generation';
 
 // JSON Schema for Structured Output - guarantees response format
 const RESPONSE_SCHEMA = {
@@ -210,6 +215,8 @@ serve(async (req) => {
     // User authenticated - proceed with article generation
     const body: RequestBody = await req.json();
     const { topic, targetWordCount, tone, tonePrompt } = body;
+    const isPremium = body.isPremium === true;
+    const localDate = body.localDate || new Date().toDateString();
 
     // Extract includeQuiz flag (defaults to true for backward compatibility)
     const includeQuiz = body.includeQuiz ?? true;
@@ -246,6 +253,53 @@ serve(async (req) => {
         }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    // Enforce free-tier daily generation limit (server-side, cross-device)
+    let nextQuotaCount: number | null = null;
+    let quotaClient: ReturnType<typeof createClient> | null = null;
+    if (!isPremium) {
+      quotaClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        global: { headers: { Authorization: authHeader } },
+      });
+
+      const { data: quotaRow, error: quotaError } = await quotaClient
+        .from('user_content')
+        .select('data')
+        .eq('user_id', user.id)
+        .eq('item_type', QUOTA_ITEM_TYPE)
+        .eq('item_id', QUOTA_ITEM_ID)
+        .is('deleted_at', null)
+        .maybeSingle();
+
+      if (quotaError) {
+        console.error('[generate-article] Failed to read quota:', quotaError);
+      } else {
+        const existingDate = quotaRow?.data?.date as string | undefined;
+        const existingCount = Number(quotaRow?.data?.count ?? 0);
+        const normalizedCount = existingDate === localDate ? existingCount : 0;
+
+        if (normalizedCount >= FREE_DAILY_LIMIT) {
+          return new Response(
+            JSON.stringify({
+              success: false,
+              error: 'Daily generation limit reached',
+              errorCode: 'DAILY_LIMIT',
+              limit: FREE_DAILY_LIMIT,
+              date: localDate,
+            }),
+            {
+              status: 403,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+            }
+          );
+        }
+
+        nextQuotaCount = normalizedCount + 1;
+      }
     }
 
     // Build prompt based on whether this is a curriculum article or standalone
@@ -336,6 +390,25 @@ Generate the article with title, content${includeQuiz ? ', ' + quizPart : ' ' + 
     // Defensive: Ensure questions array respects includeQuiz flag
     // (in case LLM generates questions despite being told not to)
     const questions = includeQuiz ? (parsed.questions || []) : [];
+
+    if (quotaClient && nextQuotaCount !== null) {
+      const { error: quotaWriteError } = await quotaClient
+        .from('user_content')
+        .upsert(
+          {
+            user_id: user.id,
+            item_id: QUOTA_ITEM_ID,
+            item_type: QUOTA_ITEM_TYPE,
+            data: { date: localDate, count: nextQuotaCount },
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'user_id,item_id' }
+        );
+
+      if (quotaWriteError) {
+        console.error('[generate-article] Failed to update quota:', quotaWriteError);
+      }
+    }
 
     return new Response(
       JSON.stringify({

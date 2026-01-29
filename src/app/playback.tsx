@@ -76,6 +76,9 @@ export default function PlaybackModal() {
 
   // Get reading language setting for per-content language detection
   const readingLanguage = useSettingsStore(state => state.readingLanguage);
+  const pauseOnComma = useSettingsStore(state => state.pauseOnComma);
+  const pauseOnPeriod = useSettingsStore(state => state.pauseOnPeriod);
+  const hyphenationMode = useSettingsStore(state => state.hyphenationMode);
 
   // Process text into words for RSVP engine
   const processedWords = useMemo(() => {
@@ -88,8 +91,8 @@ export default function PlaybackModal() {
       ? getAdapterForContent(resolvedContent.content) // Auto-detect with franc
       : getAdapter(readingLanguage); // Force user's choice
 
-    return processText(resolvedContent.content, adapter);
-  }, [resolvedContent?.content, readingLanguage]);
+    return processText(resolvedContent.content, adapter, { pauseOnComma, pauseOnPeriod, hyphenationMode });
+  }, [resolvedContent?.content, readingLanguage, pauseOnComma, pauseOnPeriod, hyphenationMode]);
 
   // Restore saved reading position (if available)
   const savedPosition = useMemo(() => {

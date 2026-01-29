@@ -26,19 +26,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AuthModal } from '../components/auth/AuthModal';
 import { GlassView } from '../components/common/GlassView';
 import { useTheme } from '../components/common/ThemeProvider';
-import { VerticalProgressPath } from '../components/journey/VerticalProgressPath';
+import { PauseLevelSlider } from '../components/settings/PauseLevelSlider';
 import { SPACING, COMPONENT_RADIUS, SIZES } from '../constants/spacing';
 import { TYPOGRAPHY, FONT_WEIGHTS, FONT_FAMILY } from '../constants/typography';
 import { themeList, JOURNEY_COLORS } from '../data/themes';
 import { changeLanguage } from '../services/i18n';
 import { calculateORP } from '../services/orp';
 import { useAuthStore } from '../store/authStore';
-import { useJourneyStore } from '../store/journeyStore';
 import { useLocaleStore } from '../store/localeStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { useSubscriptionStore } from '../store/subscriptionStore';
 import { SUPPORTED_LOCALES, type SupportedLocale } from '../types/locale';
-import { type FontFamily, type Theme } from '../types/settings';
+import { type FontFamily, type Theme, type HyphenationMode } from '../types/settings';
 import { withOpacity, OPACITY } from '../utils/colorUtils';
 
 // Helper to convert hex to rgba with alpha
@@ -106,15 +105,20 @@ export default function JourneyProfileModal() {
   const { t } = useTranslation('settings');
   const { t: tSub } = useTranslation('subscription');
   const { t: tAuth } = useTranslation('auth');
-  const { certProgress, avgWpmLast3, avgCompLast5 } = useJourneyStore();
   const {
     userName,
     fontFamily,
-    paragraphPauseEnabled,
+    pauseOnComma,
+    pauseOnPeriod,
+    pauseOnParagraph,
+    hyphenationMode,
     moveFinishedToHistory,
     setUserName,
     setFontFamily,
-    setParagraphPauseEnabled,
+    setPauseOnComma,
+    setPauseOnPeriod,
+    setPauseOnParagraph,
+    setHyphenationMode,
     setMoveFinishedToHistory,
   } = useSettingsStore();
   const {
@@ -128,6 +132,7 @@ export default function JourneyProfileModal() {
 
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
+  const [showAdvancedPlayback, setShowAdvancedPlayback] = useState(false);
 
   const isDarkTheme = theme.id === 'dark' || theme.id === 'midnight';
 
@@ -217,43 +222,83 @@ export default function JourneyProfileModal() {
           {/* Page title */}
           <Text style={[styles.pageTitle, { color: theme.textColor }]}>{t('page_title')}</Text>
 
-          {/* ====== JOURNEY SECTION ====== */}
+          {/* Appearance */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.appearance')}</Text>
+          <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+            <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
+              {t('appearance.theme')}
+            </Text>
+            <View style={styles.themeGrid}>
+              {themeList.map((t) => (
+                <TouchableOpacity
+                  key={t.id}
+                  style={[
+                    styles.themeButton,
+                    { backgroundColor: t.backgroundColor, borderColor: t.crosshairColor },
+                    theme.id === t.id && { borderColor: theme.accentColor, borderWidth: 3 },
+                  ]}
+                  onPress={() => setTheme(t.id)}
+                >
+                  <Text style={[styles.themeName, { color: t.textColor }]}>{t.name}</Text>
+                  <View style={[styles.orpPreview, { backgroundColor: t.orpColor }]} />
+                </TouchableOpacity>
+              ))}
+            </View>
 
-          {/* Vertical Progress Path */}
-          <LinearGradient
-            colors={[theme.secondaryBackground, theme.secondaryBackgroundGradient]}
-            style={styles.progressContainer}
-          >
-            <VerticalProgressPath
-              avgWpm={avgWpmLast3}
-              avgComp={avgCompLast5}
-              certProgress={certProgress}
-            />
-          </LinearGradient>
+            <View style={styles.cardDivider} />
 
-          {/* ====== PROFILE SECTION ====== */}
+            <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
+              {t('appearance.font')}
+            </Text>
+            <View style={styles.fontGrid}>
+              {fontOptions.map((option) => {
+                const isActive = fontFamily === option.id;
+                let displayFontFamily = FONT_FAMILY;
+                if (option.id === 'lora') {
+                  displayFontFamily = 'Lora';
+                } else if (option.id === 'inter') {
+                  displayFontFamily = 'Inter';
+                } else if (option.id === 'reddit-sans-condensed') {
+                  displayFontFamily = 'RedditSansCondensed';
+                }
 
-          {/* Theme Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.theme')}</Text>
-          <View style={styles.themeGrid}>
-            {themeList.map((t) => (
-              <TouchableOpacity
-                key={t.id}
-                style={[
-                  styles.themeButton,
-                  { backgroundColor: t.backgroundColor, borderColor: t.crosshairColor },
-                  theme.id === t.id && { borderColor: theme.accentColor, borderWidth: 3 },
-                ]}
-                onPress={() => setTheme(t.id)}
-              >
-                <Text style={[styles.themeName, { color: t.textColor }]}>{t.name}</Text>
-                <View style={[styles.orpPreview, { backgroundColor: t.orpColor }]} />
-              </TouchableOpacity>
-            ))}
+                return (
+                  <TouchableOpacity
+                    key={option.id}
+                    style={[
+                      styles.fontButton,
+                      { backgroundColor: theme.backgroundColor, borderColor: theme.crosshairColor },
+                      isActive && { borderColor: theme.accentColor, borderWidth: 3 },
+                    ]}
+                    onPress={() => setFontFamily(option.id)}
+                  >
+                    <Text
+                      style={[
+                        styles.fontLabel,
+                        {
+                          color: theme.textColor,
+                          fontFamily: displayFontFamily,
+                        },
+                      ]}
+                    >
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <View style={[
+              styles.fontPreviewContainer,
+              { backgroundColor: theme.backgroundColor, borderColor: theme.crosshairColor },
+            ]}>
+              <Text style={[styles.fontPreviewTitle, { color: theme.textColor }]}>{t('fonts.preview')}</Text>
+              <FontPreview fontFamily={fontFamily} theme={theme} />
+            </View>
           </View>
 
-          {/* User Profile Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.your_info')}</Text>
+          {/* Account */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.account')}</Text>
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <Text style={[styles.inputLabel, { color: theme.textColor }]}>
               {t('user_info.name_label')}
@@ -273,11 +318,8 @@ export default function JourneyProfileModal() {
               placeholderTextColor={withOpacity(theme.textColor, OPACITY.strong)}
             />
 
-          </View>
+            <View style={styles.cardDivider} />
 
-          {/* Language Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.language')}</Text>
-          <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <Text style={[styles.inputLabel, { color: theme.textColor }]}>
               {t('language.app_language')}
             </Text>
@@ -388,9 +430,10 @@ export default function JourneyProfileModal() {
             </Modal>
           </View>
 
-          {/* Subscription Section */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{tSub('section_subscription')}</Text>
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
+            <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
+              {tSub('section_subscription')}
+            </Text>
             <View style={styles.subscriptionRow}>
               <Text style={[styles.subscriptionLabel, { color: theme.textColor }]}>
                 {tSub('status')}
@@ -420,7 +463,6 @@ export default function JourneyProfileModal() {
                 <Text style={styles.upgradeText}>{tSub('upgrade_to_premium')}</Text>
               </TouchableOpacity>
             ) : null}
-            {/* Restore Purchases - available for all users per Apple guidelines */}
             <TouchableOpacity
               style={[styles.restoreButton, { borderColor: theme.crosshairColor }]}
               onPress={handleRestorePurchases}
@@ -434,151 +476,84 @@ export default function JourneyProfileModal() {
                 </Text>
               )}
             </TouchableOpacity>
-          </View>
 
-          {/* Sync Section - Show for all users, gate behind paywall */}
-          <>
-            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
+            <View style={styles.cardDivider} />
+
+            <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
               {tAuth('section_sync')}
             </Text>
-              <View style={[styles.card, { backgroundColor: theme.secondaryBackground, position: 'relative' }]}>
-                {isLoggedIn ? (
-                  <>
-                    <View style={styles.syncStatusRow}>
-                      <Ionicons
-                        name="checkmark-circle"
-                        size={SIZES.iconMd}
-                        color={JOURNEY_COLORS.success}
-                      />
-                      <View style={styles.syncStatusInfo}>
-                        <Text style={[styles.syncStatusLabel, { color: theme.textColor }]}>
-                          {tAuth('sync.signed_in')}
-                        </Text>
-                        <Text
-                          style={[styles.syncStatusDesc, { color: JOURNEY_COLORS.textSecondary }]}
-                          numberOfLines={1}
-                        >
-                          {userEmail || tAuth('sync.account_verified')}
-                        </Text>
-                      </View>
-                    </View>
-
-                    {/* Sync Status Indicator */}
-                    <View style={styles.syncStatusIndicator}>
-                      <Ionicons
-                        name="cloud-outline"
-                        size={SIZES.iconSm}
-                        color={JOURNEY_COLORS.textSecondary}
-                      />
-                      <Text style={[styles.syncStatusText, { color: JOURNEY_COLORS.textSecondary }]}>
-                        {tAuth('sync.status_ready')}
-                      </Text>
-                    </View>
-
-                    <TouchableOpacity
-                      style={[styles.signOutButton, { borderColor: theme.crosshairColor }]}
-                      onPress={signOut}
-                    >
-                      <Text style={[styles.signOutText, { color: theme.textColor }]}>
-                        {tAuth('sync.sign_out')}
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                ) : (
-                  <>
-                    <Text style={[styles.syncDescription, { color: JOURNEY_COLORS.textSecondary }]}>
-                      {tAuth('sync.desc')}
+            {isLoggedIn ? (
+              <>
+                <View style={styles.syncStatusRow}>
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={SIZES.iconMd}
+                    color={JOURNEY_COLORS.success}
+                  />
+                  <View style={styles.syncStatusInfo}>
+                    <Text style={[styles.syncStatusLabel, { color: theme.textColor }]}>
+                      {tAuth('sync.signed_in')}
                     </Text>
-                    <TouchableOpacity
-                      style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
-                      onPress={() => {
-                        setShowAuthModal(true);
-                      }}
+                    <Text
+                      style={[styles.syncStatusDesc, { color: JOURNEY_COLORS.textSecondary }]}
+                      numberOfLines={1}
                     >
-                      <Ionicons
-                        name="sync-outline"
-                        size={SIZES.iconSm}
-                        color={JOURNEY_COLORS.textPrimary}
-                      />
-                      <Text style={styles.signInText}>{tAuth('sync.sign_in_to_sync')}</Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-              </View>
-            </>
+                      {userEmail || tAuth('sync.account_verified')}
+                    </Text>
+                  </View>
+                </View>
 
-          {/* Reading Settings */}
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.reading')}</Text>
+                <View style={styles.syncStatusIndicator}>
+                  <Ionicons
+                    name="cloud-outline"
+                    size={SIZES.iconSm}
+                    color={JOURNEY_COLORS.textSecondary}
+                  />
+                  <Text style={[styles.syncStatusText, { color: JOURNEY_COLORS.textSecondary }]}>
+                    {tAuth('sync.status_ready')}
+                  </Text>
+                </View>
 
-          {/* Font Selector */}
-          <View style={styles.fontGrid}>
-            {fontOptions.map((option) => {
-              const isActive = fontFamily === option.id;
-              let displayFontFamily = FONT_FAMILY;
-              if (option.id === 'lora') {
-                displayFontFamily = 'Lora';
-              } else if (option.id === 'inter') {
-                displayFontFamily = 'Inter';
-              } else if (option.id === 'reddit-sans-condensed') {
-                displayFontFamily = 'RedditSansCondensed';
-              }
-
-              return (
                 <TouchableOpacity
-                  key={option.id}
-                  style={[
-                    styles.fontButton,
-                    { backgroundColor: theme.secondaryBackground, borderColor: theme.crosshairColor },
-                    isActive && { borderColor: theme.accentColor, borderWidth: 3 },
-                  ]}
-                  onPress={() => setFontFamily(option.id)}
+                  style={[styles.signOutButton, { borderColor: theme.crosshairColor }]}
+                  onPress={signOut}
                 >
-                  <Text
-                    style={[
-                      styles.fontLabel,
-                      {
-                        color: theme.textColor,
-                        fontFamily: displayFontFamily
-                      }
-                    ]}
-                  >
-                    {option.label}
+                  <Text style={[styles.signOutText, { color: theme.textColor }]}>
+                    {tAuth('sync.sign_out')}
                   </Text>
                 </TouchableOpacity>
-              );
-            })}
+              </>
+            ) : (
+              <>
+                <Text style={[styles.syncDescription, { color: JOURNEY_COLORS.textSecondary }]}>
+                  {tAuth('sync.desc')}
+                </Text>
+                <TouchableOpacity
+                  style={[styles.signInButton, { backgroundColor: theme.accentColor }]}
+                  onPress={() => {
+                    setShowAuthModal(true);
+                  }}
+                >
+                  <Ionicons
+                    name="sync-outline"
+                    size={SIZES.iconSm}
+                    color={JOURNEY_COLORS.textPrimary}
+                  />
+                  <Text style={styles.signInText}>{tAuth('sync.sign_in_to_sync')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
 
-          {/* Font Preview */}
-          <View style={[styles.fontPreviewContainer, { backgroundColor: theme.secondaryBackground }]}>
-            <Text style={[styles.fontPreviewTitle, { color: theme.textColor }]}>{t('fonts.preview')}</Text>
-            <FontPreview fontFamily={fontFamily} theme={theme} />
-          </View>
-
-          {/* Existing Reading settings card */}
+          {/* Reading & Playback */}
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{t('sections.reading')}</Text>
           <View style={[styles.card, { backgroundColor: theme.secondaryBackground }]}>
             <View style={styles.settingRow}>
               <View style={styles.settingInfo}>
                 <Text style={[styles.settingLabel, { color: theme.textColor }]}>
-                  {t('reading.paragraph_pause')}
-                </Text>
-                <Text style={[styles.settingDesc, { color: theme.textColor }]}>
-                  {t('reading.paragraph_pause_desc')}
-                </Text>
-              </View>
-              <Switch
-                value={paragraphPauseEnabled}
-                onValueChange={setParagraphPauseEnabled}
-                trackColor={{ false: theme.trackColor, true: theme.accentColor }}
-                thumbColor={theme.textColor}
-              />
-            </View>
-            <View style={[styles.settingRow, { marginTop: SPACING.md }]}>
-              <View style={styles.settingInfo}>
-                <Text style={[styles.settingLabel, { color: theme.textColor }]}>
                   {t('reading.move_to_history')}
                 </Text>
-                <Text style={[styles.settingDesc, { color: theme.textColor }]}>
+                <Text style={[styles.settingDesc, { color: JOURNEY_COLORS.textSecondary }]}>
                   {t('reading.move_to_history_desc')}
                 </Text>
               </View>
@@ -589,6 +564,111 @@ export default function JourneyProfileModal() {
                 thumbColor={theme.textColor}
               />
             </View>
+
+            <View style={styles.cardDivider} />
+
+            <TouchableOpacity
+              style={styles.advancedRow}
+              onPress={() => setShowAdvancedPlayback((prev) => !prev)}
+              activeOpacity={0.8}
+            >
+              <View style={styles.settingInfo}>
+                <Text style={[styles.settingLabel, { color: theme.textColor }]}>
+                  {t('reading.advanced_playback')}
+                </Text>
+                <Text style={[styles.settingDesc, { color: JOURNEY_COLORS.textSecondary }]}>
+                  {t('reading.advanced_playback_desc')}
+                </Text>
+              </View>
+              <Ionicons
+                name={showAdvancedPlayback ? 'chevron-up' : 'chevron-down'}
+                size={SIZES.iconSm}
+                color={withOpacity(theme.textColor, OPACITY.medium)}
+              />
+            </TouchableOpacity>
+
+            {showAdvancedPlayback && (
+              <View style={styles.advancedContent}>
+                <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
+                  {t('reading.punctuation_pauses')}
+                </Text>
+                <PauseLevelSlider
+                  label={t('reading.pause_comma')}
+                  description={t('reading.pause_comma_desc')}
+                  value={pauseOnComma}
+                  onChange={setPauseOnComma}
+                  legendLabels={{
+                    off: t('reading.pause_levels.off'),
+                    short: t('reading.pause_levels.short'),
+                    medium: t('reading.pause_levels.medium'),
+                    long: t('reading.pause_levels.long'),
+                  }}
+                />
+                <PauseLevelSlider
+                  label={t('reading.pause_period')}
+                  description={t('reading.pause_period_desc')}
+                  value={pauseOnPeriod}
+                  onChange={setPauseOnPeriod}
+                  legendLabels={{
+                    off: t('reading.pause_levels.off'),
+                    short: t('reading.pause_levels.short'),
+                    medium: t('reading.pause_levels.medium'),
+                    long: t('reading.pause_levels.long'),
+                  }}
+                />
+                <PauseLevelSlider
+                  label={t('reading.pause_paragraph')}
+                  description={t('reading.pause_paragraph_desc')}
+                  value={pauseOnParagraph}
+                  onChange={setPauseOnParagraph}
+                  legendLabels={{
+                    off: t('reading.pause_levels.off'),
+                    short: t('reading.pause_levels.short'),
+                    medium: t('reading.pause_levels.medium'),
+                    long: t('reading.pause_levels.long'),
+                  }}
+                  notRecommendedLabel={t('reading.pause_not_recommended')}
+                />
+
+                <View style={styles.cardDivider} />
+
+                <Text style={[styles.cardSectionTitle, { color: theme.textColor }]}>
+                  {t('reading.hyphenation_title')}
+                </Text>
+                <Text style={[styles.settingDescription, { color: JOURNEY_COLORS.textSecondary }]}>
+                  {t('reading.hyphenation_desc')}
+                </Text>
+                <View style={styles.hyphenationGrid}>
+                  {([
+                    { id: 'stable', label: t('reading.hyphenation_stable') },
+                    { id: 'minimal', label: t('reading.hyphenation_minimal') },
+                  ] as Array<{ id: HyphenationMode; label: string }>).map((option) => {
+                    const isActive = hyphenationMode === option.id;
+                    return (
+                      <TouchableOpacity
+                        key={option.id}
+                        style={[
+                          styles.hyphenationOption,
+                          { borderColor: theme.crosshairColor, backgroundColor: theme.backgroundColor },
+                          isActive && { borderColor: theme.accentColor, backgroundColor: withOpacity(theme.accentColor, OPACITY.light) },
+                        ]}
+                        onPress={() => setHyphenationMode(option.id)}
+                        activeOpacity={0.8}
+                      >
+                        <Text
+                          style={[
+                            styles.hyphenationLabel,
+                            { color: isActive ? theme.accentColor : theme.textColor },
+                          ]}
+                        >
+                          {option.label}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
           </View>
 
           {/* Dev Tools - Consolidated */}
@@ -677,12 +757,6 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.pageTitle,
     marginBottom: SPACING.md,
   },
-  progressContainer: {
-    borderRadius: COMPONENT_RADIUS.card,
-    padding: COMPONENT_RADIUS.card / 2,
-    marginBottom: SPACING.sm,
-    overflow: 'hidden',
-  },
   sectionTitle: {
     fontSize: TYPOGRAPHY.levelName.fontSize,
     fontWeight: FONT_WEIGHTS.semibold,
@@ -715,6 +789,18 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     borderRadius: COMPONENT_RADIUS.card,
     marginBottom: SPACING.sm,
+  },
+  cardSectionTitle: {
+    ...TYPOGRAPHY.caption,
+    fontWeight: FONT_WEIGHTS.semibold,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: SPACING.sm,
+  },
+  cardDivider: {
+    height: SIZES.hairlineHeight,
+    backgroundColor: withOpacity(JOURNEY_COLORS.textSecondary, OPACITY.subtle),
+    marginVertical: SPACING.lg,
   },
   inputLabel: {
     ...TYPOGRAPHY.buttonSmall,
@@ -865,8 +951,29 @@ const styles = StyleSheet.create({
   settingDesc: {
     ...TYPOGRAPHY.buttonSmall,
     fontWeight: FONT_WEIGHTS.regular,
-    opacity: 0.6,
     marginTop: SPACING.xs,
+  },
+  advancedRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  advancedContent: {
+    marginTop: SPACING.lg,
+  },
+  hyphenationGrid: {
+    gap: SPACING.sm,
+    marginTop: SPACING.sm,
+  },
+  hyphenationOption: {
+    paddingVertical: SPACING.md,
+    paddingHorizontal: SPACING.md,
+    borderRadius: COMPONENT_RADIUS.button,
+    borderWidth: 1,
+  },
+  hyphenationLabel: {
+    ...TYPOGRAPHY.body,
+    fontWeight: FONT_WEIGHTS.medium,
   },
   devButton: {
     paddingVertical: SPACING.md,
@@ -1005,6 +1112,7 @@ const styles = StyleSheet.create({
   fontPreviewContainer: {
     padding: SPACING.lg,
     borderRadius: COMPONENT_RADIUS.card,
+    borderWidth: 1,
     marginBottom: SPACING.sm,
     alignItems: 'center',
   },

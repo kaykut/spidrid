@@ -5,7 +5,9 @@
     "your_info": "Din info",
     "reading": "Läsning",
     "developer": "Utvecklare",
-    "language": "Språk"
+    "language": "Språk",
+    "appearance": "Appearance",
+    "account": "Account"
   },
   "themes": {
     "dark": "Mörk",
@@ -28,7 +30,27 @@
     "paragraph_pause": "Stycke-paus",
     "paragraph_pause_desc": "Kort paus mellan stycken",
     "move_to_history": "Flytta till historik",
-    "move_to_history_desc": "Färdiga objekt flyttas till historik"
+    "move_to_history_desc": "Färdiga objekt flyttas till historik",
+    "advanced_playback": "Advanced Playback Settings",
+    "advanced_playback_desc": "Fine-tune pauses and long-word handling",
+    "punctuation_pauses": "Punctuation Pauses",
+    "pause_comma": "Comma Pause",
+    "pause_comma_desc": "Clause breaks (comma, semicolon, colon)",
+    "pause_period": "Period Pause",
+    "pause_period_desc": "Sentence endings (., !, ?)",
+    "pause_paragraph": "Paragraph Pause",
+    "pause_paragraph_desc": "Context shift between paragraphs",
+    "pause_not_recommended": "Not recommended",
+    "hyphenation_title": "Long Word Handling",
+    "hyphenation_desc": "Control when words split to stay on one line",
+    "hyphenation_stable": "Allow hyphenation to keep font size stable",
+    "hyphenation_minimal": "Only hyphenate to avoid multiple lines",
+    "pause_levels": {
+      "off": "Off",
+      "short": "Short",
+      "medium": "Medium",
+      "long": "Long"
+    }
   },
   "developer": {
     "dev_tools": "Utvecklarverktyg"
@@ -36,5 +58,9 @@
   "language": {
     "app_language": "Appspråk",
     "app_language_desc": "Språk för appgränssnittet"
+  },
+  "appearance": {
+    "theme": "Theme",
+    "font": "Reader Font"
   }
 }

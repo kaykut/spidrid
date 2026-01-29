@@ -9,7 +9,7 @@
  */
 
 import { useSettingsStore } from '../../store/settingsStore';
-import { UserSettings } from '../../types/settings';
+import { UserSettings, DEFAULT_SETTINGS } from '../../types/settings';
 import { supabase } from '../supabase';
 import { SyncAdapter, SyncItem } from '../syncService';
 import { requireSyncEligibility } from './syncAccess';
@@ -44,7 +44,10 @@ function toSyncableSettings(): SyncableSettings {
     hapticFeedback: state.hapticFeedback,
     userName: state.userName,
     readingLanguage: state.readingLanguage,
-    paragraphPauseEnabled: state.paragraphPauseEnabled,
+    pauseOnComma: state.pauseOnComma,
+    pauseOnPeriod: state.pauseOnPeriod,
+    pauseOnParagraph: state.pauseOnParagraph,
+    hyphenationMode: state.hyphenationMode,
     moveFinishedToHistory: state.moveFinishedToHistory,
     activeContentTab: state.activeContentTab,
   };
@@ -65,21 +68,27 @@ export const settingsSyncAdapter: SyncAdapter<SyncableSettings> = {
   fromSyncItems: (items: SyncableSettings[]): void => {
     const remoteSettings = items.find((i) => i.id === SETTINGS_DOC_ID);
     if (!remoteSettings) {return;}
+    const legacyParagraphPause = (remoteSettings as Partial<SyncableSettings> & { paragraphPauseEnabled?: boolean }).paragraphPauseEnabled;
+    const resolvedPauseOnParagraph = remoteSettings.pauseOnParagraph
+      ?? (legacyParagraphPause !== undefined ? (legacyParagraphPause ? 'short' : 'off') : DEFAULT_SETTINGS.pauseOnParagraph);
 
     // Update store with remote settings
     useSettingsStore.setState({
-      themeId: remoteSettings.themeId,
-      defaultWPM: remoteSettings.defaultWPM,
-      showCrosshairs: remoteSettings.showCrosshairs,
-      crosshairOpacity: remoteSettings.crosshairOpacity,
-      fontSize: remoteSettings.fontSize,
-      fontFamily: remoteSettings.fontFamily,
-      hapticFeedback: remoteSettings.hapticFeedback,
-      userName: remoteSettings.userName,
-      readingLanguage: remoteSettings.readingLanguage,
-      paragraphPauseEnabled: remoteSettings.paragraphPauseEnabled,
-      moveFinishedToHistory: remoteSettings.moveFinishedToHistory,
-      activeContentTab: remoteSettings.activeContentTab,
+      themeId: remoteSettings.themeId ?? DEFAULT_SETTINGS.themeId,
+      defaultWPM: remoteSettings.defaultWPM ?? DEFAULT_SETTINGS.defaultWPM,
+      showCrosshairs: remoteSettings.showCrosshairs ?? DEFAULT_SETTINGS.showCrosshairs,
+      crosshairOpacity: remoteSettings.crosshairOpacity ?? DEFAULT_SETTINGS.crosshairOpacity,
+      fontSize: remoteSettings.fontSize ?? DEFAULT_SETTINGS.fontSize,
+      fontFamily: remoteSettings.fontFamily ?? DEFAULT_SETTINGS.fontFamily,
+      hapticFeedback: remoteSettings.hapticFeedback ?? DEFAULT_SETTINGS.hapticFeedback,
+      userName: remoteSettings.userName ?? DEFAULT_SETTINGS.userName,
+      readingLanguage: remoteSettings.readingLanguage ?? DEFAULT_SETTINGS.readingLanguage,
+      pauseOnComma: remoteSettings.pauseOnComma ?? DEFAULT_SETTINGS.pauseOnComma,
+      pauseOnPeriod: remoteSettings.pauseOnPeriod ?? DEFAULT_SETTINGS.pauseOnPeriod,
+      pauseOnParagraph: resolvedPauseOnParagraph,
+      hyphenationMode: remoteSettings.hyphenationMode ?? DEFAULT_SETTINGS.hyphenationMode,
+      moveFinishedToHistory: remoteSettings.moveFinishedToHistory ?? DEFAULT_SETTINGS.moveFinishedToHistory,
+      activeContentTab: remoteSettings.activeContentTab ?? 'train',
     });
   },
 

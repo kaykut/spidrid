@@ -285,7 +285,7 @@ describe('JourneyProfileModal', () => {
       const { getByText } = renderWithProviders(<JourneyProfileModal />);
 
       expect(getByText('Max WPM')).toBeTruthy();
-      expect(getByText('450')).toBeTruthy(); // Free tier WPM limit
+      expect(getByText('900')).toBeTruthy(); // Free tier WPM limit
     });
 
     it('shows Upgrade to Premium button', () => {

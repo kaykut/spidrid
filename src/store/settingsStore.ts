@@ -18,7 +18,10 @@ interface SettingsState extends UserSettings {
   setHapticFeedback: (enabled: boolean) => void;
   setUserName: (name: string) => void;
   setReadingLanguage: (language: string) => void;
-  setParagraphPauseEnabled: (enabled: boolean) => void;
+  setPauseOnComma: (level: import('../types/settings').PauseLevel) => void;
+  setPauseOnPeriod: (level: import('../types/settings').PauseLevel) => void;
+  setPauseOnParagraph: (level: import('../types/settings').PauseLevel) => void;
+  setHyphenationMode: (mode: import('../types/settings').HyphenationMode) => void;
   setMoveFinishedToHistory: (enabled: boolean) => void;
   setActiveContentTab: (tab: ContentTab) => void;
 }
@@ -43,7 +46,10 @@ export const useSettingsStore = create<SettingsState>()(
       setHapticFeedback: (hapticFeedback) => set({ hapticFeedback }),
       setUserName: (userName) => set({ userName }),
       setReadingLanguage: (readingLanguage) => set({ readingLanguage }),
-      setParagraphPauseEnabled: (paragraphPauseEnabled) => set({ paragraphPauseEnabled }),
+      setPauseOnComma: (pauseOnComma) => set({ pauseOnComma }),
+      setPauseOnPeriod: (pauseOnPeriod) => set({ pauseOnPeriod }),
+      setPauseOnParagraph: (pauseOnParagraph) => set({ pauseOnParagraph }),
+      setHyphenationMode: (hyphenationMode) => set({ hyphenationMode }),
       setMoveFinishedToHistory: (moveFinishedToHistory) => set({ moveFinishedToHistory }),
       setActiveContentTab: (activeContentTab) => set({ activeContentTab }),
     }),
@@ -60,13 +66,34 @@ export const useSettingsStore = create<SettingsState>()(
         hapticFeedback: state.hapticFeedback,
         userName: state.userName,
         readingLanguage: state.readingLanguage,
-        paragraphPauseEnabled: state.paragraphPauseEnabled,
+        pauseOnComma: state.pauseOnComma,
+        pauseOnPeriod: state.pauseOnPeriod,
+        pauseOnParagraph: state.pauseOnParagraph,
+        hyphenationMode: state.hyphenationMode,
         moveFinishedToHistory: state.moveFinishedToHistory,
         activeContentTab: state.activeContentTab,
       }),
       onRehydrateStorage: () => (state) => {
-        if (state && state.themeId && themes[state.themeId]) {
+        if (!state) {return;}
+        if (state.themeId && themes[state.themeId]) {
           state.theme = themes[state.themeId];
+        }
+        const legacyParagraphPause = (state as unknown as { paragraphPauseEnabled?: boolean }).paragraphPauseEnabled;
+        if (!state.pauseOnParagraph) {
+          if (legacyParagraphPause !== undefined) {
+            state.pauseOnParagraph = legacyParagraphPause ? 'short' : 'off';
+          } else {
+            state.pauseOnParagraph = DEFAULT_SETTINGS.pauseOnParagraph;
+          }
+        }
+        if (!state.pauseOnComma) {
+          state.pauseOnComma = DEFAULT_SETTINGS.pauseOnComma;
+        }
+        if (!state.pauseOnPeriod) {
+          state.pauseOnPeriod = DEFAULT_SETTINGS.pauseOnPeriod;
+        }
+        if (!state.hyphenationMode) {
+          state.hyphenationMode = DEFAULT_SETTINGS.hyphenationMode;
         }
       },
     }
